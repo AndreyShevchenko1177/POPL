@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+## Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Requirements
 
-## Available Scripts
+- Windows, Mac OS X or Linux
+- [npm](https://www.npmjs.com/) package >=v6.14.8 + [Node.js](https://nodejs.org/) >=v12.19.0
+- Text editor or IDE pre-configured with ESlint and Prettier
 
-In the project directory, you can run:
+### Directory Layout
 
-### `npm start`
+Before you start, take a moment to see how the project structure looks like:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+.
+├── /build/                     # The folder for compiled output
+├── /node_modules/              # 3rd-party libraries and utilities
+├── /public/                    # Static files which are copied into the /build/public folder
+├── /src/                       # The source code of the application
+│   ├── /assests/               # The common web asset like: images, css
+│   ├── /components/            # React common components
+│   ├── /config/                # Included various config like: navigation, route, theme
+│   ├── /core/                  # Included project core modules
+│   ├── /hooks/                 # React common hooks
+│   ├── /layout/                # Directory contains the project-specific layout
+│   ├── /pages/                 # This directory representsthe main contentof the page
+│   ├── /store/                 # The redux store with middleware configuration. and also combines common action,reducers.
+│   ├── /utils/                 # This directory contain useful JavaScript utility functions used throughout the project.
+│   ├── /reportWebVitals.js     # Includes performance relayer that allows to measure and analyze the performance of application.
+│   └── ...                     # Other core framework modules
+├── .env                        # Includes custom Environment Variables
+├── jsconfig.json               # Configure your application to support importing modules using absolute paths.
+├── package.json                # The list of 3rd party libraries and utilities
+└── package-lock.json           # Fixed versions of all the dependencies
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Quick Start
 
-### `npm test`
+#### 1. Get the latest version
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can start by cloning the latest version of Repo into on your
+local machine by running:
 
-### `npm run build`
+```shell
+$ git clone https://github.com/Palaklive/popl.git
+$ cd project popl
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 2. Run `npm install`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This will install both run-time project dependencies and developer tools listed
+in [package.json](./package.json) file.
 
-### `npm run eject`
+#### 3. Run `npm start`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This command will start the development server of the application from the source files (`/src`) into the output
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### To Build
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+If you need just to build the app (without running a dev server), simply run:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+$ npm run build
+```
 
-## Learn More
+### How to Update
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If you need to keep your project up to date with the recent changes made
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```shell
+$ git checkout main
+$ git pull
+$ npm install
+```

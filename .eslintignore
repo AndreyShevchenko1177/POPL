@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+.yarn/
+
+# production
+build/
+public/
+
+# ide
+.vscode/
+
+# external docs
+#src/app/main/documentation/material-ui-components/components/*
