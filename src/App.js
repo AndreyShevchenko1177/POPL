@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom";
 import Main from "layout/Main";
-import Container from "@material-ui/core/Container";
+import Popls from "./pages/popls";
 
 function titleCase(str) {
   return str.replace(/(^|\s)\S/g, function (t) {
@@ -17,24 +17,22 @@ function titleCase(str) {
 export default function App() {
   return (
     <Router>
-      <Container fixed>
-        <Switch>
-          <Main>
-            <Route path="/popls" exact>
-              <Popls />
-            </Route>
-            <Route path="/campaigns" exact>
-              <Campaigns />
-            </Route>
-            <Route path="/analytics">
-              <Analytics />
-            </Route>
-            <Route path="/" exact>
-              <Home />
-            </Route>
-          </Main>
-        </Switch>
-      </Container>
+      <Switch>
+        <Main>
+          <Route path="/popls" exact>
+            <Popls />
+          </Route>
+          <Route path="/campaigns" exact>
+            <Campaigns />
+          </Route>
+          <Route path="/analytics">
+            <Analytics />
+          </Route>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+        </Main>
+      </Switch>
     </Router>
   );
 }
@@ -43,9 +41,9 @@ function Home() {
   return <h2>Overview</h2>;
 }
 
-function Popls() {
-  return <h2>Popls</h2>;
-}
+// function Popls() {
+//   return <h2>Popls</h2>;
+// }
 function Campaigns() {
   return <h2>Popls</h2>;
 }

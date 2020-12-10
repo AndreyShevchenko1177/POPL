@@ -6,15 +6,12 @@ import theme from "./config/Theme";
 import store from "store";
 import "./index.css";
 import App from "./App";
-import Button from "@material-ui/core/Button";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Button color="primary">Primary</Button>
-        <Button color="secondary">Secondary</Button>
         <App />
       </ThemeProvider>
     </Provider>

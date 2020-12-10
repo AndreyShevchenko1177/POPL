@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
+    padding: `${theme.spacing(3)}px 40px`,
   },
 }));
 
@@ -23,10 +23,10 @@ export default function Main({ children }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Navbar />
+      {/* <Navbar /> */}
       <Sidebar />
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        {/* <div className={classes.toolbar} /> */}
         {children}
       </main>
     </div>
