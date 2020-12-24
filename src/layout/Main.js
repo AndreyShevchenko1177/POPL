@@ -1,8 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { useLocation } from "react-router-dom";
+import { getHeader } from "utils";
 // import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main({ children }) {
   const classes = useStyles();
+  const { pathname } = useLocation();
+
+  const headerTitle = getHeader(pathname);
 
   return (
     <div className={classes.root}>
@@ -26,7 +32,9 @@ export default function Main({ children }) {
       {/* <Navbar /> */}
       <Sidebar />
       <main className={classes.content}>
-        {/* <div className={classes.toolbar} /> */}
+        <div className={classes.toolbar}>
+          <Header title={headerTitle} />
+        </div>
         {children}
       </main>
     </div>

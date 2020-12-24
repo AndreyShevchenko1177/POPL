@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -31,6 +32,14 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#fff",
+      color: "#000",
+      "& svg": {
+        fill: "#000 !important",
+      },
+    },
   },
   brand: {
     padding: "30px 0px 30px 0px",
@@ -40,6 +49,18 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingBottom: 20,
     background: "black",
+  },
+  ulMenu: { paddingTop: "0px" },
+  ulList: {
+    background: "#000",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#fff",
+      color: "#000",
+      "& svg": {
+        fill: "#000 !important",
+      },
+    },
   },
 }));
 
@@ -64,9 +85,9 @@ export default function PermanentDrawerLeft() {
       <div className={classes.brand}>
         <img src="/assests/logo/logo.png" alt="logo 5" />
       </div>
-      <List>
+      <List className={classes.ulMenu}>
         <Link to="/">
-          <ListItem button>
+          <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <VisibilityIcon />
             </ListItemIcon>
@@ -75,7 +96,7 @@ export default function PermanentDrawerLeft() {
         </Link>
         <Divider />
         <Link to="/popls">
-          <ListItem button>
+          <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <FilterTiltShiftIcon />
             </ListItemIcon>
@@ -84,7 +105,7 @@ export default function PermanentDrawerLeft() {
         </Link>
         <Divider />
         <Link to="/campaigns">
-          <ListItem button>
+          <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <ApartmentOutlinedIcon />
             </ListItemIcon>
@@ -92,7 +113,11 @@ export default function PermanentDrawerLeft() {
           </ListItem>
         </Link>
         <Divider />
-        <ListItem button onClick={handleAnalyticsClick}>
+        <ListItem
+          className={classes.ulList}
+          button
+          onClick={handleAnalyticsClick}
+        >
           <ListItemIcon>
             <AssessmentOutlinedIcon />
           </ListItemIcon>
@@ -129,7 +154,7 @@ export default function PermanentDrawerLeft() {
         </Collapse>
         <Divider />
         <Link to="setting">
-          <ListItem button>
+          <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <SettingsOutlinedIcon />
             </ListItemIcon>

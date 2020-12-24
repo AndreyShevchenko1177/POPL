@@ -5,33 +5,35 @@ import {
   useRouteMatch,
   useParams,
 } from "react-router-dom";
-import Main from "layout/Main";
-import Popls from "./pages/popls";
-
-function titleCase(str) {
-  return str.replace(/(^|\s)\S/g, function (t) {
-    return t.toUpperCase();
-  });
-}
+import Login from "pages/login";
+import Popls from "pages/popls";
+import PoplForm from "pages/add-edit-popl/PoplForm";
+import history from "core/history";
+import PrivateRoute from "core/PrivateRoute";
+import { titleCase } from "utils";
 
 export default function App() {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
-        <Main>
-          <Route path="/popls" exact>
-            <Popls />
-          </Route>
-          <Route path="/campaigns" exact>
-            <Campaigns />
-          </Route>
-          <Route path="/analytics">
-            <Analytics />
-          </Route>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-        </Main>
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <PrivateRoute path="/form" exact>
+          <PoplForm />
+        </PrivateRoute>
+        <PrivateRoute path="/popls" exact>
+          <Popls />
+        </PrivateRoute>
+        <PrivateRoute path="/campaigns" exact>
+          <Campaigns />
+        </PrivateRoute>
+        <PrivateRoute path="/analytics">
+          <Analytics />
+        </PrivateRoute>
+        <PrivateRoute path="/" exact>
+          <Home />
+        </PrivateRoute>
       </Switch>
     </Router>
   );

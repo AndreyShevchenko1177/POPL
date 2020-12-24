@@ -1,3 +1,5 @@
-export { default as capitalize } from "./capitalize";
-export { default as debounce } from "./debounce";
-export { default as titleCase } from "./titleCase";
+export { debounce } from "./debounce";
+export { titleCase } from "./titleCase";
+export { capitalize } from "./capitalize";
+export { getHeader } from "./getHeader";
+export { store } from "./store";
