@@ -15,10 +15,11 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import Mail from "@material-ui/icons/Mail";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: "100vh",
+    height: "98vh",
   },
   Input: {
     // margin: `8px 0`,
@@ -39,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+function Login(props) {
   const classes = useStyles();
+  const { history } = props;
   const [showPassword, setShowPassword] = useState(false);
   const [loginCredentials, setLoginCredentials] = useState({
     username: "",
@@ -153,6 +155,17 @@ export default function Login() {
                   Submit
                 </Button>
               </Grid>
+              <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                  type="button"
+                  onClick={() => history.push("/register")}
+                >
+                  Don't have a profile? Join here
+                </Button>
+              </Grid>
             </Grid>
           </form>
         </Paper>
@@ -160,3 +173,5 @@ export default function Login() {
     </>
   );
 }
+
+export default withRouter(Login);

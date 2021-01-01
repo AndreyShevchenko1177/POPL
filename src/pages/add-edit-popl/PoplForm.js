@@ -43,11 +43,13 @@ const useStyles = makeStyles((theme) => ({
   saveBtn: { padding: `8px 16px`, width: "150px" },
 }));
 
-export default function PoplForm() {
+export default function PoplForm(props) {
+  const { handleClose } = props;
   const classes = useStyles();
   const imgRef = useRef(null);
   function handleSubmit(event) {
     event.preventDefault();
+    handleClose && handleClose();
   }
 
   return (

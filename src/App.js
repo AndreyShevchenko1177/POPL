@@ -8,14 +8,23 @@ import {
 import Login from "pages/login";
 import Popls from "pages/popls";
 import PoplForm from "pages/add-edit-popl/PoplForm";
-import history from "core/history";
+import SignUp from "pages/sign-up";
 import PrivateRoute from "core/PrivateRoute";
-import { titleCase } from "utils";
+
+function titleCase(str) {
+  return str.replace(/(^|\s)\S/g, function (t) {
+    return t.toUpperCase();
+  });
+}
 
 export default function App() {
   return (
-    <Router history={history}>
+    <Router>
       <Switch>
+        {/* <Main> */}
+        <Route path="/register" exact>
+          <SignUp />
+        </Route>
         <Route path="/login" exact>
           <Login />
         </Route>

@@ -161,6 +161,24 @@ export default function PermanentDrawerLeft() {
             <ListItemText primary="Setting" />
           </ListItem>
         </Link>
+        <Divider />
+        <Link to="login">
+          <ListItem className={classes.ulList} button>
+            <ListItemIcon>
+              <SettingsOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Login" />
+          </ListItem>
+        </Link>
+        <Divider />
+        <Link to="register">
+          <ListItem className={classes.ulList} button>
+            <ListItemIcon>
+              <SettingsOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Register" />
+          </ListItem>
+        </Link>
       </List>
     </Drawer>
   );

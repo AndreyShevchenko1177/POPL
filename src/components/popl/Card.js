@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     textTransform: "uppercase",
     margin: "0 18px",
+    width: "120px",
   },
   footer: {
     width: "100%",
@@ -99,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Card({ heading, types, src, name }) {
   const classes = useStyles();
+  const [directOn, setDirectOn] = React.useState(false);
   return (
     <div className={classes.container}>
       <Paper elevation={5} className={classes.root}>
@@ -108,8 +110,13 @@ export default function Card({ heading, types, src, name }) {
               <Typography variant="h5">{heading}</Typography>
             </div>
             <div className={classes.headItem}>
-              <Button variant="outlined" className={classes.directOfBbtn}>
-                DIRECT OF
+              <Button
+                variant={directOn ? "contained" : "outlined"}
+                color="primary"
+                className={classes.directOfBbtn}
+                onClick={() => setDirectOn(!directOn)}
+              >
+                {directOn ? "DIRECT ON" : "DIRECT OFF"}
               </Button>
             </div>
           </div>
