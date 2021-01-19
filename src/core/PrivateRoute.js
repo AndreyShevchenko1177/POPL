@@ -1,4 +1,4 @@
-import Main from "layout/Main";
+import Main from "../layout/Main";
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 

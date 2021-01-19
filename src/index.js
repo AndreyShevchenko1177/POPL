@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./config/Theme";
-import store from "store";
+import store from "./store";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";

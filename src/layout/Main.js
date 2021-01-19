@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useLocation } from "react-router-dom";
-import { getHeader } from "utils";
+import { getHeader } from "../utils";
 // import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Header from "./Header";

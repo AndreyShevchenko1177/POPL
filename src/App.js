@@ -5,11 +5,11 @@ import {
   useRouteMatch,
   useParams,
 } from "react-router-dom";
-import Login from "pages/login";
-import Popls from "pages/popls";
-import PoplForm from "pages/add-edit-popl/PoplForm";
-import SignUp from "pages/sign-up";
-import PrivateRoute from "core/PrivateRoute";
+import Login from "./pages/login";
+import Popls from "./pages/popls";
+import PoplForm from "./pages/add-edit-popl/PoplForm";
+import SignUp from "./pages/sign-up";
+import PrivateRoute from "./core/PrivateRoute";
 
 function titleCase(str) {
   return str.replace(/(^|\s)\S/g, function (t) {

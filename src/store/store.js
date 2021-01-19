@@ -2,7 +2,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
 import common from "./reducer";
-import { counterReducer } from "components/counter";
+import { counterReducer } from "../components/counter";
 
 const reducer = combineReducers({
   common,

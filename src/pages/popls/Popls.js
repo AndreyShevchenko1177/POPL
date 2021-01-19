@@ -13,8 +13,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Header from "./Header";
-import PoplCard from "components/popl/Card";
-import PoplForm from "pages/add-edit-popl/PoplForm";
+import PoplCard from "../../components/popl/Card";
+import PoplForm from "../add-edit-popl/PoplForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
