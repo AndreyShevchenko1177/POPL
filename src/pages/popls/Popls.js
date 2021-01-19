@@ -121,7 +121,7 @@ export default function Popls() {
 
         <PoplCard
           heading={"Popl 1"}
-          src={"assets/img/user1.png"}
+          src={"./assets/img/user1.png"}
           name={"user1"}
           types={[
             "Facebook",
@@ -137,7 +137,7 @@ export default function Popls() {
         />
         <PoplCard
           heading={"Popl 2"}
-          src={"assets/img/user1.png"}
+          src={"./assets/img/user1.png"}
           name={"user2"}
           types={[
             "Facebook",
@@ -153,7 +153,7 @@ export default function Popls() {
         />
         <PoplCard
           heading={"Popl 3"}
-          src={"assets/img/user1.png"}
+          src={"./assets/img/user1.png"}
           name={"user3"}
           types={[
             "Facebook",
