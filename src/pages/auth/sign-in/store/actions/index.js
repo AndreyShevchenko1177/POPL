@@ -6,37 +6,38 @@ import {
   SIGN_UP_FAIL,
 } from "../actionTypes";
 
-export const signInAction = (error, credo) => async (dispatch) => {
+export const signInAction = (credo) => async (dispatch) => {
   try {
-    if (error) return;
     console.log(credo);
     // const result = await axios.post('...', { credo });
     return dispatch({
       type: SIGN_IN_SUCCESS,
       payload: "success",
+      name: "sign-in",
     });
   } catch (error) {
     dispatch({
       type: SIGN_IN_FAIL,
       payload: error,
+      name: "sign-in",
     });
   }
 };
 
-export const signUpAction = (error, credo) => async (dispatch) => {
+export const signUpAction = (credo) => async (dispatch) => {
   try {
+    console.log(credo);
     // const result = await axios.post('...', { credo });
-    if (error) return;
-    return dispatch(
-      signInAction(false, {
-        userName: credo.username,
-        password: credo.password,
-      })
-    );
+    return dispatch({
+      type: SIGN_UP_SUCCESS,
+      payload: "success",
+      name: "sign-up",
+    });
   } catch (error) {
     dispatch({
       type: SIGN_UP_FAIL,
       payload: error,
+      name: "sign-up",
     });
   }
 };

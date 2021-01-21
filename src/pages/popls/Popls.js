@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
   Grid,
@@ -13,12 +14,15 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Header from "./components/header";
 import PoplCard from "./components/poplCard";
-import PoplForm from "../add-edit-popl/PoplForm";
+import PoplForm from "./components/addEditPopl";
 import useStyles from "./styles/styles";
+import { getPoplsAction } from "./store/actions";
 
 export default function Popls() {
+  const dispatch = useDispatch();
+  const data = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const classes = useStyles();
-  const [openForm, setFormOpen] = React.useState(false);
+  const [openForm, setFormOpen] = useState(false);
 
   function handleOpen() {
     setFormOpen(true);
@@ -26,6 +30,11 @@ export default function Popls() {
   function handleClose() {
     setFormOpen(false);
   }
+
+  useEffect(() => {
+    dispatch(getPoplsAction());
+  }, [dispatch]);
+
   return (
     <>
       <div className={classes.toolbar}>
@@ -53,11 +62,6 @@ export default function Popls() {
           container
           justify="center"
         >
-          {/* <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="Search Here..."
-          /> */}
           <Paper component="form" fullWidth className={classes.root}>
             <InputBase
               fullWidth
@@ -88,55 +92,15 @@ export default function Popls() {
             Add New Popl
           </Button>
         </Grid>
-
-        <PoplCard
-          heading={"Popl 1"}
-          src={"./assets/img/user1.png"}
-          name={"user1"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
-        <PoplCard
-          heading={"Popl 2"}
-          src={"./assets/img/user1.png"}
-          name={"user2"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
-        <PoplCard
-          heading={"Popl 3"}
-          src={"./assets/img/user1.png"}
-          name={"user3"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
+        {data.map((el) => (
+          <PoplCard
+            key={el.id}
+            heading={el.name}
+            src={el.logo}
+            name={el.name}
+            types={el.types}
+          />
+        ))}
       </Grid>
 
       <Dialog open={openForm} onClose={handleClose} maxWidth="md">

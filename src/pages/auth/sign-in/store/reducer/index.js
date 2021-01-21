@@ -1,16 +1,22 @@
-import { SIGN_IN_SUCCESS, SIGN_IN_FAIL, SIGN_UP_FAIL } from "../actionTypes";
+import {
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAIL,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
+} from "../actionTypes";
 
 const initialState = {
-  signIn: {
+  "sign-in": {
     data: null,
     error: null,
   },
-  signUp: {
-    error: null,
+  "sign-up": {
+    success: null,
+    fail: null,
   },
 };
 
-export default function authReducer(
+export default function AuthReducer(
   state = initialState,
   { type, payload, name }
 ) {
@@ -18,8 +24,8 @@ export default function authReducer(
     case SIGN_IN_SUCCESS: {
       return {
         ...state,
-        signIn: {
-          ...state.signIn,
+        [name]: {
+          ...state.name,
           data: payload,
         },
       };
@@ -27,18 +33,28 @@ export default function authReducer(
     case SIGN_IN_FAIL: {
       return {
         ...state,
-        signIn: {
-          ...state.signIn,
+        [name]: {
+          ...state[name],
           data: null,
           error: payload,
+        },
+      };
+    }
+    case SIGN_UP_SUCCESS: {
+      return {
+        ...state,
+        [name]: {
+          ...state.name,
+          data: payload,
         },
       };
     }
     case SIGN_UP_FAIL: {
       return {
         ...state,
-        signUp: {
-          ...state.signUp,
+        [name]: {
+          ...state[name],
+          data: null,
           error: payload,
         },
       };
