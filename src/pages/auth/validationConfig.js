@@ -45,6 +45,7 @@ export const signUpConfig = {
     errors: {
       maxLegnth: "User name should be less than 30 symbols",
       value: "This field can not be empty",
+      regexp: "Email is not valid",
     },
   },
   password: {

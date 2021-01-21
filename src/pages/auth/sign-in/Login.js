@@ -63,8 +63,9 @@ function Login(props) {
   }
 
   const signIn = ([username, password], error) => {
+    if (error) return;
     dispatch(
-      signInAction(error, {
+      signInAction({
         username: username.value,
         password: password.value,
       })
@@ -72,8 +73,7 @@ function Login(props) {
   };
 
   useEffect(() => {
-    if (result.error || !result.data) return;
-    history.push("/");
+    if (result.data) history.push("/");
   }, [result]);
 
   return (

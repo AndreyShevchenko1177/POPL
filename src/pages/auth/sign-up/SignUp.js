@@ -54,8 +54,8 @@ function SignUp(props) {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
-  const signInResult = useSelector(({ authReducer }) => authReducer.signIn);
   const signUpResult = useSelector(({ authReducer }) => authReducer.signUp);
+  const signIpResult = useSelector(({ authReducer }) => authReducer.signIp);
   const [
     username,
     email,
@@ -71,9 +71,9 @@ function SignUp(props) {
   }
 
   const signUp = ([username, email, password, confirmPassword], error) => {
-    console.log(124);
+    if (error) return;
     dispatch(
-      signUpAction(error, {
+      signUpAction({
         username: username.value,
         email: email.value,
         password: password.value,
@@ -83,10 +83,8 @@ function SignUp(props) {
   };
 
   useEffect(() => {
-    if (signUpResult.error) return;
-    if (signInResult.error || !signInResult.data) return;
-    history.push("/");
-  }, [signInResult, signUpResult]);
+    if (signUpResult.data) history.push("/");
+  }, [signUpResult]);
 
   return (
     <>
