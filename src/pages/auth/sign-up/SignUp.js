@@ -179,6 +179,7 @@ function SignUp(props) {
               </FormControl>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+              {/* <label>{confirmPassword.errors}</label> */}
               <TextField
                 // variant="outlined"
                 type="password"
@@ -217,7 +218,7 @@ function SignUp(props) {
                 fullWidth
                 color="primary"
                 type="button"
-                onClick={() => history.push("/login")}
+                onClick={() => history.push("/sign-in")}
               >
                 Already Set up? Log in here
               </Button>

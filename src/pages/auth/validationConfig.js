@@ -64,8 +64,10 @@ export const signUpConfig = {
     maxLength: 30,
     value: null,
     required: true,
+    compare: true,
     errors: {
       maxLegnth: "confirm password should be less than 30 symbols",
+      compareError: "confirm password is not equal to password",
       value: "This field can not be empty",
     },
   },

@@ -9,11 +9,16 @@ import {
 export const signInAction = (error, credo) => async (dispatch) => {
   try {
     if (error) return;
-    console.log(credo);
-    // const result = await axios.post('...', { credo });
+    const bodyFormData = new FormData();
+    bodyFormData.append("sEmail", credo.email);
+    bodyFormData.append("sPassword", credo.password);
+    bodyFormData.append("sAction", "Auth");
+    bodyFormData.append("ajax", 1);
+
+    const { data } = await axios.post("", bodyFormData);
     return dispatch({
       type: SIGN_IN_SUCCESS,
-      payload: "success",
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -25,11 +30,24 @@ export const signInAction = (error, credo) => async (dispatch) => {
 
 export const signUpAction = (error, credo) => async (dispatch) => {
   try {
-    // const result = await axios.post('...', { credo });
     if (error) return;
+    const bodyFormData = new FormData();
+    bodyFormData.append("sEmail", credo.email);
+    bodyFormData.append("sPassword", credo.password);
+    bodyFormData.append("Name", credo.username);
+    bodyFormData.append("sAction", "SaveMember");
+    bodyFormData.append("ajax", 1);
+
+    const { data } = await axios.post("", bodyFormData);
+    if (!data.success) {
+      return dispatch({
+        type: SIGN_UP_FAIL,
+        payload: error,
+      });
+    }
     return dispatch(
       signInAction(false, {
-        userName: credo.username,
+        email: credo.email,
         password: credo.password,
       })
     );

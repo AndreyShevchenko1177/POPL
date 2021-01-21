@@ -12,18 +12,6 @@ import {
 
 export const getPoplsAction = () => async (dispatch) => {
   try {
-    // LOGIN
-    const bodyFormData = new FormData();
-    bodyFormData.append("sEmail", "popovmaksim7415@gmail.com");
-    bodyFormData.append("sPassword", "password1Q!");
-    bodyFormData.append("sAction", "Auth");
-    bodyFormData.append("ajax", 1);
-
-    const { data } = await axios.post("/api", bodyFormData, {
-      // withCredentials: true,
-      headers: { "Content-Type": "multipart/form-data" },
-      // data: bodyFormData,
-    });
     // =================================
 
     // SETTING COOKIE
@@ -33,15 +21,13 @@ export const getPoplsAction = () => async (dispatch) => {
     // ===================================
 
     // NEXT REQUEST WITH NEW COOKIE
+
     const getPopolsFormData = new FormData();
     getPopolsFormData.append("sAction", "GetPopol");
     getPopolsFormData.append("ajax", 1);
 
-    const response = await axios.post("/api", getPopolsFormData, {
+    const response = await axios.post("", getPopolsFormData, {
       withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
     });
     // =========================
 

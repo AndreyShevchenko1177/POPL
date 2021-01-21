@@ -10,10 +10,7 @@ const initialState = {
   },
 };
 
-export default function authReducer(
-  state = initialState,
-  { type, payload, name }
-) {
+export default function authReducer(state = initialState, { type, payload }) {
   switch (type) {
     case SIGN_IN_SUCCESS: {
       return {

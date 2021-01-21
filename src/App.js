@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +10,9 @@ import Login from "./pages/auth/sign-in";
 import Popls from "./pages/popls";
 import SignUp from "./pages/auth/sign-up";
 import PrivateRoute from "./core/PrivateRoute";
+import setAxios from "./config/axios.config";
+
+setAxios();
 
 function titleCase(str) {
   return str.replace(/(^|\s)\S/g, function (t) {
@@ -21,13 +25,13 @@ export default function App() {
     <Router>
       <Switch>
         {/* <Main> */}
-        <Route path="/register" exact>
+        <Route path="/sign-up" exact>
           <SignUp />
         </Route>
-        <Route path="/login" exact>
+        <Route path="/sign-in" exact>
           <Login />
         </Route>
-        <PrivateRoute path="/popls" exact>
+        <PrivateRoute path="/profiles" exact>
           <Popls />
         </PrivateRoute>
         <PrivateRoute path="/campaigns" exact>

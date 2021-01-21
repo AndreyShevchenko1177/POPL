@@ -178,7 +178,7 @@ function Login(props) {
                 fullWidth
                 color="primary"
                 type="button"
-                onClick={() => history.push("/register")}
+                onClick={() => history.push("/sign-up")}
               >
                 Don't have a profile? Join here
               </Button>

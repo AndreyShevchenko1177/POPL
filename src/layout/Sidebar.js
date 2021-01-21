@@ -95,12 +95,12 @@ export default function PermanentDrawerLeft() {
           </ListItem>
         </Link>
         <Divider />
-        <Link to="/popls">
+        <Link to="/profiles">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <FilterTiltShiftIcon />
             </ListItemIcon>
-            <ListItemText primary="Popls" />
+            <ListItemText primary="Profiles" />
           </ListItem>
         </Link>
         <Divider />

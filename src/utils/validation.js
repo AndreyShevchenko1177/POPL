@@ -61,6 +61,12 @@ export default function useValidation(params, dependence) {
   }
 
   function _checkFields(field, isFirstRender) {
+    if (field.compare) {
+      if (field.value !== value.password.value) {
+        field = { ...field, errors: field.errors.compareError };
+        return field;
+      }
+    }
     if (field?.type === "number") {
       const isNotNumber = isNaN(Number(field.value));
 
