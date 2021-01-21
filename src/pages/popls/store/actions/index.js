@@ -19,7 +19,7 @@ export const getPoplsAction = () => async (dispatch) => {
     bodyFormData.append("sAction", "Auth");
     bodyFormData.append("ajax", 1);
 
-    const { data } = await axios.post("https://poplme.co/", bodyFormData, {
+    const { data } = await axios.post("/api", bodyFormData, {
       // withCredentials: true,
       headers: { "Content-Type": "multipart/form-data" },
       // data: bodyFormData,
@@ -27,9 +27,9 @@ export const getPoplsAction = () => async (dispatch) => {
     // =================================
 
     // SETTING COOKIE
-    document.cookie = `l_i=${data["l_i"].value}; path=/`;
-    document.cookie = `l_t=${data["l_t"].value}; path=/`;
-    console.log(document.cookie);
+    // document['Set-Cookie'] = `l_i=${data["l_i"].value}; path=/; SameSite=None; Domain=poplme.co/`;
+    // document['Set-Cookie'] = `l_t=${data["l_t"].value}; path=/; SameSite=None; Domain=poplme.co/`;
+    // console.log(document['Set-Cookie']);
     // ===================================
 
     // NEXT REQUEST WITH NEW COOKIE
@@ -37,7 +37,7 @@ export const getPoplsAction = () => async (dispatch) => {
     getPopolsFormData.append("sAction", "GetPopol");
     getPopolsFormData.append("ajax", 1);
 
-    const response = await axios.post("https://poplme.co/", getPopolsFormData, {
+    const response = await axios.post("/api", getPopolsFormData, {
       withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -51,8 +51,8 @@ export const getPoplsAction = () => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: GET_POPLS_SUCCESS,
-      payload: mockData.get,
+      type: GET_POPLS_FAIL,
+      payload: error,
     });
   }
 };
