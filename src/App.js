@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/auth/sign-in";
 import Popls from "./pages/popls";
+import PoplForm from "./pages/add-edit-popl/PoplForm";
 import SignUp from "./pages/auth/sign-up";
 import PrivateRoute from "./core/PrivateRoute";
 
@@ -27,6 +28,9 @@ export default function App() {
         <Route path="/login" exact>
           <Login />
         </Route>
+        <PrivateRoute path="/form" exact>
+          <PoplForm />
+        </PrivateRoute>
         <PrivateRoute path="/popls" exact>
           <Popls />
         </PrivateRoute>
@@ -39,9 +43,6 @@ export default function App() {
         <PrivateRoute path="/" exact>
           <Home />
         </PrivateRoute>
-        <Route path="*">
-          <div>Not found</div>
-        </Route>
       </Switch>
     </Router>
   );

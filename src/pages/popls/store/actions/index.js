@@ -1,53 +1,44 @@
 import axios from "axios";
-import mockData from "./mockData";
 
 import {
-  GET_POPLS_SUCCESS,
-  GET_POPLS_FAIL,
-  ADD_POPL_SUCCESS,
-  ADD_POPL_FAIL,
-  EDIT_POPL_SUCCESS,
-  EDIT_POPL_FAIL,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAIL,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
 } from "../actionTypes";
 
-export const getPoplsAction = () => async (dispatch) => {
+export const signInAction = (credo) => async (dispatch) => {
   try {
+    console.log(credo);
+    // const result = await axios.post('...', { credo });
     return dispatch({
-      type: GET_POPLS_SUCCESS,
-      payload: mockData.get,
+      type: SIGN_IN_SUCCESS,
+      payload: "success",
+      name: "sign-in",
     });
   } catch (error) {
     dispatch({
-      type: GET_POPLS_FAIL,
+      type: SIGN_IN_FAIL,
       payload: error,
+      name: "sign-in",
     });
   }
 };
 
-export const addPoplAction = (data) => async (dispatch) => {
+export const signUpAction = (credo) => async (dispatch) => {
   try {
+    console.log(credo);
+    // const result = await axios.post('...', { credo });
     return dispatch({
-      type: ADD_POPL_SUCCESS,
+      type: SIGN_UP_SUCCESS,
       payload: "success",
+      name: "sign-up",
     });
   } catch (error) {
     dispatch({
-      type: ADD_POPL_FAIL,
+      type: SIGN_UP_FAIL,
       payload: error,
-    });
-  }
-};
-
-export const editPoplAction = (data) => async (dispatch) => {
-  try {
-    return dispatch({
-      type: EDIT_POPL_SUCCESS,
-      payload: "success",
-    });
-  } catch (error) {
-    dispatch({
-      type: EDIT_POPL_FAIL,
-      payload: error,
+      name: "sign-up",
     });
   }
 };

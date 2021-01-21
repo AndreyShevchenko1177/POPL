@@ -9,20 +9,19 @@ import {
 
 const initialState = {
   allPopls: {
-    data: [],
+    data: null,
     error: null,
   },
   addPopl: {
     data: null,
     error: null,
   },
-  editPopl: {
-    data: null,
-    error: null,
-  },
 };
 
-export default function AuthReducer(state = initialState, { type, payload }) {
+export default function AuthReducer(
+  state = initialState,
+  { type, payload, name }
+) {
   switch (type) {
     case GET_POPLS_SUCCESS: {
       return {
@@ -38,7 +37,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         allPopls: {
           ...state.allPopls,
-          data: [],
+          data: null,
           error: payload,
         },
       };
@@ -53,25 +52,6 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       };
     }
     case ADD_POPL_FAIL: {
-      return {
-        ...state,
-        addPopl: {
-          ...state.addPopl,
-          data: null,
-          error: payload,
-        },
-      };
-    }
-    case EDIT_POPL_SUCCESS: {
-      return {
-        ...state,
-        addPopl: {
-          ...state.addPopl,
-          data: payload,
-        },
-      };
-    }
-    case EDIT_POPL_FAIL: {
       return {
         ...state,
         addPopl: {
