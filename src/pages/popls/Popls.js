@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
   Grid,
-  makeStyles,
   InputBase,
   Paper,
   Checkbox,
@@ -12,43 +12,17 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import Header from "./Header";
-import PoplCard from "../../components/popl/Card";
-import PoplForm from "../add-edit-popl/PoplForm";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "8px 16px",
-    display: "flex",
-    alignItems: "center",
-    minWidth: "100%",
-    margin: "0px 16px",
-  },
-  searchInput: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  checkbox: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[1],
-    padding: "3px 12px",
-    borderRadius: 4,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    marginRight: 12,
-  },
-  button: {
-    borderRadius: 4,
-    height: "100%",
-    padding: "12px 16px",
-  },
-  toolbar: theme.mixins.toolbar,
-}));
+import Header from "./components/header";
+import PoplCard from "./components/poplCard";
+import PoplForm from "./components/addEditPopl";
+import useStyles from "./styles/styles";
+import { getPoplsAction } from "./store/actions";
 
 export default function Popls() {
+  const dispatch = useDispatch();
+  const data = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const classes = useStyles();
-  const [openForm, setFormOpen] = React.useState(false);
+  const [openForm, setFormOpen] = useState(false);
 
   function handleOpen() {
     setFormOpen(true);
@@ -56,6 +30,11 @@ export default function Popls() {
   function handleClose() {
     setFormOpen(false);
   }
+
+  useEffect(() => {
+    dispatch(getPoplsAction());
+  }, [dispatch]);
+
   return (
     <>
       <div className={classes.toolbar}>
@@ -83,11 +62,6 @@ export default function Popls() {
           container
           justify="center"
         >
-          {/* <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="Search Here..."
-          /> */}
           <Paper component="form" fullWidth className={classes.root}>
             <InputBase
               fullWidth
@@ -118,55 +92,15 @@ export default function Popls() {
             Add New Popl
           </Button>
         </Grid>
-
-        <PoplCard
-          heading={"Popl 1"}
-          src={"./assets/img/user1.png"}
-          name={"user1"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
-        <PoplCard
-          heading={"Popl 2"}
-          src={"./assets/img/user1.png"}
-          name={"user2"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
-        <PoplCard
-          heading={"Popl 3"}
-          src={"./assets/img/user1.png"}
-          name={"user3"}
-          types={[
-            "Facebook",
-            "Twitter",
-            "Instagram",
-            "LinkedIn",
-            "Text",
-            "Venmo",
-            "Snapchat",
-            "Facebook",
-            "Twitter",
-          ]}
-        />
+        {data.map((el) => (
+          <PoplCard
+            key={el.id}
+            heading={el.name}
+            src={el.logo}
+            name={el.name}
+            types={el.types}
+          />
+        ))}
       </Grid>
 
       <Dialog open={openForm} onClose={handleClose} maxWidth="md">
