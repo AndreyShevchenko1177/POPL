@@ -20,7 +20,7 @@ export function getHeader(header) {
       result = "setting";
       break;
     default:
-      result = "not found";
+      result = "";
   }
 
   return result;

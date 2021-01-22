@@ -1,85 +1,91 @@
 import React from "react";
-import { Button, Paper, Typography } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/MoreVert";
+import {
+  Paper,
+  Typography,
+  FormControlLabel,
+  IconButton,
+  FormGroup,
+} from "@material-ui/core";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import Switch from "@material-ui/core/Switch";
 import Checkbox from "@material-ui/core/Checkbox";
-import { ArrowRight, DragIndicator } from "@material-ui/icons";
-import { Link } from "react-router-dom";
-import SocialItem from "../../../../components/popl/SocialItem";
 import Avatar from "../../../../components/popl/Avatar";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import useStyles from "./styles/styles";
+import SocialPoplsIcons from "../poplsIcons";
 
 export default function Card({ heading, types, src, name }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = React.useState(false);
+
+  const handleSwitchChanger = (event) => {
+    setDirectOn(!directOn);
+  };
+
   return (
     <div className={classes.container}>
-      <Paper elevation={5} className={classes.root}>
-        <div className={classes.head}>
-          <div className={classes.itemBox}>
-            <div className={classes.headItem}>
-              <Typography variant="h5">{heading}</Typography>
-            </div>
-            <div className={classes.headItem}>
-              <Button
-                variant={directOn ? "contained" : "outlined"}
-                color="primary"
-                className={classes.directOfBbtn}
-                onClick={() => setDirectOn(!directOn)}
-              >
-                {directOn ? "DIRECT ON" : "DIRECT OFF"}
-              </Button>
-            </div>
+      <Paper elevation={1} className={classes.root}>
+        <div className={classes.section1}>
+          <div className={classes.section1_title}>
+            <Typography variant="h5">{heading}</Typography>
           </div>
-          <div className={classes.itemBox}>
-            <div className={classes.dragIcon}>
-              <DragIndicator style={{ fontSize: 36 }} />
-            </div>
-          </div>
-          <div className={classes.itemBox}>
-            <div className={classes.headItem}>
-              <EditIcon />
-            </div>
-            <div className={classes.headItem}>
-              <Switch
-                // checked={state.checkedB}
-                // onChange={handleChange}
-                color="primary"
-                name="switch"
-                inputProps={{ "aria-label": "checkbox" }}
-              />
-            </div>
-            <div className={classes.headItem}>
-              <MenuIcon />
-            </div>
+          <div className={classes.section1_avatar}>
+            <Avatar src={src} name={name} />
+            <Checkbox
+              color="primary"
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
           </div>
         </div>
-        <div className={classes.description}>
-          <Checkbox
-            // checked={checked}
-            // onChange={handleChange}
-            color="primary"
-            inputProps={{ "aria-label": "primary checkbox" }}
-          />
-          <Avatar src={src} name={name} />
-          <div className={classes.para}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-          </div>
-        </div>
-        <div className={classes.applicationBtnContainer}>
-          {types.map((item) => (
-            <div className={classes.applicationBtn}>
-              <SocialItem application={item} />
+        <div className={classes.wrapper}>
+          <div className={classes.section2}>
+            <div>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      size="medium"
+                      color="primary"
+                      checked={directOn}
+                      onChange={handleSwitchChanger}
+                    />
+                  }
+                  label="Direct Off"
+                  labelPlacement="start"
+                  style={{ marginLeft: "0px", fontWeight: "500" }}
+                />
+              </FormGroup>
             </div>
-          ))}
-        </div>
-        <div className={classes.footer}>
-          <div>
-            <Link to={"#1"} className={classes.viewMoreLink}>
-              View More <ArrowRight />
-            </Link>
+            <div>
+              <IconButton aria-label="edit" className={classes.section2_icon}>
+                <EditIcon style={{ width: "20px" }} />
+              </IconButton>
+              <IconButton aria-label="dots" className={classes.section2_icon}>
+                <MoreHorizIcon style={{ width: "20px" }} />
+              </IconButton>
+            </div>
+          </div>
+          <div className={classes.section3}>
+            <div className={classes.section3_text}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
+            </div>
+          </div>
+          <div className={classes.section4}>
+            <SocialPoplsIcons />
+          </div>
+          <div className={classes.section5}>
+            <div>
+              <span>View more</span>
+              <IconButton aria-label="arrow">
+                <ArrowRightIcon />
+              </IconButton>
+            </div>
           </div>
         </div>
       </Paper>

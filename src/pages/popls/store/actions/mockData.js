@@ -3,7 +3,7 @@ export default {
   get: [
     {
       id: 1,
-      name: "Popl 1",
+      name: "Profile",
       logo: "./assets/img/user1.png",
       types: [
         "Facebook",
@@ -19,7 +19,7 @@ export default {
     },
     {
       id: 2,
-      name: "Popl 2",
+      name: "Profile2",
       logo: "./assets/img/user1.png",
       types: [
         "Facebook",
@@ -35,7 +35,7 @@ export default {
     },
     {
       id: 3,
-      name: "Popl 3",
+      name: "Profile3",
       logo: "./assets/img/user1.png",
       types: [
         "Facebook",

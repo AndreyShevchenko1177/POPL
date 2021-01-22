@@ -162,7 +162,7 @@ export default function PermanentDrawerLeft() {
           </ListItem>
         </Link>
         <Divider />
-        <Link to="sign-in">
+        <Link to="login">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <SettingsOutlinedIcon />
@@ -171,7 +171,7 @@ export default function PermanentDrawerLeft() {
           </ListItem>
         </Link>
         <Divider />
-        <Link to="sign-up">
+        <Link to="register">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <SettingsOutlinedIcon />

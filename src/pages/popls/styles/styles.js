@@ -8,6 +8,11 @@ export default makeStyles((theme) => ({
     minWidth: "100%",
     margin: "0px 16px",
   },
+  searchContainer: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+  },
   searchInput: {
     marginLeft: theme.spacing(1),
     flex: 1,

@@ -10,8 +10,8 @@ import {
   DialogContent,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Header from "./components/header";
 import PoplCard from "./components/poplCard";
 import PoplForm from "./components/addEditPopl";
@@ -38,60 +38,46 @@ export default function Popls() {
   return (
     <>
       <div className={classes.toolbar}>
-        <Header title="POPL" />
+        <Header title="Profile" />
       </div>
       <Grid container alignItems="center">
-        <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
-          <div className={classes.checkbox}>
-            <Checkbox
-              // checked={checked}
-              // onChange={handleChange}
+        <div className={classes.searchContainer}>
+          <Grid item xs={1}>
+            <div className={classes.checkbox}>
+              <Checkbox
+                // checked={checked}
+                // onChange={handleChange}
+                color="primary"
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+              <KeyboardArrowDownIcon
+                style={{ color: "#7d7d7d", cursor: "pointer" }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={9} container justify="center">
+            <Paper component="form" fullWidth className={classes.root}>
+              <InputBase
+                fullWidth
+                className={classes.searchInput}
+                placeholder="Search"
+                inputProps={{ "aria-label": "search here" }}
+              />
+              <SearchIcon />
+            </Paper>
+          </Grid>
+          <Grid item xs={1} container justify="center">
+            <Button
+              variant="contained"
               color="primary"
-              inputProps={{ "aria-label": "primary checkbox" }}
-            />
-            <KeyboardArrowDownIcon style={{ color: "#7d7d7d" }} />
-          </div>
-        </Grid>
-        <Grid
-          item
-          xl={9}
-          lg={9}
-          md={9}
-          sm={9}
-          xs={9}
-          container
-          justify="center"
-        >
-          <Paper component="form" fullWidth className={classes.root}>
-            <InputBase
-              fullWidth
-              className={classes.searchInput}
-              placeholder="Search Here..."
-              inputProps={{ "aria-label": "search here" }}
-            />
-            <SearchIcon />
-          </Paper>
-        </Grid>
-        <Grid
-          item
-          xl={2}
-          lg={2}
-          md={2}
-          sm={2}
-          xs={2}
-          container
-          justify="flex-end"
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            startIcon={<AddCircleOutlineIcon />}
-            onClick={handleOpen}
-          >
-            Add New Popl
-          </Button>
-        </Grid>
+              className={classes.button}
+              startIcon={<AddIcon />}
+              onClick={handleOpen}
+            >
+              Add New
+            </Button>
+          </Grid>
+        </div>
         {data.map((el) => (
           <PoplCard
             key={el.id}
@@ -102,7 +88,6 @@ export default function Popls() {
           />
         ))}
       </Grid>
-
       <Dialog open={openForm} onClose={handleClose} maxWidth="md">
         <DialogContent>
           <PoplForm handleClose={handleClose} />
