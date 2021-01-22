@@ -28,7 +28,7 @@ let theme = createMuiTheme({
       paper: {
         background: "rgb(58,58,58)",
         backgroundImage:
-          "linear-gradient(150deg, rgba(58,58,58,1) 5%, rgba(11,11,11,1) 25%, rgba(0,0,0,1) 60%)",
+          "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
       },
     },
     MuiPaper: {

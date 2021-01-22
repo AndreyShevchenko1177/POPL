@@ -11,14 +11,3 @@ module.exports = function (app) {
     })
   );
 };
-
-// import { createProxyMiddleware } from 'http-proxy-middleware';
-
-// const options = {
-//   target: 'https://poplme.co/',
-//   pathRewrite: {
-//     '^/api/': '/', // remove base path
-//   },
-// };
-
-// const apiProxy = createProxyMiddleware('/api', options);

@@ -4,13 +4,15 @@ export default makeStyles((theme) => ({
   root: {
     display: "flex",
     padding: "30px 20px 30px 40px",
-    borderRadius: 10,
+    borderRadius: 4,
     width: "100%",
   },
   container: {
     display: "flex",
-    marginTop: 50,
+    marginTop: 20,
     width: "100%",
+    "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
   },
   section1: {
     display: "flex",

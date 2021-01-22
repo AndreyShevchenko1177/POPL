@@ -16,7 +16,9 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import BallotIcon from "@material-ui/icons/Ballot";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useStyles from "./styles/styles";
+import "./styles/styles.css";
 
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -128,6 +130,10 @@ export default function PermanentDrawerLeft() {
           </ListItem>
         </Link>
       </List>
+      <div className="side-bar-help-center-container">
+        <HelpOutlineIcon style={{ cursor: "pointer", fill: "#94a6ab" }} />
+        <span>Help Center</span>
+      </div>
     </Drawer>
   );
 }

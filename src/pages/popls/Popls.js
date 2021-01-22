@@ -36,48 +36,46 @@ export default function Popls() {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="profiles-page-container">
       <div className={classes.toolbar} style={{ minHeight: "80px" }}>
         <Header title="Profile" />
       </div>
       <Grid container alignItems="center">
         <div className={classes.searchContainer}>
-          <Grid item xs={1}>
-            <div className={classes.checkbox}>
-              <Checkbox
-                // checked={checked}
-                // onChange={handleChange}
-                color="primary"
-                inputProps={{ "aria-label": "primary checkbox" }}
-                style={{ padding: "0px" }}
-              />
-              <KeyboardArrowDownIcon
-                style={{ color: "#7d7d7d", cursor: "pointer" }}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={8} justify="center">
-            <Paper component="form" fullWidth className={classes.root}>
-              <InputBase
-                fullWidth
-                className={classes.searchInput}
-                placeholder="Search"
-                inputProps={{ "aria-label": "search here" }}
-              />
-              <SearchIcon />
-            </Paper>
-          </Grid>
-          <Grid item xs={2} container justify="center">
-            <Button
-              variant="contained"
+          {/* <Grid item xs={1}> */}
+          <div className={classes.checkbox}>
+            <Checkbox
+              // checked={checked}
+              // onChange={handleChange}
               color="primary"
-              classes={{ root: classes.button }}
-              startIcon={<AddIcon />}
-              onClick={handleOpen}
-            >
-              Add New
-            </Button>
-          </Grid>
+              inputProps={{ "aria-label": "primary checkbox" }}
+              style={{ padding: "0px" }}
+            />
+            <KeyboardArrowDownIcon
+              style={{ color: "#7d7d7d", cursor: "pointer" }}
+            />
+          </div>
+          {/* </Grid> */}
+          {/* <Grid item xs={8} justify="center"> */}
+          <Paper component="form" fullWidth className={classes.root}>
+            <InputBase
+              fullWidth
+              className={classes.searchInput}
+              placeholder="Search"
+              inputProps={{ "aria-label": "search here" }}
+            />
+            <SearchIcon />
+          </Paper>
+          {/* </Grid> */}
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            startIcon={<AddIcon />}
+            onClick={handleOpen}
+          >
+            Add New
+          </Button>
         </div>
         {console.log(data)}
         {data.map((el) => (
@@ -95,6 +93,6 @@ export default function Popls() {
           <PoplForm handleClose={handleClose} />
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

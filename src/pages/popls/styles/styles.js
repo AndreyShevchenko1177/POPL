@@ -5,16 +5,28 @@ export default makeStyles((theme) => ({
     padding: "8px 16px",
     display: "flex",
     alignItems: "center",
-    //margin: "0px 16px",
+    margin: "0px 30px",
+    width: "100%",
+    "@media (max-width:1000px)": {
+      margin: "0 15px",
+    },
   },
   searchContainer: {
     display: "flex",
     width: "100%",
-    justifyContent: "space-evenly",
+    height: "100px",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#f1f1f1",
+    borderRadius: 4,
+    padding: "0 30px",
+    "@media (max-width:1000px)": {
+      padding: "0 10px",
+    },
   },
   button: {
     height: "50px",
-    marginRight: "10px",
+    minWidth: "150px",
   },
   searchInput: {
     marginLeft: theme.spacing(1),
@@ -31,4 +43,9 @@ export default makeStyles((theme) => ({
     //marginRight: 12,
   },
   toolbar: theme.mixins.toolbar,
+  addIcon: {
+    "& > *:first-child": {
+      fontSize: 32,
+    },
+  },
 }));

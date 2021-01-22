@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "#f9f9f9",
     padding: `${theme.spacing(3)}px 40px`,
   },
 }));
@@ -29,7 +29,6 @@ export default function Main({ children }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {/* <Navbar /> */}
       <Sidebar />
       <main className={classes.content}>
         <div className={classes.toolbar}>
