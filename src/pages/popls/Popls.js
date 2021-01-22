@@ -42,7 +42,6 @@ export default function Popls() {
       </div>
       <Grid container alignItems="center">
         <div className={classes.searchContainer}>
-          {/* <Grid item xs={1}> */}
           <div className={classes.checkbox}>
             <Checkbox
               // checked={checked}
@@ -55,8 +54,6 @@ export default function Popls() {
               style={{ color: "#7d7d7d", cursor: "pointer" }}
             />
           </div>
-          {/* </Grid> */}
-          {/* <Grid item xs={8} justify="center"> */}
           <Paper component="form" fullWidth className={classes.root}>
             <InputBase
               fullWidth
@@ -66,7 +63,6 @@ export default function Popls() {
             />
             <SearchIcon />
           </Paper>
-          {/* </Grid> */}
           <Button
             variant="contained"
             color="primary"

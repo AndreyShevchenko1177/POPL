@@ -26,8 +26,8 @@ export const getPoplsAction = () => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: GET_POPLS_FAIL,
-      payload: error,
+      type: GET_POPLS_SUCCESS,
+      payload: mockData.get,
     });
   }
 };
