@@ -30,6 +30,9 @@ const mockData = [
   {
     title: "venmo",
   },
+  {
+    title: "snapchat",
+  },
 ];
 
 export default function SocialPoplsIcons() {

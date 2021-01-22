@@ -5,13 +5,16 @@ export default makeStyles((theme) => ({
     padding: "8px 16px",
     display: "flex",
     alignItems: "center",
-    minWidth: "100%",
-    margin: "0px 16px",
+    //margin: "0px 16px",
   },
   searchContainer: {
     display: "flex",
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
+  },
+  button: {
+    height: "50px",
+    marginRight: "10px",
   },
   searchInput: {
     marginLeft: theme.spacing(1),
@@ -20,17 +23,12 @@ export default makeStyles((theme) => ({
   checkbox: {
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[1],
-    padding: "3px 12px",
+    padding: "12px 12px",
     borderRadius: 4,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginRight: 12,
-  },
-  button: {
-    borderRadius: 4,
-    height: "100%",
-    padding: "12px 16px",
+    //marginRight: 12,
   },
   toolbar: theme.mixins.toolbar,
 }));

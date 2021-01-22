@@ -15,10 +15,10 @@ export default makeStyles((theme) => ({
   section1: {
     display: "flex",
     flexDirection: "column",
-    paddingRight: "10px",
+    paddingRight: "20px",
   },
   section1_title: {
-    paddingBottom: "20px",
+    paddingBottom: "50px",
   },
   section1_avatar: {
     width: "100%",
@@ -32,12 +32,13 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
-    paddingBottom: "15px",
+    paddingBottom: "35px",
   },
   section2_icon: {
     backgroundColor: "#f1f4f6",
     marginRight: "5px",
-    padding: "6px",
+    width: "32px",
+    height: "32px",
   },
   section3: {
     paddingBottom: "35px",

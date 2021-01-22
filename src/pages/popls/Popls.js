@@ -37,7 +37,7 @@ export default function Popls() {
 
   return (
     <>
-      <div className={classes.toolbar}>
+      <div className={classes.toolbar} style={{ minHeight: "80px" }}>
         <Header title="Profile" />
       </div>
       <Grid container alignItems="center">
@@ -49,13 +49,14 @@ export default function Popls() {
                 // onChange={handleChange}
                 color="primary"
                 inputProps={{ "aria-label": "primary checkbox" }}
+                style={{ padding: "0px" }}
               />
               <KeyboardArrowDownIcon
                 style={{ color: "#7d7d7d", cursor: "pointer" }}
               />
             </div>
           </Grid>
-          <Grid item xs={9} container justify="center">
+          <Grid item xs={8} justify="center">
             <Paper component="form" fullWidth className={classes.root}>
               <InputBase
                 fullWidth
@@ -66,11 +67,11 @@ export default function Popls() {
               <SearchIcon />
             </Paper>
           </Grid>
-          <Grid item xs={1} container justify="center">
+          <Grid item xs={2} container justify="center">
             <Button
               variant="contained"
               color="primary"
-              className={classes.button}
+              classes={{ root: classes.button }}
               startIcon={<AddIcon />}
               onClick={handleOpen}
             >
@@ -78,6 +79,7 @@ export default function Popls() {
             </Button>
           </Grid>
         </div>
+        {console.log(data)}
         {data.map((el) => (
           <PoplCard
             key={el.id}

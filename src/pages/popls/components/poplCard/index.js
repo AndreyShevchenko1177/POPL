@@ -31,7 +31,7 @@ export default function Card({ heading, types, src, name }) {
             <Typography variant="h5">{heading}</Typography>
           </div>
           <div className={classes.section1_avatar}>
-            <Avatar src={src} name={name} />
+            <Avatar src={src} name={name} styles={{ paddingRight: "20px" }} />
             <Checkbox
               color="primary"
               inputProps={{ "aria-label": "primary checkbox" }}
@@ -82,7 +82,7 @@ export default function Card({ heading, types, src, name }) {
           <div className={classes.section5}>
             <div>
               <span>View more</span>
-              <IconButton aria-label="arrow">
+              <IconButton aria-label="arrow" style={{ padding: "2px" }}>
                 <ArrowRightIcon />
               </IconButton>
             </div>
