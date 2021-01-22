@@ -73,8 +73,7 @@ function Login(props) {
   };
 
   useEffect(() => {
-    if (result.error || !result.data) return;
-    history.push("/");
+    if (result.data) history.push("/");
   }, [result]);
 
   return (

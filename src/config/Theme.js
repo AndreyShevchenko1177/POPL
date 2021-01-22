@@ -26,12 +26,20 @@ let theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       paper: {
-        background: "#000000",
+        background: "rgb(58,58,58)",
+        backgroundImage:
+          "linear-gradient(150deg, rgba(58,58,58,1) 5%, rgba(11,11,11,1) 25%, rgba(0,0,0,1) 60%)",
       },
     },
     MuiPaper: {
       elevation5: {
         boxShadow: "0px 0px 30px rgba(0,0,0,0.2)",
+      },
+    },
+
+    MuiListItemText: {
+      primary: {
+        color: "#f9f9f9",
       },
     },
 

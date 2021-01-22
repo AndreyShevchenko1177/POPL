@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/VisibilityOutlined";
 import FilterTiltShiftIcon from "@material-ui/icons/FilterTiltShiftOutlined";
 import ApartmentOutlinedIcon from "@material-ui/icons/ApartmentOutlined";
@@ -17,52 +16,7 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import BallotIcon from "@material-ui/icons/Ballot";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  nested: {
-    paddingLeft: theme.spacing(4),
-    color: "#ffffff",
-    "&:hover": {
-      backgroundColor: "#fff",
-      color: "#000",
-      "& svg": {
-        fill: "#000 !important",
-      },
-    },
-  },
-  brand: {
-    padding: "30px 0px 30px 0px",
-    borderBottom: "1px solid #ffffff57",
-    width: "100%",
-    textAlign: "center",
-    margin: 0,
-    paddingBottom: 20,
-    background: "black",
-  },
-  ulMenu: { paddingTop: "0px" },
-  ulList: {
-    background: "#000",
-    color: "#ffffff",
-    "&:hover": {
-      backgroundColor: "#fff",
-      color: "#000",
-      "& svg": {
-        fill: "#000 !important",
-      },
-    },
-  },
-}));
+import useStyles from "./styles/styles";
 
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -87,42 +41,39 @@ export default function PermanentDrawerLeft() {
       </div>
       <List className={classes.ulMenu}>
         <Link to="/">
-          <ListItem className={classes.ulList} button>
+          <ListItem divider={false} className={classes.ulList} button>
             <ListItemIcon>
               <VisibilityIcon />
             </ListItemIcon>
             <ListItemText primary="Overview" />
           </ListItem>
         </Link>
-        <Divider />
         <Link to="/profiles">
-          <ListItem className={classes.ulList} button>
+          <ListItem divider={false} className={classes.ulList} button>
             <ListItemIcon>
               <FilterTiltShiftIcon />
             </ListItemIcon>
             <ListItemText primary="Profiles" />
           </ListItem>
         </Link>
-        <Divider />
         <Link to="/campaigns">
-          <ListItem className={classes.ulList} button>
+          <ListItem divider={false} className={classes.ulList} button>
             <ListItemIcon>
               <ApartmentOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Campaigns" />
           </ListItem>
         </Link>
-        <Divider />
         <ListItem
           className={classes.ulList}
           button
+          divider={false}
           onClick={handleAnalyticsClick}
         >
           <ListItemIcon>
             <AssessmentOutlinedIcon />
           </ListItemIcon>
           <ListItemText primary="Analytics" />
-          {analyticsOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -152,7 +103,6 @@ export default function PermanentDrawerLeft() {
             </Link>
           </List>
         </Collapse>
-        <Divider />
         <Link to="setting">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
@@ -161,8 +111,7 @@ export default function PermanentDrawerLeft() {
             <ListItemText primary="Setting" />
           </ListItem>
         </Link>
-        <Divider />
-        <Link to="login">
+        <Link to="sign-in">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <SettingsOutlinedIcon />
@@ -170,8 +119,7 @@ export default function PermanentDrawerLeft() {
             <ListItemText primary="Login" />
           </ListItem>
         </Link>
-        <Divider />
-        <Link to="register">
+        <Link to="sign-up">
           <ListItem className={classes.ulList} button>
             <ListItemIcon>
               <SettingsOutlinedIcon />

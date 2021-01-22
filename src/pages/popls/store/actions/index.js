@@ -12,24 +12,13 @@ import {
 
 export const getPoplsAction = () => async (dispatch) => {
   try {
-    // =================================
-
-    // SETTING COOKIE
-    // document['Set-Cookie'] = `l_i=${data["l_i"].value}; path=/; SameSite=None; Domain=poplme.co/`;
-    // document['Set-Cookie'] = `l_t=${data["l_t"].value}; path=/; SameSite=None; Domain=poplme.co/`;
-    // console.log(document['Set-Cookie']);
-    // ===================================
-
-    // NEXT REQUEST WITH NEW COOKIE
-
     const getPopolsFormData = new FormData();
-    getPopolsFormData.append("sAction", "GetPopol");
+    getPopolsFormData.append("sAction", "GetPopls");
     getPopolsFormData.append("ajax", 1);
 
     const response = await axios.post("", getPopolsFormData, {
       withCredentials: true,
     });
-    // =========================
 
     return dispatch({
       type: GET_POPLS_SUCCESS,
