@@ -46,7 +46,11 @@ export default function PermanentDrawerLeft() {
     >
       <div className={classes.toolbar} />
       <div className={classes.brand}>
-        <img src="/assests/logo/logo.png" alt="logo 5" />
+        <img
+          style={{ width: 150 }}
+          src="/assests/logo/popl_logo.png"
+          alt="logo 5"
+        />
       </div>
       <List className={classes.ulMenu}>
         <Link to="/">
