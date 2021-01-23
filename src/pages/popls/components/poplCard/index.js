@@ -77,7 +77,7 @@ export default function Card({ heading, types, src, name }) {
             </div>
           </div>
           <div className={classes.section4}>
-            <SocialPoplsIcons />
+            <SocialPoplsIcons style={classes.iconsItem} />
           </div>
           <div className={classes.section5}>
             <div>

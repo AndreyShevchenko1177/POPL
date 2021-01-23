@@ -49,6 +49,8 @@ let theme = createMuiTheme({
       },
       h5: {
         fontWeight: "700",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "20px !important",
       },
     },
     MuiListItemIcon: {
@@ -63,7 +65,7 @@ let theme = createMuiTheme({
     },
     ulList: {
       svg: {
-        fill: "#ffffff !important",
+        // fill: "#ffffff !important",
       },
     },
   },

@@ -18,6 +18,13 @@ import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import BallotIcon from "@material-ui/icons/Ballot";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useStyles from "./styles/styles";
+import overview from "../../assets/svg/overview.svg";
+import profiles from "../../assets/svg/profiles.svg";
+import campaigns from "../../assets/svg/campaigns.svg";
+import analytics from "../../assets/svg/analytics.svg";
+import settings from "../../assets/svg/settings.svg";
+import login from "../../assets/svg/login.svg";
+import register from "../../assets/svg/register.svg";
 import "./styles/styles.css";
 
 export default function PermanentDrawerLeft() {
@@ -44,26 +51,35 @@ export default function PermanentDrawerLeft() {
       <List className={classes.ulMenu}>
         <Link to="/">
           <ListItem divider={false} className={classes.ulList} button>
-            <ListItemIcon>
-              <VisibilityIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={overview} />
             </ListItemIcon>
-            <ListItemText primary="Overview" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Overview"
+            />
           </ListItem>
         </Link>
         <Link to="/profiles">
           <ListItem divider={false} className={classes.ulList} button>
-            <ListItemIcon>
-              <FilterTiltShiftIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={profiles} />
             </ListItemIcon>
-            <ListItemText primary="Profiles" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Profiles"
+            />
           </ListItem>
         </Link>
         <Link to="/campaigns">
           <ListItem divider={false} className={classes.ulList} button>
-            <ListItemIcon>
-              <ApartmentOutlinedIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={campaigns} />
             </ListItemIcon>
-            <ListItemText primary="Campaigns" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Campaigns"
+            />
           </ListItem>
         </Link>
         <ListItem
@@ -72,61 +88,82 @@ export default function PermanentDrawerLeft() {
           divider={false}
           onClick={handleAnalyticsClick}
         >
-          <ListItemIcon>
-            <AssessmentOutlinedIcon />
+          <ListItemIcon classes={{ root: classes.listItemIcon }}>
+            <img className="side-bar-icons" alt="overview" src={analytics} />
           </ListItemIcon>
-          <ListItemText primary="Analytics" />
+          <ListItemText
+            classes={{ primary: classes.listText }}
+            primary="Analytics"
+          />
         </ListItem>
         <Collapse in={analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/analytics/real-time">
               <ListItem button className={classes.nested}>
-                <ListItemIcon>
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
                   <TimelineIcon />
                 </ListItemIcon>
-                <ListItemText primary="Real time" />
+                <ListItemText
+                  classes={{ primary: classes.listText }}
+                  primary="Real time"
+                />
               </ListItem>
             </Link>
             <Link to="/analytics/locations">
               <ListItem button className={classes.nested}>
-                <ListItemIcon>
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
                   <LocationSearchingIcon />
                 </ListItemIcon>
-                <ListItemText primary="Locations" />
+                <ListItemText
+                  classes={{ primary: classes.listText }}
+                  primary="Locations"
+                />
               </ListItem>
             </Link>
             <Link to="/analytics/crm-integrations">
               <ListItem button className={classes.nested}>
-                <ListItemIcon>
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
                   <BallotIcon />
                 </ListItemIcon>
-                <ListItemText primary="CRM Integrations" />
+                <ListItemText
+                  classes={{ primary: classes.listText }}
+                  primary="CRM Integrations"
+                />
               </ListItem>
             </Link>
           </List>
         </Collapse>
         <Link to="setting">
           <ListItem className={classes.ulList} button>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={settings} />
             </ListItemIcon>
-            <ListItemText primary="Setting" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Settings"
+            />
           </ListItem>
         </Link>
         <Link to="sign-in">
           <ListItem className={classes.ulList} button>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={login} />
             </ListItemIcon>
-            <ListItemText primary="Login" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Login"
+            />
           </ListItem>
         </Link>
         <Link to="sign-up">
           <ListItem className={classes.ulList} button>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={register} />
             </ListItemIcon>
-            <ListItemText primary="Register" />
+            <ListItemText
+              classes={{ primary: classes.listText }}
+              primary="Register"
+            />
           </ListItem>
         </Link>
       </List>

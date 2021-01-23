@@ -12,6 +12,14 @@
   color: #d8d8d8;
   padding-top: 10px;
   cursor: pointer;
+  font-family: "AvenirNextCyr", "san-serif", "arial";
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+.side-bar-icons {
+  width: 20px;
+  height: 20px;
 }
 
 @media (max-height: 800px) {

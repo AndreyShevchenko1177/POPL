@@ -48,17 +48,25 @@ export default makeStyles((theme) => ({
   section3_text: {
     color: "#666666",
     fontSize: 14,
+    fontFamily: "AvenirNextCyr",
   },
   section4: {
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
     paddingBottom: "35px",
+    flexWrap: "wrap",
   },
   section5: {
     display: "flex",
     justifyContent: "flex-end",
     fontWeight: "700",
     color: "#4f4f4f",
+  },
+  iconItem: {
+    width: "60px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));

@@ -40,8 +40,6 @@ export default makeStyles((theme) => ({
     paddingLeft: "45px",
     height: "55px",
     background: "transparent",
-    // background: 'rgb(11,11,11)',
-    // backgroundImage: 'linear-gradient(247deg, rgba(11,11,11,1) 0%, rgba(4,4,4,1) 18%)',
     borderLeft: "3px solid transparent",
     color: "#f9f9f9",
     "&:hover": {
@@ -54,5 +52,14 @@ export default makeStyles((theme) => ({
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
     },
+  },
+  listText: {
+    fontFamily: "AvenirNextCyr",
+    fontSize: "16px",
+    letterSpacing: "1.5px",
+    color: "#f9f9f9",
+  },
+  listItemIcon: {
+    minWidth: "40px",
   },
 }));
