@@ -14,6 +14,7 @@ import Avatar from "../../../../components/popl/Avatar";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../poplsIcons";
+import DragDots from "../dragDots";
 
 export default function Card({ heading, types, src, name, mockData, id }) {
   const classes = useStyles();
@@ -25,30 +26,9 @@ export default function Card({ heading, types, src, name, mockData, id }) {
 
   return (
     <>
-      <div className={classes.dragDotsRight}>
-        <div className={classes.dots_container}>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-        </div>
-        <div className={classes.dots_container}>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-        </div>
-      </div>
-      <div className={classes.dragDotsLeft}>
-        <div className={classes.dots_container}>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-        </div>
-        <div className={classes.dots_container}>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-          <div className={classes.dot}></div>
-        </div>
-      </div>
+      <DragDots position="left" />
+      <DragDots position="center" />
+      <DragDots position="right" />
       <Paper elevation={1} className={classes.root}>
         <div className={classes.section1}>
           <div className={classes.section1_title}>

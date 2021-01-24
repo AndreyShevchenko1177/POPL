@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import clsx from "clsx";
 import {
   Button,
   Grid,
@@ -24,10 +24,7 @@ export default function Popls() {
   const data = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const classes = useStyles();
   const [openForm, setFormOpen] = useState(false);
-  const [characters, updateCharacters] = useState([]);
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
-  const [dragActiveClassName, setDragActiveClassName] = useState(false);
+  const [popls, setPopls] = useState([]);
 
   function handleOpen() {
     setFormOpen(true);
@@ -36,12 +33,22 @@ export default function Popls() {
     setFormOpen(false);
   }
 
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = [...popls];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setPopls(items);
+  }
+
   useEffect(() => {
     dispatch(getPoplsAction());
   }, [dispatch]);
 
   useEffect(() => {
-    updateCharacters(data);
+    setPopls(data);
   }, [data]);
 
   return (
@@ -82,38 +89,36 @@ export default function Popls() {
             Add New
           </Button>
         </div>
-        {characters.map((el, index) => (
-          <div
-            className={clsx(classes.container, {
-              [classes.activeDragContainer]: dragActiveClassName,
-            })}
-            key={el.id}
-            data-index={index}
-            draggable="true"
-            onDragStart={(e) => setFrom(Number(e.currentTarget.dataset.index))}
-            onDragOver={(e) => {
-              e.preventDefault();
-              if (from !== to && index === to) setDragActiveClassName(true);
-              setTo(Number(e.currentTarget.dataset.index));
-            }}
-            onDragEnd={() => {
-              const items = Array.from(characters);
-              [items[from], items[to]] = [items[to], items[from]];
-              updateCharacters(items);
-              setDragActiveClassName(false);
-              setFrom(null);
-              setTo(null);
-            }}
-          >
-            <PoplCard
-              id={el.id}
-              heading={el.name}
-              src={el.logo}
-              name={el.name}
-              types={el.types}
-            />
-          </div>
-        ))}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="list">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {popls.map((el, index) => (
+                  <Draggable key={el.id} draggableId={el.id + ""} index={index}>
+                    {(provided) => (
+                      <div
+                        draggable="true"
+                        className={classes.container}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <PoplCard
+                          id={el.id}
+                          heading={el.name}
+                          src={el.logo}
+                          name={el.name}
+                          types={el.types}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </Grid>
       <Dialog open={openForm} onClose={handleClose} maxWidth="md">
         <DialogContent>
