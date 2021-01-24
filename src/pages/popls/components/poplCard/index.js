@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Paper,
   Typography,
@@ -15,16 +15,40 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../poplsIcons";
 
-export default function Card({ heading, types, src, name }) {
+export default function Card({ heading, types, src, name, mockData, id }) {
   const classes = useStyles();
-  const [directOn, setDirectOn] = React.useState(false);
+  const [directOn, setDirectOn] = useState(false);
 
   const handleSwitchChanger = (event) => {
     setDirectOn(!directOn);
   };
 
   return (
-    <div className={classes.container}>
+    <>
+      <div className={classes.dragDotsRight}>
+        <div className={classes.dots_container}>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+        </div>
+        <div className={classes.dots_container}>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+        </div>
+      </div>
+      <div className={classes.dragDotsLeft}>
+        <div className={classes.dots_container}>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+        </div>
+        <div className={classes.dots_container}>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+          <div className={classes.dot}></div>
+        </div>
+      </div>
       <Paper elevation={1} className={classes.root}>
         <div className={classes.section1}>
           <div className={classes.section1_title}>
@@ -77,7 +101,7 @@ export default function Card({ heading, types, src, name }) {
             </div>
           </div>
           <div className={classes.section4}>
-            <SocialPoplsIcons style={classes.iconsItem} />
+            <SocialPoplsIcons style={classes.iconsItem} mockData={types} />
           </div>
           <div className={classes.section5}>
             <div>
@@ -89,6 +113,6 @@ export default function Card({ heading, types, src, name }) {
           </div>
         </div>
       </Paper>
-    </div>
+    </>
   );
 }

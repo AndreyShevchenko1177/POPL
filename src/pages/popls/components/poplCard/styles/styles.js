@@ -3,16 +3,47 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     display: "flex",
-    padding: "30px 20px 30px 40px",
+    padding: "50px 20px 30px 40px",
     borderRadius: 4,
     width: "100%",
   },
   container: {
     display: "flex",
+    position: "relative",
     marginTop: 20,
     width: "100%",
     "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
     boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+  },
+  dragDotsRight: {
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    width: "17px",
+    height: "14px",
+    justifyContent: "space-evenly",
+    top: "10px",
+    right: "10px",
+  },
+  dragDotsLeft: {
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    width: "17px",
+    height: "14px",
+    justifyContent: "space-evenly",
+    top: "10px",
+    left: "10px",
+  },
+  dot: {
+    width: "3px",
+    height: "3px",
+    backgroundColor: "#8f8f8f",
+    borderRadius: "3px",
+  },
+  dots_container: {
+    display: "flex",
+    justifyContent: "space-around",
   },
   section1: {
     display: "flex",

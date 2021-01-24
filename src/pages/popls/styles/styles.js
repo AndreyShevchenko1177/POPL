@@ -24,6 +24,18 @@ export default makeStyles((theme) => ({
       padding: "0 10px",
     },
   },
+  container: {
+    display: "flex",
+    position: "relative",
+    marginTop: 20,
+    width: "100%",
+    "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+  },
+  activeDragContainer: {
+    transform: "scale(0.98)",
+    transition: "transform 0.2s",
+  },
   button: {
     height: "50px",
     minWidth: "150px",

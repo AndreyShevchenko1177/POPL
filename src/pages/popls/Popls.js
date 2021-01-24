@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
 import {
   Button,
   Grid,
@@ -23,6 +24,10 @@ export default function Popls() {
   const data = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const classes = useStyles();
   const [openForm, setFormOpen] = useState(false);
+  const [characters, updateCharacters] = useState([]);
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+  const [dragActiveClassName, setDragActiveClassName] = useState(false);
 
   function handleOpen() {
     setFormOpen(true);
@@ -34,6 +39,10 @@ export default function Popls() {
   useEffect(() => {
     dispatch(getPoplsAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    updateCharacters(data);
+  }, [data]);
 
   return (
     <div className="profiles-page-container">
@@ -73,15 +82,37 @@ export default function Popls() {
             Add New
           </Button>
         </div>
-        {console.log(data)}
-        {data.map((el) => (
-          <PoplCard
+        {characters.map((el, index) => (
+          <div
+            className={clsx(classes.container, {
+              [classes.activeDragContainer]: dragActiveClassName,
+            })}
             key={el.id}
-            heading={el.name}
-            src={el.logo}
-            name={el.name}
-            types={el.types}
-          />
+            data-index={index}
+            draggable="true"
+            onDragStart={(e) => setFrom(Number(e.currentTarget.dataset.index))}
+            onDragOver={(e) => {
+              e.preventDefault();
+              if (from !== to && index === to) setDragActiveClassName(true);
+              setTo(Number(e.currentTarget.dataset.index));
+            }}
+            onDragEnd={() => {
+              const items = Array.from(characters);
+              [items[from], items[to]] = [items[to], items[from]];
+              updateCharacters(items);
+              setDragActiveClassName(false);
+              setFrom(null);
+              setTo(null);
+            }}
+          >
+            <PoplCard
+              id={el.id}
+              heading={el.name}
+              src={el.logo}
+              name={el.name}
+              types={el.types}
+            />
+          </div>
         ))}
       </Grid>
       <Dialog open={openForm} onClose={handleClose} maxWidth="md">
