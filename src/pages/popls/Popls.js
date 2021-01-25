@@ -17,7 +17,7 @@ import Header from "./components/header";
 import PoplCard from "./components/poplCard";
 import PoplForm from "./components/addEditPopl";
 import useStyles from "./styles/styles";
-import { getPoplsAction } from "./store/actions";
+import { getPoplsAction, addPoplAction, editPoplAction } from "./store/actions";
 
 export default function Popls() {
   const dispatch = useDispatch();
@@ -45,6 +45,8 @@ export default function Popls() {
 
   useEffect(() => {
     dispatch(getPoplsAction());
+    // dispatch(addPoplAction());
+    // dispatch(editPoplAction());
   }, [dispatch]);
 
   useEffect(() => {

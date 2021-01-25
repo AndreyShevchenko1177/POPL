@@ -19,6 +19,8 @@ const initialState = {
 export default function authReducer(state = initialState, { type, payload }) {
   switch (type) {
     case SIGN_IN_SUCCESS: {
+      const { l_i, l_t, ...data } = payload;
+      localStorage.setItem("profileData", JSON.stringify(data));
       return {
         ...state,
         signIn: {

@@ -5,6 +5,7 @@ import {
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
 } from "../actionTypes";
+import { getProfileData } from "../../../../store/actions";
 
 export const signInAction = (credo) => async (dispatch) => {
   try {
@@ -16,12 +17,13 @@ export const signInAction = (credo) => async (dispatch) => {
 
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
-      dispatch({
+      return dispatch({
         type: SIGN_IN_FAIL,
         payload: true,
       });
     }
-
+    const { l_i, l_t, ...profileData } = data;
+    dispatch(getProfileData(profileData));
     return dispatch({
       type: SIGN_IN_SUCCESS,
       payload: data,

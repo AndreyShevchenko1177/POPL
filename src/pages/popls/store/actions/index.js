@@ -32,8 +32,19 @@ export const getPoplsAction = () => async (dispatch) => {
   }
 };
 
-export const addPoplAction = (data) => async (dispatch) => {
+export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
+    const { id, url } = getState().systemReducer.profileData;
+    const addPoplsFormData = new FormData();
+    addPoplsFormData.append("sAction", "AddPopl");
+    addPoplsFormData.append("sName", proplData?.name || "Profile4");
+    addPoplsFormData.append("sSlug", url && "testing");
+    addPoplsFormData.append("iMemberID", id);
+    addPoplsFormData.append("ajax", 1);
+
+    const data = await axios.post("", addPoplsFormData, {
+      withCredentials: true,
+    });
     return dispatch({
       type: ADD_POPL_SUCCESS,
       payload: "success",
@@ -46,8 +57,19 @@ export const addPoplAction = (data) => async (dispatch) => {
   }
 };
 
-export const editPoplAction = (data) => async (dispatch) => {
+export const editPoplAction = (proplData) => async (dispatch, getState) => {
   try {
+    const { id, url } = getState().systemReducer.profileData;
+    const updatePoplsFormData = new FormData();
+    updatePoplsFormData.append("sAction", "UpdatePopl");
+    updatePoplsFormData.append("sName", proplData?.name || "Profile4");
+    updatePoplsFormData.append("sSlug", url && "testing");
+    updatePoplsFormData.append("iMemberID", id);
+    updatePoplsFormData.append("ajax", 1);
+
+    const data = await axios.post("", updatePoplsFormData, {
+      withCredentials: true,
+    });
     return dispatch({
       type: EDIT_POPL_SUCCESS,
       payload: "success",
