@@ -4,8 +4,8 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
+  LOGOUT,
 } from "../actionTypes";
-import { getProfileData } from "../../../../store/actions";
 
 export const signInAction = (credo) => async (dispatch) => {
   try {
@@ -22,8 +22,7 @@ export const signInAction = (credo) => async (dispatch) => {
         payload: true,
       });
     }
-    const { l_i, l_t, ...profileData } = data;
-    dispatch(getProfileData(profileData));
+
     return dispatch({
       type: SIGN_IN_SUCCESS,
       payload: data,
@@ -65,3 +64,7 @@ export const signUpAction = (credo) => async (dispatch) => {
     });
   }
 };
+
+export const logoutAction = () => ({
+  type: LOGOUT,
+});

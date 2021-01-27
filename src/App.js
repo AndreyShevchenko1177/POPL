@@ -6,6 +6,7 @@ import {
   useRouteMatch,
   useParams,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
 import Popls from "./pages/popls";
 import SignUp from "./pages/auth/sign-up";
@@ -21,6 +22,7 @@ function titleCase(str) {
 }
 
 export default function App() {
+  const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   return (
     <Router>
       <Switch>
@@ -31,16 +33,16 @@ export default function App() {
         <Route path="/sign-in" exact>
           <Login />
         </Route>
-        <PrivateRoute path="/profiles" exact>
+        <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Popls />
         </PrivateRoute>
-        <PrivateRoute path="/campaigns" exact>
+        <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />
         </PrivateRoute>
-        <PrivateRoute path="/analytics">
+        <PrivateRoute path="/analytics" isLoggedIn={profileData?.id}>
           <Analytics />
         </PrivateRoute>
-        <PrivateRoute path="/" exact>
+        <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
           <Home />
         </PrivateRoute>
         <Route path="*">

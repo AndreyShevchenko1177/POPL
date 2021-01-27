@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Drawer,
@@ -8,32 +9,33 @@ import {
   ListItemText,
   Collapse,
 } from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/VisibilityOutlined";
-import FilterTiltShiftIcon from "@material-ui/icons/FilterTiltShiftOutlined";
-import ApartmentOutlinedIcon from "@material-ui/icons/ApartmentOutlined";
-import AssessmentOutlinedIcon from "@material-ui/icons/AssessmentOutlined";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import BallotIcon from "@material-ui/icons/Ballot";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
+import logout from "../../assets/svg/logout.svg";
 import profiles from "../../assets/svg/profiles.svg";
 import campaigns from "../../assets/svg/campaigns.svg";
 import analytics from "../../assets/svg/analytics.svg";
 import settings from "../../assets/svg/settings.svg";
 import login from "../../assets/svg/login.svg";
 import register from "../../assets/svg/register.svg";
+import { logoutAction } from "../../pages/auth/store/actions";
 import "./styles/styles.css";
 
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [analyticsOpen, setAnalyticsOpen] = React.useState(false);
 
   const handleAnalyticsClick = () => {
     setAnalyticsOpen(!analyticsOpen);
   };
+
+  const handleLogout = () => dispatch(logoutAction());
 
   return (
     <Drawer
@@ -148,28 +150,48 @@ export default function PermanentDrawerLeft() {
             />
           </ListItem>
         </Link>
-        <Link to="sign-in">
-          <ListItem className={classes.ulList} button>
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img className="side-bar-icons" alt="overview" src={login} />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listText }}
-              primary="Login"
-            />
-          </ListItem>
-        </Link>
-        <Link to="sign-up">
-          <ListItem className={classes.ulList} button>
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img className="side-bar-icons" alt="overview" src={register} />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listText }}
-              primary="Register"
-            />
-          </ListItem>
-        </Link>
+        {profileData?.id ? (
+          <Link to="/sign-in">
+            <ListItem className={classes.ulList} button onClick={handleLogout}>
+              <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                <img className="side-bar-icons" alt="overview" src={logout} />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listText }}
+                primary="Logout"
+              />
+            </ListItem>
+          </Link>
+        ) : (
+          <>
+            <Link to="/sign-in">
+              <ListItem className={classes.ulList} button>
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                  <img className="side-bar-icons" alt="overview" src={login} />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ primary: classes.listText }}
+                  primary="Login"
+                />
+              </ListItem>
+            </Link>
+            <Link to="/sign-up">
+              <ListItem className={classes.ulList} button>
+                <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                  <img
+                    className="side-bar-icons"
+                    alt="overview"
+                    src={register}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  classes={{ primary: classes.listText }}
+                  primary="Register"
+                />
+              </ListItem>
+            </Link>
+          </>
+        )}
       </List>
       <div className="side-bar-help-center-container">
         <HelpOutlineIcon style={{ cursor: "pointer", fill: "#94a6ab" }} />

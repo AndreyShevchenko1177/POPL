@@ -1,7 +1,7 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducer";
-import { getProfileData } from "./actions";
+import { SIGN_IN_SUCCESS } from "../pages/auth/store/actionTypes";
 
 const middleware = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -10,7 +10,11 @@ const store = createStore(
   /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware))
 );
 
-if (localStorage.profileData)
-  store.dispatch(getProfileData(JSON.parse(localStorage.profileData)));
+if (localStorage.profileData) {
+  store.dispatch({
+    type: SIGN_IN_SUCCESS,
+    payload: JSON.parse(localStorage.profileData),
+  });
+}
 
 export default store;

@@ -34,7 +34,7 @@ export const getPoplsAction = () => async (dispatch) => {
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
-    const { id, url } = getState().systemReducer.profileData;
+    const { id, url } = getState().authReducer.signIn.data;
     const addPoplsFormData = new FormData();
     addPoplsFormData.append("sAction", "AddPopl");
     addPoplsFormData.append("sName", proplData?.name || "Profile4");
@@ -59,7 +59,7 @@ export const addPoplAction = (proplData) => async (dispatch, getState) => {
 
 export const editPoplAction = (proplData) => async (dispatch, getState) => {
   try {
-    const { id, url } = getState().systemReducer.profileData;
+    const { id, url } = getState().authReducer.signIn.data;
     const updatePoplsFormData = new FormData();
     updatePoplsFormData.append("sAction", "UpdatePopl");
     updatePoplsFormData.append("sName", proplData?.name || "Profile4");

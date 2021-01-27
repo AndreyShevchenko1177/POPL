@@ -1,10 +1,10 @@
-import Main from "../layout/Main";
 import React from "react";
+import Main from "../layout/Main";
 import { Redirect, Route } from "react-router-dom";
 
 export default function PrivateRoute(props) {
-  const { children, path, ...rest } = props;
-  const isLoggedIn = true;
+  const { children, path, isLoggedIn, ...rest } = props;
+  // const isLoggedIn = true;
   return (
     <>
       <Main>
@@ -13,7 +13,7 @@ export default function PrivateRoute(props) {
             {children}
           </Route>
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/sign-in" />
         )}
       </Main>
     </>

@@ -3,7 +3,9 @@ import {
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
   SIGN_UP_SUCCESS,
+  LOGOUT,
 } from "../actionTypes";
+import { deleteCookies, existingCookies } from "../../../../utils/cookie";
 
 const initialState = {
   signIn: {
@@ -25,7 +27,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         ...state,
         signIn: {
           ...state.signIn,
-          data: payload,
+          data,
         },
       };
     }
@@ -56,6 +58,11 @@ export default function authReducer(state = initialState, { type, payload }) {
           error: payload,
         },
       };
+    }
+    case LOGOUT: {
+      localStorage.removeItem("profileData");
+      existingCookies.forEach((name) => deleteCookies(name));
+      return initialState;
     }
     default:
       return state;
