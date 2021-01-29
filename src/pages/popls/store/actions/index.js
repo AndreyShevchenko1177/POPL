@@ -1,13 +1,12 @@
 import axios from "axios";
-import mockData from "./mockData";
 
 import {
   GET_POPLS_SUCCESS,
   GET_POPLS_FAIL,
-  ADD_POPL_SUCCESS,
-  ADD_POPL_FAIL,
-  EDIT_POPL_SUCCESS,
-  EDIT_POPL_FAIL,
+  ADD_POPLS_SUCCESS,
+  ADD_POPLS_FAIL,
+  EDIT_POPLS_SUCCESS,
+  EDIT_POPLS_FAIL,
 } from "../actionTypes";
 
 export const getPoplsAction = () => async (dispatch) => {
@@ -22,61 +21,62 @@ export const getPoplsAction = () => async (dispatch) => {
 
     return dispatch({
       type: GET_POPLS_SUCCESS,
-      payload: mockData.get,
+      payload: response.data,
     });
   } catch (error) {
     dispatch({
-      type: GET_POPLS_SUCCESS,
-      payload: mockData.get,
-    });
-  }
-};
-
-export const addPoplAction = (proplData) => async (dispatch, getState) => {
-  try {
-    const { id, url } = getState().authReducer.signIn.data;
-    const addPoplsFormData = new FormData();
-    addPoplsFormData.append("sAction", "AddPopl");
-    addPoplsFormData.append("sName", proplData?.name || "Profile4");
-    addPoplsFormData.append("sSlug", url && "testing");
-    addPoplsFormData.append("iMemberID", id);
-    addPoplsFormData.append("ajax", 1);
-
-    const data = await axios.post("", addPoplsFormData, {
-      withCredentials: true,
-    });
-    return dispatch({
-      type: ADD_POPL_SUCCESS,
-      payload: "success",
-    });
-  } catch (error) {
-    dispatch({
-      type: ADD_POPL_FAIL,
+      type: GET_POPLS_FAIL,
       payload: error,
     });
   }
 };
 
-export const editPoplAction = (proplData) => async (dispatch, getState) => {
+export const addPoplAction = (body) => async (dispatch) => {
   try {
-    const { id, url } = getState().authReducer.signIn.data;
-    const updatePoplsFormData = new FormData();
-    updatePoplsFormData.append("sAction", "UpdatePopl");
-    updatePoplsFormData.append("sName", proplData?.name || "Profile4");
-    updatePoplsFormData.append("sSlug", url && "testing");
-    updatePoplsFormData.append("iMemberID", id);
-    updatePoplsFormData.append("ajax", 1);
+    const addPoplsFormData = new FormData();
+    addPoplsFormData.append("sAction", "AddPopl");
+    addPoplsFormData.append("sName", body.name);
+    addPoplsFormData.append("sSlug", body.slug);
+    addPoplsFormData.append("iMemberID", body.mid);
+    addPoplsFormData.append("ajax", 1);
 
-    const data = await axios.post("", updatePoplsFormData, {
+    await axios.post("", addPoplsFormData, {
       withCredentials: true,
     });
+    dispatch(getPoplsAction());
     return dispatch({
-      type: EDIT_POPL_SUCCESS,
+      type: ADD_POPLS_SUCCESS,
       payload: "success",
     });
   } catch (error) {
     dispatch({
-      type: EDIT_POPL_FAIL,
+      type: ADD_POPLS_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const editPoplAction = (body) => async (dispatch) => {
+  try {
+    const updatePoplsFormData = new FormData();
+    updatePoplsFormData.append("sAction", "UpdatePopl");
+    updatePoplsFormData.append("sName", body.name);
+    updatePoplsFormData.append("sSlug", body.slug);
+    updatePoplsFormData.append("iMemberID", body.mid);
+    updatePoplsFormData.append("iID", body.id);
+    updatePoplsFormData.append("ajax", 1);
+
+    await axios.post("", updatePoplsFormData, {
+      withCredentials: true,
+    });
+    dispatch(getPoplsAction());
+    return dispatch({
+      type: EDIT_POPLS_SUCCESS,
+      payload: "success",
+    });
+  } catch (error) {
+    dispatch({
+      type: EDIT_POPLS_FAIL,
       payload: error,
     });
   }

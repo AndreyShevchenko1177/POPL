@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   dragDotsRight: {
     display: "flex",
+    cursor: "move",
     flexDirection: "column",
     position: "absolute",
     width: "17px",
@@ -13,6 +14,7 @@ export default makeStyles((theme) => ({
   },
   dragDotsCenter: {
     display: "flex",
+    cursor: "move",
     flexDirection: "column",
     position: "absolute",
     width: "17px",
@@ -23,6 +25,7 @@ export default makeStyles((theme) => ({
   },
   dragDotsLeft: {
     display: "flex",
+    cursor: "move",
     flexDirection: "column",
     position: "absolute",
     width: "17px",

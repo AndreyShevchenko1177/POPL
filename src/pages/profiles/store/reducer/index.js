@@ -1,78 +1,84 @@
 import {
-  GET_POPLS_SUCCESS,
-  GET_POPLS_FAIL,
-  ADD_POPLS_SUCCESS,
-  ADD_POPLS_FAIL,
-  EDIT_POPLS_SUCCESS,
-  EDIT_POPLS_FAIL,
+  GET_PROFILES_SUCCESS,
+  GET_PROFILES_FAIL,
+  ADD_PROFILES_SUCCESS,
+  ADD_PROFILES_FAIL,
+  EDIT_PROFILES_SUCCESS,
+  EDIT_PROFILES_FAIL,
 } from "../actionTypes";
 
 const initialState = {
-  allPopls: {
+  allProfiles: {
     data: [],
     error: null,
   },
-  addPopl: {
+  addProfile: {
     data: null,
     error: null,
   },
-  editPopl: {
+  editProfile: {
     data: null,
     error: null,
   },
 };
 
-export default function poplsReducer(state = initialState, { type, payload }) {
+export default function profilesReducer(
+  state = initialState,
+  { type, payload }
+) {
   switch (type) {
-    case GET_POPLS_SUCCESS: {
+    case GET_PROFILES_SUCCESS: {
       return {
         ...state,
-        allPopls: {
-          error: null,
+        allProfiles: {
+          ...state.allProfiles,
           data: payload,
         },
       };
     }
-    case GET_POPLS_FAIL: {
+    case GET_PROFILES_FAIL: {
       return {
         ...state,
-        allPopls: {
+        allProfiles: {
+          ...state.allProfiles,
           data: [],
           error: payload,
         },
       };
     }
-    case ADD_POPLS_SUCCESS: {
+    case ADD_PROFILES_SUCCESS: {
       return {
         ...state,
-        addPopl: {
-          error: null,
+        addProfile: {
+          ...state.addProfile,
           data: payload,
         },
       };
     }
-    case ADD_POPLS_FAIL: {
+    case ADD_PROFILES_FAIL: {
       return {
         ...state,
-        addPopl: {
+        addProfile: {
+          ...state.addProfile,
           data: null,
           error: payload,
         },
       };
     }
-    case EDIT_POPLS_SUCCESS: {
+    case EDIT_PROFILES_SUCCESS: {
       return {
         ...state,
-        editPopl: {
+        editProfile: {
+          ...state.editProfile,
           data: payload,
-          error: null,
         },
       };
     }
-    case EDIT_POPLS_FAIL: {
+    case EDIT_PROFILES_FAIL: {
       return {
         ...state,
-        editPopl: {
+        editProfile: {
+          ...state.editProfile,
           data: null,
           error: payload,
         },

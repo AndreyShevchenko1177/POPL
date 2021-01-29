@@ -1,0 +1,8 @@
+.popls-container {
+  display: flex;
+}
+.popls-header-container {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}

@@ -30,12 +30,7 @@ export default function Main({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       <Sidebar />
-      <main className={classes.content}>
-        <div className={classes.toolbar}>
-          <Header title={headerTitle} />
-        </div>
-        {children}
-      </main>
+      <main className={classes.content}>{children}</main>
     </div>
   );
 }

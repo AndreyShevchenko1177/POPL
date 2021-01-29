@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
-import Popls from "./pages/popls";
+import Profiles from "./pages/profiles";
+import PoplsItem from "./pages/popls";
 import SignUp from "./pages/auth/sign-up";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
@@ -34,7 +35,10 @@ export default function App() {
           <Login />
         </Route>
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
-          <Popls />
+          <Profiles />
+        </PrivateRoute>
+        <PrivateRoute path="/profiles/:id" exact isLoggedIn={profileData?.id}>
+          <PoplsItem />
         </PrivateRoute>
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />

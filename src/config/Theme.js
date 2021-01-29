@@ -1,4 +1,5 @@
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import { responsiveFontSizes } from "@material-ui/core/styles";
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@material-ui/core";
 
 let theme = createMuiTheme({
   palette: {

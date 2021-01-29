@@ -5,6 +5,9 @@
   font-display: swap;
   src: url("./assets/fonts/avenirnextcyr-medium.ttf") format("truetype");
 }
+body * {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -26,4 +29,9 @@ a {
 
 [draggable="true"] {
   cursor: move;
+}
+
+/* main styles */
+.relative {
+  position: relative;
 }
