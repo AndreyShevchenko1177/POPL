@@ -5,6 +5,8 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  CLEAR_EDIT_POPL,
+  CLEAR_ADD_POPL,
 } from "../actionTypes";
 
 const initialState = {
@@ -76,6 +78,18 @@ export default function poplsReducer(state = initialState, { type, payload }) {
           data: null,
           error: payload,
         },
+      };
+    }
+    case CLEAR_EDIT_POPL: {
+      return {
+        ...state,
+        editPopl: initialState.editPopl,
+      };
+    }
+    case CLEAR_ADD_POPL: {
+      return {
+        ...state,
+        addPopl: initialState.addPopl,
       };
     }
     default:

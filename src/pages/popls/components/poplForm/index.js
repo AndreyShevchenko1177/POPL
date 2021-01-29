@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Paper, TextField, Button } from "@material-ui/core";
 import { editPoplAction, addPoplAction } from "../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles/style";
 import "./styles/styles.css";
 
@@ -13,6 +14,8 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
   });
   const dispatch = useDispatch();
   const [isAdd, setIsAdd] = useState(false);
+  const addPopl = useSelector(({ poplsReducer }) => poplsReducer.addPopl);
+  const editPopl = useSelector(({ poplsReducer }) => poplsReducer.editPopl);
 
   const handleChage = (event) => {
     event.persist();
@@ -29,6 +32,54 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
     if (popl) return setValue({ name: popl.name, slug: popl.url });
     setIsAdd(true);
   }, []);
+
+  useEffect(() => {
+    if (addPopl.data) {
+      setIsOpenForm(false);
+      dispatch(
+        snackBarAction({
+          message: "Popl added successfully",
+          severity: "success",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
+    if (addPopl.error) {
+      dispatch(
+        snackBarAction({
+          message: addPopl.error,
+          severity: "error",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
+  }, [addPopl]);
+
+  useEffect(() => {
+    if (editPopl.data) {
+      setIsOpenForm(false);
+      dispatch(
+        snackBarAction({
+          message: "Popl added successfully",
+          severity: "success",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
+    if (editPopl.error) {
+      dispatch(
+        snackBarAction({
+          message: addPopl.error,
+          severity: "error",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
+  }, [editPopl]);
 
   return (
     <Paper className={classes.container}>

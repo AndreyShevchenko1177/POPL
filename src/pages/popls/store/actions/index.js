@@ -7,6 +7,8 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  CLEAR_ADD_POPL,
+  CLEAR_EDIT_POPL,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
@@ -63,33 +65,29 @@ export const addPoplAction = (body) => async (dispatch) => {
     const response = await axios.post("", addPoplsFormData, {
       withCredentials: true,
     });
-    if (typeof response === "string") {
-      return dispatch(
-        snackBarAction({
-          message: "Add popls error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        })
-      );
+    if (
+      typeof response === "string" ||
+      (response.data && response.data.error)
+    ) {
+      return dispatch({
+        type: ADD_POPLS_FAIL,
+        payload:
+          response.data && response.data.error
+            ? response.data.error
+            : "Server error",
+      });
     }
-    dispatch(getPoplsAction());
-    dispatch(
-      snackBarAction({
-        message: "Popl added successfully",
-        severity: "success",
-        duration: 3000,
-        open: true,
-      })
-    );
-    return dispatch({
+
+    dispatch({
       type: ADD_POPLS_SUCCESS,
       payload: "success",
     });
+
+    dispatch(getPoplsAction());
   } catch (error) {
     dispatch({
       type: ADD_POPLS_FAIL,
-      payload: error,
+      payload: "Server error",
     });
 
     dispatch(
@@ -116,33 +114,28 @@ export const editPoplAction = (body) => async (dispatch) => {
     const response = await axios.post("", updatePoplsFormData, {
       withCredentials: true,
     });
-    if (typeof response === "string") {
-      return dispatch(
-        snackBarAction({
-          message: "Edit popls error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        })
-      );
+    if (
+      typeof response === "string" ||
+      (response.data && response.data.error)
+    ) {
+      return dispatch({
+        type: EDIT_POPLS_FAIL,
+        payload:
+          response.data && response.data.error
+            ? response.data.error
+            : "Server error",
+      });
     }
-    dispatch(getPoplsAction());
-    dispatch(
-      snackBarAction({
-        message: "Popl updated successfully",
-        severity: "success",
-        duration: 3000,
-        open: true,
-      })
-    );
-    return dispatch({
+
+    dispatch({
       type: EDIT_POPLS_SUCCESS,
       payload: "success",
     });
+    dispatch(getPoplsAction());
   } catch (error) {
     dispatch({
       type: EDIT_POPLS_FAIL,
-      payload: error,
+      payload: "Server error",
     });
 
     dispatch(
@@ -154,4 +147,16 @@ export const editPoplAction = (body) => async (dispatch) => {
       })
     );
   }
+};
+
+export const clearAddPopl = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_ADD_POPL,
+  });
+};
+
+export const clearEditPopl = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_EDIT_POPL,
+  });
 };

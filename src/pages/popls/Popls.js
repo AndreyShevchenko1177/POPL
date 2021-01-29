@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Paper, Button, Dialog, DialogContent } from "@material-ui/core";
-import { getPoplsAction, editPoplAction } from "./store/actions";
+import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
 import PoplForm from "./components/poplForm";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
@@ -29,8 +29,11 @@ function PoplsItem() {
   }, []);
 
   useEffect(() => {
-    if (popls) setIsOpenForm(false);
-  }, [popls]);
+    if (!isOpenForm) {
+      dispatch(clearAddPopl());
+      dispatch(clearEditPopl());
+    }
+  }, [isOpenForm]);
 
   return (
     <div className="relative">

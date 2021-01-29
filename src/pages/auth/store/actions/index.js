@@ -71,7 +71,7 @@ export const signUpAction = (credo) => async (dispatch) => {
       type: SIGN_UP_FAIL,
       payload: error,
     });
-
+    console.log("fail");
     dispatch(
       snackBarAction({
         message: "Server error",
