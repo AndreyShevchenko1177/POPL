@@ -9,6 +9,8 @@ import {
   EDIT_POPLS_FAIL,
 } from "../actionTypes";
 
+import { snackBarAction } from "../../../../store/actions";
+
 export const getPoplsAction = () => async (dispatch) => {
   try {
     const getPopolsFormData = new FormData();
@@ -18,7 +20,16 @@ export const getPoplsAction = () => async (dispatch) => {
     const response = await axios.post("", getPopolsFormData, {
       withCredentials: true,
     });
-
+    if (typeof response === "string") {
+      return dispatch(
+        snackBarAction({
+          message: "Download popls error",
+          severity: "error",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
     return dispatch({
       type: GET_POPLS_SUCCESS,
       payload: response.data,
@@ -40,9 +51,19 @@ export const addPoplAction = (body) => async (dispatch) => {
     addPoplsFormData.append("iMemberID", body.mid);
     addPoplsFormData.append("ajax", 1);
 
-    await axios.post("", addPoplsFormData, {
+    const response = await axios.post("", addPoplsFormData, {
       withCredentials: true,
     });
+    if (typeof response === "string") {
+      return dispatch(
+        snackBarAction({
+          message: "Add popls error",
+          severity: "error",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
     dispatch(getPoplsAction());
     return dispatch({
       type: ADD_POPLS_SUCCESS,
@@ -66,9 +87,19 @@ export const editPoplAction = (body) => async (dispatch) => {
     updatePoplsFormData.append("iID", body.id);
     updatePoplsFormData.append("ajax", 1);
 
-    await axios.post("", updatePoplsFormData, {
+    const response = await axios.post("", updatePoplsFormData, {
       withCredentials: true,
     });
+    if (typeof response === "string") {
+      return dispatch(
+        snackBarAction({
+          message: "Edit popls error",
+          severity: "error",
+          duration: 3000,
+          open: true,
+        })
+      );
+    }
     dispatch(getPoplsAction());
     return dispatch({
       type: EDIT_POPLS_SUCCESS,

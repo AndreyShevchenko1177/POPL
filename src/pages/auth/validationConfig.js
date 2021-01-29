@@ -1,6 +1,6 @@
 export const signInConfig = {
   username: {
-    maxLength: 20,
+    maxLength: 50,
     minLength: 2,
     required: true,
     value: "",
@@ -12,7 +12,7 @@ export const signInConfig = {
     },
   },
   password: {
-    maxLength: 20,
+    maxLength: 50,
     minLength: 3,
     required: true,
     label: "Password",
@@ -27,7 +27,7 @@ export const signInConfig = {
 
 export const signUpConfig = {
   username: {
-    maxLength: 20,
+    maxLength: 50,
     minLength: 2,
     required: true,
     value: "",
@@ -39,12 +39,13 @@ export const signUpConfig = {
     },
   },
   email: {
-    maxLength: 20,
-    minLength: 2,
+    maxLength: 50,
+    minLength: 3,
     required: true,
     value: "",
     label: "Email",
-    regexp: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    // regexp: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    regexp: /@/,
     errors: {
       minLength: "min length error",
       maxLength: "max length error",
@@ -53,8 +54,8 @@ export const signUpConfig = {
     },
   },
   password: {
-    maxLength: 20,
-    minLength: 3,
+    maxLength: 50,
+    minLength: 2,
     required: true,
     label: "Password",
     value: "",
@@ -65,8 +66,8 @@ export const signUpConfig = {
     },
   },
   confirmPassword: {
-    maxLength: 20,
-    minLength: 3,
+    maxLength: 50,
+    minLength: 2,
     required: true,
     label: "Confirm password",
     confirmPassword: true,
