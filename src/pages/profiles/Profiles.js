@@ -44,7 +44,6 @@ export default function Profiles() {
   }
 
   function handleClickPoplItem(id) {
-    console.log("click", history);
     history.push(`/profiles/${id}`, userData);
   }
 

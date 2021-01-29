@@ -14,7 +14,6 @@ export const signInAction = (credo) => async (dispatch) => {
     bodyFormData.append("sPassword", credo.password);
     bodyFormData.append("sAction", "Auth");
     bodyFormData.append("ajax", 1);
-
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
       return dispatch({

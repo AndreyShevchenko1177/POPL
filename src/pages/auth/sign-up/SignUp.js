@@ -12,14 +12,123 @@ import {
   FormControl,
   IconButton,
   Typography,
-  TextField,
+  FormHelperText,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
+import Mail from "@material-ui/icons/Mail";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
-import useValidation from "../../../utils/validation";
+import getFieldValidation from "../../../utils/validateFields";
 import { signUpAction } from "../store/actions";
+
+const options = {
+  separate: true,
+  customFields: {
+    username: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>{props.label}</InputLabel>
+        <Input
+          type={"text"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+    email: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>{props.label}</InputLabel>
+        <Input
+          type={"text"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+          autoFocus
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+    password: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>{props.label}</InputLabel>
+        <Input
+          type={props.showPassword[props.name] ? "text" : "password"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => props.handleClickShowPassword(props.name)}
+              >
+                {props.showPassword[props.name] ? (
+                  <Visibility />
+                ) : (
+                  <VisibilityOff />
+                )}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+    confirmPassword: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>{props.label}</InputLabel>
+        <Input
+          type={props.showPassword[props.name] ? "text" : "password"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => props.handleClickShowPassword(props.name)}
+              >
+                {props.showPassword[props.name] ? (
+                  <Visibility />
+                ) : (
+                  <VisibilityOff />
+                )}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+  },
+};
+
+const [UserName, Email, Password, ConfirmPassword, start] = getFieldValidation(
+  signUpConfig,
+  options
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,31 +162,29 @@ function SignUp(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+  const [value, setValue] = useState({});
+  const [error, setError] = useState({});
   const signUpResult = useSelector(({ authReducer }) => authReducer.signUp);
   const signIpResult = useSelector(({ authReducer }) => authReducer.signIp);
-  const [
-    username,
-    email,
-    password,
-    confirmPassword,
-    fieldValues,
-    changeHandler,
-    startValidation,
-  ] = useValidation(signUpConfig);
 
-  function handleClickShowPassword() {
-    setShowPassword(!showPassword);
+  function handleClickShowPassword(name) {
+    setShowPassword({ ...showPassword, [name]: !showPassword[name] });
   }
 
-  const signUp = ([username, email, password, confirmPassword], error) => {
-    if (error) return;
+  const signUp = () => {
+    const error = start(value);
+    setError(error);
+    if (Object.keys(error).length) return;
     dispatch(
       signUpAction({
-        username: username.value,
-        email: email.value,
-        password: password.value,
-        confirmPassword: confirmPassword.value,
+        username: value.username.value,
+        email: value.email.value,
+        password: value.password.value,
+        confirmPassword: value.confirmPassword.value,
       })
     );
   };
@@ -121,90 +228,48 @@ function SignUp(props) {
               </Typography>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <TextField
-                fullWidth
-                label="Username"
-                type="text"
-                name="username"
-                required
-                onChange={changeHandler}
-                value={fieldValues.username.value || ""}
-                error={!!username.errors}
+              <UserName
+                value={value}
+                setValue={setValue}
+                errors={error}
+                apiError={signUpResult.error}
               />
-              <Typography variant="caption" className={classes.errorMsg}>
-                {username.errors}
-              </Typography>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <TextField
-                fullWidth
-                label="Email"
-                type="email"
-                name="email"
-                required
-                onChange={changeHandler}
-                value={fieldValues.email.value || ""}
-                error={!!email.errors}
+              <Email
+                value={value}
+                setValue={setValue}
+                errors={error}
+                apiError={signUpResult.error}
               />
-              <Typography variant="caption" className={classes.errorMsg}>
-                {email.errors}
-              </Typography>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <FormControl fullWidth>
-                <InputLabel>Password</InputLabel>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  label="Password"
-                  name="password"
-                  fullWidth
-                  className={classes.Input}
-                  error={!!password.errors}
-                  errortext={password.errors}
-                  value={fieldValues.password.value || ""}
-                  onChange={changeHandler}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+              <Password
+                value={value}
+                setValue={setValue}
+                errors={error}
+                handleClickShowPassword={handleClickShowPassword}
+                showPassword={showPassword}
+                apiError={signUpResult.error}
+              />
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              {/* <label>{confirmPassword.errors}</label> */}
-              <TextField
-                // variant="outlined"
-                type="password"
-                label="Confirm Password"
-                fullWidth
-                required
-                name="confirmPassword"
-                error={!!confirmPassword.errors}
-                errortext={confirmPassword.errors}
-                value={fieldValues.confirmPassword.value || ""}
-                onChange={changeHandler}
+              <ConfirmPassword
+                value={value}
+                setValue={setValue}
+                errors={error}
+                handleClickShowPassword={handleClickShowPassword}
+                showPassword={showPassword}
+                apiError={signUpResult.error}
               />
             </Grid>
             <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
               <Button
                 variant="contained"
                 fullWidth
-                disabled={
-                  !(
-                    fieldValues.password.value &&
-                    fieldValues.username.value &&
-                    fieldValues.email.value &&
-                    fieldValues.confirmPassword.value
-                  )
-                }
+                disabled={!Object.keys(value).length}
                 color="primary"
-                onClick={() => startValidation(signUp)}
+                onClick={signUp}
                 className={classes.loginBtn}
               >
                 Create Profile

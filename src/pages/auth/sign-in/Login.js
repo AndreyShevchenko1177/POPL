@@ -12,14 +12,73 @@ import {
   FormControl,
   IconButton,
   Typography,
+  FormHelperText,
 } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import Mail from "@material-ui/icons/Mail";
-import useValidation from "../../../utils/validation";
+import getFieldValidation from "../../../utils/validateFields";
 import { signInConfig } from "../validationConfig";
 import { signInAction } from "../store/actions";
+
+const options = {
+  separate: true,
+  customFields: {
+    username: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>Username/Email</InputLabel>
+        <Input
+          type={"text"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <Mail />
+            </InputAdornment>
+          }
+          autoFocus
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+    password: (props) => (
+      <FormControl fullWidth>
+        <InputLabel>Password</InputLabel>
+        <Input
+          type={props.showPassword ? "text" : "password"}
+          label={props.label}
+          name={props.name}
+          fullWidth={props.fullWidth}
+          error={props.error}
+          value={props.value}
+          onChange={props.onChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={props.handleClickShowPassword}
+              >
+                {props.showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormHelperText id="outlined-weight-helper-text" error={true}>
+          {props.errorText}
+        </FormHelperText>
+      </FormControl>
+    ),
+  },
+};
+
+const [UserName, Password, start] = getFieldValidation(signInConfig, options);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,30 +108,28 @@ function Login(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState({});
+  const [error, setError] = useState({});
   const result = useSelector(({ authReducer }) => authReducer.signIn);
-  const [
-    username,
-    password,
-    fieldValues,
-    changeHandler,
-    startValidation,
-  ] = useValidation(signInConfig);
 
   function handleClickShowPassword() {
     setShowPassword(!showPassword);
   }
 
-  const signIn = ([username, password], error) => {
-    if (error) return;
+  const signIn = () => {
+    const error = start(value);
+    setError(error);
+    if (Object.keys(error).length) return;
     dispatch(
       signInAction({
-        username: username.value,
-        password: password.value,
+        username: value.username.value,
+        password: value.password.value,
       })
     );
   };
 
   useEffect(() => {
+    console.log(result);
     if (result.data) history.push("/");
   }, [result]);
 
@@ -107,67 +164,32 @@ function Login(props) {
               <Typography variant="h3">Login</Typography>
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align="center">
-              <FormControl fullWidth>
-                <InputLabel>Username/Email</InputLabel>
-                <Input
-                  fullWidth
-                  type="text"
-                  label="Username/Email"
-                  name="username"
-                  value={fieldValues.username.value || ""}
-                  error={!!username.errors}
-                  errortext={username.errors}
-                  onChange={changeHandler}
-                  endAdornment={
-                    <InputAdornment
-                      position="end"
-                      className={classes.adornment}
-                    >
-                      <Mail />
-                    </InputAdornment>
-                  }
-                  autoFocus
-                  className={classes.Input}
-                />
-              </FormControl>
+              <UserName
+                value={value}
+                setValue={setValue}
+                errors={error}
+                apiError={result.error}
+              />
             </Grid>
             <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align="center">
-              <FormControl fullWidth>
-                <InputLabel>Password</InputLabel>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  label="Password"
-                  name="password"
-                  fullWidth
-                  className={classes.Input}
-                  error={!!password.errors}
-                  errortext={password.errors}
-                  value={fieldValues.password.value || ""}
-                  onChange={changeHandler}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+              <Password
+                value={value}
+                setValue={setValue}
+                errors={error}
+                handleClickShowPassword={handleClickShowPassword}
+                showPassword={showPassword}
+                apiError={result.error}
+              />
             </Grid>
             <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
               <Button
                 variant="contained"
                 fullWidth
-                disabled={
-                  !(fieldValues.password.value && fieldValues.username.value)
-                }
+                disabled={!Object.keys(value).length}
                 color="primary"
                 type="submit"
                 className={classes.loginBtn}
-                onClick={() => startValidation(signIn)}
+                onClick={signIn}
               >
                 Submit
               </Button>

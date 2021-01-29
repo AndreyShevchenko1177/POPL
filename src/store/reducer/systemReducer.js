@@ -1,7 +1,13 @@
-import { PROFILE_DATA } from "../actionTypes";
+import { PROFILE_DATA, ALERT } from "../actionTypes";
 
 const initialState = {
   profileData: {},
+  alert: {
+    message: "",
+    duration: 6000,
+    severity: "",
+    open: false,
+  },
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -10,6 +16,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         profileData: payload,
+      };
+    }
+    case ALERT: {
+      return {
+        ...state,
+        alert: payload,
       };
     }
     default:

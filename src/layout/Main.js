@@ -6,6 +6,7 @@ import { getHeader } from "../utils";
 // import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import CSnackbar from "../components/SnackBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +26,10 @@ export default function Main({ children }) {
   const { pathname } = useLocation();
 
   const headerTitle = getHeader(pathname);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <CSnackbar />
       <Sidebar />
       <main className={classes.content}>{children}</main>
     </div>

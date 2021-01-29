@@ -1,6 +1,6 @@
 import React from "react";
-import Main from "../layout/Main";
 import { Redirect, Route } from "react-router-dom";
+import Main from "../layout/Main";
 
 export default function PrivateRoute(props) {
   const { children, path, isLoggedIn, ...rest } = props;
