@@ -146,10 +146,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: 30,
   },
-  loginBtn: { margin: `30px 0`, width: "50%" },
+  loginBtn: { margin: "30px 0", width: "50%" },
   adornment: {
     padding: 12,
-    color: `rgba(0,0,0,0.54)`,
+    color: "rgba(0,0,0,0.54)",
   },
   errorMsg: {
     color: "#FF0000",

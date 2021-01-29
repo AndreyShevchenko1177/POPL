@@ -1,5 +1,6 @@
 import axios from "axios";
 import mockData from "./mockData";
+import { snackBarAction } from "../../../../store/actions";
 
 import {
   GET_PROFILES_SUCCESS,
@@ -54,6 +55,15 @@ export const addPoplAction = (proplData) => async (dispatch, getState) => {
       type: ADD_PROFILES_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
 
@@ -79,5 +89,14 @@ export const editPoplAction = (proplData) => async (dispatch, getState) => {
       type: EDIT_PROFILES_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };

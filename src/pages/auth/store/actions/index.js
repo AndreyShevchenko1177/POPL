@@ -6,6 +6,7 @@ import {
   SIGN_UP_FAIL,
   LOGOUT,
 } from "../actionTypes";
+import { snackBarAction } from "../../../../store/actions";
 
 export const signInAction = (credo) => async (dispatch) => {
   try {
@@ -31,6 +32,15 @@ export const signInAction = (credo) => async (dispatch) => {
       type: SIGN_IN_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
 
@@ -61,6 +71,15 @@ export const signUpAction = (credo) => async (dispatch) => {
       type: SIGN_UP_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
 

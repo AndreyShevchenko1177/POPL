@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
   },
 
-  saveBtn: { padding: `8px 16px`, width: "150px" },
+  saveBtn: { padding: "8px 16px", width: "150px" },
 }));
 
 export default function PoplForm(props) {

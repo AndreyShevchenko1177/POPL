@@ -39,6 +39,15 @@ export const getPoplsAction = () => async (dispatch) => {
       type: GET_POPLS_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
 
@@ -65,6 +74,14 @@ export const addPoplAction = (body) => async (dispatch) => {
       );
     }
     dispatch(getPoplsAction());
+    dispatch(
+      snackBarAction({
+        message: "Popl added successfully",
+        severity: "success",
+        duration: 3000,
+        open: true,
+      })
+    );
     return dispatch({
       type: ADD_POPLS_SUCCESS,
       payload: "success",
@@ -74,6 +91,15 @@ export const addPoplAction = (body) => async (dispatch) => {
       type: ADD_POPLS_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
 
@@ -101,6 +127,14 @@ export const editPoplAction = (body) => async (dispatch) => {
       );
     }
     dispatch(getPoplsAction());
+    dispatch(
+      snackBarAction({
+        message: "Popl updated successfully",
+        severity: "success",
+        duration: 3000,
+        open: true,
+      })
+    );
     return dispatch({
       type: EDIT_POPLS_SUCCESS,
       payload: "success",
@@ -110,5 +144,14 @@ export const editPoplAction = (body) => async (dispatch) => {
       type: EDIT_POPLS_FAIL,
       payload: error,
     });
+
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      })
+    );
   }
 };
