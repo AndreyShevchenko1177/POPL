@@ -39,7 +39,11 @@ function PoplsItem() {
   }, [isOpenForm]);
   return (
     <>
-      <Header rootLink="Profiles" firstChild={location.state.name} />
+      <Header
+        rootLink="Profiles"
+        firstChild={location.state.name}
+        path="/profiles"
+      />
       <div className="relative main-padding popls-page-container">
         <div className="popls-header-container">
           <Button
