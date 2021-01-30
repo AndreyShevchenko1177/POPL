@@ -53,11 +53,20 @@ export default makeStyles((theme) => ({
       "border-image-slice": 1,
     },
   },
+  ulListHighLight: {
+    backgroundColor: "#f9f9f9",
+  },
   listText: {
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     letterSpacing: "1.5px",
     color: "#f9f9f9",
+  },
+  listTextHighLight: {
+    color: "#3a3a3a",
+    fontFamily: "AvenirNextCyr",
+    fontSize: "16px",
+    letterSpacing: "1.5px",
   },
   listItemIcon: {
     minWidth: "40px",

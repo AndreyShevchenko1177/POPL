@@ -11,6 +11,7 @@ import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
 import PoplsItem from "./pages/popls";
 import SignUp from "./pages/auth/sign-up";
+import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 
@@ -44,8 +45,11 @@ export default function App() {
         <PrivateRoute path="/analytics" isLoggedIn={profileData?.id}>
           <Analytics />
         </PrivateRoute>
+        <PrivateRoute path="/settings" isLoggedIn={profileData?.id}>
+          <div>Settings</div>
+        </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
-          <Home />
+          <Dashboard />
         </PrivateRoute>
         <Route path="*">
           <div>Not found</div>
