@@ -32,7 +32,8 @@ export default function PoplCard({ name }) {
           <Button
             variant="contained"
             color="primary"
-            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            size="small"
+            classes={{ root: classes.button }}
             startIcon={<EqualizerIcon />}
             // onClick={handleOpen}
           >

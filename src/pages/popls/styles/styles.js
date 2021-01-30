@@ -7,4 +7,15 @@ export default makeStyles((theme) => ({
     marginRight: "10px",
     padding: "5px",
   },
+  button: {
+    height: "50px",
+    minWidth: "150px",
+    fontFamily: "AvenirNextCyr",
+    fontSize: "13px",
+  },
+  addIcon: {
+    "& > *:first-child": {
+      fontSize: 32,
+    },
+  },
 }));

@@ -1,53 +1,32 @@
 import React from "react";
+import { Paper, makeStyles, Typography } from "@material-ui/core";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
-export default function Header() {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: "fixed",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px 20px",
+    width: "100%",
+    height: "70px",
+  },
+  arrowIcon: {
+    fontSize: "20px",
+    color: "#565956",
+    margin: "0 10px",
+  },
+}));
+
+function Header({ rootLink, firstChild }) {
+  const classes = useStyles();
   return (
-    <>
-      <div className="row">
-        <div className="col-md-12 pl-0">
-          <h1 className="poplhead1">POPLS</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-1 p-0">
-          <div className="checkboxpopl1">
-            <label className="container">
-              <input
-                id="inbox0"
-                className="custom-control-input"
-                type="checkbox"
-              />
-              <label
-                htmlFor="inbox0"
-                className="custom-control-label sentCheck12 d-flex"
-              >
-                <i className="fa fa-angle-down" aria-hidden="true" />
-              </label>
-            </label>
-          </div>
-        </div>
-        <div className="col-md-8">
-          <div className="poplsearchBox">
-            <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control searchRight"
-                placeholder="Search here....."
-              />
-              <div className="input-group-append searchRight1">
-                <button className="btn " type="submit">
-                  <i className="fa fa-search" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3 pr-0">
-          <button className="btn addnewpoplbtn">
-            <i className="fa fa-plus-circle" aria-hidden="true" /> Add New Popl
-          </button>
-        </div>
-      </div>
-    </>
+    <Paper className={classes.root}>
+      <Typography variant="body1">{rootLink}</Typography>
+      <ArrowForwardIosIcon className={classes.arrowIcon} />
+      <Typography variant="h5">{firstChild}</Typography>
+    </Paper>
   );
 }
+
+export default Header;

@@ -35,3 +35,11 @@ a {
 .relative {
   position: relative;
 }
+
+.main-padding {
+  padding: 24px 40px;
+}
+
+.full-w {
+  width: 100%;
+}

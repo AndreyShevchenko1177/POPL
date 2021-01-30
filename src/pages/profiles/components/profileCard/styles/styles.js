@@ -56,6 +56,7 @@ export default makeStyles((theme) => ({
   section1_avatar: {
     width: "100%",
     display: "flex",
+    alignItems: "center",
     justifyContent: "space-between",
   },
   wrapper: {

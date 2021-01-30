@@ -16,7 +16,7 @@ import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../poplsIcons";
 import DragDots from "../dragDots";
 
-export default function Card({ heading, types, src, name, mockData, id }) {
+export default function Card({ heading, types, src, name, bio }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState(false);
 
@@ -35,10 +35,15 @@ export default function Card({ heading, types, src, name, mockData, id }) {
             <Typography variant="h5">{heading}</Typography>
           </div>
           <div className={classes.section1_avatar}>
-            <Avatar src={src} name={name} styles={{ paddingRight: "20px" }} />
+            <Avatar
+              src={src}
+              name={name}
+              styles={{ paddingRight: "20px", width: "70px", height: "70px" }}
+            />
             <Checkbox
               color="primary"
               inputProps={{ "aria-label": "primary checkbox" }}
+              style={{ width: "40px", height: "40px" }}
             />
           </div>
         </div>
@@ -71,14 +76,7 @@ export default function Card({ heading, types, src, name, mockData, id }) {
             </div>
           </div>
           <div className={classes.section3}>
-            <div className={classes.section3_text}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dictum
-            </div>
+            <div className={classes.section3_text}>{bio}</div>
           </div>
           <div className={classes.section4}>
             <SocialPoplsIcons style={classes.iconsItem} mockData={types} />

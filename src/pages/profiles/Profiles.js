@@ -14,7 +14,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import PoplCard from "./components/poplCard";
+import ProfileCard from "./components/profileCard";
 import PoplForm from "./components/addEditPopl";
 import useStyles from "./styles/styles";
 
@@ -70,7 +70,7 @@ export default function Profiles() {
   }, [userData]);
 
   return (
-    <div className="profiles-page-container">
+    <div className="profiles-page-container main-padding">
       <Grid container alignItems="center">
         <div className={classes.searchContainer}>
           <div className={classes.checkbox}>
@@ -107,7 +107,11 @@ export default function Profiles() {
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="list">
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
+              <div
+                className="full-w"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {profiles.map((el, index) => (
                   <Draggable key={el.id} draggableId={`${el.id}`} index={index}>
                     {(provided) => (
@@ -119,12 +123,13 @@ export default function Profiles() {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <PoplCard
+                        <ProfileCard
                           id={el.id}
                           heading={el.name}
                           src={el.logo}
                           name={el.name}
                           types={el.types}
+                          bio={el.bio}
                         />
                       </div>
                     )}

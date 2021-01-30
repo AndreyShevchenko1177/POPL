@@ -8,19 +8,19 @@ import mockData from "./mockData";
 export default function Dashboard(props) {
   const classes = useStyles();
   return (
-    <div>
+    <div className="main-padding">
       <h2>Dashboard</h2>
       <h3>Latest popls </h3>
       <div className={classes.container}>
         <div className={classes.popl_container}>
           <PoplCard name="Popl1" />
         </div>
-        <div className={classes.popl_container}>
+        {/* <div className={classes.popl_container}>
           <PoplCard name="Popl2" />
         </div>
         <div className={classes.popl_container}>
           <PoplCard name="Popl3" />
-        </div>
+        </div> */}
       </div>
       <div className={classes.chart_container}>
         <h3>Overall Scan Statistics</h3>

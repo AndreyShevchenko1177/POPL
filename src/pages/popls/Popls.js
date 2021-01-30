@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Paper, Button, Dialog, DialogContent } from "@material-ui/core";
+import { Button, Dialog, DialogContent } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import Header from "../../components/Header";
 import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
 import PoplForm from "./components/poplForm";
+import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
 
@@ -34,51 +37,41 @@ function PoplsItem() {
       dispatch(clearEditPopl());
     }
   }, [isOpenForm]);
-
   return (
-    <div className="relative">
-      <div className="popls-header-container">
-        <h2>{location.state.name} popls</h2>
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          onClick={() => handleOpenForm()}
+    <>
+      <Header rootLink="Profiles" firstChild={location.state.name} />
+      <div className="relative main-padding popls-page-container">
+        <div className="popls-header-container">
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            startIcon={<AddIcon />}
+            onClick={handleOpenForm}
+          >
+            Add Popl
+          </Button>
+        </div>
+        <div className="popls-container">
+          {popls.map((popl) => (
+            <PoplCard key={popl.id} popl={popl} editAction={handleOpenForm} />
+          ))}
+        </div>
+        <Dialog
+          open={isOpenForm}
+          onClose={() => setIsOpenForm(false)}
+          maxWidth="md"
         >
-          Add Popl
-        </Button>
+          <DialogContent>
+            <PoplForm
+              setIsOpenForm={setIsOpenForm}
+              mid={location.state.id}
+              popl={currentPopl}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
-      <div className="popls-container">
-        {popls.map((popl) => (
-          <Paper className={classes.poplCard} key={popl.id}>
-            <p>Name: {popl.name}</p>
-            <p>Url: {popl.url}</p>
-            <Button
-              size="small"
-              style={{ marginRight: "10px" }}
-              color="primary"
-              variant="contained"
-              onClick={() => handleOpenForm(popl)}
-            >
-              Edit
-            </Button>
-          </Paper>
-        ))}
-      </div>
-      <Dialog
-        open={isOpenForm}
-        onClose={() => setIsOpenForm(false)}
-        maxWidth="md"
-      >
-        <DialogContent>
-          <PoplForm
-            setIsOpenForm={setIsOpenForm}
-            mid={location.state.id}
-            popl={currentPopl}
-          />
-        </DialogContent>
-      </Dialog>
-    </div>
+    </>
   );
 }
 

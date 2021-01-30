@@ -53,6 +53,11 @@ let theme = createMuiTheme({
         fontFamily: "AvenirNextCyr",
         fontSize: "20px !important",
       },
+      body1: {
+        fontWeight: "200",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "20px !important",
+      },
     },
     MuiListItemIcon: {
       root: {

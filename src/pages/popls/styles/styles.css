@@ -1,5 +1,11 @@
+.popls-page-container {
+  padding-top: 100px;
+}
+
 .popls-container {
   display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 .popls-header-container {
   display: flex;

@@ -22,7 +22,7 @@
     "no-shadow": "off",
     "max-len": [
       "error",
-      200
+      500
     ],
     "quotes": ["error", "double"],
     "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
