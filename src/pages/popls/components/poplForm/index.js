@@ -81,6 +81,8 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
     }
   }, [editPopl]);
 
+  console.log(isAdd);
+
   return (
     <Paper className={classes.container}>
       <TextField

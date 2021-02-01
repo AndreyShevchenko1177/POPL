@@ -37,6 +37,7 @@ function PoplsItem() {
       dispatch(clearEditPopl());
     }
   }, [isOpenForm]);
+
   return (
     <>
       <Header
@@ -51,7 +52,7 @@ function PoplsItem() {
             color="primary"
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
             startIcon={<AddIcon />}
-            onClick={handleOpenForm}
+            onClick={() => handleOpenForm()}
           >
             Add Popl
           </Button>
