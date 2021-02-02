@@ -15,10 +15,13 @@ import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../poplsIcons";
 import DragDots from "../dragDots";
+import userIcon from "../../../../assets/svg/user.svg";
+import { imagesExtensions } from "../../../../constants";
 
 export default function Card({ heading, types, src, name, bio }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState(false);
+  const extension = src.split(".");
 
   const handleSwitchChanger = (event) => {
     setDirectOn(!directOn);
@@ -36,7 +39,11 @@ export default function Card({ heading, types, src, name, bio }) {
           </div>
           <div className={classes.section1_avatar}>
             <Avatar
-              src={src}
+              src={
+                imagesExtensions.includes(extension[extension.length - 1])
+                  ? src
+                  : userIcon
+              }
               name={name}
               styles={{ paddingRight: "20px", width: "70px", height: "70px" }}
             />
