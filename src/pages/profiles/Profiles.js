@@ -116,7 +116,7 @@ export default function Profiles() {
                   <Draggable key={el.id} draggableId={`${el.id}`} index={index}>
                     {(provided) => (
                       <div
-                        onClick={() => handleClickPoplItem(el.id)}
+                        // onClick={() => handleClickPoplItem(el.id)}
                         draggable="true"
                         className={classes.container}
                         ref={provided.innerRef}
@@ -130,6 +130,7 @@ export default function Profiles() {
                           name={el.name}
                           types={el.types}
                           bio={el.bio}
+                          handleClickPoplItem={() => handleClickPoplItem(el.id)}
                         />
                       </div>
                     )}

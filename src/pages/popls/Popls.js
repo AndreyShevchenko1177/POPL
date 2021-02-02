@@ -9,6 +9,7 @@ import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
+import CButton from "../../components/CButton";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -47,15 +48,15 @@ function PoplsItem() {
       />
       <div className="relative main-padding popls-page-container">
         <div className="popls-header-container">
-          <Button
+          <CButton
             variant="contained"
             color="primary"
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
             startIcon={<AddIcon />}
-            onClick={() => handleOpenForm()}
+            cb={() => handleOpenForm()}
           >
             Add Popl
-          </Button>
+          </CButton>
         </div>
         <div className="popls-container">
           {popls.map((popl) => (

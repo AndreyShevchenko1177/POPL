@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
@@ -7,6 +7,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import "./styles/styles.css";
+import CButton from "../../../../components/CButton";
 
 function PoplCard({ popl, editAction }) {
   const classes = useStyles();
@@ -47,16 +48,16 @@ function PoplCard({ popl, editAction }) {
         </table>
       </div>
       <div className="popls-page-popl-card-buttons-container">
-        <Button
+        <CButton
           variant="outlined"
           size="small"
           startIcon={<EditIcon />}
           className={classes.button}
-          onClick={() => editAction(popl)}
+          cb={() => editAction(popl)}
         >
           Edit
-        </Button>
-        <Button
+        </CButton>
+        <CButton
           variant="outlined"
           size="small"
           color="primary"
@@ -64,10 +65,22 @@ function PoplCard({ popl, editAction }) {
           className={classes.button}
         >
           Statistics
-        </Button>
+        </CButton>
         <div className="popls-page-popl-card-buttons-container-icons-container">
-          <FileCopyIcon className={classes.bottomIcons} />
-          <DeleteOutlineIcon className={classes.bottomIcons} />
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <FileCopyIcon />
+          </IconButton>
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <DeleteOutlineIcon />
+          </IconButton>
         </div>
       </div>
     </Paper>

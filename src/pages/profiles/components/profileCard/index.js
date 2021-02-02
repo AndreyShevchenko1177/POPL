@@ -17,8 +17,16 @@ import SocialPoplsIcons from "../poplsIcons";
 import DragDots from "../dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
+import ProfilePanel from "./controlProfilePanel";
 
-export default function Card({ heading, types, src, name, bio }) {
+export default function Card({
+  heading,
+  types,
+  src,
+  name,
+  bio,
+  handleClickPoplItem,
+}) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState(false);
   const extension = src.split(".");
@@ -45,7 +53,7 @@ export default function Card({ heading, types, src, name, bio }) {
                   : userIcon
               }
               name={name}
-              styles={{ paddingRight: "20px", width: "70px", height: "70px" }}
+              styles={{ paddingRight: "20px", width: "90px", height: "70px" }}
             />
             <Checkbox
               color="primary"
@@ -73,28 +81,17 @@ export default function Card({ heading, types, src, name, bio }) {
                 />
               </FormGroup>
             </div>
-            <div>
-              <IconButton aria-label="edit" className={classes.section2_icon}>
-                <EditIcon style={{ width: "20px" }} />
-              </IconButton>
-              <IconButton aria-label="dots" className={classes.section2_icon}>
-                <MoreHorizIcon style={{ width: "20px" }} />
-              </IconButton>
-            </div>
           </div>
           <div className={classes.section3}>
             <div className={classes.section3_text}>{bio}</div>
           </div>
           <div className={classes.section4}>
-            <SocialPoplsIcons style={classes.iconsItem} mockData={types} />
+            <SocialPoplsIcons style={classes.iconItem} mockData={types} />
           </div>
-          <div className={classes.section5}>
-            <div>
-              <span>View more</span>
-              <IconButton aria-label="arrow" style={{ padding: "2px" }}>
-                <ArrowRightIcon />
-              </IconButton>
-            </div>
+        </div>
+        <div className={classes.section5}>
+          <div className={classes.buttonsContainer}>
+            <ProfilePanel handleClickPoplItem={handleClickPoplItem} />
           </div>
         </div>
       </Paper>

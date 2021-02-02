@@ -35,4 +35,5 @@
 
 .popls-page-popl-card-buttons-container-icons-container {
   display: flex;
+  justify-content: space-evenly;
 }

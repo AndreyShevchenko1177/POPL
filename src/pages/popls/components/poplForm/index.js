@@ -5,6 +5,7 @@ import { editPoplAction, addPoplAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles/style";
 import "./styles/styles.css";
+import CButton from "../../../../components/CButton";
 
 function PoplForm({ popl, setIsOpenForm, mid }) {
   const classes = useStyles();
@@ -104,16 +105,16 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         onChange={handleChage}
       />
       <div className="popl-form-buttons-container">
-        <Button color="primary" variant="contained" onClick={handleSubmit}>
+        <CButton color="primary" variant="contained" cb={handleSubmit}>
           Submit
-        </Button>
-        <Button
+        </CButton>
+        <CButton
           color="primary"
           variant="contained"
-          onClick={() => setIsOpenForm(false)}
+          cb={() => setIsOpenForm(false)}
         >
           Cancel
-        </Button>
+        </CButton>
       </div>
     </Paper>
   );

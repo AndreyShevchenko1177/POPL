@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     display: "flex",
-    padding: "50px 20px 30px 40px",
+    // padding: "50px 20px 30px 40px",
     borderRadius: 4,
     width: "100%",
   },
@@ -47,10 +47,12 @@ export default makeStyles((theme) => ({
   },
   section1: {
     display: "flex",
+    padding: "50px 20px 30px 40px",
     flexDirection: "column",
-    paddingRight: "20px",
+    // paddingRight: "20px",
   },
   section1_title: {
+    minHeight: "75px",
     paddingBottom: "50px",
   },
   section1_avatar: {
@@ -61,6 +63,7 @@ export default makeStyles((theme) => ({
   },
   wrapper: {
     width: "100%",
+    padding: "50px 0px 30px 0px",
   },
   section2: {
     width: "100%",
@@ -76,6 +79,7 @@ export default makeStyles((theme) => ({
   },
   section3: {
     paddingBottom: "35px",
+    height: "100px",
   },
   section3_text: {
     color: "#666666",
@@ -85,20 +89,28 @@ export default makeStyles((theme) => ({
   section4: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-between",
-    paddingBottom: "35px",
+    justifyContent: "start",
     flexWrap: "wrap",
   },
   section5: {
     display: "flex",
-    justifyContent: "flex-end",
-    fontWeight: "700",
-    color: "#4f4f4f",
+    flexDirection: "column",
+    padding: "50px 40px 30px 40px",
+    backgroundColor: "#e8ede8",
   },
   iconItem: {
     width: "60px",
     display: "flex",
+    marginRight: "15px",
+    marginBottom: "10px",
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonsContainer: {
+    display: "flex",
+    height: "100%",
+    width: "125px",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
   },
 }));
