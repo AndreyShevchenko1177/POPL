@@ -3,14 +3,10 @@ import {
   Paper,
   Typography,
   FormControlLabel,
-  IconButton,
   FormGroup,
 } from "@material-ui/core";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import EditIcon from "@material-ui/icons/Edit";
 import Switch from "@material-ui/core/Switch";
 import Checkbox from "@material-ui/core/Checkbox";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../poplsIcons";
@@ -28,11 +24,17 @@ export default function Card({
   handleClickPoplItem,
 }) {
   const classes = useStyles();
-  const [directOn, setDirectOn] = useState(false);
+  const [directOn, setDirectOn] = useState({
+    direct: false,
+    text: "Direct Off",
+  });
   const extension = src.split(".");
 
   const handleSwitchChanger = (event) => {
-    setDirectOn(!directOn);
+    setDirectOn({
+      direct: !directOn.direct,
+      text: !directOn.direct ? "Direct On" : "Direct Off",
+    });
   };
 
   return (
@@ -42,9 +44,9 @@ export default function Card({
       <DragDots position="right" />
       <Paper elevation={1} className={classes.root}>
         <div className={classes.section1}>
-          <div className={classes.section1_title}>
+          {/* <div className={classes.section1_title}>
             <Typography variant="h5">{heading}</Typography>
-          </div>
+          </div> */}
           <div className={classes.section1_avatar}>
             <Avatar
               src={
@@ -53,7 +55,7 @@ export default function Card({
                   : userIcon
               }
               name={name}
-              styles={{ paddingRight: "20px", width: "90px", height: "70px" }}
+              styles={{ width: "70px", height: "70px" }}
             />
             <Checkbox
               color="primary"
@@ -63,27 +65,14 @@ export default function Card({
           </div>
         </div>
         <div className={classes.wrapper}>
-          <div className={classes.section2}>
-            <div>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      size="medium"
-                      color="primary"
-                      checked={directOn}
-                      onChange={handleSwitchChanger}
-                    />
-                  }
-                  label="Direct Off"
-                  labelPlacement="start"
-                  style={{ marginLeft: "0px", fontWeight: "500" }}
-                />
-              </FormGroup>
-            </div>
+          <div className={classes.section1_title}>
+            <Typography variant="h5">{heading}</Typography>
           </div>
           <div className={classes.section3}>
-            <div className={classes.section3_text}>{bio}</div>
+            <div className={classes.section3_text}>
+              {bio ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat "}
+            </div>
           </div>
           <div className={classes.section4}>
             <SocialPoplsIcons style={classes.iconItem} mockData={types} />
@@ -91,7 +80,12 @@ export default function Card({
         </div>
         <div className={classes.section5}>
           <div className={classes.buttonsContainer}>
-            <ProfilePanel handleClickPoplItem={handleClickPoplItem} />
+            <ProfilePanel
+              handleClickPoplItem={handleClickPoplItem}
+              handleSwitchChanger={handleSwitchChanger}
+              directOn={directOn}
+              section2={classes.section2}
+            />
           </div>
         </div>
       </Paper>

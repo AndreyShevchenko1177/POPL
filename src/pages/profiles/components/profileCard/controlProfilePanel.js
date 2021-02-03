@@ -1,50 +1,94 @@
 import React from "react";
+import { Grid, FormGroup, FormControlLabel, Switch } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import CButton from "../../../../components/CButton";
 
-function ProfilePanel({ handleClickPoplItem }) {
+function ProfilePanel({
+  handleClickPoplItem,
+  handleSwitchChanger,
+  directOn,
+  section2,
+}) {
   return (
-    <>
-      <CButton
-        variant="outlined"
-        size="small"
-        startIcon={<EditIcon />}
-        // className={classes.button}
-        cb={() => console.log("edit")}
-      >
-        Edit
-      </CButton>
-      <CButton
-        variant="outlined"
-        size="small"
-        color="primary"
-        startIcon={<EqualizerIcon />}
-        cb={() => console.log("Statistics")}
-      >
-        Statistics
-      </CButton>
-      <CButton
-        variant="outlined"
-        size="small"
-        color="primary"
-        startIcon={<VisibilityIcon />}
-        cb={handleClickPoplItem}
-      >
-        Popls
-      </CButton>
-      <CButton
-        variant="outlined"
-        size="small"
-        color="primary"
-        startIcon={<ArrowRightIcon />}
-        cb={() => console.log("View More")}
-      >
-        View More
-      </CButton>
-    </>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <div className={section2}>
+          <div>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    size="medium"
+                    color="primary"
+                    checked={directOn.direct}
+                    onChange={handleSwitchChanger}
+                  />
+                }
+                label={directOn.text}
+                labelPlacement="start"
+                style={{
+                  marginLeft: "0px",
+                  fontWeight: "500",
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                }}
+              />
+            </FormGroup>
+          </div>
+        </div>
+      </Grid>
+      <Grid item xs={12}>
+        <CButton
+          fullWidth
+          variant="outlined"
+          size="small"
+          startIcon={<EditIcon />}
+          // className={classes.button}
+          cb={() => console.log("edit")}
+        >
+          Edit
+        </CButton>
+      </Grid>
+      <Grid item xs={12}>
+        <CButton
+          fullWidth
+          variant="outlined"
+          size="small"
+          color="primary"
+          startIcon={<EqualizerIcon />}
+          cb={() => console.log("Statistics")}
+        >
+          Analytics
+        </CButton>
+      </Grid>
+      <Grid item xs={12}>
+        <CButton
+          fullWidth
+          variant="outlined"
+          size="small"
+          color="primary"
+          startIcon={<VisibilityIcon />}
+          cb={handleClickPoplItem}
+        >
+          Popls
+        </CButton>
+      </Grid>
+      <Grid item xs={12}>
+        <CButton
+          fullWidth
+          variant="outlined"
+          size="small"
+          color="primary"
+          startIcon={<ArrowRightIcon />}
+          cb={() => console.log("View More")}
+        >
+          View More
+        </CButton>
+      </Grid>
+    </Grid>
   );
 }
 

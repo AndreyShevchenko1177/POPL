@@ -37,7 +37,7 @@ export default function PoplCard({ name }) {
             startIcon={<EqualizerIcon />}
             // onClick={handleOpen}
           >
-            Statistics
+            Analytics
           </Button>
         </div>
       </div>

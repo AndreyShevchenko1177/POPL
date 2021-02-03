@@ -53,23 +53,25 @@ export default makeStyles((theme) => ({
   },
   section1_title: {
     minHeight: "75px",
-    paddingBottom: "50px",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   section1_avatar: {
     width: "100%",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   wrapper: {
     width: "100%",
-    padding: "50px 0px 30px 0px",
+    padding: "50px 10px 30px 10px",
   },
   section2: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-between",
-    paddingBottom: "35px",
+    justifyContent: "center",
   },
   section2_icon: {
     backgroundColor: "#f1f4f6",
@@ -78,12 +80,12 @@ export default makeStyles((theme) => ({
     height: "32px",
   },
   section3: {
-    paddingBottom: "35px",
     height: "100px",
+    padding: "4px 0px 20px 0px",
   },
   section3_text: {
     color: "#666666",
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: "AvenirNextCyr",
   },
   section4: {
@@ -100,11 +102,8 @@ export default makeStyles((theme) => ({
   },
   iconItem: {
     width: "60px",
-    display: "flex",
     marginRight: "15px",
     marginBottom: "10px",
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonsContainer: {
     display: "flex",

@@ -10,12 +10,14 @@ function CButton({
   cb,
   children,
   classes,
+  fullWidth,
 }) {
   return (
     <Button
       color={color}
       variant={variant}
       size={size}
+      fullWidth={fullWidth}
       startIcon={startIcon}
       className={className}
       classes={classes}

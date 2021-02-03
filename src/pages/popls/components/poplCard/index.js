@@ -64,7 +64,7 @@ function PoplCard({ popl, editAction }) {
           startIcon={<EqualizerIcon />}
           className={classes.button}
         >
-          Statistics
+          Analytics
         </CButton>
         <div className="popls-page-popl-card-buttons-container-icons-container">
           <IconButton
