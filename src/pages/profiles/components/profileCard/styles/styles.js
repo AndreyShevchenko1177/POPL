@@ -80,7 +80,7 @@ export default makeStyles((theme) => ({
     height: "32px",
   },
   section3: {
-    height: "100px",
+    minHeight: "100px",
     padding: "4px 0px 20px 0px",
   },
   section3_text: {
