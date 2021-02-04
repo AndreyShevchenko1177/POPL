@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     marginBottom: "10px",
     display: "flex",
+    alignItems: "center",
   },
   button: {
     marginBottom: "10px",

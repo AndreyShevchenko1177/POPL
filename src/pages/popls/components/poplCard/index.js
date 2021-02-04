@@ -5,7 +5,7 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import useStyles from "./styles/styles";
-import userIcon from "../../../../assets/svg/user.svg";
+import userIcon from "../../../../assets/images/poplIcon.png";
 import "./styles/styles.css";
 import CButton from "../../../../components/CButton";
 
