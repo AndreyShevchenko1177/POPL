@@ -3,7 +3,7 @@ import { Paper, Typography } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
-import SocialPoplsIcons from "../poplsIcons";
+import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
