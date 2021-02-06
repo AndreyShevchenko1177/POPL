@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import LaunchIcon from "@material-ui/icons/Launch";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
-import user from "../../../assets/svg/user.svg";
+import poplIcon from "../../../assets/images/poplIcon.png";
 import useStyles from "./styles/style";
 
 export default function PoplCard({ name }) {
@@ -13,7 +13,7 @@ export default function PoplCard({ name }) {
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.header_icon}>
-            <img className={classes.userIcon} alt="user" src={user} />
+            <img className={classes.userIcon} alt="popl" src={poplIcon} />
           </div>
           <div className={classes.header_body}>
             <span>{name}</span>

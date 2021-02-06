@@ -22,6 +22,11 @@ export default makeStyles((theme) => ({
     borderBottom: "0.5px solid grey",
     paddingBottom: "10px",
   },
+  userIcon: {
+    width: "200px",
+    height: "200px",
+    borderRadius: "50%",
+  },
   header_body: {
     padding: "10px",
   },

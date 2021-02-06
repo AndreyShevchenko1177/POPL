@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Dialog, DialogContent } from "@material-ui/core";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Header from "../../components/Header";
 import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
@@ -10,6 +11,7 @@ import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import CButton from "../../components/CButton";
+import SearchStripe from "../../components/searchStripe";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ function PoplsItem() {
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
+  const [dragablePopls, setPopls] = useState([]);
 
   const handleOpenForm = (popl) => {
     if (popl) {
@@ -26,6 +29,16 @@ function PoplsItem() {
       setCurrentPopl();
     }
     setIsOpenForm(true);
+  };
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = [...dragablePopls];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setPopls(items);
   };
 
   useEffect(() => {
@@ -39,6 +52,10 @@ function PoplsItem() {
     }
   }, [isOpenForm]);
 
+  useEffect(() => {
+    setPopls(popls);
+  }, [popls]);
+
   return (
     <>
       <Header
@@ -48,21 +65,43 @@ function PoplsItem() {
       />
       <div className="relative main-padding popls-page-container">
         <div className="popls-header-container">
-          <CButton
-            variant="contained"
-            color="primary"
-            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-            startIcon={<AddIcon />}
-            cb={() => handleOpenForm()}
-          >
-            Add Popl
-          </CButton>
+          <SearchStripe handleOpen={handleOpenForm} btn_title="Add Popl" />
         </div>
-        <div className="popls-container">
-          {popls.map((popl) => (
-            <PoplCard key={popl.id} popl={popl} editAction={handleOpenForm} />
-          ))}
-        </div>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="list">
+            {(provided) => (
+              <div
+                className="popls-container"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {dragablePopls.map((popl, index) => (
+                  <Draggable
+                    key={popl.id}
+                    draggableId={`${popl.id}`}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <Paper
+                        className={classes.poplContainer}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <PoplCard
+                          key={popl.id}
+                          popl={popl}
+                          editAction={handleOpenForm}
+                        />
+                      </Paper>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         <Dialog
           open={isOpenForm}
           onClose={() => setIsOpenForm(false)}

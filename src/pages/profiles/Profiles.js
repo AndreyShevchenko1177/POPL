@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ProfileCard from "./components/profileCard";
 import PoplForm from "./components/addEditPopl";
+import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 
 export default function Profiles() {
@@ -72,38 +73,7 @@ export default function Profiles() {
   return (
     <div className="profiles-page-container main-padding">
       <Grid container alignItems="center">
-        <div className={classes.searchContainer}>
-          <div className={classes.checkbox}>
-            <Checkbox
-              // checked={checked}
-              // onChange={handleChange}
-              color="primary"
-              inputProps={{ "aria-label": "primary checkbox" }}
-              style={{ padding: "0px" }}
-            />
-            <KeyboardArrowDownIcon
-              style={{ color: "#7d7d7d", cursor: "pointer" }}
-            />
-          </div>
-          <Paper component="form" className={classes.root}>
-            <InputBase
-              fullWidth
-              className={classes.searchInput}
-              placeholder="Search"
-              inputProps={{ "aria-label": "search here" }}
-            />
-            <SearchIcon />
-          </Paper>
-          <Button
-            variant="contained"
-            color="primary"
-            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-            startIcon={<AddIcon />}
-            onClick={handleOpen}
-          >
-            Add New
-          </Button>
-        </div>
+        <SearchStripe handleOpen={handleOpen} btn_title="Add new" />
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="list">
             {(provided) => (

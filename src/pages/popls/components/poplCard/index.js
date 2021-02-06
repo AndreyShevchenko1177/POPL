@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, IconButton } from "@material-ui/core";
+import { Checkbox, Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
@@ -8,12 +8,19 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import "./styles/styles.css";
 import CButton from "../../../../components/CButton";
+import DragDots from "../../../../components/dragDots";
 
 function PoplCard({ popl, editAction }) {
   const classes = useStyles();
   return (
-    <Paper className={classes.container}>
+    <>
+      <DragDots position="center" />
       <div className="popls-page-popl-card-image-container">
+        <Checkbox
+          color="primary"
+          inputProps={{ "aria-label": "primary checkbox" }}
+          style={{ width: "40px", height: "40px" }}
+        />
         <img className="popls-page-popl-card-image" alt="logo" src={userIcon} />
       </div>
       <div className="popls-page-popl-card-content-container">
@@ -83,7 +90,7 @@ function PoplCard({ popl, editAction }) {
           </IconButton>
         </div>
       </div>
-    </Paper>
+    </>
   );
 }
 

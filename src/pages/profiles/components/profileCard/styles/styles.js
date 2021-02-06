@@ -4,6 +4,8 @@ export default makeStyles((theme) => ({
   root: {
     display: "flex",
     // padding: "50px 20px 30px 40px",
+    minHeight: "150px",
+    maxHeight: "285px",
     borderRadius: 4,
     width: "100%",
   },
@@ -47,26 +49,26 @@ export default makeStyles((theme) => ({
   },
   section1: {
     display: "flex",
-    padding: "50px 20px 30px 40px",
-    flexDirection: "column",
+    padding: "0px 20px 30px 20px",
+    width: "20%",
+    minWidth: "100px",
     // paddingRight: "20px",
   },
   section1_title: {
     minHeight: "75px",
     display: "flex",
     justifyContent: "flex-start",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   section1_avatar: {
     width: "100%",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
   },
   wrapper: {
     width: "100%",
-    padding: "50px 10px 30px 10px",
   },
   section2: {
     width: "100%",
@@ -81,7 +83,7 @@ export default makeStyles((theme) => ({
   },
   section3: {
     minHeight: "100px",
-    padding: "4px 0px 20px 0px",
+    padding: "15px 0px 20px 0px",
   },
   section3_text: {
     color: "#666666",
@@ -97,7 +99,7 @@ export default makeStyles((theme) => ({
   section5: {
     display: "flex",
     flexDirection: "column",
-    padding: "50px 40px 30px 40px",
+    padding: "25px 35px 25px 35px",
     backgroundColor: "#e8ede8",
   },
   iconItem: {

@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
-import DragDots from "../dragDots";
+import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
 import ProfilePanel from "./controlProfilePanel";
@@ -33,9 +33,7 @@ export default function Card({
 
   return (
     <>
-      <DragDots position="left" />
       <DragDots position="center" />
-      <DragDots position="right" />
       <Paper elevation={1} className={classes.root}>
         <div className={classes.section1}>
           <div className={classes.section1_avatar}>
@@ -60,7 +58,10 @@ export default function Card({
             <Typography variant="h5">{heading}</Typography>
           </div>
           <div className={classes.section3}>
-            <div className={classes.section3_text}>{bio}</div>
+            <div className={classes.section3_text}>
+              {bio ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"}
+            </div>
           </div>
           <div className={classes.section4}>
             <SocialPoplsIcons style={classes.iconItem} mockData={types} />

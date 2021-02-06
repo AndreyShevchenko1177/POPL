@@ -18,4 +18,11 @@ export default makeStyles((theme) => ({
       fontSize: 32,
     },
   },
+  poplContainer: {
+    position: "relative",
+    width: "100%",
+    marginBottom: "10px",
+    display: "flex",
+    alignItems: "center",
+  },
 }));
