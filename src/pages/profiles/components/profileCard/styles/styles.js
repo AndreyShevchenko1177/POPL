@@ -3,9 +3,9 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     display: "flex",
-    // padding: "50px 20px 30px 40px",
+    padding: "0",
     minHeight: "150px",
-    maxHeight: "285px",
+    // maxHeight: "285px",
     borderRadius: 4,
     width: "100%",
   },
@@ -49,9 +49,10 @@ export default makeStyles((theme) => ({
   },
   section1: {
     display: "flex",
-    padding: "0px 20px 30px 20px",
     width: "20%",
-    minWidth: "100px",
+    minWidth: "130px",
+    alignItems: "flex-start",
+    paddingTop: "35px",
     // paddingRight: "20px",
   },
   section1_title: {
@@ -83,7 +84,7 @@ export default makeStyles((theme) => ({
   },
   section3: {
     minHeight: "100px",
-    padding: "15px 0px 20px 0px",
+    padding: "15px 5px 20px 0px",
   },
   section3_text: {
     color: "#666666",

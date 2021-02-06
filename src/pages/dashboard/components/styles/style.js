@@ -21,10 +21,12 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     borderBottom: "0.5px solid grey",
     paddingBottom: "10px",
+    height: "220px",
+    alignItems: "center",
   },
   userIcon: {
-    width: "200px",
-    height: "200px",
+    width: "170px",
+    height: "170px",
     borderRadius: "50%",
   },
   header_body: {

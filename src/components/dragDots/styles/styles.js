@@ -20,8 +20,10 @@ export default makeStyles((theme) => ({
     width: "17px",
     height: "14px",
     justifyContent: "space-evenly",
-    top: "10px",
-    left: "50%",
+    right: 0,
+    top: 10,
+    left: 0,
+    margin: "0 auto",
   },
   dragDotsLeft: {
     display: "flex",

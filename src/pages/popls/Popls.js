@@ -65,7 +65,10 @@ function PoplsItem() {
       />
       <div className="relative main-padding popls-page-container">
         <div className="popls-header-container">
-          <SearchStripe handleOpen={handleOpenForm} btn_title="Add Popl" />
+          <SearchStripe
+            handleOpen={() => handleOpenForm()}
+            btn_title="Add Popl"
+          />
         </div>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="list">
