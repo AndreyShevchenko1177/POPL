@@ -53,43 +53,11 @@ export default function Profiles() {
   }
 
   useEffect(() => {
-    dispatch(getProfileAction());
+    dispatch(getProfileAction(userData.id));
   }, []);
 
   useEffect(() => {
-    // if (userData) {
-    //   setProfiles([
-    //     {
-    //       id: userData.id,
-    //       name: userData.name,
-    //       logo: userData.image,
-    //       types: [
-    //         "twitter",
-    //         "instagram",
-    //         "linkedin",
-    //         "venmo",
-    //         "snapchat",
-    //         "twitter",
-    //         "google",
-    //         "youtube",
-    //       ],
-    //     },
-    //   ]);
-    // }
-    const business = profilesData.business
-      ?.sort((a, b) => a.id - b.id)
-      .filter((_, index) => index < 5);
-    const social = profilesData.social
-      ?.sort((a, b) => a.id - b.id)
-      .filter((_, index) => index < 5);
-    setProfiles([
-      {
-        ...profilesData,
-        social,
-        business,
-        id: userData.id,
-      },
-    ]);
+    setProfiles(profilesData);
   }, [profilesData]);
 
   return (
@@ -104,37 +72,31 @@ export default function Profiles() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {profiles[0]?.social &&
-                  profiles.map((el, index) => (
-                    <Draggable
-                      key={el.id}
-                      draggableId={`${el.id}`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          // onClick={() => handleClickPoplItem(el.id)}
-                          draggable="true"
-                          className={classes.container}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <ProfileCard
-                            id={el.id}
-                            heading={el.name}
-                            src={el.logo || ""}
-                            name={el.name}
-                            types={[...el.business, ...el.social]}
-                            bio={el.bio}
-                            handleClickPoplItem={() =>
-                              handleClickPoplItem(el.id)
-                            }
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                {profiles.map((el, index) => (
+                  <Draggable key={el.id} draggableId={`${el.id}`} index={index}>
+                    {(provided) => (
+                      <div
+                        // onClick={() => handleClickPoplItem(el.id)}
+                        draggable="true"
+                        className={classes.container}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <ProfileCard
+                          id={el.id}
+                          heading={el.name}
+                          src={el.logo || ""}
+                          name={el.name}
+                          businessLinks={el.business}
+                          socialLinks={el.social}
+                          bio={el.bioBusiness || el.bio}
+                          handleClickPoplItem={() => handleClickPoplItem(el.id)}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
                 {provided.placeholder}
               </div>
             )}

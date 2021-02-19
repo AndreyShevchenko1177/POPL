@@ -1,5 +1,4 @@
 import axios from "axios";
-import mockData from "./mockData";
 import { snackBarAction } from "../../../../store/actions";
 
 import {
@@ -12,28 +11,6 @@ import {
   GET_DATA_PROFILES_SUCCESS,
 } from "../actionTypes";
 
-export const getPoplsAction = () => async (dispatch) => {
-  try {
-    const getPopolsFormData = new FormData();
-    getPopolsFormData.append("sAction", "GetPopls");
-    getPopolsFormData.append("ajax", 1);
-
-    const response = await axios.post("", getPopolsFormData, {
-      withCredentials: true,
-    });
-
-    return dispatch({
-      type: GET_PROFILES_SUCCESS,
-      payload: mockData.get,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_PROFILES_SUCCESS,
-      payload: mockData.get,
-    });
-  }
-};
-
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
     const { id, url } = getState().authReducer.signIn.data;
@@ -44,7 +21,7 @@ export const addPoplAction = (proplData) => async (dispatch, getState) => {
     addPoplsFormData.append("iMemberID", id);
     addPoplsFormData.append("ajax", 1);
 
-    const data = await axios.post("", addPoplsFormData, {
+    await axios.post("", addPoplsFormData, {
       withCredentials: true,
     });
     return dispatch({
@@ -102,7 +79,7 @@ export const editPoplAction = (proplData) => async (dispatch, getState) => {
   }
 };
 
-export const getProfileAction = () => async (dispatch) => {
+export const getProfileAction = (id) => async (dispatch) => {
   const updatePoplsFormData = new FormData();
   updatePoplsFormData.append("sAction", "EditProfile");
   updatePoplsFormData.append("ajax", 1);
@@ -111,6 +88,6 @@ export const getProfileAction = () => async (dispatch) => {
   });
   return dispatch({
     type: GET_DATA_PROFILES_SUCCESS,
-    payload: response.data,
+    payload: { ...response.data, id },
   });
 };

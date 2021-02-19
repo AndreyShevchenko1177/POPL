@@ -22,7 +22,7 @@ const initialState = {
     error: null,
   },
   dataProfiles: {
-    data: {},
+    data: [],
     error: null,
   },
 };
@@ -90,11 +90,17 @@ export default function profilesReducer(
       };
     }
     case GET_DATA_PROFILES_SUCCESS: {
+      const business = payload.business
+        ?.sort((a, b) => a.id - b.id)
+        .filter((_, index) => index < 5);
+      const social = payload.social
+        ?.sort((a, b) => a.id - b.id)
+        .filter((_, index) => index < 5);
       return {
         ...state,
         dataProfiles: {
           ...state.dataProfiles,
-          data: payload,
+          data: [{ ...payload, business, social }],
           error: null,
         },
       };

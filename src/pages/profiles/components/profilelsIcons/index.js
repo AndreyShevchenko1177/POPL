@@ -2,10 +2,10 @@ import React from "react";
 
 import icons from "./icons";
 
-export default function SocialPoplsIcons({ style, mockData }) {
+export default function SocialPoplsIcons({ style, data }) {
   return (
     <>
-      {mockData.map(({ title, value }, key) => (
+      {data.map(({ title, value }, key) => (
         <div className={style} key={key}>
           <a href={`https://${value}`} target="blank">
             <img style={{ width: "40px" }} src={icons[title]} alt={title} />

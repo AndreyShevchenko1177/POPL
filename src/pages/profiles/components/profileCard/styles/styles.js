@@ -94,8 +94,13 @@ export default makeStyles((theme) => ({
   section4: {
     width: "100%",
     display: "flex",
-    justifyContent: "start",
+    justifyContent: "space-between",
+    // flexWrap: "wrap",
+  },
+  section4_sub_wrapper: {
+    display: "flex",
     flexWrap: "wrap",
+    width: "45%",
   },
   section5: {
     display: "flex",

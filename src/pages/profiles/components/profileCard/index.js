@@ -11,7 +11,8 @@ import ProfilePanel from "./controlProfilePanel";
 
 export default function Card({
   heading,
-  types,
+  businessLinks,
+  socialLinks,
   src,
   name,
   bio,
@@ -64,7 +65,12 @@ export default function Card({
             </div>
           </div>
           <div className={classes.section4}>
-            <SocialPoplsIcons style={classes.iconItem} mockData={types} />
+            <div className={classes.section4_sub_wrapper}>
+              <SocialPoplsIcons style={classes.iconItem} data={businessLinks} />
+            </div>
+            <div className={classes.section4_sub_wrapper}>
+              <SocialPoplsIcons style={classes.iconItem} data={socialLinks} />
+            </div>
           </div>
         </div>
         <div className={classes.section5}>
