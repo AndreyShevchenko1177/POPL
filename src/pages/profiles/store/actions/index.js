@@ -9,6 +9,7 @@ import {
   ADD_PROFILES_FAIL,
   EDIT_PROFILES_SUCCESS,
   EDIT_PROFILES_FAIL,
+  GET_DATA_PROFILES_SUCCESS,
 } from "../actionTypes";
 
 export const getPoplsAction = () => async (dispatch) => {
@@ -99,4 +100,17 @@ export const editPoplAction = (proplData) => async (dispatch, getState) => {
       })
     );
   }
+};
+
+export const getProfileAction = () => async (dispatch) => {
+  const updatePoplsFormData = new FormData();
+  updatePoplsFormData.append("sAction", "EditProfile");
+  updatePoplsFormData.append("ajax", 1);
+  const response = await axios.post("", updatePoplsFormData, {
+    withCredentials: true,
+  });
+  return dispatch({
+    type: GET_DATA_PROFILES_SUCCESS,
+    payload: response.data,
+  });
 };

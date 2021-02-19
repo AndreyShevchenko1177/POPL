@@ -14,6 +14,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import { getProfileAction } from "./store/actions";
 import ProfileCard from "./components/profileCard";
 import PoplForm from "./components/addEditPopl";
 import SearchStripe from "../../components/searchStripe";
@@ -23,6 +24,9 @@ export default function Profiles() {
   const dispatch = useDispatch();
   const history = useHistory();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const profilesData = useSelector(
+    ({ profilesReducer }) => profilesReducer.dataProfiles.data
+  );
   const classes = useStyles();
   const [openForm, setFormOpen] = useState(false);
   const [profiles, setProfiles] = useState([]);
@@ -49,26 +53,44 @@ export default function Profiles() {
   }
 
   useEffect(() => {
-    if (userData) {
-      setProfiles([
-        {
-          id: userData.id,
-          name: userData.name,
-          logo: userData.image,
-          types: [
-            "twitter",
-            "instagram",
-            "linkedin",
-            "venmo",
-            "snapchat",
-            "twitter",
-            "google",
-            "youtube",
-          ],
-        },
-      ]);
-    }
-  }, [userData]);
+    dispatch(getProfileAction());
+  }, []);
+
+  useEffect(() => {
+    // if (userData) {
+    //   setProfiles([
+    //     {
+    //       id: userData.id,
+    //       name: userData.name,
+    //       logo: userData.image,
+    //       types: [
+    //         "twitter",
+    //         "instagram",
+    //         "linkedin",
+    //         "venmo",
+    //         "snapchat",
+    //         "twitter",
+    //         "google",
+    //         "youtube",
+    //       ],
+    //     },
+    //   ]);
+    // }
+    const business = profilesData.business
+      ?.sort((a, b) => a.id - b.id)
+      .filter((_, index) => index < 5);
+    const social = profilesData.social
+      ?.sort((a, b) => a.id - b.id)
+      .filter((_, index) => index < 5);
+    setProfiles([
+      {
+        ...profilesData,
+        social,
+        business,
+        id: userData.id,
+      },
+    ]);
+  }, [profilesData]);
 
   return (
     <div className="profiles-page-container main-padding">
@@ -82,30 +104,37 @@ export default function Profiles() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {profiles.map((el, index) => (
-                  <Draggable key={el.id} draggableId={`${el.id}`} index={index}>
-                    {(provided) => (
-                      <div
-                        // onClick={() => handleClickPoplItem(el.id)}
-                        draggable="true"
-                        className={classes.container}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <ProfileCard
-                          id={el.id}
-                          heading={el.name}
-                          src={el.logo}
-                          name={el.name}
-                          types={el.types}
-                          bio={el.bio}
-                          handleClickPoplItem={() => handleClickPoplItem(el.id)}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {profiles[0]?.social &&
+                  profiles.map((el, index) => (
+                    <Draggable
+                      key={el.id}
+                      draggableId={`${el.id}`}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          // onClick={() => handleClickPoplItem(el.id)}
+                          draggable="true"
+                          className={classes.container}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <ProfileCard
+                            id={el.id}
+                            heading={el.name}
+                            src={el.logo || ""}
+                            name={el.name}
+                            types={[...el.business, ...el.social]}
+                            bio={el.bio}
+                            handleClickPoplItem={() =>
+                              handleClickPoplItem(el.id)
+                            }
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
                 {provided.placeholder}
               </div>
             )}

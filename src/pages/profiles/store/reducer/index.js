@@ -5,6 +5,7 @@ import {
   ADD_PROFILES_FAIL,
   EDIT_PROFILES_SUCCESS,
   EDIT_PROFILES_FAIL,
+  GET_DATA_PROFILES_SUCCESS,
 } from "../actionTypes";
 
 const initialState = {
@@ -18,6 +19,10 @@ const initialState = {
   },
   editProfile: {
     data: null,
+    error: null,
+  },
+  dataProfiles: {
+    data: {},
     error: null,
   },
 };
@@ -81,6 +86,16 @@ export default function profilesReducer(
           ...state.editProfile,
           data: null,
           error: payload,
+        },
+      };
+    }
+    case GET_DATA_PROFILES_SUCCESS: {
+      return {
+        ...state,
+        dataProfiles: {
+          ...state.dataProfiles,
+          data: payload,
+          error: null,
         },
       };
     }

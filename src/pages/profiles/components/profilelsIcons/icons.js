@@ -8,16 +8,26 @@ import Whatsapp from "../../../../assets/svg/whatsapp.svg";
 import Youtube from "../../../../assets/svg/youtube.svg";
 import Twitch from "../../../../assets/svg/twitch.svg";
 import Google from "../../../../assets/svg/google-plus.svg";
+import Amazon from "../../../../assets/svg/amazon-icon.svg";
+import Ripple from "../../../../assets/svg/ripple.svg";
+import Spotify from "../../../../assets/svg/spotify.svg";
 
 export default {
-  snapchat: Snapchat,
-  facebook: Facebook,
-  twitter: Twitter,
+  Snap: Snapchat,
+  jasonalco: Snapchat, // ???
+  Facebook,
+  tweet: Twitter,
+  Twitter,
   instagram: Instagram,
   linkedin: Linkedin,
-  venmo: Venmo,
+  "dm me": Venmo,
   whatsapp: Whatsapp,
-  youtube: Youtube,
-  twitch: Twitch,
+  YouTube: Youtube,
+  Twitch,
   google: Google,
+  "Lets Connect": Spotify,
+  Text: Amazon,
+  "DM me": Google,
+  "popl prime": Amazon,
+  "Rippl Ad": Ripple,
 };
