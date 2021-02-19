@@ -14,6 +14,7 @@ import SignUp from "./pages/auth/sign-up";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
+import RealTimeAnalytics from "./pages/analytics";
 
 setAxios();
 
@@ -42,8 +43,12 @@ export default function App() {
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />
         </PrivateRoute>
-        <PrivateRoute path="/analytics" isLoggedIn={profileData?.id}>
-          <Analytics />
+        <PrivateRoute
+          path="/analytics/real-time"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <RealTimeAnalytics />
         </PrivateRoute>
         <PrivateRoute path="/settings" isLoggedIn={profileData?.id}>
           <div>Settings</div>
@@ -68,24 +73,6 @@ function Home() {
 // }
 function Campaigns() {
   return <h2>Popls</h2>;
-}
-
-function Analytics() {
-  let match = useRouteMatch();
-
-  return (
-    <div>
-      <h2>Analytics</h2>
-      <Switch>
-        <Route path={`${match.path}/:module`}>
-          <Topic />
-        </Route>
-        <Route path={match.path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-      </Switch>
-    </div>
-  );
 }
 
 function Topic() {

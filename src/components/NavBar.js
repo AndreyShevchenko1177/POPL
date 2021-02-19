@@ -32,7 +32,7 @@ function NavBar() {
                     <span className="sr-only">(current)</span>
                   </a>
                 </li>
-                <li className={`nav-item active`}>
+                <li className={"nav-item active"}>
                   <a className="nav-link " href="#1">
                     <img
                       className

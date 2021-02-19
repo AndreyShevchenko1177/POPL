@@ -53,6 +53,11 @@ let theme = createMuiTheme({
         fontFamily: "AvenirNextCyr",
         fontSize: "20px !important",
       },
+      h6: {
+        fontWeight: "normal",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "1rem !important",
+      },
       body1: {
         fontWeight: "200",
         fontFamily: "AvenirNextCyr",
