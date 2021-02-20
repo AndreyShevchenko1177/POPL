@@ -46,16 +46,15 @@ function TopStatistics() {
   return (
     <div className="top-statistics-container">
       {itemsConfig.map(({ id, title, value, percentage, isTop }) => (
-        <>
+        <React.Fragment key={id}>
           <StatisticItem
-            key={id}
             title={title}
             value={value}
             percentage={percentage}
             isTop={isTop}
           />
           <div className="top-statistics-items-divider"></div>
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

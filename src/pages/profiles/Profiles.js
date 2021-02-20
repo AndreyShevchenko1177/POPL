@@ -86,7 +86,7 @@ export default function Profiles() {
                         <ProfileCard
                           id={el.id}
                           heading={el.name}
-                          src={el.logo || ""}
+                          src={el.logo || userData.image}
                           name={el.name}
                           businessLinks={el.business}
                           socialLinks={el.social}
