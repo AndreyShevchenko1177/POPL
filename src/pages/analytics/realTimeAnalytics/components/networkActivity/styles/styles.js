@@ -7,7 +7,7 @@ export default makeStyles(() => ({
   "network-container__header": {
     display: "flex",
     justifyContent: "space-between",
-    padding: "10px 10px",
+    padding: "10px 15px",
     boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
     borderBottom: "1px solid #a5a4a4",
   },
@@ -24,15 +24,16 @@ export default makeStyles(() => ({
   },
   "network-container__line": {
     position: "relative",
-    width: "50vw",
+    width: "65%",
   },
   "network-container__bar": {
     position: "relative",
     padding: "15px",
-    width: "100%",
+    width: "35%",
   },
   "network-container__bar-item-container": {
     position: "relative",
+    paddingBottom: "20px",
   },
   "network-container__header-text": {
     padding: "10px 0px",

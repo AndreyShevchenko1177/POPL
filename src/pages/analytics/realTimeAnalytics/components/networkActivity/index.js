@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../../components/DatePicker";
 import chartData from "./mockData";
+import Bar from "./bar";
 
 const data = [
   {
@@ -52,27 +53,12 @@ export default function NetworkActivity() {
             </Typography>
           </div>
           <div className={classes["network-container__bar-wrapper"]}>
-            {data.map(({ title, value }, key) => (
+            {data.map((props, key) => (
               <div
                 key={key}
                 className={classes["network-container__bar-item-container"]}
               >
-                <div style={{ paddingBottom: "5px" }}>
-                  <Typography variant="h6" className={classes.text}>
-                    {title}
-                  </Typography>
-                </div>
-                <div
-                  style={{
-                    width: "250px",
-                    height: "12px",
-                    backgroundColor: "#f5f5f5",
-                  }}
-                ></div>
-                <div
-                  style={{ width: `${(250 * value) / 100}px` }}
-                  className={classes["network-container__bar-item"]}
-                ></div>
+                <Bar {...props} />
               </div>
             ))}
           </div>
