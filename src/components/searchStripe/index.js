@@ -22,7 +22,7 @@ function SearchStripe({ handleOpen, btn_title }) {
           style={{ color: "#7d7d7d", cursor: "pointer" }}
         />
       </div>
-      <Paper component="form" className={classes.root}>
+      <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
           fullWidth
           className={classes.searchInput}

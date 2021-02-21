@@ -8,7 +8,7 @@ export default function SocialPoplsIcons({ style, data }) {
       {data.map(({ title, value }, key) => (
         <div className={style} key={key}>
           <a href={`https://${value}`} target="blank">
-            <img style={{ width: "40px" }} src={icons[title]} alt={title} />
+            <img style={{ width: "50px" }} src={icons[title]} alt={title} />
           </a>
         </div>
       ))}

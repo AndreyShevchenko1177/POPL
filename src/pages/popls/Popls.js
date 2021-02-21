@@ -90,6 +90,7 @@ function PoplsItem() {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
+                        elevation={3}
                       >
                         <PoplCard
                           key={popl.id}

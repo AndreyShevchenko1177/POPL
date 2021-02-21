@@ -35,7 +35,7 @@ export default function Card({
   return (
     <>
       <DragDots position="center" />
-      <Paper elevation={1} className={classes.root}>
+      <Paper elevation={3} className={classes.root}>
         <div className={classes.section1}>
           <div className={classes.section1_avatar}>
             <Avatar

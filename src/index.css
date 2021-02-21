@@ -53,3 +53,9 @@ a {
   color: #aeaeae;
   cursor: pointer;
 }
+
+.MuiFormControlLabel-label {
+  padding: 3px 13px;
+  border: 1px solid black;
+  border-radius: 4px;
+}

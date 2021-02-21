@@ -24,5 +24,6 @@ export default makeStyles((theme) => ({
     marginBottom: "10px",
     display: "flex",
     alignItems: "center",
+    borderRadius: 10,
   },
 }));

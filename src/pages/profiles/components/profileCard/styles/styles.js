@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     padding: "0",
     minHeight: "150px",
     // maxHeight: "285px",
-    borderRadius: 4,
+    borderRadius: 10,
     width: "100%",
   },
   container: {
@@ -70,6 +70,7 @@ export default makeStyles((theme) => ({
   },
   wrapper: {
     width: "100%",
+    paddingBottom: 10,
   },
   section2: {
     width: "100%",
@@ -109,9 +110,14 @@ export default makeStyles((theme) => ({
     backgroundColor: "#e8ede8",
   },
   iconItem: {
-    width: "60px",
+    backgroundColor: "#ffffff",
+    padding: 15,
+    boxShadow:
+      "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+    borderRadius: 8,
+    // width: "60px",
     marginRight: "15px",
-    marginBottom: "10px",
+    marginBottom: "15px",
   },
   buttonsContainer: {
     display: "flex",

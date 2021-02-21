@@ -9,6 +9,7 @@ export default makeStyles((theme) => ({
   },
   button: {
     marginBottom: "10px",
+    borderRadius: 6,
   },
   bottomIcons: {
     marginRight: "10px",
