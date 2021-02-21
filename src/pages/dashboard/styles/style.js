@@ -9,4 +9,9 @@ export default makeStyles((theme) => ({
   popl_container: {
     padding: "20px 0px",
   },
+  chart_container: {
+    padding: "10px",
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
+  },
 }));

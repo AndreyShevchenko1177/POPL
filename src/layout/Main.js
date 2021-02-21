@@ -3,9 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useLocation } from "react-router-dom";
 import { getHeader } from "../utils";
-// import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import Header from "./Header";
 import CSnackbar from "../components/SnackBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#ffffff",
   },
 }));
 

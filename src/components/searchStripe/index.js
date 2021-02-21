@@ -31,15 +31,17 @@ function SearchStripe({ handleOpen, btn_title }) {
         />
         <SearchIcon />
       </Paper>
-      <Button
-        variant="contained"
-        color="primary"
-        classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-        startIcon={<AddIcon />}
-        onClick={handleOpen}
-      >
-        {btn_title}
-      </Button>
+      <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          startIcon={<AddIcon />}
+          onClick={handleOpen}
+        >
+          {btn_title}
+        </Button>
+      </div>
     </div>
   );
 }

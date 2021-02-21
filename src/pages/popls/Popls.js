@@ -74,7 +74,7 @@ function PoplsItem() {
           <Droppable droppableId="list">
             {(provided) => (
               <div
-                className="popls-container"
+                className={classes.poplsContainer}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

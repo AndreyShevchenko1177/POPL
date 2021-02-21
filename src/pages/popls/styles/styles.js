@@ -1,6 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
+  poplsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
   poplCard: {
     width: "200px",
     height: "150px",
@@ -24,6 +29,7 @@ export default makeStyles((theme) => ({
     marginBottom: "10px",
     display: "flex",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
   },
 }));

@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   "network-container": {
     padding: "50px 25px 0px 25px",
   },
@@ -8,8 +8,10 @@ export default makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
     padding: "10px 15px",
-    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    boxShadow: theme.custom.mainBoxShadow,
     borderBottom: "1px solid #a5a4a4",
+    borderRadius: theme.custom.mainBorderRadius,
+    marginBottom: "10px",
   },
   "network-container__title": {
     display: "flex",
@@ -20,7 +22,8 @@ export default makeStyles(() => ({
   "network-container__charts": {
     display: "flex",
     padding: "10px 10px",
-    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    boxShadow: theme.custom.mainBoxShadow,
+    borderRadius: theme.custom.mainBorderRadius,
   },
   "network-container__line": {
     position: "relative",
@@ -47,7 +50,7 @@ export default makeStyles(() => ({
   "network-container__bar-item": {
     height: "12px",
     position: "absolute",
-    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    boxShadow: theme.custom.mainBoxShadow,
     top: "30px",
     backgroundColor: "#59b99e",
   },

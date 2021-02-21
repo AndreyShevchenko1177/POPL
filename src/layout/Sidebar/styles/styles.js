@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
     width: drawerWidth,
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(10),
     borderLeft: "3px solid transparent",
     color: "#ffffff",
     "&:hover": {
@@ -62,11 +62,14 @@ export default makeStyles((theme) => ({
     letterSpacing: "1.5px",
     color: "#f9f9f9",
   },
+  listTextNested: {
+    fontFamily: "AvenirNextCyr",
+    fontSize: "14px",
+    letterSpacing: "1.5px",
+    color: "#f9f9f9",
+  },
   listTextHighLight: {
     color: "#3a3a3a",
-    fontFamily: "AvenirNextCyr",
-    fontSize: "16px",
-    letterSpacing: "1.5px",
   },
   listItemIcon: {
     minWidth: "40px",

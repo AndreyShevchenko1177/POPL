@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Paper, Typography } from "@material-ui/core";
 import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
@@ -22,10 +23,10 @@ export default function Dashboard(props) {
           <PoplCard name="Popl3" />
         </div> */}
       </div>
-      <div className={classes.chart_container}>
-        <h3>Overall Scan Statistics</h3>
+      <Paper className={classes.chart_container}>
+        <Typography variant="h5">Overall Scan Statistics</Typography>
         <Chart data={mockData} />
-      </div>
+      </Paper>
     </div>
   );
 }

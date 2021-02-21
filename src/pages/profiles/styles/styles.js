@@ -31,8 +31,8 @@ export default makeStyles((theme) => ({
     marginTop: 20,
     width: "100%",
     minWidth: "800px",
-    "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
-    boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    "-webkit-box-shadow": theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.mainBoxShadow,
   },
   activeDragContainer: {
     transform: "scale(0.98)",

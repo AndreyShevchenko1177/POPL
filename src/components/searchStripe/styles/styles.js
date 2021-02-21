@@ -7,7 +7,9 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     margin: "0px 30px",
     width: "100%",
-    borderRadius: 8,
+    borderRadius: theme.custom.mainBorderRadius,
+    "-webkit-box-shadow": theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.mainBoxShadow,
     "@media (max-width:1000px)": {
       margin: "0 15px",
     },
@@ -18,20 +20,17 @@ export default makeStyles((theme) => ({
     height: "100px",
     alignItems: "center",
     justifyContent: "space-between",
-    borderRadius: 4,
-    padding: "0 30px",
-    "@media (max-width:1000px)": {
-      padding: "0 10px",
-    },
+  },
+  buttonWrapper: {
+    "-webkit-box-shadow": theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.mainBoxShadow,
   },
   button: {
     height: "50px",
     minWidth: "150px",
     fontFamily: "AvenirNextCyr",
     fontSize: "13px",
-    borderRadius: 8,
-    boxShadow:
-      "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+    borderRadius: theme.custom.mainBorderRadius,
   },
   searchInput: {
     marginLeft: theme.spacing(1),
@@ -41,10 +40,10 @@ export default makeStyles((theme) => ({
   },
   checkbox: {
     backgroundColor: theme.palette.background.paper,
-    boxShadow:
-      "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+    "-webkit-box-shadow": theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.mainBoxShadow,
     padding: "12px 12px",
-    borderRadius: 8,
+    borderRadius: theme.custom.mainBorderRadius,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",

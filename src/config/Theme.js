@@ -24,6 +24,10 @@ let theme = createMuiTheme({
       '"Segoe UI Symbol"',
     ].join(","),
   },
+  custom: {
+    mainBoxShadow: "0px 0px 10px 15px rgba(240,240,240,0.60)",
+    mainBorderRadius: 8,
+  },
   overrides: {
     MuiDrawer: {
       paper: {

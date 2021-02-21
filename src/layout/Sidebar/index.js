@@ -11,8 +11,9 @@ import {
   ListItemText,
   Collapse,
 } from "@material-ui/core";
-import BallotIcon from "@material-ui/icons/Ballot";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
 import overviewDark from "../../assets/svg/overview-dark.svg";
@@ -22,12 +23,6 @@ import profileDark from "../../assets/svg/profiles-dark.svg";
 import campaigns from "../../assets/svg/campaigns.svg";
 import campaignsDark from "../../assets/svg/campaings-dark.svg";
 import analytics from "../../assets/svg/analytics.svg";
-import linechart from "../../assets/svg/line-chart.svg";
-import linechartDark from "../../assets/svg/line-chart-dark.svg";
-import tickmark from "../../assets/svg/tick-mark.svg";
-import tickmarkDark from "../../assets/svg/tick-mark-dark.svg";
-import list from "../../assets/svg/list.svg";
-import listDark from "../../assets/svg/list-dark.svg";
 import settings from "../../assets/svg/settings.svg";
 import settingsDark from "../../assets/svg/settings-dark.svg";
 import login from "../../assets/svg/login.svg";
@@ -55,7 +50,12 @@ export default function PermanentDrawerLeft() {
 
   useEffect(() => {
     let name = location.pathname.split("/")[1];
-    if (name === "analytics") name = location.pathname.split("/")[2];
+    console.log(name);
+    if (name === "analytics") {
+      name = location.pathname.split("/")[2];
+      setAnalyticsOpen(true);
+    }
+    console.log(name);
     if (!name) name += "main";
     highlightList(name);
   }, []);
@@ -95,8 +95,9 @@ export default function PermanentDrawerLeft() {
               />
             </ListItemIcon>
             <ListItemText
+              disableTypography
               classes={{
-                primary: clsx(classes.listText, {
+                root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.main,
                 }),
               }}
@@ -121,8 +122,9 @@ export default function PermanentDrawerLeft() {
               />
             </ListItemIcon>
             <ListItemText
+              disableTypography
               classes={{
-                primary: clsx(classes.listText, {
+                root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.profiles,
                 }),
               }}
@@ -147,8 +149,9 @@ export default function PermanentDrawerLeft() {
               />
             </ListItemIcon>
             <ListItemText
+              disableTypography
               classes={{
-                primary: clsx(classes.listText, {
+                root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.campaigns,
                 }),
               }}
@@ -166,9 +169,11 @@ export default function PermanentDrawerLeft() {
             <img className="side-bar-icons" alt="overview" src={analytics} />
           </ListItemIcon>
           <ListItemText
-            classes={{ primary: classes.listText }}
+            disableTypography
+            classes={{ root: classes.listText }}
             primary="Analytics"
           />
+          {analyticsOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         </ListItem>
         <Collapse in={analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -180,16 +185,10 @@ export default function PermanentDrawerLeft() {
                 })}
                 onClick={() => highlightList("real-time")}
               >
-                <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                  <img
-                    className="side-bar-icons"
-                    alt="timeline"
-                    src={!highlight["real-time"] ? linechart : linechartDark}
-                  />
-                </ListItemIcon>
                 <ListItemText
+                  disableTypography
                   classes={{
-                    primary: clsx(classes.listText, {
+                    root: clsx(classes.listTextNested, {
                       [classes.listTextHighLight]: highlight["real-time"],
                     }),
                   }}
@@ -205,16 +204,10 @@ export default function PermanentDrawerLeft() {
                 })}
                 onClick={() => highlightList("locations")}
               >
-                <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                  <img
-                    className="side-bar-icons"
-                    alt="location"
-                    src={!highlight.locations ? tickmark : tickmarkDark}
-                  />
-                </ListItemIcon>
                 <ListItemText
+                  disableTypography
                   classes={{
-                    primary: clsx(classes.listText, {
+                    root: clsx(classes.listTextNested, {
                       [classes.listTextHighLight]: highlight.locations,
                     }),
                   }}
@@ -230,16 +223,10 @@ export default function PermanentDrawerLeft() {
                 })}
                 onClick={() => highlightList("crm-integrations")}
               >
-                <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                  <img
-                    className="side-bar-icons"
-                    alt="list"
-                    src={!highlight["crm-integrations"] ? list : listDark}
-                  />
-                </ListItemIcon>
                 <ListItemText
+                  disableTypography
                   classes={{
-                    primary: clsx(classes.listText, {
+                    root: clsx(classes.listTextNested, {
                       [classes.listTextHighLight]:
                         highlight["crm-integrations"],
                     }),
@@ -266,8 +253,9 @@ export default function PermanentDrawerLeft() {
               />
             </ListItemIcon>
             <ListItemText
+              disableTypography
               classes={{
-                primary: clsx(classes.listText, {
+                root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.settings,
                 }),
               }}
@@ -282,7 +270,8 @@ export default function PermanentDrawerLeft() {
                 <img className="side-bar-icons" alt="overview" src={logout} />
               </ListItemIcon>
               <ListItemText
-                classes={{ primary: classes.listText }}
+                disableTypography
+                classes={{ root: classes.listText }}
                 primary="Logout"
               />
             </ListItem>
@@ -295,7 +284,8 @@ export default function PermanentDrawerLeft() {
                   <img className="side-bar-icons" alt="overview" src={login} />
                 </ListItemIcon>
                 <ListItemText
-                  classes={{ primary: classes.listText }}
+                  disableTypography
+                  classes={{ root: classes.listText }}
                   primary="Login"
                 />
               </ListItem>
@@ -310,7 +300,8 @@ export default function PermanentDrawerLeft() {
                   />
                 </ListItemIcon>
                 <ListItemText
-                  classes={{ primary: classes.listText }}
+                  disableTypography
+                  classes={{ root: classes.listText }}
                   primary="Register"
                 />
               </ListItem>
