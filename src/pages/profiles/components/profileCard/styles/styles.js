@@ -5,9 +5,8 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "0",
     minHeight: "150px",
-    // maxHeight: "285px",
-    borderRadius: 10,
     width: "100%",
+    borderRadius: theme.custom.mainBorderForBigElement,
   },
   container: {
     display: "flex",
@@ -96,6 +95,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
+    paddingRight: "10px",
     // flexWrap: "wrap",
   },
   section4_sub_wrapper: {
@@ -108,13 +108,15 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     padding: "25px 35px 25px 35px",
     backgroundColor: "#e8ede8",
+    borderTopRightRadius: theme.custom.mainBorderForBigElement,
+    borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
   iconItem: {
     backgroundColor: "#ffffff",
     padding: 15,
     boxShadow:
       "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    borderRadius: 8,
+    borderRadius: "10px !important",
     // width: "60px",
     marginRight: "15px",
     marginBottom: "15px",
@@ -125,5 +127,10 @@ export default makeStyles((theme) => ({
     width: "125px",
     flexDirection: "column",
     justifyContent: "space-evenly",
+  },
+  section6: {
+    display: "flex",
+    justifyContent: "flex-end",
+    paddingRight: "20px",
   },
 }));

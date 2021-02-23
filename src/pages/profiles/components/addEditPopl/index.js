@@ -8,7 +8,6 @@ import {
   IconButton,
   OutlinedInput,
   InputAdornment,
-  FormControl,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import fieldsConfig from "./fieldsConfig";

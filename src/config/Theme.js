@@ -25,8 +25,9 @@ let theme = createMuiTheme({
     ].join(","),
   },
   custom: {
-    mainBoxShadow: "0px 0px 10px 15px rgba(240,240,240,0.60)",
-    mainBorderRadius: 8,
+    mainBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
+    mainBorderRadius: 10,
+    mainBorderForBigElement: 30,
   },
   overrides: {
     MuiDrawer: {
@@ -47,8 +48,22 @@ let theme = createMuiTheme({
         color: "#f9f9f9",
       },
     },
-
+    MuiButton: {
+      root: {
+        borderRadius: 10,
+      },
+    },
+    MuiFormControlLabel: {
+      label: {
+        borderRadius: 10,
+      },
+    },
     MuiTypography: {
+      h3: {
+        fontWeight: "700",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "26px !important",
+      },
       h4: {
         textTransform: "uppercase",
       },

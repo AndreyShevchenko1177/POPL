@@ -55,7 +55,6 @@ function PoplsItem() {
   useEffect(() => {
     setPopls(popls);
   }, [popls]);
-
   return (
     <>
       <Header

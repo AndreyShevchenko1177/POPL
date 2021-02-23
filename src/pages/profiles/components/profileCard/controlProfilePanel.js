@@ -23,11 +23,29 @@ function ProfilePanel({
                   <Switch
                     size="medium"
                     color="primary"
-                    checked={directOn.direct}
-                    onChange={handleSwitchChanger}
+                    checked={directOn.dir2.direct}
+                    onChange={(event) => handleSwitchChanger(event, "dir2")}
                   />
                 }
-                label={directOn.text}
+                label={directOn.dir2.text}
+                labelPlacement="start"
+                style={{
+                  marginLeft: "0px",
+                  fontWeight: "500",
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                }}
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    size="medium"
+                    color="primary"
+                    checked={directOn.dir1.direct}
+                    onChange={(event) => handleSwitchChanger(event, "dir1")}
+                  />
+                }
+                label={directOn.dir1.text}
                 labelPlacement="start"
                 style={{
                   marginLeft: "0px",
@@ -64,7 +82,7 @@ function ProfilePanel({
           Analytics
         </CButton>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <CButton
           fullWidth
           variant="outlined"
@@ -75,8 +93,8 @@ function ProfilePanel({
         >
           Popls
         </CButton>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid> */}
+      {/* <Grid item xs={12}>
         <CButton
           fullWidth
           variant="outlined"
@@ -87,7 +105,7 @@ function ProfilePanel({
         >
           View More
         </CButton>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

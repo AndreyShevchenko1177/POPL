@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useLocation } from "react-router-dom";
-import { getHeader } from "../utils";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
 
@@ -22,7 +21,6 @@ export default function Main({ children }) {
   const classes = useStyles();
   const { pathname } = useLocation();
 
-  const headerTitle = getHeader(pathname);
   return (
     <div className={classes.root}>
       <CssBaseline />

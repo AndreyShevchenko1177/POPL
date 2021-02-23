@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Dialog, DialogContent } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { getProfileAction } from "./store/actions";
 import ProfileCard from "./components/profileCard";
-import PoplForm from "./components/addEditPopl";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 
@@ -17,14 +16,10 @@ export default function Profiles() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data
   );
   const classes = useStyles();
-  const [openForm, setFormOpen] = useState(false);
   const [profiles, setProfiles] = useState([]);
 
-  function handleOpen() {
-    setFormOpen(true);
-  }
-  function handleClose() {
-    setFormOpen(false);
+  function handleOpenNewProfilePage() {
+    history.push("/new-profile", { path: "/profiles", page: "Profiles" });
   }
 
   function handleOnDragEnd(result) {
@@ -52,7 +47,10 @@ export default function Profiles() {
   return (
     <div className="profiles-page-container main-padding">
       <Grid container alignItems="center">
-        <SearchStripe handleOpen={handleOpen} btn_title="Add new" />
+        <SearchStripe
+          handleOpen={handleOpenNewProfilePage}
+          btn_title="Add Profile"
+        />
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="list">
             {(provided) => (
@@ -80,7 +78,11 @@ export default function Profiles() {
                           businessLinks={el.business}
                           socialLinks={el.social}
                           bio={el.bioBusiness || el.bio}
-                          handleClickPoplItem={() => handleClickPoplItem(el.id)}
+                          handleClickPoplItem={(event) => {
+                            if (!event.target.className.includes("section"))
+                              return;
+                            handleClickPoplItem(el.id);
+                          }}
                         />
                       </div>
                     )}
@@ -92,11 +94,6 @@ export default function Profiles() {
           </Droppable>
         </DragDropContext>
       </Grid>
-      <Dialog open={openForm} onClose={handleClose} maxWidth="md">
-        <DialogContent>
-          <PoplForm handleClose={handleClose} />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

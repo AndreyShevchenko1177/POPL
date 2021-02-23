@@ -9,13 +9,14 @@ export default makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
+    borderRadius: theme.custom.mainBorderForBigElement,
   },
   header: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "white",
     paddingTop: "10px",
-    borderRadius: 10,
+    borderRadius: theme.custom.mainBorderForBigElement,
   },
   header_icon: {
     display: "flex",

@@ -36,10 +36,13 @@ export default function PermanentDrawerLeft() {
   const dispatch = useDispatch();
   const [highlight, setHighLight] = useState({});
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const [analyticsOpen, setAnalyticsOpen] = React.useState(false);
+  const [collapse, setCollapse] = React.useState({
+    analyticsOpen: false,
+    profilesIsOpen: false,
+  });
 
-  const handleAnalyticsClick = () => {
-    setAnalyticsOpen(!analyticsOpen);
+  const handleCollapseClick = (name) => {
+    setCollapse({ ...collapse, [name]: !collapse[name] });
   };
 
   const highlightList = (name) => {
@@ -50,13 +53,14 @@ export default function PermanentDrawerLeft() {
 
   useEffect(() => {
     let name = location.pathname.split("/")[1];
-    console.log(name);
     if (name === "analytics") {
       name = location.pathname.split("/")[2];
-      setAnalyticsOpen(true);
+      setCollapse({ ...collapse, analyticsOpen: true });
+    } else {
+      setCollapse({ ...collapse, profilesIsOpen: true });
     }
-    console.log(name);
     if (!name) name += "main";
+
     highlightList(name);
   }, []);
 
@@ -112,7 +116,10 @@ export default function PermanentDrawerLeft() {
               [classes.ulListHighLight]: highlight.profiles,
             })}
             button
-            onClick={() => highlightList("profiles")}
+            onClick={() => {
+              handleCollapseClick("profilesIsOpen");
+              highlightList("profiles");
+            }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
@@ -130,8 +137,40 @@ export default function PermanentDrawerLeft() {
               }}
               primary="Profiles"
             />
+            {collapse.profilesIsOpen ? (
+              <ExpandMoreIcon
+                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+              />
+            ) : (
+              <ExpandLessIcon
+                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+              />
+            )}
           </ListItem>
         </Link>
+        <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Link to="/new-profile">
+              <ListItem
+                button
+                className={clsx(classes.nested, {
+                  [classes.ulListHighLight]: highlight["new-profile"],
+                })}
+                onClick={() => highlightList("new-profile")}
+              >
+                <ListItemText
+                  disableTypography
+                  classes={{
+                    root: clsx(classes.listTextNested, {
+                      [classes.listTextHighLight]: highlight["new-profile"],
+                    }),
+                  }}
+                  primary="Add profile"
+                />
+              </ListItem>
+            </Link>
+          </List>
+        </Collapse>
         <Link to="/campaigns">
           <ListItem
             divider={false}
@@ -163,7 +202,7 @@ export default function PermanentDrawerLeft() {
           className={classes.ulList}
           button
           divider={false}
-          onClick={handleAnalyticsClick}
+          onClick={() => handleCollapseClick("analyticsOpen")}
         >
           <ListItemIcon classes={{ root: classes.listItemIcon }}>
             <img className="side-bar-icons" alt="overview" src={analytics} />
@@ -173,9 +212,9 @@ export default function PermanentDrawerLeft() {
             classes={{ root: classes.listText }}
             primary="Analytics"
           />
-          {analyticsOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+          {collapse.analyticsOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         </ListItem>
-        <Collapse in={analyticsOpen} timeout="auto" unmountOnExit>
+        <Collapse in={collapse.analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/analytics/real-time">
               <ListItem

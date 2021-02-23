@@ -33,6 +33,8 @@
   width: 150px;
   background-color: #e8ede8;
   padding: 20px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .popls-page-popl-card-buttons-container-icons-container {

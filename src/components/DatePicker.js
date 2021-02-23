@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import Calendar from "react-range-calendar";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -31,6 +31,16 @@ function CDatePicker(props) {
     dateRange: [new Date(), new Date()],
     normalData: [currentDate1, currentDate2],
   });
+  const ref = useRef();
+
+  const blurhandler = (event) => {
+    if (event.currentTarget.contains(event.relatedTarget)) return; // чтобы событие onlur не сработало на родители, при взаимодействии с дочерними элементами
+    setState({ ...state, visible: false }); // убираем элемент с поля видимости
+  };
+
+  useEffect(() => {
+    ref.current && ref.current.focus();
+  }, [state.visible]);
 
   return (
     <Fragment>
@@ -44,27 +54,34 @@ function CDatePicker(props) {
         ))}
         <ArrowDropDownIcon fontSize="small" />
       </div>
-      <div style={{ position: "absolute", right: "0px" }}>
-        <Calendar
-          visible={state.visible}
-          dateRange={state.dateRange}
-          type="free-range"
-          onDateClick={(minDate, maxDate) => {
-            const minD = `${months[getMonth(minDate)]} ${getDay(
-              minDate
-            )}, ${getYear(minDate)}-`;
-            const maxD = `${months[getMonth(maxDate)]} ${getDay(
-              maxDate
-            )}, ${getYear(maxDate)}`;
-            setState({
-              ...state,
-              dateRange: [minDate, maxDate],
-              normalData: [minD, maxD],
-              visible: false,
-            });
-          }}
-        />
-      </div>
+      {state.visible && (
+        <div
+          style={{ position: "absolute", right: "0px", outline: "none" }}
+          ref={ref}
+          onBlur={blurhandler}
+          tabIndex={1}
+        >
+          <Calendar
+            visible={state.visible}
+            dateRange={state.dateRange}
+            type="free-range"
+            onDateClick={(minDate, maxDate) => {
+              const minD = `${months[getMonth(minDate)]} ${getDay(
+                minDate
+              )}, ${getYear(minDate)}-`;
+              const maxD = `${months[getMonth(maxDate)]} ${getDay(
+                maxDate
+              )}, ${getYear(maxDate)}`;
+              setState({
+                ...state,
+                dateRange: [minDate, maxDate],
+                normalData: [minD, maxD],
+                visible: false,
+              });
+            }}
+          />
+        </div>
+      )}
     </Fragment>
   );
 }

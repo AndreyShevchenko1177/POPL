@@ -15,6 +15,7 @@ import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 import RealTimeAnalytics from "./pages/analytics";
+import NewProfile from "./pages/newProfile";
 
 setAxios();
 
@@ -36,6 +37,9 @@ export default function App() {
         </Route>
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Profiles />
+        </PrivateRoute>
+        <PrivateRoute path="/new-profile" exact isLoggedIn={profileData?.id}>
+          <NewProfile />
         </PrivateRoute>
         <PrivateRoute path="/profiles/:id" exact isLoggedIn={profileData?.id}>
           <PoplsItem />

@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
   },
   button: {
     height: "50px",
-    minWidth: "150px",
+    minWidth: "160px",
     fontFamily: "AvenirNextCyr",
     fontSize: "13px",
     borderRadius: theme.custom.mainBorderRadius,

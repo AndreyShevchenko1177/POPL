@@ -29,7 +29,7 @@ export default makeStyles((theme) => ({
     marginBottom: "10px",
     display: "flex",
     alignItems: "center",
-    borderRadius: theme.custom.mainBorderRadius,
+    borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
   },
 }));
