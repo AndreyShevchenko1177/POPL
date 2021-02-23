@@ -1,0 +1,2 @@
+export const GET_POPS_SUCCESS = "[ANALYTICs] GET POPS SUCCESS";
+export const GET_POPS_FAIL = "[ANALYTICs] GET POPS FAIL";

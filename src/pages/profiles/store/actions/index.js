@@ -2,8 +2,6 @@ import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
 
 import {
-  GET_PROFILES_SUCCESS,
-  GET_PROFILES_FAIL,
   ADD_PROFILES_SUCCESS,
   ADD_PROFILES_FAIL,
   EDIT_PROFILES_SUCCESS,

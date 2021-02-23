@@ -9,16 +9,16 @@ import useStyles from "./styles/styles";
 function StatisticItem({ title, value, percentage, isTop }) {
   const classes = useStyles();
   return (
-    <div className="top-statistics-item-container">
-      <div className="top-statistics-item-content-wrapper">
-        <div className="top-statistics-item-title">
+    <div className={classes.topStatisticsItemContainer}>
+      <div className={classes.topStatisticsItemContentWrapper}>
+        <div className={classes.topStatisticsItemTitle}>
           <AvTimerIcon className={classes.icon} />
           <Typography variant="h6" className={classes.titleText}>
             {title}
           </Typography>
         </div>
-        <div className="top-statistics-item-value">{value}</div>
-        <div className="top-statistics-item-percentage">
+        <div className={classes.topStatisticsItemValue}>{value}</div>
+        <div className={classes.topStatisticsItemPercentage}>
           {isTop ? (
             <ArrowDropUpIcon className={classes.topArrowIcon} />
           ) : (

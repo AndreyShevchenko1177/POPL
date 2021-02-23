@@ -2,18 +2,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Button,
-  Grid,
-  InputBase,
-  Paper,
-  Checkbox,
-  Dialog,
-  DialogContent,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import AddIcon from "@material-ui/icons/Add";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import { Grid, Dialog, DialogContent } from "@material-ui/core";
 import { getProfileAction } from "./store/actions";
 import ProfileCard from "./components/profileCard";
 import PoplForm from "./components/addEditPopl";
