@@ -11,32 +11,16 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import fieldsConfig from "./fieldsConfig";
-
-const useStyles = makeStyles((theme) => ({
-  section: {
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-  },
-  adornment: {
-    borderRadius: 4,
-  },
-
-  saveBtn: { padding: "8px 16px", width: "150px" },
-}));
+import useStyles from "./styles";
 
 export default function PoplForm(props) {
-  const { handleClose } = props;
   const classes = useStyles();
   const imgRef = useRef(null);
-  function handleSubmit(event) {
-    event.preventDefault();
-    handleClose && handleClose();
-  }
 
   return (
     <>
       <Grid container spacing={2}>
-        <form onSubmit={handleSubmit}>
+        <div>
           <Paper elevation={3} className={classes.section}>
             <Grid container spacing={2} justify="center">
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
@@ -146,7 +130,7 @@ export default function PoplForm(props) {
               </Grid>
             </Grid>
           </Paper>
-        </form>
+        </div>
       </Grid>
     </>
   );

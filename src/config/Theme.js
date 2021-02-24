@@ -27,7 +27,7 @@ let theme = createMuiTheme({
   custom: {
     mainBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
     mainBorderRadius: 10,
-    mainBorderForBigElement: 30,
+    mainBorderForBigElement: 15,
   },
   overrides: {
     MuiDrawer: {
@@ -51,6 +51,7 @@ let theme = createMuiTheme({
     MuiButton: {
       root: {
         borderRadius: 10,
+        textTransform: "none",
       },
     },
     MuiFormControlLabel: {

@@ -15,4 +15,14 @@ export default makeStyles((theme) => ({
     marginRight: "10px",
     cursor: "pointer",
   },
+  poplPagePoplCardButtonsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "auto",
+    width: "150px",
+    backgroundColor: "#e8ede8",
+    padding: "20px",
+    borderTopRightRadius: theme.custom.mainBorderForBigElement,
+    borderBottomRightRadius: theme.custom.mainBorderForBigElement,
+  },
 }));

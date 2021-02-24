@@ -54,7 +54,7 @@ function PoplCard({ popl, editAction }) {
           </tbody>
         </table>
       </div>
-      <div className="popls-page-popl-card-buttons-container">
+      <div className={classes.poplPagePoplCardButtonsContainer}>
         <CButton
           variant="outlined"
           size="small"

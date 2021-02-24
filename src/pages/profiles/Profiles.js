@@ -83,6 +83,7 @@ export default function Profiles() {
                             heading={el.name}
                             src={el.logo || userData.image}
                             name={el.name}
+                            profileLink={userData.url}
                             businessLinks={el.business}
                             socialLinks={el.social}
                             bio={el.bioBusiness || el.bio}

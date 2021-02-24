@@ -26,16 +26,18 @@ export default function Dashboard(props) {
           startIcon={<AddIcon />}
           onClick={handleOpen}
         >
-          {"Add profile"}
+          Add profile
         </Button>
       </div>
+      <Paper className={classes.chart_container}>
+        <Typography className="pb-10" variant="h5">
+          Cumulative pop data
+        </Typography>
+        <Chart data={mockData} />
+      </Paper>
       <div className={classes.latestPoplsContainer}>
         <Typography variant="h5">Latest popls</Typography>
       </div>
-      <Paper className={classes.chart_container}>
-        <Typography variant="h5">Cumulative pop data</Typography>
-        <Chart data={mockData} />
-      </Paper>
       <div className={classes.container}>
         <div className={classes.popl_container}>
           <PoplCard name="Popl1" />

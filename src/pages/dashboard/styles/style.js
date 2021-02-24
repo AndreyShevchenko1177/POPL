@@ -5,7 +5,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    paddingTop: "20px",
   },
   popl_container: {
     padding: "20px 0px",
@@ -19,12 +18,13 @@ export default makeStyles((theme) => ({
     height: "50px",
     minWidth: "160px",
     fontFamily: "AvenirNextCyr",
-    fontSize: "13px",
+    fontSize: "16px",
     borderRadius: theme.custom.mainBorderRadius,
   },
   buttonWrapper: {
     display: "flex",
     justifyContent: "flex-end",
+    paddingBottom: 20,
   },
   addIcon: {
     "& > *:first-child": {
@@ -32,6 +32,6 @@ export default makeStyles((theme) => ({
     },
   },
   latestPoplsContainer: {
-    paddingBottom: 20,
+    padding: "20px 0 0 0",
   },
 }));

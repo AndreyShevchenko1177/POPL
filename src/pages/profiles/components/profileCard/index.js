@@ -19,6 +19,7 @@ export default function Card({
   name,
   bio,
   handleClickPoplItem,
+  profileLink,
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
@@ -105,7 +106,7 @@ export default function Card({
               size="small"
               color="primary"
               startIcon={<ArrowRightIcon />}
-              cb={() => console.log("View More")}
+              cb={() => profileLink && window.open(profileLink)}
             >
               View More
             </CButton>

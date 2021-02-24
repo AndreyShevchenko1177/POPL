@@ -29,7 +29,7 @@ export default makeStyles((theme) => ({
     height: "50px",
     minWidth: "160px",
     fontFamily: "AvenirNextCyr",
-    fontSize: "13px",
+    fontSize: "16px",
     borderRadius: theme.custom.mainBorderRadius,
   },
   searchInput: {

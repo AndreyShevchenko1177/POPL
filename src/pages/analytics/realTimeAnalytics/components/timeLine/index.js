@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../../components/DatePicker";
-import chartData from "./mockData";
+import chartOptions from "./chartOptions";
 import Bar from "./bar";
 import Loader from "../../../../../components/Loader";
 
-const data = [
+const barData = [
   {
     title: "Facebook Campaign",
     value: 75,
@@ -26,18 +26,17 @@ const data = [
   },
 ];
 
-const chartOptions = {
-  scales: {
-    xAxes: [
-      {
-        type: "time",
-      },
-    ],
-  },
-};
-
-export default function NetworkActivity({ popsCount }) {
+export default function NetworkActivity({ data }) {
   const classes = useStyles();
+
+  useEffect(() => {
+    const result = [];
+    Object.keys(data).forEach((key) => {
+      result.push({ t: key, y: data[key] });
+    });
+    chartOptions.data.datasets[0].data = result;
+  }, [data]);
+
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
@@ -55,12 +54,12 @@ export default function NetworkActivity({ popsCount }) {
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          {!popsCount ? (
+          {!data ? (
             <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />
           ) : (
-            <Line options={chartOptions} data={chartData.line} />
+            <Line options={chartOptions.options} data={chartOptions.data} />
           )}
         </div>
         <div className={classes["network-container__bar"]}>
@@ -70,7 +69,7 @@ export default function NetworkActivity({ popsCount }) {
             </Typography>
           </div>
           <div className={classes["network-container__bar-wrapper"]}>
-            {data.map((props, key) => (
+            {barData.map((props, key) => (
               <div
                 key={key}
                 className={classes["network-container__bar-item-container"]}
