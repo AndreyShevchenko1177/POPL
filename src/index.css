@@ -69,6 +69,6 @@ a {
   border-radius: 4px;
 }
 
-.full-w div:first-child {
+.full-w > div:first-child {
   border-radius: 30px;
 }

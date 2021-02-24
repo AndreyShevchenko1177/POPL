@@ -113,6 +113,9 @@ export default makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     padding: 15,
     marginBottom: "15px",
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
+    marginRight: 15,
   },
   buttonsContainer: {
     display: "flex",
