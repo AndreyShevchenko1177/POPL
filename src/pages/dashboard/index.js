@@ -12,7 +12,7 @@ export default function Dashboard(props) {
   const history = useHistory();
 
   const handleOpen = () => {
-    history.push("/new-profile", { path: "/", page: "Overview" });
+    history.push("/new-profile");
   };
 
   return (

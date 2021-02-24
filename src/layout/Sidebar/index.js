@@ -12,7 +12,7 @@ import {
   Collapse,
 } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+// import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
@@ -47,8 +47,9 @@ export default function PermanentDrawerLeft() {
   };
 
   const highlightList = (name) => {
-    if (name === "new-profile")
+    if (name === "new-profile") {
       history.push("/new-profile", { path: "/profiles", page: "Profiles" });
+    }
     setHighLight({ [name]: true });
   };
 
@@ -140,20 +141,13 @@ export default function PermanentDrawerLeft() {
               }}
               primary="Profiles"
             />
-            {collapse.profilesIsOpen ? (
-              <ExpandMoreIcon
-                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
-              />
-            ) : (
-              <ExpandLessIcon
-                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
-              />
-            )}
+            <ExpandMoreIcon
+              style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+            />
           </ListItem>
         </Link>
         <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {/* <Link to="/new-profile"> */}
             <ListItem
               button
               className={clsx(classes.nested, {
@@ -171,7 +165,6 @@ export default function PermanentDrawerLeft() {
                 primary="Add profile"
               />
             </ListItem>
-            {/* </Link> */}
           </List>
         </Collapse>
         <Link to="/campaigns">
@@ -215,7 +208,7 @@ export default function PermanentDrawerLeft() {
             classes={{ root: classes.listText }}
             primary="Analytics"
           />
-          {collapse.analyticsOpen ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+          <ExpandMoreIcon />
         </ListItem>
         <Collapse in={collapse.analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>

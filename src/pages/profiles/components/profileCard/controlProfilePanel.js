@@ -14,10 +14,10 @@ function ProfilePanel({
 }) {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <div className={section2}>
+      <Grid onClick={handleClickPoplItem} item xs={12}>
+        <div className={section2} onClick={handleClickPoplItem}>
           <div>
-            <FormGroup>
+            <FormGroup onClick={handleClickPoplItem}>
               <FormControlLabel
                 control={
                   <Switch
@@ -64,7 +64,6 @@ function ProfilePanel({
           variant="outlined"
           size="small"
           startIcon={<EditIcon />}
-          // className={classes.button}
           cb={() => console.log("edit")}
         >
           Edit
@@ -76,36 +75,26 @@ function ProfilePanel({
           variant="outlined"
           size="small"
           color="primary"
+          className=" "
           startIcon={<EqualizerIcon />}
           cb={() => console.log("Statistics")}
         >
           Analytics
         </CButton>
       </Grid>
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <CButton
           fullWidth
           variant="outlined"
           size="small"
           color="primary"
+          className=" "
           startIcon={<VisibilityIcon />}
-          cb={handleClickPoplItem}
+          cb={(event) => handleClickPoplItem(event, "popl")}
         >
           Popls
         </CButton>
-      </Grid> */}
-      {/* <Grid item xs={12}>
-        <CButton
-          fullWidth
-          variant="outlined"
-          size="small"
-          color="primary"
-          startIcon={<ArrowRightIcon />}
-          cb={() => console.log("View More")}
-        >
-          View More
-        </CButton>
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 }

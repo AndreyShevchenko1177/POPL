@@ -33,8 +33,16 @@ export default function Profiles() {
     setProfiles(items);
   }
 
-  function handleClickPoplItem(id) {
-    history.push(`/profiles/${id}`, userData);
+  function handleClickPoplItem(event, id, buttonName) {
+    if (typeof buttonName === "function") return buttonName();
+    event.preventDefault();
+    if (buttonName === "popl") return history.push(`/profiles/${id}`, userData);
+    if (
+      typeof event.target.className === "string" &&
+      event.target.className.includes("section")
+    ) {
+      history.push(`/profiles/${id}`, userData);
+    }
   }
 
   useEffect(() => {
@@ -71,7 +79,6 @@ export default function Profiles() {
                     >
                       {(provided) => (
                         <div
-                          // onClick={() => handleClickPoplItem(el.id)}
                           draggable="true"
                           className={classes.container}
                           ref={provided.innerRef}
@@ -81,18 +88,15 @@ export default function Profiles() {
                           <ProfileCard
                             id={el.id}
                             heading={el.name}
-                            src={el.logo || userData.image}
+                            src={userData.image}
                             name={el.name}
                             profileLink={userData.url}
                             businessLinks={el.business}
                             socialLinks={el.social}
                             bio={{ business: el.bioBusiness, personal: el.bio }}
-                            handleClickPoplItem={(event) => {
-                              if (!event.target.className.includes("section")) {
-                                return;
-                              }
-                              handleClickPoplItem(el.id);
-                            }}
+                            handleClickPoplItem={(event, buttonName) =>
+                              handleClickPoplItem(event, el.id, buttonName)
+                            }
                           />
                         </div>
                       )}

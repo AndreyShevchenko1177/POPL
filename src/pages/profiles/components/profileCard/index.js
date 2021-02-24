@@ -91,13 +91,16 @@ export default function Card({
         </div>
         <div className={classes.wrapper}>
           <div className={classes.section1_title}>
-            <Typography variant="h5">{heading}</Typography>
+            <Typography className="cursor-default" variant="h5">
+              {heading}
+            </Typography>
           </div>
           <div className={classes.section3}>
             <div className={classes.section3_text}>{setBio()}</div>
           </div>
           <div className={classes.section4}>
             <SocialPoplsIcons
+              handleClick={handleClickPoplItem}
               style={classes.iconItem}
               data={directOn.dir2.direct ? socialLinks : businessLinks}
             />
@@ -107,13 +110,13 @@ export default function Card({
           </div>
           <div className={classes.section6}>
             <CButton
-              variant=""
+              variant="text"
               size="small"
               color="primary"
               startIcon={<ArrowDropDownIcon />}
               cb={() => profileLink && window.open(profileLink)}
             >
-              View More
+              View Profile
             </CButton>
           </div>
         </div>
