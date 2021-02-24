@@ -18,7 +18,7 @@ function RealTimeAnalytics() {
   }, []);
 
   useEffect(() => {
-    if (popsData) {
+    if (popsData.length) {
       const result = {};
       popsData.forEach((pop) => {
         const date = pop[2].slice(0, 8);

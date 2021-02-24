@@ -37,7 +37,7 @@ export default function NetworkActivity({ data }) {
         result.push({ t: key, y: data[key] });
       });
       chartOptions.data.datasets[0].data = result;
-      setChartData({ ...chartOptions.data });
+      setChartData(chartOptions.data);
     }
   }, [data]);
 
@@ -58,7 +58,7 @@ export default function NetworkActivity({ data }) {
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          {!chartData?.datasets[0]?.data.length ? (
+          {!chartData ? (
             <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />
