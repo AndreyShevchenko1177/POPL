@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Paper, Typography } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
@@ -33,6 +33,14 @@ export default function Card({
     },
   });
   const extension = src.split(".");
+
+  const setBio = () => {
+    const result = directOn.dir2.direct ? bio.personal : bio.business;
+    return (
+      result ||
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
+    );
+  };
 
   const handleSwitchChanger = (event, name) => {
     event.stopPropagation();
@@ -86,10 +94,7 @@ export default function Card({
             <Typography variant="h5">{heading}</Typography>
           </div>
           <div className={classes.section3}>
-            <div className={classes.section3_text}>
-              {bio ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"}
-            </div>
+            <div className={classes.section3_text}>{setBio()}</div>
           </div>
           <div className={classes.section4}>
             <SocialPoplsIcons
@@ -102,10 +107,10 @@ export default function Card({
           </div>
           <div className={classes.section6}>
             <CButton
-              variant="outlined"
+              variant=""
               size="small"
               color="primary"
-              startIcon={<ArrowRightIcon />}
+              startIcon={<ArrowDropDownIcon />}
               cb={() => profileLink && window.open(profileLink)}
             >
               View More

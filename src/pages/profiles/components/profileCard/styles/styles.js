@@ -94,9 +94,7 @@ export default makeStyles((theme) => ({
   section4: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-between",
     paddingRight: "10px",
-    // flexWrap: "wrap",
   },
   section4_sub_wrapper: {
     display: "flex",
@@ -114,11 +112,6 @@ export default makeStyles((theme) => ({
   iconItem: {
     backgroundColor: "#ffffff",
     padding: 15,
-    boxShadow:
-      "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-    borderRadius: "10px !important",
-    // width: "60px",
-    marginRight: "15px",
     marginBottom: "15px",
   },
   buttonsContainer: {

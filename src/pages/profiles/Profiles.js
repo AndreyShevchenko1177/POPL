@@ -86,7 +86,7 @@ export default function Profiles() {
                             profileLink={userData.url}
                             businessLinks={el.business}
                             socialLinks={el.social}
-                            bio={el.bioBusiness || el.bio}
+                            bio={{ business: el.bioBusiness, personal: el.bio }}
                             handleClickPoplItem={(event) => {
                               if (!event.target.className.includes("section")) {
                                 return;
