@@ -18,7 +18,7 @@ function RealTimeAnalytics() {
 
   return (
     <div className="real-time-analytics-container">
-      {!!popsData.length && <TopStatistics popsCount={popsData.length} />}
+      <TopStatistics pops={popsData} />
       <NetworkActivity />
     </div>
   );

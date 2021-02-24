@@ -31,4 +31,7 @@ export default makeStyles((theme) => ({
       fontSize: 32,
     },
   },
+  latestPoplsContainer: {
+    paddingBottom: 20,
+  },
 }));

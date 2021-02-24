@@ -48,7 +48,7 @@ export default function NetworkActivity() {
         </div>
         <div className={classes["network-container__bar"]}>
           <div className={classes["network-container__header-text"]}>
-            <Typography variant="h6" className={classes.barText}>
+            <Typography variant="h5" className={classes.barText}>
               Top Campaign Perfomance
             </Typography>
           </div>

@@ -59,6 +59,6 @@ export default makeStyles((theme) => ({
   },
   barText: {
     color: "#6f829a",
-    fontSize: "1.25rem !important",
+    // fontSize: "1.25rem !important",
   },
 }));

@@ -17,7 +17,7 @@ export default function Dashboard(props) {
 
   return (
     <div className="main-padding">
-      <Typography variant={"h3"}>Welcome</Typography>
+      <Typography variant="h3">Welcome</Typography>
       <div className={classes.buttonWrapper}>
         <Button
           variant="contained"
@@ -29,7 +29,9 @@ export default function Dashboard(props) {
           {"Add profile"}
         </Button>
       </div>
-      <h3>Latest popls </h3>
+      <div className={classes.latestPoplsContainer}>
+        <Typography variant="h5">Latest popls</Typography>
+      </div>
       <Paper className={classes.chart_container}>
         <Typography variant="h5">Cumulative pop data</Typography>
         <Chart data={mockData} />

@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import {
   Drawer,
@@ -34,6 +34,7 @@ export default function PermanentDrawerLeft() {
   const classes = useStyles();
   const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [highlight, setHighLight] = useState({});
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [collapse, setCollapse] = React.useState({
@@ -46,6 +47,8 @@ export default function PermanentDrawerLeft() {
   };
 
   const highlightList = (name) => {
+    if (name === "new-profile")
+      history.push("/new-profile", { path: "/profiles", page: "Profiles" });
     setHighLight({ [name]: true });
   };
 
@@ -150,25 +153,25 @@ export default function PermanentDrawerLeft() {
         </Link>
         <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link to="/new-profile">
-              <ListItem
-                button
-                className={clsx(classes.nested, {
-                  [classes.ulListHighLight]: highlight["new-profile"],
-                })}
-                onClick={() => highlightList("new-profile")}
-              >
-                <ListItemText
-                  disableTypography
-                  classes={{
-                    root: clsx(classes.listTextNested, {
-                      [classes.listTextHighLight]: highlight["new-profile"],
-                    }),
-                  }}
-                  primary="Add profile"
-                />
-              </ListItem>
-            </Link>
+            {/* <Link to="/new-profile"> */}
+            <ListItem
+              button
+              className={clsx(classes.nested, {
+                [classes.ulListHighLight]: highlight["new-profile"],
+              })}
+              onClick={() => highlightList("new-profile")}
+            >
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listTextNested, {
+                    [classes.listTextHighLight]: highlight["new-profile"],
+                  }),
+                }}
+                primary="Add profile"
+              />
+            </ListItem>
+            {/* </Link> */}
           </List>
         </Collapse>
         <Link to="/campaigns">
