@@ -53,6 +53,8 @@ export default function Profiles() {
     setProfiles(profilesData);
   }, [profilesData]);
 
+  console.log("USER DATA", userData);
+
   return (
     <div className="profiles-page-container main-padding">
       <Grid container alignItems="center">
