@@ -36,16 +36,16 @@ export default makeStyles((theme) => ({
   },
   "network-container__bar-item-container": {
     position: "relative",
-    paddingBottom: "20px",
+    paddingBottom: "25px",
   },
   "network-container__header-text": {
-    padding: "10px 0px",
+    padding: "15px 0px",
     borderBottom: "1px solid #eaebed",
   },
   "network-container__bar-wrapper": {
     display: "flex",
     flexDirection: "column",
-    paddingTop: "10px",
+    paddingTop: "15px",
   },
   "network-container__bar-item": {
     height: "12px",

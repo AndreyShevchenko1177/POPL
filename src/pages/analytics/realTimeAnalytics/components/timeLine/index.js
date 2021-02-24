@@ -5,6 +5,7 @@ import useStyles from "./styles/styles";
 import DatePicker from "../../../../../components/DatePicker";
 import chartData from "./mockData";
 import Bar from "./bar";
+import Loader from "../../../../../components/Loader";
 
 const data = [
   {
@@ -25,14 +26,24 @@ const data = [
   },
 ];
 
-export default function NetworkActivity() {
+const chartOptions = {
+  scales: {
+    xAxes: [
+      {
+        type: "time",
+      },
+    ],
+  },
+};
+
+export default function NetworkActivity({ popsCount }) {
   const classes = useStyles();
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
         <div className={classes["network-container__title"]}>
           <Typography variant="h5" className={classes.text}>
-            Network Activities
+            Time line chart
           </Typography>
           <Typography variant="h6" className={classes.text}>
             SubTitle
@@ -44,7 +55,13 @@ export default function NetworkActivity() {
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          <Line data={chartData.line} />
+          {!popsCount ? (
+            <Loader
+              styles={{ position: "absolute", top: "50%", left: "50%" }}
+            />
+          ) : (
+            <Line options={chartOptions} data={chartData.line} />
+          )}
         </div>
         <div className={classes["network-container__bar"]}>
           <div className={classes["network-container__header-text"]}>

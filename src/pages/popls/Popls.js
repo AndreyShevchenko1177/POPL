@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Translate } from "@material-ui/icons";
 import Header from "../../components/Header";
 import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
 import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import CButton from "../../components/CButton";
 import SearchStripe from "../../components/searchStripe";
+import Loader from "../../components/Loader";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -62,49 +62,57 @@ function PoplsItem() {
         firstChild={location.state.name}
         path="/profiles"
       />
-      <div className="relative main-padding popls-page-container">
+      <div
+        className={`${
+          dragablePopls.length ? "relative" : ""
+        } main-padding popls-page-container`}
+      >
         <div className="popls-header-container">
           <SearchStripe
             handleOpen={() => handleOpenForm()}
             btn_title="Add Popl"
           />
         </div>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="list">
-            {(provided) => (
-              <div
-                className={classes.poplsContainer}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {dragablePopls.map((popl, index) => (
-                  <Draggable
-                    key={popl.id}
-                    draggableId={`${popl.id}`}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <Paper
-                        className={classes.poplContainer}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        elevation={3}
-                      >
-                        <PoplCard
-                          key={popl.id}
-                          popl={popl}
-                          editAction={handleOpenForm}
-                        />
-                      </Paper>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        {!dragablePopls.length ? (
+          <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
+        ) : (
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="list">
+              {(provided) => (
+                <div
+                  className={classes.poplsContainer}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {dragablePopls.map((popl, index) => (
+                    <Draggable
+                      key={popl.id}
+                      draggableId={`${popl.id}`}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Paper
+                          className={classes.poplContainer}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          elevation={3}
+                        >
+                          <PoplCard
+                            key={popl.id}
+                            popl={popl}
+                            editAction={handleOpenForm}
+                          />
+                        </Paper>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
         <Dialog
           open={isOpenForm}
           onClose={() => setIsOpenForm(false)}

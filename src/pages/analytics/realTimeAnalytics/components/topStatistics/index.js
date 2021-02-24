@@ -3,26 +3,27 @@ import StatisticItem from "./statisticItem";
 import useStyles from "./styles/styles";
 import initialState from "./initialState";
 
-function TopStatistics({ pops }) {
+function TopStatistics(props) {
   const classes = useStyles();
   const [data, setData] = useState(initialState);
   useEffect(() => {
-    console.log(pops);
-    // Object.keys(props).map((prop) => {
-    //   setData((prev) => prev.map((item) => {
-    //     if (item.id === prop) {
-    //       item.value = props[prop];
-    //     }
-    //     return item;
-    //   }));
-    // });
-  }, [pops]);
+    Object.keys(props).map((prop) => {
+      setData((prev) =>
+        prev.map((item) => {
+          if (item.id === prop) {
+            item.value = props[prop];
+          }
+          return item;
+        })
+      );
+    });
+  }, [props.popsCount]);
   return (
     <div className={classes.topStatisticsContainer}>
       {data.map(({ id, title, value, percentage, isTop }) => (
         <React.Fragment key={id}>
           <StatisticItem
-            count={pops.length}
+            count={props.popsCount}
             title={title}
             value={value}
             percentage={percentage}
