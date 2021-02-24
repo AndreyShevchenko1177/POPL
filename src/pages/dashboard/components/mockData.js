@@ -8,6 +8,7 @@ const mockData = {
     datasets: [
       {
         label: "Demo",
+        pointRadius: 0,
         data: [
           {
             t: "2020-12-17",

@@ -33,6 +33,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     padding: "15px",
     width: "35%",
+    marginLeft: "auto",
   },
   "network-container__bar-item-container": {
     position: "relative",

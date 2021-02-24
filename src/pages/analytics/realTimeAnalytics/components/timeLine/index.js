@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
 import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
@@ -28,13 +28,17 @@ const barData = [
 
 export default function NetworkActivity({ data }) {
   const classes = useStyles();
+  const [chartData, setChartData] = useState();
 
   useEffect(() => {
-    const result = [];
-    Object.keys(data).forEach((key) => {
-      result.push({ t: key, y: data[key] });
-    });
-    chartOptions.data.datasets[0].data = result;
+    if (data) {
+      const result = [];
+      Object.keys(data).forEach((key) => {
+        result.push({ t: key, y: data[key] });
+      });
+      chartOptions.data.datasets[0].data = result;
+      setChartData({ ...chartOptions.data });
+    }
   }, [data]);
 
   return (
@@ -54,12 +58,12 @@ export default function NetworkActivity({ data }) {
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          {!data ? (
+          {!chartData?.datasets[0]?.data.length ? (
             <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />
           ) : (
-            <Line options={chartOptions.options} data={chartOptions.data} />
+            <Line options={chartOptions.options} data={chartData} />
           )}
         </div>
         <div className={classes["network-container__bar"]}>

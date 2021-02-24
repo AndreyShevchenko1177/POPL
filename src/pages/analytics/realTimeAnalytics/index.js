@@ -11,7 +11,7 @@ function RealTimeAnalytics() {
   const popsData = useSelector(
     ({ analyticsReducer }) => analyticsReducer.allPops.data
   );
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState();
 
   useEffect(() => {
     dispatch(getPopsAction(userId));
@@ -21,7 +21,7 @@ function RealTimeAnalytics() {
     if (popsData) {
       const result = {};
       popsData.forEach((pop) => {
-        const [date] = pop[2].split(" ");
+        const date = pop[2].slice(0, 8);
         result[date] = (result[date] || 0) + 1;
       });
       setChartData(result);
