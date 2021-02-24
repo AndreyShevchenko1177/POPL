@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, FormGroup, FormControlLabel, Switch } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
@@ -14,8 +15,8 @@ function ProfilePanel({
 }) {
   return (
     <Grid container spacing={2}>
-      <Grid onClick={handleClickPoplItem} item xs={12}>
-        <div className={section2} onClick={handleClickPoplItem}>
+      <Grid item xs={12}>
+        <div className={clsx(section2, "target-element")}>
           <div>
             <FormGroup onClick={handleClickPoplItem}>
               <FormControlLabel

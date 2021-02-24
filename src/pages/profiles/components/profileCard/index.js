@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Paper, Typography } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import clsx from "clsx";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
@@ -71,8 +72,8 @@ export default function Card({
         className={classes.root}
         onClick={handleClickPoplItem}
       >
-        <div className={classes.section1}>
-          <div className={classes.section1_avatar}>
+        <div className={clsx(classes.section1, "target-element")}>
+          <div className={clsx(classes.section1_avatar, "target-element")}>
             <Avatar
               src={
                 imagesExtensions.includes(extension[extension.length - 1])
@@ -90,15 +91,15 @@ export default function Card({
           </div>
         </div>
         <div className={classes.wrapper}>
-          <div className={classes.section1_title}>
+          <div className={clsx(classes.section1_title, "target-element")}>
             <Typography className="cursor-default" variant="h5">
               {heading}
             </Typography>
           </div>
-          <div className={classes.section3}>
+          <div className={clsx(classes.section3, "target-element")}>
             <div className={classes.section3_text}>{setBio()}</div>
           </div>
-          <div className={classes.section4}>
+          <div className={clsx(classes.section4, "target-element")}>
             <SocialPoplsIcons
               handleClick={handleClickPoplItem}
               style={classes.iconItem}
@@ -108,7 +109,7 @@ export default function Card({
               <SocialPoplsIcons style={classes.iconItem} data={socialLinks} />
             </div> */}
           </div>
-          <div className={classes.section6}>
+          <div className={clsx(classes.section6, "target-element")}>
             <CButton
               variant="text"
               size="small"
@@ -120,7 +121,7 @@ export default function Card({
             </CButton>
           </div>
         </div>
-        <div className={classes.section5}>
+        <div className={clsx(classes.section5, "target-element")}>
           <div className={classes.buttonsContainer}>
             <ProfilePanel
               handleClickPoplItem={handleClickPoplItem}

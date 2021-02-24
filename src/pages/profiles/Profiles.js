@@ -39,7 +39,7 @@ export default function Profiles() {
     if (buttonName === "popl") return history.push(`/profiles/${id}`, userData);
     if (
       typeof event.target.className === "string" &&
-      event.target.className.includes("section")
+      event.target.className.includes("target-element")
     ) {
       history.push(`/profiles/${id}`, userData);
     }
