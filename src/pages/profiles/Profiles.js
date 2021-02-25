@@ -20,7 +20,7 @@ export default function Profiles() {
   const [profiles, setProfiles] = useState([]);
 
   function handleOpenNewProfilePage() {
-    history.push("/new-profile", { path: "/profiles", page: "Profiles" });
+    history.push("/profiles/new-profile");
   }
 
   function handleOnDragEnd(result) {
