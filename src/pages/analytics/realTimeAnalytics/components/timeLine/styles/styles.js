@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   "network-container": {
-    padding: "50px 25px 0px 25px",
+    padding: "50px 0px 0px 0px",
   },
   "network-container__header": {
     display: "flex",

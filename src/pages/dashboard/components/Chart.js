@@ -1,24 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import mockData from "./mockData";
-
-const chartOptions = {
-  scales: {
-    xAxes: [
-      {
-        type: "time",
-      },
-    ],
-  },
-  legend: {
-    display: false,
-  },
-};
+import chartOptions from "./mockData";
+import Loader from "../../../components/Loader";
+import useStyles from "./styles/style";
 
 export default function Chart({ data }) {
+  const [chartData, setChartData] = useState();
+  const classes = useStyles();
+
+  useEffect(() => {
+    if (data) {
+      const result = [];
+      Object.keys(data).forEach((key) => {
+        result.push({ t: key, y: data[key] });
+      });
+      chartOptions.data.datasets[0].data = result;
+      setChartData(chartOptions.data);
+    }
+  }, [data]);
   return (
-    <div className="relative">
-      <Line options={chartOptions} data={mockData.line} />
+    <div className={classes.chartContainer}>
+      {console.log(chartData)}
+      {!chartData ? (
+        <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
+      ) : (
+        <Line options={chartOptions.options} data={chartData} />
+      )}
     </div>
   );
 }

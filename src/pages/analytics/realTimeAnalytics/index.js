@@ -14,15 +14,18 @@ function RealTimeAnalytics() {
   const [chartData, setChartData] = useState();
 
   useEffect(() => {
-    dispatch(getPopsAction(userId));
+    !Object.keys(popsData).length && dispatch(getPopsAction(userId));
   }, []);
 
   useEffect(() => {
     if (popsData.length) {
       const result = {};
       popsData.forEach((pop) => {
-        const date = pop[2].slice(0, 8);
-        result[date] = (result[date] || 0) + 1;
+        const currentMonth = new Date().getMonth() + 1;
+        if (currentMonth === Number(pop[2].split("-")[1])) {
+          const date = pop[2].split(" ")[0];
+          result[date] = (result[date] || 0) + 1;
+        }
       });
       setChartData(result);
     }

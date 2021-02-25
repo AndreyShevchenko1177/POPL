@@ -24,8 +24,9 @@ function ProfilePanel({
                   <Switch
                     size="medium"
                     color="primary"
+                    name="dir2"
                     checked={directOn.dir2.direct}
-                    onChange={(event) => handleSwitchChanger(event, "dir2")}
+                    onClick={(event) => handleSwitchChanger(event, "dir2")}
                   />
                 }
                 label={directOn.dir2.text}
@@ -42,8 +43,9 @@ function ProfilePanel({
                   <Switch
                     size="medium"
                     color="primary"
+                    name="dir1"
                     checked={directOn.dir1.direct}
-                    onChange={(event) => handleSwitchChanger(event, "dir1")}
+                    onClick={(event) => handleSwitchChanger(event, "dir1")}
                   />
                 }
                 label={directOn.dir1.text}

@@ -47,4 +47,8 @@ export default makeStyles((theme) => ({
     fontSize: "13px",
     borderRadius: 8,
   },
+  chartContainer: {
+    position: "relative",
+    minHeight: "400px",
+  },
 }));

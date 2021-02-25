@@ -44,8 +44,6 @@ export default function Card({
   };
 
   const handleSwitchChanger = (event, name) => {
-    event.stopPropagation();
-    event.preventDefault();
     if (name === "dir2") {
       return setDirectOn({
         ...directOn,
