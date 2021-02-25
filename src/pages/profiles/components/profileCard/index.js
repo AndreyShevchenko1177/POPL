@@ -23,6 +23,7 @@ export default function Card({
   profileLink,
 }) {
   const classes = useStyles();
+  const [checked, setChecked] = useState(false);
   const [directOn, setDirectOn] = useState({
     dir1: {
       direct: false,
@@ -85,6 +86,8 @@ export default function Card({
               color="primary"
               inputProps={{ "aria-label": "primary checkbox" }}
               style={{ width: "40px", height: "40px" }}
+              onClick={() => setChecked(!checked)}
+              checked={checked}
             />
           </div>
         </div>

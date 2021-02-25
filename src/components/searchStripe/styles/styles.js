@@ -24,6 +24,7 @@ export default makeStyles((theme) => ({
   buttonWrapper: {
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
+    borderRadius: theme.custom.mainBorderRadius,
   },
   button: {
     height: "50px",

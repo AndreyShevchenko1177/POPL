@@ -29,6 +29,7 @@ function ProfilePanel({
                     onClick={(event) => handleSwitchChanger(event, "dir2")}
                   />
                 }
+                onClick={(event) => handleSwitchChanger(event, "dir2")}
                 label={directOn.dir2.text}
                 labelPlacement="start"
                 style={{
@@ -48,6 +49,7 @@ function ProfilePanel({
                     onClick={(event) => handleSwitchChanger(event, "dir1")}
                   />
                 }
+                onClick={(event) => handleSwitchChanger(event, "dir1")}
                 label={directOn.dir1.text}
                 labelPlacement="start"
                 style={{
