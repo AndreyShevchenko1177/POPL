@@ -12,7 +12,7 @@ import { Close } from "@material-ui/icons";
 import fieldsConfig from "./fieldsConfig";
 import useStyles from "./styles";
 
-export default function PoplForm(props) {
+export default function NewProfileForm() {
   const classes = useStyles();
   const imgRef = useRef(null);
 
@@ -33,7 +33,7 @@ export default function PoplForm(props) {
                   align="center"
                 >
                   <img
-                    src={"assets/img/user1.png"}
+                    src="./assets/img/user1.png"
                     height="128px"
                     width="128px"
                     alt={"profile"}

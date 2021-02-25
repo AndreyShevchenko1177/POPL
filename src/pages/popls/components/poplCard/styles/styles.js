@@ -2,10 +2,32 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
-    width: "100%",
-    marginBottom: "10px",
     display: "flex",
     alignItems: "center",
+    width: "150px",
+    maxWidth: "150px",
+    height: "100px",
+    marginLeft: "10px",
+  },
+  avatar: {
+    width: "100px",
+    height: "100px",
+    borderRadius: "50%",
+  },
+  contenContainer: {
+    padding: "20px",
+  },
+  cardTable: {
+    fontFamily: "AvenirNextCyr",
+    fontSize: "16px",
+    color: "#565956",
+  },
+  tableCell: {
+    width: "100px",
+  },
+  iconsButtonWrapper: {
+    display: "flex",
+    justifyContent: "space-evenly",
   },
   button: {
     marginBottom: "10px",

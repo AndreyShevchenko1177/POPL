@@ -1,5 +1,5 @@
 import React from "react";
-import NewProfileForm from "../profiles/components/addEditPopl";
+import NewProfileForm from "../profiles/components/addEditProfile";
 import useStyles from "./styles/styles";
 import Header from "../../components/Header";
 

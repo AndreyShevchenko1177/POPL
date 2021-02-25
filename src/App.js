@@ -38,7 +38,11 @@ export default function App() {
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Profiles />
         </PrivateRoute>
-        <PrivateRoute path="/new-profile" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute
+          path="/profiles/new-profile"
+          exact
+          isLoggedIn={profileData?.id}
+        >
           <NewProfile />
         </PrivateRoute>
         <PrivateRoute path="/profiles/:id" exact isLoggedIn={profileData?.id}>

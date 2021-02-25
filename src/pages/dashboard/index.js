@@ -9,7 +9,7 @@ import Chart from "./components/Chart";
 import { getPopsAction } from "../analytics/store/actions";
 import { getYear, getMonth, getDay, normalizeDate } from "../../utils/dates";
 
-export default function Dashboard(props) {
+export default function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -20,7 +20,7 @@ export default function Dashboard(props) {
   const [chartData, setChartData] = useState();
 
   const handleOpen = () => {
-    history.push("/new-profile");
+    history.push("/profiles/new-profile");
   };
 
   useEffect(() => {

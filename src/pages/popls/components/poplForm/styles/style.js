@@ -10,6 +10,13 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     position: "relative",
   },
+  buttonsConatiner: {
+    position: "absolute",
+    display: "flex",
+    justifyContent: "space-between",
+    width: "200px",
+    bottom: "5px",
+  },
   inputs: {
     margin: "10px 0",
   },

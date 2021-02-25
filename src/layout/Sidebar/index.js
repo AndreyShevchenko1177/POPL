@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory, withRouter } from "react-router-dom";
 import clsx from "clsx";
 import {
   Drawer,
@@ -30,11 +30,9 @@ import register from "../../assets/svg/register.svg";
 import { logoutAction } from "../../pages/auth/store/actions";
 import "./styles/styles.css";
 
-export default function PermanentDrawerLeft() {
+function PermanentDrawerLeft({ location, history }) {
   const classes = useStyles();
-  const location = useLocation();
   const dispatch = useDispatch();
-  const history = useHistory();
   const [highlight, setHighLight] = useState({});
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [collapse, setCollapse] = React.useState({
@@ -42,14 +40,13 @@ export default function PermanentDrawerLeft() {
     profilesIsOpen: false,
   });
 
+  // console.log(props);
+
   const handleCollapseClick = (name) => {
     setCollapse({ ...collapse, [name]: !collapse[name] });
   };
 
   const highlightList = (name) => {
-    if (name === "new-profile") {
-      history.push("/new-profile", { path: "/profiles", page: "Profiles" });
-    }
     setHighLight({ [name]: true });
   };
 
@@ -60,13 +57,18 @@ export default function PermanentDrawerLeft() {
     if (name === "analytics") {
       name = location.pathname.split("/")[2];
       setCollapse({ ...collapse, analyticsOpen: true });
-    } else {
+    }
+    if (name === "profiles" && location.pathname.split("/").length > 2) {
+      name = location.pathname.split("/")[2];
+    }
+
+    if (name === "new-profile") {
       setCollapse({ ...collapse, profilesIsOpen: true });
     }
-    if (!name) name += "main";
 
+    if (!name) name += "main";
     highlightList(name);
-  }, []);
+  }, [location]);
 
   return (
     <Drawer
@@ -148,23 +150,25 @@ export default function PermanentDrawerLeft() {
         </Link>
         <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem
-              button
-              className={clsx(classes.nested, {
-                [classes.ulListHighLight]: highlight["new-profile"],
-              })}
-              onClick={() => highlightList("new-profile")}
-            >
-              <ListItemText
-                disableTypography
-                classes={{
-                  root: clsx(classes.listTextNested, {
-                    [classes.listTextHighLight]: highlight["new-profile"],
-                  }),
-                }}
-                primary="Add profile"
-              />
-            </ListItem>
+            <Link to="/profiles/new-profile">
+              <ListItem
+                button
+                className={clsx(classes.nested, {
+                  [classes.ulListHighLight]: highlight["new-profile"],
+                })}
+                onClick={() => highlightList("new-profile")}
+              >
+                <ListItemText
+                  disableTypography
+                  classes={{
+                    root: clsx(classes.listTextNested, {
+                      [classes.listTextHighLight]: highlight["new-profile"],
+                    }),
+                  }}
+                  primary="Add profile"
+                />
+              </ListItem>
+            </Link>
           </List>
         </Collapse>
         <Link to="/campaigns">
@@ -351,3 +355,5 @@ export default function PermanentDrawerLeft() {
     </Drawer>
   );
 }
+
+export default withRouter(PermanentDrawerLeft);

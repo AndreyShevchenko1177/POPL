@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, TextField, Button } from "@material-ui/core";
+import { Paper, TextField } from "@material-ui/core";
 import { editPoplAction, addPoplAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles/style";
-import "./styles/styles.css";
 import CButton from "../../../../components/CButton";
 
 function PoplForm({ popl, setIsOpenForm, mid }) {
@@ -104,7 +103,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         name="slug"
         onChange={handleChage}
       />
-      <div className="popl-form-buttons-container">
+      <div className={classes.buttonsConatiner}>
         <CButton color="primary" variant="contained" cb={handleSubmit}>
           Submit
         </CButton>
