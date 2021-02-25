@@ -7,6 +7,7 @@ import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../analytics/store/actions";
+import { getYear, getMonth, getDay, normalizeDate } from "../../utils/dates";
 
 export default function Dashboard(props) {
   const classes = useStyles();
@@ -29,10 +30,25 @@ export default function Dashboard(props) {
   useEffect(() => {
     if (popsData.length) {
       const result = {};
+      const currentDate = new Date();
+      const periodDate = new Date().setDate(currentDate.getDate() - 30);
+      const [_cy, currentMonth, _cd] = `${getYear(currentDate)}-${normalizeDate(
+        getMonth(currentDate) + 1
+      )}-${normalizeDate(getDay(currentDate))}`.split("-");
+      const [_py, periodMonth, periodDay] = `${getYear(
+        periodDate
+      )}-${normalizeDate(getMonth(periodDate) + 1)}-${normalizeDate(
+        getDay(periodDate)
+      )}`.split("-");
       popsData.forEach((pop) => {
-        const currentDay = new Date().getDate();
-        const currentMonth = new Date().getMonth() + 1;
-        if (currentMonth === Number(pop[2].split("-")[1])) {
+        const [_ry, receiveMonth, receiveDay] = pop[2].split(" ")[0].split("-");
+        if (currentMonth === receiveMonth) {
+          const date = pop[2].split(" ")[0];
+          result[date] = (result[date] || 0) + 1;
+        } else if (
+          Number(periodDay) <= Number(receiveDay) &&
+          periodMonth === receiveMonth
+        ) {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;
         }

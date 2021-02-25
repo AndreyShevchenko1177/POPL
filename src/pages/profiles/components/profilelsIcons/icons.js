@@ -1,18 +1,18 @@
-import Snapchat from "../../../../assets/svg/snapchat.svg";
-import Facebook from "../../../../assets/svg/facebook.svg";
-import Twitter from "../../../../assets/svg/twitter.svg";
-import Instagram from "../../../../assets/svg/instagram.svg";
-import Linkedin from "../../../../assets/svg/linkedin.svg";
-import Venmo from "../../../../assets/svg/venmo.svg";
-import Whatsapp from "../../../../assets/svg/whatsapp.svg";
-import Youtube from "../../../../assets/svg/youtube.svg";
-import Twitch from "../../../../assets/svg/twitch.svg";
+import Snapchat from "../../../../assets/snapchat.png";
+import Facebook from "../../../../assets/facebook.png";
+import Twitter from "../../../../assets/twitter.png";
+import Instagram from "../../../../assets/instagram.png";
+import Linkedin from "../../../../assets/linkedin.png";
+import Venmo from "../../../../assets/venmo.png";
+import Whatsapp from "../../../../assets/whatsapp.png";
+import Youtube from "../../../../assets/youtube.png";
+import Twitch from "../../../../assets/twitch.png";
 import Google from "../../../../assets/svg/google-plus.svg";
 import Amazon from "../../../../assets/svg/amazon-icon.svg";
 import Ripple from "../../../../assets/svg/ripple.svg";
-import Spotify from "../../../../assets/svg/spotify.svg";
+import Spotify from "../../../../assets/spotify.png";
 
-export default {
+const icons = {
   Snap: Snapchat,
   jasonalco: Snapchat, // ???
   Facebook,
@@ -31,3 +31,5 @@ export default {
   "popl prime": Amazon,
   "Rippl Ad": Ripple,
 };
+
+export default icons;

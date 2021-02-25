@@ -103,9 +103,6 @@ export default function Card({
               style={classes.iconItem}
               data={directOn.dir2.direct ? socialLinks : businessLinks}
             />
-            {/* <div className={classes.section4_sub_wrapper}>
-              <SocialPoplsIcons style={classes.iconItem} data={socialLinks} />
-            </div> */}
           </div>
           <div className={clsx(classes.section6, "target-element")}>
             <CButton
