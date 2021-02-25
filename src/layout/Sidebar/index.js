@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, useHistory, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import clsx from "clsx";
 import {
   Drawer,

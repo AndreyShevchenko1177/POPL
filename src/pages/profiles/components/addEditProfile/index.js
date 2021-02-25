@@ -11,6 +11,7 @@ import {
 import { Close } from "@material-ui/icons";
 import fieldsConfig from "./fieldsConfig";
 import useStyles from "./styles";
+import UserAvatar from "../../../../assets/images/user1.png";
 
 export default function NewProfileForm() {
   const classes = useStyles();
@@ -33,7 +34,7 @@ export default function NewProfileForm() {
                   align="center"
                 >
                   <img
-                    src="./assets/img/user1.png"
+                    src={UserAvatar}
                     height="128px"
                     width="128px"
                     alt={"profile"}
