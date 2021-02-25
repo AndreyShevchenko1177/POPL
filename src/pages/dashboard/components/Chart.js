@@ -20,7 +20,6 @@ export default function Chart({ data }) {
   }, [data]);
   return (
     <div className={classes.chartContainer}>
-      {console.log(chartData)}
       {!chartData ? (
         <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
       ) : (

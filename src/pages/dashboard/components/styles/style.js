@@ -49,6 +49,7 @@ export default makeStyles((theme) => ({
   },
   chartContainer: {
     position: "relative",
-    minHeight: "400px",
+    minHeight: "500px",
+    width: "100%",
   },
 }));
