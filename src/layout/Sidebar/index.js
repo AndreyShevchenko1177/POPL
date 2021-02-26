@@ -20,6 +20,10 @@ import overviewDark from "../../assets/svg/overview-dark.svg";
 import logout from "../../assets/svg/logout.svg";
 import profiles from "../../assets/svg/profiles.svg";
 import profileDark from "../../assets/svg/profiles-dark.svg";
+import connect from "../../assets/svg/connect.svg";
+import connectDark from "../../assets/svg/connect-dark.svg";
+import clipApp from "../../assets/svg/clip-app.svg";
+import clipAppDark from "../../assets/svg/clip-app-dark.svg";
 import campaigns from "../../assets/svg/campaigns.svg";
 import campaignsDark from "../../assets/svg/campaings-dark.svg";
 import analytics from "../../assets/svg/analytics.svg";
@@ -63,6 +67,10 @@ function PermanentDrawerLeft({ location, history }) {
     }
 
     if (name === "new-profile") {
+      setCollapse({ ...collapse, profilesIsOpen: true });
+    }
+
+    if (name === "popls") {
       setCollapse({ ...collapse, profilesIsOpen: true });
     }
 
@@ -170,7 +178,56 @@ function PermanentDrawerLeft({ location, history }) {
               </ListItem>
             </Link>
           </List>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              className={clsx(classes.nested, {
+                [classes.ulListHighLight]: highlight.popls,
+              })}
+              onClick={() => {
+                highlightList("popls");
+                history.push(`/profiles/popls/${profileData.id}`, profileData);
+              }}
+            >
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listTextNested, {
+                    [classes.listTextHighLight]: highlight.popls,
+                  }),
+                }}
+                primary="Popls"
+              />
+            </ListItem>
+          </List>
         </Collapse>
+        <Link to="/connections">
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight.connections,
+            })}
+            button
+            onClick={() => highlightList("connections")}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img
+                className="side-bar-icons"
+                alt="connections"
+                src={!highlight.connections ? connect : connectDark}
+              />
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              classes={{
+                root: clsx(classes.listText, {
+                  [classes.listTextHighLight]: highlight.connections,
+                }),
+              }}
+              primary="Connections"
+            />
+          </ListItem>
+        </Link>
         <Link to="/campaigns">
           <ListItem
             divider={false}
@@ -276,6 +333,33 @@ function PermanentDrawerLeft({ location, history }) {
             </Link>
           </List>
         </Collapse>
+        <Link to="/clip-app">
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight["clip-app"],
+            })}
+            button
+            onClick={() => highlightList("clip-app")}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img
+                className="side-bar-icons"
+                alt="clip app"
+                src={!highlight["clip-app"] ? clipApp : clipAppDark}
+              />
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              classes={{
+                root: clsx(classes.listText, {
+                  [classes.listTextHighLight]: highlight["clip-app"],
+                }),
+              }}
+              primary="Clip App"
+            />
+          </ListItem>
+        </Link>
         <Link to="/settings">
           <ListItem
             button

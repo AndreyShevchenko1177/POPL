@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
 import PoplsItem from "./pages/popls";
+import Connections from "./pages/connections";
+import ClipApp from "./pages/clipApp";
 import SignUp from "./pages/auth/sign-up";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
@@ -38,6 +40,12 @@ export default function App() {
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Profiles />
         </PrivateRoute>
+        <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>
+          <Connections />
+        </PrivateRoute>
+        <PrivateRoute path="/clip-app" exact isLoggedIn={profileData?.id}>
+          <ClipApp />
+        </PrivateRoute>
         <PrivateRoute
           path="/profiles/new-profile"
           exact
@@ -45,7 +53,11 @@ export default function App() {
         >
           <NewProfile />
         </PrivateRoute>
-        <PrivateRoute path="/profiles/:id" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute
+          path="/profiles/popls/:id"
+          exact
+          isLoggedIn={profileData?.id}
+        >
           <PoplsItem />
         </PrivateRoute>
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>

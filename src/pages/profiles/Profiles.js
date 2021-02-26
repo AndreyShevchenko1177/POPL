@@ -36,12 +36,13 @@ export default function Profiles() {
   function handleClickPoplItem(event, id, buttonName) {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
-    if (buttonName === "popl") return history.push(`/profiles/${id}`, userData);
+    if (buttonName === "popl")
+      return history.push(`/profiles/popls/${id}`, userData);
     if (
       typeof event.target.className === "string" &&
       event.target.className.includes("target-element")
     ) {
-      history.push(`/profiles/${id}`, userData);
+      history.push(`/profiles/popls/${id}`, userData);
     }
   }
 
