@@ -36,8 +36,9 @@ export default function Profiles() {
   function handleClickPoplItem(event, id, buttonName) {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
-    if (buttonName === "popl")
+    if (buttonName === "popl") {
       return history.push(`/profiles/popls/${id}`, userData);
+    }
     if (
       typeof event.target.className === "string" &&
       event.target.className.includes("target-element")
@@ -53,8 +54,6 @@ export default function Profiles() {
   useEffect(() => {
     setProfiles(profilesData);
   }, [profilesData]);
-
-  console.log("USER DATA", userData);
 
   return (
     <div className="profiles-page-container main-padding">

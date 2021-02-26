@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useRouteMatch,
   useParams,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -18,6 +17,9 @@ import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 import RealTimeAnalytics from "./pages/analytics";
 import NewProfile from "./pages/newProfile";
+import CrmIntegrations from "./pages/crmIntegrations";
+import Campaigns from "./pages/campaigns";
+import PopBranding from "./pages/popBranding";
 
 setAxios();
 
@@ -40,12 +42,6 @@ export default function App() {
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Profiles />
         </PrivateRoute>
-        <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>
-          <Connections />
-        </PrivateRoute>
-        <PrivateRoute path="/clip-app" exact isLoggedIn={profileData?.id}>
-          <ClipApp />
-        </PrivateRoute>
         <PrivateRoute
           path="/profiles/new-profile"
           exact
@@ -60,8 +56,28 @@ export default function App() {
         >
           <PoplsItem />
         </PrivateRoute>
+        <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>
+          <Connections />
+        </PrivateRoute>
+        <PrivateRoute
+          path="/connections/crm-integrations"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <CrmIntegrations />
+        </PrivateRoute>
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />
+        </PrivateRoute>
+        <PrivateRoute
+          path="/campaings/pop-branding"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <PopBranding />
+        </PrivateRoute>
+        <PrivateRoute path="/clip-app" exact isLoggedIn={profileData?.id}>
+          <ClipApp />
         </PrivateRoute>
         <PrivateRoute
           path="/analytics/real-time"
@@ -82,20 +98,4 @@ export default function App() {
       </Switch>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Overview</h2>;
-}
-
-// function Popls() {
-//   return <h2>Popls</h2>;
-// }
-function Campaigns() {
-  return <h2>Popls</h2>;
-}
-
-function Topic() {
-  let { module } = useParams();
-  return <h3>Module: {titleCase(module.replace("-", " "))}</h3>;
 }

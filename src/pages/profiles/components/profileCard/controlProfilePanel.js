@@ -1,11 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Grid, FormGroup, FormControlLabel, Switch } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import CButton from "../../../../components/CButton";
+import connectIcon from "../../../../assets/svg/connect-dark.svg";
+import useStyles from "./styles/styles";
 
 function ProfilePanel({
   handleClickPoplItem,
@@ -13,6 +14,9 @@ function ProfilePanel({
   directOn,
   section2,
 }) {
+  const classes = useStyles();
+  const history = useHistory();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -68,10 +72,16 @@ function ProfilePanel({
           fullWidth
           variant="outlined"
           size="small"
-          startIcon={<EditIcon />}
-          cb={() => console.log("edit")}
+          startIcon={
+            <img
+              className={classes.connectIcon}
+              alt="connections"
+              src={connectIcon}
+            />
+          }
+          cb={() => history.push("/connections")}
         >
-          Edit
+          Connections
         </CButton>
       </Grid>
       <Grid item xs={12}>

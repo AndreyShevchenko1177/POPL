@@ -8,13 +8,13 @@ export default function SocialPoplsIcons({ style, data, handleClick }) {
   };
   return (
     <>
-      {data.map(({ title, value }, key) => (
+      {data.map(({ title, value, id }, key) => (
         <div
           onClick={(event) => handleClick(event, () => linkRedirect(value))}
           className={style}
           key={key}
         >
-          <img style={{ width: "50px" }} src={icons[title]} alt={title} />
+          <img style={{ width: "50px" }} src={icons[id]} alt={title} />
         </div>
       ))}
     </>

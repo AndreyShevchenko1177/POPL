@@ -12,7 +12,6 @@ import {
   Collapse,
 } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-// import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
@@ -42,9 +41,9 @@ function PermanentDrawerLeft({ location, history }) {
   const [collapse, setCollapse] = React.useState({
     analyticsOpen: false,
     profilesIsOpen: false,
+    connectionsOpen: false,
+    campaignsOpen: false,
   });
-
-  // console.log(props);
 
   const handleCollapseClick = (name) => {
     setCollapse({ ...collapse, [name]: !collapse[name] });
@@ -62,15 +61,22 @@ function PermanentDrawerLeft({ location, history }) {
       name = location.pathname.split("/")[2];
       setCollapse({ ...collapse, analyticsOpen: true });
     }
-    if (name === "profiles" && location.pathname.split("/").length > 2) {
+    if (
+      ["profiles", "connections", "campaings"].includes(name) &&
+      location.pathname.split("/").length > 2
+    ) {
       name = location.pathname.split("/")[2];
     }
 
-    if (name === "new-profile") {
-      setCollapse({ ...collapse, profilesIsOpen: true });
+    if (name === "crm-integrations") {
+      setCollapse({ ...collapse, connectionsOpen: true });
     }
 
-    if (name === "popls") {
+    if (name === "pop-branding") {
+      setCollapse({ ...collapse, campaignsOpen: true });
+    }
+
+    if (name === "new-profile" || name === "popls") {
       setCollapse({ ...collapse, profilesIsOpen: true });
     }
 
@@ -208,7 +214,10 @@ function PermanentDrawerLeft({ location, history }) {
               [classes.ulListHighLight]: highlight.connections,
             })}
             button
-            onClick={() => highlightList("connections")}
+            onClick={() => {
+              handleCollapseClick("connectionsOpen");
+              highlightList("connections");
+            }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
@@ -226,8 +235,32 @@ function PermanentDrawerLeft({ location, history }) {
               }}
               primary="Connections"
             />
+            <ExpandMoreIcon
+              style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+            />
           </ListItem>
         </Link>
+        <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
+          <Link to="/connections/crm-integrations">
+            <ListItem
+              button
+              className={clsx(classes.nested, {
+                [classes.ulListHighLight]: highlight["crm-integrations"],
+              })}
+              onClick={() => highlightList("crm-integrations")}
+            >
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listTextNested, {
+                    [classes.listTextHighLight]: highlight["crm-integrations"],
+                  }),
+                }}
+                primary="CRM Integrations"
+              />
+            </ListItem>
+          </Link>
+        </Collapse>
         <Link to="/campaigns">
           <ListItem
             divider={false}
@@ -235,7 +268,10 @@ function PermanentDrawerLeft({ location, history }) {
               [classes.ulListHighLight]: highlight.campaigns,
             })}
             button
-            onClick={() => highlightList("campaigns")}
+            onClick={() => {
+              handleCollapseClick("campaignsOpen");
+              highlightList("campaigns");
+            }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
@@ -253,8 +289,33 @@ function PermanentDrawerLeft({ location, history }) {
               }}
               primary="Campaigns"
             />
+            <ExpandMoreIcon
+              style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
+            />
           </ListItem>
         </Link>
+        <Collapse in={collapse.campaignsOpen} timeout="auto" unmountOnExit>
+          <Link to="/campaings/pop-branding">
+            <ListItem
+              divider={false}
+              className={clsx(classes.nested, {
+                [classes.ulListHighLight]: highlight["pop-branding"],
+              })}
+              button
+              onClick={() => highlightList("pop-branding")}
+            >
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listTextNested, {
+                    [classes.listTextHighLight]: highlight["pop-branding"],
+                  }),
+                }}
+                primary="Pop Branding"
+              />
+            </ListItem>
+          </Link>
+        </Collapse>
         <ListItem
           className={classes.ulList}
           button
@@ -311,55 +372,8 @@ function PermanentDrawerLeft({ location, history }) {
                 />
               </ListItem>
             </Link>
-            <Link to="/analytics/crm-integrations">
-              <ListItem
-                button
-                className={clsx(classes.nested, {
-                  [classes.ulListHighLight]: highlight["crm-integrations"],
-                })}
-                onClick={() => highlightList("crm-integrations")}
-              >
-                <ListItemText
-                  disableTypography
-                  classes={{
-                    root: clsx(classes.listTextNested, {
-                      [classes.listTextHighLight]:
-                        highlight["crm-integrations"],
-                    }),
-                  }}
-                  primary="CRM Integrations"
-                />
-              </ListItem>
-            </Link>
           </List>
         </Collapse>
-        <Link to="/clip-app">
-          <ListItem
-            divider={false}
-            className={clsx(classes.ulList, {
-              [classes.ulListHighLight]: highlight["clip-app"],
-            })}
-            button
-            onClick={() => highlightList("clip-app")}
-          >
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className="side-bar-icons"
-                alt="clip app"
-                src={!highlight["clip-app"] ? clipApp : clipAppDark}
-              />
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              classes={{
-                root: clsx(classes.listText, {
-                  [classes.listTextHighLight]: highlight["clip-app"],
-                }),
-              }}
-              primary="Clip App"
-            />
-          </ListItem>
-        </Link>
         <Link to="/settings">
           <ListItem
             button

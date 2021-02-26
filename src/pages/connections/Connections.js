@@ -1,7 +1,7 @@
 import React from "react";
 
 function ConnectionsPage() {
-  return <div>Connections Page;</div>;
+  return <h2>Connections Page</h2>;
 }
 
 export default ConnectionsPage;

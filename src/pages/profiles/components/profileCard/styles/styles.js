@@ -129,4 +129,8 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-end",
     paddingRight: "20px",
   },
+  connectIcon: {
+    width: "15px",
+    height: "15px",
+  },
 }));
