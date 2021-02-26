@@ -59,6 +59,19 @@ let theme = createMuiTheme({
         borderRadius: 10,
       },
     },
+    MuiTabs: {
+      indicator: {
+        height: 0,
+      },
+    },
+    MuiTab: {
+      root: {
+        textTransform: "none",
+      },
+      wrapper: {
+        fontSize: "1rem",
+      },
+    },
     MuiTypography: {
       h2: {
         fontWeight: "700",

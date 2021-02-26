@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
-import { Translate } from "@material-ui/icons";
 import Header from "../../components/Header";
 import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
 import PoplForm from "./components/poplForm";

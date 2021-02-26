@@ -192,7 +192,7 @@ function PermanentDrawerLeft({ location, history }) {
               })}
               onClick={() => {
                 highlightList("popls");
-                history.push(`/profiles/popls/${profileData.id}`, profileData);
+                history.push("/profiles/popls", profileData);
               }}
             >
               <ListItemText

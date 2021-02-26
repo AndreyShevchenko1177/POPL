@@ -37,13 +37,13 @@ export default function Profiles() {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
-      return history.push(`/profiles/popls/${id}`, userData);
+      return history.push("/profiles/popls", userData);
     }
     if (
       typeof event.target.className === "string" &&
       event.target.className.includes("target-element")
     ) {
-      history.push(`/profiles/popls/${id}`, userData);
+      history.push("/profiles/popls", userData);
     }
   }
 
