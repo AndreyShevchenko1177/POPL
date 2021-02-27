@@ -129,7 +129,6 @@ function Login(props) {
   };
 
   useEffect(() => {
-    console.log(result);
     if (result.data) history.push("/");
   }, [result]);
 
