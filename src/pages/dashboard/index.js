@@ -24,11 +24,12 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    !Object.keys(popsData).length && dispatch(getPopsAction(userId));
+    if (!popsData) dispatch(getPopsAction(userId));
+    // !Object.keys(popsData).length && dispatch(getPopsAction(userId));
   }, []);
 
   useEffect(() => {
-    if (popsData.length) {
+    if (popsData?.length) {
       const result = {};
       const currentDate = new Date();
       const periodDate = new Date().setDate(currentDate.getDate() - 30);
@@ -55,6 +56,7 @@ export default function Dashboard() {
       });
       setChartData(result);
     }
+    setChartData(popsData);
   }, [popsData]);
 
   return (

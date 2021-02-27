@@ -15,11 +15,14 @@ function RealTimeAnalytics() {
   const [chartData, setChartData] = useState();
 
   useEffect(() => {
-    !Object.keys(popsData).length && dispatch(getPopsAction(userId));
+    if (!popsData) {
+      dispatch(getPopsAction(userId));
+    }
+    // !Object.keys(popsData).length && dispatch(getPopsAction(userId));
   }, []);
 
   useEffect(() => {
-    if (popsData.length) {
+    if (popsData?.length) {
       const result = {};
       const currentDate = new Date();
       const periodDate = new Date().setDate(currentDate.getDate() - 30);
@@ -46,18 +49,12 @@ function RealTimeAnalytics() {
       });
       setChartData(result);
     }
+    setChartData(popsData);
   }, [popsData]);
-
-  console.log(
-    "\nGET POPS API RESPONSE\n",
-    popsData,
-    "\n\n\nDATA FOR GRAPH",
-    chartData
-  );
 
   return (
     <div className="real-time-analytics-container">
-      <TopStatistics popsCount={popsData.length} />
+      <TopStatistics popsCount={popsData?.length} />
       <NetworkActivity data={chartData} />
     </div>
   );

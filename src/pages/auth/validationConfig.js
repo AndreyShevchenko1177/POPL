@@ -70,13 +70,13 @@ export const signUpConfig = {
     minLength: 2,
     required: true,
     label: "Confirm password",
-    confirmPassword: true,
+    equal: true,
     value: "",
     errors: {
       minLength: "min length error",
       maxLength: "max length error",
       required: "should be not empty",
-      confirmPassword: "should be equal to password",
+      equal: "should be equal to password",
     },
   },
 };

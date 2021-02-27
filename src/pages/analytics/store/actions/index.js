@@ -8,7 +8,7 @@ export const getPopsAction = (id) => async (dispatch) => {
   try {
     const getPopsFormData = new FormData();
     getPopsFormData.append("sAction", "AjaxGetPops");
-    getPopsFormData.append("pid", 4822);
+    getPopsFormData.append("pid", Number(id));
     getPopsFormData.append("ajax", 1);
 
     const response = await axios.post("", getPopsFormData, {

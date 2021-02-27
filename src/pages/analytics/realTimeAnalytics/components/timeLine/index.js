@@ -29,7 +29,6 @@ const barData = [
 export default function NetworkActivity({ data }) {
   const classes = useStyles();
   const [chartData, setChartData] = useState();
-
   useEffect(() => {
     if (data) {
       const result = [];
@@ -58,12 +57,19 @@ export default function NetworkActivity({ data }) {
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          {!chartData ? (
+          {chartData === undefined ? (
             <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />
           ) : (
-            <Line options={chartOptions.options} data={chartData} />
+            <>
+              <Line options={chartOptions.options} data={chartData} />
+              {!chartData.length && (
+                <div className={classes.noDataText}>
+                  No data for this period
+                </div>
+              )}
+            </>
           )}
         </div>
         <div className={classes["network-container__bar"]}>

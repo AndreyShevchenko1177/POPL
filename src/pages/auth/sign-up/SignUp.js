@@ -19,116 +19,8 @@ import Mail from "@material-ui/icons/Mail";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
-import getFieldValidation from "../../../utils/validateFields";
 import { signUpAction } from "../store/actions";
-
-const options = {
-  separate: true,
-  customFields: {
-    username: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>{props.label}</InputLabel>
-        <Input
-          type={"text"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-    email: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>{props.label}</InputLabel>
-        <Input
-          type={"text"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-          autoFocus
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-    password: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>{props.label}</InputLabel>
-        <Input
-          type={props.showPassword[props.name] ? "text" : "password"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => props.handleClickShowPassword(props.name)}
-              >
-                {props.showPassword[props.name] ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-    confirmPassword: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>{props.label}</InputLabel>
-        <Input
-          type={props.showPassword[props.name] ? "text" : "password"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => props.handleClickShowPassword(props.name)}
-              >
-                {props.showPassword[props.name] ? (
-                  <Visibility />
-                ) : (
-                  <VisibilityOff />
-                )}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-  },
-};
-
-const [UserName, Email, Password, ConfirmPassword, start] = getFieldValidation(
-  signUpConfig,
-  options
-);
+import ValidationProder from "../../../utils/validationProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -166,25 +58,19 @@ function SignUp(props) {
     password: false,
     confirmPassword: false,
   });
-  const [value, setValue] = useState({});
-  const [error, setError] = useState({});
   const signUpResult = useSelector(({ authReducer }) => authReducer.signUp);
-  const signIpResult = useSelector(({ authReducer }) => authReducer.signIp);
 
   function handleClickShowPassword(name) {
     setShowPassword({ ...showPassword, [name]: !showPassword[name] });
   }
 
-  const signUp = () => {
-    const error = start(value);
-    setError(error);
-    if (Object.keys(error).length) return;
+  const signUp = (values) => {
     dispatch(
       signUpAction({
-        username: value.username.value,
-        email: value.email.value,
-        password: value.password.value,
-        confirmPassword: value.confirmPassword.value,
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
       })
     );
   };
@@ -203,90 +89,216 @@ function SignUp(props) {
         className={clsx(classes.root)}
       >
         <Paper elevation={3} className={classes.loginBg}>
-          <Grid
-            container
-            item
-            spacing={2}
-            justify="center"
-            alignItems="center"
-            className={clsx(classes.loginBox)}
-          >
-            <Grid
-              item
-              xl={12}
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-              align="center"
-              style={{ marginBottom: 20 }}
-            >
-              <Typography variant="h3">Set up your Popl!</Typography>
-              <br />
-              <Typography variant="body1">
-                Enter your information below to set up your Popl
-              </Typography>
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <UserName
-                value={value}
-                setValue={setValue}
-                errors={error}
-                apiError={signUpResult.error}
-              />
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Email
-                value={value}
-                setValue={setValue}
-                errors={error}
-                apiError={signUpResult.error}
-              />
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Password
-                value={value}
-                setValue={setValue}
-                errors={error}
-                handleClickShowPassword={handleClickShowPassword}
-                showPassword={showPassword}
-                apiError={signUpResult.error}
-              />
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <ConfirmPassword
-                value={value}
-                setValue={setValue}
-                errors={error}
-                handleClickShowPassword={handleClickShowPassword}
-                showPassword={showPassword}
-                apiError={signUpResult.error}
-              />
-            </Grid>
-            <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button
-                variant="contained"
-                fullWidth
-                disabled={!Object.keys(value).length}
-                color="primary"
-                onClick={signUp}
-                className={classes.loginBtn}
+          <ValidationProder config={signUpConfig}>
+            {(events, values, errors) => (
+              <Grid
+                container
+                item
+                spacing={2}
+                justify="center"
+                alignItems="center"
+                className={clsx(classes.loginBox)}
               >
-                Create Profile
-              </Button>
-            </Grid>
-            <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button
-                variant="contained"
-                fullWidth
-                color="primary"
-                type="button"
-                onClick={() => history.push("/sign-in")}
-              >
-                Already Set up? Log in here
-              </Button>
-            </Grid>
-          </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <Typography variant="h3">Set up your Popl!</Typography>
+                  <br />
+                  <Typography variant="body1">
+                    Enter your information below to set up your Popl
+                  </Typography>
+                </Grid>
+                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Username/Email</InputLabel>
+                    <Input
+                      type="text"
+                      label="Username/Email"
+                      name="username"
+                      fullWidth
+                      error={!!errors.username || signUpResult.error}
+                      value={values.username}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signUp, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Mail />
+                        </InputAdornment>
+                      }
+                      autoFocus
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {signUpResult.error
+                        ? "Some field is incorrect"
+                        : errors.username}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Email</InputLabel>
+                    <Input
+                      type="text"
+                      label="Email"
+                      name="email"
+                      fullWidth
+                      error={!!errors.email || signUpResult.error}
+                      value={values.email}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signUp, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Mail />
+                        </InputAdornment>
+                      }
+                      autoFocus
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {signUpResult.error
+                        ? "Some field is incorrect"
+                        : errors.email}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Password</InputLabel>
+                    <Input
+                      type={showPassword.password ? "text" : "password"}
+                      label="Password"
+                      name="password"
+                      fullWidth
+                      error={!!errors.password || signUpResult.error}
+                      value={values.password}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signUp, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => handleClickShowPassword("password")}
+                          >
+                            {showPassword.password ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {signUpResult.error
+                        ? "Some field is incorrect"
+                        : errors.password}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel>Confirm password</InputLabel>
+                    <Input
+                      type={showPassword.confirmPassword ? "text" : "password"}
+                      label="Confirm password"
+                      name="confirmPassword"
+                      fullWidth
+                      error={!!errors.confirmPassword || signUpResult.error}
+                      value={values.confirmPassword}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signUp, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              handleClickShowPassword("confirmPassword")
+                            }
+                          >
+                            {showPassword.confirmPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {signUpResult.error
+                        ? "Some field is incorrect"
+                        : errors.confirmPassword}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid
+                  align="center"
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    // disabled={!Object.keys(value).length}
+                    color="primary"
+                    onClick={() => events.submit(signUp)}
+                    className={classes.loginBtn}
+                  >
+                    Create Profile
+                  </Button>
+                </Grid>
+                <Grid
+                  align="center"
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    color="primary"
+                    type="button"
+                    onClick={() => history.push("/sign-in")}
+                  >
+                    Already Set up? Log in here
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+          </ValidationProder>
         </Paper>
       </Grid>
     </>

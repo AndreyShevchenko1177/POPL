@@ -9,9 +9,10 @@ import Loader from "../../../../../components/Loader";
 
 function StatisticItem({ title, value, percentage, isTop, count }) {
   const classes = useStyles();
+  console.log(title, value, percentage, isTop);
   return (
     <div className={classes.topStatisticsItemContainer}>
-      {!count ? (
+      {count === undefined ? (
         <Loader />
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>
@@ -21,7 +22,12 @@ function StatisticItem({ title, value, percentage, isTop, count }) {
               {title}
             </Typography>
           </div>
-          <div className={classes.topStatisticsItemValue}>{value}</div>
+          <div
+            className={classes.topStatisticsItemValue}
+            style={{ textAlign: value ? "start" : "center" }}
+          >
+            {value || "-"}
+          </div>
           <div className={classes.topStatisticsItemPercentage}>
             {isTop ? (
               <ArrowDropUpIcon className={classes.topArrowIcon} />

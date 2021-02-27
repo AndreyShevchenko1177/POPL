@@ -18,67 +18,9 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import Mail from "@material-ui/icons/Mail";
-import getFieldValidation from "../../../utils/validateFields";
 import { signInConfig } from "../validationConfig";
 import { signInAction } from "../store/actions";
-
-const options = {
-  separate: true,
-  customFields: {
-    username: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>Username/Email</InputLabel>
-        <Input
-          type={"text"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <Mail />
-            </InputAdornment>
-          }
-          autoFocus
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-    password: (props) => (
-      <FormControl fullWidth>
-        <InputLabel>Password</InputLabel>
-        <Input
-          type={props.showPassword ? "text" : "password"}
-          label={props.label}
-          name={props.name}
-          fullWidth={props.fullWidth}
-          error={props.error}
-          value={props.value}
-          onChange={props.onChange}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={props.handleClickShowPassword}
-              >
-                {props.showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        <FormHelperText id="outlined-weight-helper-text" error={true}>
-          {props.errorText}
-        </FormHelperText>
-      </FormControl>
-    ),
-  },
-};
-
-const [UserName, Password, start] = getFieldValidation(signInConfig, options);
+import ValidationProder from "../../../utils/validationProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,22 +50,17 @@ function Login(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
-  const [value, setValue] = useState({});
-  const [error, setError] = useState({});
   const result = useSelector(({ authReducer }) => authReducer.signIn);
 
   function handleClickShowPassword() {
     setShowPassword(!showPassword);
   }
 
-  const signIn = () => {
-    const error = start(value);
-    setError(error);
-    if (Object.keys(error).length) return;
+  const signIn = (values, errors) => {
     dispatch(
       signInAction({
-        username: value.username.value,
-        password: value.password.value,
+        username: values.username,
+        password: values.password,
       })
     );
   };
@@ -142,69 +79,153 @@ function Login(props) {
         className={clsx(classes.root)}
       >
         <Paper elevation={3} className={classes.loginBg}>
-          <Grid
-            container
-            item
-            spacing={2}
-            justify="center"
-            alignItems="center"
-            className={clsx(classes.loginBox)}
-          >
-            <Grid
-              item
-              xl={12}
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-              align="center"
-              style={{ marginBottom: 20 }}
-            >
-              <Typography variant="h3">Login</Typography>
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align="center">
-              <UserName
-                value={value}
-                setValue={setValue}
-                errors={error}
-                apiError={result.error}
-              />
-            </Grid>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align="center">
-              <Password
-                value={value}
-                setValue={setValue}
-                errors={error}
-                handleClickShowPassword={handleClickShowPassword}
-                showPassword={showPassword}
-                apiError={result.error}
-              />
-            </Grid>
-            <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button
-                variant="contained"
-                fullWidth
-                disabled={!Object.keys(value).length}
-                color="primary"
-                type="submit"
-                className={classes.loginBtn}
-                onClick={signIn}
+          <ValidationProder config={signInConfig}>
+            {(events, values, errors) => (
+              <Grid
+                container
+                item
+                spacing={2}
+                justify="center"
+                alignItems="center"
+                className={clsx(classes.loginBox)}
               >
-                Submit
-              </Button>
-            </Grid>
-            <Grid align="center" item xl={12} lg={12} md={12} sm={12} xs={12}>
-              <Button
-                variant="contained"
-                fullWidth
-                color="primary"
-                type="button"
-                onClick={() => history.push("/sign-up")}
-              >
-                Don't have a profile? Join here
-              </Button>
-            </Grid>
-          </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <Typography variant="h3">Login</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                >
+                  <FormControl fullWidth>
+                    <InputLabel>Username/Email</InputLabel>
+                    <Input
+                      type="text"
+                      label="Username/Email"
+                      name="username"
+                      fullWidth
+                      error={!!errors.username || result.error}
+                      value={values.username}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signIn, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Mail />
+                        </InputAdornment>
+                      }
+                      autoFocus
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {result.error
+                        ? "Some field is incorrect"
+                        : errors.username}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                >
+                  <FormControl fullWidth>
+                    <InputLabel>Password</InputLabel>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      name="password"
+                      fullWidth
+                      error={!!errors.password || result.error}
+                      value={values.password}
+                      onChange={events.onChange}
+                      onKeyDown={(event) =>
+                        events.onKeyDown(event, signIn, "Enter")
+                      }
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    <FormHelperText
+                      id="outlined-weight-helper-text"
+                      error={true}
+                    >
+                      {result.error
+                        ? "Some field is incorrect"
+                        : errors.password}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid
+                  align="center"
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    // disabled={!Object.keys(value).length}
+                    color="primary"
+                    type="submit"
+                    className={classes.loginBtn}
+                    onClick={() => events.submit(signIn)}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid
+                  align="center"
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    color="primary"
+                    type="button"
+                    onClick={() => history.push("/sign-up")}
+                  >
+                    Don't have a profile? Join here
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+          </ValidationProder>
         </Paper>
       </Grid>
     </>

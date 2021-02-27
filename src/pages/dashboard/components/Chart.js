@@ -20,10 +20,15 @@ export default function Chart({ data }) {
   }, [data]);
   return (
     <div className={classes.chartContainer}>
-      {!chartData ? (
+      {chartData === undefined ? (
         <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
       ) : (
-        <Line options={chartOptions.options} data={chartData} />
+        <>
+          <Line options={chartOptions.options} data={chartData} />
+          {!chartData.length && (
+            <div className={classes.noDataText}>No data for this period</div>
+          )}
+        </>
       )}
     </div>
   );

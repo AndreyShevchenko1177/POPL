@@ -2,7 +2,7 @@ import { GET_POPS_SUCCESS, GET_POPS_FAIL } from "../actionTypes";
 
 const initialState = {
   allPops: {
-    data: [],
+    data: null,
     error: null,
   },
 };

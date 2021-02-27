@@ -52,4 +52,12 @@ export default makeStyles((theme) => ({
     minHeight: "500px",
     width: "100%",
   },
+  noDataText: {
+    position: "absolute",
+    fontSize: "18px",
+    color: "#6f829a",
+    top: "40%",
+    left: "40%",
+    fontWeight: "500",
+  },
 }));
