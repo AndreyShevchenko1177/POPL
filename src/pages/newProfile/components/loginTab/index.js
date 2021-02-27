@@ -14,8 +14,10 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Mail from "@material-ui/icons/Mail";
 import ValidationProvider from "../../../../utils/validationProvider";
 import { signInConfig } from "../../../auth/validationConfig";
+import useStyles from "./styles";
 
 function LoginTab() {
+  const classes = useStyles();
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
@@ -33,8 +35,8 @@ function LoginTab() {
     <div>
       <ValidationProvider config={signInConfig}>
         {(events, values, errors) => (
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
+          <Grid className={classes.loginInputsContainer} container spacing={3}>
+            <Grid className={classes.loginInput} item xs={8}>
               <FormControl fullWidth>
                 <InputLabel>Username/Email</InputLabel>
                 <Input
@@ -57,7 +59,7 @@ function LoginTab() {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+            <Grid className={classes.loginInput} item xs={8}>
               <FormControl fullWidth>
                 <InputLabel>Password</InputLabel>
                 <Input
@@ -71,6 +73,7 @@ function LoginTab() {
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
+                        className={classes.passwordInputIconbutton}
                         aria-label="toggle password visibility"
                         onClick={() => handleClickShowPassword("password")}
                       >

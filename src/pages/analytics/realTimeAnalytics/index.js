@@ -52,6 +52,13 @@ function RealTimeAnalytics() {
     setChartData(popsData);
   }, [popsData]);
 
+  console.log(
+    "\nGET POPS API RESPONSE\n",
+    popsData,
+    "\n\n\nDATA FOR GRAPH",
+    chartData
+  );
+
   return (
     <div className="real-time-analytics-container">
       <TopStatistics popsCount={popsData?.length} />
