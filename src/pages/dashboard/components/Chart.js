@@ -25,7 +25,7 @@ export default function Chart({ data }) {
       ) : (
         <>
           <Line options={chartOptions.options} data={chartData} />
-          {!chartData.length && (
+          {!chartData?.datasets[0]?.data?.length && (
             <div className={classes.noDataText}>No data for this period</div>
           )}
         </>

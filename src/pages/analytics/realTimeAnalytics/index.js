@@ -48,8 +48,9 @@ function RealTimeAnalytics() {
         }
       });
       setChartData(result);
+    } else {
+      setChartData(popsData);
     }
-    setChartData(popsData);
   }, [popsData]);
 
   console.log(

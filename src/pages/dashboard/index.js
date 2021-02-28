@@ -55,8 +55,9 @@ export default function Dashboard() {
         }
       });
       setChartData(result);
+    } else {
+      setChartData(popsData);
     }
-    setChartData(popsData);
   }, [popsData]);
 
   return (
