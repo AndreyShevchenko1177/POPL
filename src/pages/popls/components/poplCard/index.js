@@ -8,7 +8,7 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import CButton from "../../../../components/CButton";
 import DragDots from "../../../../components/dragDots";
-import dateFormat from "../../../../utils/dateFormat";
+import { dateFormat } from "../../../../utils/dates";
 
 function PoplCard({ popl, editAction }) {
   const classes = useStyles();

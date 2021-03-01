@@ -36,7 +36,7 @@ function RealTimeAnalytics() {
       )}`.split("-");
       popsData.forEach((pop) => {
         const [_ry, receiveMonth, receiveDay] = pop[2].split(" ")[0].split("-");
-        if (currentMonth === receiveMonth) {
+        if (currentMonth === receiveMonth && _cy === _ry) {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;
         } else if (
@@ -47,18 +47,12 @@ function RealTimeAnalytics() {
           result[date] = (result[date] || 0) + 1;
         }
       });
+
       setChartData(result);
     } else {
       setChartData(popsData);
     }
   }, [popsData]);
-
-  console.log(
-    "\nGET POPS API RESPONSE\n",
-    popsData,
-    "\n\n\nDATA FOR GRAPH",
-    chartData
-  );
 
   return (
     <div className="real-time-analytics-container">

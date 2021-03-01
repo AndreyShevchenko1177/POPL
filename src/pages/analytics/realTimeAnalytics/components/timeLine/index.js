@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
-import Bar from "./bar";
+import CustomBar from "./bar";
 import Loader from "../../../../../components/Loader";
+import { getMothName, getMonth, getDay } from "../../../../../utils/dates";
 
 const barData = [
   {
@@ -32,10 +33,13 @@ export default function NetworkActivity({ data }) {
   useEffect(() => {
     if (data) {
       const result = [];
+      const labels = [];
       Object.keys(data).forEach((key) => {
-        result.push({ t: key, y: data[key] });
+        result.push(data[key]);
+        labels.push(`${getMothName(getMonth(key))} ${getDay(key)}`);
       });
       chartOptions.data.datasets[0].data = result;
+      chartOptions.data.labels = labels;
       setChartData(chartOptions.data);
     }
   }, [data]);
@@ -63,7 +67,7 @@ export default function NetworkActivity({ data }) {
             />
           ) : (
             <>
-              <Line options={chartOptions.options} data={chartData} />
+              <Bar options={chartOptions.options} data={chartData} />
               {!chartData?.datasets[0]?.data?.length && (
                 <div className={classes.noDataText}>
                   No data for this period
@@ -84,7 +88,7 @@ export default function NetworkActivity({ data }) {
                 key={key}
                 className={classes["network-container__bar-item-container"]}
               >
-                <Bar {...props} />
+                <CustomBar {...props} />
               </div>
             ))}
           </div>
