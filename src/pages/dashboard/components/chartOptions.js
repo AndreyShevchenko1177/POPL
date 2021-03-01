@@ -22,6 +22,7 @@ const chartOptions = {
         backgroundColor: "rgba(89, 185, 158, 0.7)",
         borderWidth: 1,
         borderColor: "rgba(89, 185, 158, 1)",
+        maxBarThickness: 50,
         // hoverBackgroundColor: "rgba(255,99,132,0.4)",
         // hoverBorderColor: "rgba(255,99,132,1)",
         fill: true,

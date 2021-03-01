@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
-import chartOptions from "./mockData";
+import chartOptions from "./chartOptions";
 import Loader from "../../../components/Loader";
 import useStyles from "./styles/style";
 import { getDay, getMonth, getMothName } from "../../../utils/dates";
