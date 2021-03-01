@@ -43,12 +43,14 @@ export default function Dashboard() {
       )}`.split("-");
       popsData.forEach((pop) => {
         const [_ry, receiveMonth, receiveDay] = pop[2].split(" ")[0].split("-");
-        if (currentMonth === receiveMonth && _ry === _cy) {
+        if (currentMonth === receiveMonth && _cy === _ry) {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;
         } else if (
-          Number(periodDay) <= Number(receiveDay) &&
-          periodMonth === receiveMonth
+          (periodMonth === receiveMonth &&
+            Number(periodDay) <= Number(receiveDay)) ||
+          (Number(periodMonth) < Number(receiveMonth) &&
+            Number(currentMonth) > Number(receiveMonth))
         ) {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;

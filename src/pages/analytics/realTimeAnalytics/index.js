@@ -40,14 +40,15 @@ function RealTimeAnalytics() {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;
         } else if (
-          Number(periodDay) <= Number(receiveDay) &&
-          periodMonth === receiveMonth
+          (periodMonth === receiveMonth &&
+            Number(periodDay) <= Number(receiveDay)) ||
+          (Number(periodMonth) < Number(receiveMonth) &&
+            Number(currentMonth) > Number(receiveMonth))
         ) {
           const date = pop[2].split(" ")[0];
           result[date] = (result[date] || 0) + 1;
         }
       });
-
       setChartData(result);
     } else {
       setChartData(popsData);
