@@ -21,9 +21,10 @@ export default function Card({
   bio,
   handleClickPoplItem,
   profileLink,
+  profilesCheck,
+  checkboxes,
 }) {
   const classes = useStyles();
-  const [checked, setChecked] = useState(false);
   const [directOn, setDirectOn] = useState({
     dir1: {
       direct: false,
@@ -39,8 +40,8 @@ export default function Card({
   const setBio = () => {
     const result = directOn.dir2.direct ? bio.personal : bio.business;
     return (
-      result ||
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
+      result
+      || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
     );
   };
 
@@ -86,8 +87,9 @@ export default function Card({
               color="primary"
               inputProps={{ "aria-label": "primary checkbox" }}
               style={{ width: "40px", height: "40px" }}
-              onClick={() => setChecked(!checked)}
-              checked={checked}
+              onClick={profilesCheck}
+              name={name}
+              checked={checkboxes[name]}
             />
           </div>
         </div>

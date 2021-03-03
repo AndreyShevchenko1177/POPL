@@ -14,10 +14,12 @@ export default function Profiles() {
   const history = useHistory();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const profilesData = useSelector(
-    ({ profilesReducer }) => profilesReducer.dataProfiles.data
+    ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
+  const [mainCheck, setMainCheck] = useState(false);
+  const [checkboxes, setCheckBoxes] = useState({});
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/new-profile");
@@ -40,12 +42,26 @@ export default function Profiles() {
       return history.push("/profiles/popls", userData);
     }
     if (
-      typeof event.target.className === "string" &&
-      event.target.className.includes("target-element")
+      typeof event.target.className === "string"
+      && event.target.className.includes("target-element")
     ) {
       history.push("/profiles/popls", userData);
     }
   }
+
+  const handleCheck = (event) => {
+    setMainCheck(event.target.checked);
+    const checkBoxObject = {};
+    Object.keys(checkboxes).forEach((el) => {
+      checkBoxObject[el] = event.target.checked;
+    });
+    setCheckBoxes(checkBoxObject);
+  };
+
+  const profilesCheck = (event) => {
+    const { name } = event.target;
+    setCheckBoxes({ ...checkboxes, [name]: !checkboxes[name] });
+  };
 
   useEffect(() => {
     dispatch(getProfileAction(userData.id));
@@ -53,7 +69,23 @@ export default function Profiles() {
 
   useEffect(() => {
     setProfiles(profilesData);
+    // const prof1 = profilesData.map((el) => ({ ...el, id: 123213, name: "Vit9" }));
+    // setProfiles([...profilesData, ...prof1]);
   }, [profilesData]);
+
+  useEffect(() => {
+    const checkBoxObject = {};
+    profiles.forEach((el) => {
+      checkBoxObject[el.name] = false;
+    });
+    setCheckBoxes(checkBoxObject);
+  }, [profiles]);
+
+  useEffect(() => {
+    if (Object.values(checkboxes).every((el) => !el)) {
+      setMainCheck(false);
+    }
+  }, [checkboxes]);
 
   return (
     <div className="profiles-page-container main-padding">
@@ -61,6 +93,9 @@ export default function Profiles() {
         <SearchStripe
           handleOpen={handleOpenNewProfilePage}
           btn_title="Add Profile"
+          handleCheck={handleCheck}
+          isProfileChecked={Object.values(checkboxes).every((el) => el)}
+          checked={mainCheck}
         />
         {!profiles.length ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
@@ -91,14 +126,15 @@ export default function Profiles() {
                             id={el.id}
                             heading={el.name}
                             src={userData.image}
+                            mainCheck={mainCheck}
                             name={el.name}
                             profileLink={userData.url}
                             businessLinks={el.business}
                             socialLinks={el.social}
                             bio={{ business: el.bioBusiness, personal: el.bio }}
-                            handleClickPoplItem={(event, buttonName) =>
-                              handleClickPoplItem(event, el.id, buttonName)
-                            }
+                            handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
+                            profilesCheck={profilesCheck}
+                            checkboxes={checkboxes}
                           />
                         </div>
                       )}

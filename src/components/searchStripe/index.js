@@ -1,19 +1,22 @@
 import React from "react";
-import { Paper, InputBase, Checkbox, Button } from "@material-ui/core";
+import {
+  Paper, InputBase, Checkbox, Button,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import useStyles from "./styles/styles";
 
-function SearchStripe({ handleOpen, btn_title }) {
+function SearchStripe({
+  handleOpen, btn_title, checked, isProfileChecked, handleCheck,
+}) {
   const classes = useStyles();
-
   return (
     <div className={classes.searchContainer}>
       <div className={classes.checkbox}>
         <Checkbox
-          // checked={checked}
-          // onChange={handleChange}
+          checked={checked || isProfileChecked}
+          onChange={handleCheck}
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}
           style={{ padding: "0px" }}
