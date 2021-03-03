@@ -22,14 +22,14 @@ const initialState = {
     error: null,
   },
   dataProfiles: {
-    data: [],
+    data: null,
     error: null,
   },
 };
 
 export default function profilesReducer(
   state = initialState,
-  { type, payload }
+  { type, payload },
 ) {
   switch (type) {
     case GET_PROFILES_SUCCESS: {

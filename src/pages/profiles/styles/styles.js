@@ -66,4 +66,12 @@ export default makeStyles((theme) => ({
       fontSize: 32,
     },
   },
+  noDataText: {
+    top: "40%",
+    left: "55%",
+    color: "#6f829a",
+    position: "absolute",
+    fontSize: "20px",
+    fontWeight: 500,
+  },
 }));

@@ -8,14 +8,14 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import useStyles from "./styles/styles";
 
 function SearchStripe({
-  handleOpen, btn_title, checked, isProfileChecked, handleCheck,
+  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, searchProfile,
 }) {
   const classes = useStyles();
   return (
     <div className={classes.searchContainer}>
       <div className={classes.checkbox}>
         <Checkbox
-          checked={checked || isProfileChecked}
+          checked={checked}
           onChange={handleCheck}
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}
@@ -29,10 +29,15 @@ function SearchStripe({
         <InputBase
           fullWidth
           className={classes.searchInput}
+          onChange={handleSearch}
+          value={searchValue}
           placeholder="Search"
           inputProps={{ "aria-label": "search here" }}
         />
-        <SearchIcon />
+        <div onClick={() => searchProfile(searchValue)}>
+          <SearchIcon style={{ cursor: "pointer" }}/>
+        </div>
+
       </Paper>
       <div className={classes.buttonWrapper}>
         <Button

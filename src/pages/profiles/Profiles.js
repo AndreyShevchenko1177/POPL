@@ -17,9 +17,10 @@ export default function Profiles() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const classes = useStyles();
-  const [profiles, setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState(null);
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
+  const [searchValue, setSearchValue] = useState("");
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/new-profile");
@@ -49,6 +50,18 @@ export default function Profiles() {
     }
   }
 
+  const handleSearch = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const searchProfile = (str) => {
+    if (!str) {
+      return setProfiles(profilesData);
+    }
+    const result = profilesData.filter((prof) => prof.name.slice(0, str.length).toLowerCase() === str.toLowerCase());
+    setProfiles(result);
+  };
+
   const handleCheck = (event) => {
     setMainCheck(event.target.checked);
     const checkBoxObject = {};
@@ -68,6 +81,7 @@ export default function Profiles() {
   }, []);
 
   useEffect(() => {
+    if (!profilesData) return;
     setProfiles(profilesData);
     // const prof1 = profilesData.map((el) => ({ ...el, id: 123213, name: "Vit9" }));
     // setProfiles([...profilesData, ...prof1]);
@@ -75,7 +89,7 @@ export default function Profiles() {
 
   useEffect(() => {
     const checkBoxObject = {};
-    profiles.forEach((el) => {
+    profiles && profiles.forEach((el) => {
       checkBoxObject[el.name] = false;
     });
     setCheckBoxes(checkBoxObject);
@@ -84,6 +98,8 @@ export default function Profiles() {
   useEffect(() => {
     if (Object.values(checkboxes).every((el) => !el)) {
       setMainCheck(false);
+    } else if (Object.values(checkboxes).every((el) => el)) {
+      setMainCheck(true);
     }
   }, [checkboxes]);
 
@@ -94,12 +110,15 @@ export default function Profiles() {
           handleOpen={handleOpenNewProfilePage}
           btn_title="Add Profile"
           handleCheck={handleCheck}
-          isProfileChecked={Object.values(checkboxes).every((el) => el)}
+          handleSearch={handleSearch}
+          searchValue={searchValue}
+          searchProfile={searchProfile}
+          // isProfileChecked={Object.values(checkboxes).every((el) => el)}
           checked={mainCheck}
         />
-        {!profiles.length ? (
+        {!profiles ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        ) : (
+        ) : profiles.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
               {(provided) => (
@@ -145,7 +164,10 @@ export default function Profiles() {
               )}
             </Droppable>
           </DragDropContext>
-        )}
+        ) : (<div className={classes.noDataText}>
+              No profiles was found
+            </div>)
+        }
       </Grid>
     </div>
   );
