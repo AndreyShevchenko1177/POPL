@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
@@ -15,11 +14,14 @@ import SignUp from "./pages/auth/sign-up";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
-import RealTimeAnalytics from "./pages/analytics";
+import RealTimeAnalytics from "./pages/realTimeAnalytics";
 import NewProfile from "./pages/newProfile";
 import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
 import PopBranding from "./pages/popBranding";
+import Settings from "./pages/settings";
+import GeneralSettings from "./pages/generalSettings";
+import Billing from "./pages/billing";
 
 setAxios();
 
@@ -82,8 +84,14 @@ export default function App() {
         >
           <RealTimeAnalytics />
         </PrivateRoute>
-        <PrivateRoute path="/settings" isLoggedIn={profileData?.id}>
-          <div>Settings</div>
+        <PrivateRoute path="/settings" exact isLoggedIn={profileData?.id}>
+          <Settings />
+        </PrivateRoute>
+        <PrivateRoute path="/settings/general-settings" exact isLoggedIn={profileData?.id}>
+          <GeneralSettings />
+        </PrivateRoute>
+        <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
+          <Billing />
         </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
           <Dashboard />

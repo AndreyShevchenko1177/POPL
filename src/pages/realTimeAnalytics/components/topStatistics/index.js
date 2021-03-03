@@ -8,19 +8,19 @@ function TopStatistics(props) {
   const [data, setData] = useState(initialState);
   useEffect(() => {
     Object.keys(props).map((prop) => {
-      setData((prev) =>
-        prev.map((item) => {
-          if (item.id === prop) {
-            item.value = props[prop];
-          }
-          return item;
-        })
-      );
+      setData((prev) => prev.map((item) => {
+        if (item.id === prop) {
+          item.value = props[prop];
+        }
+        return item;
+      }));
     });
   }, [props.popsCount]);
   return (
     <div className={classes.topStatisticsContainer}>
-      {data.map(({ id, title, value, percentage, isTop }) => (
+      {data.map(({
+        id, title, value, percentage, isTop,
+      }) => (
         <React.Fragment key={id}>
           <StatisticItem
             count={props.popsCount}

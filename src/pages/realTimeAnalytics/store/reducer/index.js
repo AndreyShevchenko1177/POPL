@@ -7,9 +7,9 @@ const initialState = {
   },
 };
 
-export default function analyticsReducer(
+export default function realTimeAnalytics(
   state = initialState,
-  { type, payload }
+  { type, payload },
 ) {
   switch (type) {
     case GET_POPS_SUCCESS: {

@@ -36,12 +36,12 @@ function Header({ rootLink, firstChild, path }) {
     <Paper className={classes.root}>
       <Typography
         onClick={handleRedirect}
-        className={classes.rootLink}
+        className={firstChild && classes.rootLink}
         variant="body1"
       >
         {rootLink}
       </Typography>
-      <ArrowForwardIosIcon className={classes.arrowIcon} />
+      {firstChild && <ArrowForwardIosIcon className={classes.arrowIcon} />}
       <Typography variant="h5">{firstChild}</Typography>
     </Paper>
   );

@@ -5,9 +5,11 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import clsx from "clsx";
 import useStyles from "./styles/styles";
-import Loader from "../../../../../components/Loader";
+import Loader from "../../../../components/Loader";
 
-function StatisticItem({ title, value, percentage, isTop, count }) {
+function StatisticItem({
+  title, value, percentage, isTop, count,
+}) {
   const classes = useStyles();
   console.log(title, value, percentage, isTop);
   return (
@@ -38,7 +40,7 @@ function StatisticItem({ title, value, percentage, isTop, count }) {
               variant="h6"
               className={clsx(
                 classes.percentage,
-                isTop ? classes.colorGreen : classes.colorRed
+                isTop ? classes.colorGreen : classes.colorRed,
               )}
             >
               <i>{percentage}</i>

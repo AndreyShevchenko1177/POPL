@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
 import { Bar } from "react-chartjs-2";
 import useStyles from "./styles/styles";
-import DatePicker from "../../../../../components/DatePicker";
+import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
 import CustomBar from "./bar";
-import Loader from "../../../../../components/Loader";
-import { getMothName, getMonth, getDay } from "../../../../../utils/dates";
+import Loader from "../../../../components/Loader";
+import { getMothName, getMonth, getDay } from "../../../../utils/dates";
 
 const barData = [
   {
