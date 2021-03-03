@@ -40,6 +40,8 @@ function PoplsItem() {
     setPopls(items);
   };
 
+  const search = () => console.log("search");
+
   useEffect(() => {
     dispatch(getPoplsAction());
   }, []);
@@ -70,6 +72,7 @@ function PoplsItem() {
           <SearchStripe
             handleOpen={() => handleOpenForm()}
             btn_title="Add Popl"
+            search={search}
           />
         </div>
         {!dragablePopls.length ? (

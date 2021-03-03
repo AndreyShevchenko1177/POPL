@@ -8,7 +8,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import useStyles from "./styles/styles";
 
 function SearchStripe({
-  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, searchProfile,
+  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, search,
 }) {
   const classes = useStyles();
   return (
@@ -34,7 +34,7 @@ function SearchStripe({
           placeholder="Search"
           inputProps={{ "aria-label": "search here" }}
         />
-        <div onClick={() => searchProfile(searchValue)}>
+        <div onClick={() => search(searchValue)}>
           <SearchIcon style={{ cursor: "pointer" }}/>
         </div>
 

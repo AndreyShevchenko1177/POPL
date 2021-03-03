@@ -58,7 +58,7 @@ export default function Profiles() {
     if (!str) {
       return setProfiles(profilesData);
     }
-    const result = profilesData.filter((prof) => prof.name.slice(0, str.length).toLowerCase() === str.toLowerCase());
+    const result = profilesData.filter((prof) => prof.name.toLowerCase().includes(str.toLowerCase()));
     setProfiles(result);
   };
 
@@ -112,7 +112,7 @@ export default function Profiles() {
           handleCheck={handleCheck}
           handleSearch={handleSearch}
           searchValue={searchValue}
-          searchProfile={searchProfile}
+          search={searchProfile}
           // isProfileChecked={Object.values(checkboxes).every((el) => el)}
           checked={mainCheck}
         />
