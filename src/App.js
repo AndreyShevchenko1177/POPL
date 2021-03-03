@@ -25,10 +25,6 @@ import Billing from "./pages/billing";
 
 setAxios();
 
-function titleCase(str) {
-  return str.replace(/(^|\s)\S/g, (t) => t.toUpperCase());
-}
-
 export default function App() {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   return (

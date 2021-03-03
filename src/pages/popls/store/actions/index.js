@@ -29,7 +29,7 @@ export const getPoplsAction = () => async (dispatch) => {
           severity: "error",
           duration: 3000,
           open: true,
-        })
+        }),
       );
     }
     return dispatch({
@@ -48,7 +48,7 @@ export const getPoplsAction = () => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
@@ -66,8 +66,8 @@ export const addPoplAction = (body) => async (dispatch) => {
       withCredentials: true,
     });
     if (
-      typeof response === "string" ||
-      (response.data && response.data.error)
+      typeof response === "string"
+      || (response.data && response.data.error)
     ) {
       return dispatch({
         type: ADD_POPLS_FAIL,
@@ -96,7 +96,7 @@ export const addPoplAction = (body) => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
@@ -115,8 +115,8 @@ export const editPoplAction = (body) => async (dispatch) => {
       withCredentials: true,
     });
     if (
-      typeof response === "string" ||
-      (response.data && response.data.error)
+      typeof response === "string"
+      || (response.data && response.data.error)
     ) {
       return dispatch({
         type: EDIT_POPLS_FAIL,
@@ -144,7 +144,7 @@ export const editPoplAction = (body) => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
