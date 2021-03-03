@@ -7,7 +7,7 @@ import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../analytics/store/actions";
-import { getYear, getMonth, getDay, normalizeDate } from "../../utils/dates";
+import generateChartData from "../../utils/generatePopsActivityBarChartData";
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -15,7 +15,7 @@ export default function Dashboard() {
   const history = useHistory();
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const popsData = useSelector(
-    ({ analyticsReducer }) => analyticsReducer.allPops.data
+    ({ analyticsReducer }) => analyticsReducer.allPops.data,
   );
   const [chartData, setChartData] = useState();
 
@@ -25,38 +25,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!popsData) dispatch(getPopsAction(userId));
-    // !Object.keys(popsData).length && dispatch(getPopsAction(userId));
   }, []);
 
   useEffect(() => {
     if (popsData?.length) {
-      const result = {};
-      const currentDate = new Date();
-      const periodDate = new Date().setDate(currentDate.getDate() - 30);
-      const [_cy, currentMonth, _cd] = `${getYear(currentDate)}-${normalizeDate(
-        getMonth(currentDate) + 1
-      )}-${normalizeDate(getDay(currentDate))}`.split("-");
-      const [_py, periodMonth, periodDay] = `${getYear(
-        periodDate
-      )}-${normalizeDate(getMonth(periodDate) + 1)}-${normalizeDate(
-        getDay(periodDate)
-      )}`.split("-");
-      popsData.forEach((pop) => {
-        const [_ry, receiveMonth, receiveDay] = pop[2].split(" ")[0].split("-");
-        if (currentMonth === receiveMonth && _cy === _ry) {
-          const date = pop[2].split(" ")[0];
-          result[date] = (result[date] || 0) + 1;
-        } else if (
-          (periodMonth === receiveMonth &&
-            Number(periodDay) <= Number(receiveDay)) ||
-          (Number(periodMonth) < Number(receiveMonth) &&
-            Number(currentMonth) > Number(receiveMonth))
-        ) {
-          const date = pop[2].split(" ")[0];
-          result[date] = (result[date] || 0) + 1;
-        }
-      });
-      setChartData(result);
+      setChartData(generateChartData(popsData));
     } else {
       setChartData(popsData);
     }
@@ -89,12 +62,6 @@ export default function Dashboard() {
         <div className={classes.popl_container}>
           <PoplCard name="Popl1" />
         </div>
-        {/* <div className={classes.popl_container}>
-          <PoplCard name="Popl2" />
-        </div>
-        <div className={classes.popl_container}>
-          <PoplCard name="Popl3" />
-        </div> */}
       </div>
     </div>
   );

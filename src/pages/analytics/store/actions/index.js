@@ -8,7 +8,7 @@ export const getPopsAction = (id) => async (dispatch) => {
   try {
     const getPopsFormData = new FormData();
     getPopsFormData.append("sAction", "AjaxGetPops");
-    getPopsFormData.append("pid", Number(id));
+    getPopsFormData.append("pid", Number(2097));
     getPopsFormData.append("ajax", 1);
 
     const response = await axios.post("", getPopsFormData, {
@@ -21,7 +21,7 @@ export const getPopsAction = (id) => async (dispatch) => {
           severity: "error",
           duration: 3000,
           open: true,
-        })
+        }),
       );
       return dispatch({
         type: GET_POPS_FAIL,
@@ -44,7 +44,7 @@ export const getPopsAction = (id) => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
