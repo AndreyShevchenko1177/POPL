@@ -9,19 +9,22 @@ let theme = createMuiTheme({
     secondary: {
       main: "#fff",
     },
+    specifyText: {
+      main: "#6f829a",
+    },
   },
   typography: {
     fontFamily: [
       "-apple-system",
       "BlinkMacSystemFont",
-      '"Segoe UI"',
+      "\"Segoe UI\"",
       "Roboto",
-      '"Helvetica Neue"',
+      "\"Helvetica Neue\"",
       "Arial",
       "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+      "\"Apple Color Emoji\"",
+      "\"Segoe UI Emoji\"",
+      "\"Segoe UI Symbol\"",
     ].join(","),
   },
   custom: {

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  withRouter,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
@@ -22,11 +23,17 @@ import PopBranding from "./pages/popBranding";
 import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
+import { SuccessPage, ErrorPage } from "./pages/stripeResultPages";
 
 setAxios();
 
-export default function App() {
+function App(props) {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+
+  useEffect(() => {
+    console.log(props);
+  }, [props.location]);
+
   return (
     <Router>
       <Switch>
@@ -89,6 +96,12 @@ export default function App() {
         <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
           <Billing />
         </PrivateRoute>
+        <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id}>
+          <SuccessPage />
+        </PrivateRoute>
+        <PrivateRoute path="/billing/error/:sessionId" exact isLoggedIn={profileData?.id}>
+          <ErrorPage />
+        </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
           <Dashboard />
         </PrivateRoute>
@@ -99,3 +112,5 @@ export default function App() {
     </Router>
   );
 }
+
+export default withRouter(App);
