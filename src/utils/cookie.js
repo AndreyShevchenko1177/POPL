@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 export const existingCookies = [
   "l_t",
   "l_i",
@@ -9,8 +10,8 @@ export const existingCookies = [
 export function getCookie(name) {
   let matches = document.cookie.match(
     new RegExp(
-      `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1")}=([^;]*)`
-    )
+      `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1")}=([^;]*)`,
+    ),
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
@@ -26,7 +27,7 @@ export function setCookie(name, value, options = {}) {
   }
 
   let updatedCookie = `${encodeURIComponent(name)}=${encodeURIComponent(
-    value
+    value,
   )}`;
 
   for (let optionKey in options) {

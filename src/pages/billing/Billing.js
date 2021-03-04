@@ -6,6 +6,7 @@ import { snackBarAction } from "../../store/actions";
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
+import { setCookie } from "../../utils/cookie";
 
 const stripe = window.Stripe(stripeConfig.stripePk);
 
@@ -16,6 +17,7 @@ function Billing() {
 
   const handleSubscribe = async () => {
     const checkoutSession = await axios.post(stripeConfig.getSessionIdUrl, { priceId });
+    setCookie("sessionId", checkoutSession.data.sessionId);
     stripe.redirectToCheckout({ sessionId: checkoutSession.data.sessionId })
       .then((res) => console.log(res))
       .catch((err) => dispatch(

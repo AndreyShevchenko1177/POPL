@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import {
   Drawer,
@@ -21,8 +21,6 @@ import profiles from "../../assets/svg/profiles.svg";
 import profileDark from "../../assets/svg/profiles-dark.svg";
 import connect from "../../assets/svg/connect.svg";
 import connectDark from "../../assets/svg/connect-dark.svg";
-import clipApp from "../../assets/svg/clip-app.svg";
-import clipAppDark from "../../assets/svg/clip-app-dark.svg";
 import campaigns from "../../assets/svg/campaigns.svg";
 import campaignsDark from "../../assets/svg/campaings-dark.svg";
 import analytics from "../../assets/svg/analytics.svg";
@@ -33,9 +31,11 @@ import register from "../../assets/svg/register.svg";
 import { logoutAction } from "../../pages/auth/store/actions";
 import "./styles/styles.css";
 
-function PermanentDrawerLeft({ location, history }) {
+function PermanentDrawerLeft() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
   const [highlight, setHighLight] = useState({});
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [collapse, setCollapse] = React.useState({
@@ -62,8 +62,8 @@ function PermanentDrawerLeft({ location, history }) {
       setCollapse({ ...collapse, analyticsOpen: true });
     }
     if (
-      ["profiles", "connections", "campaings"].includes(name) &&
-      location.pathname.split("/").length > 2
+      ["profiles", "connections", "campaings"].includes(name)
+      && location.pathname.split("/").length > 2
     ) {
       name = location.pathname.split("/")[2];
     }
@@ -454,4 +454,4 @@ function PermanentDrawerLeft({ location, history }) {
   );
 }
 
-export default withRouter(PermanentDrawerLeft);
+export default PermanentDrawerLeft;

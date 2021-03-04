@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  withRouter,
+  useLocation,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./pages/auth/sign-in";
@@ -24,15 +24,19 @@ import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
 import { SuccessPage, ErrorPage } from "./pages/stripeResultPages";
+import { deleteCookies } from "./utils/cookie";
 
 setAxios();
 
 function App(props) {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const location = useLocation();
 
   useEffect(() => {
-    console.log(props);
-  }, [props.location]);
+    if (location.pathname.split("/")[1] !== "billing") {
+      deleteCookies("sessionId");
+    }
+  }, []);
 
   return (
     <Router>
@@ -96,10 +100,10 @@ function App(props) {
         <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
           <Billing />
         </PrivateRoute>
-        <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
           <SuccessPage />
         </PrivateRoute>
-        <PrivateRoute path="/billing/error/:sessionId" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute path="/billing/error/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
           <ErrorPage />
         </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
@@ -113,4 +117,4 @@ function App(props) {
   );
 }
 
-export default withRouter(App);
+export default App;
