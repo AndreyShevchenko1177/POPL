@@ -32,7 +32,7 @@ export default function Card({
     },
     dir2: {
       direct: false,
-      text: "Biz",
+      text: "Business",
     },
   });
   const extension = src.split(".");
@@ -51,7 +51,7 @@ export default function Card({
         ...directOn,
         [name]: {
           direct: !directOn[name].direct,
-          text: !directOn[name].direct ? "Person" : "Biz",
+          text: !directOn[name].direct ? "Personal" : "Business",
         },
       });
     }
@@ -81,7 +81,7 @@ export default function Card({
                   : userIcon
               }
               name={name}
-              styles={{ width: "70px", height: "70px", borderRadius: "50%" }}
+              styles={{ width: "120px", height: "70px", borderRadius: "10px" }}
             />
             <Checkbox
               color="primary"

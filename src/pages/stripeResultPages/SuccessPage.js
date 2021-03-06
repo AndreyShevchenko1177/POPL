@@ -18,14 +18,18 @@ export const SuccessPage = () => {
   }, []);
 
   return (
-        <>
-        {getCookie("sessionId") === params.sessionId ? <div className={classes.container}>
-            <img className={classes.icon} alt='success' src={successIcon} />
-            <p className={classes.resultText}>Your payment successfully</p>
-            <a href='/' className={classes.backPageText}>
-                Back to payment form or you automatically redirect backward during 5 seconds
-            </a>
-        </div> : <Redirect to='/'/>}
-        </>
+    <>
+      {getCookie("sessionId") === params.sessionId ? (
+        <div className={classes.container}>
+          <img className={classes.icon} alt="success" src={successIcon} />
+          <p className={classes.resultText}>Your payment successfully</p>
+          <a href="/" className={classes.backPageText}>
+            You will be redirected back to your dashboard in 5 seconds
+          </a>
+        </div>
+      ) : (
+        <Redirect to="/" />
+      )}
+    </>
   );
 };

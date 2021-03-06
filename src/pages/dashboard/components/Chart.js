@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import chartOptions from "./chartOptions";
 import Loader from "../../../components/Loader";
 import useStyles from "./styles/style";
@@ -28,7 +28,7 @@ export default function Chart({ data }) {
         <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
       ) : (
         <>
-          <Bar options={chartOptions.options} data={chartData} />
+          <Line options={chartOptions.options} data={chartData} />
           {!chartData?.datasets[0]?.data?.length && (
             <div className={classes.noDataText}>No data for this period</div>
           )}

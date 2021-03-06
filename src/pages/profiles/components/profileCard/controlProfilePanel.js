@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Grid, FormGroup, FormControlLabel, Switch } from "@material-ui/core";
+import {
+  Grid, FormGroup, FormControlLabel, Switch,
+} from "@material-ui/core";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";

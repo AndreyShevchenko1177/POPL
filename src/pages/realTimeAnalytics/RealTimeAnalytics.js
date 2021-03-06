@@ -12,6 +12,9 @@ function RealTimeAnalytics() {
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
+  const linkTaps = useSelector(
+    ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
+  );
   const [chartData, setChartData] = useState();
 
   useEffect(() => {
@@ -30,7 +33,8 @@ function RealTimeAnalytics() {
 
   return (
     <div className="real-time-analytics-container">
-      <TopStatistics popsCount={popsData?.length} />
+      <TopStatistics popsCount={popsData?.length} />{" "}
+      {/* add linkTaps, totalViews here */}
       <NetworkActivity data={chartData} />
     </div>
   );

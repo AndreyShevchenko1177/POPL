@@ -21,19 +21,26 @@ export const ErrorPage = () => {
     }, 1000);
   }, []);
 
-  useEffect(() => () => {
-    deleteCookies("sessionId");
-  }, []);
+  useEffect(
+    () => () => {
+      deleteCookies("sessionId");
+    },
+    [],
+  );
 
   return (
     <>
-        {getCookie("sessionId") === params.sessionId ? <div className={classes.container}>
-            <img className={classes.icon} alt='error' src={errorIcon} />
-            <p className={classes.resultText}>You canceled subscription payment</p>
-            <a href='/' className={classes.backPageText}>
-                Back to payment form or you automatically redirect backward during {time} seconds
-            </a>
-        </div> : <Redirect to='/'/> }
+      {getCookie("sessionId") === params.sessionId ? (
+        <div className={classes.container}>
+          <img className={classes.icon} alt="error" src={errorIcon} />
+          <p className={classes.resultText}>Subscription payment cancelled</p>
+          <a href="/" className={classes.backPageText}>
+            You will be directed back automatically in {time} seconds
+          </a>
+        </div>
+      ) : (
+        <Redirect to="/" />
+      )}
     </>
   );
 };

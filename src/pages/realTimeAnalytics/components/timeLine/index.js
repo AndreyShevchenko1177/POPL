@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
@@ -67,7 +67,7 @@ export default function NetworkActivity({ data }) {
             />
           ) : (
             <>
-              <Bar options={chartOptions.options} data={chartData} />
+              <Line options={chartOptions.options} data={chartData} />
               {!chartData?.datasets[0]?.data?.length && (
                 <div className={classes.noDataText}>
                   No data for this period
@@ -76,7 +76,7 @@ export default function NetworkActivity({ data }) {
             </>
           )}
         </div>
-        <div className={classes["network-container__bar"]}>
+        {/* <div className={classes["network-container__bar"]}>
           <div className={classes["network-container__header-text"]}>
             <Typography variant="h5" className={classes.barText}>
               Top Campaign Perfomance
@@ -92,7 +92,7 @@ export default function NetworkActivity({ data }) {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

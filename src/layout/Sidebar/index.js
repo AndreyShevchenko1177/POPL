@@ -62,7 +62,7 @@ function PermanentDrawerLeft() {
       setCollapse({ ...collapse, analyticsOpen: true });
     }
     if (
-      ["profiles", "connections", "campaings"].includes(name)
+      ["profiles", "connections", "campaigns"].includes(name)
       && location.pathname.split("/").length > 2
     ) {
       name = location.pathname.split("/")[2];
@@ -316,22 +316,30 @@ function PermanentDrawerLeft() {
             </ListItem>
           </Link>
         </Collapse>
-        <ListItem
-          className={classes.ulList}
-          button
-          divider={false}
-          onClick={() => handleCollapseClick("analyticsOpen")}
-        >
-          <ListItemIcon classes={{ root: classes.listItemIcon }}>
-            <img className="side-bar-icons" alt="overview" src={analytics} />
-          </ListItemIcon>
-          <ListItemText
-            disableTypography
-            classes={{ root: classes.listText }}
-            primary="Analytics"
-          />
-          <ExpandMoreIcon />
-        </ListItem>
+        <Link to="/analytics/real-time">
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight.analytics,
+            })}
+            button
+            onClick={() => {
+              handleCollapseClick("analyticsOpen");
+              highlightList("real-time");
+            }}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <img className="side-bar-icons" alt="overview" src={analytics} />
+            </ListItemIcon>
+            <ListItemText
+              to="/analytics/locations"
+              disableTypography
+              classes={{ root: classes.listText }}
+              primary="Analytics"
+            />
+            <ExpandMoreIcon />
+          </ListItem>
+        </Link>
         <Collapse in={collapse.analyticsOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <Link to="/analytics/real-time">
@@ -349,7 +357,7 @@ function PermanentDrawerLeft() {
                       [classes.listTextHighLight]: highlight["real-time"],
                     }),
                   }}
-                  primary="Real time"
+                  primary="Overall"
                 />
               </ListItem>
             </Link>
@@ -368,7 +376,7 @@ function PermanentDrawerLeft() {
                       [classes.listTextHighLight]: highlight.locations,
                     }),
                   }}
-                  primary="Locations"
+                  primary="Individual"
                 />
               </ListItem>
             </Link>

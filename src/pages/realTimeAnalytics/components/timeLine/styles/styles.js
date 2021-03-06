@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
   },
   "network-container__line": {
     position: "relative",
-    width: "65%",
+    width: "100%",
   },
   "network-container__bar": {
     position: "relative",
