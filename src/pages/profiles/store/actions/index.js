@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
 import { getId } from "../../../../utils";
@@ -89,29 +90,37 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
+    const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
     bodyFormData.append("iID", userId);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
-    if (!response.data) {
+    if (response.data) {
+      const idsArray = JSON.parse(response.data);
+      const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id)))).then((res) => res.map((el) => el.data));
+      const profiles = [myProfile.data, ...result].map((p) => ({
+        ...p,
+        customId: getId(12),
+        business: p.business?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        social: p.social?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+      }));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
-        payload: [],
+        payload: profiles,
       });
     }
-    const idsArray = JSON.parse(response.data);
-    const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id)))).then((res) => res.map((el) => el.data));
-    const profiles = [...result].map((p) => ({
-      ...p,
-      customId: getId(12),
-      business: p.business?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-      social: p.social?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-    }));
+    let correctProfile = { customId: getId(12) };
+    Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
-      payload: profiles,
+      payload: [{
+        ...correctProfile,
+        business: correctProfile.business?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        social: correctProfile.social?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+      },
+      ],
     });
   } catch (error) {
     return dispatch({
