@@ -12,7 +12,7 @@ import {
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Mail from "@material-ui/icons/Mail";
-import ValidationProvider from "../../../../utils/validationProvider";
+import { ValidationProvider } from "../../../../utils";
 import { signInConfig } from "../../../auth/validationConfig";
 import useStyles from "./styles";
 

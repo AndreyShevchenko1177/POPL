@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import clsx from "clsx";
@@ -10,9 +10,9 @@ import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
 import ProfilePanel from "./controlProfilePanel";
-import CButton from "../../../../components/CButton";
 
 export default function Card({
+  id,
   heading,
   businessLinks,
   socialLinks,
@@ -88,8 +88,8 @@ export default function Card({
               inputProps={{ "aria-label": "primary checkbox" }}
               style={{ width: "40px", height: "40px" }}
               onClick={profilesCheck}
-              name={name}
-              checked={checkboxes[name] || false}
+              name={id}
+              checked={checkboxes[id] || false}
             />
           </div>
         </div>
@@ -110,15 +110,15 @@ export default function Card({
             />
           </div>
           <div className={clsx(classes.section6, "target-element")}>
-            <CButton
+            <Button
               variant="text"
               size="small"
               color="primary"
               startIcon={<ArrowDropDownIcon />}
-              cb={() => profileLink && window.open(profileLink)}
+              onClick={() => profileLink && window.open(profileLink)}
             >
               View Profile
-            </CButton>
+            </Button>
           </div>
         </div>
         <div className={clsx(classes.section5, "target-element")}>

@@ -4,7 +4,7 @@ import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import { getPopsAction } from "./store/actions";
 import "./styles/styles.css";
-import generateChartData from "../../utils/generatePopsActivityBarChartData";
+import { generateChartData } from "../../utils";
 
 function RealTimeAnalytics() {
   const dispatch = useDispatch();

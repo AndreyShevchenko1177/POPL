@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, TextField } from "@material-ui/core";
+import { Paper, TextField, Button } from "@material-ui/core";
 import { editPoplAction, addPoplAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles/style";
-import CButton from "../../../../components/CButton";
 
 function PoplForm({ popl, setIsOpenForm, mid }) {
   const classes = useStyles();
@@ -42,7 +41,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
           severity: "success",
           duration: 3000,
           open: true,
-        })
+        }),
       );
     }
     if (addPopl.error) {
@@ -52,7 +51,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
           severity: "error",
           duration: 3000,
           open: true,
-        })
+        }),
       );
     }
   }, [addPopl]);
@@ -66,7 +65,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
           severity: "success",
           duration: 3000,
           open: true,
-        })
+        }),
       );
     }
     if (editPopl.error) {
@@ -76,7 +75,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
           severity: "error",
           duration: 3000,
           open: true,
-        })
+        }),
       );
     }
   }, [editPopl]);
@@ -104,16 +103,16 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         onChange={handleChage}
       />
       <div className={classes.buttonsConatiner}>
-        <CButton color="primary" variant="contained" cb={handleSubmit}>
+        <Button color="primary" variant="contained" onClick={handleSubmit}>
           Submit
-        </CButton>
-        <CButton
+        </Button>
+        <Button
           color="primary"
           variant="contained"
-          cb={() => setIsOpenForm(false)}
+          onClick={() => setIsOpenForm(false)}
         >
           Cancel
-        </CButton>
+        </Button>
       </div>
     </Paper>
   );

@@ -1,10 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Grid, FormGroup, FormControlLabel, Switch } from "@material-ui/core";
+import {
+  Grid, FormGroup, FormControlLabel, Switch, Button,
+} from "@material-ui/core";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import CButton from "../../../../components/CButton";
 import connectIcon from "../../../../assets/svg/connect-dark.svg";
 import useStyles from "./styles/styles";
 
@@ -68,7 +69,7 @@ function ProfilePanel({
         </div>
       </Grid>
       <Grid item xs={12}>
-        <CButton
+        <Button
           fullWidth
           variant="outlined"
           size="small"
@@ -79,36 +80,36 @@ function ProfilePanel({
               src={connectIcon}
             />
           }
-          cb={() => history.push("/connections")}
+          onClick={() => history.push("/connections")}
         >
           Connections
-        </CButton>
+        </Button>
       </Grid>
       <Grid item xs={12}>
-        <CButton
+        <Button
           fullWidth
           variant="outlined"
           size="small"
           color="primary"
           className=" "
           startIcon={<EqualizerIcon />}
-          cb={() => console.log("Statistics")}
+          onClick={() => console.log("Statistics")}
         >
           Analytics
-        </CButton>
+        </Button>
       </Grid>
       <Grid item xs={12}>
-        <CButton
+        <Button
           fullWidth
           variant="outlined"
           size="small"
           color="primary"
           className=" "
           startIcon={<VisibilityIcon />}
-          cb={(event) => handleClickPoplItem(event, "popl")}
+          onClick={(event) => handleClickPoplItem(event, "popl")}
         >
           Popls
-        </CButton>
+        </Button>
       </Grid>
     </Grid>
   );

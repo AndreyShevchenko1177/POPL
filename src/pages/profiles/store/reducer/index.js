@@ -6,6 +6,7 @@ import {
   EDIT_PROFILES_SUCCESS,
   EDIT_PROFILES_FAIL,
   GET_DATA_PROFILES_SUCCESS,
+  GET_DATA_PROFILES_FAIL,
 } from "../actionTypes";
 
 const initialState = {
@@ -22,6 +23,10 @@ const initialState = {
     error: null,
   },
   dataProfiles: {
+    data: null,
+    error: null,
+  },
+  profilesIds: {
     data: null,
     error: null,
   },
@@ -90,18 +95,22 @@ export default function profilesReducer(
       };
     }
     case GET_DATA_PROFILES_SUCCESS: {
-      const business = payload.business
-        ?.sort((a, b) => a.id - b.id)
-        .filter((_, index) => index < 5);
-      const social = payload.social
-        ?.sort((a, b) => a.id - b.id)
-        .filter((_, index) => index < 5);
       return {
         ...state,
         dataProfiles: {
           ...state.dataProfiles,
-          data: [{ ...payload, business, social }],
+          data: payload,
           error: null,
+        },
+      };
+    }
+    case GET_DATA_PROFILES_FAIL: {
+      return {
+        ...state,
+        dataProfiles: {
+          ...state.dataProfiles,
+          data: null,
+          error: payload,
         },
       };
     }
