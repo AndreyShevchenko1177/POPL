@@ -7,7 +7,7 @@ import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../realTimeAnalytics/store/actions";
-import generateChartData from "../../utils/generatePopsActivityBarChartData";
+import { generateChartData } from "../../utils";
 
 export default function Dashboard() {
   const classes = useStyles();

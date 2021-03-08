@@ -2,7 +2,7 @@ import {
   getYear, getMonth, getDay, normalizeDate,
 } from "./dates";
 
-function generateChartData(popsData) {
+export function generateChartData(popsData) {
   const result = {};
   const currentDate = new Date();
   const periodDate = new Date().setDate(currentDate.getDate() - 29);
@@ -34,5 +34,3 @@ function generateChartData(popsData) {
   });
   return result;
 }
-
-export default generateChartData;

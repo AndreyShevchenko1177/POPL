@@ -20,7 +20,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
 import { signUpAction } from "../store/actions";
-import ValidationProder from "../../../utils/validationProvider";
+import { ValidationProvider } from "../../../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +71,7 @@ function SignUp(props) {
         email: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword,
-      })
+      }),
     );
   };
 
@@ -89,7 +89,7 @@ function SignUp(props) {
         className={clsx(classes.root)}
       >
         <Paper elevation={3} className={classes.loginBg}>
-          <ValidationProder config={signUpConfig}>
+          <ValidationProvider config={signUpConfig}>
             {(events, values, errors) => (
               <Grid
                 container
@@ -126,8 +126,7 @@ function SignUp(props) {
                       error={!!errors.username || signUpResult.error}
                       value={values.username}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signUp, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -157,8 +156,7 @@ function SignUp(props) {
                       error={!!errors.email || signUpResult.error}
                       value={values.email}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signUp, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -188,8 +186,7 @@ function SignUp(props) {
                       error={!!errors.password || signUpResult.error}
                       value={values.password}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signUp, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -227,15 +224,13 @@ function SignUp(props) {
                       error={!!errors.confirmPassword || signUpResult.error}
                       value={values.confirmPassword}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signUp, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={() =>
-                              handleClickShowPassword("confirmPassword")
+                            onClick={() => handleClickShowPassword("confirmPassword")
                             }
                           >
                             {showPassword.confirmPassword ? (
@@ -298,7 +293,7 @@ function SignUp(props) {
                 </Grid>
               </Grid>
             )}
-          </ValidationProder>
+          </ValidationProvider>
         </Paper>
       </Grid>
     </>

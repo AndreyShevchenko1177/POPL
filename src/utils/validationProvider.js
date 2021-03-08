@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React, { useState } from "react";
 
 function validation(keys, params, value) {
@@ -11,9 +12,9 @@ function validation(keys, params, value) {
       errors[key] = params[key].errors.maxLength;
     }
     if (
-      notRequiredFields &&
-      params[key].regexp &&
-      !params[key].regexp.test(value[key])
+      notRequiredFields
+      && params[key].regexp
+      && !params[key].regexp.test(value[key])
     ) {
       errors[key] = params[key].errors.regexp;
     }
@@ -24,10 +25,10 @@ function validation(keys, params, value) {
       errors[key] = params[key].errors.required;
     }
     if (
-      params[key].type &&
-      params[key].type === "number" &&
-      value[key] &&
-      !Number(value[key])
+      params[key].type
+      && params[key].type === "number"
+      && value[key]
+      && !Number(value[key])
     ) {
       errors[key] = params[key].errors.typeError;
     }
@@ -50,7 +51,7 @@ function validation(keys, params, value) {
   return errors;
 }
 
-function ValidationProvider({ children, config, callCbAlways }) {
+export function ValidationProvider({ children, config, callCbAlways }) {
   const configKeys = Object.keys(config);
   const defaultValues = {};
   configKeys.forEach((key) => (defaultValues[key] = config[key].value));
@@ -83,10 +84,8 @@ function ValidationProvider({ children, config, callCbAlways }) {
       {children(
         { submit, onChange: onChangeHandler, onKeyDown },
         value,
-        errors
+        errors,
       )}
     </React.Fragment>
   );
 }
-
-export default ValidationProvider;

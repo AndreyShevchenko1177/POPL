@@ -1,12 +1,13 @@
 import React from "react";
-import { Checkbox, Typography, IconButton } from "@material-ui/core";
+import {
+  Checkbox, Typography, IconButton, Button,
+} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
-import CButton from "../../../../components/CButton";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
 
@@ -43,16 +44,16 @@ function PoplCard({ popl, editAction }) {
         </table>
       </div>
       <div className={classes.poplPagePoplCardButtonsContainer}>
-        <CButton
+        <Button
           variant="outlined"
           size="small"
           startIcon={<EditIcon />}
           className={classes.button}
-          cb={() => editAction(popl)}
+          onClick={() => editAction(popl)}
         >
           Edit
-        </CButton>
-        <CButton
+        </Button>
+        <Button
           variant="outlined"
           size="small"
           color="primary"
@@ -60,7 +61,7 @@ function PoplCard({ popl, editAction }) {
           className={classes.button}
         >
           Analytics
-        </CButton>
+        </Button>
         <div className={classes.iconsButtonWrapper}>
           <IconButton
             color="primary"

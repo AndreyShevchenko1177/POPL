@@ -20,7 +20,7 @@ import clsx from "clsx";
 import Mail from "@material-ui/icons/Mail";
 import { signInConfig } from "../validationConfig";
 import { signInAction } from "../store/actions";
-import ValidationProder from "../../../utils/validationProvider";
+import { ValidationProvider } from "../../../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,7 @@ function Login(props) {
       signInAction({
         username: values.username,
         password: values.password,
-      })
+      }),
     );
   };
 
@@ -79,7 +79,7 @@ function Login(props) {
         className={clsx(classes.root)}
       >
         <Paper elevation={3} className={classes.loginBg}>
-          <ValidationProder config={signInConfig}>
+          <ValidationProvider config={signInConfig}>
             {(events, values, errors) => (
               <Grid
                 container
@@ -120,8 +120,7 @@ function Login(props) {
                       error={!!errors.username || result.error}
                       value={values.username}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signIn, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -159,8 +158,7 @@ function Login(props) {
                       error={!!errors.password || result.error}
                       value={values.password}
                       onChange={events.onChange}
-                      onKeyDown={(event) =>
-                        events.onKeyDown(event, signIn, "Enter")
+                      onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -225,7 +223,7 @@ function Login(props) {
                 </Grid>
               </Grid>
             )}
-          </ValidationProder>
+          </ValidationProvider>
         </Paper>
       </Grid>
     </>

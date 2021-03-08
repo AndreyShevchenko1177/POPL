@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import { getProfileAction } from "./store/actions";
+import { getProfilesIds } from "./store/actions";
 import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
@@ -77,29 +77,30 @@ export default function Profiles() {
   };
 
   useEffect(() => {
-    dispatch(getProfileAction(userData.id));
+    dispatch(getProfilesIds(userData.id));
   }, []);
 
   useEffect(() => {
     if (!profilesData) return;
     setProfiles(profilesData);
-    // const prof1 = profilesData.map((el) => ({ ...el, id: 123213, name: "Vit9" }));
-    // setProfiles([...profilesData, ...prof1]);
   }, [profilesData]);
 
   useEffect(() => {
     const checkBoxObject = {};
     profiles && profiles.forEach((el) => {
-      checkBoxObject[el.name] = false;
+      checkBoxObject[el.customId] = false;
     });
     setCheckBoxes(checkBoxObject);
   }, [profiles]);
 
   useEffect(() => {
-    if (Object.values(checkboxes).every((el) => !el)) {
+    const checkboxArray = Object.values(checkboxes);
+    if (checkboxArray.every((el) => !el)) {
       setMainCheck(false);
-    } else if (Object.values(checkboxes).every((el) => el)) {
+    } else if (checkboxArray.every((el) => el)) {
       setMainCheck(true);
+    } else if (checkboxArray.some((el) => !el)) {
+      setMainCheck(false);
     }
   }, [checkboxes]);
 
@@ -129,8 +130,8 @@ export default function Profiles() {
                 >
                   {profiles.map((el, index) => (
                     <Draggable
-                      key={el.id}
-                      draggableId={`${el.id}`}
+                      key={el.customId}
+                      draggableId={`${el.customId}`}
                       index={index}
                     >
                       {(provided) => (
@@ -142,7 +143,7 @@ export default function Profiles() {
                           {...provided.dragHandleProps}
                         >
                           <ProfileCard
-                            id={el.id}
+                            id={el.customId}
                             heading={el.name}
                             src={userData.image}
                             mainCheck={mainCheck}
