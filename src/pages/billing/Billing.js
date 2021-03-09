@@ -13,21 +13,21 @@ const stripe = window.Stripe(stripeConfig.stripePk);
 function Billing() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const priceId = "price_1ISSQWJqkGKmOFO6CkFFev2H";
+  const priceId = "price_1ITDEoJqkGKmOFO6mlNkgNgd";
 
   const handleSubscribe = async () => {
     const checkoutSession = await axios.post(stripeConfig.getSessionIdUrl, { priceId });
     setCookie("sessionId", checkoutSession.data.sessionId);
-    stripe.redirectToCheckout({ sessionId: checkoutSession.data.sessionId })
-      .then((res) => console.log(res))
-      .catch((err) => dispatch(
-        snackBarAction({
-          message: "Subscription error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        }),
-      ));
+    // stripe.redirectToCheckout({ sessionId: checkoutSession.data.sessionId })
+    //   .then((res) => console.log(res))
+    //   .catch((err) => dispatch(
+    //     snackBarAction({
+    //       message: "Subscription error",
+    //       severity: "error",
+    //       duration: 3000,
+    //       open: true,
+    //     }),
+    //   ));
   };
 
   return (

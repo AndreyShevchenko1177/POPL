@@ -39,7 +39,7 @@ export default function Card({
   const extension = src.split(".");
 
   const setBio = () => {
-    const result = directOn.dir2.direct ? bio.personal || bio.business : bio.business || bio.personal;
+    const result = directOn.dir2.direct ? bio.business || bio.personal : bio.personal || "";
     return result;
   };
 

@@ -49,7 +49,7 @@ export default makeStyles((theme) => ({
   section1: {
     display: "flex",
     width: "20%",
-    minWidth: "130px",
+    minWidth: "180px",
     alignItems: "flex-start",
     paddingTop: "35px",
     // paddingRight: "20px",

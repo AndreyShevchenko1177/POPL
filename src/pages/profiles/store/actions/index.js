@@ -94,13 +94,14 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", userId);
+    bodyFormData.append("iID", 4822);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
     if (response.data) {
       const idsArray = JSON.parse(response.data);
       const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id)))).then((res) => res.map((el) => el.data));
+
       const profiles = [myProfile.data, ...result].map((p) => ({
         ...p,
         customId: getId(12),
