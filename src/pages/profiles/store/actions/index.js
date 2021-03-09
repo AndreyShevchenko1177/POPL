@@ -94,7 +94,7 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", 4822);
+    bodyFormData.append("iID", userId);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
