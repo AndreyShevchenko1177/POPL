@@ -23,6 +23,7 @@ export default function Card({
   profileLink,
   profilesCheck,
   checkboxes,
+  url,
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
@@ -38,11 +39,8 @@ export default function Card({
   const extension = src.split(".");
 
   const setBio = () => {
-    const result = directOn.dir2.direct ? bio.personal : bio.business;
-    return (
-      result
-      || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
-    );
+    const result = directOn.dir2.direct ? bio.personal || bio.business : bio.business || bio.personal;
+    return result;
   };
 
   const handleSwitchChanger = (event, name) => {
@@ -77,7 +75,7 @@ export default function Card({
             <Avatar
               src={
                 imagesExtensions.includes(extension[extension.length - 1])
-                  ? src
+                  ? `${process.env.REACT_APP_BASE_IMAGE_URL}${src}`
                   : userIcon
               }
               name={name}
@@ -115,7 +113,7 @@ export default function Card({
               size="small"
               color="primary"
               startIcon={<ArrowDropDownIcon />}
-              onClick={() => profileLink && window.open(profileLink)}
+              onClick={() => profileLink && window.open(`${process.env.REACT_APP_BASE_PROFILE_URL}${url}`)}
             >
               View Profile
             </Button>

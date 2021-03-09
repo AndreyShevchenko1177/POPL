@@ -55,7 +55,7 @@ export default makeStyles((theme) => ({
     // paddingRight: "20px",
   },
   section1_title: {
-    minHeight: "75px",
+    minHeight: "80px",
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "flex-end",

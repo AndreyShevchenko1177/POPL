@@ -145,7 +145,8 @@ export default function Profiles() {
                           <ProfileCard
                             id={el.customId}
                             heading={el.name}
-                            src={userData.image}
+                            url={el.url}
+                            src={el.image}
                             mainCheck={mainCheck}
                             name={el.name}
                             profileLink={userData.url}
