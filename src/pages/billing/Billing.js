@@ -13,7 +13,7 @@ const stripe = window.Stripe(stripeConfig.stripePk);
 function Billing() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const priceId = "price_1IQekxCcIG0MPJSGYInKIsnv";
+  const priceId = "price_1ISSQWJqkGKmOFO6CkFFev2H";
 
   const handleSubscribe = async () => {
     const checkoutSession = await axios.post(stripeConfig.getSessionIdUrl, { priceId });
