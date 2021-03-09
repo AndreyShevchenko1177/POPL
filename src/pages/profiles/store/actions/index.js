@@ -80,10 +80,11 @@ export const editPoplAction = (proplData) => async (dispatch, getState) => {
 };
 
 export const getProfileAction = (id) => async (dispatch) => {
-  const updatePoplsFormData = new FormData();
-  updatePoplsFormData.append("sAction", "EditProfile");
-  updatePoplsFormData.append("ajax", 1);
-  return axios.post("", updatePoplsFormData, {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "GetProfileData");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  return axios.post("", bodyFormData, {
     withCredentials: true,
   });
 };
