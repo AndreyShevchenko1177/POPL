@@ -19,14 +19,12 @@ export default function Card({
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
-    dir1: {
-      direct: false,
-      text: "Direct Off",
-    },
-    dir2: {
-      direct: false,
-      text: "Personal",
-    },
+    direct: false,
+    text: "Direct Off",
+  });
+  const [personalMode, setPersonalMode] = useState({
+    direct: false,
+    text: "Personal",
   });
   const {
     customId, name, url, image, business, social, activeProfile, bio, bioBusiness, direct,
@@ -34,40 +32,38 @@ export default function Card({
   const extension = image.split(".");
 
   const setBio = () => {
-    const result = directOn.dir2.direct ? bioBusiness || bio : bio || "";
+    const result = personalMode.direct ? bioBusiness || bio : bio || "";
     return result;
   };
 
   const handleSwitchChanger = (event, name) => {
     if (name === "dir2") {
-      return setDirectOn({
-        ...directOn,
-        [name]: {
-          direct: !directOn[name].direct,
-          text: !directOn[name].direct ? "Business" : "Personal",
-        },
+      return setPersonalMode({
+        direct: !personalMode.direct,
+        text: !personalMode.direct ? "Business" : "Personal",
       });
     }
     return setDirectOn({
-      ...directOn,
-      [name]: {
-        direct: !directOn[name].direct,
-        text: !directOn[name].direct ? "Direct On" : "Direct Off",
-      },
+      direct: !directOn.direct,
+      text: !directOn.direct ? "Direct On" : "Direct Off",
     });
   };
+  console.log(activeProfile);
 
   useEffect(() => {
-    if (activeProfile === "2") setDirectOn({ ...directOn, dir2: { direct: true, text: "Business" } });
-    if (direct === "1") setDirectOn({ ...directOn, dir1: { direct: true, text: "Direct On" } });
-  }, [activeProfile, direct]);
+    if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });
+  }, [activeProfile]);
+
+  useEffect(() => {
+    if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
+  }, [direct]);
 
   return (
     <>
       <DragDots position="center" />
       <Paper
         elevation={3}
-        className={clsx(classes.root, directOn.dir2.direct && classes.rootBusinessModeBackground)}
+        className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >
         <div className={clsx(classes.section1, "target-element")}>
@@ -107,7 +103,7 @@ export default function Card({
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
                 style={classes.iconItem}
-                data={directOn.dir2.direct ? business?.slice(0, 5) : social?.slice(0, 5)}
+                data={personalMode.direct ? business?.slice(0, 5) : social?.slice(0, 5)}
               />
             </div>
             <div className={clsx(classes.section6, "target-element")}>
@@ -129,6 +125,7 @@ export default function Card({
               handleClickPoplItem={handleClickPoplItem}
               handleSwitchChanger={handleSwitchChanger}
               directOn={directOn}
+              personalMode={personalMode}
               section2={classes.section2}
             />
           </div>

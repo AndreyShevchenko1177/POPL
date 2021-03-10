@@ -13,6 +13,7 @@ function ProfilePanel({
   handleClickPoplItem,
   handleSwitchChanger,
   directOn,
+  personalMode,
   section2,
 }) {
   const classes = useStyles();
@@ -30,12 +31,12 @@ function ProfilePanel({
                     size="medium"
                     color="primary"
                     name="dir2"
-                    checked={directOn.dir2.direct}
+                    checked={personalMode.direct}
                     onClick={(event) => handleSwitchChanger(event, "dir2")}
                   />
                 }
                 onClick={(event) => handleSwitchChanger(event, "dir2")}
-                label={directOn.dir2.text}
+                label={personalMode.text}
                 labelPlacement="start"
                 style={{
                   marginLeft: "0px",
@@ -50,12 +51,12 @@ function ProfilePanel({
                     size="medium"
                     color="primary"
                     name="dir1"
-                    checked={directOn.dir1.direct}
+                    checked={directOn.direct}
                     onClick={(event) => handleSwitchChanger(event, "dir1")}
                   />
                 }
                 onClick={(event) => handleSwitchChanger(event, "dir1")}
-                label={directOn.dir1.text}
+                label={directOn.text}
                 labelPlacement="start"
                 style={{
                   marginLeft: "0px",

@@ -10,7 +10,6 @@ import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
 } from "../actionTypes";
-import getLinkTapsSuccess from "../../../realTimeAnalytics/store/actions";
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
@@ -109,7 +108,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         business: p.business,
         social: p.social,
       }));
-      // dispatch(getLinkTapsSuccess(profiles));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
@@ -117,11 +115,12 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     }
     let correctProfile = { customId: getId(12) };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-    // dispatch(getLinkTapsSuccess(correctProfile));
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{
         ...correctProfile,
+        direct: "1",
+        activeProfile: "1",
         business: correctProfile.business,
         social: correctProfile.social,
       },
