@@ -21,6 +21,7 @@ export default makeStyles((theme) => ({
   },
   "network-container__charts": {
     display: "flex",
+    minHeight: 500,
     padding: "10px 10px",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,

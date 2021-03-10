@@ -10,6 +10,8 @@ import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
 } from "../actionTypes";
+import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
+import { getPoplsAction } from "../../../popls/store/actions";
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
@@ -108,6 +110,8 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         business: p.business,
         social: p.social,
       }));
+      dispatch(getPoplsAction());
+      dispatch(getStatisticItem(profiles));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
@@ -115,6 +119,8 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     }
     let correctProfile = { customId: getId(12) };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
+    dispatch(getStatisticItem(correctProfile));
+    dispatch(getPoplsAction());
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{

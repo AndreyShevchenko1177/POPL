@@ -1,5 +1,5 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_LINKTAPS_SUCCESS, GET_LINKTAPS_FAIL,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL,
 } from "../actionTypes";
 
 const initialState = {
@@ -7,9 +7,10 @@ const initialState = {
     data: null,
     error: null,
   },
-  linkTaps: {
+  topStatisticsData: {
     data: null,
     error: null,
+    isFetched: true,
   },
 };
 
@@ -36,21 +37,23 @@ export default function realTimeAnalytics(
         },
       };
     }
-    case GET_LINKTAPS_SUCCESS: {
+    case GET_TOP_STATISTICS_SUCCESS: {
       return {
         ...state,
-        linkTaps: {
+        topStatisticsData: {
           error: null,
           data: payload,
+          isFetched: false,
         },
       };
     }
-    case GET_LINKTAPS_FAIL: {
+    case GET_TOP_STATISTICS_FAIL: {
       return {
         ...state,
         linkTaps: {
           data: [],
           error: payload,
+          isFetched: false,
         },
       };
     }

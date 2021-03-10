@@ -8,13 +8,12 @@ import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
 
 function StatisticItem({
-  title, value, percentage, isTop, count,
+  title, value, percentage, isTop, count, isFetched,
 }) {
   const classes = useStyles();
-  console.log(title, value, percentage, isTop);
   return (
     <div className={classes.topStatisticsItemContainer}>
-      {count === undefined ? (
+      {count === undefined || isFetched ? (
         <Loader />
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>

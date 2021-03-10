@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
-import { Bar, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";

@@ -13,15 +13,20 @@ import {
 
 import { snackBarAction } from "../../../../store/actions";
 
+export const getPoplsData = async () => {
+  const getPopolsFormData = new FormData();
+  getPopolsFormData.append("sAction", "GetPopls");
+  getPopolsFormData.append("ajax", 1);
+
+  const response = await axios.post("", getPopolsFormData, {
+    withCredentials: true,
+  });
+  return response;
+};
+
 export const getPoplsAction = () => async (dispatch) => {
   try {
-    const getPopolsFormData = new FormData();
-    getPopolsFormData.append("sAction", "GetPopls");
-    getPopolsFormData.append("ajax", 1);
-
-    const response = await axios.post("", getPopolsFormData, {
-      withCredentials: true,
-    });
+    const response = await getPoplsData();
     if (typeof response === "string") {
       return dispatch(
         snackBarAction({

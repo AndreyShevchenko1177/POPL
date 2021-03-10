@@ -6,7 +6,6 @@ import initialState from "./initialState";
 function TopStatistics(props) {
   const classes = useStyles();
   const [data, setData] = useState(initialState);
-
   useEffect(() => {
     Object.keys(props).map((prop) => {
       setData((prev) => prev.map((item) => {
@@ -16,20 +15,16 @@ function TopStatistics(props) {
         return item;
       }));
     });
-  }, [props.popsCount]);
+  }, [props]);
 
   return (
     <div className={classes.topStatisticsContainer}>
-      {data.map(({
-        id, title, value, percentage, isTop,
-      }) => (
-        <React.Fragment key={id}>
+      {data.map((item) => (
+        <React.Fragment key={item.id}>
           <StatisticItem
             count={props.popsCount}
-            title={title}
-            value={value}
-            percentage={percentage}
-            isTop={isTop}
+            isFetched={props.isFetched}
+            {...item}
           />
           <div className={classes.topStatisticsItemsDivider}></div>
         </React.Fragment>
