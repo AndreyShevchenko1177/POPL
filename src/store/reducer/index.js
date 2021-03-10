@@ -5,6 +5,7 @@ import profilesReducer from "../../pages/profiles/store/reducer";
 import systemReducer from "./systemReducer";
 import poplsReducer from "../../pages/popls/store/reducer";
 import realTimeAnalytics from "../../pages/realTimeAnalytics/store/reducer";
+import connectionsReducer from "../../pages/connections/store/reducer";
 
 export default combineReducers({
   form: formReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   systemReducer,
   poplsReducer,
   realTimeAnalytics,
+  connectionsReducer,
 });
