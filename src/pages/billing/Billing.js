@@ -16,11 +16,10 @@ function Billing() {
 
   const handleSubscribe = async () => {
     let myHeaders = new Headers();
-    myHeaders.append("Cookie", "PHPSESSID=5b182e7e21130f3bef0081ba9264927d");
 
     let formdata = new FormData();
     formdata.append("sAction", "CheckoutSessionStripe");
-    formdata.append("sPriceId", "price_1ITEbeJqkGKmOFO6wOC23z5v");
+    formdata.append("sPriceId", priceId);
 
     let requestOptions = {
       method: "POST",

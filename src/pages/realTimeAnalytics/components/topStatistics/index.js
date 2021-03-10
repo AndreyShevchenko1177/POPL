@@ -6,6 +6,7 @@ import initialState from "./initialState";
 function TopStatistics(props) {
   const classes = useStyles();
   const [data, setData] = useState(initialState);
+
   useEffect(() => {
     Object.keys(props).map((prop) => {
       setData((prev) => prev.map((item) => {
@@ -16,6 +17,7 @@ function TopStatistics(props) {
       }));
     });
   }, [props.popsCount]);
+
   return (
     <div className={classes.topStatisticsContainer}>
       {data.map(({

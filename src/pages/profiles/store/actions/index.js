@@ -10,6 +10,7 @@ import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
 } from "../actionTypes";
+import getLinkTapsSuccess from "../../../realTimeAnalytics/store/actions";
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
@@ -91,13 +92,6 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
-    // linkTaps test
-    const data = new FormData();
-    data.append("sAction", "EditProfile");
-    data.append("ajax", 1);
-    const linkTaps = await axios.post("", data, { withCredentials: true });
-    console.log(linkTaps);
-
     const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
@@ -112,9 +106,10 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       const profiles = [myProfile.data, ...result].map((p) => ({
         ...p,
         customId: getId(12),
-        business: p.business?.slice(0, 5), // sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-        social: p.social?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        business: p.business,
+        social: p.social,
       }));
+      // dispatch(getLinkTapsSuccess(profiles));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
@@ -122,12 +117,13 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     }
     let correctProfile = { customId: getId(12) };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
+    // dispatch(getLinkTapsSuccess(correctProfile));
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{
         ...correctProfile,
-        business: correctProfile.business?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-        social: correctProfile.social?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        business: correctProfile.business,
+        social: correctProfile.social,
       },
       ],
     });

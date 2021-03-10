@@ -143,16 +143,18 @@ export default function Profiles() {
                           {...provided.dragHandleProps}
                         >
                           <ProfileCard
-                            id={el.customId}
-                            heading={el.name}
-                            url={el.url}
-                            src={el.image}
+                            profile={el}
+                            // id={el.customId}
+                            // heading={el.name}
+                            // url={el.url}
+                            // src={el.image}
                             mainCheck={mainCheck}
-                            name={el.name}
-                            profileLink={userData.url}
-                            businessLinks={el.business}
-                            socialLinks={el.social}
-                            bio={{ business: el.bioBusiness, personal: el.bio }}
+                            // name={el.name}
+                            // profileLink={userData.url}
+                            // businessLinks={el.business}
+                            // activeProfile={el.activeProfile}
+                            // socialLinks={el.social}
+                            // bio={{ business: el.bioBusiness, personal: el.bio }}
                             handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
                             profilesCheck={profilesCheck}
                             checkboxes={checkboxes}

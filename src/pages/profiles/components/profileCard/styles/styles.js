@@ -8,6 +8,9 @@ export default makeStyles((theme) => ({
     width: "100%",
     borderRadius: theme.custom.mainBorderForBigElement,
   },
+  rootBusinessModeBackground: {
+    backgroundColor: "#f3f5f3",
+  },
   container: {
     display: "flex",
     position: "relative",
@@ -52,13 +55,10 @@ export default makeStyles((theme) => ({
     minWidth: "180px",
     alignItems: "flex-start",
     paddingTop: "35px",
-    // paddingRight: "20px",
   },
   section1_title: {
-    minHeight: "80px",
     display: "flex",
     justifyContent: "flex-start",
-    alignItems: "flex-end",
   },
   section1_avatar: {
     width: "100%",
@@ -68,8 +68,11 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
   },
   wrapper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     width: "100%",
-    paddingBottom: 10,
+    padding: "35px 0 20px 0",
   },
   section2: {
     width: "100%",

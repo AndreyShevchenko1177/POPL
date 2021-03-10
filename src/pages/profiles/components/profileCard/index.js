@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Paper, Typography, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -12,18 +12,10 @@ import { imagesExtensions } from "../../../../constants";
 import ProfilePanel from "./controlProfilePanel";
 
 export default function Card({
-  id,
-  heading,
-  businessLinks,
-  socialLinks,
-  src,
-  name,
-  bio,
   handleClickPoplItem,
-  profileLink,
   profilesCheck,
   checkboxes,
-  url,
+  profile,
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
@@ -33,13 +25,16 @@ export default function Card({
     },
     dir2: {
       direct: false,
-      text: "Business",
+      text: "Personal",
     },
   });
-  const extension = src.split(".");
+  const {
+    customId, name, url, image, business, social, activeProfile, bio, bioBusiness, direct,
+  } = profile;
+  const extension = image.split(".");
 
   const setBio = () => {
-    const result = directOn.dir2.direct ? bio.business || bio.personal : bio.personal || "";
+    const result = directOn.dir2.direct ? bioBusiness || bio : bio || "";
     return result;
   };
 
@@ -49,7 +44,7 @@ export default function Card({
         ...directOn,
         [name]: {
           direct: !directOn[name].direct,
-          text: !directOn[name].direct ? "Personal" : "Business",
+          text: !directOn[name].direct ? "Business" : "Personal",
         },
       });
     }
@@ -62,12 +57,17 @@ export default function Card({
     });
   };
 
+  useEffect(() => {
+    if (activeProfile === "2") setDirectOn({ ...directOn, dir2: { direct: true, text: "Business" } });
+    if (direct === "1") setDirectOn({ ...directOn, dir1: { direct: true, text: "Direct On" } });
+  }, [activeProfile, direct]);
+
   return (
     <>
       <DragDots position="center" />
       <Paper
         elevation={3}
-        className={classes.root}
+        className={clsx(classes.root, directOn.dir2.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >
         <div className={clsx(classes.section1, "target-element")}>
@@ -75,7 +75,7 @@ export default function Card({
             <Avatar
               src={
                 imagesExtensions.includes(extension[extension.length - 1])
-                  ? `${process.env.REACT_APP_BASE_IMAGE_URL}${src}`
+                  ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
                   : userIcon
               }
               name={name}
@@ -86,37 +86,41 @@ export default function Card({
               inputProps={{ "aria-label": "primary checkbox" }}
               style={{ width: "40px", height: "40px" }}
               onClick={profilesCheck}
-              name={id}
-              checked={checkboxes[id] || false}
+              name={customId}
+              checked={checkboxes[customId] || false}
             />
           </div>
         </div>
         <div className={classes.wrapper}>
-          <div className={clsx(classes.section1_title, "target-element")}>
-            <Typography className="cursor-default" variant="h5">
-              {heading}
-            </Typography>
+          <div>
+            <div className={clsx(classes.section1_title, "target-element")}>
+              <Typography className="cursor-default" variant="h5">
+                {name}
+              </Typography>
+            </div>
+            <div className={clsx(classes.section3, "target-element")}>
+              <div className={classes.section3_text}>{setBio()}</div>
+            </div>
           </div>
-          <div className={clsx(classes.section3, "target-element")}>
-            <div className={classes.section3_text}>{setBio()}</div>
-          </div>
-          <div className={clsx(classes.section4, "target-element")}>
-            <SocialPoplsIcons
-              handleClick={handleClickPoplItem}
-              style={classes.iconItem}
-              data={directOn.dir2.direct ? socialLinks : businessLinks}
-            />
-          </div>
-          <div className={clsx(classes.section6, "target-element")}>
-            <Button
-              variant="text"
-              size="small"
-              color="primary"
-              startIcon={<ArrowDropDownIcon />}
-              onClick={() => profileLink && window.open(`${process.env.REACT_APP_BASE_PROFILE_URL}${url}`)}
-            >
-              View Profile
-            </Button>
+          <div>
+            <div className={clsx(classes.section4, "target-element")}>
+              <SocialPoplsIcons
+                handleClick={handleClickPoplItem}
+                style={classes.iconItem}
+                data={directOn.dir2.direct ? business?.slice(0, 5) : social?.slice(0, 5)}
+              />
+            </div>
+            <div className={clsx(classes.section6, "target-element")}>
+              <Button
+                variant="text"
+                size="small"
+                color="primary"
+                startIcon={<ArrowDropDownIcon />}
+                onClick={() => url && window.open(`${process.env.REACT_APP_BASE_PROFILE_URL}${url}`)}
+              >
+                View Profile
+              </Button>
+            </div>
           </div>
         </div>
         <div className={clsx(classes.section5, "target-element")}>

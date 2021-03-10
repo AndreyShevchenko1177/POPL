@@ -1,6 +1,4 @@
 import {
-  GET_PROFILES_SUCCESS,
-  GET_PROFILES_FAIL,
   ADD_PROFILES_SUCCESS,
   ADD_PROFILES_FAIL,
   EDIT_PROFILES_SUCCESS,
@@ -10,10 +8,6 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  allProfiles: {
-    data: [],
-    error: null,
-  },
   addProfile: {
     data: null,
     error: null,
@@ -37,25 +31,6 @@ export default function profilesReducer(
   { type, payload },
 ) {
   switch (type) {
-    case GET_PROFILES_SUCCESS: {
-      return {
-        ...state,
-        allProfiles: {
-          ...state.allProfiles,
-          data: payload,
-        },
-      };
-    }
-    case GET_PROFILES_FAIL: {
-      return {
-        ...state,
-        allProfiles: {
-          ...state.allProfiles,
-          data: [],
-          error: payload,
-        },
-      };
-    }
     case ADD_PROFILES_SUCCESS: {
       return {
         ...state,

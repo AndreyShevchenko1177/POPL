@@ -1,6 +1,8 @@
 import axios from "axios";
 
-import { GET_POPS_SUCCESS, GET_POPS_FAIL } from "../actionTypes";
+import {
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_LINKTAPS_SUCCESS, GET_LINKTAPS_FAIL,
+} from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
 
@@ -47,4 +49,15 @@ export const getPopsAction = (id) => async (dispatch) => {
       }),
     );
   }
+};
+
+export const getLinkTapsSuccess = (profiles) => (dispatch) => {
+  let result = 0;
+  profiles.forEach((el) => {
+    result += (el.social?.length || 0) + (el.business?.length || 0);
+  });
+  return dispatch({
+    type: GET_LINKTAPS_SUCCESS,
+    data: result,
+  });
 };
