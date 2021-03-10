@@ -119,8 +119,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{
         ...correctProfile,
-        direct: "1",
-        activeProfile: "1",
         business: correctProfile.business,
         social: correctProfile.social,
       },
