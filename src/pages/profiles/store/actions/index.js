@@ -91,6 +91,13 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
+    // linkTaps test
+    const data = new FormData();
+    data.append("sAction", "EditProfile");
+    data.append("ajax", 1);
+    const linkTaps = await axios.post("", data, { withCredentials: true });
+    console.log(linkTaps);
+
     const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
@@ -105,8 +112,8 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       const profiles = [myProfile.data, ...result].map((p) => ({
         ...p,
         customId: getId(12),
-        business: p.business?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-        social: p.social?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        business: p.business?.slice(0, 5), // sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        social: p.social?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
       }));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
@@ -119,8 +126,8 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{
         ...correctProfile,
-        business: correctProfile.business?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
-        social: correctProfile.social?.sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        business: correctProfile.business?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
+        social: correctProfile.social?.slice(0, 5), // .sort((a, b) => a.id - b.id).filter((_, index) => index < 5),
       },
       ],
     });

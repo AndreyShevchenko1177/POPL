@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { snackBarAction } from "../../store/actions";
 import Header from "../../components/Header";
@@ -13,21 +12,46 @@ const stripe = window.Stripe(stripeConfig.stripePk);
 function Billing() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const priceId = "price_1ITDEoJqkGKmOFO6mlNkgNgd";
+  const priceId = "price_1ITEbeJqkGKmOFO6wOC23z5v";
 
   const handleSubscribe = async () => {
-    const checkoutSession = await axios.post(stripeConfig.getSessionIdUrl, { priceId });
-    setCookie("sessionId", checkoutSession.data.sessionId);
-    // stripe.redirectToCheckout({ sessionId: checkoutSession.data.sessionId })
-    //   .then((res) => console.log(res))
-    //   .catch((err) => dispatch(
-    //     snackBarAction({
-    //       message: "Subscription error",
-    //       severity: "error",
-    //       duration: 3000,
-    //       open: true,
-    //     }),
-    //   ));
+    let myHeaders = new Headers();
+    myHeaders.append("Cookie", "PHPSESSID=5b182e7e21130f3bef0081ba9264927d");
+
+    let formdata = new FormData();
+    formdata.append("sAction", "CheckoutSessionStripe");
+    formdata.append("sPriceId", "price_1ITEbeJqkGKmOFO6wOC23z5v");
+
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("/api", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setCookie("sessionId", result);
+        stripe.redirectToCheckout({ sessionId: result })
+          .then((res) => console.log(res))
+          .catch((err) => dispatch(
+            snackBarAction({
+              message: "Subscription error",
+              severity: "error",
+              duration: 3000,
+              open: true,
+            }),
+          ));
+      })
+      .catch((error) => dispatch(
+        snackBarAction({
+          message: "Subscription error",
+          severity: "error",
+          duration: 3000,
+          open: true,
+        }),
+      ));
   };
 
   return (
