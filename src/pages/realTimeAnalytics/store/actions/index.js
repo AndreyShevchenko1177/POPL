@@ -56,18 +56,15 @@ export const getPopsAction = (id) => async (dispatch) => {
 export const getStatisticItem = (profiles) => async (dispatch) => {
   let result = {};
   const popls = await getPoplsData();
+  result.totalPopls = `${popls.data.length}`;
   if (!Array.isArray(profiles)) {
     result.totalProfiles = "1";
-    result.totalPopls = `${popls.data.length}`;
     result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
   } else {
     result.totalProfiles = `${profiles.length}`;
-    result.totalPopls = `${popls.data.length}`;
-    result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}.00`;
+    result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
   }
-  // profiles.forEach((el) => {
-  //   result += (el.social?.length || 0) + (el.business?.length || 0);
-  // });
+
   return dispatch({
     type: GET_TOP_STATISTICS_SUCCESS,
     payload: result,
