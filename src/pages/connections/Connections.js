@@ -74,6 +74,7 @@ function Connections() {
             handleOpen={() => handleOpenForm()}
             btn_title="Add"
             search={search}
+            disabled
           />
         </div>
         {!dragablePopls.length ? (

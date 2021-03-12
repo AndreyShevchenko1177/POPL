@@ -117,7 +117,7 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         payload: profiles,
       });
     }
-    let correctProfile = { customId: getId(12) };
+    let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
     dispatch(getStatisticItem(correctProfile));
     return dispatch({
