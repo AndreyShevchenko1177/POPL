@@ -2,6 +2,7 @@ import React from "react";
 import NewProfileForm from "./components/NewProfileForm";
 import useStyles from "./styles/styles";
 import Header from "../../components/Header";
+// import CustomInput from "../../components/customInput";
 
 function NewProfile() {
   const classes = useStyles();
@@ -15,6 +16,7 @@ function NewProfile() {
         <div className={classes.pageWrapper}>
           <NewProfileForm />
         </div>
+        {/* <CustomInput/> */}
       </div>
     </>
   );
