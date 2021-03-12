@@ -8,6 +8,10 @@ import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
+import { selectConfig } from "./selectConfig";
+import firebase from "../../config/firebase.config";
+
+const db = firebase.firestore();
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -21,6 +25,8 @@ export default function Profiles() {
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
   const [searchValue, setSearchValue] = useState("");
+  const [openProfileSelect, setOpenProfileSelect] = useState(false);
+  const [selectCheckboxes, setSelectCheckboxes] = useState(selectConfig);
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/new-profile");
@@ -40,13 +46,13 @@ export default function Profiles() {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
-      return history.push("/profiles/popls", userData);
+      return history.push(`/profiles/popls/${id}`, profilesData.find((el) => el.id === id));
     }
     if (
       typeof event.target.className === "string"
       && event.target.className.includes("target-element")
     ) {
-      history.push("/profiles/popls", userData);
+      history.push(`/profiles/popls/${id}`, profilesData.find((el) => el.id === id));
     }
   }
 
@@ -76,8 +82,33 @@ export default function Profiles() {
     setCheckBoxes({ ...checkboxes, [name]: !checkboxes[name] });
   };
 
+  const arrowHandler = (value) => {
+    setOpenProfileSelect(value);
+  };
+
+  const selectCheck = (event, name) => {
+    setSelectCheckboxes((prevSelect) => prevSelect.map((el) => (el.name === name ? ({ ...el, checked: event.target.checked }) : el)));
+  };
+
   useEffect(() => {
     dispatch(getProfilesIds(userData.id));
+    // (async () => {
+    //   try {
+    //     db.collection("test")
+    //       .get()
+    //       .then((querySnapshot) => {
+    //         querySnapshot.forEach((doc) => {
+    //         // doc.data() is never undefined for query doc snapshots
+    //           console.log(doc.id, " => ", doc.data());
+    //         });
+    //       })
+    //       .catch((error) => {
+    //         console.log("Error getting documents: ", error);
+    //       });
+    //   } catch (error) {
+    //     console.log({ ...error });
+    //   }
+    // })();
   }, []);
 
   useEffect(() => {
@@ -116,6 +147,12 @@ export default function Profiles() {
           search={searchProfile}
           // isProfileChecked={Object.values(checkboxes).every((el) => el)}
           checked={mainCheck}
+          arrowHandler={arrowHandler}
+          selectObject={{
+            openProfileSelect,
+            selectCheck,
+            config: selectCheckboxes,
+          }}
         />
         {!profiles ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
@@ -143,18 +180,8 @@ export default function Profiles() {
                           {...provided.dragHandleProps}
                         >
                           <ProfileCard
-                            profile={el}
-                            // id={el.customId}
-                            // heading={el.name}
-                            // url={el.url}
-                            // src={el.image}
+                            {...el}
                             mainCheck={mainCheck}
-                            // name={el.name}
-                            // profileLink={userData.url}
-                            // businessLinks={el.business}
-                            // activeProfile={el.activeProfile}
-                            // socialLinks={el.social}
-                            // bio={{ business: el.bioBusiness, personal: el.bio }}
                             handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
                             profilesCheck={profilesCheck}
                             checkboxes={checkboxes}
@@ -168,9 +195,11 @@ export default function Profiles() {
               )}
             </Droppable>
           </DragDropContext>
-        ) : (<div className={classes.noDataText}>
-              No profiles was found
-            </div>)
+        ) : (
+              <div className={classes.noDataText}>
+                No profiles was found
+              </div>
+        )
         }
       </Grid>
     </div>

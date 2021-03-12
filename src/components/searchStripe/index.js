@@ -6,9 +6,10 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import useStyles from "./styles/styles";
+import CustomSelect from "../customSelect";
 
 function SearchStripe({
-  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, search,
+  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, search, arrowHandler = () => console.log("add event"), selectObject, disabled,
 }) {
   const classes = useStyles();
   return (
@@ -23,7 +24,13 @@ function SearchStripe({
         />
         <KeyboardArrowDownIcon
           style={{ color: "#7d7d7d", cursor: "pointer" }}
+          onClick={() => arrowHandler(true)}
         />
+        {!disabled && <CustomSelect
+          config={selectObject.config}
+          isOpen={selectObject.openProfileSelect}
+          events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: arrowHandler }}
+        />}
       </div>
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase

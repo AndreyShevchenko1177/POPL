@@ -24,9 +24,21 @@ export const getPoplsData = async () => {
   return response;
 };
 
-export const getPoplsAction = () => async (dispatch) => {
+export const getPoplsDataById = async (id) => {
+  const getPopolsFormData = new FormData();
+  getPopolsFormData.append("sAction", "GetPoplsForId");
+  getPopolsFormData.append("ajax", 1);
+  getPopolsFormData.append("iID", id);
+
+  const response = await axios.post("", getPopolsFormData, {
+    withCredentials: true,
+  });
+  return response;
+};
+
+export const getPoplsAction = (id) => async (dispatch) => {
   try {
-    const response = await getPoplsData();
+    const response = await getPoplsDataById(id);
     if (typeof response === "string") {
       return dispatch(
         snackBarAction({

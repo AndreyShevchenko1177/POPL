@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
@@ -16,6 +16,7 @@ function PoplsItem() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const location = useLocation();
+  const params = useParams();
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
@@ -43,7 +44,7 @@ function PoplsItem() {
   const search = () => console.log("search");
 
   useEffect(() => {
-    dispatch(getPoplsAction());
+    dispatch(getPoplsAction(params.id));
   }, []);
 
   useEffect(() => {
@@ -73,6 +74,7 @@ function PoplsItem() {
             handleOpen={() => handleOpenForm()}
             btn_title="Add Popl"
             search={search}
+            disabled
           />
         </div>
         {!dragablePopls.length ? (

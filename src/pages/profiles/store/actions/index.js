@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
@@ -96,15 +97,17 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", userId);
+    bodyFormData.append("iID", 4822);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
     if (response.data) {
       const idsArray = JSON.parse(response.data);
-      const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id)))).then((res) => res.map((el) => el.data));
-
-      const profiles = [myProfile.data, ...result].map((p) => ({
+      const result = [];
+      for (const id of idsArray) {
+        result.push({ data: await dispatch(getProfileAction(id)), id });
+      }
+      const profiles = [{ ...myProfile.data, id: 4822 }, ...result.map((el) => ({ ...el.data.data, id: el.id }))].map((p) => ({
         ...p,
         customId: getId(12),
         business: p.business,

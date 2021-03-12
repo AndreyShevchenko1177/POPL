@@ -15,7 +15,16 @@ export default function Card({
   handleClickPoplItem,
   profilesCheck,
   checkboxes,
-  profile,
+  customId,
+  name,
+  url,
+  image,
+  business,
+  social,
+  activeProfile,
+  bio,
+  bioBusiness,
+  direct,
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
@@ -26,9 +35,6 @@ export default function Card({
     direct: false,
     text: "Personal",
   });
-  const {
-    customId, name, url, image, business, social, activeProfile, bio, bioBusiness, direct,
-  } = profile;
   const extension = image.split(".");
 
   const setBio = () => {
@@ -48,7 +54,6 @@ export default function Card({
       text: !directOn.direct ? "Direct On" : "Direct Off",
     });
   };
-  console.log(activeProfile);
 
   useEffect(() => {
     if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });

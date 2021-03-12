@@ -16,6 +16,7 @@ export default makeStyles((theme) => ({
   },
   searchContainer: {
     display: "flex",
+    position: "relative",
     width: "100%",
     height: "100px",
     alignItems: "center",
