@@ -92,23 +92,23 @@ export default function Profiles() {
 
   useEffect(() => {
     dispatch(getProfilesIds(userData.id));
-    // (async () => {
-    //   try {
-    //     db.collection("test")
-    //       .get()
-    //       .then((querySnapshot) => {
-    //         querySnapshot.forEach((doc) => {
-    //         // doc.data() is never undefined for query doc snapshots
-    //           console.log(doc.id, " => ", doc.data());
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         console.log("Error getting documents: ", error);
-    //       });
-    //   } catch (error) {
-    //     console.log({ ...error });
-    //   }
-    // })();
+    (async () => {
+      try {
+        db.collection("people")
+          .get()
+          // .then((querySnapshot) => {
+          //   // querySnapshot.forEach((doc) => {
+          //   // // doc.data() is never undefined for query doc snapshots
+          //   //   console.log(doc.id, " => ", doc.data());
+          //   // });
+          // })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+      } catch (error) {
+        console.log({ ...error });
+      }
+    })();
   }, []);
 
   useEffect(() => {

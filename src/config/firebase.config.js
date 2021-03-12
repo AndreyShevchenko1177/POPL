@@ -1,12 +1,14 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey: "AIzaSyDxy2xkxk7zDKEGtsXtIGEiaMdBVV3vH3Q",
-  authDomain: "grounded-tine-269507.firebaseapp.com",
-  projectId: "grounded-tine-269507",
-  storageBucket: "grounded-tine-269507.appspot.com",
-  messagingSenderId: "89457891801",
-  appId: "1:89457891801:web:90c707838ce8c1f757a1c8",
+  apiKey: "AIzaSyCFY3BojPYmqXOzIiKh7___cT2Xe1vY38Q",
+  authDomain: "poplco.firebaseapp.com",
+  databaseURL: "https://poplco.firebaseio.com",
+  projectId: "poplco",
+  storageBucket: "poplco.appspot.com",
+  messagingSenderId: "1016915496422",
+  appId: "1:1016915496422:web:36a6c71b52a16fa2ceda27",
+  measurementId: "G-38RXN89B96",
 };
 firebase.initializeApp(config);
 export default firebase;
