@@ -6,6 +6,7 @@ import systemReducer from "./systemReducer";
 import poplsReducer from "../../pages/popls/store/reducer";
 import realTimeAnalytics from "../../pages/realTimeAnalytics/store/reducer";
 import connectionsReducer from "../../pages/connections/store/reducer";
+import stripeResult from "../../pages/stripeResultPages/store/reducer";
 
 export default combineReducers({
   form: formReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   poplsReducer,
   realTimeAnalytics,
   connectionsReducer,
+  stripeResult,
 });

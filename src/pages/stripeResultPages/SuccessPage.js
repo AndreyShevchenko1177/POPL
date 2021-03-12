@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { useParams, useHistory, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import successIcon from "../../assets/svg/success-icon.svg";
 import useStyles from "./styles/styles";
 import { deleteCookies, getCookie } from "../../utils/cookie";
+import { setUserProAction } from "./store/actions";
 
 export const SuccessPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const params = useParams();
+  const dispatch = useDispatch();
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
 
   useEffect(() => {
     const timer = setTimeout(() => history.push("/settings/billing"), 5000);
+    dispatch(setUserProAction(userData.id));
     return () => {
       clearTimeout(timer);
       deleteCookies("sessionId");

@@ -135,3 +135,19 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     });
   }
 };
+
+// const bodyFormData = new FormData();
+// bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
+// bodyFormData.append("ajax", "1");
+// bodyFormData.append("iID", userId);
+// bodyFormData.append("aTitles[]", ["testTitle"]);
+// bodyFormData.append("aValues[]", ["testValues"]);
+// bodyFormData.append("aHashes[]", ["testHash"]);
+// bodyFormData.append("aLinksIDs[]", [30]);
+// bodyFormData.append("aClicks[]", [345]);
+// bodyFormData.append("aIcons[]", ["test_icon"]);
+// bodyFormData.append("aVcards[]", [0]);
+// bodyFormData.append("aProfiles[]", [2]);
+// axios.post("", bodyFormData, {
+//   withCredentials: true,
+// });
