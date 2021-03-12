@@ -23,7 +23,7 @@ import PopBranding from "./pages/popBranding";
 import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
-import { SuccessPage, ErrorPage } from "./pages/stripeResultPages";
+import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 
 setAxios();
@@ -102,9 +102,6 @@ function App(props) {
         </PrivateRoute>
         <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
           <SuccessPage />
-        </PrivateRoute>
-        <PrivateRoute path="/billing/error/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
-          <ErrorPage />
         </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
           <Dashboard />
