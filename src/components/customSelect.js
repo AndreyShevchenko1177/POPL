@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { Checkbox, makeStyles } from "@material-ui/core";
+import { Checkbox, makeStyles, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     position: "absolute",
     top: 75,
     left: 0,
-    minWidth: 326,
+    minWidth: 225,
     minHeight: 200,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderRadius,
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   checkboxContainer: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
   },
   label: {
     fontSize: 16,
@@ -63,6 +64,14 @@ function CustomSelect({ config, events, isOpen }) {
                             />
                             <span className={classes.label}>{label}</span>
                         </div>
+                    );
+                  } if (type === "button") {
+                    return (
+                      <div key={id} className={classes.checkboxContainer}>
+                        <Button name={name} color="primary" onClick={() => events.btnHandler(name)}>
+                          {label}
+                        </Button>
+                      </div>
                     );
                   }
                   return (

@@ -10,8 +10,19 @@ import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
 import { selectConfig } from "./selectConfig";
 import firebase from "../../config/firebase.config";
+import { setUserProAction } from "../stripeResultPages/store/actions";
 
-const db = firebase.firestore();
+firebase.auth().signInAnonymously()
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((error) => {
+    let errorCode = error.code;
+    let errorMessage = error.message;
+    console.log(error);
+    // ...
+  });
+// const db = firebase.firestore();
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -90,25 +101,30 @@ export default function Profiles() {
     setSelectCheckboxes((prevSelect) => prevSelect.map((el) => (el.name === name ? ({ ...el, checked: event.target.checked }) : el)));
   };
 
+  const selectBtn = (name) => {
+    console.log(name);
+  };
+
   useEffect(() => {
+    // dispatch(setUserProAction());
     dispatch(getProfilesIds(userData.id));
-    (async () => {
-      try {
-        db.collection("people")
-          .get()
-          // .then((querySnapshot) => {
-          //   // querySnapshot.forEach((doc) => {
-          //   // // doc.data() is never undefined for query doc snapshots
-          //   //   console.log(doc.id, " => ", doc.data());
-          //   // });
-          // })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-      } catch (error) {
-        console.log({ ...error });
-      }
-    })();
+    // (async () => {
+    //   try {
+    //    const data = await db.collection("people")
+    //       .get()
+    //       // .then((querySnapshot) => {
+    //       //   // querySnapshot.forEach((doc) => {
+    //       //   // // doc.data() is never undefined for query doc snapshots
+    //       //   //   console.log(doc.id, " => ", doc.data());
+    //       //   // });
+    //       // })
+    //       .catch((error) => {
+    //         console.log("Error getting documents: ", error);
+    //       });
+    //   } catch (error) {
+    //     console.log({ ...error });
+    //   }
+    // })();
   }, []);
 
   useEffect(() => {
@@ -151,6 +167,7 @@ export default function Profiles() {
           selectObject={{
             openProfileSelect,
             selectCheck,
+            selectBtn,
             config: selectCheckboxes,
           }}
         />

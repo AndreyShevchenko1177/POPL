@@ -29,7 +29,7 @@ function SearchStripe({
         {!disabled && <CustomSelect
           config={selectObject.config}
           isOpen={selectObject.openProfileSelect}
-          events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: arrowHandler }}
+          events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: arrowHandler, btnHandler: selectObject.selectBtn }}
         />}
       </div>
       <Paper component="form" className={classes.root} elevation={3}>
