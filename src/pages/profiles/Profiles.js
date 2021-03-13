@@ -9,8 +9,8 @@ import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
 import { selectConfig } from "./selectConfig";
-import firebase from "../../config/firebase.config";
 import { setUserProAction } from "../stripeResultPages/store/actions";
+import CustomWizard from "../../components/wizard";
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -24,8 +24,9 @@ export default function Profiles() {
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
   const [searchValue, setSearchValue] = useState("");
-  const [openProfileSelect, setOpenProfileSelect] = useState(false);
+  const [openProfileSelect, setOpenProfileSelect] = useState({ open: false, component: "" });
   const [selectCheckboxes, setSelectCheckboxes] = useState(selectConfig);
+  const [wizard, setWizard] = useState({ open: false, data: [] });
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/new-profile");
@@ -82,7 +83,10 @@ export default function Profiles() {
   };
 
   const arrowHandler = (value) => {
-    setOpenProfileSelect(value);
+    if (openProfileSelect.component === "select") {
+      return setOpenProfileSelect({ open: false, component: "" });
+    }
+    setOpenProfileSelect({ open: value, component: "searchStripe" });
   };
 
   const selectCheck = (event, name) => {
@@ -90,62 +94,16 @@ export default function Profiles() {
   };
 
   const selectBtn = (name) => {
-    console.log(name);
+    setOpenProfileSelect({ open: false, component: "listItem" });
+    if (name) {
+      const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
+      return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
+    }
   };
 
   useEffect(() => {
     // dispatch(setUserProAction());
     dispatch(getProfilesIds(userData.id));
-
-    // (async () => {
-    //   try {
-    //     const data = await db.collection("people")
-    //       .get();
-
-    //     console.log(data)
-    //       // .then((querySnapshot) => {
-    //       //   // querySnapshot.forEach((doc) => {
-    //       //   // // doc.data() is never undefined for query doc snapshots
-    //       //   //   console.log(doc.id, " => ", doc.data());
-    //       //   // });
-    //       // })
-    //       .catch((error) => {
-    //         console.log("Error getting documents: ", error);
-    //       });
-    //   } catch (error) {
-    //     console.log({ ...error });
-    //   }
-    // })();
-
-    firebase.auth().signInAnonymously()
-      .then((res) => {
-        firebase.auth().onAuthStateChanged(async (user) => {
-          if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            let { uid } = user;
-            try {
-              const db = firebase.firestore();
-              db.collection("people").doc("4822").get().then((res) => {
-                console.log(res.data());
-              });
-            } catch (error) {
-              console.log(error);
-            }
-
-            // ...
-          } else {
-            // User is signed out
-            // ...
-          }
-        });
-      })
-      .catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log(error);
-        // ...
-      });
   }, []);
 
   useEffect(() => {
@@ -175,6 +133,7 @@ export default function Profiles() {
   return (
     <div className="profiles-page-container main-padding">
       <Grid container alignItems="center">
+        {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
         <SearchStripe
           handleOpen={handleOpenNewProfilePage}
           btn_title="Add Profile"
@@ -187,6 +146,7 @@ export default function Profiles() {
           arrowHandler={arrowHandler}
           selectObject={{
             openProfileSelect,
+            setOpenProfileSelect,
             selectCheck,
             selectBtn,
             config: selectCheckboxes,

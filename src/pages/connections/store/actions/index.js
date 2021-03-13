@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getCollectionData } from "../../../../config/firebase.query";
+import { getId } from "../../../../utils/uniqueId";
 
 import {
   GET_CONNECTIONS_SUCCESS,
@@ -13,34 +15,12 @@ import {
 
 import { snackBarAction } from "../../../../store/actions";
 
-export const getConnectionsAction = () => async (dispatch) => {
+export const getConnectionsAction = (userId) => async (dispatch) => {
   try {
-    // if (typeof response === "string") {
-    //   return dispatch(
-    //     snackBarAction({
-    //       message: "Download popls error",
-    //       severity: "error",
-    //       duration: 3000,
-    //       open: true,
-    //     }),
-    //   );
-    // }
+    const data = await getCollectionData("people", "4822");
     return dispatch({
       type: GET_CONNECTIONS_SUCCESS,
-      payload: [{
-        id: "20",
-        mid: "242303",
-        name: "Connection 1",
-        url: "Connection url",
-        activationDate: "2021-02-25 12:02",
-      },
-      {
-        id: "21",
-        mid: "242303",
-        name: "Connection 2",
-        url: "Connection url",
-        activationDate: "2021-02-25 12:02",
-      }],
+      payload: data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     dispatch({

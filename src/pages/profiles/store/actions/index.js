@@ -10,6 +10,8 @@ import {
   EDIT_PROFILES_FAIL,
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
+  ADD_LINK_SUCCESS,
+  ADD_LINK_FAIL,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
 import { getPoplsAction } from "../../../popls/store/actions";
@@ -95,10 +97,10 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
-    const myProfile = await dispatch(getProfileAction(userId));
+    const myProfile = await dispatch(getProfileAction(4822));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", userId);
+    bodyFormData.append("iID", 4822);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
@@ -133,6 +135,37 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     return dispatch({
       type: GET_DATA_PROFILES_FAIL,
       payload: error,
+    });
+  }
+};
+
+export const addLinkAction = (userId) => async (dispatch) => {
+  try {
+    const bodyFormData = new FormData();
+    bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
+    bodyFormData.append("ajax", "1");
+    bodyFormData.append("iID", userId);
+    bodyFormData.append("aTitles[]", "testTitle");
+    bodyFormData.append("aValues[]", "testValues");
+    bodyFormData.append("aIcons[]", "test_icon");
+    bodyFormData.append("aProfiles[]", 1);
+    const result = await axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
+    if (result.data.done === "Success") {
+      return dispatch({
+        type: ADD_LINK_SUCCESS,
+        payload: "success",
+      });
+    }
+    return dispatch({
+      type: ADD_LINK_FAIL,
+      error: { text: "fail" },
+    });
+  } catch (error) {
+    return dispatch({
+      type: ADD_LINK_FAIL,
+      error,
     });
   }
 };

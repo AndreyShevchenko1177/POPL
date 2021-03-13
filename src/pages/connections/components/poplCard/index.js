@@ -11,7 +11,9 @@ import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
 
-function PoplCard({ popl, editAction }) {
+function PoplCard({
+  name, url, image, time, editAction, ...rest
+}) {
   const classes = useStyles();
   return (
     <>
@@ -22,23 +24,23 @@ function PoplCard({ popl, editAction }) {
           inputProps={{ "aria-label": "primary checkbox" }}
           style={{ width: "40px", height: "40px" }}
         />
-        <img className={classes.avatar} alt="logo" src={userIcon} />
+        <img className={classes.avatar} alt="logo" src={image || userIcon} />
       </div>
       <div className={classes.contenContainer}>
-        <Typography variant="h5">{popl.name}</Typography>
+        <Typography variant="h5">{name}</Typography>
         <table>
           <tbody className={classes.cardTable}>
             <tr>
               <td className={classes.tableCell}>Name:</td>
-              <td>{popl.name}</td>
+              <td>{name}</td>
             </tr>
             <tr>
               <td className={classes.tableCell}>Slug:</td>
-              <td>{popl.url}</td>
+              <td>{url}</td>
             </tr>
             <tr>
               <td className={classes.tableCell}>Created:</td>
-              <td>{dateFormat(popl.activationDate)}</td>
+              <td>{dateFormat(time)}</td>
             </tr>
           </tbody>
         </table>
@@ -49,7 +51,9 @@ function PoplCard({ popl, editAction }) {
           size="small"
           startIcon={<EditIcon />}
           className={classes.button}
-          onClick={() => editAction(popl)}
+          onClick={() => editAction({
+            ...rest, name, url, image, time,
+          })}
         >
           Edit
         </Button>

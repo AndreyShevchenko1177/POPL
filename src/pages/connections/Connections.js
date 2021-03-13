@@ -90,8 +90,8 @@ function Connections() {
                 >
                   {dragablePopls.map((popl, index) => (
                     <Draggable
-                      key={popl.id}
-                      draggableId={`${popl.id}`}
+                      key={popl.customId}
+                      draggableId={`${popl.customId}`}
                       index={index}
                     >
                       {(provided) => (
@@ -103,8 +103,8 @@ function Connections() {
                           elevation={3}
                         >
                           <PoplCard
-                            key={popl.id}
-                            popl={popl}
+                            key={popl.customId}
+                            {...popl}
                             editAction={handleOpenForm}
                           />
                         </Paper>

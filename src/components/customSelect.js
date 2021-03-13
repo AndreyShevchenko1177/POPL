@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     padding: "10px 5px",
   },
-  checkboxContainer: {
+  itemContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -37,7 +37,7 @@ function CustomSelect({ config, events, isOpen }) {
 
   const onBlurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
-    events.hideSelectHandler(false);
+    events.hideSelectHandler({ open: false, component: "select" });
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function CustomSelect({ config, events, isOpen }) {
                 }) => {
                   if (type === "checkbox") {
                     return (
-                        <div key={id} className={classes.checkboxContainer}>
+                        <div key={id} className={classes.itemContainer}>
                             <Checkbox
                                 color="primary"
                                 inputProps={{ "aria-label": "primary checkbox" }}
@@ -67,7 +67,7 @@ function CustomSelect({ config, events, isOpen }) {
                     );
                   } if (type === "button") {
                     return (
-                      <div key={id} className={classes.checkboxContainer}>
+                      <div key={id} className={classes.itemContainer}>
                         <Button name={name} color="primary" onClick={() => events.btnHandler(name)}>
                           {label}
                         </Button>
