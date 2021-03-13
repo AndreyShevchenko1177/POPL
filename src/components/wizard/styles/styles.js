@@ -19,7 +19,7 @@ export default makeStyles((theme) => ({
   wizardContainer: {
     position: "absolute",
     top: "120px",
-    left: "calc(50% - 340px)", // half of container width plus half of sidebar width to show in center of viewport
+    left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
     padding: "15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
     zIndex: 50,
     outline: "none",
     "@media (max-width:1400px)": {
-      left: "calc(50% - 305px)", // half of container width plus half of sidebar width to show in center of viewport
+      left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
     },
   },
   linksContainer: {

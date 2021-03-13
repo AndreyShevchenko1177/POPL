@@ -1,18 +1,16 @@
 import { makeStyles } from "@material-ui/core";
 
-const drawerWidth = 260;
-
 export default makeStyles((theme) => ({
   drawer: {
-    width: drawerWidth,
+    width: theme.custom.drawerWidth,
     flexShrink: 0,
     position: "relative",
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: theme.custom.drawerWidth,
   },
   nested: {
-    paddingLeft: theme.spacing(10),
+    padding: "2px 0 2px 110px",
     borderLeft: "3px solid transparent",
     color: "#ffffff",
     "&:hover": {
@@ -34,6 +32,10 @@ export default makeStyles((theme) => ({
     "@media (max-height:900px)": {
       padding: "30px 0px 50px 0px",
     },
+  },
+  sideBarIcons: {
+    width: "20px",
+    height: "20px",
   },
   ulMenu: { paddingTop: "0px" },
   ulList: {
@@ -58,7 +60,7 @@ export default makeStyles((theme) => ({
   },
   listText: {
     fontFamily: "AvenirNextCyr",
-    fontSize: "16px",
+    fontSize: "17px",
     letterSpacing: "1.5px",
     color: "#f9f9f9",
   },
@@ -73,5 +75,27 @@ export default makeStyles((theme) => ({
   },
   listItemIcon: {
     minWidth: "40px",
+  },
+  sideBarHelpCenterContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    position: "absolute",
+    bottom: "50px",
+    "& > span": {
+      color: "#d8d8d8",
+      paddingTop: "10px",
+      cursor: "pointer",
+      fontFamily: "AvenirNextCyr, san-serif, arial",
+      fontSize: "12px",
+      letterSpacing: "1.5px",
+    },
+    "@media (max-width:1400px)": {
+      bottom: "15px",
+      paddingTop: "5px",
+      position: "static",
+    },
   },
 }));

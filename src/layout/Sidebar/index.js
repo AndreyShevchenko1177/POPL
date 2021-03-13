@@ -29,7 +29,6 @@ import settingsDark from "../../assets/svg/settings-dark.svg";
 import login from "../../assets/svg/login.svg";
 import register from "../../assets/svg/register.svg";
 import { logoutAction } from "../../pages/auth/store/actions";
-import "./styles/styles.css";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -113,7 +112,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
-                className="side-bar-icons"
+                className={classes.sideBarIcons}
                 alt="overview"
                 src={!highlight.main ? overview : overviewDark}
               />
@@ -143,7 +142,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
-                className="side-bar-icons"
+                className={classes.sideBarIcons}
                 alt="overview"
                 src={!highlight.profiles ? profiles : profileDark}
               />
@@ -221,7 +220,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
-                className="side-bar-icons"
+                className={classes.sideBarIcons}
                 alt="connections"
                 src={!highlight.connections ? connect : connectDark}
               />
@@ -275,7 +274,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
-                className="side-bar-icons"
+                className={classes.sideBarIcons}
                 alt="overview"
                 src={!highlight.campaigns ? campaigns : campaignsDark}
               />
@@ -329,7 +328,7 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img className="side-bar-icons" alt="overview" src={analytics} />
+              <img className={classes.sideBarIcons} alt="overview" src={analytics} />
             </ListItemIcon>
             <ListItemText
               to="/analytics/locations"
@@ -392,7 +391,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <img
-                className="side-bar-icons"
+                className={classes.sideBarIcons}
                 alt="overview"
                 src={!highlight.settings ? settings : settingsDark}
               />
@@ -412,7 +411,7 @@ function PermanentDrawerLeft() {
           <Link to="/sign-in">
             <ListItem className={classes.ulList} button onClick={handleLogout}>
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <img className="side-bar-icons" alt="overview" src={logout} />
+                <img className={classes.sideBarIcons} alt="overview" src={logout} />
               </ListItemIcon>
               <ListItemText
                 disableTypography
@@ -426,7 +425,7 @@ function PermanentDrawerLeft() {
             <Link to="/sign-in">
               <ListItem className={classes.ulList} button>
                 <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                  <img className="side-bar-icons" alt="overview" src={login} />
+                  <img className={classes.sideBarIcons} alt="overview" src={login} />
                 </ListItemIcon>
                 <ListItemText
                   disableTypography
@@ -439,7 +438,7 @@ function PermanentDrawerLeft() {
               <ListItem className={classes.ulList} button>
                 <ListItemIcon classes={{ root: classes.listItemIcon }}>
                   <img
-                    className="side-bar-icons"
+                    className={classes.sideBarIcons}
                     alt="overview"
                     src={register}
                   />
@@ -454,7 +453,7 @@ function PermanentDrawerLeft() {
           </>
         )}
       </List>
-      <div className="side-bar-help-center-container">
+      <div className={classes.sideBarHelpCenterContainer}>
         <HelpOutlineIcon style={{ cursor: "pointer", fill: "#94a6ab" }} />
         <span>Help Center</span>
       </div>

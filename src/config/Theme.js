@@ -28,6 +28,7 @@ let theme = createMuiTheme({
     ].join(","),
   },
   custom: {
+    drawerWidth: 300,
     mainBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
     mainBorderRadius: 10,
     mainBorderForBigElement: 15,
