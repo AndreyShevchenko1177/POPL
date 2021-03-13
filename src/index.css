@@ -75,6 +75,6 @@ a {
   border-radius: 4px;
 }
 
-.full-w > div:first-child {
+.full-w > div {
   border-radius: 30px;
 }

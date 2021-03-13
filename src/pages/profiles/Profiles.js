@@ -12,18 +12,6 @@ import { selectConfig } from "./selectConfig";
 import firebase from "../../config/firebase.config";
 import { setUserProAction } from "../stripeResultPages/store/actions";
 
-firebase.auth().signInAnonymously()
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((error) => {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-    console.log(error);
-    // ...
-  });
-// const db = firebase.firestore();
-
 export default function Profiles() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -108,10 +96,13 @@ export default function Profiles() {
   useEffect(() => {
     // dispatch(setUserProAction());
     dispatch(getProfilesIds(userData.id));
+
     // (async () => {
     //   try {
-    //    const data = await db.collection("people")
-    //       .get()
+    //     const data = await db.collection("people")
+    //       .get();
+
+    //     console.log(data)
     //       // .then((querySnapshot) => {
     //       //   // querySnapshot.forEach((doc) => {
     //       //   // // doc.data() is never undefined for query doc snapshots
@@ -125,6 +116,36 @@ export default function Profiles() {
     //     console.log({ ...error });
     //   }
     // })();
+
+    firebase.auth().signInAnonymously()
+      .then((res) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            let { uid } = user;
+            try {
+              const db = firebase.firestore();
+              db.collection("people").doc("4822").get().then((res) => {
+                console.log(res.data());
+              });
+            } catch (error) {
+              console.log(error);
+            }
+
+            // ...
+          } else {
+            // User is signed out
+            // ...
+          }
+        });
+      })
+      .catch((error) => {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        console.log(error);
+        // ...
+      });
   }, []);
 
   useEffect(() => {

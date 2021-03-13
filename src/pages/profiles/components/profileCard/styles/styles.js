@@ -19,6 +19,9 @@ export default makeStyles((theme) => ({
     "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
     boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
   },
+  trueProfile: {
+    border: `1px solid ${theme.palette.primary.main}`,
+  },
   dragDotsRight: {
     display: "flex",
     flexDirection: "column",
