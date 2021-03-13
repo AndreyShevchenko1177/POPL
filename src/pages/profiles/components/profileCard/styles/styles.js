@@ -111,7 +111,9 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: "25px 35px 25px 35px",
-    backgroundColor: "#e8ede8",
+    background: "rgb(58,58,58)",
+    backgroundImage:
+          "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
@@ -138,5 +140,26 @@ export default makeStyles((theme) => ({
   connectIcon: {
     width: "15px",
     height: "15px",
+  },
+  switcherTrack: {
+    backgroundColor: "#ffffff",
+  },
+  switcherColorsChecked: {
+    "&.Mui-checked": {
+      color: "#f3f5f3",
+    },
+    "&.Mui-checked + .MuiSwitch-track": {
+      backgroundColor: "#909090",
+    },
+  },
+  switcherLabel: {
+    color: "#ffffff",
+    borderColor: "#ffffff",
+  },
+  switcherThumb: {
+    color: "#ffffff",
+    "&:checked": {
+      color: "#000",
+    },
   },
 }));

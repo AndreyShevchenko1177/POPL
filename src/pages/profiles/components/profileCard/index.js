@@ -68,7 +68,7 @@ export default function Card({
       <DragDots position="center" />
       <Paper
         elevation={3}
-        className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground, classes[`${checkboxes[customId]}Profile`])}
+        className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >
         <div className={clsx(classes.section1, "target-element")}>

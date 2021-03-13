@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-  Grid, FormGroup, FormControlLabel, Switch, Button,
+  Grid, FormGroup, FormControlLabel, Switch, Button, Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
@@ -31,19 +31,25 @@ function ProfilePanel({
                     size="medium"
                     color="primary"
                     name="dir2"
+                    classes={{
+                      track: classes.switcherTrack,
+                      colorPrimary: classes.switcherColorsChecked,
+                      thumb: classes.switcherThumb,
+                    }}
                     checked={personalMode.direct}
                     onClick={(event) => handleSwitchChanger(event, "dir2")}
                   />
                 }
                 onClick={(event) => handleSwitchChanger(event, "dir2")}
-                label={personalMode.text}
+                label={<Typography variant='h6'>{personalMode.text}</Typography>}
                 labelPlacement="start"
                 style={{
                   marginLeft: "0px",
-                  fontWeight: "500",
+                  fontWeight: "200",
                   display: "flex",
                   flexDirection: "column-reverse",
                 }}
+                classes={{ label: classes.switcherLabel }}
               />
               <FormControlLabel
                 control={
@@ -51,12 +57,16 @@ function ProfilePanel({
                     size="medium"
                     color="primary"
                     name="dir1"
+                    classes={{
+                      track: classes.switcherTrack,
+                      colorPrimary: classes.switcherColorsChecked,
+                    }}
                     checked={directOn.direct}
                     onClick={(event) => handleSwitchChanger(event, "dir1")}
                   />
                 }
                 onClick={(event) => handleSwitchChanger(event, "dir1")}
-                label={directOn.text}
+                label={<Typography variant='h6'>{directOn.text}</Typography>}
                 labelPlacement="start"
                 style={{
                   marginLeft: "0px",
@@ -64,6 +74,7 @@ function ProfilePanel({
                   display: "flex",
                   flexDirection: "column-reverse",
                 }}
+                classes={{ label: classes.switcherLabel }}
               />
             </FormGroup>
           </div>
@@ -74,6 +85,8 @@ function ProfilePanel({
           fullWidth
           variant="outlined"
           size="small"
+          color="secondary"
+          style={{ color: "#fff", fontWeight: 400 }}
           startIcon={
             <img
               className={classes.connectIcon}
@@ -90,8 +103,9 @@ function ProfilePanel({
         <Button
           fullWidth
           variant="outlined"
+          style={{ color: "#fff", fontWeight: 400 }}
           size="small"
-          color="primary"
+          color="secondary"
           className=" "
           startIcon={<EqualizerIcon />}
           onClick={() => console.log("Statistics")}
@@ -104,7 +118,8 @@ function ProfilePanel({
           fullWidth
           variant="outlined"
           size="small"
-          color="primary"
+          color="secondary"
+          style={{ color: "#fff", fontWeight: 400 }}
           className=" "
           startIcon={<VisibilityIcon />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
