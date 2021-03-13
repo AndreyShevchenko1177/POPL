@@ -20,7 +20,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-          <div className={classes.linksContainer}>{children}</div>
+        <div className={classes.linksContainer}>{children}</div>
       )}
     </div>
   );
@@ -29,26 +29,26 @@ function TabPanel(props) {
 const header = (value, classes, cl) => {
   if (!value) {
     return (
-          <Typography className={classes.linkText} variant="h5">
+      <Typography className={classes.linkText} variant="h5">
             Select a link
-          </Typography>
+      </Typography>
     );
   }
   return (
-        <div className={classes.rootLinkContainer} onClick={cl}>
-          <ArrowBackIosIcon className={classes.arrowIcon} />
-          <Typography
-            className={classes.rootLink}
-            variant="body1"
-          >
+    <div className={classes.rootLinkContainer} onClick={cl}>
+      <ArrowBackIosIcon className={classes.arrowIcon} />
+      <Typography
+        className={classes.rootLink}
+        variant="body1"
+      >
             Back
-          </Typography>
+      </Typography>
 
-        </div>
+    </div>
   );
 };
 
-export default function WizardPanel({ data }) {
+export default function WizardPanel({ data, closeWizard }) {
   const classes = useStyles();
   const [value, setValue] = useState({
     key: 0,
@@ -64,7 +64,7 @@ export default function WizardPanel({ data }) {
         <ScreenOne data={data} onClick={(link) => setValue({ ...value, key: 1, link })}/>
       </TabPanel>
       <TabPanel value={value.key} index={1}>
-        <ScreenTwo {...value.link}/>
+        <ScreenTwo {...value.link} closeWizard={closeWizard} />
       </TabPanel>
     </div>
   );

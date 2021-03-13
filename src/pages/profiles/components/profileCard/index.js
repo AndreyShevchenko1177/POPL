@@ -67,7 +67,7 @@ export default function Card({
     <>
       <DragDots position="center" />
       <Paper
-        elevation={3}
+        elevation={checkboxes[customId] ? 20 : 0}
         className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >

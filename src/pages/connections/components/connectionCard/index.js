@@ -24,7 +24,7 @@ function PoplCard({
           inputProps={{ "aria-label": "primary checkbox" }}
           style={{ width: "40px", height: "40px" }}
         />
-        <img className={classes.avatar} alt="logo" src={image || userIcon} />
+        <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} />
       </div>
       <div className={classes.contenContainer}>
         <Typography variant="h5">{name}</Typography>

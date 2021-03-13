@@ -15,7 +15,12 @@
   },
   "rules": {
     "no-plusplus": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
     "linebreak-style": "off",
     "import/prefer-default-export": "off",
     "no-class-assign": "off",
@@ -24,8 +29,21 @@
       "error",
       500
     ],
-    "quotes": ["error", "double"],
-    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
     "no-func-assign": "off",
     "consistent-return": "off",
     "react-hooks/exhaustive-deps": "off",

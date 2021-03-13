@@ -5,8 +5,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import { getConnectionsAction, clearAddConnection, clearEditConnection } from "./store/actions";
-import PoplForm from "./components/poplForm";
-import PoplCard from "./components/poplCard";
+import PoplForm from "./components/connectionForm";
+import PoplCard from "./components/connectionCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
@@ -15,7 +15,6 @@ import Loader from "../../components/Loader";
 function Connections() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const location = useLocation();
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.allConnections.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();

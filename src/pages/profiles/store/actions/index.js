@@ -12,9 +12,9 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
+  CLEAR_ADD_LINK,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
-import { getPoplsAction } from "../../../popls/store/actions";
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
@@ -97,10 +97,10 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
-    const myProfile = await dispatch(getProfileAction(4822));
+    const myProfile = await dispatch(getProfileAction(userId));
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", 4822);
+    bodyFormData.append("iID", userId);
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
@@ -132,6 +132,14 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       ],
     });
   } catch (error) {
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }),
+    );
     return dispatch({
       type: GET_DATA_PROFILES_FAIL,
       payload: error,
@@ -139,15 +147,14 @@ export const getProfilesIds = (userId) => async (dispatch) => {
   }
 };
 
-export const addLinkAction = (userId) => async (dispatch) => {
+export const addLinkAction = (value, userId) => async (dispatch) => {
   try {
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
     bodyFormData.append("ajax", "1");
     bodyFormData.append("iID", userId);
-    bodyFormData.append("aTitles[]", "testTitle");
-    bodyFormData.append("aValues[]", "testValues");
-    bodyFormData.append("aIcons[]", "test_icon");
+    bodyFormData.append("aValues[]", value);
+    bodyFormData.append("aIcons[]", "");
     bodyFormData.append("aProfiles[]", 1);
     const result = await axios.post("", bodyFormData, {
       withCredentials: true,
@@ -158,11 +165,27 @@ export const addLinkAction = (userId) => async (dispatch) => {
         payload: "success",
       });
     }
+    dispatch(
+      snackBarAction({
+        message: "Error by adding link",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }),
+    );
     return dispatch({
       type: ADD_LINK_FAIL,
       error: { text: "fail" },
     });
   } catch (error) {
+    dispatch(
+      snackBarAction({
+        message: "Server error",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }),
+    );
     return dispatch({
       type: ADD_LINK_FAIL,
       error,
@@ -170,18 +193,6 @@ export const addLinkAction = (userId) => async (dispatch) => {
   }
 };
 
-// const bodyFormData = new FormData();
-// bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
-// bodyFormData.append("ajax", "1");
-// bodyFormData.append("iID", userId);
-// bodyFormData.append("aTitles[]", ["testTitle"]);
-// bodyFormData.append("aValues[]", ["testValues"]);
-// bodyFormData.append("aHashes[]", ["testHash"]);
-// bodyFormData.append("aLinksIDs[]", [30]);
-// bodyFormData.append("aClicks[]", [345]);
-// bodyFormData.append("aIcons[]", ["test_icon"]);
-// bodyFormData.append("aVcards[]", [0]);
-// bodyFormData.append("aProfiles[]", [2]);
-// axios.post("", bodyFormData, {
-//   withCredentials: true,
-// });
+export const clearAddLinkAction = () => (dispatch) => dispatch({
+  type: CLEAR_ADD_LINK,
+});

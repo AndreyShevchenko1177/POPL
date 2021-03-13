@@ -9,7 +9,6 @@ import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
 import { selectConfig } from "./selectConfig";
-import { setUserProAction } from "../stripeResultPages/store/actions";
 import CustomWizard from "../../components/wizard";
 
 export default function Profiles() {
@@ -132,7 +131,7 @@ export default function Profiles() {
 
   return (
     <div className="profiles-page-container main-padding">
-      <Grid container alignItems="center">
+      <Grid container alignItems="center" className='relative'>
         {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
         <SearchStripe
           handleOpen={handleOpenNewProfilePage}
@@ -153,7 +152,7 @@ export default function Profiles() {
           }}
         />
         {!profiles ? (
-          <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
+          <Loader styles={{ position: "absolute", bottom: "-100px", left: "calc(50% - 130px)" }} />
         ) : profiles.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
@@ -194,9 +193,9 @@ export default function Profiles() {
             </Droppable>
           </DragDropContext>
         ) : (
-              <div className={classes.noDataText}>
+          <div className={classes.noDataText}>
                 No profiles was found
-              </div>
+          </div>
         )
         }
       </Grid>

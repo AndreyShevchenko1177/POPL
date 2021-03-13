@@ -16,16 +16,20 @@ function CustomWizard({ data, isOpen, setIsOpen }) {
   }, [isOpen]);
 
   return (
-        <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
-            <div>
-                <WizardPanel
-                    data={data.reduce((sum, current) => {
-                      sum.push(...current.social, ...current.business);
-                      return sum;
-                    }, [])}
-                />
-            </div>
+    <>
+      <div className={classes.opacityBackground}></div>
+      <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
+        <div>
+          <WizardPanel
+            closeWizard={() => setIsOpen((v) => ({ ...v, open: false }))}
+            data={data.reduce((sum, current) => {
+              sum.push(...current.social, ...current.business);
+              return sum;
+            }, [])}
+          />
         </div>
+      </div>
+    </>
   );
 }
 
