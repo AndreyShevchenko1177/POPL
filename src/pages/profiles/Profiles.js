@@ -94,7 +94,7 @@ export default function Profiles() {
 
   const selectBtn = (name) => {
     setOpenProfileSelect({ open: false, component: "listItem" });
-    if (name) {
+    if (name === "addLink") {
       const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
       return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
     }

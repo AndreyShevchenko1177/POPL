@@ -27,6 +27,7 @@ function SearchStripe({
 
 }) {
   const classes = useStyles();
+
   return (
     <div className={classes.searchContainer}>
       <div className={classes.checkbox}>

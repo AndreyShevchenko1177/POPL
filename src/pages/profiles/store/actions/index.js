@@ -13,7 +13,7 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
-  CLEAR_ADD_LINK,
+  CLEAR_STATE,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
 
@@ -199,6 +199,17 @@ export const addLinkAction = (value, userId) => async (dispatch) => {
   }
 };
 
-export const clearAddLinkAction = () => (dispatch) => dispatch({
-  type: CLEAR_ADD_LINK,
+export const clearStateAction = (name) => (dispatch) => dispatch({
+  type: CLEAR_STATE,
+  payload: name,
 });
+
+export const addChildProfile = (userId, childId) => async (dispatch) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "addChild");
+  bodyFormData.append("iID", 242303);
+  bodyFormData.append("sChild", "[236232]");
+  const response = await axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};

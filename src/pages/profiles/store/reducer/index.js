@@ -7,7 +7,7 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
-  CLEAR_ADD_LINK,
+  CLEAR_STATE,
 } from "../actionTypes";
 
 const initialState = {
@@ -114,10 +114,10 @@ export default function profilesReducer(
       },
     };
   }
-  case CLEAR_ADD_LINK: {
+  case CLEAR_STATE: {
     return {
       ...state,
-      addLink: initialState.addLink,
+      [payload]: initialState[payload],
     };
   }
   default:

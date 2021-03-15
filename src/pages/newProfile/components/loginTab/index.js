@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   FormControl,
   Input,
@@ -14,6 +15,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Mail from "@material-ui/icons/Mail";
 import { ValidationProvider } from "../../../../utils";
 import { signInConfig } from "../../../auth/validationConfig";
+import { addChildProfile } from "../../../profiles/store/actions";
 import useStyles from "./styles";
 
 function LoginTab() {
@@ -22,6 +24,7 @@ function LoginTab() {
     password: false,
     confirmPassword: false,
   });
+  const dispatch = useDispatch();
 
   const handleClickShowPassword = (name) => {
     setShowPassword({ ...showPassword, [name]: !showPassword[name] });
@@ -29,6 +32,7 @@ function LoginTab() {
 
   const create = (values) => {
     console.log(values);
+    // dispatch(addChildProfile());
   };
 
   return (

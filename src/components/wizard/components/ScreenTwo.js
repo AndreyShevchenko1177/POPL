@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, TextField } from "@material-ui/core";
 import clsx from "clsx";
 import useStyles from "../styles/styles";
-import { addLinkAction, clearAddLinkAction } from "../../../pages/profiles/store/actions";
+import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
 
 function ScreenTwo({
   image, title, value, id, closeWizard,
@@ -28,7 +28,7 @@ function ScreenTwo({
   }, [addLinkSuccess]);
 
   useEffect(() => () => {
-    dispatch(clearAddLinkAction());
+    dispatch(clearStateAction("addLink"));
   }, []);
 
   return (
