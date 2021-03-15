@@ -117,13 +117,21 @@ export default makeStyles((theme) => ({
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
+  linkClicksWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: "0 15px 15px 0",
+  },
   iconItem: {
     backgroundColor: "#ffffff",
     padding: 15,
-    marginBottom: "15px",
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
-    marginRight: 15,
+  },
+  clicksText: {
+    paddingTop: 10,
+    fontFamily: "AvenirNextCyr, san-serif, arial",
   },
   buttonsContainer: {
     display: "flex",

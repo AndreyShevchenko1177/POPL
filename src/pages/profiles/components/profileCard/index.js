@@ -108,7 +108,6 @@ export default function Card({
             <div className={clsx(classes.section4, "target-element")}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
-                style={classes.iconItem}
                 data={personalMode.direct ? business?.slice(0, 5) : social?.slice(0, 5)}
               />
             </div>
@@ -120,7 +119,7 @@ export default function Card({
                 startIcon={<ArrowDropDownIcon />}
                 onClick={() => url && window.open(`${process.env.REACT_APP_BASE_PROFILE_URL}${url}`)}
               >
-                View Profile
+                  View Profile
               </Button>
             </div>
           </div>
