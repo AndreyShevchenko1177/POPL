@@ -10,7 +10,7 @@ function Filters({
     <>
       {!disabled && config.map(({ name, label }, key) => (
 
-        <div key={key} style={{ width: "25%", marginLeft: "30px" }}>
+        <div key={key} style={{ minWidth: "100px", marginLeft: "30px" }}>
           <Button
             fullWidth
             disabled={isFetching}

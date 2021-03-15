@@ -26,14 +26,14 @@ import { profileIds } from "../../../profiles/store/actions";
 export const getConnectionsAction = (userId) => async (dispatch) => {
   try {
     const idsArray = [userId];
-    const res = await profileIds(4822);
+    const res = await profileIds(userId);
     if (res.data) {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
-    const data = await (await Promise.all(idsArray.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.data?.history || []]), []);
+    const data = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
     return dispatch({
       type: GET_CONNECTIONS_SUCCESS,
-      payload: data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+      payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), []).map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     dispatch({

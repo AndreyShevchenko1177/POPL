@@ -36,7 +36,7 @@ function PoplCard({
             </tr>
             <tr>
               <td className={classes.tableCell}>URL:</td>
-              <td>{url}</td>
+              <td>{url && url.split("https://")[1]}</td>
             </tr>
             <tr>
               <td className={classes.tableCell}>Created:</td>
