@@ -13,7 +13,6 @@ import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
-import Filters from "../../components/filters";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -50,11 +49,10 @@ function PoplsItem() {
   const search = () => console.log("search");
 
   const setFilters = (event, name) => {
-    setFiltersCheck({ ...fitlersCheck, [name]: event.target.checked });
-    switch (name + event.target.checked) {
-    case "alltrue": dispatch(collectSelectedPopls(profileIds));
-      return;
-    case "allfalse": dispatch(retieveSelectedPopls());
+    switch (name) {
+    case "all": dispatch(collectSelectedPopls(profileIds));
+
+    // case "all": dispatch(retieveSelectedPopls());
     default:
     }
   };
@@ -95,18 +93,14 @@ function PoplsItem() {
       >
         <div className="popls-header-container">
           <SearchStripe
+            isFetching={isFetching}
+            setFilters={setFilters}
+            fitlersCheck={fitlersCheck}
+            isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
             btn_title="Add Popl"
             search={search}
             disabled
-          />
-        </div>
-        <div className={classes.filtersContainer}>
-          <Filters
-            isFetching={isFetching}
-            setFilters={setFilters}
-            fitlersCheck={fitlersCheck}
-            disabled={location.state?.disabled === undefined ? true : location.state?.disabled}
           />
         </div>
         {!dragablePopls.length ? (

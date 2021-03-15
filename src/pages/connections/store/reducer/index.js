@@ -111,7 +111,7 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: payload[payload.type],
         connections: payload,
         error: null,
-        isFetching: false,
+        isFetching: true,
       },
     };
   }
@@ -122,7 +122,7 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: null,
         allConnections: null,
         error,
-        isFetching: false,
+        isFetching: true,
       },
     };
   }

@@ -1,25 +1,27 @@
 import React from "react";
-import { Checkbox } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 const mockConfig = [{ name: "all", label: "Show all" }];
 
 function Filters({
-  config = mockConfig, fitlersCheck, setFilters, disabled, isFetching,
+  config = mockConfig, setFilters, disabled, isFetching,
 }) {
   return (
     <>
       {!disabled && config.map(({ name, label }, key) => (
-        <div key={key}>
-          <Checkbox
+
+        <div key={key} style={{ width: "25%", marginLeft: "30px" }}>
+          <Button
+            fullWidth
             disabled={isFetching}
+            variant="contained"
             color="primary"
-            inputProps={{ "aria-label": "primary checkbox" }}
-            style={{ width: "40px", height: "40px" }}
+            style={{ height: "50px" }}
             onClick={(e) => setFilters(e, name)}
             name={name}
-            checked={!!fitlersCheck[name]}
-          />
-          <span>{label}</span>
+          >
+            {label}
+          </Button>
         </div>
       ))}
     </>

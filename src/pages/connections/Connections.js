@@ -54,15 +54,14 @@ function Connections() {
   const search = () => console.log("search");
 
   const setFilters = (event, name) => {
-    setFiltersCheck({ ...fitlersCheck, [name]: event.target.checked });
-    switch (name + event.target.checked) {
-    case "alltrue": dispatch(collectSelectedConnections(profileIds, "allConnections"));
+    switch (name) {
+    case "all": dispatch(collectSelectedConnections(profileIds, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,
       });
-      return;
-    case "allfalse": dispatch(retieveSelectedConnections());
+
+    // case "allfalse": dispatch(retieveSelectedConnections());
     default:
     }
   };
@@ -81,7 +80,7 @@ function Connections() {
 
   useEffect(() => {
     if (dragableConnections.length) return;
-    setConnections(connections.slice(0, 19));
+    setConnections(connections.slice(5, 10));
   }, [connections]);
 
   useEffect(() => {
@@ -118,18 +117,14 @@ function Connections() {
       >
         <div className="popls-header-container">
           <SearchStripe
+            isFetching={isFetching}
+            setFilters={setFilters}
+            fitlersCheck={fitlersCheck}
+            isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
             btn_title="Add"
             search={search}
             disabled
-          />
-        </div>
-        <div className={classes.filtersContainer}>
-          <Filters
-            isFetching={isFetching}
-            setFilters={setFilters}
-            fitlersCheck={fitlersCheck}
-            disabled={location.state?.disabled === undefined ? true : location.state?.disabled}
           />
         </div>
         {!dragableConnections.length ? (

@@ -111,7 +111,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: payload,
         allPopls: payload,
         error: null,
-        isFetching: false,
+        isFetching: true,
       },
     };
   }
@@ -122,7 +122,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: null,
         allPopls: null,
         error,
-        isFetching: false,
+        isFetching: true,
       },
     };
   }

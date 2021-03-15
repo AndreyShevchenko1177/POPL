@@ -7,9 +7,24 @@ import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
+import Filters from "../filters";
 
 function SearchStripe({
-  handleOpen, btn_title, checked, handleCheck, handleSearch, searchValue, search, arrowHandler = () => console.log("add event"), selectObject, disabled,
+  handleOpen,
+  btn_title,
+  checked,
+  handleCheck,
+  handleSearch,
+  searchValue,
+  search,
+  arrowHandler = () => console.log("add event"),
+  selectObject,
+  disabled,
+  fitlersCheck,
+  setFilters,
+  isShow,
+  isFetching,
+
 }) {
   const classes = useStyles();
   return (
@@ -32,6 +47,12 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
+      <Filters
+        isFetching={isFetching}
+        setFilters={setFilters}
+        fitlersCheck={fitlersCheck}
+        disabled={isShow}
+      />
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
           fullWidth
