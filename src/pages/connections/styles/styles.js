@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    height: "170px",
   },
   poplCard: {
     width: "200px",

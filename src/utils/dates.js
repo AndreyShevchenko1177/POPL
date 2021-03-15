@@ -8,17 +8,17 @@ export const normalizeDate = (d) => (d <= 9 ? `0${d}` : d);
 
 export const getMothName = (monthNumber) => months[monthNumber];
 
-export function dateFormat(date) {
+export function dateFormat(date, isTime) {
   if (date === "0000-00-00 00:00:00") {
     return `${getYear(new Date())}/${normalizeDate(
       getMonth(new Date()) + 1,
-    )}/${normalizeDate(getDay(new Date()))} 00:00`;
+    )}/${normalizeDate(getDay(new Date()))} ${isTime ? "00:00" : ""}`;
   }
   if (!date || new Date(date) == "Invalid Date") return "Invalid date";
 
   return `${getYear(date)}/${normalizeDate(getMonth(date) + 1)}/${normalizeDate(
     getDay(date),
-  )} ${normalizeDate(getHours(date))}:${normalizeDate(getMinutes(date))} 00:00`;
+  )} ${isTime ? `${normalizeDate(getHours(date))}:${normalizeDate(getMinutes(date))}` : ""}`;
 }
 
 const months = [

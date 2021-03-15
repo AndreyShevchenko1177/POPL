@@ -4,18 +4,19 @@ export default makeStyles((theme) => ({
   container: {
     display: "flex",
     alignItems: "center",
-    width: "150px",
-    maxWidth: "150px",
-    height: "100px",
+    width: "160px",
+    height: "130px",
     marginLeft: "10px",
+    padding: "20px 0",
   },
   avatar: {
-    width: "100px",
-    height: "100px",
-    borderRadius: "50%",
+    width: "120px",
+    height: "70px",
+    borderRadius: "10px",
   },
   contenContainer: {
     padding: "20px",
+    maxWidth: "500px",
   },
   cardTable: {
     fontFamily: "AvenirNextCyr",
@@ -42,6 +43,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     marginLeft: "auto",
     width: "150px",
+    height: "100%",
     backgroundColor: "#e8ede8",
     padding: "20px",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,

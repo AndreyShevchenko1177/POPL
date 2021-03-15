@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
     left: "-40px",
     width: "calc(100% + 80px)",
     height: "calc(100% + 48px)",
+    minHeight: "100vh",
     backgroundColor: "gray",
     opacity: "0.45",
     position: "absolute",

@@ -35,7 +35,7 @@ function PoplCard({
               <td>{name}</td>
             </tr>
             <tr>
-              <td className={classes.tableCell}>Slug:</td>
+              <td className={classes.tableCell}>URL:</td>
               <td>{url}</td>
             </tr>
             <tr>

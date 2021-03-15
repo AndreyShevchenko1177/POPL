@@ -38,7 +38,7 @@ function PoplCard({ popl, editAction }) {
             </tr>
             <tr>
               <td className={classes.tableCell}>Created:</td>
-              <td>{dateFormat(popl.activationDate)}</td>
+              <td>{dateFormat(popl.activationDate, "withTime")}</td>
             </tr>
           </tbody>
         </table>
