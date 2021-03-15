@@ -11,16 +11,27 @@ import {
   EDIT_CONNECTIONS_FAIL,
   CLEAR_ADD_CONNECTIONS,
   CLEAR_EDIT_CONNECTIONS,
+  COLLECT_SELECTED_CONNECTIONS_SUCCESS,
+  COLLECT_SELECTED_CONNECTIONS_FAIL,
+  RETRIEVE_SELECTED_CONNECTIONS,
+  GET_PROFILES_IDS_SUCCESS,
+  GET_PROFILES_IDS_FAIL,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
+import { profileIds } from "../../../profiles/store/actions";
 
 export const getConnectionsAction = (userId) => async (dispatch) => {
   try {
-    const data = await getCollectionData("people", "4822");
+    const idsArray = [userId];
+    const res = await profileIds(4822);
+    if (res.data) {
+      JSON.parse(res.data).forEach((id) => idsArray.push(id));
+    }
+    const data = await (await Promise.all(idsArray.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current?.history || []]), []);
     return dispatch({
       type: GET_CONNECTIONS_SUCCESS,
-      payload: data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+      payload: data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     dispatch({
@@ -132,6 +143,52 @@ export const editConnectionAction = (body) => async (dispatch) => {
         open: true,
       }),
     );
+  }
+};
+
+export const collectSelectedConnections = (ids, type) => async (dispatch, getState) => {
+  try {
+    const { allPopls, data } = getState().poplsReducer.collectPopl;
+    // if (data) {
+    //   return dispatch({
+    //     type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
+    //     payload: allPopls,
+    //   });
+    // }
+    console.log(ids);
+    const result = await (await Promise.all(ids.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.history]), []);
+    return dispatch({
+      type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
+      payload: result.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+    });
+  } catch (error) {
+    return dispatch({
+      type: COLLECT_SELECTED_CONNECTIONS_FAIL,
+      error,
+    });
+  }
+};
+
+export const retieveSelectedConnections = () => ({
+  type: RETRIEVE_SELECTED_CONNECTIONS,
+});
+
+export const getProfilesIdsAction = (userId) => async (dispatch) => {
+  try {
+    const idsArray = [4822];
+    const response = await profileIds(4822);
+    if (response.data) {
+      JSON.parse(response.data).forEach((id) => idsArray.push(id));
+    }
+    return dispatch({
+      type: GET_PROFILES_IDS_SUCCESS,
+      payload: idsArray,
+    });
+  } catch (error) {
+    return dispatch({
+      type: GET_PROFILES_IDS_FAIL,
+      error,
+    });
   }
 };
 

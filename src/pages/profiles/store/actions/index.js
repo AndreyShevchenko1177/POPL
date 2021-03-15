@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
@@ -15,6 +16,16 @@ import {
   CLEAR_ADD_LINK,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
+
+export const profileIds = async (userId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "getChild");
+  bodyFormData.append("iID", userId);
+  const response = await axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+  return response;
+};
 
 export const addPoplAction = (proplData) => async (dispatch, getState) => {
   try {
@@ -98,12 +109,7 @@ export const getProfileAction = (id) => async (dispatch) => {
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
     const myProfile = await dispatch(getProfileAction(userId));
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "getChild");
-    bodyFormData.append("iID", userId);
-    const response = await axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
+    const response = await profileIds(userId);
     if (response.data) {
       const idsArray = JSON.parse(response.data);
       const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id))));

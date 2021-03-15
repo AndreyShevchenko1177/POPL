@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   poplsPageContainer: {
     paddingTop: "100px",
+    overflow: "auto",
+    minHeight: "100vh",
   },
   poplsContainer: {
     display: "flex",
@@ -35,5 +37,10 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
+  },
+  filtersContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    paddingBottom: 20,
   },
 }));

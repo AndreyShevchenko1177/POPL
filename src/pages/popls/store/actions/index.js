@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import axios from "axios";
 
 import {
@@ -7,11 +8,17 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  COLLECT_SELECTED_POPLS_SUCCESS,
+  RETRIEVE_SELECTED_POPLS,
+  COLLECT_SELECTED_POPLS_FAIL,
+  GET_PROFILES_IDS_SUCCESS,
+  GET_PROFILES_IDS_FAIL,
   CLEAR_ADD_POPL,
   CLEAR_EDIT_POPL,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
+import { profileIds } from "../../../profiles/store/actions";
 
 export const getPoplsData = async () => {
   const getPopolsFormData = new FormData();
@@ -38,8 +45,13 @@ export const getPoplsDataById = async (id) => {
 
 export const getPoplsAction = (id) => async (dispatch) => {
   try {
-    const response = await getPoplsDataById(id);
-    if (typeof response === "string") {
+    const idsArray = [id];
+    const response = await profileIds(id);
+    if (response.data) {
+      JSON.parse(response.data).forEach((id) => idsArray.push(id));
+    }
+    const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    if (typeof result === "string") {
       return dispatch(
         snackBarAction({
           message: "Download popls error",
@@ -51,7 +63,7 @@ export const getPoplsAction = (id) => async (dispatch) => {
     }
     return dispatch({
       type: GET_POPLS_SUCCESS,
-      payload: response.data,
+      payload: result,
     });
   } catch (error) {
     dispatch({
@@ -163,6 +175,51 @@ export const editPoplAction = (body) => async (dispatch) => {
         open: true,
       }),
     );
+  }
+};
+
+export const collectSelectedPopls = (ids, type) => async (dispatch, getState) => {
+  try {
+    const { allPopls, data } = getState().poplsReducer.collectPopl;
+    if (data) {
+      return dispatch({
+        type: COLLECT_SELECTED_POPLS_SUCCESS,
+        payload: allPopls,
+      });
+    }
+    const result = await Promise.all(ids.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    return dispatch({
+      type: COLLECT_SELECTED_POPLS_SUCCESS,
+      payload: result,
+    });
+  } catch (error) {
+    return dispatch({
+      type: COLLECT_SELECTED_POPLS_FAIL,
+      error,
+    });
+  }
+};
+
+export const retieveSelectedPopls = () => ({
+  type: RETRIEVE_SELECTED_POPLS,
+});
+
+export const getProfilesIdsAction = (userId) => async (dispatch) => {
+  try {
+    const idsArray = [userId];
+    const response = await profileIds(userId);
+    if (response.data) {
+      JSON.parse(response.data).forEach((id) => idsArray.push(id));
+    }
+    return dispatch({
+      type: GET_PROFILES_IDS_SUCCESS,
+      payload: idsArray,
+    });
+  } catch (error) {
+    return dispatch({
+      type: GET_PROFILES_IDS_FAIL,
+      error,
+    });
   }
 };
 

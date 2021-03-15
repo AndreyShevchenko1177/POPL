@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
-import { getPoplsAction, clearAddPopl, clearEditPopl } from "./store/actions";
+import {
+  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls, retieveSelectedPopls, getProfilesIdsAction,
+} from "./store/actions";
 import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
+import Filters from "../../components/filters";
 
 function PoplsItem() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const location = useLocation();
-  const params = useParams();
+  const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const filterPopls = useSelector(({ poplsReducer }) => poplsReducer.collectPopl.data);
+  const profileIds = useSelector(({ poplsReducer }) => poplsReducer.profilesIds.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
   const [dragablePopls, setPopls] = useState([]);
+  const [fitlersCheck, setFiltersCheck] = useState({});
 
   const handleOpenForm = (popl) => {
     if (popl) {
@@ -43,8 +49,19 @@ function PoplsItem() {
 
   const search = () => console.log("search");
 
+  const setFilters = (event, name) => {
+    setFiltersCheck({ ...fitlersCheck, [name]: event.target.checked });
+    switch (name + event.target.checked) {
+    case "alltrue": dispatch(collectSelectedPopls(profileIds));
+      return;
+    case "allfalse": dispatch(retieveSelectedPopls());
+    default:
+    }
+  };
+
   useEffect(() => {
-    dispatch(getPoplsAction(params.id));
+    dispatch(getPoplsAction(location.state?.id || profileData.id));
+    dispatch(getProfilesIdsAction(location.state?.id || profileData.id));
   }, []);
 
   useEffect(() => {
@@ -57,11 +74,18 @@ function PoplsItem() {
   useEffect(() => {
     setPopls(popls);
   }, [popls]);
+
+  useEffect(() => {
+    if (filterPopls) {
+      setPopls(filterPopls);
+    }
+  }, [filterPopls]);
+
   return (
     <>
       <Header
         rootLink="Profiles"
-        firstChild={location.state.name}
+        firstChild={location.state?.name || profileData.name}
         path="/profiles"
       />
       <div
@@ -76,6 +100,9 @@ function PoplsItem() {
             search={search}
             disabled
           />
+        </div>
+        <div className={classes.filtersContainer}>
+          <Filters setFilters={setFilters} fitlersCheck={fitlersCheck} disabled={location.state?.disabled === undefined ? true : location.state?.disabled}/>
         </div>
         {!dragablePopls.length ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
@@ -125,7 +152,7 @@ function PoplsItem() {
           <DialogContent>
             <PoplForm
               setIsOpenForm={setIsOpenForm}
-              mid={location.state.id}
+              mid={location.state?.id}
               popl={currentPopl}
             />
           </DialogContent>

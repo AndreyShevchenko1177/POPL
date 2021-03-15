@@ -25,6 +25,7 @@ export default function Card({
   bio,
   bioBusiness,
   direct,
+  id,
 }) {
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
@@ -127,6 +128,7 @@ export default function Card({
         <div className={clsx(classes.section5, "target-element")}>
           <div className={classes.buttonsContainer}>
             <ProfilePanel
+              id={id}
               handleClickPoplItem={handleClickPoplItem}
               handleSwitchChanger={handleSwitchChanger}
               directOn={directOn}

@@ -32,4 +32,9 @@ export default makeStyles((theme) => ({
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
   },
+  filtersContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    paddingBottom: 20,
+  },
 }));

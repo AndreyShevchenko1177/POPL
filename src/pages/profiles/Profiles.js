@@ -45,13 +45,13 @@ export default function Profiles() {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
-      return history.push(`/profiles/popls/${id}`, profilesData.find((el) => el.id === id));
+      return history.push("/profiles/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
     if (
       typeof event.target.className === "string"
       && event.target.className.includes("target-element")
     ) {
-      history.push(`/profiles/popls/${id}`, profilesData.find((el) => el.id === id));
+      history.push("/profiles/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
   }
 

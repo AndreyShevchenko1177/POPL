@@ -8,7 +8,7 @@ export const getCollectionData = async (collection, docId) => {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           try {
-            const data = await db.collection(collection).doc(docId).get();
+            const data = await db.collection(collection).doc(docId.toString()).get();
             resolve(data.data());
           } catch (error) {
             reject(error);

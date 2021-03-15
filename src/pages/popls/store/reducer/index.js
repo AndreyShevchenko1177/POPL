@@ -5,6 +5,11 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  COLLECT_SELECTED_POPLS_SUCCESS,
+  COLLECT_SELECTED_POPLS_FAIL,
+  RETRIEVE_SELECTED_POPLS,
+  GET_PROFILES_IDS_SUCCESS,
+  GET_PROFILES_IDS_FAIL,
   CLEAR_EDIT_POPL,
   CLEAR_ADD_POPL,
 } from "../actionTypes";
@@ -22,77 +27,134 @@ const initialState = {
     data: null,
     error: null,
   },
+  collectPopl: {
+    allPopls: null,
+    data: null,
+    error: null,
+  },
+  profilesIds: {
+    data: [],
+    error: null,
+  },
 };
 
-export default function poplsReducer(state = initialState, { type, payload }) {
+export default function poplsReducer(state = initialState, { type, payload, error }) {
   switch (type) {
-    case GET_POPLS_SUCCESS: {
-      return {
-        ...state,
-        allPopls: {
-          error: null,
-          data: payload,
-        },
-      };
-    }
-    case GET_POPLS_FAIL: {
-      return {
-        ...state,
-        allPopls: {
-          data: [],
-          error: payload,
-        },
-      };
-    }
-    case ADD_POPLS_SUCCESS: {
-      return {
-        ...state,
-        addPopl: {
-          error: null,
-          data: payload,
-        },
-      };
-    }
-    case ADD_POPLS_FAIL: {
-      return {
-        ...state,
-        addPopl: {
-          data: null,
-          error: payload,
-        },
-      };
-    }
-    case EDIT_POPLS_SUCCESS: {
-      return {
-        ...state,
-        editPopl: {
-          data: payload,
-          error: null,
-        },
-      };
-    }
-    case EDIT_POPLS_FAIL: {
-      return {
-        ...state,
-        editPopl: {
-          data: null,
-          error: payload,
-        },
-      };
-    }
-    case CLEAR_EDIT_POPL: {
-      return {
-        ...state,
-        editPopl: initialState.editPopl,
-      };
-    }
-    case CLEAR_ADD_POPL: {
-      return {
-        ...state,
-        addPopl: initialState.addPopl,
-      };
-    }
-    default:
-      return state;
+  case GET_POPLS_SUCCESS: {
+    return {
+      ...state,
+      allPopls: {
+        error: null,
+        data: payload,
+      },
+    };
+  }
+  case GET_POPLS_FAIL: {
+    return {
+      ...state,
+      allPopls: {
+        data: [],
+        error: payload,
+      },
+    };
+  }
+  case ADD_POPLS_SUCCESS: {
+    return {
+      ...state,
+      addPopl: {
+        error: null,
+        data: payload,
+      },
+    };
+  }
+  case ADD_POPLS_FAIL: {
+    return {
+      ...state,
+      addPopl: {
+        data: null,
+        error: payload,
+      },
+    };
+  }
+  case EDIT_POPLS_SUCCESS: {
+    return {
+      ...state,
+      editPopl: {
+        data: payload,
+        error: null,
+      },
+    };
+  }
+  case EDIT_POPLS_FAIL: {
+    return {
+      ...state,
+      editPopl: {
+        data: null,
+        error: payload,
+      },
+    };
+  }
+  case COLLECT_SELECTED_POPLS_SUCCESS: {
+    return {
+      ...state,
+      collectPopl: {
+        data: payload,
+        allPopls: payload,
+        error: null,
+      },
+    };
+  }
+  case COLLECT_SELECTED_POPLS_FAIL: {
+    return {
+      ...state,
+      collectPopl: {
+        data: null,
+        allPopls: null,
+        error,
+      },
+    };
+  }
+  case RETRIEVE_SELECTED_POPLS: {
+    return {
+      ...state,
+      collectPopl: {
+        ...state.collectPopl,
+        data: state.allPopls.data,
+        error: null,
+      },
+    };
+  }
+  case GET_PROFILES_IDS_SUCCESS: {
+    return {
+      ...state,
+      profilesIds: {
+        data: payload,
+        error: null,
+      },
+    };
+  }
+  case GET_PROFILES_IDS_FAIL: {
+    return {
+      ...state,
+      profilesIds: {
+        data: null,
+        error,
+      },
+    };
+  }
+  case CLEAR_EDIT_POPL: {
+    return {
+      ...state,
+      editPopl: initialState.editPopl,
+    };
+  }
+  case CLEAR_ADD_POPL: {
+    return {
+      ...state,
+      addPopl: initialState.addPopl,
+    };
+  }
+  default:
+    return state;
   }
 }

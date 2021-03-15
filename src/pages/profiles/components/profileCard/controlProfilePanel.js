@@ -10,6 +10,7 @@ import connectIcon from "../../../../assets/svg/connect-dark.svg";
 import useStyles from "./styles/styles";
 
 function ProfilePanel({
+  id,
   handleClickPoplItem,
   handleSwitchChanger,
   directOn,
@@ -94,7 +95,7 @@ function ProfilePanel({
               src={connectIcon}
             />
           }
-          onClick={() => history.push("/connections")}
+          onClick={() => history.push("/connections", { disabled: false, id })}
         >
           Connections
         </Button>
