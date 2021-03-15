@@ -33,7 +33,8 @@ export const getConnectionsAction = (userId) => async (dispatch) => {
     const data = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
     return dispatch({
       type: GET_CONNECTIONS_SUCCESS,
-      payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), []).map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+      payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), [])
+        .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     dispatch({

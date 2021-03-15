@@ -55,6 +55,8 @@ export default function WizardPanel({ data, closeWizard }) {
     link: {},
   });
 
+  console.log(data);
+
   return (
     <div className={classes.root}>
       <div>

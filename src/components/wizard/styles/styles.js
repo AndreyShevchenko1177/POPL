@@ -31,10 +31,17 @@ export default makeStyles((theme) => ({
       left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
     },
   },
+  closeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    fontSize: "25px",
+    cursor: "pointer",
+  },
   linksContainer: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     width: 420,
     height: 500,
     overflow: "auto",
@@ -82,6 +89,7 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
     textAlign: "center",
+    cursor: "pointer",
   },
   linkValueWrapper: {
     display: "flex",

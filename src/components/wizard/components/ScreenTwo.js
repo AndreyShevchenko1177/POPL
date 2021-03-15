@@ -12,7 +12,7 @@ function ScreenTwo({
   const dispatch = useDispatch();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const addLinkSuccess = useSelector(({ profilesReducer }) => profilesReducer.addLink.data);
-  const [linkUrl, setLinkUrl] = useState(value);
+  const [linkUrl, setLinkUrl] = useState("");
 
   const handleSetLinkUrl = (event) => {
     event.persist();
@@ -28,7 +28,6 @@ function ScreenTwo({
   }, [addLinkSuccess]);
 
   useEffect(() => () => {
-    console.log("unmount");
     dispatch(clearAddLinkAction());
   }, []);
 
