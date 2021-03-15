@@ -80,7 +80,7 @@ function Connections() {
 
   useEffect(() => {
     if (dragableConnections.length) return;
-    setConnections(connections.slice(5, 10));
+    setConnections(connections.slice(0, 19));
   }, [connections]);
 
   useEffect(() => {
