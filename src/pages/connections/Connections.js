@@ -21,7 +21,7 @@ function Connections() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.allConnections.data);
-  const filterConnections = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections.data);
+  const { data: filterConnections, isFetching } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
   const profileIds = useSelector(({ connectionsReducer }) => connectionsReducer.profilesIds.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
@@ -56,7 +56,7 @@ function Connections() {
   const setFilters = (event, name) => {
     setFiltersCheck({ ...fitlersCheck, [name]: event.target.checked });
     switch (name + event.target.checked) {
-    case "alltrue": dispatch(collectSelectedConnections(profileIds));
+    case "alltrue": dispatch(collectSelectedConnections(profileIds, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,
@@ -125,7 +125,12 @@ function Connections() {
           />
         </div>
         <div className={classes.filtersContainer}>
-          <Filters setFilters={setFilters} fitlersCheck={fitlersCheck} disabled={location.state?.disabled === undefined ? true : location.state?.disabled}/>
+          <Filters
+            isFetching={isFetching}
+            setFilters={setFilters}
+            fitlersCheck={fitlersCheck}
+            disabled={location.state?.disabled === undefined ? true : location.state?.disabled}
+          />
         </div>
         {!dragableConnections.length ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />

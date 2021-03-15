@@ -4,13 +4,14 @@ import { Checkbox } from "@material-ui/core";
 const mockConfig = [{ name: "all", label: "Show all" }];
 
 function Filters({
-  config = mockConfig, fitlersCheck, setFilters, disabled,
+  config = mockConfig, fitlersCheck, setFilters, disabled, isFetching,
 }) {
   return (
     <>
       {!disabled && config.map(({ name, label }, key) => (
         <div key={key}>
           <Checkbox
+            disabled={isFetching}
             color="primary"
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}

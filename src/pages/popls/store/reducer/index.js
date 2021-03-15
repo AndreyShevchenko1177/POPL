@@ -5,6 +5,7 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  COLLECT_SELECTED_POPLS_REQUEST,
   COLLECT_SELECTED_POPLS_SUCCESS,
   COLLECT_SELECTED_POPLS_FAIL,
   RETRIEVE_SELECTED_POPLS,
@@ -31,6 +32,7 @@ const initialState = {
     allPopls: null,
     data: null,
     error: null,
+    isFetching: false,
   },
   profilesIds: {
     data: [],
@@ -94,6 +96,14 @@ export default function poplsReducer(state = initialState, { type, payload, erro
       },
     };
   }
+  case COLLECT_SELECTED_POPLS_REQUEST: {
+    return {
+      ...state,
+      collectPopl: {
+        isFetching: true,
+      },
+    };
+  }
   case COLLECT_SELECTED_POPLS_SUCCESS: {
     return {
       ...state,
@@ -101,6 +111,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: payload,
         allPopls: payload,
         error: null,
+        isFetching: false,
       },
     };
   }
@@ -111,6 +122,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: null,
         allPopls: null,
         error,
+        isFetching: false,
       },
     };
   }

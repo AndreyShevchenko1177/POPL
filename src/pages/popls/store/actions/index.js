@@ -8,6 +8,7 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
+  COLLECT_SELECTED_POPLS_REQUEST,
   COLLECT_SELECTED_POPLS_SUCCESS,
   RETRIEVE_SELECTED_POPLS,
   COLLECT_SELECTED_POPLS_FAIL,
@@ -187,6 +188,9 @@ export const collectSelectedPopls = (ids, type) => async (dispatch, getState) =>
         payload: allPopls,
       });
     }
+    dispatch({
+      type: COLLECT_SELECTED_POPLS_REQUEST,
+    });
     const result = await Promise.all(ids.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
     return dispatch({
       type: COLLECT_SELECTED_POPLS_SUCCESS,

@@ -7,6 +7,7 @@ import {
   EDIT_CONNECTIONS_FAIL,
   CLEAR_EDIT_CONNECTIONS,
   CLEAR_ADD_CONNECTIONS,
+  COLLECT_SELECTED_CONNECTIONS_REQUEST,
   COLLECT_SELECTED_CONNECTIONS_SUCCESS,
   COLLECT_SELECTED_CONNECTIONS_FAIL,
   GET_PROFILES_IDS_SUCCESS,
@@ -31,6 +32,7 @@ const initialState = {
     data: null,
     allConnections: null,
     error: null,
+    isFetching: false,
   },
   profilesIds: {
     data: [],
@@ -94,13 +96,22 @@ export default function connectionsReducer(state = initialState, { type, payload
       },
     };
   }
+  case COLLECT_SELECTED_CONNECTIONS_REQUEST: {
+    return {
+      ...state,
+      collectConnections: {
+        isFetching: true,
+      },
+    };
+  }
   case COLLECT_SELECTED_CONNECTIONS_SUCCESS: {
     return {
       ...state,
       collectConnections: {
-        data: payload,
-        allConnections: payload,
+        data: payload[payload.type],
+        connections: payload,
         error: null,
+        isFetching: false,
       },
     };
   }
@@ -111,6 +122,7 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: null,
         allConnections: null,
         error,
+        isFetching: false,
       },
     };
   }

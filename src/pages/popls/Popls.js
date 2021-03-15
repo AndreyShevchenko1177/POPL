@@ -21,7 +21,7 @@ function PoplsItem() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
-  const filterPopls = useSelector(({ poplsReducer }) => poplsReducer.collectPopl.data);
+  const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const profileIds = useSelector(({ poplsReducer }) => poplsReducer.profilesIds.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
@@ -102,7 +102,12 @@ function PoplsItem() {
           />
         </div>
         <div className={classes.filtersContainer}>
-          <Filters setFilters={setFilters} fitlersCheck={fitlersCheck} disabled={location.state?.disabled === undefined ? true : location.state?.disabled}/>
+          <Filters
+            isFetching={isFetching}
+            setFilters={setFilters}
+            fitlersCheck={fitlersCheck}
+            disabled={location.state?.disabled === undefined ? true : location.state?.disabled}
+          />
         </div>
         {!dragablePopls.length ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />

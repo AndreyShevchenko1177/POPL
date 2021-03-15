@@ -101,7 +101,6 @@ export default function Profiles() {
   };
 
   useEffect(() => {
-    // dispatch(setUserProAction());
     dispatch(getProfilesIds(userData.id));
   }, []);
 
@@ -140,7 +139,6 @@ export default function Profiles() {
           handleSearch={handleSearch}
           searchValue={searchValue}
           search={searchProfile}
-          // isProfileChecked={Object.values(checkboxes).every((el) => el)}
           checked={mainCheck}
           arrowHandler={arrowHandler}
           selectObject={{

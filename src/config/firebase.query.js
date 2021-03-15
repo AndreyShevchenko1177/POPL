@@ -9,7 +9,7 @@ export const getCollectionData = async (collection, docId) => {
         if (user) {
           try {
             const data = await db.collection(collection).doc(docId.toString()).get();
-            resolve(data.data());
+            resolve({ data: data.data(), id: docId });
           } catch (error) {
             reject(error);
           }

@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import axios from "axios";
 import { getCollectionData } from "../../../../config/firebase.query";
 import { getId } from "../../../../utils/uniqueId";
@@ -11,6 +12,7 @@ import {
   EDIT_CONNECTIONS_FAIL,
   CLEAR_ADD_CONNECTIONS,
   CLEAR_EDIT_CONNECTIONS,
+  COLLECT_SELECTED_CONNECTIONS_REQUEST,
   COLLECT_SELECTED_CONNECTIONS_SUCCESS,
   COLLECT_SELECTED_CONNECTIONS_FAIL,
   RETRIEVE_SELECTED_CONNECTIONS,
@@ -28,7 +30,7 @@ export const getConnectionsAction = (userId) => async (dispatch) => {
     if (res.data) {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
-    const data = await (await Promise.all(idsArray.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current?.history || []]), []);
+    const data = await (await Promise.all(idsArray.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.data?.history || []]), []);
     return dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
@@ -155,11 +157,20 @@ export const collectSelectedConnections = (ids, type) => async (dispatch, getSta
     //     payload: allPopls,
     //   });
     // }
-    console.log(ids);
-    const result = await (await Promise.all(ids.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.history]), []);
+    dispatch({
+      type: COLLECT_SELECTED_CONNECTIONS_REQUEST,
+    });
+    const result = await Promise.all(ids.map((id) => getCollectionData("people", id)));
+    const idsObject = {};
+    result.forEach(({ data, id }) => idsObject[id] = data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
+    // const result = await (await Promise.all(ids.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.history]), []);
+    // return dispatch({
+    //   type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
+    //   payload: result.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+    // });
     return dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-      payload: result.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+      payload: { ...idsObject, allConnections: Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []), type },
     });
   } catch (error) {
     return dispatch({
