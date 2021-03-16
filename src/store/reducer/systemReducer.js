@@ -12,19 +12,19 @@ const initialState = {
 
 export default function systemReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case PROFILE_DATA: {
-      return {
-        ...state,
-        profileData: payload,
-      };
-    }
-    case ALERT: {
-      return {
-        ...state,
-        alert: payload,
-      };
-    }
-    default:
-      return state;
+  case PROFILE_DATA: {
+    return {
+      ...state,
+      profileData: payload,
+    };
+  }
+  case ALERT: {
+    return {
+      ...state,
+      alert: payload,
+    };
+  }
+  default:
+    return state;
   }
 }

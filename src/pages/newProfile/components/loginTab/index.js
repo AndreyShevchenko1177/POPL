@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   FormControl,
   Input,
@@ -14,26 +15,40 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Mail from "@material-ui/icons/Mail";
 import { ValidationProvider } from "../../../../utils";
-import { signInConfig } from "../../../auth/validationConfig";
-import { addChildProfile } from "../../../profiles/store/actions";
+import { signInConfig } from "./validationConfig";
+import { addChildProfileAction, signInChildAction, clearStateAction } from "../../store/actions";
+import { clearStateAction as clearProfilesState } from "../../../profiles/store/actions";
 import useStyles from "./styles";
 
 function LoginTab() {
   const classes = useStyles();
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false,
-  });
+  const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
+  const signInData = useSelector(({ addProfilesReducer }) => addProfilesReducer.childSignIn.data);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const addChildProfile = useSelector(({ addProfilesReducer }) => addProfilesReducer.addChildProfile.data);
   const dispatch = useDispatch();
 
-  const handleClickShowPassword = (name) => {
-    setShowPassword({ ...showPassword, [name]: !showPassword[name] });
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const create = (values) => {
     console.log(values);
-    // dispatch(addChildProfile());
+    dispatch(signInChildAction(values));
   };
+
+  useEffect(() => {
+    if (signInData) dispatch(addChildProfileAction(userData.id, signInData.id));
+  }, [signInData]);
+
+  useEffect(() => {
+    if (addChildProfile) {
+      dispatch(clearStateAction("addChildProfile"));
+      dispatch(clearProfilesState("dataProfiles"));
+      history.push("/profiles");
+    }
+  }, [addChildProfile]);
 
   return (
     <div>
@@ -46,7 +61,7 @@ function LoginTab() {
                 <Input
                   type="text"
                   label="Username/Email"
-                  name="username"
+                  name="email"
                   fullWidth
                   error={!!errors.username}
                   value={values.email}
@@ -67,7 +82,7 @@ function LoginTab() {
               <FormControl fullWidth>
                 <InputLabel>Password</InputLabel>
                 <Input
-                  type={showPassword.password ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   label="Password"
                   name="password"
                   fullWidth
@@ -79,9 +94,9 @@ function LoginTab() {
                       <IconButton
                         className={classes.passwordInputIconbutton}
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword("password")}
+                        onClick={() => handleClickShowPassword()}
                       >
-                        {showPassword.password ? (
+                        {showPassword ? (
                           <Visibility />
                         ) : (
                           <VisibilityOff />
@@ -102,7 +117,7 @@ function LoginTab() {
                 onClick={() => events.submit(create)}
                 fullWidth
               >
-                Update
+                Sign in
               </Button>
             </Grid>
           </Grid>

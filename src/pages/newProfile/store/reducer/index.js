@@ -1,64 +1,60 @@
 import {
-  GET_DATA_PROFILES_SUCCESS,
-  GET_DATA_PROFILES_FAIL,
-  ADD_LINK_SUCCESS,
-  ADD_LINK_FAIL,
+  ADD_CHILD_PROFILE_SUCCESS,
+  ADD_CHILD_PROFILE_FAIL,
+  SIGN_IN_CHILD_SUCCESS,
+  SIGN_IN_CHILD_FAIL,
   CLEAR_STATE,
 } from "../actionTypes";
 
 const initialState = {
-  dataProfiles: {
+  addChildProfile: {
     data: null,
     error: null,
   },
-  profilesIds: {
-    data: null,
-    error: null,
-  },
-  addLink: {
+  childSignIn: {
     data: null,
     error: null,
   },
 };
 
-export default function profilesReducer(
+export default function addProfilesReducer(
   state = initialState,
   { type, payload, error },
 ) {
   switch (type) {
-  case GET_DATA_PROFILES_SUCCESS: {
+  case ADD_CHILD_PROFILE_SUCCESS: {
     return {
       ...state,
-      dataProfiles: {
+      addChildProfile: {
         data: payload,
         error: null,
       },
     };
   }
-  case GET_DATA_PROFILES_FAIL: {
+  case ADD_CHILD_PROFILE_FAIL: {
     return {
       ...state,
-      dataProfiles: {
+      addChildProfile: {
         data: null,
         error: payload,
       },
     };
   }
-  case ADD_LINK_SUCCESS: {
+  case SIGN_IN_CHILD_SUCCESS: {
     return {
       ...state,
-      addLink: {
+      childSignIn: {
         data: payload,
         error: null,
       },
     };
   }
-  case ADD_LINK_FAIL: {
+  case SIGN_IN_CHILD_FAIL: {
     return {
       ...state,
-      addLink: {
-        data: payload,
-        error,
+      childSignIn: {
+        data: null,
+        error: payload,
       },
     };
   }

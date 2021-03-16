@@ -39,7 +39,7 @@ export const signInAction = (credo) => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
@@ -78,7 +78,7 @@ export const signUpAction = (credo) => async (dispatch) => {
         severity: "error",
         duration: 3000,
         open: true,
-      })
+      }),
     );
   }
 };
