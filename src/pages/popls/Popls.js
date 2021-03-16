@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls,
+  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls, clearData,
 } from "./store/actions";
 import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
@@ -58,11 +58,14 @@ function PoplsItem() {
   };
 
   useEffect(() => {
-    console.log(location.state);
-    if (location.state?.profilesData.id) {
+    if (location.state?.profilesData?.id) {
       return dispatch(getPoplsAction(location.state?.profilesData.id, "single"));
     }
     dispatch(getPoplsAction(profileData.id));
+  }, []);
+
+  useEffect(() => () => {
+    dispatch(clearData("collectPopl"));
   }, []);
 
   useEffect(() => {

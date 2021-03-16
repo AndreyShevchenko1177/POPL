@@ -13,6 +13,7 @@ import {
   GET_PROFILES_IDS_FAIL,
   CLEAR_EDIT_POPL,
   CLEAR_ADD_POPL,
+  CLEAR_DATA,
 } from "../actionTypes";
 
 const initialState = {
@@ -164,6 +165,12 @@ export default function poplsReducer(state = initialState, { type, payload, erro
     return {
       ...state,
       addPopl: initialState.addPopl,
+    };
+  }
+  case CLEAR_DATA: {
+    return {
+      ...state,
+      [payload]: initialState[payload],
     };
   }
   default:

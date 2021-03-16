@@ -133,7 +133,7 @@ export default function Profiles() {
       <Grid container alignItems="center" className='relative'>
         {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
         <SearchStripe
-          isShow={true}
+          showAll={false}
           handleOpen={handleOpenNewProfilePage}
           btn_title="Add Profile"
           handleCheck={handleCheck}

@@ -16,6 +16,7 @@ import {
   GET_PROFILES_IDS_FAIL,
   CLEAR_ADD_POPL,
   CLEAR_EDIT_POPL,
+  CLEAR_DATA,
 } from "../actionTypes";
 import { getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
@@ -243,3 +244,8 @@ export const clearEditPopl = () => (dispatch) => {
     type: CLEAR_EDIT_POPL,
   });
 };
+
+export const clearData = (name) => ({
+  type: CLEAR_DATA,
+  payload: name,
+});

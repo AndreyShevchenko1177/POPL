@@ -26,6 +26,7 @@ function SearchStripe({
   isShow,
   isFetching,
   showCRM,
+  showAll,
 }) {
   const classes = useStyles();
 
@@ -54,6 +55,7 @@ function SearchStripe({
         setFilters={setFilters}
         fitlersCheck={fitlersCheck}
         disabled={isShow}
+        showAll={showAll}
       />
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase

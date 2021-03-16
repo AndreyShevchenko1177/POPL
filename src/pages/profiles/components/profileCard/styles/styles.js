@@ -128,6 +128,8 @@ export default makeStyles((theme) => ({
     padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
+    width: 80,
+    height: 85,
   },
   clicksText: {
     paddingTop: 10,

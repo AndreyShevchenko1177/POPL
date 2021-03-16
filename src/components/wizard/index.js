@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import WizardPanel from "./components/tabPanel";
 import useStyles from "./styles/styles";
+import icons from "../../pages/profiles/components/profilelsIcons/icons";
 
 function CustomWizard({ data, isOpen, setIsOpen }) {
   const classes = useStyles();
@@ -16,13 +17,6 @@ function CustomWizard({ data, isOpen, setIsOpen }) {
     ref.current?.focus();
   }, [isOpen]);
 
-  const handleFilterDuplicatesLinks = (array) => array.sort((a, b) => a.id - b.id)
-    .map((el, i) => {
-      if (el.id !== array[i + 1]?.id) return el;
-      return undefined;
-    })
-    .filter((el) => !!el);
-
   return (
     <>
       <div className={classes.opacityBackground}></div>
@@ -31,10 +25,7 @@ function CustomWizard({ data, isOpen, setIsOpen }) {
         <div>
           <WizardPanel
             closeWizard={() => setIsOpen((v) => ({ ...v, open: false }))}
-            data={data.reduce((sum, current) => {
-              sum.push(...handleFilterDuplicatesLinks([...current.social, ...current.business]));
-              return sum;
-            }, [])}
+            data={Object.keys(icons).map((item) => ({ id: item, icon: icons[item] }))}
           />
         </div>
       </div>

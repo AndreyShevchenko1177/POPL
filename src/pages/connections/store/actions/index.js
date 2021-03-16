@@ -18,6 +18,7 @@ import {
   RETRIEVE_SELECTED_CONNECTIONS,
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
+  CLEAR_CONNECTIONS_DATA,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
@@ -168,3 +169,8 @@ export const clearEditConnection = () => (dispatch) => {
     type: CLEAR_EDIT_CONNECTIONS,
   });
 };
+
+export const clearConnectionData = (name) => ({
+  type: CLEAR_CONNECTIONS_DATA,
+  payload: name,
+});

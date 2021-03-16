@@ -6,7 +6,7 @@ import useStyles from "../styles/styles";
 import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
 
 function ScreenTwo({
-  image, title, value, id, closeWizard,
+  icon, id, closeWizard,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function ScreenTwo({
     <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
         <div className={clsx(classes.link, classes.secondPageLink)}>
-          <img className={classes.secondScreenLinkImage} src={image} alt={title} />
+          <img className={classes.secondScreenLinkImage} src={icon} alt={id} />
         </div>
         <div className={classes.linkValueWrapper}>
           <div className={classes.linkValue}>

@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  getConnectionsAction, clearAddConnection, clearEditConnection, collectSelectedConnections, retieveSelectedConnections, getProfilesIdsAction,
+  getConnectionsAction, clearAddConnection, clearEditConnection, collectSelectedConnections, clearConnectionData,
 } from "./store/actions";
 import PoplForm from "./components/connectionForm";
 import PoplCard from "./components/connectionCard";
@@ -13,7 +13,6 @@ import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
-import Filters from "../../components/filters";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -41,7 +40,6 @@ function Connections() {
   };
 
   const handleOnDragEnd = (result) => {
-    console.log(result);
     if (!result.destination) return;
 
     const items = [...dragableConnections];
@@ -55,7 +53,7 @@ function Connections() {
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+    case "all": dispatch(collectSelectedConnections(4822, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,
@@ -68,6 +66,10 @@ function Connections() {
   useEffect(() => {
     if (location.state?.id) return dispatch(getConnectionsAction(location.state?.id, "single"));
     dispatch(getConnectionsAction(profileData.id));
+  }, []);
+
+  useEffect(() => () => {
+    dispatch(clearConnectionData("collectConnections"));
   }, []);
 
   useEffect(() => {
@@ -175,7 +177,6 @@ function Connections() {
           <DialogContent>
             <PoplForm
               setIsOpenForm={setIsOpenForm}
-              // mid={location.state.id}
               popl={currentPopl}
             />
           </DialogContent>

@@ -26,6 +26,7 @@ export default makeStyles((theme) => ({
   poplContainer: {
     position: "relative",
     width: "100%",
+    height: 170,
     marginBottom: "10px",
     display: "flex",
     alignItems: "center",

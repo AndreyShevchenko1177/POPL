@@ -13,6 +13,7 @@ import {
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
   RETRIEVE_SELECTED_CONNECTIONS,
+  CLEAR_CONNECTIONS_DATA,
 } from "../actionTypes";
 
 const initialState = {
@@ -164,6 +165,12 @@ export default function connectionsReducer(state = initialState, { type, payload
     return {
       ...state,
       addConnection: initialState.addConnection,
+    };
+  }
+  case CLEAR_CONNECTIONS_DATA: {
+    return {
+      ...state,
+      [payload]: initialState[payload],
     };
   }
   default:

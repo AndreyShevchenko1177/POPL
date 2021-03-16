@@ -191,7 +191,7 @@ function PermanentDrawerLeft() {
               })}
               onClick={() => {
                 highlightList("popls");
-                history.push("/profiles/popls");
+                history.push("/profiles/popls", { disabled: true });
               }}
             >
               <ListItemText
@@ -206,39 +206,40 @@ function PermanentDrawerLeft() {
             </ListItem>
           </List>
         </Collapse>
-        <Link to="/connections">
-          <ListItem
-            divider={false}
-            className={clsx(classes.ulList, {
-              [classes.ulListHighLight]: highlight.connections,
-            })}
-            button
-            onClick={() => {
-              handleCollapseClick("connectionsOpen");
-              highlightList("connections");
+        {/* <Link to="/connections"> */}
+        <ListItem
+          divider={false}
+          className={clsx(classes.ulList, {
+            [classes.ulListHighLight]: highlight.connections,
+          })}
+          button
+          onClick={() => {
+            handleCollapseClick("connectionsOpen");
+            highlightList("connections");
+            history.push("/connections", { disabled: true });
+          }}
+        >
+          <ListItemIcon classes={{ root: classes.listItemIcon }}>
+            <img
+              className={classes.sideBarIcons}
+              alt="connections"
+              src={!highlight.connections ? connect : connectDark}
+            />
+          </ListItemIcon>
+          <ListItemText
+            disableTypography
+            classes={{
+              root: clsx(classes.listText, {
+                [classes.listTextHighLight]: highlight.connections,
+              }),
             }}
-          >
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className={classes.sideBarIcons}
-                alt="connections"
-                src={!highlight.connections ? connect : connectDark}
-              />
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              classes={{
-                root: clsx(classes.listText, {
-                  [classes.listTextHighLight]: highlight.connections,
-                }),
-              }}
-              primary="Connections"
-            />
-            <ExpandMoreIcon
-              style={{ fill: !highlight.connections ? "#fff" : "#000" }}
-            />
-          </ListItem>
-        </Link>
+            primary="Connections"
+          />
+          <ExpandMoreIcon
+            style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+          />
+        </ListItem>
+        {/* </Link> */}
         <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
           <Link to="/connections/crm-integrations">
             <ListItem
