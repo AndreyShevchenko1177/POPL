@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Dialog, DialogContent, Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls, retieveSelectedPopls, getProfilesIdsAction,
+  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls,
 } from "./store/actions";
 import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
@@ -37,8 +37,8 @@ function PoplsItem() {
   };
 
   const handleOnDragEnd = (result) => {
+    console.log(result);
     if (!result.destination) return;
-
     const items = [...dragablePopls];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -50,7 +50,7 @@ function PoplsItem() {
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedPopls(profileIds));
+    case "all": dispatch(collectSelectedPopls(profileData.id));
 
     // case "all": dispatch(retieveSelectedPopls());
     default:
@@ -58,8 +58,11 @@ function PoplsItem() {
   };
 
   useEffect(() => {
-    dispatch(getPoplsAction(location.state?.id || profileData.id));
-    dispatch(getProfilesIdsAction(location.state?.id || profileData.id));
+    console.log(location.state);
+    if (location.state?.profilesData.id) {
+      return dispatch(getPoplsAction(location.state?.profilesData.id, "single"));
+    }
+    dispatch(getPoplsAction(profileData.id));
   }, []);
 
   useEffect(() => {
@@ -116,8 +119,8 @@ function PoplsItem() {
                 >
                   {dragablePopls.map((popl, index) => (
                     <Draggable
-                      key={popl.id}
-                      draggableId={`${popl.id}`}
+                      key={popl.customId}
+                      draggableId={`${popl.customId}`}
                       index={index}
                     >
                       {(provided) => (

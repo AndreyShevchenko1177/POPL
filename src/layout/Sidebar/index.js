@@ -191,7 +191,7 @@ function PermanentDrawerLeft() {
               })}
               onClick={() => {
                 highlightList("popls");
-                history.push("/profiles/popls", { ...profileData, disabled: true, all: true });
+                history.push("/profiles/popls");
               }}
             >
               <ListItemText

@@ -22,7 +22,6 @@ function Connections() {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.allConnections.data);
   const { data: filterConnections, isFetching } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
-  const profileIds = useSelector(({ connectionsReducer }) => connectionsReducer.profilesIds.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
   const [dragableConnections, setConnections] = useState([]);
@@ -42,6 +41,7 @@ function Connections() {
   };
 
   const handleOnDragEnd = (result) => {
+    console.log(result);
     if (!result.destination) return;
 
     const items = [...dragableConnections];
@@ -55,20 +55,19 @@ function Connections() {
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedConnections(profileIds, "allConnections"));
+    case "all": dispatch(collectSelectedConnections(profileData.id, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,
       });
 
-    // case "allfalse": dispatch(retieveSelectedConnections());
     default:
     }
   };
 
   useEffect(() => {
-    dispatch(getConnectionsAction(location.state?.id || profileData.id));
-    dispatch(getProfilesIdsAction(location.state?.id || profileData.id));
+    if (location.state?.id) return dispatch(getConnectionsAction(location.state?.id, "single"));
+    dispatch(getConnectionsAction(profileData.id));
   }, []);
 
   useEffect(() => {
@@ -125,6 +124,7 @@ function Connections() {
             btn_title="Add"
             search={search}
             disabled
+            showCRM
           />
         </div>
         {!dragableConnections.length ? (
@@ -138,10 +138,10 @@ function Connections() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {dragableConnections.map((popl, index) => (
+                  {dragableConnections.map((connection, index) => (
                     <Draggable
-                      key={popl.customId}
-                      draggableId={`${popl.customId}`}
+                      key={connection.customId}
+                      draggableId={`${connection.customId}`}
                       index={index}
                     >
                       {(provided) => (
@@ -153,8 +153,8 @@ function Connections() {
                           elevation={3}
                         >
                           <PoplCard
-                            key={popl.customId}
-                            {...popl}
+                            key={connection.customId}
+                            {...connection}
                             editAction={handleOpenForm}
                           />
                         </Paper>

@@ -5,6 +5,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import clsx from "clsx";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
 import Filters from "../filters";
@@ -24,7 +25,7 @@ function SearchStripe({
   setFilters,
   isShow,
   isFetching,
-
+  showCRM,
 }) {
   const classes = useStyles();
 
@@ -79,6 +80,16 @@ function SearchStripe({
           {btn_title}
         </Button>
       </div>
+      {showCRM && <div className={clsx(classes.buttonWrapper, classes.crmButton)}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          onClick={() => console.log("export to crm")}
+        >
+          Export to CRM
+        </Button>
+      </div>}
     </div>
   );
 }

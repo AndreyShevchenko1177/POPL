@@ -23,10 +23,16 @@ import {
 import { snackBarAction } from "../../../../store/actions";
 import { profileIds } from "../../../profiles/store/actions";
 
-export const getConnectionsAction = (userId) => async (dispatch) => {
+export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {
     const idsArray = [userId];
-    const res = await profileIds(userId);
+    let res = {
+      data: null,
+    };
+    if (!isSingle) {
+      res = await profileIds(userId);
+    }
+
     if (res.data) {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
@@ -55,29 +61,6 @@ export const getConnectionsAction = (userId) => async (dispatch) => {
 
 export const addConnectionAction = (body) => async (dispatch) => {
   try {
-    // const addPoplsFormData = new FormData();
-    // addPoplsFormData.append("sAction", "AddPopl");
-    // addPoplsFormData.append("sName", body.name);
-    // addPoplsFormData.append("sSlug", body.slug);
-    // addPoplsFormData.append("iMemberID", body.mid);
-    // addPoplsFormData.append("ajax", 1);
-
-    // const response = await axios.post("", addPoplsFormData, {
-    //   withCredentials: true,
-    // });
-    // if (
-    //   typeof response === "string"
-    //   || (response.data && response.data.error)
-    // ) {
-    //   return dispatch({
-    //     type: ADD_CONNECTIONS_FAIL,
-    //     payload:
-    //       response.data && response.data.error
-    //         ? response.data.error
-    //         : "Server error",
-    //   });
-    // }
-
     dispatch({
       type: ADD_CONNECTIONS_SUCCESS,
       payload: "success",
@@ -103,30 +86,6 @@ export const addConnectionAction = (body) => async (dispatch) => {
 
 export const editConnectionAction = (body) => async (dispatch) => {
   try {
-    // const updatePoplsFormData = new FormData();
-    // updatePoplsFormData.append("sAction", "UpdatePopl");
-    // updatePoplsFormData.append("sName", body.name);
-    // updatePoplsFormData.append("sSlug", body.slug);
-    // updatePoplsFormData.append("iMemberID", body.mid);
-    // updatePoplsFormData.append("iID", body.id);
-    // updatePoplsFormData.append("ajax", 1);
-
-    // const response = await axios.post("", updatePoplsFormData, {
-    //   withCredentials: true,
-    // });
-    // if (
-    //   typeof response === "string"
-    //   || (response.data && response.data.error)
-    // ) {
-    //   return dispatch({
-    //     type: EDIT_CONNECTIONS_FAIL,
-    //     payload:
-    //       response.data && response.data.error
-    //         ? response.data.error
-    //         : "Server error",
-    //   });
-    // }
-
     dispatch({
       type: EDIT_CONNECTIONS_SUCCESS,
       payload: "success",
@@ -149,26 +108,20 @@ export const editConnectionAction = (body) => async (dispatch) => {
   }
 };
 
-export const collectSelectedConnections = (ids, type) => async (dispatch, getState) => {
+export const collectSelectedConnections = (id, type) => async (dispatch) => {
   try {
-    const { allPopls, data } = getState().poplsReducer.collectPopl;
-    // if (data) {
-    //   return dispatch({
-    //     type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-    //     payload: allPopls,
-    //   });
-    // }
+    const idsArray = [id];
+    const { data } = await profileIds(id);
     dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_REQUEST,
     });
-    const result = await Promise.all(ids.map((id) => getCollectionData("people", id)));
+    if (data) {
+      JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+    }
+    const result = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
     const idsObject = {};
     result.forEach(({ data, id }) => idsObject[id] = data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
-    // const result = await (await Promise.all(ids.map((id) => getCollectionData("people", id)))).reduce((result, current) => ([...result, ...current.history]), []);
-    // return dispatch({
-    //   type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-    //   payload: result.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
-    // });
+
     return dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
       payload: { ...idsObject, allConnections: Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []), type },
@@ -187,8 +140,8 @@ export const retieveSelectedConnections = () => ({
 
 export const getProfilesIdsAction = (userId) => async (dispatch) => {
   try {
-    const idsArray = [4822];
-    const response = await profileIds(4822);
+    const idsArray = [userId];
+    const response = await profileIds(userId);
     if (response.data) {
       JSON.parse(response.data).forEach((id) => idsArray.push(id));
     }

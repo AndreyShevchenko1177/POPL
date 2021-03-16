@@ -17,7 +17,7 @@ import {
   CLEAR_ADD_POPL,
   CLEAR_EDIT_POPL,
 } from "../actionTypes";
-
+import { getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 import { profileIds } from "../../../profiles/store/actions";
 
@@ -44,12 +44,19 @@ export const getPoplsDataById = async (id) => {
   return response;
 };
 
-export const getPoplsAction = (id) => async (dispatch) => {
+export const getPoplsAction = (id, isSingle) => async (dispatch) => {
   try {
     const idsArray = [id];
-    const response = await profileIds(id);
+    let response = {
+      data: null,
+    };
+    console.log(isSingle);
+    if (!isSingle) {
+      response = await profileIds(id);
+    }
+
     if (response.data) {
-      JSON.parse(response.data).forEach((id) => idsArray.push(id));
+      JSON.parse(response.data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
     }
     const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
     if (typeof result === "string") {
@@ -64,7 +71,7 @@ export const getPoplsAction = (id) => async (dispatch) => {
     }
     return dispatch({
       type: GET_POPLS_SUCCESS,
-      payload: result,
+      payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     dispatch({
@@ -179,22 +186,20 @@ export const editPoplAction = (body) => async (dispatch) => {
   }
 };
 
-export const collectSelectedPopls = (ids, type) => async (dispatch, getState) => {
+export const collectSelectedPopls = (id) => async (dispatch) => {
   try {
-    const { allPopls, data } = getState().poplsReducer.collectPopl;
+    const idsArray = [id];
+    const { data } = await profileIds(id);
     if (data) {
-      return dispatch({
-        type: COLLECT_SELECTED_POPLS_SUCCESS,
-        payload: allPopls,
-      });
+      JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
     }
     dispatch({
       type: COLLECT_SELECTED_POPLS_REQUEST,
     });
-    const result = await Promise.all(ids.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
     return dispatch({
       type: COLLECT_SELECTED_POPLS_SUCCESS,
-      payload: result,
+      payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
     });
   } catch (error) {
     return dispatch({

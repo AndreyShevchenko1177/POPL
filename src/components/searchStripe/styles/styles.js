@@ -27,6 +27,9 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
   },
+  crmButton: {
+    paddingLeft: 10,
+  },
   button: {
     height: "50px",
     minWidth: "160px",
