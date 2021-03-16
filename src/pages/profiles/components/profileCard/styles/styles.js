@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "0",
     minHeight: "150px",
+    maxHeight: 280,
     width: "100%",
     borderRadius: theme.custom.mainBorderForBigElement,
   },
@@ -89,7 +90,7 @@ export default makeStyles((theme) => ({
     height: "32px",
   },
   section3: {
-    minHeight: "100px",
+    height: "80px",
     padding: "15px 5px 20px 0px",
   },
   section3_text: {
@@ -110,7 +111,10 @@ export default makeStyles((theme) => ({
   section5: {
     display: "flex",
     flexDirection: "column",
-    padding: "25px 35px 25px 35px",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "25px 0",
+    minWidth: 230,
     background: "rgb(58,58,58)",
     backgroundImage:
           "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
@@ -164,7 +168,9 @@ export default makeStyles((theme) => ({
   },
   switcherLabel: {
     color: "#ffffff",
-    borderColor: "#ffffff",
+    // borderColor: "#ffffff",
+    border: "none",
+    display: "flex",
   },
   switcherThumb: {
     color: "#ffffff",

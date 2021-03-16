@@ -48,7 +48,6 @@ function ProfilePanel({
                   marginLeft: "0px",
                   fontWeight: "200",
                   display: "flex",
-                  flexDirection: "column-reverse",
                 }}
                 classes={{ label: classes.switcherLabel }}
               />
@@ -73,7 +72,6 @@ function ProfilePanel({
                   marginLeft: "0px",
                   fontWeight: "500",
                   display: "flex",
-                  flexDirection: "column-reverse",
                 }}
                 classes={{ label: classes.switcherLabel }}
               />
