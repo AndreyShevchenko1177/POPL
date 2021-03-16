@@ -16,8 +16,6 @@ function SearchStripe({
   checked,
   handleCheck,
   handleSearch,
-  searchValue,
-  search,
   arrowHandler = () => console.log("add event"),
   selectObject,
   disabled,
@@ -62,11 +60,10 @@ function SearchStripe({
           fullWidth
           className={classes.searchInput}
           onChange={handleSearch}
-          value={searchValue}
           placeholder="Search"
           inputProps={{ "aria-label": "search here" }}
         />
-        <div onClick={() => search(searchValue)}>
+        <div>
           <SearchIcon style={{ cursor: "pointer" }}/>
         </div>
 

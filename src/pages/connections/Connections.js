@@ -49,11 +49,16 @@ function Connections() {
     setConnections(items);
   };
 
-  const search = () => console.log("search");
+  const handleSearch = (event) => {
+    if (!event.target.value) {
+      return setConnections(filterConnections || connections);
+    }
+    setConnections((filterConnections || connections).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+  };
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedConnections(4822, "allConnections"));
+    case "all": dispatch(collectSelectedConnections(profileData.id, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,
@@ -108,7 +113,7 @@ function Connections() {
       <div
         className={`${
           dragableConnections.length ? "relative" : ""
-        } main-padding ${classes.poplsPageContainer}`}
+        } main-padding ${classes.connectionsPageContainer}`}
         onScroll={(event) => {
           if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 150 + needHeight.height) {
             setNeedHeight({ height: event.target?.scrollTop, offset: needHeight.offset + 20 });
@@ -124,7 +129,7 @@ function Connections() {
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
             btn_title="Add"
-            search={search}
+            handleSearch={handleSearch}
             disabled
             showCRM
           />
@@ -133,10 +138,10 @@ function Connections() {
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : (
           <DragDropContext onDragEnd={handleOnDragEnd} >
-            <Droppable droppableId="list">
+            <Droppable droppableId="droppable">
               {(provided) => (
                 <div
-                  className={classes.poplsContainer}
+                  className={classes.DroppableConnectionContainer}
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
@@ -148,7 +153,7 @@ function Connections() {
                     >
                       {(provided) => (
                         <Paper
-                          className={classes.poplContainer}
+                          className={classes.connectContainer}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}

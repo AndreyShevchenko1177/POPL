@@ -1,16 +1,15 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
-  poplsPageContainer: {
+  connectionsPageContainer: {
     paddingTop: "100px",
     overflow: "auto",
     minHeight: "100vh",
   },
-  poplsContainer: {
+  DroppableConnectionContainer: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    height: "170px",
   },
   poplCard: {
     width: "200px",
@@ -29,7 +28,7 @@ export default makeStyles((theme) => ({
       fontSize: 32,
     },
   },
-  poplContainer: {
+  connectContainer: {
     position: "relative",
     width: "100%",
     height: 170,

@@ -22,7 +22,6 @@ export default function Profiles() {
   const [profiles, setProfiles] = useState(null);
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
-  const [searchValue, setSearchValue] = useState("");
   const [openProfileSelect, setOpenProfileSelect] = useState({ open: false, component: "" });
   const [selectCheckboxes, setSelectCheckboxes] = useState(selectConfig);
   const [wizard, setWizard] = useState({ open: false, data: [] });
@@ -56,14 +55,10 @@ export default function Profiles() {
   }
 
   const handleSearch = (event) => {
-    setSearchValue(event.target.value);
-  };
-
-  const searchProfile = (str) => {
-    if (!str) {
+    if (!event.target.value) {
       return setProfiles(profilesData);
     }
-    const result = profilesData.filter((prof) => prof.name.toLowerCase().includes(str.toLowerCase()));
+    const result = profilesData.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setProfiles(result);
   };
 
@@ -138,8 +133,6 @@ export default function Profiles() {
           btn_title="Add Profile"
           handleCheck={handleCheck}
           handleSearch={handleSearch}
-          searchValue={searchValue}
-          search={searchProfile}
           checked={mainCheck}
           arrowHandler={arrowHandler}
           selectObject={{

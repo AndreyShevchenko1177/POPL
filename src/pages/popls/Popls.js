@@ -21,7 +21,6 @@ function PoplsItem() {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
-  const profileIds = useSelector(({ poplsReducer }) => poplsReducer.profilesIds.data);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
   const [dragablePopls, setPopls] = useState([]);
@@ -37,7 +36,6 @@ function PoplsItem() {
   };
 
   const handleOnDragEnd = (result) => {
-    console.log(result);
     if (!result.destination) return;
     const items = [...dragablePopls];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -46,7 +44,12 @@ function PoplsItem() {
     setPopls(items);
   };
 
-  const search = () => console.log("search");
+  const handleSearch = (event) => {
+    if (!event.target.value) {
+      return setPopls(filterPopls || popls);
+    }
+    setPopls((filterPopls || popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
+  };
 
   const setFilters = (event, name) => {
     switch (name) {
@@ -104,8 +107,8 @@ function PoplsItem() {
             fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
+            handleSearch={handleSearch}
             btn_title="Add Popl"
-            search={search}
             disabled
           />
         </div>
