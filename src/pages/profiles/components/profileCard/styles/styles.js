@@ -20,6 +20,10 @@ export default makeStyles((theme) => ({
     "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
     boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
   },
+  mainContent: {
+
+    width: "100%",
+  },
   trueProfile: {
     border: `1px solid ${theme.palette.primary.main}`,
   },
@@ -55,7 +59,8 @@ export default makeStyles((theme) => ({
   },
   section1: {
     display: "flex",
-    width: "20%",
+    width: "100%",
+    height: "140px",
     minWidth: "180px",
     alignItems: "flex-start",
     paddingTop: "35px",
@@ -65,7 +70,8 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   section1_avatar: {
-    width: "100%",
+    width: "200px",
+    marginLeft: "20px",
     display: "flex",
     flexDirection: "row-reverse",
     alignItems: "center",
@@ -73,15 +79,17 @@ export default makeStyles((theme) => ({
   },
   wrapper: {
     display: "flex",
-    flexDirection: "column",
+    position: "relative",
     justifyContent: "space-between",
     width: "100%",
-    padding: "35px 0 20px 0",
+    minWidth: "670px",
+    height: "115px",
+    padding: "0 30px",
   },
   section2: {
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   section2_icon: {
     backgroundColor: "#f1f4f6",
@@ -102,6 +110,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     paddingRight: "10px",
+    alignItems: "flex-end",
   },
   section4_sub_wrapper: {
     display: "flex",
@@ -128,27 +137,49 @@ export default makeStyles((theme) => ({
     margin: "0 15px 15px 0",
   },
   iconItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#ffffff",
     padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
-    width: 80,
-    height: 85,
+    width: 70,
+    height: 70,
+    "@media (max-width:1450px)": {
+      width: 50,
+      height: 50,
+    },
+  },
+  linkImage: {
+    width: 50,
+    "@media (max-width:1450px)": {
+      width: 40,
+    },
   },
   clicksText: {
     paddingTop: 10,
     fontFamily: "AvenirNextCyr, san-serif, arial",
+    "@media (max-width:1450px)": {
+      fontSize: "12px",
+    },
   },
   buttonsContainer: {
     display: "flex",
     height: "100%",
-    width: "125px",
+    width: "170px",
     flexDirection: "column",
+    alignItems: "flex-start",
     justifyContent: "space-evenly",
   },
   section6: {
     display: "flex",
+    position: "absolute",
+    bottom: 5,
+    right: 0,
     justifyContent: "flex-end",
+    width: "150px",
+    height: "30px",
     paddingRight: "20px",
   },
   connectIcon: {
@@ -170,7 +201,9 @@ export default makeStyles((theme) => ({
     color: "#ffffff",
     // borderColor: "#ffffff",
     border: "none",
+    width: "50px",
     display: "flex",
+    padding: 0,
   },
   switcherThumb: {
     color: "#ffffff",

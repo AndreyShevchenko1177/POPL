@@ -72,43 +72,44 @@ export default function Card({
         className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >
-        <div className={clsx(classes.section1, "target-element")}>
-          <div className={clsx(classes.section1_avatar, "target-element")}>
-            <Avatar
-              src={
-                imagesExtensions.includes(extension[extension.length - 1])
-                  ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
-                  : userIcon
-              }
-              name={name}
-              styles={{ width: "120px", height: "70px", borderRadius: "10px" }}
-            />
-            <Checkbox
-              color="primary"
-              inputProps={{ "aria-label": "primary checkbox" }}
-              style={{ width: "40px", height: "40px" }}
-              onClick={profilesCheck}
-              name={customId}
-              checked={checkboxes[customId] || false}
-            />
-          </div>
-        </div>
-        <div className={classes.wrapper}>
-          <div>
-            <div className={clsx(classes.section1_title, "target-element")}>
-              <Typography className="cursor-default" variant="h5">
-                {name}
-              </Typography>
+        <div className={classes.mainContent}>
+          <div className={clsx(classes.section1, "target-element")}>
+            <div className={clsx(classes.section1_avatar, "target-element")}>
+              <Avatar
+                src={
+                  imagesExtensions.includes(extension[extension.length - 1])
+                    ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
+                    : userIcon
+                }
+                name={name}
+                styles={{ width: "120px", height: "70px", borderRadius: "10px" }}
+              />
+              <Checkbox
+                color="primary"
+                inputProps={{ "aria-label": "primary checkbox" }}
+                style={{ width: "40px", height: "40px" }}
+                onClick={profilesCheck}
+                name={customId}
+                checked={checkboxes[customId] || false}
+              />
             </div>
-            <div className={clsx(classes.section3, "target-element")}>
-              <div className={classes.section3_text}>{setBio()}</div>
+            <div className='full-w'>
+              <div className={clsx(classes.section1_title, "target-element")}>
+                <Typography className="cursor-default" variant="h5">
+                  {name}
+                </Typography>
+              </div>
+              <div className={clsx(classes.section3, "target-element")}>
+                <div className={classes.section3_text}>{setBio()}</div>
+              </div>
             </div>
           </div>
-          <div>
+          <div className={classes.wrapper}>
             <div className={clsx(classes.section4, "target-element")}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
-                data={personalMode.direct ? business?.slice(0, 5) : social?.slice(0, 5)}
+                data={personalMode.direct ? business?.slice(0, 8) : social?.slice(0, 8)}
+                style={classes.linkImage}
               />
             </div>
             <div className={clsx(classes.section6, "target-element")}>
@@ -124,6 +125,7 @@ export default function Card({
             </div>
           </div>
         </div>
+
         <div className={clsx(classes.section5, "target-element")}>
           <div className={classes.buttonsContainer}>
             <ProfilePanel
