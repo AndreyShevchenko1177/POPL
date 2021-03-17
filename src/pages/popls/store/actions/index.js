@@ -17,6 +17,7 @@ import {
   CLEAR_ADD_POPL,
   CLEAR_EDIT_POPL,
   CLEAR_DATA,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 import { getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
@@ -47,6 +48,7 @@ export const getPoplsDataById = async (id) => {
 
 export const getPoplsAction = (id, isSingle) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     const idsArray = [id];
     let response = {
       data: null,
@@ -61,6 +63,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch) => {
     }
     const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
     if (typeof result === "string") {
+      dispatch(isFetchingAction(false));
       return dispatch(
         snackBarAction({
           message: "Download popls error",
@@ -70,10 +73,11 @@ export const getPoplsAction = (id, isSingle) => async (dispatch) => {
         }),
       );
     }
-    return dispatch({
+    dispatch({
       type: GET_POPLS_SUCCESS,
       payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
     });
+    return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
       type: GET_POPLS_FAIL,
@@ -88,6 +92,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch) => {
         open: true,
       }),
     );
+    return dispatch(isFetchingAction(false));
   }
 };
 
@@ -189,6 +194,7 @@ export const editPoplAction = (body) => async (dispatch) => {
 
 export const collectSelectedPopls = (id) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     const idsArray = [id];
     const { data } = await profileIds(id);
     if (data) {
@@ -198,15 +204,17 @@ export const collectSelectedPopls = (id) => async (dispatch) => {
       type: COLLECT_SELECTED_POPLS_REQUEST,
     });
     const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
-    return dispatch({
+    dispatch({
       type: COLLECT_SELECTED_POPLS_SUCCESS,
       payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
     });
+    return dispatch(isFetchingAction(false));
   } catch (error) {
-    return dispatch({
+    dispatch({
       type: COLLECT_SELECTED_POPLS_FAIL,
       error,
     });
+    return dispatch(isFetchingAction(false));
   }
 };
 
@@ -232,6 +240,11 @@ export const getProfilesIdsAction = (userId) => async (dispatch) => {
     });
   }
 };
+
+const isFetchingAction = (isFetching) => ({
+  type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
 
 export const clearAddPopl = () => (dispatch) => {
   dispatch({

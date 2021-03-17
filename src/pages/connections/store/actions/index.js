@@ -1,5 +1,4 @@
 /* eslint-disable no-return-assign */
-import axios from "axios";
 import { getCollectionData } from "../../../../config/firebase.query";
 import { getId } from "../../../../utils/uniqueId";
 
@@ -19,6 +18,7 @@ import {
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
   CLEAR_CONNECTIONS_DATA,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
@@ -26,6 +26,7 @@ import { profileIds } from "../../../profiles/store/actions";
 
 export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     const idsArray = [userId];
     let res = {
       data: null,
@@ -38,11 +39,12 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
     const data = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
-    return dispatch({
+    dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), [])
         .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
+    return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
       type: GET_CONNECTIONS_FAIL,
@@ -57,6 +59,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
         open: true,
       }),
     );
+    return dispatch(isFetchingAction(false));
   }
 };
 
@@ -111,6 +114,8 @@ export const editConnectionAction = (body) => async (dispatch) => {
 
 export const collectSelectedConnections = (id, type) => async (dispatch) => {
   try {
+    console.log("hel");
+    dispatch(isFetchingAction(true));
     const idsArray = [id];
     const { data } = await profileIds(id);
     dispatch({
@@ -123,15 +128,18 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
     const idsObject = {};
     result.forEach(({ data, id }) => idsObject[id] = data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
 
-    return dispatch({
+    dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
       payload: { ...idsObject, allConnections: Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []), type },
     });
+    return dispatch(isFetchingAction(false));
   } catch (error) {
-    return dispatch({
+    dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_FAIL,
       error,
     });
+
+    return dispatch(isFetchingAction(false));
   }
 };
 
@@ -157,6 +165,11 @@ export const getProfilesIdsAction = (userId) => async (dispatch) => {
     });
   }
 };
+
+const isFetchingAction = (isFetching) => ({
+  type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
 
 export const clearAddConnection = () => (dispatch) => {
   dispatch({

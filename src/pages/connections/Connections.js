@@ -20,6 +20,7 @@ function Connections() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.allConnections.data);
+  const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const { data: filterConnections, isFetching } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
@@ -102,6 +103,7 @@ function Connections() {
       setConnections(filterConnections.slice(0, 19));
     }
   }, [filterConnections]);
+  console.log(isLoading);
 
   return (
     <>
@@ -134,7 +136,7 @@ function Connections() {
             showCRM
           />
         </div>
-        {!dragableConnections.length ? (
+        {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : (
           <DragDropContext onDragEnd={handleOnDragEnd} >

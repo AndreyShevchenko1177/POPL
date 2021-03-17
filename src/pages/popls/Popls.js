@@ -20,6 +20,7 @@ function PoplsItem() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
@@ -112,7 +113,7 @@ function PoplsItem() {
             disabled
           />
         </div>
-        {!dragablePopls.length ? (
+        {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : (
           <DragDropContext onDragEnd={handleOnDragEnd}>

@@ -14,6 +14,7 @@ import {
   GET_PROFILES_IDS_FAIL,
   RETRIEVE_SELECTED_CONNECTIONS,
   CLEAR_CONNECTIONS_DATA,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
     data: [],
     error: null,
   },
+  isFetching: false,
 };
 
 export default function connectionsReducer(state = initialState, { type, payload, error }) {
@@ -153,6 +155,13 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: null,
         error,
       },
+    };
+  }
+  case IS_DATA_FETCHING: {
+    console.log("payload", payload);
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAR_EDIT_CONNECTIONS: {

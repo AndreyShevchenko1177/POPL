@@ -14,6 +14,7 @@ import {
   CLEAR_EDIT_POPL,
   CLEAR_ADD_POPL,
   CLEAR_DATA,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
     data: [],
     error: null,
   },
+  isFetching: false,
 };
 
 export default function poplsReducer(state = initialState, { type, payload, error }) {
@@ -153,6 +155,12 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: null,
         error,
       },
+    };
+  }
+  case IS_DATA_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAR_EDIT_POPL: {
