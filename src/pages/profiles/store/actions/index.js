@@ -152,8 +152,8 @@ const directRequest = (id, state) => {
 
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
-    const result = await Promise.all(profileIds.map((el) => directRequest(el, state)));
-    return dispatch(getProfilesIds(userId));
+    await Promise.all(profileIds.map((el) => directRequest(el, state)));
+    if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -173,8 +173,8 @@ const statusRequest = (id, state) => {
 
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
-    const result = await Promise.all(profileIds.map((el) => statusRequest(el, state)));
-    return dispatch(getProfilesIds(userId));
+    await Promise.all(profileIds.map((el) => statusRequest(el, state)));
+    if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
       type: SET_PROFILE_STATUS_FAIL,

@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "0",
     minHeight: "150px",
-    maxHeight: 280,
+    maxHeight: 260,
     width: "100%",
     borderRadius: theme.custom.mainBorderForBigElement,
   },
@@ -63,7 +63,7 @@ export default makeStyles((theme) => ({
     height: "140px",
     minWidth: "180px",
     alignItems: "flex-start",
-    paddingTop: "35px",
+    paddingTop: "20px",
   },
   section1_title: {
     display: "flex",
@@ -71,7 +71,7 @@ export default makeStyles((theme) => ({
   },
   section1_avatar: {
     width: "200px",
-    marginLeft: "20px",
+    margin: "0 20px",
     display: "flex",
     flexDirection: "row-reverse",
     alignItems: "center",
@@ -84,7 +84,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     minWidth: "670px",
     height: "115px",
-    padding: "0 30px",
+    padding: "0 30px 0 60px",
   },
   section2: {
     width: "100%",
@@ -144,15 +144,15 @@ export default makeStyles((theme) => ({
     padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     "@media (max-width:1450px)": {
       width: 50,
       height: 50,
     },
   },
   linkImage: {
-    width: 50,
+    width: 45,
     "@media (max-width:1450px)": {
       width: 40,
     },

@@ -37,7 +37,7 @@ function SearchStripe({
           onChange={handleCheck}
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}
-          style={{ padding: "0px" }}
+          style={{ padding: "0", transform: "scale(1.5)" }}
         />
         <KeyboardArrowDownIcon
           style={{ color: "#7d7d7d", cursor: "pointer" }}

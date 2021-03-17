@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Paper, Typography, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -9,6 +10,7 @@ import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
+import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 
 export default function Card({
@@ -28,6 +30,7 @@ export default function Card({
   id,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [directOn, setDirectOn] = useState({
     direct: false,
     text: "Direct",
@@ -45,11 +48,13 @@ export default function Card({
 
   const handleSwitchChanger = (event, name) => {
     if (name === "dir2") {
+      dispatch(setProfileStatusAction([id], personalMode.direct ? "1" : "2"));
       return setPersonalMode({
         direct: !personalMode.direct,
         text: !personalMode.direct ? "Business" : "Personal",
       });
     }
+    dispatch(setDirectAction([id], directOn.direct ? "0" : "1"));
     return setDirectOn({
       direct: !directOn.direct,
       text: "Direct",
@@ -87,7 +92,7 @@ export default function Card({
               <Checkbox
                 color="primary"
                 inputProps={{ "aria-label": "primary checkbox" }}
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "40px", height: "40px", transform: "scale(1.5)" }}
                 onClick={profilesCheck}
                 name={customId}
                 checked={checkboxes[customId]?.checked || false}
