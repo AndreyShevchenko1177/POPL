@@ -114,7 +114,6 @@ export const editConnectionAction = (body) => async (dispatch) => {
 
 export const collectSelectedConnections = (id, type) => async (dispatch) => {
   try {
-    console.log("hel");
     dispatch(isFetchingAction(true));
     const idsArray = [id];
     const { data } = await profileIds(id);

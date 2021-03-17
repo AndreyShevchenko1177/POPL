@@ -57,8 +57,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
       });
-
-      return dispatch(isFetchingAction(false));
     }
     let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
@@ -72,8 +70,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       },
       ],
     });
-
-    return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch(
       snackBarAction({

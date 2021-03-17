@@ -48,9 +48,10 @@ export default function connectionsReducer(state = initialState, { type, payload
   case GET_CONNECTIONS_SUCCESS: {
     return {
       ...state,
-      allConnections: {
-        error: null,
+      collectConnections: {
         data: payload,
+        error: null,
+        isFetching: true,
       },
     };
   }
@@ -158,7 +159,6 @@ export default function connectionsReducer(state = initialState, { type, payload
     };
   }
   case IS_DATA_FETCHING: {
-    console.log("payload", payload);
     return {
       ...state,
       isFetching: payload,

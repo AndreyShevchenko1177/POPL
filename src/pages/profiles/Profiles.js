@@ -10,6 +10,7 @@ import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
 import { selectConfig } from "./selectConfig";
 import CustomWizard from "../../components/wizard";
+import { snackBarAction } from "../../store/actions";
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -98,22 +99,31 @@ export default function Profiles() {
   };
 
   const selectBtn = (name, profileIds) => {
-    setOpenProfileSelect({ open: false, component: "listItem" });
-    if (name === "addLink") {
-      const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
-      return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
-    }
-    if (name === "makeDirectOn") {
-      dispatch(setDirectAction(profileIds, "1", userData.id));
-    }
-    if (name === "makeDirectOff") {
-      dispatch(setDirectAction(profileIds, "0", userData.id));
-    }
-    if (name === "makeBusiness") {
-      dispatch(setProfileStatusAction(profileIds, "2", userData.id));
-    }
-    if (name === "makePersonal") {
-      dispatch(setProfileStatusAction(profileIds, "1", userData.id));
+    if (Object.values(checkboxes).map((el) => el.checked).includes(true)) {
+      setOpenProfileSelect({ open: false, component: "listItem" });
+      if (name === "addLink") {
+        const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
+        return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
+      }
+      if (name === "makeDirectOn") {
+        dispatch(setDirectAction(profileIds, "1", userData.id));
+      }
+      if (name === "makeDirectOff") {
+        dispatch(setDirectAction(profileIds, "0", userData.id));
+      }
+      if (name === "makeBusiness") {
+        dispatch(setProfileStatusAction(profileIds, "2", userData.id));
+      }
+      if (name === "makePersonal") {
+        dispatch(setProfileStatusAction(profileIds, "1", userData.id));
+      }
+    } else {
+      dispatch(snackBarAction({
+        message: "Please, select at least one profile",
+        duration: 6000,
+        severity: "info",
+        open: true,
+      }));
     }
   };
 
@@ -171,7 +181,7 @@ export default function Profiles() {
         />
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
-        ) : profiles.length ? (
+        ) : profiles?.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
               {(provided) => (

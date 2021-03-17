@@ -35,6 +35,7 @@ export default function profilesReducer(
         data: payload,
         error: null,
       },
+      isFetching: false,
     };
   }
   case GET_DATA_PROFILES_FAIL: {
@@ -44,6 +45,7 @@ export default function profilesReducer(
         data: null,
         error: payload,
       },
+      isFetching: false,
     };
   }
   case ADD_LINK_SUCCESS: {
@@ -53,6 +55,7 @@ export default function profilesReducer(
         data: payload,
         error: null,
       },
+      isFetching: false,
     };
   }
   case ADD_LINK_FAIL: {
@@ -62,6 +65,7 @@ export default function profilesReducer(
         data: payload,
         error,
       },
+      isFetching: false,
     };
   }
   case IS_DATA_FETCHING: {

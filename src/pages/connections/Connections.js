@@ -19,9 +19,8 @@ function Connections() {
   const classes = useStyles();
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const connections = useSelector(({ connectionsReducer }) => connectionsReducer.allConnections.data);
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
-  const { data: filterConnections, isFetching } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
+  const { data: filterConnections } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentPopl, setCurrentPopl] = useState();
   const [dragableConnections, setConnections] = useState([]);
@@ -52,9 +51,9 @@ function Connections() {
 
   const handleSearch = (event) => {
     if (!event.target.value) {
-      return setConnections(filterConnections || connections);
+      return setConnections(filterConnections);
     }
-    setConnections((filterConnections || connections).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+    setConnections((filterConnections).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const setFilters = (event, name) => {
@@ -86,24 +85,18 @@ function Connections() {
   }, [isOpenForm]);
 
   useEffect(() => {
-    if (dragableConnections.length) return;
-    setConnections(connections.slice(0, 19));
-  }, [connections]);
+    if (dragableConnections.length || !filterConnections) return;
+    console.log(filterConnections);
+    setConnections(filterConnections.slice(0, 19));
+  }, [filterConnections]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
     if (filterConnections) {
       return setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
     }
-    setConnections((con) => ([...con, ...connections.slice(needHeight.offset, (needHeight.offset + 19))]));
+    setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
-
-  useEffect(() => {
-    if (filterConnections) {
-      setConnections(filterConnections.slice(0, 19));
-    }
-  }, [filterConnections]);
-  console.log(isLoading);
 
   return (
     <>
@@ -125,7 +118,6 @@ function Connections() {
       >
         <div className="popls-header-container">
           <SearchStripe
-            isFetching={isFetching}
             setFilters={setFilters}
             fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}

@@ -126,6 +126,11 @@ let theme = createMuiTheme({
         // fill: "#ffffff !important",
       },
     },
+    MuiAlert: {
+      filledInfo: {
+        backgroundColor: "rgb(50, 50, 50)",
+      },
+    },
   },
 });
 
