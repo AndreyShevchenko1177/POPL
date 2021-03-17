@@ -4,6 +4,7 @@ import {
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
   CLEAR_STATE,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
     data: null,
     error: null,
   },
+  isFetching: false,
 };
 
 export default function profilesReducer(
@@ -60,6 +62,12 @@ export default function profilesReducer(
         data: payload,
         error,
       },
+    };
+  }
+  case IS_DATA_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAR_STATE: {

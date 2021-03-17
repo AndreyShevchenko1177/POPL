@@ -18,8 +18,9 @@ export default function Profiles() {
   const profilesData = useSelector(
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
+  const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const classes = useStyles();
-  const [profiles, setProfiles] = useState(null);
+  const [profiles, setProfiles] = useState([]);
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
   const [openProfileSelect, setOpenProfileSelect] = useState({ open: false, component: "" });
@@ -168,7 +169,7 @@ export default function Profiles() {
             config: selectCheckboxes,
           }}
         />
-        {!profiles ? (
+        {isLoading ? (
           <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
         ) : profiles.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>

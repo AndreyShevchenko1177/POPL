@@ -12,15 +12,18 @@ function ScreenTwo({
   const dispatch = useDispatch();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const addLinkSuccess = useSelector(({ profilesReducer }) => profilesReducer.addLink.data);
-  const [linkUrl, setLinkUrl] = useState("");
+  const [value, setValue] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   const handleSetLinkUrl = (event) => {
     event.persist();
-    setLinkUrl(event.target.value);
+    setValue(event.target.value);
   };
 
   const addLink = () => {
-    dispatch(addLinkAction(linkUrl, userData.id));
+    if (!value) return setIsValid(false);
+    setIsValid(true);
+    dispatch(addLinkAction(value, userData.id, id));
   };
 
   useEffect(() => {
@@ -31,6 +34,8 @@ function ScreenTwo({
     dispatch(clearStateAction("addLink"));
   }, []);
 
+  console.log(value, isValid);
+
   return (
     <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
@@ -38,15 +43,16 @@ function ScreenTwo({
           <img className={classes.secondScreenLinkImage} src={icon} alt={id} />
         </div>
         <div className={classes.linkValueWrapper}>
-          <div className={classes.linkValue}>
+          <div className={clsx(classes.linkValue, !isValid && classes.borderRed)}>
             <TextField
               fullWidth
-              value={linkUrl}
+              value={value}
               onChange={handleSetLinkUrl}
               InputProps={{
                 disableUnderline: true,
               }}
             />
+            {!isValid && <span className={classes.errorText}>Mandatory field</span>}
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import {
   SET_DIRECT_ON_OFF_FAIL,
   SET_PROFILE_STATUS_FAIL,
   CLEAR_STATE,
+  IS_DATA_FETCHING,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
 
@@ -39,6 +40,7 @@ export const getProfileAction = (id) => async (dispatch) => {
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     const myProfile = await dispatch(getProfileAction(userId));
     const response = await profileIds(userId);
     if (response.data) {
@@ -51,15 +53,17 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         social: p.social,
       }));
       dispatch(getStatisticItem(profiles));
-      return dispatch({
+      dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
       });
+
+      return dispatch(isFetchingAction(false));
     }
     let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
     dispatch(getStatisticItem(correctProfile));
-    return dispatch({
+    dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{
         ...correctProfile,
@@ -68,6 +72,8 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       },
       ],
     });
+
+    return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch(
       snackBarAction({
@@ -77,30 +83,35 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         open: true,
       }),
     );
-    return dispatch({
+    dispatch({
       type: GET_DATA_PROFILES_FAIL,
       payload: error,
     });
+    return dispatch(isFetchingAction(false));
   }
 };
 
-export const addLinkAction = (value, userId) => async (dispatch) => {
+export const addLinkAction = (value, userId, iconId) => async (dispatch) => {
   try {
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
     bodyFormData.append("ajax", "1");
     bodyFormData.append("iID", userId);
+    bodyFormData.append("aLinksIDs[]", iconId);
+    bodyFormData.append("aTitles[]", "title");
     bodyFormData.append("aValues[]", value);
     bodyFormData.append("aIcons[]", "");
-    bodyFormData.append("aProfiles[]", 1);
+    bodyFormData.append("aProfiles[]", "1");
     const result = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
     if (result.data.done === "Success") {
-      return dispatch({
+      dispatch({
         type: ADD_LINK_SUCCESS,
         payload: "success",
       });
+
+      return dispatch(getProfilesIds(userId));
     }
     dispatch(
       snackBarAction({
@@ -142,7 +153,6 @@ const directRequest = (id, state) => {
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     const result = await Promise.all(profileIds.map((el) => directRequest(el, state)));
-    console.log(result, userId);
     return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
@@ -164,7 +174,6 @@ const statusRequest = (id, state) => {
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     const result = await Promise.all(profileIds.map((el) => statusRequest(el, state)));
-    console.log(result);
     return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
@@ -173,6 +182,11 @@ export const setProfileStatusAction = (profileIds, state, userId) => async (disp
     });
   }
 };
+
+const isFetchingAction = (isFetching) => ({
+  type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
 
 export const clearStateAction = (name) => (dispatch) => dispatch({
   type: CLEAR_STATE,

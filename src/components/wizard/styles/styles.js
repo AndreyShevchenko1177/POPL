@@ -101,6 +101,7 @@ export default makeStyles((theme) => ({
     },
   },
   linkValue: {
+    position: "relative",
     width: "70%",
     padding: 10,
     textAlign: "center",
@@ -109,6 +110,16 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
     minHeight: 40,
+  },
+  borderRed: {
+    border: "1px solid #ff0000",
+  },
+  errorText: {
+    position: "absolute",
+    bottom: "-30px",
+    left: 10,
+    color: "#ff0000",
+    fontFamily: "AvenirNextCyr, san-serif, arial",
   },
   btnContainer: {
     width: "50%",
