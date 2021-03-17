@@ -90,7 +90,7 @@ export default function Card({
                 style={{ width: "40px", height: "40px" }}
                 onClick={profilesCheck}
                 name={customId}
-                checked={checkboxes[customId] || false}
+                checked={checkboxes[customId]?.checked || false}
               />
             </div>
             <div className='full-w'>

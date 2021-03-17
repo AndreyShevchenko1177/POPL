@@ -35,7 +35,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CustomSelect({ config, events, isOpen }) {
+function CustomSelect({
+  config, events, isOpen, checkProfiles,
+}) {
   const classes = useStyles();
   const ref = useRef();
 
@@ -73,7 +75,7 @@ function CustomSelect({ config, events, isOpen }) {
               } if (type === "button") {
                 return (
                   <div key={id} className={classes.itemContainer}>
-                    <Button name={name} color="primary" onClick={() => events.btnHandler(name)}>
+                    <Button name={name} color="primary" onClick={() => events.btnHandler(name, checkProfiles)}>
                       {label}
                     </Button>
                   </div>

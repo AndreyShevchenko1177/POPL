@@ -25,6 +25,7 @@ function SearchStripe({
   isFetching,
   showCRM,
   showAll,
+  checkboxes,
 }) {
   const classes = useStyles();
 
@@ -43,6 +44,7 @@ function SearchStripe({
           onClick={() => arrowHandler(true)}
         />
         {!disabled && <CustomSelect
+          checkProfiles={Object.values(checkboxes).filter(({ checked }) => checked).map(({ id }) => id)}
           config={selectObject.config}
           isOpen={selectObject.openProfileSelect.open}
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}

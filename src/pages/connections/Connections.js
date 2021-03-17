@@ -59,7 +59,7 @@ function Connections() {
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+    case "all": dispatch(collectSelectedConnections(4822, "allConnections"));
       setNeedHeight({
         height: 0,
         offset: 0,

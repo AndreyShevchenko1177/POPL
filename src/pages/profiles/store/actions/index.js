@@ -9,6 +9,9 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
+  SET_DIRECT_ON_OFF_SUCCESS,
+  SET_DIRECT_ON_OFF_FAIL,
+  SET_PROFILE_STATUS_FAIL,
   CLEAR_STATE,
 } from "../actionTypes";
 import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
@@ -122,6 +125,50 @@ export const addLinkAction = (value, userId) => async (dispatch) => {
     );
     return dispatch({
       type: ADD_LINK_FAIL,
+      error,
+    });
+  }
+};
+
+const directRequest = (id, state) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetDirectDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("bIsDirect", state);
+  return axios.post("", bodyFormData);
+};
+
+export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
+  try {
+    const result = await Promise.all(profileIds.map((el) => directRequest(el, state)));
+    console.log(result, userId);
+    return dispatch(getProfilesIds(userId));
+  } catch (error) {
+    return dispatch({
+      type: SET_DIRECT_ON_OFF_FAIL,
+      error,
+    });
+  }
+};
+
+const statusRequest = (id, state) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetActiveProfileDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("iProfileNum", state);
+  return axios.post("", bodyFormData);
+};
+
+export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
+  try {
+    const result = await Promise.all(profileIds.map((el) => statusRequest(el, state)));
+    console.log(result);
+    return dispatch(getProfilesIds(userId));
+  } catch (error) {
+    return dispatch({
+      type: SET_PROFILE_STATUS_FAIL,
       error,
     });
   }

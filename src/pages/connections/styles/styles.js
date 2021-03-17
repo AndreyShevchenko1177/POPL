@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
   connectionsPageContainer: {
     paddingTop: "100px",
     overflow: "auto",
-    minHeight: "100vh",
+    height: "100vh",
   },
   DroppableConnectionContainer: {
     display: "flex",

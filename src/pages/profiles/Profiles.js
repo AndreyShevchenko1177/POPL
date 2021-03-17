@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import { getProfilesIds } from "./store/actions";
+import { getProfilesIds, setDirectAction, setProfileStatusAction } from "./store/actions";
 import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
@@ -66,14 +66,23 @@ export default function Profiles() {
     setMainCheck(event.target.checked);
     const checkBoxObject = {};
     Object.keys(checkboxes).forEach((el) => {
-      checkBoxObject[el] = event.target.checked;
+      checkBoxObject[el] = {
+        checked: event.target.checked,
+        ...profilesData.find((el) => el.customId === checkBoxObject[el]),
+      };
     });
     setCheckBoxes(checkBoxObject);
   };
 
   const profilesCheck = (event) => {
     const { name } = event.target;
-    setCheckBoxes({ ...checkboxes, [name]: !checkboxes[name] });
+    setCheckBoxes({
+      ...checkboxes,
+      [name]: {
+        checked: !checkboxes[name].checked,
+        ...profilesData.find((el) => el.customId === name),
+      },
+    });
   };
 
   const arrowHandler = (value) => {
@@ -87,11 +96,23 @@ export default function Profiles() {
     setSelectCheckboxes((prevSelect) => prevSelect.map((el) => (el.name === name ? ({ ...el, checked: event.target.checked }) : el)));
   };
 
-  const selectBtn = (name) => {
+  const selectBtn = (name, profileIds) => {
     setOpenProfileSelect({ open: false, component: "listItem" });
     if (name === "addLink") {
       const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
       return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
+    }
+    if (name === "makeDirectOn") {
+      dispatch(setDirectAction(profileIds, "1", userData.id));
+    }
+    if (name === "makeDirectOff") {
+      dispatch(setDirectAction(profileIds, "0", userData.id));
+    }
+    if (name === "makeBusiness") {
+      dispatch(setProfileStatusAction(profileIds, "2", userData.id));
+    }
+    if (name === "makePersonal") {
+      dispatch(setProfileStatusAction(profileIds, "1", userData.id));
     }
   };
 
@@ -107,25 +128,28 @@ export default function Profiles() {
   useEffect(() => {
     const checkBoxObject = {};
     profiles && profiles.forEach((el) => {
-      checkBoxObject[el.customId] = false;
+      checkBoxObject[el.customId] = {
+        checked: false,
+        ...profilesData.find((item) => item.customId === el.customId),
+      };
     });
     setCheckBoxes(checkBoxObject);
   }, [profiles]);
 
   useEffect(() => {
     const checkboxArray = Object.values(checkboxes);
-    if (checkboxArray.every((el) => !el)) {
+    if (checkboxArray.every((el) => !el.checked)) {
       setMainCheck(false);
-    } else if (checkboxArray.every((el) => el)) {
+    } else if (checkboxArray.every((el) => el.checked)) {
       setMainCheck(true);
-    } else if (checkboxArray.some((el) => !el)) {
+    } else if (checkboxArray.some((el) => !el.checked)) {
       setMainCheck(false);
     }
   }, [checkboxes]);
 
   return (
-    <div className="profiles-page-container main-padding">
-      <Grid container alignItems="center" className='relative'>
+    <div className="main-padding relative full-h">
+      <Grid container alignItems="center">
         {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
         <SearchStripe
           showAll={false}
@@ -134,6 +158,7 @@ export default function Profiles() {
           handleCheck={handleCheck}
           handleSearch={handleSearch}
           checked={mainCheck}
+          checkboxes={checkboxes}
           arrowHandler={arrowHandler}
           selectObject={{
             openProfileSelect,
@@ -144,7 +169,7 @@ export default function Profiles() {
           }}
         />
         {!profiles ? (
-          <Loader styles={{ position: "absolute", bottom: "-100px", left: "calc(50% - 130px)" }} />
+          <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
         ) : profiles.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
