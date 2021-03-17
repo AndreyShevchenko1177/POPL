@@ -30,7 +30,7 @@ export default function Card({
   const classes = useStyles();
   const [directOn, setDirectOn] = useState({
     direct: false,
-    text: "Direct Off",
+    text: "Direct",
   });
   const [personalMode, setPersonalMode] = useState({
     direct: false,
@@ -52,7 +52,7 @@ export default function Card({
     }
     return setDirectOn({
       direct: !directOn.direct,
-      text: !directOn.direct ? "Direct On" : "Direct Off",
+      text: "Direct",
     });
   };
 
@@ -68,7 +68,7 @@ export default function Card({
     <>
       <DragDots position="center" />
       <Paper
-        elevation={checkboxes[customId] ? 20 : 0}
+        elevation={checkboxes[customId].checked ? 20 : 0}
         className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
         onClick={handleClickPoplItem}
       >

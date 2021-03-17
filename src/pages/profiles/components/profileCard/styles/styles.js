@@ -186,29 +186,19 @@ export default makeStyles((theme) => ({
     width: "15px",
     height: "15px",
   },
-  switcherTrack: {
-    backgroundColor: "#ffffff",
-  },
-  switcherColorsChecked: {
-    "&.Mui-checked": {
-      color: "#f3f5f3",
-    },
-    "&.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: "#909090",
-    },
-  },
-  switcherLabel: {
-    color: "#ffffff",
-    // borderColor: "#ffffff",
-    border: "none",
-    width: "50px",
+  switcherContainer: {
     display: "flex",
-    padding: 0,
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  switcherThumb: {
+  switchLabelWrapper: {
+    width: "100%",
+    border: "1px solid #ffffff",
+    borderRadius: theme.custom.mainBorderRadius,
+    padding: "5px 10px",
+  },
+  switchLabel: {
     color: "#ffffff",
-    "&:checked": {
-      color: "#000",
-    },
+    textAlign: "center",
   },
 }));

@@ -8,6 +8,7 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import connectIcon from "../../../../assets/svg/connect-dark.svg";
 import useStyles from "./styles/styles";
+import CustomSwitch from "../../../../components/customSwitcher";
 
 function ProfilePanel({
   id,
@@ -24,57 +25,27 @@ function ProfilePanel({
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <div className={clsx(section2, "target-element")}>
-          <div>
+          <div className="full-w">
             <FormGroup onClick={handleClickPoplItem}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    size="medium"
-                    color="primary"
-                    name="dir2"
-                    classes={{
-                      track: classes.switcherTrack,
-                      colorPrimary: classes.switcherColorsChecked,
-                      thumb: classes.switcherThumb,
-                    }}
-                    checked={personalMode.direct}
-                    onClick={(event) => handleSwitchChanger(event, "dir2")}
-                  />
-                }
-                onClick={(event) => handleSwitchChanger(event, "dir2")}
-                label={<Typography variant='h6'>{personalMode.text}</Typography>}
-                labelPlacement="start"
-                style={{
-                  marginLeft: "0px",
-                  fontWeight: "200",
-                  display: "flex",
-                }}
-                classes={{ label: classes.switcherLabel }}
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    size="medium"
-                    color="primary"
-                    name="dir1"
-                    classes={{
-                      track: classes.switcherTrack,
-                      colorPrimary: classes.switcherColorsChecked,
-                    }}
-                    checked={directOn.direct}
-                    onClick={(event) => handleSwitchChanger(event, "dir1")}
-                  />
-                }
-                onClick={(event) => handleSwitchChanger(event, "dir1")}
-                label={<Typography variant='h6'>{directOn.text}</Typography>}
-                labelPlacement="start"
-                style={{
-                  marginLeft: "0px",
-                  fontWeight: "500",
-                  display: "flex",
-                }}
-                classes={{ label: classes.switcherLabel }}
-              />
+              <div className={classes.switcherContainer}>
+                <div className={classes.switchLabelWrapper} onClick={(event) => handleSwitchChanger(event, "dir2")} >
+                  <Typography className={classes.switchLabel} variant='subtitle1' >{personalMode.text}</Typography>
+                </div>
+                <CustomSwitch
+                  checked={personalMode.direct}
+                  onClick={(event) => handleSwitchChanger(event, "dir2")}
+                />
+              </div>
+              <div className={classes.switcherContainer}>
+                <div className={classes.switchLabelWrapper} onClick={(event) => handleSwitchChanger(event, "dir1")} >
+                  <Typography className={classes.switchLabel} variant='subtitle1' >{directOn.text}</Typography>
+                </div>
+                <CustomSwitch
+                  checked={directOn.direct}
+                  onClick={(event) => handleSwitchChanger(event, "dir1")}
+                  trackLabel
+                />
+              </div>
             </FormGroup>
           </div>
         </div>
