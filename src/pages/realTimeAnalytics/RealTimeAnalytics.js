@@ -36,7 +36,7 @@ function RealTimeAnalytics() {
   return (
     <div className="real-time-analytics-container">
       <TopStatistics
-        popsCount={popsData?.length}
+        popsCount={topStatisticsData.data?.popsCount}
         linkTaps={topStatisticsData.data?.linkTaps}
         totalProfiles={topStatisticsData.data?.totalProfiles}
         totalPopls={topStatisticsData.data?.totalPopls}

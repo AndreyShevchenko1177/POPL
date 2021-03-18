@@ -53,6 +53,12 @@ export default makeStyles((theme) => ({
       borderImage:
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
+      "& > *": {
+        color: "#fff",
+      },
+      "& > svg path": {
+        fill: "#fff",
+      },
     },
   },
   ulListHighLight: {
@@ -80,22 +86,63 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
     alignSelf: "center",
     position: "absolute",
     bottom: "50px",
-    "& > span": {
-      color: "#d8d8d8",
-      paddingTop: "10px",
-      cursor: "pointer",
-      fontFamily: "AvenirNextCyr, san-serif, arial",
-      fontSize: "12px",
-      letterSpacing: "1.5px",
-    },
+    width: "100%",
+    padding: "0 20px 0 45px",
     "@media (max-width:1400px)": {
       bottom: "15px",
       paddingTop: "5px",
       position: "static",
     },
+  },
+  tierContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  tierHeader: {
+    display: "flex",
+    alignItems: "center",
+    paddingBottom: 10,
+    "& > span": {
+      color: "#ffffff",
+      fontFamily: "AvenirNextCyr, san-serif, arial",
+      fontSize: "1rem",
+      letterSpacing: "1.5px",
+    },
+  },
+  tierIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  networkContainerBarItem: {
+    height: "5px",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgroundColor: "#73bef2",
+  },
+  barTrack: {
+    position: "relative",
+    width: "100%",
+    height: "5px",
+    backgroundColor: "#efefef",
+  },
+  tierValue: {
+    display: "flex",
+    padding: "10px 0",
+    "& > span": {
+      color: "#ffffff",
+      fontFamily: "AvenirNextCyr, san-serif, arial",
+      fontSize: "1rem",
+    },
+  },
+  tierButton: {
+    color: "#ffffff",
+    borderColor: "#ffffff",
+    width: "60%",
   },
 }));

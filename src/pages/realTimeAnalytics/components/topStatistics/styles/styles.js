@@ -42,31 +42,4 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
     fontFamily: "AvenirNextCyr",
   },
-  topStatisticsItemPercentage: {
-    display: "flex",
-    position: "relative",
-    paddingLeft: "10px",
-  },
-  percentage: {
-    fontWeight: "bold",
-    marginRight: "5px",
-  },
-  colorGreen: {
-    color: "#95d6c9",
-  },
-  colorRed: {
-    color: "#d74e43",
-  },
-  topArrowIcon: {
-    color: "#95d6c9",
-    position: "absolute",
-    top: 0,
-    left: "-10px",
-  },
-  downArrowIcon: {
-    color: "#d74e43",
-    position: "absolute",
-    top: 0,
-    left: "-10px",
-  },
 }));

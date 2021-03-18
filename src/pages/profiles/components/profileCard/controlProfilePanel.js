@@ -17,6 +17,7 @@ function ProfilePanel({
   directOn,
   personalMode,
   section2,
+  name,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -63,7 +64,7 @@ function ProfilePanel({
               src={connectIcon}
             />
           }
-          onClick={() => history.push("/connections", { disabled: false, id })}
+          onClick={() => history.push("/connections", { disabled: false, id, name })}
         >
           Connections
         </Button>

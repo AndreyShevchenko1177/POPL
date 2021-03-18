@@ -135,6 +135,7 @@ export default function Card({
           <div className={classes.buttonsContainer}>
             <ProfilePanel
               id={id}
+              name={name}
               handleClickPoplItem={handleClickPoplItem}
               handleSwitchChanger={handleSwitchChanger}
               directOn={directOn}

@@ -1,9 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import clsx from "clsx";
 import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
 
@@ -28,25 +25,6 @@ function StatisticItem({
             style={{ textAlign: value ? "start" : "center" }}
           >
             {value || "-"}
-          </div>
-          <div className={classes.topStatisticsItemPercentage}>
-            {isTop ? (
-              <ArrowDropUpIcon className={classes.topArrowIcon} />
-            ) : (
-              <ArrowDropDownIcon className={classes.downArrowIcon} />
-            )}
-            <Typography
-              variant="h6"
-              className={clsx(
-                classes.percentage,
-                isTop ? classes.colorGreen : classes.colorRed,
-              )}
-            >
-              <i>{percentage}</i>
-            </Typography>
-            <Typography variant="h6" className={classes.titleText}>
-              From last Week
-            </Typography>
           </div>
         </div>
       )}

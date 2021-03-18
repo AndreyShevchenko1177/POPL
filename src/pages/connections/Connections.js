@@ -56,9 +56,12 @@ function Connections() {
     setConnections((filterConnections).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
-  const setFilters = (event, name) => {
+  const showAll = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+    case "all": {
+      location.state = { ...location.state, name: "", disabled: true };
+      dispatch(collectSelectedConnections(4822, "allConnections"));
+    }
       setNeedHeight({
         height: 0,
         offset: 0,
@@ -102,7 +105,7 @@ function Connections() {
     <>
       <Header
         rootLink="Connections"
-        // firstChild={location.state.name}
+        firstChild={location.state?.name}
         path="/connections"
       />
       <div
@@ -118,7 +121,7 @@ function Connections() {
       >
         <div className="popls-header-container">
           <SearchStripe
-            setFilters={setFilters}
+            setFilters={showAll}
             fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}

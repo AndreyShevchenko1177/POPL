@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
 import overviewDark from "../../assets/svg/overview-dark.svg";
@@ -29,6 +30,7 @@ import settingsDark from "../../assets/svg/settings-dark.svg";
 import login from "../../assets/svg/login.svg";
 import register from "../../assets/svg/register.svg";
 import { logoutAction } from "../../pages/auth/store/actions";
+import TierLevel from "./TierLevel";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -58,7 +60,7 @@ function PermanentDrawerLeft() {
     let name = location.pathname.split("/")[1];
     if (name === "analytics") {
       name = location.pathname.split("/")[2];
-      setCollapse({ ...collapse, analyticsOpen: true });
+      // setCollapse({ ...collapse, analyticsOpen: true });
     }
     if (
       ["profiles", "connections", "campaigns"].includes(name)
@@ -156,9 +158,14 @@ function PermanentDrawerLeft() {
               }}
               primary="Profiles"
             />
-            <ExpandMoreIcon
-              style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
-            />
+            {collapse.profilesIsOpen
+              ? <ExpandLessIcon
+                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+              />
+              : <ExpandMoreIcon
+                style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+              />
+            }
           </ListItem>
         </Link>
         <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
@@ -235,9 +242,14 @@ function PermanentDrawerLeft() {
             }}
             primary="Connections"
           />
-          <ExpandMoreIcon
-            style={{ fill: !highlight.connections ? "#fff" : "#000" }}
-          />
+          {collapse.connectionsOpen
+            ? <ExpandLessIcon
+              style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+            />
+            : <ExpandMoreIcon
+              style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+            />
+          }
         </ListItem>
         {/* </Link> */}
         <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
@@ -289,9 +301,14 @@ function PermanentDrawerLeft() {
               }}
               primary="Campaigns"
             />
-            <ExpandMoreIcon
-              style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
-            />
+            {collapse.campaignsOpen
+              ? <ExpandLessIcon
+                style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
+              />
+              : <ExpandMoreIcon
+                style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
+              />
+            }
           </ListItem>
         </Link>
         <Collapse in={collapse.campaignsOpen} timeout="auto" unmountOnExit>
@@ -337,7 +354,14 @@ function PermanentDrawerLeft() {
               classes={{ root: classes.listText }}
               primary="Analytics"
             />
-            <ExpandMoreIcon />
+            {collapse.analyticsOpen
+              ? <ExpandLessIcon
+                style={{ fill: "#fff" }}
+              />
+              : <ExpandMoreIcon
+                style={{ fill: "#fff" }}
+              />
+            }
           </ListItem>
         </Link>
         <Collapse in={collapse.analyticsOpen} timeout="auto" unmountOnExit>
@@ -455,8 +479,7 @@ function PermanentDrawerLeft() {
         )}
       </List>
       <div className={classes.sideBarHelpCenterContainer}>
-        <HelpOutlineIcon style={{ cursor: "pointer", fill: "#94a6ab" }} />
-        <span>Help Center</span>
+        <TierLevel used={10} max={30} />
       </div>
     </Drawer>
   );
