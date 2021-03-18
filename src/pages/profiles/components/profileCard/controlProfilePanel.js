@@ -6,9 +6,10 @@ import {
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import connectIcon from "../../../../assets/svg/connect-dark.svg";
+import connectIcon from "../../../../assets/svg/connect.svg";
 import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
+import SvgMaker from "../../../../components/svgMaker/SvgMaker";
 
 function ProfilePanel({
   id,

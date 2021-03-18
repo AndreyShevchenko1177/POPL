@@ -47,11 +47,12 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
-    padding: "12px 12px",
+    padding: "0px 6px",
     borderRadius: theme.custom.mainBorderRadius,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
+
     // marginRight: 12,
   },
   addIcon: {

@@ -1,14 +1,16 @@
 import React from "react";
-import { Button, Typography } from "@material-ui/core";
-import CloudIcon from "../../assets/svg/cloud.svg";
+import { Button } from "@material-ui/core";
 import useStyles from "./styles/styles";
+import SvgMaker from "../../components/svgMaker/SvgMaker";
 
 function TierLevel({ used, max }) {
   const classes = useStyles();
   return (
     <div className={classes.tierContainer}>
       <div className={classes.tierHeader}>
-        <img alt='' className={classes.tierIcon} src={CloudIcon} />
+        <div className={classes.tierIcon}>
+          <SvgMaker fill='#fff' width={30} height={30} name='cloud'/>
+        </div>
         <span>Tier Level</span>
       </div>
       <>

@@ -79,6 +79,11 @@ a {
   border-radius: 4px;
 }
 
+.custom-checkbox-root .MuiSvgIcon-root {
+  width: 36px;
+  height: 36px;
+}
+
 .full-w > div {
   border-radius: 30px;
 }

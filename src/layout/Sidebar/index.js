@@ -18,8 +18,6 @@ import useStyles from "./styles/styles";
 import overview from "../../assets/svg/overview.svg";
 import overviewDark from "../../assets/svg/overview-dark.svg";
 import logout from "../../assets/svg/logout.svg";
-import profiles from "../../assets/svg/profiles.svg";
-import profileDark from "../../assets/svg/profiles-dark.svg";
 import connect from "../../assets/svg/connect.svg";
 import connectDark from "../../assets/svg/connect-dark.svg";
 import campaigns from "../../assets/svg/campaigns.svg";
@@ -31,6 +29,7 @@ import login from "../../assets/svg/login.svg";
 import register from "../../assets/svg/register.svg";
 import { logoutAction } from "../../pages/auth/store/actions";
 import TierLevel from "./TierLevel";
+import SvgMaker from "../../components/svgMaker/SvgMaker";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -113,11 +112,12 @@ function PermanentDrawerLeft() {
             onClick={() => highlightList("main")}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className={classes.sideBarIcons}
-                alt="overview"
-                src={!highlight.main ? overview : overviewDark}
-              />
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='overview'
+                  fill={!highlight.main ? "#fff" : "#000"}
+                />
+              </div>
             </ListItemIcon>
             <ListItemText
               disableTypography
@@ -143,11 +143,12 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className={classes.sideBarIcons}
-                alt="overview"
-                src={!highlight.profiles ? profiles : profileDark}
-              />
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='profile'
+                  fill={!highlight.profiles ? "#fff" : "#000"}
+                />
+              </div>
             </ListItemIcon>
             <ListItemText
               disableTypography
@@ -227,11 +228,12 @@ function PermanentDrawerLeft() {
           }}
         >
           <ListItemIcon classes={{ root: classes.listItemIcon }}>
-            <img
-              className={classes.sideBarIcons}
-              alt="connections"
-              src={!highlight.connections ? connect : connectDark}
-            />
+            <div className={classes.sideBarIcons}>
+              <SvgMaker
+                name='connection'
+                fill={!highlight.connections ? "#fff" : "#000"}
+              />
+            </div>
           </ListItemIcon>
           <ListItemText
             disableTypography
@@ -286,11 +288,12 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className={classes.sideBarIcons}
-                alt="overview"
-                src={!highlight.campaigns ? campaigns : campaignsDark}
-              />
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='campaigns'
+                  fill={!highlight.campaigns ? "#fff" : "#000"}
+                />
+              </div>
             </ListItemIcon>
             <ListItemText
               disableTypography
@@ -346,7 +349,12 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img className={classes.sideBarIcons} alt="overview" src={analytics} />
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='analytics'
+                  fill='#f9f9f9'
+                />
+              </div>
             </ListItemIcon>
             <ListItemText
               to="/analytics/locations"
@@ -415,11 +423,12 @@ function PermanentDrawerLeft() {
             onClick={() => highlightList("settings")}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <img
-                className={classes.sideBarIcons}
-                alt="overview"
-                src={!highlight.settings ? settings : settingsDark}
-              />
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='settings'
+                  fill={!highlight.settings ? "#fff" : "#000"}
+                />
+              </div>
             </ListItemIcon>
             <ListItemText
               disableTypography
@@ -436,7 +445,12 @@ function PermanentDrawerLeft() {
           <Link to="/sign-in">
             <ListItem className={classes.ulList} button onClick={handleLogout}>
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <img className={classes.sideBarIcons} alt="overview" src={logout} />
+                <div className={classes.sideBarIcons}>
+                  <SvgMaker
+                    name='logout'
+                    fill='#f9f9f9'
+                  />
+                </div>
               </ListItemIcon>
               <ListItemText
                 disableTypography

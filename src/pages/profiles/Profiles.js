@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
@@ -66,14 +67,11 @@ export default function Profiles() {
 
   const handleCheck = (event) => {
     setMainCheck(event.target.checked);
-    const checkBoxObject = {};
-    Object.keys(checkboxes).forEach((el) => {
-      checkBoxObject[el] = {
-        checked: event.target.checked,
-        ...profilesData.find((el) => el.customId === checkBoxObject[el]),
-      };
+    setCheckBoxes((chk) => {
+      const checkObject = {};
+      Object.keys(chk).map((el) => checkObject[el] = ({ ...chk[el], checked: event.target.checked }));
+      return checkObject;
     });
-    setCheckBoxes(checkBoxObject);
   };
 
   const profilesCheck = (event) => {
@@ -103,18 +101,17 @@ export default function Profiles() {
       setOpenProfileSelect({ open: false, component: "listItem" });
       if (name === "addLink") {
         const filterProfiles = profiles.filter((el) => checkboxes[el.customId].checked);
-        console.log(filterProfiles);
         return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
       }
       if (name === "makeDirectOn") {
-        console.log(profileIds);
         dispatch(setDirectAction(profileIds, "1", userData.id));
       }
       if (name === "makeDirectOff") {
         dispatch(setDirectAction(profileIds, "0", userData.id));
       }
       if (name === "makeBusiness") {
-        dispatch(setProfileStatusAction(profileIds, "2", userData.id));
+        console.log(name, profileIds);
+        // dispatch(setProfileStatusAction(profileIds, "2", userData.id));
       }
       if (name === "makePersonal") {
         dispatch(setProfileStatusAction(profileIds, "1", userData.id));

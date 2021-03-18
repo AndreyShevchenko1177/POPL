@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, makeStyles } from "@material-ui/core";
 
-const useStyles = (after, before) => makeStyles((theme) => ({
+const useStyles = (after, before, input) => makeStyles((theme) => ({
   root: {
     width: 125,
     height: 28,
@@ -35,12 +35,14 @@ const useStyles = (after, before) => makeStyles((theme) => ({
       content: `\"${before}\"`,
       color: "#646464",
       fontWeight: "600",
+      fontSize: 13,
       left: 4,
       opacity: 0,
     },
     "&:after": {
       content: `\"${after}\"`,
       fontWeight: "600",
+      fontSize: 13,
       right: 4,
     },
   },
@@ -66,13 +68,27 @@ const useStyles = (after, before) => makeStyles((theme) => ({
       },
     },
   },
+  input: {
+    ...input,
+  },
 }));
+
+const inputStyles = [
+  {
+    width: "400%",
+    left: "-300%",
+  },
+  {
+    width: "400%",
+    left: "10%",
+  },
+];
 
 const CustomSwitch = ({
   onClick, checked, after, before,
 }) => {
-  console.log(after, before);
-  const switchStyles = useStyles(after, before)();
+  const switchStyles = useStyles(after, before, inputStyles[Number(!checked)])();
+
   return (
     <div>
       <Switch
