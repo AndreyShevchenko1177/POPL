@@ -53,7 +53,7 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         social: p.social,
       }));
       dispatch(getStatisticItem(profiles));
-      dispatch({
+      return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
       });
@@ -106,7 +106,6 @@ export const addLinkAction = (value, userId, iconId) => async (dispatch) => {
         type: ADD_LINK_SUCCESS,
         payload: "success",
       });
-
       return dispatch(getProfilesIds(userId));
     }
     dispatch(

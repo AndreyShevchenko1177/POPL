@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Sidebar from "./Sidebar";
@@ -11,21 +12,28 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    backgroundColor: "#ffffff",
-    overflow: "hidden",
+
   },
 }));
 
 export default function Main({ children, stripe }) {
   const classes = useStyles();
+  const location = useLocation();
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <CSnackbar />
       {!stripe && <Sidebar />}
-      <main className={classes.content}>{children}</main>
+      <main
+        style={{
+          flexGrow: 1,
+          backgroundColor: "#ffffff",
+          overflow: location.pathname === "/connections" ? "hidden" : "",
+        }}
+      >
+        {children}
+      </main>
     </div>
   );
 }
