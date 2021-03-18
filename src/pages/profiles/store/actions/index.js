@@ -87,39 +87,41 @@ export const getProfilesIds = (userId) => async (dispatch) => {
   }
 };
 
-export const addLinkAction = (value, userId, iconId) => async (dispatch) => {
+const addLinkRequest = (value, { id, activeProfile }, iconId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("aLinksIDs[]", iconId);
+  bodyFormData.append("aTitles[]", "title");
+  bodyFormData.append("aValues[]", value);
+  bodyFormData.append("aIcons[]", "");
+  bodyFormData.append("aProfiles[]", activeProfile);
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
+export const addLinkAction = (value, profileData, iconId, userId) => async (dispatch) => {
   try {
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
-    bodyFormData.append("ajax", "1");
-    bodyFormData.append("iID", userId);
-    bodyFormData.append("aLinksIDs[]", iconId);
-    bodyFormData.append("aTitles[]", "title");
-    bodyFormData.append("aValues[]", value);
-    bodyFormData.append("aIcons[]", "");
-    bodyFormData.append("aProfiles[]", "1");
-    const result = await axios.post("", bodyFormData, {
-      withCredentials: true,
+    const result = await Promise.all(profileData.map((item) => addLinkRequest(value, item, iconId)));
+    dispatch({
+      type: ADD_LINK_SUCCESS,
+      payload: "success",
     });
-    if (result.data.done === "Success") {
-      dispatch({
-        type: ADD_LINK_SUCCESS,
-        payload: "success",
-      });
-      return dispatch(getProfilesIds(userId));
-    }
-    dispatch(
-      snackBarAction({
-        message: "Error by adding link",
-        severity: "error",
-        duration: 3000,
-        open: true,
-      }),
-    );
-    return dispatch({
-      type: ADD_LINK_FAIL,
-      error: { text: "fail" },
-    });
+    return dispatch(getProfilesIds(userId));
+    // dispatch(
+    //   snackBarAction({
+    //     message: "Error by adding link",
+    //     severity: "error",
+    //     duration: 3000,
+    //     open: true,
+    //   }),
+    // );
+    // return dispatch({
+    //   type: ADD_LINK_FAIL,
+    //   error: { text: "fail" },
+    // });
   } catch (error) {
     dispatch(
       snackBarAction({

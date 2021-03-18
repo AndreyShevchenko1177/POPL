@@ -102,10 +102,12 @@ export default function Profiles() {
     if (Object.values(checkboxes).map((el) => el.checked).includes(true)) {
       setOpenProfileSelect({ open: false, component: "listItem" });
       if (name === "addLink") {
-        const filterProfiles = profiles.filter((el) => checkboxes[el.customId]);
-        return setWizard({ data: profiles.filter((el) => checkboxes[el.customId]), open: !!filterProfiles.length });
+        const filterProfiles = profiles.filter((el) => checkboxes[el.customId].checked);
+        console.log(filterProfiles);
+        return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
       }
       if (name === "makeDirectOn") {
+        console.log(profileIds);
         dispatch(setDirectAction(profileIds, "1", userData.id));
       }
       if (name === "makeDirectOff") {

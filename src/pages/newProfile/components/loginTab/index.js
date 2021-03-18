@@ -34,7 +34,6 @@ function LoginTab() {
   };
 
   const create = (values) => {
-    console.log(values);
     dispatch(signInChildAction(values));
   };
 
@@ -45,6 +44,7 @@ function LoginTab() {
   useEffect(() => {
     if (addChildProfile) {
       dispatch(clearStateAction("addChildProfile"));
+      dispatch(clearStateAction("childSignIn"));
       dispatch(clearProfilesState("dataProfiles"));
       history.push("/profiles");
     }

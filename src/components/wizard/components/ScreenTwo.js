@@ -6,7 +6,7 @@ import useStyles from "../styles/styles";
 import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
 
 function ScreenTwo({
-  icon, id, closeWizard,
+  icon, id, closeWizard, profileData,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function ScreenTwo({
   const addLink = () => {
     if (!value) return setIsValid(false);
     setIsValid(true);
-    dispatch(addLinkAction(value, userData.id, id));
+    dispatch(addLinkAction(value, profileData, id, userData.id));
   };
 
   useEffect(() => {
@@ -33,8 +33,6 @@ function ScreenTwo({
   useEffect(() => () => {
     dispatch(clearStateAction("addLink"));
   }, []);
-
-  console.log(value, isValid);
 
   return (
     <div className={classes.linkContainer}>

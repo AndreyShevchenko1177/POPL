@@ -48,7 +48,7 @@ const header = (value, classes, cl) => {
   );
 };
 
-export default function WizardPanel({ data, closeWizard }) {
+export default function WizardPanel({ data, closeWizard, profileData }) {
   const classes = useStyles();
   const [value, setValue] = useState({
     key: 0,
@@ -64,7 +64,7 @@ export default function WizardPanel({ data, closeWizard }) {
         <ScreenOne data={data} onClick={(link) => setValue({ ...value, key: 1, link })}/>
       </TabPanel>
       <TabPanel value={value.key} index={1}>
-        <ScreenTwo {...value.link} closeWizard={closeWizard} />
+        <ScreenTwo {...value.link} closeWizard={closeWizard} profileData={profileData} />
       </TabPanel>
     </div>
   );

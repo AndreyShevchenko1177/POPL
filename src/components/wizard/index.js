@@ -26,6 +26,7 @@ function CustomWizard({ data, isOpen, setIsOpen }) {
           <WizardPanel
             closeWizard={() => setIsOpen((v) => ({ ...v, open: false }))}
             data={Object.keys(icons).map((item) => ({ id: item, icon: icons[item] }))}
+            profileData={data.reduce((sum, current) => ([...sum, { id: current.id, activeProfile: current.activeProfile }]), [])}
           />
         </div>
       </div>
