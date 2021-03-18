@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -60,7 +61,7 @@ function Connections() {
     switch (name) {
     case "all": {
       location.state = { ...location.state, name: "", disabled: true };
-      dispatch(collectSelectedConnections(4822, "allConnections"));
+      dispatch(collectSelectedConnections(profileData.id, "allConnections"));
     }
       setNeedHeight({
         height: 0,
@@ -88,8 +89,7 @@ function Connections() {
   }, [isOpenForm]);
 
   useEffect(() => {
-    if (dragableConnections.length || !filterConnections) return;
-    console.log(filterConnections);
+    if (!filterConnections) return setConnections([]);
     setConnections(filterConnections.slice(0, 19));
   }, [filterConnections]);
 

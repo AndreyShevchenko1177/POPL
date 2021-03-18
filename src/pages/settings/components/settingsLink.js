@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Typography, makeStyles } from "@material-ui/core";
+import { logoutAction } from "../../auth/store/actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,11 +21,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LinkItem({ name, icon, path }) {
+function LinkItem({
+  name, icon, path,
+}) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const redirect = () => history.push(path);
+  const handleLogout = () => dispatch(logoutAction());
+
+  const redirect = () => {
+    if (name === "Logout") return handleLogout();
+    history.push(path);
+  };
 
   return (
     <div

@@ -54,7 +54,7 @@ function ProfilePanel({
           variant="outlined"
           size="small"
           color="secondary"
-          style={{ color: "#fff", fontWeight: 400, width: "125px" }}
+          className={classes.button}
           startIcon={
             <img
               className={classes.connectIcon}
@@ -70,10 +70,9 @@ function ProfilePanel({
       <Grid item xs={12}>
         <Button
           variant="outlined"
-          style={{ color: "#fff", fontWeight: 400, width: "125px" }}
+          className={classes.button}
           size="small"
           color="secondary"
-          className=" "
           startIcon={<EqualizerIcon />}
           onClick={() => console.log("Statistics")}
         >
@@ -85,8 +84,7 @@ function ProfilePanel({
           variant="outlined"
           size="small"
           color="secondary"
-          style={{ color: "#fff", fontWeight: 400, width: "125px" }}
-          className=" "
+          className={classes.button}
           startIcon={<VisibilityIcon />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
         >

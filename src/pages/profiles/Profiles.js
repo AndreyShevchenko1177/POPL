@@ -110,8 +110,7 @@ export default function Profiles() {
         dispatch(setDirectAction(profileIds, "0", userData.id));
       }
       if (name === "makeBusiness") {
-        console.log(name, profileIds);
-        // dispatch(setProfileStatusAction(profileIds, "2", userData.id));
+        dispatch(setProfileStatusAction(profileIds, "2", userData.id));
       }
       if (name === "makePersonal") {
         dispatch(setProfileStatusAction(profileIds, "1", userData.id));

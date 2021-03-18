@@ -170,6 +170,7 @@ const statusRequest = (id, state) => {
 
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => statusRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {

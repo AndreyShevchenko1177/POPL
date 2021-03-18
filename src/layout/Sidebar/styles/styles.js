@@ -66,7 +66,7 @@ export default makeStyles((theme) => ({
   },
   listText: {
     fontFamily: "AvenirNextCyr",
-    fontSize: "17px",
+    fontSize: "16px",
     letterSpacing: "1.5px",
     color: "#f9f9f9",
   },
@@ -88,10 +88,11 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     alignSelf: "center",
     position: "absolute",
+    height: "130px",
     bottom: "50px",
     width: "100%",
     padding: "0 20px 0 45px",
-    "@media (max-width:1400px)": {
+    "@media (max-height:1000px)": {
       bottom: "15px",
       paddingTop: "5px",
       position: "static",

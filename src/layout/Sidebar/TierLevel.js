@@ -22,13 +22,13 @@ function TierLevel({ used, max }) {
         </div>
       </>
       <div className={classes.tierValue}>
-        <span>{used} GB of {max} GB used</span>
+        <span>{used} profiles of {max} profiles used</span>
       </div>
       <Button
         variant='outlined'
         classes={{ root: classes.tierButton }}
       >
-        Increase Level
+        Upgrade Plan
       </Button>
     </div>
   );

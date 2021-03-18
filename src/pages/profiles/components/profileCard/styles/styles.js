@@ -82,7 +82,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     justifyContent: "space-between",
     width: "100%",
-    minWidth: "670px",
+    minWidth: "700px",
     height: "115px",
     padding: "0 30px 0 60px",
   },
@@ -167,7 +167,7 @@ export default makeStyles((theme) => ({
   buttonsContainer: {
     display: "flex",
     height: "100%",
-    width: "170px",
+    width: "125px",
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "space-evenly",
@@ -201,5 +201,12 @@ export default makeStyles((theme) => ({
   switchLabel: {
     color: "#ffffff",
     textAlign: "center",
+  },
+  button: {
+    display: "flex",
+    justifyContent: "flex-start",
+    color: "#fff",
+    fontWeight: 400,
+    width: "125px",
   },
 }));

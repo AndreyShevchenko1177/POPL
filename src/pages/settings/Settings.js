@@ -7,6 +7,7 @@ import useStyles from "./styles";
 
 function SettingsPage() {
   const classes = useStyles();
+
   return (
     <>
       <Header

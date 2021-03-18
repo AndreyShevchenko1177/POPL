@@ -1,6 +1,7 @@
 import React from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PaymentIcon from "@material-ui/icons/Payment";
+import SvgMaker from "../../components/svgMaker/SvgMaker";
 
 const linksConfig = [
   {
@@ -13,6 +14,13 @@ const linksConfig = [
     id: 2,
     name: "Billing",
     icon: <PaymentIcon />,
+    path: "settings/billing",
+  },
+  {
+    id: 3,
+    name: "Logout",
+    // icon: <PaymentIcon />,
+    // icon: <SvgMaker name='logout' width={30} height={30} fill='#000000'/>,
     path: "settings/billing",
   },
 ];
