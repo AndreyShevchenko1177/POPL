@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-  Grid, FormGroup, FormControlLabel, Switch, Button, Typography,
+  Grid, FormGroup, Button,
 } from "@material-ui/core";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
@@ -29,22 +29,19 @@ function ProfilePanel({
           <div className="full-w">
             <FormGroup onClick={handleClickPoplItem}>
               <div className={classes.switcherContainer}>
-                <div className={classes.switchLabelWrapper} onClick={(event) => handleSwitchChanger(event, "dir2")} >
-                  <Typography className={classes.switchLabel} variant='subtitle1' >{personalMode.text}</Typography>
-                </div>
                 <CustomSwitch
                   checked={personalMode.direct}
                   onClick={(event) => handleSwitchChanger(event, "dir2")}
+                  after='Personal'
+                  before='Business'
                 />
               </div>
               <div className={classes.switcherContainer}>
-                <div className={classes.switchLabelWrapper} onClick={(event) => handleSwitchChanger(event, "dir1")} >
-                  <Typography className={classes.switchLabel} variant='subtitle1' >{directOn.text}</Typography>
-                </div>
                 <CustomSwitch
                   checked={directOn.direct}
                   onClick={(event) => handleSwitchChanger(event, "dir1")}
-                  trackLabel
+                  after='Direct Off'
+                  before='Direct On'
                 />
               </div>
             </FormGroup>

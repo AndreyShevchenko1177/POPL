@@ -190,6 +190,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingBottom: 10,
   },
   switchLabelWrapper: {
     width: "100%",

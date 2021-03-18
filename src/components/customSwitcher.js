@@ -1,26 +1,26 @@
 import React from "react";
 import { Switch, makeStyles } from "@material-ui/core";
 
-const useStyles = (trackLabel) => makeStyles((theme) => ({
+const useStyles = (after, before) => makeStyles((theme) => ({
   root: {
-    width: 80,
-    height: 48,
-    padding: 8,
+    width: 125,
+    height: 28,
+    padding: 0,
   },
   switchBase: {
-    padding: 11,
+    padding: "3px 0 0 5px",
     color: "#646464",
   },
   thumb: {
-    width: 22,
-    height: 22,
+    width: 20,
+    height: 20,
     margin: 2,
     backgroundColor: "#fff",
   },
   track: {
     background: "#646464",
     opacity: "1 !important",
-    borderRadius: 20,
+    borderRadius: theme.custom.mainBorderRadius,
     position: "relative",
     "&:before, &:after": {
       display: "inline-block",
@@ -32,20 +32,23 @@ const useStyles = (trackLabel) => makeStyles((theme) => ({
       textAlign: "center",
     },
     "&:before": {
-      content: trackLabel ? "\"On\"" : "",
+      content: `\"${before}\"`,
       color: "#646464",
+      fontWeight: "600",
       left: 4,
       opacity: 0,
     },
     "&:after": {
-      content: trackLabel ? "\"Off\"" : "",
+      content: `\"${after}\"`,
+      fontWeight: "600",
       right: 4,
     },
   },
   checked: {
     "&$switchBase": {
       color: "#ffffff",
-      transform: "translateX(32px)",
+      transform: "translateX(90px)",
+      paddingTop: 2,
       "&:hover": {
         backgroundColor: "#ffffff33",
       },
@@ -65,8 +68,11 @@ const useStyles = (trackLabel) => makeStyles((theme) => ({
   },
 }));
 
-const CustomSwitch = ({ onClick, checked, trackLabel }) => {
-  const switchStyles = useStyles(trackLabel)();
+const CustomSwitch = ({
+  onClick, checked, after, before,
+}) => {
+  console.log(after, before);
+  const switchStyles = useStyles(after, before)();
   return (
     <div>
       <Switch
