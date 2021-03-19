@@ -27,7 +27,7 @@ import { profileIds } from "../../../profiles/store/actions";
 export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
-    const idsArray = [4822];
+    const idsArray = [userId];
     let res = {
       data: null,
     };
