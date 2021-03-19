@@ -59,6 +59,9 @@ export default makeStyles((theme) => ({
       "& > svg path": {
         fill: "#fff",
       },
+      "& > div div svg path ": {
+        fill: "#fff",
+      },
     },
   },
   ulListHighLight: {
