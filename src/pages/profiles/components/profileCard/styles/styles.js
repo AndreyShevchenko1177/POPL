@@ -60,10 +60,10 @@ export default makeStyles((theme) => ({
   section1: {
     display: "flex",
     width: "100%",
-    height: "140px",
+    maxHeight: "140px",
     minWidth: "180px",
     alignItems: "flex-start",
-    paddingTop: "20px",
+    padding: "20px 0 10px 0",
   },
   section1_title: {
     display: "flex",
@@ -98,11 +98,13 @@ export default makeStyles((theme) => ({
     height: "32px",
   },
   section3: {
-    height: "80px",
+    // overflow: "hidden",
     padding: "15px 5px 20px 0px",
   },
   section3_text: {
     color: "#666666",
+    maxHeight: "78px",
+    overflow: "hidden",
     fontSize: 18,
     fontFamily: "AvenirNextCyr",
   },

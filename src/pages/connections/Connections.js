@@ -8,8 +8,8 @@ import Header from "../../components/Header";
 import {
   getConnectionsAction, clearAddConnection, clearEditConnection, collectSelectedConnections, clearConnectionData,
 } from "./store/actions";
-import PoplForm from "./components/connectionForm";
-import PoplCard from "./components/connectionCard";
+import ConnectionForm from "./components/connectionForm";
+import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
@@ -101,6 +101,8 @@ function Connections() {
     setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
+  console.log(dragableConnections);
+
   return (
     <>
       <Header
@@ -156,11 +158,18 @@ function Connections() {
                           {...provided.dragHandleProps}
                           elevation={3}
                         >
-                          <PoplCard
-                            key={connection.customId}
-                            {...connection}
-                            editAction={handleOpenForm}
-                          />
+                          {connection.noPopl
+                            ? <NotConnectedCard
+                              key={connection.customId}
+                              {...connection}
+                              editAction={handleOpenForm}
+                            />
+                            : <ConnectedCard
+                              key={connection.customId}
+                              {...connection}
+                              editAction={handleOpenForm}
+                            />
+                          }
                         </Paper>
                       )}
                     </Draggable>
@@ -177,7 +186,7 @@ function Connections() {
           maxWidth="md"
         >
           <DialogContent>
-            <PoplForm
+            <ConnectionForm
               setIsOpenForm={setIsOpenForm}
               popl={currentPopl}
             />

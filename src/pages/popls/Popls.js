@@ -93,7 +93,8 @@ function PoplsItem() {
     <>
       <Header
         rootLink="Profiles"
-        firstChild={location.state?.name || profileData.name}
+        lastChild={location.state?.name || profileData.name}
+        firstChild='Popls'
         path="/profiles"
       />
       <div

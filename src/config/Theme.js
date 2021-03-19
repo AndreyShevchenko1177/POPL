@@ -32,6 +32,7 @@ let theme = createMuiTheme({
     mainBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
     mainBorderRadius: 10,
     mainBorderForBigElement: 15,
+    mainBorderGreyColor: "#bababa",
   },
   overrides: {
     MuiDrawer: {

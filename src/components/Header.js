@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ rootLink, firstChild, path }) {
+function Header({
+  rootLink, firstChild, lastChild, path,
+}) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -36,13 +38,15 @@ function Header({ rootLink, firstChild, path }) {
     <Paper className={classes.root}>
       <Typography
         onClick={handleRedirect}
-        className={firstChild && classes.rootLink}
+        className={lastChild && classes.rootLink}
         variant="body1"
       >
         {rootLink}
       </Typography>
       {firstChild && <ArrowForwardIosIcon className={classes.arrowIcon} />}
-      <Typography variant="h5">{firstChild}</Typography>
+      <Typography variant="body1">{firstChild}</Typography>
+      {lastChild && <ArrowForwardIosIcon className={classes.arrowIcon} />}
+      <Typography variant="h5">{lastChild}</Typography>
     </Paper>
   );
 }

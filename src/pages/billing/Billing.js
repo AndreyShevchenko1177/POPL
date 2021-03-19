@@ -57,7 +57,7 @@ function Billing() {
     <>
       <Header
         rootLink="Settings"
-        firstChild="Billing"
+        lastChild="Billing"
         path="/settings"
       />
       <div className={classes.container}>

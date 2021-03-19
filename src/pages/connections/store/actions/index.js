@@ -27,7 +27,7 @@ import { profileIds } from "../../../profiles/store/actions";
 export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
-    const idsArray = [userId];
+    const idsArray = [4822];
     let res = {
       data: null,
     };
@@ -44,6 +44,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
       payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), [])
         .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
     });
+
     return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
