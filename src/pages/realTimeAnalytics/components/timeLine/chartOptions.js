@@ -1,5 +1,15 @@
 const chartOptions = {
   options: {
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          gridLines: {
+            // offsetGridLines: true,
+          },
+        },
+      ],
+    },
     legend: {
       display: false,
     },
