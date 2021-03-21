@@ -1,21 +1,5 @@
 const chartOptions = {
   options: {
-    // scales: {
-    //   xAxes: [
-    //     {
-    //       type: "time",
-    //     },
-    //   ],
-    // },
-    scales: {
-      xAxes: [
-        {
-          gridLines: {
-            offsetGridLines: true,
-          },
-        },
-      ],
-    },
     legend: {
       display: false,
     },
