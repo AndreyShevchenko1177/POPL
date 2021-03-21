@@ -92,9 +92,10 @@ export default function Card({
               <Checkbox
                 color="primary"
                 inputProps={{ "aria-label": "primary checkbox" }}
-                style={{ width: "40px", height: "40px", transform: "scale(1.5)" }}
                 onClick={profilesCheck}
                 name={customId}
+                style={{ padding: "8px" }}
+                classes={{ root: "custom-checkbox-root" }}
                 checked={checkboxes[customId]?.checked || false}
               />
             </div>
