@@ -57,7 +57,7 @@ function Billing() {
     <>
       <Header
         rootLink="Settings"
-        firstChild="Billing"
+        lastChild="Billing"
         path="/settings"
       />
       <div className={classes.container}>
@@ -65,7 +65,7 @@ function Billing() {
           variant='outlined'
           onClick={handleSubscribe}
         >
-          Maki all profiles pro
+          Make all profiles pro
         </Button>
       </div>
     </>

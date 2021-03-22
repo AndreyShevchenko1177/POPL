@@ -24,13 +24,13 @@ export default makeStyles((theme) => ({
     },
   },
   brand: {
-    padding: "30px 0px 100px 0px",
+    padding: "30px 0px 50px 0px",
     width: "100%",
     textAlign: "center",
     margin: 0,
     background: "transparent",
     "@media (max-height:900px)": {
-      padding: "30px 0px 50px 0px",
+      padding: "30px 0px 30px 0px",
     },
   },
   sideBarIcons: {
@@ -57,6 +57,9 @@ export default makeStyles((theme) => ({
         color: "#fff",
       },
       "& > svg path": {
+        fill: "#fff",
+      },
+      "& > div div svg path ": {
         fill: "#fff",
       },
     },
@@ -91,8 +94,8 @@ export default makeStyles((theme) => ({
     height: "130px",
     bottom: "50px",
     width: "100%",
-    padding: "0 20px 0 45px",
-    "@media (max-height:1000px)": {
+    padding: "20px 20px 0 45px",
+    "@media (max-height:900px)": {
       bottom: "15px",
       paddingTop: "5px",
       position: "static",

@@ -149,6 +149,7 @@ const directRequest = (id, state) => {
 
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
+    if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => directRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
@@ -170,7 +171,7 @@ const statusRequest = (id, state) => {
 
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
-    dispatch(isFetchingAction(true));
+    if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => statusRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {

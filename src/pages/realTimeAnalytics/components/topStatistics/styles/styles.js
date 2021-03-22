@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
-    minWidth: "1100px",
+    minWidth: "800px",
   },
   topStatisticsItemsDivider: {
     borderRight: "2px solid #b3b6b5",

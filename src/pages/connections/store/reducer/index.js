@@ -18,10 +18,6 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  allConnections: {
-    data: [],
-    error: null,
-  },
   addConnection: {
     data: null,
     error: null,

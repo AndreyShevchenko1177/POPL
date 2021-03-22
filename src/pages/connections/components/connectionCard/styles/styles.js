@@ -9,6 +9,10 @@ export default makeStyles((theme) => ({
     marginLeft: "10px",
     padding: "20px 0",
   },
+  leftContentWrapper: {
+    display: "flex",
+    width: "calc(100% - 150px)",
+  },
   avatar: {
     width: "120px",
     height: "70px",
@@ -38,6 +42,26 @@ export default makeStyles((theme) => ({
     marginRight: "10px",
     cursor: "pointer",
   },
+  connectedWithViewWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "0 20px 0 auto",
+    paddingTop: 20,
+  },
+  connectedWithInfo: {
+    width: "170px",
+    height: "100%",
+  },
+  connectedWithText: {
+    padding: "0 10px",
+    borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+  },
+  connectedWithNames: {
+    width: "80%",
+    marginLeft: "auto",
+    padding: "10px 10px 10px 0",
+    fontFamily: "AvenirNextCyr, san-serif, arial",
+  },
   poplPagePoplCardButtonsContainer: {
     display: "flex",
     flexDirection: "column",
@@ -48,5 +72,23 @@ export default makeStyles((theme) => ({
     padding: "20px",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
+  },
+  notConnectedViaConnectContainer: {
+    height: "100%",
+    width: 300,
+    margin: "0 10px 0 auto",
+  },
+  noteWrapper: {
+    paddingTop: 15,
+    overflow: "hidden",
+    maxHeight: 100,
+  },
+  noteTitle: {
+    fontFamily: "AvenirNextCyr, sna-serif, arial",
+    fontSize: "16px",
+  },
+  noteText: {
+    fontFamily: "AvenirNextCyr, sna-serif, arial",
+    fontSize: "14px",
   },
 }));

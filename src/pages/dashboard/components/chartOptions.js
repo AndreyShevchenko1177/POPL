@@ -5,7 +5,7 @@ const chartOptions = {
       xAxes: [
         {
           gridLines: {
-            offsetGridLines: true,
+            // offsetGridLines: true,
           },
         },
       ],

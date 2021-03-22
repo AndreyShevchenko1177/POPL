@@ -22,7 +22,7 @@ import {
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
-import { profileIds } from "../../../profiles/store/actions";
+import { profileIds, getProfileAction } from "../../../profiles/store/actions";
 
 export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {
@@ -38,12 +38,13 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
     if (res.data) {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
-    const data = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
+    const data = await getCollectionData("people", idsArray);
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
-      payload: data.reduce((result, current) => ([...result, ...current.data?.history || []]), [])
-        .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })),
+      payload: data.reduce((result, current) => ([...result, ...current.data || []]), [])
+        .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")), names: idsArray.includes(d.profileId) ? [...d.names, d.profileId] : d.names })),
     });
+
     return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
@@ -123,13 +124,24 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
     if (data) {
       JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
     }
-    const result = await Promise.all(idsArray.map((id) => getCollectionData("people", id)));
+    const profileName = {};
+    const profilesData = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id))));
+    profilesData.forEach(({ data, id }) => profileName[id] = data.name);
+    const result = await getCollectionData("people", idsArray);
     const idsObject = {};
-    result.forEach(({ data, id }) => idsObject[id] = data.history.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
-
+    result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
+    let allConnections = Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []);
+    allConnections = allConnections.map((con, _, connections) => {
+      const names = connections
+        .filter(({ id }) => id === con.id) // searching for the same connections in all profiles
+        .map(({ profileId }) => profileId) // getting all profile ids with whome connection connected
+        .map((pId) => profileName[pId]) // getting profile names
+        .filter((f, index, arr) => arr.indexOf(f) === index); // remove dublicated connections
+      return { ...con, names };
+    });
     dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-      payload: { ...idsObject, allConnections: Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []), type },
+      payload: { ...idsObject, allConnections, type },
     });
     return dispatch(isFetchingAction(false));
   } catch (error) {

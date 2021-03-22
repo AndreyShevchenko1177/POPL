@@ -1,17 +1,11 @@
 const chartOptions = {
   options: {
-    // scales: {
-    //   xAxes: [
-    //     {
-    //       type: "time",
-    //     },
-    //   ],
-    // },
+    maintainAspectRatio: false,
     scales: {
       xAxes: [
         {
           gridLines: {
-            offsetGridLines: true,
+            // offsetGridLines: true,
           },
         },
       ],

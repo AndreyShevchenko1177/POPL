@@ -68,7 +68,7 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     </g>
   </svg>,
   logout: ({ fill, width, height }) => <svg height={height} width={width} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-    viewBox="0 0 512 512" fill='#FFF'>
+    viewBox="0 0 512 512" fill={fill}>
     <g>
       <g>
         <path d="M255.15,468.625H63.787c-11.737,0-21.262-9.526-21.262-21.262V64.638c0-11.737,9.526-21.262,21.262-21.262H255.15
@@ -117,7 +117,7 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     </g>
   </svg>,
   users: ({ fill, width, height }) => <svg height={height} width={width} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-    viewBox="0 0 42.5 42.5" fill='#FFF'>
+    viewBox="0 0 490.667 490.667" >
     <g>
       <g>
         <path fill={fill} d="M245.333,85.333c-41.173,0-74.667,33.493-74.667,74.667s33.493,74.667,74.667,74.667S320,201.173,320,160

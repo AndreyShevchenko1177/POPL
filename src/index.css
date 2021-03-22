@@ -37,6 +37,11 @@ a {
   position: relative;
 }
 
+/* display */
+.flex {
+  display: flex;
+}
+
 /* paddings */
 .main-padding {
   padding: 24px 40px;
@@ -47,8 +52,13 @@ a {
   cursor: default;
 }
 
+/* paddings */
 .pb-10 {
   padding-bottom: 10px;
+}
+
+.pt-5 {
+  padding-top: 5px;
 }
 
 /* width */

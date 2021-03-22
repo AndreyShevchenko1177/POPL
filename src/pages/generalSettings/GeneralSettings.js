@@ -6,7 +6,7 @@ function GeneralSettings() {
     <>
       <Header
         rootLink="Settings"
-        firstChild="General Settings"
+        lastChild="General Settings"
         path="/settings"
       />
     </>

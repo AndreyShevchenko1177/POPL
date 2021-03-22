@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingLeft: "16px",
   },
+  iconContainer: {
+    width: 20,
+    height: 20,
+  },
 }));
 
 function LinkItem({
@@ -40,7 +44,9 @@ function LinkItem({
       className={classes.container}
       onClick={redirect}
     >
-      {icon}
+      <div className={classes.iconContainer}>
+        {icon}
+      </div>
       <Typography
         className={classes.title}
         variant='h5'

@@ -19,9 +19,7 @@ const linksConfig = [
   {
     id: 3,
     name: "Logout",
-    // icon: <PaymentIcon />,
-    // icon: <SvgMaker name='logout' width={30} height={30} fill='#000000'/>,
-    path: "settings/billing",
+    icon: <SvgMaker name='logout' width={20} height={20} fill='#000000'/>,
   },
 ];
 
