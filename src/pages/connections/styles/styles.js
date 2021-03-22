@@ -11,6 +11,11 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
   },
+  poplsHeaderContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingBottom: "20px",
+  },
   poplCard: {
     width: "200px",
     height: "150px",
@@ -32,6 +37,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     width: "100%",
     height: 170,
+    minWidth: 1000,
     marginBottom: "10px",
     display: "flex",
     alignItems: "center",

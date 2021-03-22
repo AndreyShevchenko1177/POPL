@@ -38,6 +38,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
     if (res.data) {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
+
     const data = await getCollectionData("people", idsArray);
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
@@ -47,6 +48,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
 
     return dispatch(isFetchingAction(false));
   } catch (error) {
+    console.log(error);
     dispatch({
       type: GET_CONNECTIONS_FAIL,
       payload: error,

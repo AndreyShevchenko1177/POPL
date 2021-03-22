@@ -12,18 +12,22 @@ function ScreenTwo({
   const dispatch = useDispatch();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const addLinkSuccess = useSelector(({ profilesReducer }) => profilesReducer.addLink.data);
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(true);
+  const [inputValue, setInputValue] = useState({ title: "", value: "" });
+  const [isValid, setIsValid] = useState({ title: true, value: true });
 
   const handleSetLinkUrl = (event) => {
     event.persist();
-    setValue(event.target.value);
+    setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
 
   const addLink = () => {
-    if (!value) return setIsValid(false);
-    setIsValid(true);
-    dispatch(addLinkAction(value, profileData, id, userData.id));
+    const validation = { value: true, title: true };
+    if (!inputValue.value) validation.value = false;
+    if (!inputValue.title) validation.title = false;
+    setIsValid(validation);
+    if (Object.values(validation).includes(false)) return;
+    setIsValid({ title: true, value: true });
+    dispatch(addLinkAction(inputValue.value, inputValue.title, profileData, id, userData.id));
   };
 
   useEffect(() => {
@@ -38,19 +42,33 @@ function ScreenTwo({
     <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
         <div className={clsx(classes.link, classes.secondPageLink)}>
-          <img className={classes.secondScreenLinkImage} src={icon} alt={id} />
+          <img className={classes.secondScreenLinkImage} src={icon.icon} alt={id} />
         </div>
-        <div className={classes.linkValueWrapper}>
-          <div className={clsx(classes.linkValue, !isValid && classes.borderRed)}>
+        <div className={classes.linkInputsWrapper}>
+          <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
             <TextField
               fullWidth
-              value={value}
+              value={inputValue.title}
+              name='title'
+              placeholder='Link Title'
               onChange={handleSetLinkUrl}
               InputProps={{
                 disableUnderline: true,
               }}
             />
-            {!isValid && <span className={classes.errorText}>Mandatory field</span>}
+          </div>
+          <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
+            <TextField
+              fullWidth
+              value={inputValue.value}
+              name='value'
+              placeholder={icon.placeholder}
+              onChange={handleSetLinkUrl}
+              InputProps={{
+                disableUnderline: true,
+              }}
+            />
+            {(!isValid.value || !isValid.title) && <span className={classes.errorText}>Mandatory field</span>}
           </div>
         </div>
       </div>

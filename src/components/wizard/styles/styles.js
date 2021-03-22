@@ -91,11 +91,12 @@ export default makeStyles((theme) => ({
     textAlign: "center",
     cursor: "pointer",
   },
-  linkValueWrapper: {
+  linkInputsWrapper: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
     width: "100%",
-    padding: "50px 0 20px 0",
+    padding: "20px 0 20px 0",
     "@media (max-width:1400px)": {
       padding: "20px 0 20px 0",
     },

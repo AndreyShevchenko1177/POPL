@@ -2,11 +2,13 @@ import firebase, { db } from "./firebase.config";
 
 const getData = async (collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get();
-  return { data: data.data().history.map((con) => ({ ...con, profileId: docId, names: [] })), docId };
+  console.log(data.data());
+  return { data: data.data()?.history.map((con) => ({ ...con, profileId: docId, names: [] })), docId };
 };
 
 export const getCollectionData = async (collection, docIdArray) => {
   try {
+    console.log(docIdArray);
     await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
       console.log("in promise");
