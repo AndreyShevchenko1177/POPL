@@ -157,7 +157,7 @@ export default function Profiles() {
   }, [checkboxes]);
 
   return (
-    <div className="main-padding relative full-h">
+    <div className="main-padding relative full-h o-none">
       <Grid container alignItems="center">
         {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
         <SearchStripe

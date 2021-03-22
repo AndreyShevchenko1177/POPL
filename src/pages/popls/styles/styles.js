@@ -5,12 +5,14 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    outline: "none",
   },
   poplCard: {
     width: "200px",
     height: "150px",
     marginRight: "10px",
     padding: "5px",
+    outline: "none",
   },
   button: {
     height: "50px",
@@ -32,10 +34,12 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
+    outline: "none",
   },
   filtersContainer: {
     display: "flex",
     justifyContent: "flex-end",
     paddingBottom: 20,
+    outline: "none",
   },
 }));

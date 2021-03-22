@@ -13,7 +13,7 @@ function ScreenOne({ data, onClick }) {
             icon, id,
           })}
         >
-          <img style={{ width: "60px" }} src={icon} alt={id} />
+          <img style={{ width: "60px" }} src={icon.icon} alt={id} />
         </div>
       ))}
     </>

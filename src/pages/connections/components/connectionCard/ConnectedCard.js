@@ -13,7 +13,7 @@ import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
 
 export function ConnectedCard({
-  name, url, image, time, editAction, ...rest
+  name, url, image, time, editAction, names, ...rest
 }) {
   const classes = useStyles();
   return (
@@ -29,7 +29,6 @@ export function ConnectedCard({
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>
         <div className={classes.contenContainer}>
-          <Typography variant="h5">{name}</Typography>
           <table>
             <tbody className={classes.cardTable}>
               <tr>
@@ -37,23 +36,15 @@ export function ConnectedCard({
                 <td>{name}</td>
               </tr>
               <tr>
-                <td className={classes.tableCell}>URL:</td>
-                <td>{url && url.split("https://")[1]}</td>
+                <td className={classes.tableCell}>Connect Date:</td>
+                <td>{dateFormat(time)}</td>
               </tr>
               <tr>
-                <td className={classes.tableCell}>Created:</td>
-                <td>{dateFormat(time)}</td>
+                <td className={classes.tableCell}>URL:</td>
+                <td><a href={url} target='blank'>{url && url.split("https://")[1]}</a></td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div className={classes.connectedWithViewWrapper}>
-          <Paper className={classes.connectedWithInfo}>
-            <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
-            <div className={classes.connectedWithNames}>
-                Name
-            </div>
-          </Paper>
           <div className='pt-5'>
             <Button
               variant="text"
@@ -65,6 +56,14 @@ export function ConnectedCard({
                   View Profile
             </Button>
           </div>
+        </div>
+        <div className={classes.connectedWithViewWrapper}>
+          <Paper className={classes.connectedWithInfo}>
+            <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
+            <div className={classes.connectedWithNames}>
+              {names?.map((el, key) => <p key={key}> {el}</p>)}
+            </div>
+          </Paper>
         </div>
       </div>
       <div className={classes.poplPagePoplCardButtonsContainer}>

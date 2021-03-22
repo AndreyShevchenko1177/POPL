@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
     "@media (max-width:1000px)": {
       margin: "0 15px",
     },
+    outline: "none",
   },
   searchContainer: {
     display: "flex",
@@ -23,6 +24,7 @@ export default makeStyles((theme) => ({
     "@media (max-width:1000px)": {
       padding: "0 10px",
     },
+    outline: "none",
   },
   container: {
     display: "flex",
@@ -33,6 +35,7 @@ export default makeStyles((theme) => ({
     minWidth: "800px",
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
+    outline: "none",
   },
   activeDragContainer: {
     transform: "scale(0.98)",

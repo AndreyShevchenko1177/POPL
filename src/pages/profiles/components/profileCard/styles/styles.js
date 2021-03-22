@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
     maxHeight: 260,
     width: "100%",
     borderRadius: theme.custom.mainBorderForBigElement,
+    outline: "none",
   },
   rootBusinessModeBackground: {
     backgroundColor: "#f3f5f3",
@@ -19,10 +20,11 @@ export default makeStyles((theme) => ({
     width: "100%",
     "-webkit-box-shadow": "0px 0px 10px 10px rgba(240,240,240,0.54)",
     boxShadow: "0px 0px 10px 10px rgba(240,240,240,0.54)",
+    outline: "none",
   },
   mainContent: {
-
     width: "100%",
+    outline: "none",
   },
   trueProfile: {
     border: `1px solid ${theme.palette.primary.main}`,

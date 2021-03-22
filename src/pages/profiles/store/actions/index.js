@@ -87,13 +87,13 @@ export const getProfilesIds = (userId) => async (dispatch) => {
   }
 };
 
-const addLinkRequest = (value, { id, activeProfile }, iconId) => {
+const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
   bodyFormData.append("ajax", "1");
   bodyFormData.append("iID", id);
   bodyFormData.append("aLinksIDs[]", iconId);
-  bodyFormData.append("aTitles[]", "title");
+  bodyFormData.append("aTitles[]", title);
   bodyFormData.append("aValues[]", value);
   bodyFormData.append("aIcons[]", "");
   bodyFormData.append("aProfiles[]", activeProfile);
@@ -102,9 +102,9 @@ const addLinkRequest = (value, { id, activeProfile }, iconId) => {
   });
 };
 
-export const addLinkAction = (value, profileData, iconId, userId) => async (dispatch) => {
+export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch) => {
   try {
-    const result = await Promise.all(profileData.map((item) => addLinkRequest(value, item, iconId)));
+    const result = await Promise.all(profileData.map((item) => addLinkRequest(value, title, item, iconId)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",

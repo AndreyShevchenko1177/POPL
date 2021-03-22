@@ -26,9 +26,12 @@ export default makeStyles((theme) => ({
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     color: "#565956",
+    "& a": {
+      textDecoration: "underline",
+    },
   },
   tableCell: {
-    width: "100px",
+    width: "120px",
   },
   iconsButtonWrapper: {
     display: "flex",
@@ -46,11 +49,12 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     margin: "0 20px 0 auto",
-    paddingTop: 20,
+    padding: "20px 0",
   },
   connectedWithInfo: {
     width: "170px",
-    height: "100%",
+    maxHeight: "calc (100% - 40px)",
+    overflow: "auto",
   },
   connectedWithText: {
     padding: "0 10px",

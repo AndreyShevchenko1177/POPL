@@ -7,9 +7,6 @@ import Venmo from "../../../../assets/venmo.png";
 import Whatsapp from "../../../../assets/whatsapp.png";
 import Youtube from "../../../../assets/youtube.png";
 import Twitch from "../../../../assets/twitch.png";
-import Google from "../../../../assets/svg/google-plus.svg";
-import Amazon from "../../../../assets/svg/amazon-icon.svg";
-import Ripple from "../../../../assets/svg/ripple.svg";
 import Spotify from "../../../../assets/spotify.png";
 import TikTok from "../../../../assets/tiktok.png";
 import Pinterest from "../../../../assets/pinterest.png";
@@ -33,40 +30,141 @@ import OnlyFans from "../../../../assets/onlyfans.png";
 import Discord from "../../../../assets/discord.png";
 import Yelp from "../../../../assets/yelp.png";
 import Ambassador from "../../../../assets/ambassadorIcon.png";
+import Clubhouse from "../../../../assets/clubhouse.png";
 
 const icons = {
-  3: Instagram,
-  4: Snapchat,
-  5: Twitter,
-  6: Facebook,
-  7: Linkedin,
-  8: NumberIcon,
-  9: MailTo,
-  10: Youtube,
-  11: TikTok,
-  12: SoundCloud,
-  13: Spotify,
-  14: AppleMusic,
-  15: Venmo,
-  16: CashApp,
-  17: PayPal,
-  18: Whatsapp,
-  19: Pinterest,
-  21: Twitch,
-  22: ContactCard,
-  23: Custom,
-  24: Safari,
-  25: Address,
-  27: FaceTime,
-  28: Calendly,
-  29: OnlyFans,
-  30: Podcasts,
-  31: Call,
-  33: Discord,
-  34: Yelp,
-  35: Ambassador,
-  36: LinkTree,
-  37: File,
+  3: {
+    icon: Instagram,
+    placeholder: "Instagram username",
+  },
+  4: {
+    icon: Snapchat,
+    placeholder: "Snapchat username",
+  },
+  5: {
+    icon: Twitter,
+    placeholder: "Twitter username",
+  },
+  6: {
+    icon: Facebook,
+    placeholder: "Facebook profile link",
+  },
+  7: {
+    icon: Linkedin,
+    placeholder: "LinkedIn profile link",
+  },
+  8: {
+    icon: NumberIcon,
+    placeholder: "Phone number",
+  },
+  9: {
+    icon: MailTo,
+    placeholder: "Email address",
+  },
+  10: {
+    icon: Youtube,
+    placeholder: "Youtube user/channel link",
+  },
+  11: {
+    icon: TikTok,
+    placeholder: "TikTok username",
+  },
+  12: {
+    icon: SoundCloud,
+    placeholder: "SoundCloud username",
+  },
+  13: {
+    icon: Spotify,
+    placeholder: "Link to Spotify",
+  },
+  14: {
+    icon: AppleMusic,
+    placeholder: "Link to Apple Music",
+  },
+  15: {
+    icon: Venmo,
+    placeholder: "Venmo username",
+  },
+  16: {
+    icon: CashApp,
+    placeholder: "Cash App username",
+  },
+  17: {
+    icon: PayPal,
+    placeholder: "paypal.me link",
+  },
+  18: {
+    icon: Whatsapp,
+    placeholder: "WhatsApp number",
+  },
+  19: {
+    icon: Pinterest,
+    placeholder: "Pinterest username",
+  },
+  21: {
+    icon: Twitch,
+    placeholder: "Twitch username",
+  },
+  22: {
+    icon: ContactCard,
+    placeholder: "Phone number",
+  },
+  23: {
+    icon: Custom,
+    placeholder: "Any app or website link",
+  },
+  24: {
+    icon: Safari,
+    placeholder: "Website link",
+  },
+  25: {
+    icon: Address,
+    placeholder: "Business address",
+  },
+  27: {
+    icon: FaceTime,
+    placeholder: "FaceTime number",
+  },
+  28: {
+    icon: Calendly,
+    placeholder: "Calendly link",
+  },
+  29: {
+    icon: OnlyFans,
+    placeholder: "OnlyFans link",
+  },
+  30: {
+    icon: Podcasts,
+    placeholder: "Apple podcast link",
+  },
+  31: {
+    icon: Call,
+    placeholder: "Phone number",
+  },
+  33: {
+    icon: Discord,
+    placeholder: "",
+  },
+  34: {
+    icon: Yelp,
+    placeholder: "Yelp link",
+  },
+  35: {
+    icon: Ambassador,
+    placeholder: "Ambassador referral link",
+  },
+  36: {
+    icon: LinkTree,
+    placeholder: "Linktree link",
+  },
+  37: {
+    icon: File,
+    placeholder: "Tinder profile link",
+  },
+  38: {
+    icon: Clubhouse,
+    placeholder: "Your Clubhouse link",
+  },
 };
 
 export default icons;

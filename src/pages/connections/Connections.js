@@ -11,7 +11,6 @@ import {
 import ConnectionForm from "./components/connectionForm";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
-import "./styles/styles.css";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 
@@ -74,7 +73,7 @@ function Connections() {
 
   useEffect(() => {
     if (location.state?.id) return dispatch(getConnectionsAction(location.state?.id, "single"));
-    dispatch(getConnectionsAction(profileData.id));
+    dispatch(collectSelectedConnections(profileData.id, "allConnections"));
   }, []);
 
   useEffect(() => () => {
@@ -101,8 +100,6 @@ function Connections() {
     setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
-  console.log(dragableConnections);
-
   return (
     <>
       <Header
@@ -121,7 +118,7 @@ function Connections() {
         }
         }
       >
-        <div className="popls-header-container">
+        <div className={classes.poplsHeaderContainer}>
           <SearchStripe
             setFilters={showAll}
             fitlersCheck={fitlersCheck}
@@ -158,7 +155,7 @@ function Connections() {
                           {...provided.dragHandleProps}
                           elevation={3}
                         >
-                          {connection.noPopl
+                          {connection.noPopl || "noPopl" in connection
                             ? <NotConnectedCard
                               key={connection.customId}
                               {...connection}
