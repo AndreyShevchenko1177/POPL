@@ -65,7 +65,7 @@ function Billing() {
           variant='outlined'
           onClick={handleSubscribe}
         >
-          Maki all profiles pro
+          Make all profiles pro
         </Button>
       </div>
     </>
