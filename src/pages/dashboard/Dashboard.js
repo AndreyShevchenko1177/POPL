@@ -13,7 +13,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
@@ -24,7 +24,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!popsData) dispatch(getPopsAction(userId));
+    if (!popsData) dispatch(getPopsAction(userData.id));
   }, []);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function Dashboard() {
 
   return (
     <div className="main-padding">
-      <Typography variant="h3">Welcome</Typography>
+      <Typography variant="h3">Welcome {userData.name}</Typography>
       <div className={classes.buttonWrapper}>
         <Button
           variant="contained"
