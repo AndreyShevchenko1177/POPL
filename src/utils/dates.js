@@ -21,7 +21,7 @@ export function dateFormat(date, isTime) {
   )} ${isTime ? `${normalizeDate(getHours(date))}:${normalizeDate(getMinutes(date))}` : ""}`;
 }
 
-const months = [
+export const months = [
   "Jan",
   "Feb",
   "Mar",
@@ -34,4 +34,19 @@ const months = [
   "Oct",
   "Nov",
   "Dec",
+];
+
+export const monthsFullName = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];

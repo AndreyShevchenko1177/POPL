@@ -3,7 +3,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import useStyles from "./styles";
-import EmailInvite from "./EmailInvite";
+import EmailInvite from "./emailInvite";
 import LoginTab from "../loginTab";
 
 function TabPanel(props) {

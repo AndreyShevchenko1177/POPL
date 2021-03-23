@@ -1,60 +1,35 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, {
+  Fragment, useRef, useEffect,
+} from "react";
 import Calendar from "react-range-calendar";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { getYear, getMonth, getDay } from "../utils/dates";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-function CDatePicker(props) {
-  const currentDate1 = `${months[getMonth(new Date())]} ${getDay(
-    new Date()
-  )}, ${getYear(new Date())}-`;
-  const currentDate2 = `${months[getMonth(new Date())]} ${getDay(
-    new Date()
-  )}, ${getYear(new Date())}`;
-  const [state, setState] = useState({
-    visible: false,
-    dateRange: [new Date(), new Date()],
-    normalData: [currentDate1, currentDate2],
-  });
+function CDatePicker({ calendar, setCalendar, setDate }) {
   const ref = useRef();
 
   const blurhandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return; // чтобы событие onlur не сработало на родители, при взаимодействии с дочерними элементами
-    setState({ ...state, visible: false }); // убираем элемент с поля видимости
+    setCalendar({ ...calendar, visible: false }); // убираем элемент с поля видимости
   };
 
   useEffect(() => {
     ref.current && ref.current.focus();
-  }, [state.visible]);
+  }, [calendar.visible]);
 
   return (
     <Fragment>
       <div
         className="datepicker"
-        onClick={() => setState({ ...state, visible: !state.visible })}
+        onClick={() => setCalendar({ ...calendar, visible: !calendar.visible })}
       >
         <EventNoteIcon fontSize="small" />
-        {state.normalData.map((el, key) => (
+        {calendar.normalData.map((el, key) => (
           <span key={key}>{el}</span>
         ))}
         <ArrowDropDownIcon fontSize="small" />
       </div>
-      {state.visible && (
+      {calendar.visible && (
         <div
           style={{ position: "absolute", right: "0px", outline: "none" }}
           ref={ref}
@@ -62,23 +37,10 @@ function CDatePicker(props) {
           tabIndex={1}
         >
           <Calendar
-            visible={state.visible}
-            dateRange={state.dateRange}
+            visible={calendar.visible}
+            dateRange={calendar.dateRange}
             type="free-range"
-            onDateClick={(minDate, maxDate) => {
-              const minD = `${months[getMonth(minDate)]} ${getDay(
-                minDate
-              )}, ${getYear(minDate)}-`;
-              const maxD = `${months[getMonth(maxDate)]} ${getDay(
-                maxDate
-              )}, ${getYear(maxDate)}`;
-              setState({
-                ...state,
-                dateRange: [minDate, maxDate],
-                normalData: [minD, maxD],
-                visible: false,
-              });
-            }}
+            onDateClick={setDate}
           />
         </div>
       )}

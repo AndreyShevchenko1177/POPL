@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
   topStatisticsContainer: {
     width: "100%",
     display: "flex",
+    marginTop: 80,
     justifyContent: "space-between",
     minWidth: "800px",
   },

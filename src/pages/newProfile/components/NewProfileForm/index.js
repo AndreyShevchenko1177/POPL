@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import useStyles from "./styles";
-import TabNavigation from "./TabNavigation";
-import NewProfileHeader from "./NewProfileHeader";
+import TabNavigation from "./tabNavigation";
+import NewProfileHeader from "./newProfileHeader";
 
 export default function NewProfileForm() {
   const classes = useStyles();

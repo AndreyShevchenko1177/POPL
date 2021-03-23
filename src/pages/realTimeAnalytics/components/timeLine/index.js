@@ -27,7 +27,9 @@ const barData = [
   },
 ];
 
-export default function NetworkActivity({ data }) {
+export default function NetworkActivity({
+  data, calendar, setCalendar, setDate,
+}) {
   const classes = useStyles();
   const [chartData, setChartData] = useState();
   useEffect(() => {
@@ -49,14 +51,11 @@ export default function NetworkActivity({ data }) {
       <div className={classes["network-container__header"]}>
         <div className={classes["network-container__title"]}>
           <Typography variant="h5" className={classes.text}>
-            Time line chart
-          </Typography>
-          <Typography variant="h6" className={classes.text}>
-            SubTitle
+            Pops Over Time
           </Typography>
         </div>
         <div style={{ position: "relative" }}>
-          <DatePicker />
+          <DatePicker calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
