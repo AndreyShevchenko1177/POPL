@@ -154,7 +154,7 @@ const turnProfileRequest = (id, state) => {
   return axios({
     method: "post",
     url: "",
-    baseURL: "/profileOn",
+    baseURL: "/profile",
     data: profileData,
   });
 };
