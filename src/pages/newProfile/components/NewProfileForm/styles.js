@@ -60,4 +60,41 @@ export default makeStyles((theme) => ({
     padding: "10px 30px",
     minWidth: "150px",
   },
+  emailContainer: {
+    display: "flex",
+    border: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    borderRadius: theme.custom.mainBorderRadius,
+    width: "100%",
+  },
+  emailInput: {
+    width: "35%",
+    outline: "none",
+    border: "none",
+    // color: theme.custom.mainBorderGreyColor,
+    height: 19,
+    margin: "8px 13px 13px 5px",
+  },
+  emailChipContainer: {
+    width: "100%",
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    padding: 10,
+  },
+  emailChip: {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#e0e0e0",
+    height: 35,
+    margin: "0px 5px 5px 0px",
+    padding: "7px 10px",
+    borderRadius: "20px",
+    "& p": {
+      paddingRight: 5,
+    },
+  },
+  icon: {
+    cursor: "pointer",
+    fill: "rgba(0, 0, 0, 0.26)",
+  },
 }));
