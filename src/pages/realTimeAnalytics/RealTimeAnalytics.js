@@ -53,7 +53,7 @@ function RealTimeAnalytics() {
   useEffect(() => {
     dispatch(getProfilesIds(userId));
     if (!popsData) {
-      dispatch(getPopsAction(4822));
+      dispatch(getPopsAction(userId));
     }
   }, []);
 
@@ -73,7 +73,6 @@ function RealTimeAnalytics() {
         firstChild='Overall'
         path="/profiles"
       />
-      {console.log(chartData)}
       <div className="real-time-analytics-container">
         <TopStatistics
           popsCount={topStatisticsData.data?.popsCount}

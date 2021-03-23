@@ -5,16 +5,24 @@ import {
 
 export function generateChartData(popsData, calendar) {
   let calendarRange;
+  let currentDate;
   if (calendar) {
     const { maxDate, minDate } = calendar;
-    let a = moment([getYear(maxDate), normalizeDate(getMonth(maxDate) + 1), normalizeDate(getDay(maxDate))]);
-    let b = moment([getYear(minDate), normalizeDate(getMonth(minDate) + 1), normalizeDate(getDay(minDate))]);
+    const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate) + 1)}-${normalizeDate(getDay(maxDate))}`.split("-");
+    const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate) + 1)}-${normalizeDate(getDay(minDate))}`.split("-");
+    let a = moment([_maxdY, _maxdM, _maxdD]);
+    let b = moment([_mindY, _mindM, _mindD]);
     calendarRange = Math.abs(a.diff(b, "days"));
+    if (_maxdD < _mindD || _maxdM < _mindM || _maxdY < _mindY) {
+      currentDate = new Date(calendar.minDate);
+    } else {
+      currentDate = new Date(calendar.maxDate);
+    }
+  } else {
+    currentDate = new Date();
   }
 
   const result = {};
-  const currentDate = calendarRange ? new Date(calendar.maxDate) : new Date();
-
   // initing result object dates
   for (let i = calendarRange || 13; i > 0; i--) {
     const date = new Date().setDate(currentDate.getDate() - i);

@@ -42,7 +42,7 @@ export default function NetworkActivity({
       });
       chartOptions.data.datasets[0].data = result;
       chartOptions.data.labels = labels;
-      setChartData(chartOptions.data);
+      setChartData({ ...chartOptions.data });
     }
   }, [data]);
 
@@ -66,6 +66,7 @@ export default function NetworkActivity({
             />
           ) : (
             <>
+              {/* {console.log(chartData)} */}
               <Line options={chartOptions.options} data={chartData} />
               {!chartData?.datasets[0]?.data?.length && (
                 <div className={classes.noDataText}>
