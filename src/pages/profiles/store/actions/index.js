@@ -9,7 +9,6 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
-  SET_DIRECT_ON_OFF_SUCCESS,
   SET_DIRECT_ON_OFF_FAIL,
   SET_PROFILE_STATUS_FAIL,
   CLEAR_STATE,
@@ -147,10 +146,36 @@ const directRequest = (id, state) => {
   return axios.post("", bodyFormData);
 };
 
+const turnProfileRequest = (id, state) => {
+  const profileData = {
+    id,
+    value: state,
+  };
+  return axios({
+    method: "post",
+    url: "",
+    baseURL: "/profileOn",
+    data: profileData,
+  });
+};
+
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => directRequest(el, state)));
+    if (userId) return dispatch(getProfilesIds(userId));
+  } catch (error) {
+    return dispatch({
+      type: SET_DIRECT_ON_OFF_FAIL,
+      error,
+    });
+  }
+};
+
+export const turnProfileAction = (profileIds, state, userId) => async (dispatch) => {
+  try {
+    if (userId) dispatch(isFetchingAction(true));
+    await Promise.all(profileIds.map((el) => turnProfileRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({

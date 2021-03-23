@@ -68,6 +68,7 @@ export default makeStyles((theme) => ({
   },
   poplPagePoplCardButtonsContainer: {
     display: "flex",
+    position: "relative",
     flexDirection: "column",
     marginLeft: "auto",
     width: "150px",
@@ -76,6 +77,11 @@ export default makeStyles((theme) => ({
     padding: "20px",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
+  },
+  deleteButton: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
   notConnectedViaConnectContainer: {
     height: "100%",

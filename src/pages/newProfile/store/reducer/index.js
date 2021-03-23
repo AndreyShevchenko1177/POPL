@@ -3,6 +3,8 @@ import {
   ADD_CHILD_PROFILE_FAIL,
   SIGN_IN_CHILD_SUCCESS,
   SIGN_IN_CHILD_FAIL,
+  INVITE_BY_EMAIL_SUCCESS,
+  INVITE_BY_EMAIL_FAIL,
   CLEAR_STATE,
 } from "../actionTypes";
 
@@ -13,6 +15,10 @@ const initialState = {
   },
   childSignIn: {
     data: null,
+    error: null,
+  },
+  inviteByEmail: {
+    success: false,
     error: null,
   },
 };
@@ -54,6 +60,24 @@ export default function addProfilesReducer(
       ...state,
       childSignIn: {
         data: null,
+        error: payload,
+      },
+    };
+  }
+  case INVITE_BY_EMAIL_SUCCESS: {
+    return {
+      ...state,
+      inviteByEmail: {
+        success: true,
+        error: null,
+      },
+    };
+  }
+  case INVITE_BY_EMAIL_FAIL: {
+    return {
+      ...state,
+      inviteByEmail: {
+        success: false,
         error: payload,
       },
     };

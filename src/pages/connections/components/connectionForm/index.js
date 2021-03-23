@@ -5,11 +5,13 @@ import { editConnectionAction, addConnectionAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles/style";
 
-function PoplForm({ popl, setIsOpenForm, mid }) {
+function ConnectionForm({ connection, setIsOpenForm, mid }) {
   const classes = useStyles();
   const [value, setValue] = useState({
     name: "",
-    slug: "",
+    email: "",
+    phone: "",
+    note: "",
   });
   const dispatch = useDispatch();
   const [isAdd, setIsAdd] = useState(false);
@@ -21,14 +23,17 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
     const { name, value } = event.target;
     setValue((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = () => {
-    if (!isAdd) return dispatch(editConnectionAction({ id: popl.id, mid, ...value }));
+    if (!isAdd) return dispatch(editConnectionAction({ id: connection.id, mid, ...value }));
     dispatch(addConnectionAction({ mid, ...value }));
   };
 
   useEffect(() => {
-    if (popl) return setValue({ name: popl.name, slug: popl.url });
+    if (connection) {
+      return setValue({
+        name: connection.name, email: connection.email, phone: connection.number, note: connection.note,
+      });
+    }
     setIsAdd(true);
   }, []);
 
@@ -87,7 +92,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
       <TextField
         size="small"
         classes={{ root: classes.inputs }}
-        placeholder="Name"
+        placeholder="name"
         variant="outlined"
         value={value.name}
         name="name"
@@ -96,10 +101,28 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
       <TextField
         classes={{ root: classes.inputs }}
         size="small"
-        placeholder="slug"
+        placeholder="email"
         variant="outlined"
-        value={value.slug}
+        value={value.email}
         name="slug"
+        onChange={handleChage}
+      />
+      <TextField
+        classes={{ root: classes.inputs }}
+        size="small"
+        placeholder="phone"
+        variant="outlined"
+        value={value.phone}
+        name="phone"
+        onChange={handleChage}
+      />
+      <TextField
+        classes={{ root: classes.inputs }}
+        size="small"
+        placeholder="note"
+        variant="outlined"
+        value={value.note}
+        name="note"
         onChange={handleChage}
       />
       <div className={classes.buttonsConatiner}>
@@ -118,4 +141,4 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
   );
 }
 
-export default PoplForm;
+export default ConnectionForm;

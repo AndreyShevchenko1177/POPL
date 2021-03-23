@@ -22,7 +22,7 @@ function Connections() {
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const { data: filterConnections } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
   const [isOpenForm, setIsOpenForm] = useState(false);
-  const [currentPopl, setCurrentPopl] = useState();
+  const [currentConnection, setCurrentConnection] = useState();
   const [dragableConnections, setConnections] = useState([]);
   const [fitlersCheck, setFiltersCheck] = useState({});
   const [needHeight, setNeedHeight] = useState({
@@ -30,11 +30,11 @@ function Connections() {
     offset: 0,
   });
 
-  const handleOpenForm = (popl) => {
-    if (popl) {
-      setCurrentPopl(popl);
+  const handleOpenForm = (connection) => {
+    if (connection) {
+      setCurrentConnection(connection);
     } else {
-      setCurrentPopl();
+      setCurrentConnection();
     }
     setIsOpenForm(true);
   };
@@ -185,7 +185,7 @@ function Connections() {
           <DialogContent>
             <ConnectionForm
               setIsOpenForm={setIsOpenForm}
-              popl={currentPopl}
+              connection={currentConnection}
             />
           </DialogContent>
         </Dialog>

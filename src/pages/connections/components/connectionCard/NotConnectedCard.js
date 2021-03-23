@@ -61,29 +61,14 @@ export function NotConnectedCard({
           startIcon={<EditIcon />}
           className={classes.button}
           onClick={() => editAction({
-            ...rest, name, url, image, time,
+            ...rest, name, email, number, note,
           })}
         >
           Edit
         </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          startIcon={<EqualizerIcon />}
-          className={classes.button}
-        >
-          Analytics
-        </Button>
         <div className={classes.iconsButtonWrapper}>
           <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <FileCopyIcon />
-          </IconButton>
-          <IconButton
+            className={classes.deleteButton}
             color="primary"
             aria-label="upload picture"
             component="span"

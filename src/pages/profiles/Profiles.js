@@ -4,7 +4,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import { getProfilesIds, setDirectAction, setProfileStatusAction } from "./store/actions";
+import {
+  getProfilesIds, setDirectAction, setProfileStatusAction, turnProfileAction,
+} from "./store/actions";
 import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
@@ -114,6 +116,12 @@ export default function Profiles() {
       }
       if (name === "makePersonal") {
         dispatch(setProfileStatusAction(profileIds, "1", userData.id));
+      }
+      if (name === "turnProfileOn") {
+        dispatch(turnProfileAction(profileIds, "0", userData.id));
+      }
+      if (name === "turnProfileOff") {
+        dispatch(turnProfileAction(profileIds, "1", userData.id));
       }
     } else {
       dispatch(snackBarAction({

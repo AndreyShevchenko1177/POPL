@@ -4,10 +4,9 @@ export default makeStyles((theme) => ({
   container: {
     padding: "10px",
     width: "400px",
-    height: "300px",
+    height: "400px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
     position: "relative",
   },
   buttonsConatiner: {
@@ -15,7 +14,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     width: "200px",
-    bottom: "5px",
+    bottom: "30px",
   },
   inputs: {
     margin: "10px 0",

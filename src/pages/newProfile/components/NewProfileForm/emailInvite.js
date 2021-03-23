@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Button, Grid, Icon } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { inviteByEmailAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 
@@ -8,6 +10,7 @@ function EmailInvite() {
   const [value, setValue] = useState("");
   const [email, setEmail] = useState([]);
   const classes = useStyles();
+  const dispatch = useDispatch();
   const regexp = /@/;
 
   const handleChange = (event) => {
@@ -19,6 +22,8 @@ function EmailInvite() {
     }
     setValue(event.target.value);
   };
+
+  const handleInvite = () => dispatch(inviteByEmailAction(email));
 
   const handleKeyChange = (event) => {
     if (event.code === "Backspace" && !value) {
@@ -40,22 +45,10 @@ function EmailInvite() {
             </p>
             <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
           </div>)}
-          <input placeholder='Enter Emails separated by commas' className={classes.emailInput} onChange={handleChange} onKeyUp={handleKeyChange} value={value}/>
+          <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyUp={handleKeyChange} value={value}/>
         </div>
 
       </div>
-      {/* <Grid item xs={12}>
-        <TextField
-          id="standard-multiline-flexible"
-          label="Enter Emails separated by commas"
-          variant="outlined"
-          fullWidth
-          multiline
-          rows={4}
-          value={value}
-          onChange={handleChange}
-        />
-      </Grid> */}
       <Grid
         item
         xs={12}
@@ -71,6 +64,7 @@ function EmailInvite() {
         <Button
           className={classes.emailBtn}
           variant="contained"
+          onClick={handleInvite}
           color="primary"
         >
           Send Invites!

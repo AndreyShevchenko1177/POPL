@@ -1,12 +1,11 @@
-import React, { useRef } from "react";
-import { Button, Grid, Paper } from "@material-ui/core";
+import React from "react";
+import { Grid, Paper } from "@material-ui/core";
 import useStyles from "./styles";
-import TabNavigation from "./tabNavigation";
-import NewProfileHeader from "./newProfileHeader";
+import TabNavigation from "./TabNavigation";
+import NewProfileHeader from "./NewProfileHeader";
 
 export default function NewProfileForm() {
   const classes = useStyles();
-  const imgRef = useRef(null);
 
   return (
     <>
@@ -21,49 +20,3 @@ export default function NewProfileForm() {
     </>
   );
 }
-
-/* <Paper elevation={3} className={classes.section}>
-            <Grid container spacing={2} justify="center">
-              {fieldsConfig.map((el) => (
-                <Grid
-                  key={el.placeholder}
-                  item
-                  xl={6}
-                  lg={6}
-                  md={6}
-                  sm={12}
-                  xs={12}
-                >
-                  <OutlinedInput
-                    fullWidth
-                    variant="outlined"
-                    placeholder={el.placeholder}
-                    startAdornment={
-                      <InputAdornment
-                        position="start"
-                        className={classes.adornment}
-                      >
-                        {el.component}
-                      </InputAdornment>
-                    }
-                    endAdornment={
-                      <IconButton>
-                        <Close />
-                      </IconButton>
-                    }
-                  />
-                </Grid>
-              ))}
-
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.saveBtn}
-                >
-                  Save
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper> */

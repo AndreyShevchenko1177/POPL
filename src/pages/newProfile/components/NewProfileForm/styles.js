@@ -67,7 +67,6 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   emailInput: {
-    width: "35%",
     outline: "none",
     border: "none",
     // color: theme.custom.mainBorderGreyColor,
@@ -76,6 +75,7 @@ export default makeStyles((theme) => ({
   },
   emailChipContainer: {
     width: "100%",
+    minHeight: "100px",
     display: "flex",
     flexWrap: "wrap",
     flexDirection: "row",

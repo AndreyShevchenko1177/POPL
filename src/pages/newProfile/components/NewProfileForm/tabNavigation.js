@@ -3,11 +3,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import useStyles from "./styles";
-import EmailInvite from "./emailInvite";
+import EmailInvite from "./EmailInvite";
 import LoginTab from "../loginTab";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
