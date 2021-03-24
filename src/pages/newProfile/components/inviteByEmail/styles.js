@@ -59,6 +59,7 @@ export default makeStyles((theme) => ({
   emailBtn: {
     padding: "10px 30px",
     minWidth: "150px",
+    height: 50,
   },
   emailContainer: {
     display: "flex",
@@ -73,6 +74,10 @@ export default makeStyles((theme) => ({
     height: 19,
     margin: "8px 13px 13px 5px",
   },
+  emailsComponentWrapper: {
+    position: "relative",
+    minHeight: "200px",
+  },
   emailChipContainer: {
     width: "100%",
     minHeight: "100px",
@@ -80,6 +85,12 @@ export default makeStyles((theme) => ({
     flexWrap: "wrap",
     flexDirection: "row",
     padding: 10,
+  },
+  buttonsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: "30px 0 0 0",
   },
   emailChip: {
     display: "flex",

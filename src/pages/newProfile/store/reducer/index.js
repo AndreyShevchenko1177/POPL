@@ -5,6 +5,7 @@ import {
   SIGN_IN_CHILD_FAIL,
   INVITE_BY_EMAIL_SUCCESS,
   INVITE_BY_EMAIL_FAIL,
+  IS_DATA_FETCHING,
   CLEAR_STATE,
 } from "../actionTypes";
 
@@ -21,6 +22,7 @@ const initialState = {
     success: false,
     error: null,
   },
+  isFetching: false,
 };
 
 export default function addProfilesReducer(
@@ -80,6 +82,12 @@ export default function addProfilesReducer(
         success: false,
         error: payload,
       },
+    };
+  }
+  case IS_DATA_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAR_STATE: {
