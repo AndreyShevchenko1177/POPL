@@ -66,13 +66,13 @@ export default function NetworkActivity({
             />
           ) : (
             <>
-              {/* {console.log(chartData)} */}
-              <Line options={chartOptions.options} data={chartData} />
-              {!chartData?.datasets[0]?.data?.length && (
-                <div className={classes.noDataText}>
+              {console.log(chartData)}
+              {chartData?.datasets[0]?.data?.some((v) => v) ? <Line options={chartOptions.options} data={chartData} />
+                : (
+                  <div className={classes.noDataText}>
                   No data for this period
-                </div>
-              )}
+                  </div>
+                )}
             </>
           )}
         </div>

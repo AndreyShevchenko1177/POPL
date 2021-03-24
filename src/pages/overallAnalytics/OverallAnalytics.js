@@ -62,10 +62,10 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    dispatch(getProfilesIds(4822));
+    dispatch(getProfilesIds(location.state?.id || userId));
 
     if (!popsData) {
-      dispatch(getPopsAction(location.state && location.state.id));
+      dispatch(getPopsAction(location.state?.id));
     }
     return () => {
       dispatch(cleanAction());

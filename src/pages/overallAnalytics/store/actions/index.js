@@ -46,11 +46,10 @@ export const getPopsAction = (userId) => async (dispatch, getState) => {
       const response = await Promise.all(ids.map((id) => popsActionRequest(id)));
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
     } else {
-      const response = await popsActionRequest(id);
+      const response = await popsActionRequest(userId);
       result = response.data;
     }
 
-    console.log(result);
     if (typeof response === "string") {
       dispatch(
         snackBarAction({
