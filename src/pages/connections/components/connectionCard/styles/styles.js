@@ -8,10 +8,14 @@ export default makeStyles((theme) => ({
     height: "130px",
     marginLeft: "10px",
     padding: "20px 0",
+    "& .MuiSvgIcon-root": {
+      width: "30px",
+      height: "30px",
+    },
   },
   leftContentWrapper: {
     display: "flex",
-    width: "calc(100% - 150px)",
+    width: "calc(100% - 100px)",
   },
   avatar: {
     width: "120px",
@@ -66,17 +70,30 @@ export default makeStyles((theme) => ({
     padding: "10px 10px 10px 0",
     fontFamily: "AvenirNextCyr, san-serif, arial",
   },
-  poplPagePoplCardButtonsContainer: {
+  showMoreWrapper: {
     display: "flex",
-    position: "relative",
-    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: "auto",
-    width: "150px",
+    width: "100px",
     height: "100%",
-    backgroundColor: "#e8ede8",
-    padding: "20px",
-    borderTopRightRadius: theme.custom.mainBorderForBigElement,
-    borderBottomRightRadius: theme.custom.mainBorderForBigElement,
+  },
+  showMoreContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    "&:hover": {
+      backgroundColor: "#e5e0e0",
+    },
+    transition: "background-color 200ms linear",
+  },
+  showMoreIcon: {
+    fontSize: "30px",
+    cursor: "pointer",
+    fill: "#908d8d",
   },
   deleteButton: {
     position: "absolute",
@@ -100,5 +117,29 @@ export default makeStyles((theme) => ({
   noteText: {
     fontFamily: "AvenirNextCyr, sna-serif, arial",
     fontSize: "14px",
+  },
+  popupWrapper: {
+    position: "absolute",
+    display: "flex",
+    zIndex: 1000,
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "10px 10px 10px 10px",
+    outline: "none",
+    width: 100,
+    right: 10,
+    top: 110,
+    minHeight: 30,
+    "& > div": {
+      padding: "3px 0 3px 10px",
+      fontFamily: "AvenirNextCyr, sna-serif, arial",
+      fontWeight: "500",
+      border: "1px solid #ffffff",
+      cursor: "pointer",
+      "&:hover": {
+        borderColor: "#e5e0e0",
+        borderRadius: theme.custom.mainBorderRadius,
+      },
+    },
   },
 }));

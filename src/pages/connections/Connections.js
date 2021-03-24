@@ -73,7 +73,7 @@ function Connections() {
 
   useEffect(() => {
     if (location.state?.id) return dispatch(getConnectionsAction(location.state?.id, "single"));
-    dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+    dispatch(collectSelectedConnections(4822, "allConnections"));
   }, []);
 
   useEffect(() => () => {
@@ -143,12 +143,14 @@ function Connections() {
                 >
                   {dragableConnections.map((connection, index) => (
                     <Draggable
+                      tabIndex={1}
                       key={connection.customId}
                       draggableId={`${connection.customId}`}
                       index={index}
                     >
                       {(provided) => (
                         <Paper
+                          tabIndex={1}
                           className={classes.connectContainer}
                           ref={provided.innerRef}
                           {...provided.draggableProps}

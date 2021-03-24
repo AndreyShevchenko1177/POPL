@@ -47,7 +47,6 @@ let theme = createMuiTheme({
         boxShadow: "0px 0px 30px rgba(0,0,0,0.2)",
       },
     },
-
     MuiListItemText: {
       primary: {
         color: "#f9f9f9",

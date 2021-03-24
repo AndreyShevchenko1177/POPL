@@ -20,7 +20,7 @@ function PoplCard({ popl, editAction }) {
         <Checkbox
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}
-          style={{ width: "40px", height: "40px", transform: "scale(1.5)" }}
+          style={{ width: "40px", height: "40px" }}
         />
         <img className={classes.avatar} alt="logo" src={userIcon} />
       </div>
