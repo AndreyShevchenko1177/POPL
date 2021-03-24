@@ -3,11 +3,12 @@
 import axios from "axios";
 
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, CLEAN,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
 import { getPoplsData } from "../../../popls/store/actions";
+import { profileIds } from "../../../profiles/store/actions";
 
 const getPops = async (id) => {
   try {
@@ -24,17 +25,32 @@ const getPops = async (id) => {
   }
 };
 
-export const getPopsAction = (id) => async (dispatch) => {
+const popsActionRequest = (id) => {
+  const getPopsFormData = new FormData();
+  getPopsFormData.append("sAction", "AjaxGetPops");
+  getPopsFormData.append("pid", Number(id));
+  getPopsFormData.append("ajax", 1);
+
+  return axios.post("", getPopsFormData, {
+    withCredentials: true,
+  });
+};
+
+export const getPopsAction = (userId) => async (dispatch, getState) => {
   try {
-    const getPopsFormData = new FormData();
-    getPopsFormData.append("sAction", "AjaxGetPops");
-    getPopsFormData.append("pid", Number(id));
-    getPopsFormData.append("ajax", 1);
+    const { id } = getState().authReducer.signIn.data;
+    let result;
+    if (!userId) {
+      const { data } = await profileIds(id);
+      const ids = JSON.parse(data);
+      const response = await Promise.all(ids.map((id) => popsActionRequest(id)));
+      result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
+    } else {
+      const response = await popsActionRequest(id);
+      result = response.data;
+    }
 
-    const response = await axios.post("", getPopsFormData, {
-      withCredentials: true,
-    });
-
+    console.log(result);
     if (typeof response === "string") {
       dispatch(
         snackBarAction({
@@ -51,7 +67,7 @@ export const getPopsAction = (id) => async (dispatch) => {
     }
     return dispatch({
       type: GET_POPS_SUCCESS,
-      payload: response.data,
+      payload: result,
     });
   } catch (error) {
     console.log(error);
@@ -92,3 +108,7 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
     payload: result,
   });
 };
+
+export const cleanAction = () => ({
+  type: CLEAN,
+});

@@ -19,15 +19,16 @@ export function generateChartData(popsData, minDate, maxDate) {
   }
 
   const result = {};
+  console.log(calendarRange, currentDate);
+  let date = new Date().setDate(`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`) + 86400000;
   // initing result object dates
   for (let i = calendarRange || 13; i > 0; i--) {
-    const date = new Date().setDate(currentDate.getDate() - i);
+    date -= 86400000;
     const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
     result[key] = 0;
   }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
   const [_cy, currentMonth, _cd] = `${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`.split("-");
-
   // counting pops quantity for last 14 days
   popsData.forEach((pop) => {
     const [_ry, receiveMonth, receiveDay] = pop[2].split(" ")[0].split("-");

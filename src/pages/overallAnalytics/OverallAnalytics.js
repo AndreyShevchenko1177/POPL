@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
-import { getPopsAction } from "./store/actions";
+import { getPopsAction, cleanAction } from "./store/actions";
 import { getProfilesIds } from "../profiles/store/actions";
 import "./styles/styles.css";
 import {
@@ -62,10 +62,14 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    dispatch(getProfilesIds(userId));
+    dispatch(getProfilesIds(4822));
+
     if (!popsData) {
-      dispatch(getPopsAction(userId));
+      dispatch(getPopsAction(location.state && location.state.id));
     }
+    return () => {
+      dispatch(cleanAction());
+    };
   }, []);
 
   useEffect(() => {
