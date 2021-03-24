@@ -13,6 +13,10 @@ function CDatePicker({ calendar, setCalendar, setDate }) {
     setCalendar({ ...calendar, visible: false }); // убираем элемент с поля видимости
   };
 
+  const clickCalendar = () => {
+    setCalendar({ ...calendar, visible: !calendar.visible });
+  };
+
   useEffect(() => {
     ref.current && ref.current.focus();
   }, [calendar.visible]);
@@ -21,7 +25,7 @@ function CDatePicker({ calendar, setCalendar, setDate }) {
     <Fragment>
       <div
         className="datepicker"
-        onClick={() => setCalendar({ ...calendar, visible: !calendar.visible })}
+        onClick={clickCalendar}
       >
         <EventNoteIcon fontSize="small" />
         {calendar.normalData.map((el, key) => (

@@ -6,7 +6,7 @@ import { Paper, Typography, Button } from "@material-ui/core";
 import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
-import { getPopsAction } from "../realTimeAnalytics/store/actions";
+import { getPopsAction } from "../overallAnalytics/store/actions";
 import { generateChartData } from "../../utils";
 
 export default function Dashboard() {

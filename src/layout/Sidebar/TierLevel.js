@@ -9,7 +9,7 @@ function TierLevel({ used, max }) {
     <div className={classes.tierContainer}>
       <div className={classes.tierHeader}>
         <div className={classes.tierIcon}>
-          <SvgMaker fill='#fff' width={30} height={30} name='users'/>
+          <SvgMaker fill="#000000" width={30} height={30} name='users'/>
           {/* <img src={users} /> */}
         </div>
         <span>Tier Level</span>
@@ -17,13 +17,13 @@ function TierLevel({ used, max }) {
       <>
         <div className={classes.barTrack}>
           <div
-            style={{ width: `${(250 * used) / 100}px` }}
+            style={{ width: `${((used / max) * 100) > 100 ? 100 : (used / max) * 100}%`, backgroundColor: ((used / max) * 100) > 100 ? "#F52B00" : "#73bef2" }}
             className={classes.networkContainerBarItem}
           ></div>
         </div>
       </>
       <div className={classes.tierValue}>
-        <span>{used} profiles of {max} profiles used</span>
+        <span>{used || ""} profiles of {max} profiles used</span>
       </div>
       <Button
         variant='outlined'

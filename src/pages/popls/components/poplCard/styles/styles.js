@@ -8,6 +8,10 @@ export default makeStyles((theme) => ({
     maxWidth: "150px",
     height: "100px",
     marginLeft: "10px",
+    "& .MuiSvgIcon-root": {
+      width: "30px",
+      height: "30px",
+    },
   },
   avatar: {
     width: "100px",

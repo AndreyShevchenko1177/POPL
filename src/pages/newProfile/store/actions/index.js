@@ -5,7 +5,7 @@ import {
   ADD_CHILD_PROFILE_FAIL,
   SIGN_IN_CHILD_SUCCESS,
   SIGN_IN_CHILD_FAIL,
-  INVITE_BY_EMAIL_SUCCESS,
+  IS_DATA_FETCHING,
   INVITE_BY_EMAIL_FAIL,
   CLEAR_STATE,
 } from "../actionTypes";
@@ -87,23 +87,25 @@ export const signInChildAction = (credo) => async (dispatch) => {
 const inviteByEmailRequest = (email) => {
   const formdata = new FormData();
   formdata.append("ajax", "1");
+  formdata.append("sAction", "ActivatedPoplProEmail");
   formdata.append("sToEmail", email);
   formdata.append("sToName", "name");
   formdata.append("sSubject", "Hey name, time to go pro :rocket:");
   return axios.post("", formdata);
 };
 
-export const inviteByEmailAction = (emails) => async (dispatch) => {
+export const inviteByEmailAction = (emails, callBack) => async (dispatch) => {
   try {
-    console.log(emails);
-    const result = await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString)));
-    console.log(result);
+    dispatch(isFetchingAction(true));
+    await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString)));
+    callBack([]);
+    dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
       type: INVITE_BY_EMAIL_FAIL,
       payload: error,
     });
-
+    dispatch(isFetchingAction(false));
     dispatch(
       snackBarAction({
         message: "Server error",
@@ -114,6 +116,11 @@ export const inviteByEmailAction = (emails) => async (dispatch) => {
     );
   }
 };
+
+const isFetchingAction = (isFetching) => ({
+  type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
 
 export const clearStateAction = (name) => (dispatch) => dispatch({
   type: CLEAR_STATE,

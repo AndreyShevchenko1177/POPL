@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Checkbox, Typography, IconButton, Button,
+  Checkbox, Typography,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
+import Popup from "./Popup";
 
 export function NotConnectedCard({
   name, url, image, time, editAction, note, number, email, ...rest
 }) {
   const classes = useStyles();
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+  const handleDeleteConnection = () => {
+    setIsOpenPopup(false);
+    console.log(`delete ${name} connection`);
+  };
+
+  const popupConfig = [
+    {
+      id: 2,
+      name: "Edit",
+      onClick: () => editAction({
+        ...rest, name, email, number, note,
+      }),
+    },
+    {
+      id: 1,
+      name: "Delete",
+      onClick: handleDeleteConnection,
+    },
+  ];
   return (
     <>
       <DragDots position="center" />
@@ -54,27 +73,10 @@ export function NotConnectedCard({
           </div>
         </div>
       </div>
-      <div className={classes.poplPagePoplCardButtonsContainer}>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<EditIcon />}
-          className={classes.button}
-          onClick={() => editAction({
-            ...rest, name, email, number, note,
-          })}
-        >
-          Edit
-        </Button>
-        <div className={classes.iconsButtonWrapper}>
-          <IconButton
-            className={classes.deleteButton}
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <DeleteOutlineIcon />
-          </IconButton>
+      <div className={classes.showMoreWrapper}>
+        <div className={classes.showMoreContainer}>
+          <MoreVertIcon className={classes.showMoreIcon} onClick={() => setIsOpenPopup(!isOpenPopup)} />
+          <Popup config={popupConfig} isOpen={isOpenPopup} handleClose={() => setIsOpenPopup(false)} />
         </div>
       </div>
     </>

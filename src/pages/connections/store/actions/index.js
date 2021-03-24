@@ -39,7 +39,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
       JSON.parse(res.data).forEach((id) => idsArray.push(id));
     }
     const profileName = {};
-    const profilesData = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id))));
+    const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     profilesData.forEach(({ data, id }) => profileName[id] = data.name);
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
@@ -139,7 +139,7 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
       JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
     }
     const profileName = {};
-    const profilesData = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id))));
+    const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     profilesData.forEach(({ data, id }) => profileName[id] = data.name);
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};

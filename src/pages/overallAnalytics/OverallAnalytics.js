@@ -7,11 +7,11 @@ import { getPopsAction } from "./store/actions";
 import { getProfilesIds } from "../profiles/store/actions";
 import "./styles/styles.css";
 import {
-  generateChartData, getYear, getMonth, getDay, monthsFullName,
+  generateChartData, getYear, getMonth, getDay, monthsFullName, normalizeDate,
 } from "../../utils";
 import Header from "../../components/Header";
 
-function RealTimeAnalytics() {
+function OverallAnalytics() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
@@ -24,30 +24,41 @@ function RealTimeAnalytics() {
   const [chartData, setChartData] = useState();
   const currentDate1 = `${monthsFullName[getMonth(new Date())]} ${getDay(
     new Date(),
-  )}, ${getYear(new Date())}-`;
+  ) - 13}, ${getYear(new Date())}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
     new Date(),
   )}, ${getYear(new Date())}`;
   const [calendar, setCalendar] = useState({
     visible: false,
-    dateRange: [new Date(), new Date()],
+    dateRange: [new Date(currentDate1), new Date(currentDate2)],
     normalData: [currentDate1, currentDate2],
   });
 
   const setDate = (minDate, maxDate) => {
+    const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate) + 1)}-${normalizeDate(getDay(maxDate))}`.split("-");
+    const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate) + 1)}-${normalizeDate(getDay(minDate))}`.split("-");
     const minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,
     )}, ${getYear(minDate)}-`;
     const maxD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
       maxDate,
     )}, ${getYear(maxDate)}`;
+    if (_maxdD < _mindD || _maxdM < _mindM || _maxdY < _mindY) {
+      setChartData(generateChartData(popsData, maxDate, minDate));
+      return setCalendar({
+        ...calendar,
+        dateRange: [maxDate, minDate],
+        normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
+        visible: false,
+      });
+    }
     setCalendar({
       ...calendar,
       dateRange: [minDate, maxDate],
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData(generateChartData(popsData, { minDate, maxDate }));
+    setChartData(generateChartData(popsData, minDate, maxDate));
   };
 
   useEffect(() => {
@@ -73,7 +84,7 @@ function RealTimeAnalytics() {
         firstChild='Overall'
         path="/profiles"
       />
-      <div className="real-time-analytics-container">
+      <div className="overall-analytics-container">
         <TopStatistics
           popsCount={topStatisticsData.data?.popsCount}
           linkTaps={topStatisticsData.data?.linkTaps}
@@ -88,4 +99,4 @@ function RealTimeAnalytics() {
   );
 }
 
-export default RealTimeAnalytics;
+export default OverallAnalytics;

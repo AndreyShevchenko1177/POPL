@@ -1,21 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Checkbox, Typography, IconButton, Button, Paper,
+  Checkbox, Typography, Button, Paper,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
+import Popup from "./Popup";
 
 export function ConnectedCard({
   name, url, image, time, editAction, names, ...rest
 }) {
   const classes = useStyles();
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+  const handleDeleteConnection = () => {
+    setIsOpenPopup(false);
+    console.log(`delete ${name} connection`);
+  };
+
+  const popupConfig = [
+    {
+      id: 1,
+      name: "Delete",
+      onClick: handleDeleteConnection,
+    },
+  ];
+
   return (
     <>
       <DragDots position="center" />
@@ -66,16 +79,10 @@ export function ConnectedCard({
           </Paper>
         </div>
       </div>
-      <div className={classes.poplPagePoplCardButtonsContainer}>
-        <div className={classes.iconsButtonWrapper}>
-          <IconButton
-            className={classes.deleteButton}
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <DeleteOutlineIcon />
-          </IconButton>
+      <div className={classes.showMoreWrapper}>
+        <div className={classes.showMoreContainer}>
+          <MoreVertIcon className={classes.showMoreIcon} onClick={() => setIsOpenPopup(!isOpenPopup)} />
+          <Popup config={popupConfig} isOpen={isOpenPopup} handleClose={() => setIsOpenPopup(false)} />
         </div>
       </div>
     </>

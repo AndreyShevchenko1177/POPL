@@ -143,12 +143,14 @@ function Connections() {
                 >
                   {dragableConnections.map((connection, index) => (
                     <Draggable
+                      tabIndex={1}
                       key={connection.customId}
                       draggableId={`${connection.customId}`}
                       index={index}
                     >
                       {(provided) => (
                         <Paper
+                          tabIndex={1}
                           className={classes.connectContainer}
                           ref={provided.innerRef}
                           {...provided.draggableProps}

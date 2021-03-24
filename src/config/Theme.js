@@ -37,9 +37,9 @@ let theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       paper: {
-        background: "rgb(58,58,58)",
+        background: "rgb(167,163,163)",
         backgroundImage:
-          "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
+          "linear-gradient(110deg, rgba(230,225,225,1) 3%, rgba(208,204,204,1) 50%, rgba(199,195,195,1) 80%)",
       },
     },
     MuiPaper: {
@@ -47,7 +47,6 @@ let theme = createMuiTheme({
         boxShadow: "0px 0px 30px rgba(0,0,0,0.2)",
       },
     },
-
     MuiListItemText: {
       primary: {
         color: "#f9f9f9",
