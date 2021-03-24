@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -10,10 +10,11 @@ import Loader from "../../../../components/Loader";
 function EmailInvite() {
   const [value, setValue] = useState("");
   const [email, setEmail] = useState([]);
+  const [backspaceCheck, setBackspaceCheck] = useState("");
   const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
   const classes = useStyles();
   const dispatch = useDispatch();
-  const regexp = /@/;
+  const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const handleChange = (event) => {
     if (event.target.value.split(",").length > 1) {
@@ -31,9 +32,10 @@ function EmailInvite() {
   };
 
   const handleKeyChange = (event) => {
-    if (event.code === "Backspace" && !value) {
-      setEmail((em) => em.splice(em.length - 1, 1));
+    if (event.code === "Backspace" && !backspaceCheck) {
+      setEmail((em) => em.slice(0, em.length - 1));
     }
+    setBackspaceCheck(value);
   };
 
   const removeEmail = (id) => {
