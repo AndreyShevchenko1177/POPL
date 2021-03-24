@@ -22,6 +22,7 @@ export default makeStyles((theme) => ({
       "-webkit-box-shadow": "6px 0px 3px -5px #d7d7d7 inset",
       "-moz-box-shadow": "6px 0px 3px -5px #d7d7d7  inset",
       borderLeft: "3px solid #dadada",
+      background: "#9b9595",
       borderImage:
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
@@ -72,19 +73,19 @@ export default makeStyles((theme) => ({
     },
   },
   ulListHighLight: {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#e0dede",
   },
   listText: {
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     letterSpacing: "1.5px",
-    color: "#000000",
+    color: "#7d8286",
   },
   listTextNested: {
     fontFamily: "AvenirNextCyr",
     fontSize: "14px",
     letterSpacing: "1.5px",
-    color: "#000000",
+    color: "#7d8286",
   },
   listTextHighLight: {
     color: "#3a3a3a",
@@ -118,7 +119,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     paddingBottom: 10,
     "& > span": {
-      color: "#000000",
+      color: "#7d8286",
       fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "1rem",
       letterSpacing: "1.5px",
@@ -145,14 +146,14 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "10px 0",
     "& > span": {
-      color: "#000000",
+      color: "#7d8286",
       fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "1rem",
     },
   },
   tierButton: {
-    color: "#000000",
-    borderColor: "#000000",
+    color: "#7d8286",
+    borderColor: "#7d8286",
     width: "60%",
   },
 }));

@@ -92,10 +92,9 @@ function PoplsItem() {
   return (
     <>
       <Header
-        rootLink="Profiles"
-        lastChild={location.state?.name || profileData.name}
-        firstChild='Popls'
-        path="/profiles"
+        rootLink="Popls"
+        firstChild={location.state?.profilesData?.name}
+        path="/popls"
       />
       <div
         className={`${

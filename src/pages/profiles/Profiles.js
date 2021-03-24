@@ -49,13 +49,13 @@ export default function Profiles() {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
-      return history.push("/profiles/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
+      return history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
     if (
       typeof event.target.className === "string"
       && event.target.className.includes("target-element")
     ) {
-      history.push("/profiles/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
+      history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
   }
 
@@ -118,10 +118,10 @@ export default function Profiles() {
         dispatch(setProfileStatusAction(profileIds, "1", userData.id));
       }
       if (name === "turnProfileOn") {
-        dispatch(turnProfileAction(profileIds, "0", userData.id));
+        dispatch(turnProfileAction(profileIds, "true", userData.id));
       }
       if (name === "turnProfileOff") {
-        dispatch(turnProfileAction(profileIds, "1", userData.id));
+        dispatch(turnProfileAction(profileIds, "false", userData.id));
       }
     } else {
       dispatch(snackBarAction({
