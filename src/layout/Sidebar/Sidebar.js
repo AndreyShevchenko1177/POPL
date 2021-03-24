@@ -123,7 +123,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='overview'
-                    fill={!highlight.main ? "#fff" : "#000"}
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>
@@ -154,7 +154,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='profile'
-                    fill={!highlight.profiles ? "#fff" : "#000"}
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>
@@ -169,10 +169,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.profilesIsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+                  style={{ fill: "#000000" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: !highlight.profiles ? "#fff" : "#000" }}
+                  style={{ fill: "#000000" }}
                 />
               }
             </ListItem>
@@ -239,7 +239,7 @@ function PermanentDrawerLeft() {
               <div className={classes.sideBarIcons}>
                 <SvgMaker
                   name='connection'
-                  fill={!highlight.connections ? "#fff" : "#000"}
+                  fill="#000000"
                 />
               </div>
             </ListItemIcon>
@@ -254,10 +254,10 @@ function PermanentDrawerLeft() {
             />
             {collapse.connectionsOpen
               ? <ExpandLessIcon
-                style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+                style={{ fill: "#000000" }}
               />
               : <ExpandMoreIcon
-                style={{ fill: !highlight.connections ? "#fff" : "#000" }}
+                style={{ fill: "#000000" }}
               />
             }
           </ListItem>
@@ -299,7 +299,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='campaigns'
-                    fill={!highlight.campaigns ? "#fff" : "#000"}
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>
@@ -314,10 +314,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.campaignsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
+                  style={{ fill: "#000000" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: !highlight.campaigns ? "#fff" : "#000" }}
+                  style={{ fill: "#000000" }}
                 />
               }
             </ListItem>
@@ -360,7 +360,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='analytics'
-                    fill='#f9f9f9'
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>
@@ -372,10 +372,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.analyticsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: "#fff" }}
+                  style={{ fill: "#000000" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: "#fff" }}
+                  style={{ fill: "#000000" }}
                 />
               }
             </ListItem>
@@ -434,7 +434,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='settings'
-                    fill={!highlight.settings ? "#fff" : "#000"}
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>

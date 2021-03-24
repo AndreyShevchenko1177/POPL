@@ -9,7 +9,7 @@ function TierLevel({ used, max }) {
     <div className={classes.tierContainer}>
       <div className={classes.tierHeader}>
         <div className={classes.tierIcon}>
-          <SvgMaker fill='#fff' width={30} height={30} name='users'/>
+          <SvgMaker fill="#000000" width={30} height={30} name='users'/>
           {/* <img src={users} /> */}
         </div>
         <span>Tier Level</span>
@@ -23,7 +23,7 @@ function TierLevel({ used, max }) {
         </div>
       </>
       <div className={classes.tierValue}>
-        <span>{used} profiles of {max} profiles used</span>
+        <span>{used || ""} profiles of {max} profiles used</span>
       </div>
       <Button
         variant='outlined'

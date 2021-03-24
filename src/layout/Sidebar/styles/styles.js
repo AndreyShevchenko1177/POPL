@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
   },
   drawerPaper: {
     width: theme.custom.drawerWidth,
-    minHeight: 700,
+    minHeight: 650,
   },
   logo: {
     width: 80,
@@ -56,7 +56,7 @@ export default makeStyles((theme) => ({
       "-webkit-box-shadow": "6px 0px 3px -5px #d7d7d7 inset",
       "-moz-box-shadow": "6px 0px 3px -5px #d7d7d7  inset",
       borderLeft: "3px solid #dadada",
-      background: "#0b0b0b",
+      background: "#9b9595",
       borderImage:
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
@@ -78,13 +78,13 @@ export default makeStyles((theme) => ({
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     letterSpacing: "1.5px",
-    color: "#f9f9f9",
+    color: "#000000",
   },
   listTextNested: {
     fontFamily: "AvenirNextCyr",
     fontSize: "14px",
     letterSpacing: "1.5px",
-    color: "#f9f9f9",
+    color: "#000000",
   },
   listTextHighLight: {
     color: "#3a3a3a",
@@ -118,7 +118,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     paddingBottom: 10,
     "& > span": {
-      color: "#ffffff",
+      color: "#000000",
       fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "1rem",
       letterSpacing: "1.5px",
@@ -145,14 +145,14 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "10px 0",
     "& > span": {
-      color: "#ffffff",
+      color: "#000000",
       fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "1rem",
     },
   },
   tierButton: {
-    color: "#ffffff",
-    borderColor: "#ffffff",
+    color: "#000000",
+    borderColor: "#000000",
     width: "60%",
   },
 }));
