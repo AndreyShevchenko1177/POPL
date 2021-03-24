@@ -74,7 +74,7 @@ function ProfilePanel({
           size="small"
           color="secondary"
           startIcon={<EqualizerIcon />}
-          onClick={() => history.push("/analytics/real-time", { id, name })}
+          onClick={() => history.push("/analytics/overall", { id, name })}
         >
           Analytics
         </Button>

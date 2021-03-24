@@ -8,6 +8,10 @@ export default makeStyles((theme) => ({
   },
   drawerPaper: {
     width: theme.custom.drawerWidth,
+    minHeight: 700,
+  },
+  logo: {
+    width: 80,
   },
   nested: {
     padding: "2px 0 2px 110px",
@@ -21,10 +25,13 @@ export default makeStyles((theme) => ({
       borderImage:
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
+      "& > *": {
+        color: "#fff",
+      },
     },
   },
   brand: {
-    padding: "30px 0px 50px 0px",
+    padding: "30px 0px 30px 0px",
     width: "100%",
     textAlign: "center",
     margin: 0,
@@ -98,7 +105,7 @@ export default makeStyles((theme) => ({
     "@media (max-height:900px)": {
       bottom: "15px",
       paddingTop: "5px",
-      position: "static",
+      // position: "static",
     },
   },
   tierContainer: {
@@ -127,7 +134,6 @@ export default makeStyles((theme) => ({
     position: "absolute",
     top: 0,
     left: 0,
-    backgroundColor: "#73bef2",
   },
   barTrack: {
     position: "relative",

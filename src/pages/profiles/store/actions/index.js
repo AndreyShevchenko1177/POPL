@@ -14,7 +14,7 @@ import {
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
-import { getStatisticItem } from "../../../realTimeAnalytics/store/actions";
+import { getStatisticItem } from "../../../overallAnalytics/store/actions";
 
 export const profileIds = async (userId) => {
   const bodyFormData = new FormData();
@@ -26,7 +26,7 @@ export const profileIds = async (userId) => {
   return response;
 };
 
-export const getProfileAction = (id) => async (dispatch) => {
+export const getProfileAction = async (id) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "GetProfileData");
   bodyFormData.append("ajax", "1");
@@ -40,11 +40,11 @@ export const getProfileAction = (id) => async (dispatch) => {
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
-    const myProfile = await dispatch(getProfileAction(userId));
+    const myProfile = await getProfileAction(userId);
     const response = await profileIds(userId);
     if (response.data) {
       const idsArray = JSON.parse(response.data);
-      const result = await Promise.all(idsArray.map((id) => dispatch(getProfileAction(id))));
+      const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
       const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
         ...p,
         customId: getId(12),

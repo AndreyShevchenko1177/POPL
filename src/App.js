@@ -15,7 +15,7 @@ import SignUp from "./pages/auth/sign-up";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
-import RealTimeAnalytics from "./pages/realTimeAnalytics";
+import OverallAnalytics from "./pages/overallAnalytics";
 import NewProfile from "./pages/newProfile";
 import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
@@ -85,11 +85,11 @@ function App(props) {
           <ClipApp />
         </PrivateRoute>
         <PrivateRoute
-          path="/analytics/real-time"
+          path="/analytics/overall"
           exact
           isLoggedIn={profileData?.id}
         >
-          <RealTimeAnalytics />
+          <OverallAnalytics />
         </PrivateRoute>
         <PrivateRoute path="/settings" exact isLoggedIn={profileData?.id}>
           <Settings />

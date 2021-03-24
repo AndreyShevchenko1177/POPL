@@ -11,7 +11,7 @@ import {
 } from "../../utils";
 import Header from "../../components/Header";
 
-function RealTimeAnalytics() {
+function OverallAnalytics() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
@@ -84,7 +84,7 @@ function RealTimeAnalytics() {
         firstChild='Overall'
         path="/profiles"
       />
-      <div className="real-time-analytics-container">
+      <div className="overall-analytics-container">
         <TopStatistics
           popsCount={topStatisticsData.data?.popsCount}
           linkTaps={topStatisticsData.data?.linkTaps}
@@ -99,4 +99,4 @@ function RealTimeAnalytics() {
   );
 }
 
-export default RealTimeAnalytics;
+export default OverallAnalytics;
