@@ -13,6 +13,9 @@ export default makeStyles((theme) => ({
   rootBusinessModeBackground: {
     backgroundColor: "#f3f5f3",
   },
+  rootProfileOffBackground: {
+    backgroundColor: "#b3b1b1",
+  },
   container: {
     display: "flex",
     position: "relative",
@@ -23,11 +26,14 @@ export default makeStyles((theme) => ({
     outline: "none",
   },
   mainContent: {
+    position: "relative",
     width: "100%",
     outline: "none",
   },
-  trueProfile: {
-    border: `1px solid ${theme.palette.primary.main}`,
+  profileOff: {
+    position: "absolute",
+    top: "10px",
+    left: "10px",
   },
   dragDotsRight: {
     display: "flex",
@@ -108,7 +114,6 @@ export default makeStyles((theme) => ({
     maxHeight: "78px",
     overflow: "hidden",
     fontSize: 18,
-    fontFamily: "AvenirNextCyr",
   },
   section4: {
     width: "100%",

@@ -7,6 +7,7 @@
 }
 body * {
   box-sizing: border-box;
+  font-family: "AvenirNextCyr", sans-serif, arial;
 }
 body {
   margin: 0;

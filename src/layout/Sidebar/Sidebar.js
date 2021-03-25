@@ -89,8 +89,6 @@ function PermanentDrawerLeft() {
     }
   }, [userData]);
 
-  console.log(childrenAmount);
-
   return (
     <Drawer
       className={classes.drawer}
