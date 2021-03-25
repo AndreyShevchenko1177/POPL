@@ -51,7 +51,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         business: p.business,
         social: p.social,
       }));
-      dispatch(getStatisticItem(profiles));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
@@ -59,7 +58,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     }
     let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-    dispatch(getStatisticItem(correctProfile));
     dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{

@@ -9,10 +9,11 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import connectIcon from "../../../../assets/svg/connect.svg";
 import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
-import SvgMaker from "../../../../components/svgMaker/SvgMaker";
 
 function ProfilePanel({
   id,
+  social,
+  business,
   handleClickPoplItem,
   handleSwitchChanger,
   directOn,
@@ -74,7 +75,9 @@ function ProfilePanel({
           size="small"
           color="secondary"
           startIcon={<EqualizerIcon />}
-          onClick={() => history.push("/analytics/overall", { id, name })}
+          onClick={() => history.push("/analytics/overall", {
+            id, name, business, social,
+          })}
         >
           Analytics
         </Button>
