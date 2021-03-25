@@ -14,44 +14,22 @@ import {
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
-import { getStatisticItem } from "../../../overallAnalytics/store/actions";
-
-export const profileIds = async (userId) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "getChild");
-  bodyFormData.append("iID", userId);
-  const response = await axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-  return response;
-};
-
-export const getProfileAction = async (id) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "GetProfileData");
-  bodyFormData.append("ajax", "1");
-  bodyFormData.append("iID", id);
-  const { data } = await axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-  return { data, id };
-};
+import * as requests from "./requests";
 
 export const getProfilesIds = (userId) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
-    const myProfile = await getProfileAction(userId);
-    const response = await profileIds(userId);
+    const myProfile = await requests.getProfileAction(userId);
+    const response = await requests.profileIds(userId);
     if (response.data) {
       const idsArray = JSON.parse(response.data);
-      const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
+      const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
       const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
         ...p,
         customId: getId(12),
         business: p.business,
         social: p.social,
       }));
-      dispatch(getStatisticItem(profiles));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
@@ -59,7 +37,6 @@ export const getProfilesIds = (userId) => async (dispatch) => {
     }
     let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-    dispatch(getStatisticItem(correctProfile));
     dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: [{

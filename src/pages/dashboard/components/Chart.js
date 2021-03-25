@@ -28,10 +28,10 @@ export default function Chart({ data }) {
         <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
       ) : (
         <>
-          <Line options={chartOptions.options} data={chartData} />
-          {!chartData?.datasets[0]?.data?.length && (
-            <div className={classes.noDataText}>No data for this period</div>
-          )}
+          {chartData?.datasets[0]?.data?.filter((v) => v).length ? <Line options={chartOptions.options} data={chartData} />
+            : (
+              <div className={classes.noDataText}>No data for this period</div>
+            )}
         </>
       )}
     </div>

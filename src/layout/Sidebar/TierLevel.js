@@ -9,7 +9,7 @@ function TierLevel({ used, max }) {
     <div className={classes.tierContainer}>
       <div className={classes.tierHeader}>
         <div className={classes.tierIcon}>
-          <SvgMaker fill="#000000" width={30} height={30} name='users'/>
+          <SvgMaker fill="#7d8286" width={30} height={30} name='users'/>
           {/* <img src={users} /> */}
         </div>
         <span>Tier Level</span>

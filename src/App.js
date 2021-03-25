@@ -58,7 +58,7 @@ function App(props) {
         >
           <NewProfile />
         </PrivateRoute>
-        <PrivateRoute path="/profiles/popls" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute path="/popls" exact isLoggedIn={profileData?.id}>
           <PoplsItem />
         </PrivateRoute>
         <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>

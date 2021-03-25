@@ -37,9 +37,10 @@ let theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       paper: {
-        background: "rgb(167,163,163)",
-        backgroundImage:
-          "linear-gradient(110deg, rgba(230,225,225,1) 3%, rgba(208,204,204,1) 50%, rgba(199,195,195,1) 80%)",
+        backgroundColor: "#f5f9fa",
+        // background: "rgb(167,163,163)",
+        // backgroundImage:
+        //   "linear-gradient(110deg, rgba(230,225,225,1) 3%, rgba(208,204,204,1) 50%, rgba(199,195,195,1) 80%)",
       },
     },
     MuiPaper: {

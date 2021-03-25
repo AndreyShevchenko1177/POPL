@@ -21,30 +21,8 @@ import {
 } from "../actionTypes";
 import { getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
-import { profileIds } from "../../../profiles/store/actions";
-
-export const getPoplsData = async () => {
-  const getPopolsFormData = new FormData();
-  getPopolsFormData.append("sAction", "GetPopls");
-  getPopolsFormData.append("ajax", 1);
-
-  const response = await axios.post("", getPopolsFormData, {
-    withCredentials: true,
-  });
-  return response;
-};
-
-export const getPoplsDataById = async (id) => {
-  const getPopolsFormData = new FormData();
-  getPopolsFormData.append("sAction", "GetPoplsForId");
-  getPopolsFormData.append("ajax", 1);
-  getPopolsFormData.append("iID", id);
-
-  const response = await axios.post("", getPopolsFormData, {
-    withCredentials: true,
-  });
-  return response;
-};
+import { profileIds } from "../../../profiles/store/actions/requests";
+import * as requests from "./requests";
 
 export const getPoplsAction = (id, isSingle) => async (dispatch) => {
   try {
@@ -61,7 +39,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch) => {
     if (response.data) {
       JSON.parse(response.data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
     }
-    const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current], []));
     if (typeof result === "string") {
       dispatch(isFetchingAction(false));
       return dispatch(
@@ -203,7 +181,7 @@ export const collectSelectedPopls = (id) => async (dispatch) => {
     dispatch({
       type: COLLECT_SELECTED_POPLS_REQUEST,
     });
-    const result = await Promise.all(idsArray.map((id) => getPoplsDataById(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
     dispatch({
       type: COLLECT_SELECTED_POPLS_SUCCESS,
       payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),

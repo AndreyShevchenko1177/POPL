@@ -29,7 +29,7 @@ function PermanentDrawerLeft() {
     connectionsOpen: false,
     campaignsOpen: false,
   });
-  const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [childrenAmount, setChildrenAmount] = useState();
 
   const handleCollapseClick = (name) => {
@@ -69,7 +69,7 @@ function PermanentDrawerLeft() {
       });
     }
 
-    if (name === "new-profile" || name === "popls") {
+    if (name === "new-profile") {
       setCollapse({
         analyticsOpen: false, profilesIsOpen: true, campaignsOpen: false, connectionsOpen: false,
       });
@@ -80,16 +80,14 @@ function PermanentDrawerLeft() {
   }, [location]);
 
   useEffect(() => {
-    if (userId) {
-      getChildrenIdsRequest(userId)
+    if (userData?.id) {
+      getChildrenIdsRequest(userData.id)
         .then((res) => {
           if (res.data) setChildrenAmount(JSON.parse(res.data).length + 1);
         })
         .catch((err) => console.log(err));
     }
-  }, [userId]);
-
-  console.log(childrenAmount);
+  }, [userData]);
 
   return (
     <Drawer
@@ -104,7 +102,7 @@ function PermanentDrawerLeft() {
       <div className={classes.brand}>
         <img
           className={classes.logo}
-          src="/assests/logo/popl_logo.png"
+          src="/assests/logo/popl_logo_black.png"
           alt="logo 5"
         />
       </div>
@@ -123,7 +121,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='overview'
-                    fill="#000000"
+                    fill="#7d8286"
                   />
                 </div>
               </ListItemIcon>
@@ -154,7 +152,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='profile'
-                    fill="#000000"
+                    fill="#7d8286"
                   />
                 </div>
               </ListItemIcon>
@@ -169,10 +167,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.profilesIsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
               }
             </ListItem>
@@ -199,7 +197,7 @@ function PermanentDrawerLeft() {
                 </ListItem>
               </Link>
             </List>
-            <List component="div" disablePadding>
+            {/* <List component="div" disablePadding>
               <ListItem
                 button
                 className={clsx(classes.nested, {
@@ -220,9 +218,37 @@ function PermanentDrawerLeft() {
                   primary="Popls"
                 />
               </ListItem>
-            </List>
+            </List> */}
           </Collapse>
-          {/* <Link to="/connections"> */}
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight.popls,
+            })}
+            button
+            onClick={() => {
+              highlightList("popls");
+              history.push("/popls", { disabled: true });
+            }}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              {/* <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='popls'
+                  fill="#7d8286"
+                />
+              </div> */}
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              classes={{
+                root: clsx(classes.listText, {
+                  [classes.listTextHighLight]: highlight.popls,
+                }),
+              }}
+              primary="Popls"
+            />
+          </ListItem>
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
@@ -239,7 +265,7 @@ function PermanentDrawerLeft() {
               <div className={classes.sideBarIcons}>
                 <SvgMaker
                   name='connection'
-                  fill="#000000"
+                  fill="#7d8286"
                 />
               </div>
             </ListItemIcon>
@@ -254,14 +280,13 @@ function PermanentDrawerLeft() {
             />
             {collapse.connectionsOpen
               ? <ExpandLessIcon
-                style={{ fill: "#000000" }}
+                style={{ fill: "#7d8286" }}
               />
               : <ExpandMoreIcon
-                style={{ fill: "#000000" }}
+                style={{ fill: "#7d8286" }}
               />
             }
           </ListItem>
-          {/* </Link> */}
           <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
             <Link to="/connections/crm-integrations">
               <ListItem
@@ -299,7 +324,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='campaigns'
-                    fill="#000000"
+                    fill="#7d8286"
                   />
                 </div>
               </ListItemIcon>
@@ -314,10 +339,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.campaignsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
               }
             </ListItem>
@@ -360,7 +385,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='analytics'
-                    fill="#000000"
+                    fill="#7d8286"
                   />
                 </div>
               </ListItemIcon>
@@ -372,10 +397,10 @@ function PermanentDrawerLeft() {
               />
               {collapse.analyticsOpen
                 ? <ExpandLessIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
                 : <ExpandMoreIcon
-                  style={{ fill: "#000000" }}
+                  style={{ fill: "#7d8286" }}
                 />
               }
             </ListItem>
@@ -434,7 +459,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='settings'
-                    fill="#000000"
+                    fill="#7d8286"
                   />
                 </div>
               </ListItemIcon>

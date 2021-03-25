@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
     color: "#565956",
   },
   tableCell: {
-    width: "100px",
+    width: "120px",
   },
   iconsButtonWrapper: {
     display: "flex",

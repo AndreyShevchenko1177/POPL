@@ -42,7 +42,7 @@ export default function NetworkActivity({
       });
       chartOptions.data.datasets[0].data = result;
       chartOptions.data.labels = labels;
-      setChartData({ ...chartOptions.data });
+      setChartData({ data: { ...chartOptions.data }, options: { ...chartOptions.options, scales: { ...chartOptions.scales, xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: result.length === 1 }] } } });
     }
   }, [data]);
 
@@ -66,13 +66,12 @@ export default function NetworkActivity({
             />
           ) : (
             <>
-              {/* {console.log(chartData)} */}
-              <Line options={chartOptions.options} data={chartData} />
-              {!chartData?.datasets[0]?.data?.length && (
-                <div className={classes.noDataText}>
+              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line options={chartData?.options} data={chartData?.data} />
+                : (
+                  <div className={classes.noDataText}>
                   No data for this period
-                </div>
-              )}
+                  </div>
+                )}
             </>
           )}
         </div>

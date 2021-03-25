@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
-import { getPopsAction } from "./store/actions";
-import { getProfilesIds } from "../profiles/store/actions";
+import {
+  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
+} from "./store/actions";
 import "./styles/styles.css";
 import {
-  generateChartData, getYear, getMonth, getDay, monthsFullName, normalizeDate,
+  generateChartData, getYear, getMonth, getDay, monthsFullName,
 } from "../../utils";
 import Header from "../../components/Header";
 
@@ -35,15 +36,15 @@ function OverallAnalytics() {
   });
 
   const setDate = (minDate, maxDate) => {
-    const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate) + 1)}-${normalizeDate(getDay(maxDate))}`.split("-");
-    const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate) + 1)}-${normalizeDate(getDay(minDate))}`.split("-");
     const minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,
     )}, ${getYear(minDate)}-`;
     const maxD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
       maxDate,
     )}, ${getYear(maxDate)}`;
-    if (_maxdD < _mindD || _maxdM < _mindM || _maxdY < _mindY) {
+    const maxDateMilis = maxDate.setHours(0, 0, 0, 0);
+    const minDateMilis = minDate.setHours(0, 0, 0, 0);
+    if (maxDateMilis < minDateMilis) {
       setChartData(generateChartData(popsData, maxDate, minDate));
       return setCalendar({
         ...calendar,
@@ -62,10 +63,13 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    dispatch(getProfilesIds(userId));
+    location.state?.id ? dispatch(getStatisticItem(location.state)) : dispatch(getStatisticItemsRequest(userId));
     if (!popsData) {
-      dispatch(getPopsAction(userId));
+      dispatch(getPopsAction(location.state?.id));
     }
+    return () => {
+      dispatch(cleanAction());
+    };
   }, []);
 
   useEffect(() => {

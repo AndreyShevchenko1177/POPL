@@ -87,7 +87,7 @@ export const signInChildAction = (credo) => async (dispatch) => {
 const inviteByEmailRequest = (email) => {
   const formdata = new FormData();
   formdata.append("ajax", "1");
-  formdata.append("sAction", "ActivatedPoplProEmail");
+  formdata.append("sAction", "AddToDashboardEmail");
   formdata.append("sToEmail", email);
   formdata.append("sToName", "name");
   formdata.append("sSubject", "Hey name, time to go pro :rocket:");

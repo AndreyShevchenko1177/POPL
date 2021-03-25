@@ -12,7 +12,7 @@ const stripe = window.Stripe(stripeConfig.stripePk);
 function Billing() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const priceId = "price_1ITEbeJqkGKmOFO6wOC23z5v";
+  const priceId = "price_1IYcU1JqkGKmOFO6oJH5I0FR";
 
   const handleSubscribe = async () => {
     let myHeaders = new Headers();

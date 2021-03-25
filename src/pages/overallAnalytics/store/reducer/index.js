@@ -1,5 +1,5 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, CLEAN,
 } from "../actionTypes";
 
 const initialState = {
@@ -56,6 +56,9 @@ export default function realTimeAnalytics(
         isFetched: false,
       },
     };
+  }
+  case CLEAN: {
+    return initialState;
   }
   default:
     return state;

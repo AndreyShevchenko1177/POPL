@@ -28,6 +28,7 @@ export default function Card({
   bioBusiness,
   direct,
   id,
+  profileOff,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -69,15 +70,18 @@ export default function Card({
     if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
   }, [direct]);
 
+  console.log(profileOff);
+
   return (
     <>
       <DragDots position="center" />
       <Paper
         elevation={checkboxes[customId]?.checked ? 20 : 0}
-        className={clsx(classes.root, personalMode.direct && classes.rootBusinessModeBackground)}
+        className={clsx(classes.root, profileOff === "1" ? classes.rootProfileOffBackground : (personalMode.direct && classes.rootBusinessModeBackground))}
         onClick={handleClickPoplItem}
       >
         <div className={classes.mainContent}>
+          {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
             <div className={clsx(classes.section1_avatar, "target-element")}>
               <Avatar
@@ -136,6 +140,8 @@ export default function Card({
           <div className={classes.buttonsContainer}>
             <ProfilePanel
               id={id}
+              business={business}
+              social={social}
               name={name}
               handleClickPoplItem={handleClickPoplItem}
               handleSwitchChanger={handleSwitchChanger}
