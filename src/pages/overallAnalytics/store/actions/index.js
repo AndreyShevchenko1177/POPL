@@ -7,8 +7,8 @@ import {
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
-import { getPoplsData } from "../../../popls/store/actions";
-import { profileIds, getProfileAction } from "../../../profiles/store/actions";
+import { getPoplsDataById } from "../../../popls/store/actions/requests";
+import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
 import { getId } from "../../../../utils";
 
 const popsActionRequest = (id) => {
@@ -93,17 +93,19 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
 
 export const getStatisticItem = (profiles) => async (dispatch) => {
   let result = {};
-  const popls = await getPoplsData();
-  result.totalPopls = `${popls.data.length}`;
   if (!Array.isArray(profiles)) {
     result.totalProfiles = "1";
     result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
     const { data } = await popsActionRequest(profiles.id);
     result.popsCount = data.length;
+    const popls = await getPoplsDataById(profiles.id);
+    result.totalPopls = `${popls.data.length}`;
   } else {
     result.totalProfiles = `${profiles.length}`;
     result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
     const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
+    const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
+    result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
     result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
   }
 

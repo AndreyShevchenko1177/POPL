@@ -22,7 +22,7 @@ import {
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
-import { profileIds, getProfileAction } from "../../../profiles/store/actions";
+import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
 
 export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
   try {

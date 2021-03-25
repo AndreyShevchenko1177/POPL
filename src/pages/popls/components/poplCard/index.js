@@ -30,7 +30,7 @@ function PoplCard({ popl, editAction }) {
           <tbody className={classes.cardTable}>
             <tr>
               <td className={classes.tableCell}>Profile Owner:</td>
-              <td>{popl.url}</td>
+              <td>{popl.profileOwner}</td>
             </tr>
             <tr>
               <td className={classes.tableCell}>Popl ID:</td>
