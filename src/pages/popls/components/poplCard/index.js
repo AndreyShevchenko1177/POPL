@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Checkbox, Typography, IconButton, Button,
+  Checkbox, IconButton, Button,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
@@ -25,19 +25,19 @@ function PoplCard({ popl, editAction }) {
         <img className={classes.avatar} alt="logo" src={userIcon} />
       </div>
       <div className={classes.contenContainer}>
-        <Typography variant="h5">{popl.name}</Typography>
+        {/* <Typography variant="h5">{popl.name}</Typography> */}
         <table>
           <tbody className={classes.cardTable}>
             <tr>
-              <td className={classes.tableCell}>Name:</td>
-              <td>{popl.name}</td>
-            </tr>
-            <tr>
-              <td className={classes.tableCell}>Slug:</td>
+              <td className={classes.tableCell}>Profile Owner:</td>
               <td>{popl.url}</td>
             </tr>
             <tr>
-              <td className={classes.tableCell}>Created:</td>
+              <td className={classes.tableCell}>Popl ID:</td>
+              <td>{popl.name}</td>
+            </tr>
+            <tr>
+              <td className={classes.tableCell}>Activated:</td>
               <td>{dateFormat(popl.activationDate, "withTime")}</td>
             </tr>
           </tbody>

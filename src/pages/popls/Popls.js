@@ -89,6 +89,8 @@ function PoplsItem() {
     }
   }, [filterPopls]);
 
+  console.log(dragablePopls);
+
   return (
     <>
       <Header
@@ -124,29 +126,31 @@ function PoplsItem() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {dragablePopls.map((popl, index) => (
-                    <Draggable
-                      key={popl.customId}
-                      draggableId={`${popl.customId}`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <Paper
-                          className={classes.poplContainer}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          elevation={3}
-                        >
-                          <PoplCard
-                            key={popl.id}
-                            popl={popl}
-                            editAction={handleOpenForm}
-                          />
-                        </Paper>
-                      )}
-                    </Draggable>
-                  ))}
+                  {dragablePopls
+                    .filter((el, i, array) => array.indexOf(el) === i)
+                    .map((popl, index) => (
+                      <Draggable
+                        key={popl.customId}
+                        draggableId={`${popl.customId}`}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Paper
+                            className={classes.poplContainer}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            elevation={3}
+                          >
+                            <PoplCard
+                              key={popl.id}
+                              popl={popl}
+                              editAction={handleOpenForm}
+                            />
+                          </Paper>
+                        )}
+                      </Draggable>
+                    ))}
                   {provided.placeholder}
                 </div>
               )}

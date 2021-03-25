@@ -102,7 +102,7 @@ function PermanentDrawerLeft() {
       <div className={classes.brand}>
         <img
           className={classes.logo}
-          src="/assests/logo/popl_logo.png"
+          src="/assests/logo/popl_logo_black.png"
           alt="logo 5"
         />
       </div>
