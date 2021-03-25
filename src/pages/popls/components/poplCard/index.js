@@ -1,11 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
-  Checkbox, IconButton, Button,
+  Checkbox, Button,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
@@ -13,6 +12,8 @@ import { dateFormat } from "../../../../utils/dates";
 
 function PoplCard({ popl, editAction }) {
   const classes = useStyles();
+  const history = useHistory();
+
   return (
     <>
       <DragDots position="center" />
@@ -59,10 +60,11 @@ function PoplCard({ popl, editAction }) {
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
+          onClick={() => history.push("/analytics/overall", { poplId: popl.name })}
         >
           Analytics
         </Button>
-        <div className={classes.iconsButtonWrapper}>
+        {/* <div className={classes.iconsButtonWrapper}>
           <IconButton
             color="primary"
             aria-label="upload picture"
@@ -77,7 +79,7 @@ function PoplCard({ popl, editAction }) {
           >
             <DeleteOutlineIcon />
           </IconButton>
-        </div>
+        </div> */}
       </div>
     </>
   );

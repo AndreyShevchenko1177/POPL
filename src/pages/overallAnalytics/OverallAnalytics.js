@@ -22,6 +22,7 @@ function OverallAnalytics() {
   const topStatisticsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
+  const isFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.isFetching);
   const [chartData, setChartData] = useState();
   const currentDate1 = `${monthsFullName[getMonth(new Date())]} ${getDay(
     new Date(),
@@ -62,6 +63,10 @@ function OverallAnalytics() {
     setChartData(generateChartData(popsData, minDate, maxDate));
   };
 
+  const handleShowAllStat = () => {
+    dispatch(getStatisticItemsRequest(userId));
+  };
+
   useEffect(() => {
     location.state?.id ? dispatch(getStatisticItem(location.state)) : dispatch(getStatisticItemsRequest(userId));
     if (!popsData) {
@@ -84,9 +89,10 @@ function OverallAnalytics() {
     <>
       <Header
         rootLink="Analytics"
-        lastChild={location.state?.name}
-        firstChild='Overall'
-        path="/profiles"
+        rootLinkClick={handleShowAllStat}
+        lastChild={location.state?.name || location.state?.poplId}
+        firstChild={location.state?.name ? "Profiles" : location.state?.poplId ? "Popls" : ""}
+        path="/analytics/overall"
       />
       <div className="overall-analytics-container">
         <TopStatistics
@@ -94,7 +100,7 @@ function OverallAnalytics() {
           linkTaps={topStatisticsData.data?.linkTaps}
           totalProfiles={topStatisticsData.data?.totalProfiles}
           totalPopls={topStatisticsData.data?.totalPopls}
-          isFetched={topStatisticsData.isFetched}
+          isFetched={isFetching}
         />{" "}
         {/* add linkTaps, totalViews here */}
         <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>

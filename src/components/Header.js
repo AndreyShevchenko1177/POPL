@@ -27,12 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header({
-  rootLink, firstChild, lastChild, path,
+  rootLink, firstChild, lastChild, path, rootLinkClick,
 }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleRedirect = () => history.push(path);
+  const handleRedirect = () => {
+    history.push(path);
+    rootLinkClick && rootLinkClick();
+  };
 
   return (
     <Paper className={classes.root}>

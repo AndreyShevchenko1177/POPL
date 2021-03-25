@@ -5,7 +5,7 @@ import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
 
 function StatisticItem({
-  title, value, percentage, isTop, count, isFetched,
+  title, value, count, isFetched,
 }) {
   const classes = useStyles();
   return (

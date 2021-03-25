@@ -43,6 +43,7 @@ export default makeStyles((theme) => ({
   },
   poplPagePoplCardButtonsContainer: {
     display: "flex",
+    height: "100%",
     flexDirection: "column",
     marginLeft: "auto",
     width: "150px",

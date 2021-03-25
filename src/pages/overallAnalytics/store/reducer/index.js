@@ -1,5 +1,5 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, CLEAN,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, CLEAN,
 } from "../actionTypes";
 
 const initialState = {
@@ -10,8 +10,8 @@ const initialState = {
   topStatisticsData: {
     data: null,
     error: null,
-    isFetched: true,
   },
+  isFetching: false,
 };
 
 export default function realTimeAnalytics(
@@ -26,6 +26,7 @@ export default function realTimeAnalytics(
         error: null,
         data: payload,
       },
+      isFetching: false,
     };
   }
   case GET_POPS_FAIL: {
@@ -35,6 +36,7 @@ export default function realTimeAnalytics(
         data: [],
         error: payload,
       },
+      isFetching: false,
     };
   }
   case GET_TOP_STATISTICS_SUCCESS: {
@@ -45,6 +47,7 @@ export default function realTimeAnalytics(
         data: payload,
         isFetched: false,
       },
+      isFetching: false,
     };
   }
   case GET_TOP_STATISTICS_FAIL: {
@@ -55,6 +58,13 @@ export default function realTimeAnalytics(
         error: payload,
         isFetched: false,
       },
+      isFetching: false,
+    };
+  }
+  case IS_DATA_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAN: {

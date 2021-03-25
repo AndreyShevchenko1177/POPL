@@ -29,3 +29,49 @@ export const getProfileAction = async (id) => {
   });
   return { data, id };
 };
+
+export const turnProfileRequest = (id, state) => {
+  const profileData = {
+    id,
+    value: state,
+  };
+  return axios({
+    method: "post",
+    url: "",
+    baseURL: "/emailAdd",
+    data: profileData,
+  });
+};
+
+export const directRequest = (id, state) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetDirectDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("bIsDirect", state);
+  return axios.post("", bodyFormData);
+};
+
+export const statusRequest = (id, state) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetActiveProfileDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("iProfileNum", state);
+  return axios.post("", bodyFormData);
+};
+
+export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("aLinksIDs[]", iconId);
+  bodyFormData.append("aTitles[]", title);
+  bodyFormData.append("aValues[]", value);
+  bodyFormData.append("aIcons[]", "");
+  bodyFormData.append("aProfiles[]", activeProfile);
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
