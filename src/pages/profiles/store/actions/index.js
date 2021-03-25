@@ -63,24 +63,9 @@ export const getProfilesIds = (userId) => async (dispatch) => {
   }
 };
 
-const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
-  bodyFormData.append("ajax", "1");
-  bodyFormData.append("iID", id);
-  bodyFormData.append("aLinksIDs[]", iconId);
-  bodyFormData.append("aTitles[]", title);
-  bodyFormData.append("aValues[]", value);
-  bodyFormData.append("aIcons[]", "");
-  bodyFormData.append("aProfiles[]", activeProfile);
-  return axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-};
-
 export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch) => {
   try {
-    const result = await Promise.all(profileData.map((item) => addLinkRequest(value, title, item, iconId)));
+    const result = await Promise.all(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",
@@ -114,32 +99,10 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
   }
 };
 
-const directRequest = (id, state) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "SetDirectDashboard");
-  bodyFormData.append("ajax", "1");
-  bodyFormData.append("iID", id);
-  bodyFormData.append("bIsDirect", state);
-  return axios.post("", bodyFormData);
-};
-
-const turnProfileRequest = (id, state) => {
-  const profileData = {
-    id,
-    value: state,
-  };
-  return axios({
-    method: "post",
-    url: "",
-    baseURL: "/profile",
-    data: profileData,
-  });
-};
-
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => directRequest(el, state)));
+    await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
@@ -152,7 +115,7 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch) =
 export const turnProfileAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => turnProfileRequest(el, state)));
+    await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({
@@ -162,19 +125,10 @@ export const turnProfileAction = (profileIds, state, userId) => async (dispatch)
   }
 };
 
-const statusRequest = (id, state) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "SetActiveProfileDashboard");
-  bodyFormData.append("ajax", "1");
-  bodyFormData.append("iID", id);
-  bodyFormData.append("iProfileNum", state);
-  return axios.post("", bodyFormData);
-};
-
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => statusRequest(el, state)));
+    await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));
     if (userId) return dispatch(getProfilesIds(userId));
   } catch (error) {
     return dispatch({

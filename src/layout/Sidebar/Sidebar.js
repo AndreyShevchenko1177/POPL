@@ -17,6 +17,7 @@ import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
+import poplIcon from "../../assets/images/poplIcon_grey.png";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -232,12 +233,9 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              {/* <div className={classes.sideBarIcons}>
-                <SvgMaker
-                  name='popls'
-                  fill="#7d8286"
-                />
-              </div> */}
+              <div className={classes.sideBarIcons}>
+                <img style={{ width: "100%" }} alt='popl' src={poplIcon} />
+              </div>
             </ListItemIcon>
             <ListItemText
               disableTypography

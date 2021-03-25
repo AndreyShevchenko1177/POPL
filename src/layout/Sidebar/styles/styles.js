@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
   },
   drawerPaper: {
     width: theme.custom.drawerWidth,
-    minHeight: 650,
+    minHeight: 700,
   },
   logo: {
     width: 80,

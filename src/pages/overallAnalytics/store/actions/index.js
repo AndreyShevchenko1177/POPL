@@ -3,7 +3,7 @@
 import axios from "axios";
 
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, CLEAN,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
@@ -73,6 +73,7 @@ export const getPopsAction = (userId) => async (dispatch, getState) => {
 };
 
 export const getStatisticItemsRequest = (userId) => async (dispatch) => {
+  dispatch(isFetchingAction(true));
   const myProfile = await getProfileAction(userId);
   const response = await profileIds(userId);
   if (response.data) {
@@ -92,6 +93,7 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
 };
 
 export const getStatisticItem = (profiles) => async (dispatch) => {
+  dispatch(isFetchingAction(true));
   let result = {};
   if (!Array.isArray(profiles)) {
     result.totalProfiles = "1";
@@ -114,6 +116,11 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
     payload: result,
   });
 };
+
+const isFetchingAction = (isFetching) => ({
+  type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
 
 export const cleanAction = () => ({
   type: CLEAN,

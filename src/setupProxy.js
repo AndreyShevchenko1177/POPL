@@ -2,10 +2,10 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    "/profile",
+    "/emailAdd",
     createProxyMiddleware({
       target: "https://us-central1-poplco.cloudfunctions.net/profileOn",
-      pathRewrite: { "^/profile": "/" },
+      pathRewrite: { "^/emailAdd": "/" },
       headers: { "X-Forwarded-Prefix": "/" },
       changeOrigin: true,
     }),
