@@ -54,7 +54,7 @@ function ProfilePanel({
         <Button
           variant="outlined"
           size="small"
-          color="secondary"
+          color="primary"
           className={classes.button}
           startIcon={
             <img
@@ -73,7 +73,7 @@ function ProfilePanel({
           variant="outlined"
           className={classes.button}
           size="small"
-          color="secondary"
+          color="primary"
           startIcon={<EqualizerIcon />}
           onClick={() => history.push("/analytics/overall", {
             id, name, business, social,
@@ -86,7 +86,7 @@ function ProfilePanel({
         <Button
           variant="outlined"
           size="small"
-          color="secondary"
+          color="primary"
           className={classes.button}
           startIcon={<VisibilityIcon />}
           onClick={(event) => handleClickPoplItem(event, "popl")}

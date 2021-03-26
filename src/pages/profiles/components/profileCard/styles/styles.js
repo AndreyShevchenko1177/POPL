@@ -133,9 +133,9 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     padding: "25px 0",
     minWidth: 230,
-    background: "rgb(58,58,58)",
-    backgroundImage:
-          "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
+    background: theme.overrides.MuiDrawer.paper.backgroundColor,
+    // backgroundImage:
+    //       "linear-gradient(110deg, rgba(58,58,58,1) 3%, rgba(11,11,11,1) 50%, rgba(0,0,0,1) 80%)",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
@@ -214,7 +214,7 @@ export default makeStyles((theme) => ({
   button: {
     display: "flex",
     justifyContent: "flex-start",
-    color: "#fff",
+    color: "#000000",
     fontWeight: 400,
     width: "125px",
   },

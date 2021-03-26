@@ -17,7 +17,8 @@ import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
-import poplIcon from "../../assets/images/poplIcon_grey.png";
+import poplIcon from "../../assets/poplIcon.png";
+import poplIconWhite from "../../assets/poplIcon_white.png";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -51,12 +52,12 @@ function PermanentDrawerLeft() {
       name = location.pathname.split("/")[2];
       // setCollapse({ ...collapse, analyticsOpen: true });
     }
-    if (
-      ["profiles", "connections", "campaigns"].includes(name)
-      && location.pathname.split("/").length > 2
-    ) {
-      name = location.pathname.split("/")[2];
-    }
+    // if (
+    //   ["profiles", "connections", "campaigns"].includes(name)
+    //   && location.pathname.split("/").length > 2
+    // ) {
+    //   name = location.pathname.split("/")[2];
+    // }
 
     if (name === "crm-integrations") {
       setCollapse({
@@ -85,10 +86,13 @@ function PermanentDrawerLeft() {
       getChildrenIdsRequest(userData.id)
         .then((res) => {
           if (res.data) setChildrenAmount(JSON.parse(res.data).length + 1);
+          else setChildrenAmount(1);
         })
         .catch((err) => console.log(err));
     }
   }, [userData]);
+
+  console.log(highlight);
 
   return (
     <Drawer
@@ -166,17 +170,17 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Profiles"
               />
-              {collapse.profilesIsOpen
+              {/* {collapse.profilesIsOpen
                 ? <ExpandLessIcon
                   style={{ fill: "#7d8286" }}
                 />
                 : <ExpandMoreIcon
                   style={{ fill: "#7d8286" }}
                 />
-              }
+              } */}
             </ListItem>
           </Link>
-          <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
+          {/* <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <Link to="/profiles/new-profile">
                 <ListItem
@@ -198,7 +202,7 @@ function PermanentDrawerLeft() {
                 </ListItem>
               </Link>
             </List>
-            {/* <List component="div" disablePadding>
+            <List component="div" disablePadding>
               <ListItem
                 button
                 className={clsx(classes.nested, {
@@ -219,8 +223,8 @@ function PermanentDrawerLeft() {
                   primary="Popls"
                 />
               </ListItem>
-            </List> */}
-          </Collapse>
+            </List>
+          </Collapse> */}
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
@@ -234,10 +238,12 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <div className={classes.sideBarIcons}>
-                <SvgMaker
+                {/* <SvgMaker
                   name='popl'
                   fill="#7d8286"
-                />
+                /> */}
+                <img className='white' style={{ width: "100%" }} alt='popl' src={poplIconWhite} />
+                <img className='dark' style={{ width: "100%" }} alt='popl' src={poplIcon} />
               </div>
             </ListItemIcon>
             <ListItemText
@@ -279,16 +285,16 @@ function PermanentDrawerLeft() {
               }}
               primary="Connections"
             />
-            {collapse.connectionsOpen
+            {/* {collapse.connectionsOpen
               ? <ExpandLessIcon
                 style={{ fill: "#7d8286" }}
               />
               : <ExpandMoreIcon
                 style={{ fill: "#7d8286" }}
               />
-            }
+            } */}
           </ListItem>
-          <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
+          {/* <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
             <Link to="/connections/crm-integrations">
               <ListItem
                 button
@@ -308,7 +314,7 @@ function PermanentDrawerLeft() {
                 />
               </ListItem>
             </Link>
-          </Collapse>
+          </Collapse> */}
           <Link to="/campaigns">
             <ListItem
               divider={false}
@@ -338,17 +344,17 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Campaigns"
               />
-              {collapse.campaignsOpen
+              {/* {collapse.campaignsOpen
                 ? <ExpandLessIcon
                   style={{ fill: "#7d8286" }}
                 />
                 : <ExpandMoreIcon
                   style={{ fill: "#7d8286" }}
                 />
-              }
+              } */}
             </ListItem>
           </Link>
-          <Collapse in={collapse.campaignsOpen} timeout="auto" unmountOnExit>
+          {/* <Collapse in={collapse.campaignsOpen} timeout="auto" unmountOnExit>
             <Link to="/campaings/pop-branding">
               <ListItem
                 divider={false}
@@ -369,7 +375,7 @@ function PermanentDrawerLeft() {
                 />
               </ListItem>
             </Link>
-          </Collapse>
+          </Collapse> */}
           <Link to="/analytics/overall">
             <ListItem
               divider={false}

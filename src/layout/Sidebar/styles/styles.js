@@ -52,7 +52,19 @@ export default makeStyles((theme) => ({
     background: "transparent",
     borderLeft: "3px solid transparent",
     color: "#f9f9f9",
+    "& .white": {
+      display: "none",
+    },
+    "& .dark": {
+      display: "inline-block",
+    },
     "&:hover": {
+      "& .white": {
+        display: "inline-block",
+      },
+      "& .dark": {
+        display: "none",
+      },
       boxShadow: "6px 0px 3px -5px #d7d7d7 inset",
       "-webkit-box-shadow": "6px 0px 3px -5px #d7d7d7 inset",
       "-moz-box-shadow": "6px 0px 3px -5px #d7d7d7  inset",
