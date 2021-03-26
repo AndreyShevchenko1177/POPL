@@ -99,6 +99,28 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
   }
 };
 
+const directRequest = (id, state) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetDirectDashboard");
+  bodyFormData.append("ajax", "1");
+  bodyFormData.append("iID", id);
+  bodyFormData.append("bIsDirect", state);
+  return axios.post("", bodyFormData);
+};
+
+const turnProfileRequest = (id, state) => {
+  const profileData = {
+    id,
+    value: state,
+  };
+  return axios({
+    method: "post",
+    url: "",
+    baseURL: "/emailAdd",
+    data: profileData,
+  });
+};
+
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
     if (userId) dispatch(isFetchingAction(true));
