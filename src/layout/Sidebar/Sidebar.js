@@ -234,7 +234,10 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <div className={classes.sideBarIcons}>
-                <img style={{ width: "100%" }} alt='popl' src={poplIcon} />
+                <SvgMaker
+                  name='popl'
+                  fill="#7d8286"
+                />
               </div>
             </ListItemIcon>
             <ListItemText
