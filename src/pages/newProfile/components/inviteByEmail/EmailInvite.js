@@ -15,6 +15,7 @@ function EmailInvite() {
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
   const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
+  const [blur, setBlur] = useState(false);
   const ref = useRef();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -46,7 +47,8 @@ function EmailInvite() {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  const blurHandler = (event) => {
+  const blurHandler = (event, blur) => {
+    if (blur) return setBlur(false);
     if (event.currentTarget.contains(event.relatedTarget)) return;
     setIsOpenDropZone(false);
   };
@@ -97,7 +99,7 @@ function EmailInvite() {
       </Grid>
       {isOpenDropZone && <>
         <div className={classes.opacityBackground}></div>
-        <div ref={ref} onBlur={blurHandler} tabIndex={1}>
+        <div>
           <DropZone
             styles={{
               wrapper: classes.dropZoneWrapper,
@@ -105,6 +107,10 @@ function EmailInvite() {
               iconContainer: classes.dropZoneIconContainer,
             }}
             icon={<SvgMaker name={"csv"} fill='#fff' />}
+            zoneRef={ref}
+            onBlur={blurHandler}
+            blur={blur}
+            setBlur={setBlur}
           />
         </div>
       </>}

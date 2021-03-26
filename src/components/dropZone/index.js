@@ -8,7 +8,7 @@ import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 
 const DropZone = ({
-  name, styles, quantity, type, multiple, icon,
+  name, styles, quantity, type, multiple, icon, zoneRef, onBlur, blur, setBlur,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -97,6 +97,7 @@ const DropZone = ({
   };
 
   const openFileDialog = () => {
+    setBlur(true);
     fileInputRef.current.click();
   };
 
@@ -144,6 +145,9 @@ const DropZone = ({
   return (
     <div className={styles.wrapper}>
       <div
+        ref={zoneRef}
+        onBlur={(event) => onBlur(event, blur)}
+        tabIndex={1}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
         onDrop={onDrop}
