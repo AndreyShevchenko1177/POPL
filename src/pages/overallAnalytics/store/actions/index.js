@@ -29,7 +29,7 @@ export const getPopsAction = (userId) => async (dispatch, getState) => {
     if (!userId) {
       const { data } = await profileIds(id);
       const ids = JSON.parse(data);
-      const response = await Promise.all(ids.map((id) => popsActionRequest(id)));
+      const response = await Promise.all([...ids, id].map((id) => popsActionRequest(id)));
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
     } else {
       const response = await popsActionRequest(userId);

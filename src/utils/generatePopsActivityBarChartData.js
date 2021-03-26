@@ -4,6 +4,7 @@ import {
 } from "./dates";
 
 export function generateChartData(popsData, minDate, maxDate) {
+  console.log("BEFORE", minDate, maxDate);
   let calendarRange;
   let currentDate;
   if (!popsData?.length) return;
@@ -45,5 +46,6 @@ export function generateChartData(popsData, minDate, maxDate) {
       transformResult[date] = (transformResult[date] || 0) + 1;
     }
   });
+  console.log("AFTER", result, transformResult);
   return transformResult;
 }

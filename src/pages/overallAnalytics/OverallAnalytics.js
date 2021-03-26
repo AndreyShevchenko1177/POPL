@@ -65,6 +65,7 @@ function OverallAnalytics() {
 
   const handleShowAllStat = () => {
     dispatch(getStatisticItemsRequest(userId));
+    dispatch(getPopsAction());
   };
 
   useEffect(() => {
