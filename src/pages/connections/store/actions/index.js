@@ -43,6 +43,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
     profilesData.forEach(({ data, id }) => profileName[id] = data.name);
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
+    console.log(result);
     result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
     let allConnections = Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []);
     allConnections = allConnections.map((con, _, connections) => {
