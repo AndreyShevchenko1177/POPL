@@ -132,13 +132,27 @@ const DropZone = ({
 
   const importCsv = (event) => {
     event.stopPropagation();
-    const emailsKeys = ["Email", "Email Address"];
-    const correctEmailsArray = [];
+    // const correctEmailsArray;
     const [header, ...emails] = parseCsv;
-    if (emailsKeys.includes(header[0]) && header.length === 1) {
-      emails.map((e) => correctEmailsArray.push(...e));
+    let index = header.indexOf("Email") || header.indexOf("Email Address");
+    if (index !== -1) {
+      const result = emails.map((el) => el[index]).filter((el) => el);
+      if (!result.length) {
+        return dispatch(snackBarAction({
+          message: "No emails was found",
+          severity: "error",
+          duration: 3000,
+          open: true,
+        }));
+      }
+      return dispatch(inviteByEmailAction(result));
     }
-    dispatch(inviteByEmailAction(correctEmailsArray.filter((el) => el), () => {}));
+    return dispatch(snackBarAction({
+      message: "No \"Email\" or \"Email Address\" column was found",
+      severity: "error",
+      duration: 3000,
+      open: true,
+    }));
   };
 
   useEffect(() => {

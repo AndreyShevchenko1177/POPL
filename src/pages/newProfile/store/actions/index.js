@@ -99,7 +99,7 @@ export const inviteByEmailAction = (emails, callBack) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
     await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString || email)));
-    callBack([]);
+    callBack && callBack([]);
     dispatch(isFetchingAction(false));
     dispatch({
       type: INVITE_BY_EMAIL_SUCCESS,
