@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 import React, { useEffect, useState } from "react";
 import { Typography } from "@material-ui/core";
 import { Line } from "react-chartjs-2";
@@ -42,7 +43,30 @@ export default function NetworkActivity({
       });
       chartOptions.data.datasets[0].data = result;
       chartOptions.data.labels = labels;
-      setChartData({ data: { ...chartOptions.data }, options: { ...chartOptions.options, scales: { ...chartOptions.scales, xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: result.length === 1 }] } } });
+      setChartData({
+        data: { ...chartOptions.data },
+        options: {
+          ...chartOptions.options,
+          scales: {
+            ...chartOptions.scales,
+            xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: result.length === 1 }],
+            yAxes: [{
+              afterTickToLabelConversion(q) {
+                for (let tick in q.ticks) {
+                  const part = q.ticks[tick].split(".");
+                  if (part.length > 1) {
+                    if (part[1] === "5" || q.ticks[tick] < 1) {
+                      q.ticks[tick] = "";
+                    } else {
+                      q.ticks[tick] = Number(q.ticks[tick]).toFixed(0);
+                    }
+                  }
+                }
+              },
+            }],
+          },
+        },
+      });
     }
   }, [data]);
 
