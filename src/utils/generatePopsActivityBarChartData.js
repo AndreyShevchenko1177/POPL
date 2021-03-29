@@ -20,20 +20,21 @@ export function generateChartData(popsData, minDate, maxDate) {
   }
 
   const result = {};
-  let date = currentDate.setHours(0, 0, 0, 0);
+  // let date = currentDate.setHours(0, 0, 0, 0);
+  console.log(calendarRange, currentDate);
 
   // initing result object dates
   if (calendarRange !== 0) {
     for (let i = calendarRange || 13; i > 0; i--) {
-      date -= 86400000;
-      const normalFormat = new Date(date);
-      const key = `${getYear(normalFormat)}-${normalizeDate(getMonth(normalFormat) + 1)}-${normalizeDate(getDay(normalFormat))}`;
+      const date = new Date().setDate(currentDate.getDate() - i);
+      // const normalFormat = new Date(date);
+      const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
       result[key] = 0;
     }
   }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
   const transformResult = {};
-  const dateArray = Object.keys(result).map((el) => ({ d: new Date(el).setHours(0, 0, 0, 0), v: result[el] }));
+  const dateArray = Object.keys(result).map((el) => ({ d: new Date(el), v: result[el] }));
   dateArray.sort((a, b) => a.d - b.d).forEach(({ d, v }) => {
     const normalFormat = new Date(d);
     const key = `${getYear(normalFormat)}-${normalizeDate(getMonth(normalFormat) + 1)}-${normalizeDate(getDay(normalFormat))}`;
