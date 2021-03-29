@@ -273,7 +273,7 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     <g>
     </g>
   </svg>,
-  csv: ({ fill, width, height }) => <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+  csv: ({ fill, width, height }) => <svg width={width} height={height} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
     viewBox="0 0 48 48">
     <g>
       <g>

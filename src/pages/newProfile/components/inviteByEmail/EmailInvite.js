@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { inviteByEmailAction } from "../../store/actions";
+import { inviteByEmailAction, clearStateAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Loader from "../../../../components/Loader";
@@ -14,6 +14,7 @@ function EmailInvite() {
   const [email, setEmail] = useState([]);
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
+  const isEmailSuccess = useSelector(({ addProfilesReducer }) => addProfilesReducer.inviteByEmail.success);
   const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
   const [blur, setBlur] = useState(false);
   const ref = useRef();
@@ -56,6 +57,13 @@ function EmailInvite() {
   useEffect(() => {
     ref.current?.focus();
   }, [isOpenDropZone]);
+
+  useEffect(() => {
+    if (isEmailSuccess) {
+      setIsOpenDropZone(false);
+      dispatch(clearStateAction("inviteByEmail"));
+    }
+  }, [isEmailSuccess]);
 
   return (
     <div className='relative'>

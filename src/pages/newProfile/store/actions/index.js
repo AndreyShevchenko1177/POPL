@@ -6,6 +6,7 @@ import {
   SIGN_IN_CHILD_SUCCESS,
   SIGN_IN_CHILD_FAIL,
   IS_DATA_FETCHING,
+  INVITE_BY_EMAIL_SUCCESS,
   INVITE_BY_EMAIL_FAIL,
   CLEAR_STATE,
 } from "../actionTypes";
@@ -97,9 +98,13 @@ const inviteByEmailRequest = (email) => {
 export const inviteByEmailAction = (emails, callBack) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
-    await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString)));
+    await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString || email)));
     callBack([]);
     dispatch(isFetchingAction(false));
+    dispatch({
+      type: INVITE_BY_EMAIL_SUCCESS,
+      payload: "success",
+    });
   } catch (error) {
     dispatch({
       type: INVITE_BY_EMAIL_FAIL,
