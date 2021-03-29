@@ -134,8 +134,9 @@ const DropZone = ({
     event.stopPropagation();
     // const correctEmailsArray;
     const [header, ...emails] = parseCsv;
-    let index = header.indexOf("Email") || header.indexOf("Email Address");
-    if (index !== -1) {
+    let index = (header.indexOf("Email") || "zero") || (header.indexOf("Email Address") || "zero");
+    if (header.indexOf("Email") <= 0 || header.indexOf("Email Address") <= 0) {
+      if (index === "zero") index = 0;
       const result = emails.map((el) => el[index]).filter((el) => el);
       if (!result.length) {
         return dispatch(snackBarAction({
