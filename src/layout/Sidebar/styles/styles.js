@@ -9,6 +9,7 @@ export default makeStyles((theme) => ({
   drawerPaper: {
     width: theme.custom.drawerWidth,
     minHeight: 700,
+    overflowY: "auto",
   },
   logo: {
     width: 80,
@@ -115,10 +116,10 @@ export default makeStyles((theme) => ({
     bottom: "50px",
     width: "100%",
     padding: "20px 20px 0 45px",
-    "@media (max-height:900px)": {
+    "@media (max-height:700px)": {
       bottom: "15px",
       paddingTop: "5px",
-      // position: "static",
+      position: "static",
     },
   },
   tierContainer: {

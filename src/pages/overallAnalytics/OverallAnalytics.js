@@ -69,10 +69,10 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    location.state?.id ? dispatch(getStatisticItem(location.state)) : dispatch(getStatisticItemsRequest(userId));
-    if (!popsData) {
-      dispatch(getPopsAction(location.state?.id));
-    }
+    if (location.state?.id) dispatch(getStatisticItem(location.state));
+    // if (location.state?.poplId) dispatch(getStatisticItem(location.state));
+    dispatch(getStatisticItemsRequest(userId));
+    location.state?.poplName ? dispatch(getPopsAction(null, location.state?.poplName)) : dispatch(getPopsAction(location.state?.id));
     return () => {
       dispatch(cleanAction());
     };
@@ -91,8 +91,8 @@ function OverallAnalytics() {
       <Header
         rootLink="Analytics"
         rootLinkClick={handleShowAllStat}
-        lastChild={location.state?.name || location.state?.poplId}
-        firstChild={location.state?.name ? "Profiles" : location.state?.poplId ? "Popls" : ""}
+        lastChild={location.state?.name || location.state?.poplName}
+        firstChild={location.state?.name ? "Profiles" : location.state?.poplName ? "Popls" : ""}
         path="/analytics/overall"
       />
       <div className="overall-analytics-container">

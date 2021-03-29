@@ -45,7 +45,7 @@ function PoplCard({ popl, editAction }) {
         </table>
       </div>
       <div className={classes.poplPagePoplCardButtonsContainer}>
-        <Button
+        {/* <Button
           variant="outlined"
           size="small"
           startIcon={<EditIcon />}
@@ -53,14 +53,14 @@ function PoplCard({ popl, editAction }) {
           onClick={() => editAction(popl)}
         >
           Edit
-        </Button>
+        </Button> */}
         <Button
           variant="outlined"
           size="small"
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
-          onClick={() => history.push("/analytics/overall", { poplId: popl.name })}
+          onClick={() => history.push("/analytics/overall", { poplName: popl.name })}
         >
           Analytics
         </Button>

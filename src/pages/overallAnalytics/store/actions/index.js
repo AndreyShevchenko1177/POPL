@@ -22,8 +22,9 @@ const popsActionRequest = (id) => {
   });
 };
 
-export const getPopsAction = (userId) => async (dispatch, getState) => {
+export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
   try {
+    console.log(poplName);
     const { id } = getState().authReducer.signIn.data;
     let result;
     if (!userId) {
@@ -31,6 +32,14 @@ export const getPopsAction = (userId) => async (dispatch, getState) => {
       const ids = JSON.parse(data);
       const response = await Promise.all([...ids, id].map((id) => popsActionRequest(id)));
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
+      if (poplName) {
+        const matchString = (popValue) => {
+          const result = popValue.slice(-14);
+          return result && result.length === 14 ? result : null;
+        };
+
+        result = result.filter((pop) => matchString(pop[1]) === poplName);
+      }
     } else {
       const response = await popsActionRequest(userId);
       result = response.data;
