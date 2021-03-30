@@ -184,6 +184,7 @@ export default function Profiles() {
             selectBtn,
             config: selectCheckboxes,
           }}
+          reverse
         />
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />

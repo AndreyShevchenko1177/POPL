@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
+  Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -32,6 +33,7 @@ function PermanentDrawerLeft() {
     campaignsOpen: false,
   });
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const profileInfoSideBar = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const [childrenAmount, setChildrenAmount] = useState();
 
   const handleCollapseClick = (name) => {
@@ -92,8 +94,6 @@ function PermanentDrawerLeft() {
     }
   }, [userData]);
 
-  console.log(highlight);
-
   return (
     <Drawer
       className={classes.drawer}
@@ -112,6 +112,7 @@ function PermanentDrawerLeft() {
         />
       </div>
       <div>
+        {console.log(profileInfoSideBar)}
         <List className={classes.ulMenu}>
           <Link to="/">
             <ListItem
@@ -170,6 +171,11 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Profiles"
               />
+              <Typography variant='h5' classes={{
+                root: clsx(classes.listText, {
+                  [classes.listTextHighLight]: highlight.profiles,
+                }),
+              }}>{profileInfoSideBar.totalProfiles}</Typography>
               {/* {collapse.profilesIsOpen
                 ? <ExpandLessIcon
                   style={{ fill: "#7d8286" }}
@@ -255,6 +261,11 @@ function PermanentDrawerLeft() {
               }}
               primary="Popls"
             />
+            <Typography variant='h5' classes={{
+              root: clsx(classes.listText, {
+                [classes.listTextHighLight]: highlight.popls,
+              }),
+            }}>{profileInfoSideBar.totalPopls}</Typography>
           </ListItem>
           <ListItem
             divider={false}
@@ -285,6 +296,11 @@ function PermanentDrawerLeft() {
               }}
               primary="Connections"
             />
+            <Typography variant='h5' classes={{
+              root: clsx(classes.listText, {
+                [classes.listTextHighLight]: highlight.connections,
+              }),
+            }}>{profileInfoSideBar.connections}</Typography>
             {/* {collapse.connectionsOpen
               ? <ExpandLessIcon
                 style={{ fill: "#7d8286" }}

@@ -113,6 +113,7 @@ function PoplsItem() {
             handleSearch={handleSearch}
             btn_title="Add Popl"
             disabled
+            removeAddbtn
           />
         </div>
         {isLoading ? (

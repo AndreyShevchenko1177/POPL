@@ -5,7 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
 import PoplsItem from "./pages/popls";
@@ -25,18 +25,23 @@ import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
+import { getProfileInfoRequest } from "./store/actions";
 
 setAxios();
 
 function App(props) {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (location.pathname.split("/")[1] !== "billing") {
       deleteCookies("sessionId");
     }
-  }, []);
+    if (profileData) {
+      dispatch(getProfileInfoRequest(profileData.id));
+    }
+  }, [profileData]);
 
   return (
     <Router>

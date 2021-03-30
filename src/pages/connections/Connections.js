@@ -128,6 +128,8 @@ function Connections() {
             handleSearch={handleSearch}
             disabled
             showCRM
+            removeAddbtn
+            reverse
           />
         </div>
         {isLoading ? (

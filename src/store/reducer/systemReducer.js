@@ -1,4 +1,4 @@
-import { PROFILE_DATA, ALERT } from "../actionTypes";
+import { PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR } from "../actionTypes";
 
 const initialState = {
   profileData: {},
@@ -7,6 +7,9 @@ const initialState = {
     duration: 6000,
     severity: "",
     open: false,
+  },
+  profileInfoSideBar: {
+
   },
 };
 
@@ -22,6 +25,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       alert: payload,
+    };
+  }
+  case PROFILE_INFO_FOR_SIDE_BAR: {
+    return {
+      ...state,
+      profileInfoSideBar: payload,
     };
   }
   default:

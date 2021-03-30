@@ -1,4 +1,11 @@
-import { PROFILE_DATA, ALERT } from "../actionTypes";
+/* eslint-disable no-return-assign */
+/* eslint-disable import/no-cycle */
+import axios from "axios";
+import { PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR } from "../actionTypes";
+import { getId } from "../../utils/uniqueId";
+import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
+import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
+import { getCollectionData } from "../../config/firebase.query";
 
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
@@ -9,3 +16,48 @@ export const snackBarAction = (payload) => ({
   type: ALERT,
   payload,
 });
+
+export const getProfileInfoRequest = (userId) => async (dispatch) => {
+  const myProfile = await getProfileAction(userId);
+  const response = await profileIds(userId);
+  if (response.data) {
+    const idsArray = JSON.parse(response.data);
+    const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
+    const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
+      ...p,
+      customId: getId(12),
+      business: p.business,
+      social: p.social,
+    }));
+    return dispatch(profilesInfo(profiles, userId));
+  }
+  let correctProfile = { customId: getId(12), id: myProfile.id };
+  Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
+  return dispatch(profilesInfo(correctProfile, userId));
+};
+
+const popsActionRequest = (id) => {
+  const getPopsFormData = new FormData();
+  getPopsFormData.append("sAction", "AjaxGetPops");
+  getPopsFormData.append("pid", Number(id));
+  getPopsFormData.append("ajax", 1);
+
+  return axios.post("", getPopsFormData, {
+    withCredentials: true,
+  });
+};
+
+const profilesInfo = (profiles, userId) => async (dispatch) => {
+  let result = {};
+  result.totalProfiles = `${profiles.length}`;
+  // const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
+  const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
+  result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+  // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
+  const connections = await getCollectionData("people", [...profiles.map((el) => el.id), userId]);
+  result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
+  dispatch({
+    type: PROFILE_INFO_FOR_SIDE_BAR,
+    payload: result,
+  });
+};

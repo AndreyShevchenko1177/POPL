@@ -43,6 +43,16 @@ function EmailInvite() {
     setBackspaceCheck(value);
   };
 
+  const handleKeyDownChange = (event) => {
+    if (event.code === "Tab" || event.code === "Space") {
+      event.preventDefault();
+      if (regexp.test(event.target.value)) {
+        setEmail((em) => ([...em, { emailString: `${event.target.value} `, id: getId(8) }]));
+        return setValue("");
+      }
+    }
+  };
+
   const removeEmail = (id) => {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
@@ -74,7 +84,7 @@ function EmailInvite() {
                   </p>
                   <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
                 </div>)}
-                <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyUp={handleKeyChange} value={value}/>
+                <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
               </div>
 
             </div>

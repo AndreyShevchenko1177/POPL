@@ -26,8 +26,10 @@ function SearchStripe({
   showCRM,
   showAll,
   checkboxes,
+  removeAddbtn,
+  reverse,
 }) {
-  const classes = useStyles();
+  const classes = useStyles(reverse)();
 
   return (
     <div className={classes.searchContainer}>
@@ -57,6 +59,7 @@ function SearchStripe({
         fitlersCheck={fitlersCheck}
         disabled={isShow}
         showAll={showAll}
+        reverse={reverse}
       />
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
@@ -71,7 +74,7 @@ function SearchStripe({
         </div>
 
       </Paper>
-      <div className={classes.buttonWrapper}>
+      {!removeAddbtn && <div className={classes.buttonWrapper}>
         <Button
           variant="contained"
           color="primary"
@@ -81,7 +84,7 @@ function SearchStripe({
         >
           {btn_title}
         </Button>
-      </div>
+      </div>}
       {showCRM && <div className={clsx(classes.buttonWrapper, classes.crmButton)}>
         <Button
           variant="contained"

@@ -4,13 +4,13 @@ import { Button } from "@material-ui/core";
 const mockConfig = [{ name: "all", label: "Show all" }];
 
 function Filters({
-  config = mockConfig, setFilters, disabled, isFetching, showAll = true,
+  config = mockConfig, setFilters, disabled, isFetching, showAll = true, reverse,
 }) {
   return (
     <>
       {showAll && config.map(({ name, label }, key) => (
 
-        <div key={key} style={{ minWidth: "100px", marginLeft: "30px" }}>
+        <div key={key} style={{ minWidth: "100px", marginLeft: reverse ? "0px" : "30px", marginRight: reverse ? "30px" : "0px" }}>
           <Button
             fullWidth
             disabled={isFetching || disabled}

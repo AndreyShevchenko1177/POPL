@@ -152,7 +152,7 @@ export default makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
-    boxShadow: theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.iconBoxShadow,
     width: 60,
     height: 60,
     "@media (max-width:1450px)": {
