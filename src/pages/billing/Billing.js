@@ -1,57 +1,39 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { snackBarAction } from "../../store/actions";
+import { Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
-import { setCookie } from "../../utils/cookie";
+import SubscriptionCard from "./components/SubscriptionCard";
 
 const stripe = window.Stripe(stripeConfig.stripePk);
 
+const config = [
+  {
+    id: 1,
+    title: "Pro",
+    price: "50",
+    priceId: "price_1IYcU1JqkGKmOFO6oJH5I0FR",
+    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
+  },
+  {
+    id: 2,
+    title: "Basic",
+    price: "150",
+    priceId: "price_1IYcU1JqkGKmOFO6oJH5I0FR",
+    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
+  },
+  {
+    id: 3,
+    title: "Custom",
+    price: "50",
+    priceId: "price_1IYcU1JqkGKmOFO6oJH5I0FR",
+    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
+  },
+];
+
 function Billing() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const priceId = "price_1IYcU1JqkGKmOFO6oJH5I0FR";
-
-  const handleSubscribe = async () => {
-    let myHeaders = new Headers();
-
-    let formdata = new FormData();
-    formdata.append("sAction", "CheckoutSessionStripe");
-    formdata.append("sPriceId", priceId);
-
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch("/api", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setCookie("sessionId", result);
-        stripe.redirectToCheckout({ sessionId: result })
-          .then((res) => console.log(res))
-          .catch((err) => dispatch(
-            snackBarAction({
-              message: "Subscription error",
-              severity: "error",
-              duration: 3000,
-              open: true,
-            }),
-          ));
-      })
-      .catch((error) => dispatch(
-        snackBarAction({
-          message: "Subscription error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        }),
-      ));
-  };
 
   return (
     <>
@@ -61,12 +43,29 @@ function Billing() {
         path="/settings"
       />
       <div className={classes.container}>
-        <Button
-          variant='outlined'
-          onClick={handleSubscribe}
-        >
-          Make all profiles pro
-        </Button>
+        <div className={classes.titleWrapper}>
+          <Typography variant="h1">Popls Connect Pricing</Typography>
+        </div>
+        <div className={classes.cardsContainerWrapper}>
+          <div className={classes.mostPopular}>
+            Most Popular
+          </div>
+          <div className={classes.cardsContainer}>
+            {config.map(({
+              id, title, price, priceId, labels,
+            }) => (
+              <div className={classes.cardItemContainer} key={id}>
+                <SubscriptionCard
+                  title={title}
+                  price={price}
+                  priceId={priceId}
+                  stripe={stripe}
+                  labels={labels}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );

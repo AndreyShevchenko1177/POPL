@@ -78,6 +78,11 @@ let theme = createMuiTheme({
       },
     },
     MuiTypography: {
+      h1: {
+        fontWeight: "700",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "50px !important",
+      },
       h2: {
         fontWeight: "700",
         fontFamily: "AvenirNextCyr",
@@ -103,6 +108,11 @@ let theme = createMuiTheme({
       },
       body1: {
         fontWeight: "200",
+        fontFamily: "AvenirNextCyr",
+        fontSize: "20px !important",
+      },
+      body2: {
+        fontWeight: "700",
         fontFamily: "AvenirNextCyr",
         fontSize: "20px !important",
       },
