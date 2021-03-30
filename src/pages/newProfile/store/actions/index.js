@@ -8,6 +8,9 @@ import {
   IS_DATA_FETCHING,
   INVITE_BY_EMAIL_SUCCESS,
   INVITE_BY_EMAIL_FAIL,
+  EMAILS_LIST,
+  FILES_LIST,
+  REMOVE_FILE,
   CLEAR_STATE,
 } from "../actionTypes";
 
@@ -85,27 +88,33 @@ export const signInChildAction = (credo) => async (dispatch) => {
   }
 };
 
-const inviteByEmailRequest = (email) => {
+const inviteByEmailRequest = (email, sCompanyName) => {
   const formdata = new FormData();
   formdata.append("ajax", "1");
   formdata.append("sAction", "AddToDashboardEmail");
   formdata.append("sToEmail", email);
   formdata.append("sToName", "name");
+  formdata.append("sCompanyName", sCompanyName);
   formdata.append("sSubject", "Hey name, time to go pro :rocket:");
   return axios.post("", formdata);
 };
 
-export const inviteByEmailAction = (emails, callBack) => async (dispatch) => {
+export const inviteByEmailAction = (emails, callBack, sCompanyName, files) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
-    await Promise.all(emails.map((email) => inviteByEmailRequest(email.emailString || email)));
+    const { emailsList } = getState().addProfilesReducer;
+    const reqEmails = emails.filter((email) => !emailsList.includes(email.emailString?.trim() || email.trim()));
+    await Promise.all(reqEmails.map((email) => inviteByEmailRequest(email.emailString?.trim() || email.trim(), sCompanyName)));
     callBack && callBack([]);
     dispatch(isFetchingAction(false));
+    reqEmails.forEach((email) => dispatch(addEmailAction(email.emailString?.trim() || email.trim())));
+    if (files) dispatch(addFileAction(Object.values(files)[0].file.name));
     dispatch({
       type: INVITE_BY_EMAIL_SUCCESS,
       payload: "success",
     });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: INVITE_BY_EMAIL_FAIL,
       payload: error,
@@ -121,6 +130,21 @@ export const inviteByEmailAction = (emails, callBack) => async (dispatch) => {
     );
   }
 };
+
+export const addEmailAction = (email) => ({
+  type: EMAILS_LIST,
+  payload: email,
+});
+
+export const addFileAction = (fileName) => ({
+  type: FILES_LIST,
+  payload: fileName,
+});
+
+export const removeFileAction = (fileName) => ({
+  type: REMOVE_FILE,
+  payload: fileName,
+});
 
 const isFetchingAction = (isFetching) => ({
   type: IS_DATA_FETCHING,

@@ -1,17 +1,15 @@
 import React, {
   useRef, useState, useEffect,
 } from "react";
-import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Chip, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import Papa from "papaparse";
-import clsx from "clsx";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
-import SvgMaker from "../svgMaker/SvgMaker";
 import Loader from "../Loader";
 import { inviteByEmailAction } from "../../pages/newProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
+import Preview from "./components/Preview";
 
 const DropZone = ({
   name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon,
@@ -31,8 +29,10 @@ const DropZone = ({
   const [validation, setValidation] = useState({
     quantity: false,
     fileType: false,
+    duplicated: false,
   });
-  const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
+  const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
 
   const handleDeleteFile = (key) => {
     const result = { ...files };
@@ -87,18 +87,26 @@ const DropZone = ({
   const onDrop = (event) => {
     stopEvent(event);
     const file = event.dataTransfer.files;
-    // if (quantity && files && Object.keys(files).length >= quantity) {
-    //   setValidation((prev) => ({ ...prev, quantity: true }));
-    //   setDragHower(false);
-    //   return;
-    // }
-    if (type && file && file[0].type && type.includes(file[0].type)) {
+    if (quantity && files && Object.keys(files).length >= quantity) {
+      setValidation((prev) => ({ ...prev, quantity: true }));
+      setDragHower(false);
+      return;
+    }
+    if (type && file && file[0].type && file[0].type.indexOf(type) === -1) {
       setValidation((prev) => ({ ...prev, fileType: true }));
       setDragHower(false);
       event.target.value = "";
       return;
     }
-    setValidation((prev) => ({ ...prev, quantity: false, fileType: false }));
+    if (filesList.includes(file[0].name)) {
+      setValidation((prev) => ({ ...prev, duplicated: true }));
+      setDragHower(false);
+      event.target.value = "";
+      return;
+    }
+    setValidation((prev) => ({
+      ...prev, quantity: false, fileType: false, duplicated: false,
+    }));
     const config = {
       complete(results, files) {
         setParseCsv(results.data);
@@ -118,17 +126,24 @@ const DropZone = ({
   const onFilesAdded = async (event) => {
     event.persist();
     const file = event.target.files;
-    console.log(file[0])
-    // if (quantity && files && Object.keys(files).length >= quantity) {
-    //   setValidation((prev) => ({ ...prev, quantity: true }));
-    //   return;
-    // }
-    // if (type && file && file[0] && file[0].type && file[0].type.indexOf(type) === -1) {
-    //   setValidation((prev) => ({ ...prev, fileType: true }));
-    //   event.target.value = "";
-    //   return;
-    // }
-    setValidation((prev) => ({ ...prev, quantity: false, fileType: false }));
+    if (quantity && files && Object.keys(files).length >= quantity) {
+      setValidation((prev) => ({ ...prev, quantity: true }));
+      return;
+    }
+    if (type && file && file[0] && file[0].type && file[0].type.indexOf(type) === -1) {
+      setValidation((prev) => ({ ...prev, fileType: true }));
+      event.target.value = "";
+      return;
+    }
+    if (filesList.includes(file[0].name)) {
+      setValidation((prev) => ({ ...prev, duplicated: true }));
+      setDragHower(false);
+      event.target.value = "";
+      return;
+    }
+    setValidation((prev) => ({
+      ...prev, quantity: false, fileType: false, duplicated: false,
+    }));
     const config = {
       complete(results, files) {
         setParseCsv(results.data);
@@ -159,7 +174,7 @@ const DropZone = ({
           open: true,
         }));
       }
-      return dispatch(inviteByEmailAction(result));
+      return dispatch(inviteByEmailAction(result, null, userData.name, files));
     }
     return dispatch(snackBarAction({
       message: "No \"Email\" or \"Email Address\" column was found",
@@ -179,6 +194,24 @@ const DropZone = ({
       }));
       setValidation({ ...validation, fileType: false });
     }
+    if (validation.quantity) {
+      validation.quantity && dispatch(snackBarAction({
+        message: "You can add only one file in one time",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }));
+      setValidation({ ...validation, quantity: false });
+    }
+    if (validation.duplicated) {
+      validation.duplicated && dispatch(snackBarAction({
+        message: "You already uploaded this file",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }));
+      setValidation({ ...validation, duplicated: false });
+    }
   }, [validation]);
 
   return (
@@ -193,21 +226,19 @@ const DropZone = ({
         style={files ? { justifyContent: "space-between", borderColor: dragHover ? "#0238e8" : " #d0d0d0" } : { margin: 0, justifyContent: "center", borderColor: dragHover ? "#0238e8" : " #d0d0d0" }}
       >
         { !Object.keys(files).length
-          ? <div className={styles.iconContainer}>{icon}</div>
+          ? (
+            <div className={classes.IconTextWrapper}>
+              <div className={styles.iconContainer}>{icon}</div>
+              <Typography variant='body2'>Drag and drop your CSV here</Typography>
+              <Typography className={classes.maxFileSize}>Maximum file size is <b>50MB</b></Typography>
+              <p className={classes.selectLink}>Or selecet it from your computer</p>
+            </div>
+          )
           : <div className={classes.previewContainer}>
             {
               Object.keys(files).map((file) => (
                 <div key={file} >
-                  <div className={classes.imageContainer}>
-                    <SvgMaker name={"csv"} fill='#fff' width={"50px"} height={"50px"} />
-                    <Chip
-                      className={classes.chipButton}
-                      deleteicon={<RemoveIcon />}
-                      size='medium'
-                      onDelete={() => handleDeleteFile(file)}
-                    />
-                    <div className={classes.fileName}>{Object.values(files)[0].file.name}</div>
-                  </div>
+                  <Preview fileName={Object.values(files)[0].file.name} deleteAction={() => handleDeleteFile(file)} />
                 </div>
               ))
             }
@@ -223,7 +254,7 @@ const DropZone = ({
           <p>Drag and drop CSV here</p>
           <p>or select from computer</p>
         </div>}
-        <div className={classes.textInstructionContainer} style={{ paddingTop: isFetching ? "130px" : "50px" }}>
+        <div className={classes.textInstructionContainer}>
           {isFetching
             ? <Loader />
             : <>
@@ -241,7 +272,7 @@ const DropZone = ({
           variant="contained"
           color="primary"
         >
-            Import File
+          { Object.keys(files).length ? "Upload File" : "Add File"}
         </Button>}
       </div>
     </div>

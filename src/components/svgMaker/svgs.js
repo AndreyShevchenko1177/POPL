@@ -339,7 +339,7 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     <g>
     </g>
   </svg>,
-  successCheckMark: ({ fill, width, height }) => <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+  successCheckMark: ({ fill, width, height }) => <svg width={width} height={height} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
     viewBox="0 0 507.2 507.2" >
     <circle fill = "#32BA7C" cx="253.6" cy="253.6" r="253.6"/>
     <path fill="#0AA06E" d="M188.8,368l130.4,130.4c108-28.8,188-127.2,188-244.8c0-2.4,0-4.8,0-7.2L404.8,152L188.8,368z"/>

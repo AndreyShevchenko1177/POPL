@@ -28,6 +28,11 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  IconTextWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   imageContainer: {
     width: "100%",
     position: "relative",
@@ -46,10 +51,21 @@ export default makeStyles((theme) => ({
     padding: 20,
   },
   textInstructionContainer: {
+    position: "absolute",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     width: 250,
+    bottom: "50px",
+  },
+  maxFileSize: {
+    fontSize: "18px !important",
+  },
+  selectLink: {
+    fontSize: "18px",
+    color: "#3da5f5",
+    textDecoration: "underline",
+    cursor: "pointer",
   },
   buttonWrapper: {
     position: "absolute",
@@ -57,6 +73,11 @@ export default makeStyles((theme) => ({
     right: 20,
   },
   fileName: {
+    display: "flex",
+    alignItems: "center",
     paddingTop: 10,
+    "& > svg": {
+      marginLeft: 10,
+    },
   },
 }));

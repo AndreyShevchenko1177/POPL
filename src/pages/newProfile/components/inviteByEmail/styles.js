@@ -108,6 +108,22 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
     fill: "rgba(0, 0, 0, 0.26)",
   },
+  importPreviewContainer: {
+    display: "flex",
+  },
+  preview: {
+    display: "flex",
+    padding: "0 20px",
+    alignItems: "center",
+  },
+  previewItem: {
+    width: 100,
+    height: 110,
+    marginRight: 10,
+    overflow: "hidden",
+    display: "flex",
+
+  },
   dropZoneWrapper: {
     position: "absolute",
     display: "flex",
@@ -147,7 +163,8 @@ export default makeStyles((theme) => ({
     zIndex: 1,
   },
   dropZoneIconContainer: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
+    padding: 10,
   },
 }));

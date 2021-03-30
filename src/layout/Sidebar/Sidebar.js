@@ -171,7 +171,7 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Profiles"
               />
-              <Typography variant='h5' classes={{
+              <Typography variant='subtitle1' classes={{
                 root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.profiles,
                 }),
@@ -261,7 +261,7 @@ function PermanentDrawerLeft() {
               }}
               primary="Popls"
             />
-            <Typography variant='h5' classes={{
+            <Typography variant='subtitle1' classes={{
               root: clsx(classes.listText, {
                 [classes.listTextHighLight]: highlight.popls,
               }),
@@ -296,7 +296,7 @@ function PermanentDrawerLeft() {
               }}
               primary="Connections"
             />
-            <Typography variant='h5' classes={{
+            <Typography variant='subtitle1' classes={{
               root: clsx(classes.listText, {
                 [classes.listTextHighLight]: highlight.connections,
               }),

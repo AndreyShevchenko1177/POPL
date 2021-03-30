@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { inviteByEmailAction, clearStateAction } from "../../store/actions";
+import { inviteByEmailAction, clearStateAction, removeFileAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Loader from "../../../../components/Loader";
 import DropZone from "../../../../components/dropZone";
 import SvgMaker from "../../../../components/svgMaker";
+import Preview from "../../../../components/dropZone/components/Preview";
 
 function EmailInvite() {
   const [value, setValue] = useState("");
@@ -16,7 +17,8 @@ function EmailInvite() {
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
   const isEmailSuccess = useSelector(({ addProfilesReducer }) => addProfilesReducer.inviteByEmail.success);
-  const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
+  const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const classes = useStyles();
   const dispatch = useDispatch();
   const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -33,7 +35,7 @@ function EmailInvite() {
 
   const handleInvite = () => {
     if (!email.length) return;
-    dispatch(inviteByEmailAction(email, setEmail));
+    dispatch(inviteByEmailAction(email, setEmail, userData.name));
   };
 
   const handleKeyChange = (event) => {
@@ -52,6 +54,8 @@ function EmailInvite() {
       }
     }
   };
+
+  const handleDeletePreviewFile = (name) => dispatch(removeFileAction(name));
 
   const removeEmail = (id) => {
     setEmail((em) => em.filter((email) => email.id !== id));
@@ -91,14 +95,24 @@ function EmailInvite() {
             <div
               className={classes.buttonsContainer}
             >
-              <Button
-                className={classes.emailBtn}
-                variant="contained"
-                color="primary"
-                onClick={() => setIsOpenDropZone(true)}
-              >
+              <div className={classes.importPreviewContainer}>
+                <Button
+                  className={classes.emailBtn}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setIsOpenDropZone(true)}
+                >
                 Import Emails
-              </Button>
+                </Button>
+                <div className={classes.preview}>
+                  {filesList.map((file) => (
+                    <div className={classes.previewItem} key={file}>
+                      <Preview deleteAction={() => handleDeletePreviewFile(file)} width="30px" height="30px" fileName={file} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <Button
                 className={classes.emailBtn}
                 variant="contained"
@@ -120,6 +134,7 @@ function EmailInvite() {
               iconContainer: classes.dropZoneIconContainer,
             }}
             icon={<SvgMaker name={"csv"} fill='#fff' />}
+            quantity={1}
           />
         </div>
       </>}
