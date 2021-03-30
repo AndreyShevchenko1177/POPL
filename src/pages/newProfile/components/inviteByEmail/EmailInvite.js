@@ -48,11 +48,11 @@ function EmailInvite() {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  const blurHandler = (event, blur) => {
-    if (blur) return setBlur(false);
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    setIsOpenDropZone(false);
-  };
+  // const blurHandler = (event, blur) => {
+  //   if (blur) return setBlur(false);
+  //   if (event.currentTarget.contains(event.relatedTarget)) return;
+  //   setIsOpenDropZone(false);
+  // };
 
   useEffect(() => {
     ref.current?.focus();
@@ -106,7 +106,7 @@ function EmailInvite() {
           </>}
       </Grid>
       {isOpenDropZone && <>
-        <div className={classes.opacityBackground}></div>
+        <div className={classes.opacityBackground} onClick={() => setIsOpenDropZone(false)}></div>
         <div>
           <DropZone
             styles={{
@@ -116,7 +116,7 @@ function EmailInvite() {
             }}
             icon={<SvgMaker name={"csv"} fill='#fff' />}
             zoneRef={ref}
-            onBlur={blurHandler}
+            // onBlur={blurHandler}
             blur={blur}
             setBlur={setBlur}
           />

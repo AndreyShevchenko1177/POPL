@@ -84,19 +84,26 @@ const DropZone = ({
   const onDrop = (event) => {
     stopEvent(event);
     const file = event.dataTransfer.files;
-    if (quantity && files && Object.keys(files).length >= quantity) {
-      setValidation((prev) => ({ ...prev, quantity: true }));
-      setDragHower(false);
-      return;
-    }
-    if (type && file && file[0].type && file[0].type.indexOf(type) === -1) {
-      setValidation((prev) => ({ ...prev, fileType: true }));
-      setDragHower(false);
-      event.target.value = "";
-      return;
-    }
+    // if (quantity && files && Object.keys(files).length >= quantity) {
+    //   setValidation((prev) => ({ ...prev, quantity: true }));
+    //   setDragHower(false);
+    //   return;
+    // }
+    // if (type && file && file[0].type && file[0].type.indexOf(type) === -1) {
+    //   setValidation((prev) => ({ ...prev, fileType: true }));
+    //   setDragHower(false);
+    //   event.target.value = "";
+    //   return;
+    // }
     setValidation((prev) => ({ ...prev, quantity: false, fileType: false }));
-    handleFilesObject(file);
+    const config = {
+      complete(results, files) {
+        setParseCsv(results.data);
+        handleFilesObject(file);
+        event.target.value = "";
+      },
+    };
+    Papa.parse(file[0], config);
 
     setDragHower(false);
   };
@@ -109,17 +116,16 @@ const DropZone = ({
   const onFilesAdded = async (event) => {
     event.persist();
     const file = event.target.files;
-    if (quantity && files && Object.keys(files).length >= quantity) {
-      setValidation((prev) => ({ ...prev, quantity: true }));
-      return;
-    }
-    if (type && file && file[0] && file[0].type && file[0].type.indexOf(type) === -1) {
-      setValidation((prev) => ({ ...prev, fileType: true }));
-      event.target.value = "";
-      return;
-    }
-    setValidation((prev) => ({ ...prev, quantity: false }));
-    setValidation((prev) => ({ ...prev, fileType: false }));
+    // if (quantity && files && Object.keys(files).length >= quantity) {
+    //   setValidation((prev) => ({ ...prev, quantity: true }));
+    //   return;
+    // }
+    // if (type && file && file[0] && file[0].type && file[0].type.indexOf(type) === -1) {
+    //   setValidation((prev) => ({ ...prev, fileType: true }));
+    //   event.target.value = "";
+    //   return;
+    // }
+    setValidation((prev) => ({ ...prev, quantity: false, fileType: false }));
     const config = {
       complete(results, files) {
         setParseCsv(results.data);
@@ -176,7 +182,7 @@ const DropZone = ({
     <div className={styles.wrapper}>
       <div
         ref={zoneRef}
-        onBlur={(event) => onBlur(event, blur)}
+        // onBlur={(event) => onBlur(event, blur)}
         tabIndex={1}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
