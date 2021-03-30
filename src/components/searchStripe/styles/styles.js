@@ -1,7 +1,6 @@
-/* eslint-disable import/no-anonymous-default-export */
 import { makeStyles } from "@material-ui/core";
 
-export default (reverse) => makeStyles((theme) => ({
+export default makeStyles((theme) => ({
   root: {
     padding: "8px 16px",
     display: "flex",
@@ -17,7 +16,6 @@ export default (reverse) => makeStyles((theme) => ({
   },
   searchContainer: {
     display: "flex",
-    flexDirection: reverse ? "row-reverse" : "row",
     position: "relative",
     width: "100%",
     height: "100px",
@@ -30,7 +28,7 @@ export default (reverse) => makeStyles((theme) => ({
     borderRadius: theme.custom.mainBorderRadius,
   },
   crmButton: {
-    // paddingLeft: 10,
+    paddingLeft: 10,
   },
   button: {
     height: "50px",
