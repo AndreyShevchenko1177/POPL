@@ -53,6 +53,7 @@ function ProfilePanel({
       <Grid item xs={12}>
         <Button
           variant="outlined"
+          fullWidth
           size="small"
           color="primary"
           className={classes.button}
@@ -71,6 +72,7 @@ function ProfilePanel({
       <Grid item xs={12}>
         <Button
           variant="outlined"
+          fullWidth
           className={classes.button}
           size="small"
           color="primary"
@@ -85,6 +87,7 @@ function ProfilePanel({
       <Grid item xs={12}>
         <Button
           variant="outlined"
+          fullWidth
           size="small"
           color="primary"
           className={classes.button}

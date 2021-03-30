@@ -3,7 +3,7 @@ import { Switch, makeStyles } from "@material-ui/core";
 
 const useStyles = (after, before, input) => makeStyles((theme) => ({
   root: {
-    width: 125,
+    width: "100%",
     height: 28,
     padding: 0,
   },
@@ -90,7 +90,7 @@ const CustomSwitch = ({
   const switchStyles = useStyles(after, before, inputStyles[Number(!checked)])();
 
   return (
-    <div>
+    <div className='full-w'>
       <Switch
         classes={switchStyles}
         checked={checked}

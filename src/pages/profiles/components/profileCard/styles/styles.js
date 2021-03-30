@@ -176,7 +176,7 @@ export default makeStyles((theme) => ({
   buttonsContainer: {
     display: "flex",
     height: "100%",
-    width: "125px",
+    width: "140px",
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "space-evenly",
@@ -200,6 +200,9 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     paddingBottom: 10,
+    "& > div": {
+      width: "100%"
+    }
   },
   switchLabelWrapper: {
     width: "100%",
@@ -216,6 +219,5 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
     color: "#000000",
     fontWeight: 400,
-    width: "125px",
   },
 }));

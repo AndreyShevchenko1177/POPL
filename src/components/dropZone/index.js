@@ -14,7 +14,7 @@ import { inviteByEmailAction } from "../../pages/newProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 
 const DropZone = ({
-  name, styles, quantity, type = "vnd.ms-excel", multiple, icon,
+  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -92,12 +92,12 @@ const DropZone = ({
     //   setDragHower(false);
     //   return;
     // }
-    // if (type && file && file[0].type && file[0].type.indexOf(type) === -1) {
-    //   setValidation((prev) => ({ ...prev, fileType: true }));
-    //   setDragHower(false);
-    //   event.target.value = "";
-    //   return;
-    // }
+    if (type && file && file[0].type && type.includes(file[0].type)) {
+      setValidation((prev) => ({ ...prev, fileType: true }));
+      setDragHower(false);
+      event.target.value = "";
+      return;
+    }
     setValidation((prev) => ({ ...prev, quantity: false, fileType: false }));
     const config = {
       complete(results, files) {
@@ -118,6 +118,7 @@ const DropZone = ({
   const onFilesAdded = async (event) => {
     event.persist();
     const file = event.target.files;
+    console.log(file[0])
     // if (quantity && files && Object.keys(files).length >= quantity) {
     //   setValidation((prev) => ({ ...prev, quantity: true }));
     //   return;

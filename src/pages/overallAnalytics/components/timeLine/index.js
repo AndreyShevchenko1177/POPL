@@ -55,7 +55,7 @@ export default function NetworkActivity({
                 for (let tick in q.ticks) {
                   const part = q.ticks[tick].split(".");
                   if (part.length > 1) {
-                    if (part[1] === "5" || q.ticks[tick] < 1) {
+                    if (part[1] > 0 || q.ticks[tick] < 1) {
                       q.ticks[tick] = "";
                     } else {
                       q.ticks[tick] = Number(q.ticks[tick]).toFixed(0);
