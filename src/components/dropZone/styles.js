@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     padding: "10px",
-    height: "80px",
+    height: "100px",
     width: "100%",
     flexWrap: "wrap",
   },
@@ -49,7 +49,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingTop: 50,
     width: 250,
   },
   buttonWrapper: {

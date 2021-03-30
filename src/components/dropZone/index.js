@@ -2,17 +2,19 @@ import React, {
   useRef, useState, useEffect,
 } from "react";
 import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Chip, Typography } from "@material-ui/core";
 import Papa from "papaparse";
+import clsx from "clsx";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import SvgMaker from "../svgMaker/SvgMaker";
+import Loader from "../Loader";
 import { inviteByEmailAction } from "../../pages/newProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 
 const DropZone = ({
-  name, styles, quantity, type = "vnd.ms-excel", multiple, icon, zoneRef, onBlur, blur, setBlur,
+  name, styles, quantity, type = "vnd.ms-excel", multiple, icon,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const DropZone = ({
     quantity: false,
     fileType: false,
   });
+  const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
 
   const handleDeleteFile = (key) => {
     const result = { ...files };
@@ -109,7 +112,6 @@ const DropZone = ({
   };
 
   const openFileDialog = () => {
-    setBlur(true);
     fileInputRef.current?.click();
   };
 
@@ -181,8 +183,6 @@ const DropZone = ({
   return (
     <div className={styles.wrapper}>
       <div
-        ref={zoneRef}
-        // onBlur={(event) => onBlur(event, blur)}
         tabIndex={1}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
@@ -222,22 +222,26 @@ const DropZone = ({
           <p>Drag and drop CSV here</p>
           <p>or select from computer</p>
         </div>}
-        <div className={classes.textInstructionContainer}>
-          <Typography variant='h5'>File Format:</Typography>
-          <ol>
-            <li>Must be CSV</li>
-            <li>First row is column header</li>
-            <li>One of the header must be "Email" or "Email Address"</li>
-          </ol>
+        <div className={classes.textInstructionContainer} style={{ paddingTop: isFetching ? "130px" : "50px" }}>
+          {isFetching
+            ? <Loader />
+            : <>
+              <Typography variant='h5'>File Format:</Typography>
+              <ol>
+                <li>Must be CSV</li>
+                <li>First row is column header</li>
+                <li>One of the header must be "Email" or "Email Address"</li>
+              </ol>
+            </>}
         </div>
-        <Button
+        {!isFetching && <Button
           className={classes.buttonWrapper}
           onClick={(e) => importCsv(e)}
           variant="contained"
           color="primary"
         >
             Import File
-        </Button>
+        </Button>}
       </div>
     </div>
   );

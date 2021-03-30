@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { inviteByEmailAction, clearStateAction } from "../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Loader from "../../../../components/Loader";
@@ -16,8 +17,6 @@ function EmailInvite() {
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
   const isEmailSuccess = useSelector(({ addProfilesReducer }) => addProfilesReducer.inviteByEmail.success);
   const isFetching = useSelector(({ addProfilesReducer }) => addProfilesReducer.isFetching);
-  const [blur, setBlur] = useState(false);
-  const ref = useRef();
   const classes = useStyles();
   const dispatch = useDispatch();
   const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -48,20 +47,16 @@ function EmailInvite() {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  // const blurHandler = (event, blur) => {
-  //   if (blur) return setBlur(false);
-  //   if (event.currentTarget.contains(event.relatedTarget)) return;
-  //   setIsOpenDropZone(false);
-  // };
-
-  useEffect(() => {
-    ref.current?.focus();
-  }, [isOpenDropZone]);
-
   useEffect(() => {
     if (isEmailSuccess) {
       setIsOpenDropZone(false);
       dispatch(clearStateAction("inviteByEmail"));
+      dispatch(snackBarAction({
+        message: "Your contacts imported successfully",
+        severity: "success",
+        duration: 3000,
+        open: true,
+      }));
     }
   }, [isEmailSuccess]);
 
@@ -115,10 +110,6 @@ function EmailInvite() {
               iconContainer: classes.dropZoneIconContainer,
             }}
             icon={<SvgMaker name={"csv"} fill='#fff' />}
-            zoneRef={ref}
-            // onBlur={blurHandler}
-            blur={blur}
-            setBlur={setBlur}
           />
         </div>
       </>}
