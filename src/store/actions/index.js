@@ -1,7 +1,9 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
 import axios from "axios";
-import { PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR } from "../actionTypes";
+import {
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL,
+} from "../actionTypes";
 import { getId } from "../../utils/uniqueId";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -35,6 +37,11 @@ export const getProfileInfoRequest = (userId) => async (dispatch) => {
   Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
   return dispatch(profilesInfo([correctProfile], userId));
 };
+
+export const profileCountTierLevelAction = (number) => ({
+  type: PROFILE_COUNT_TIER_LEVEL,
+  payload: number,
+});
 
 const profilesInfo = (profiles, userId) => async (dispatch) => {
   let result = {};

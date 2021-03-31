@@ -54,7 +54,7 @@ function SubscribeButton({ priceId, stripe }) {
         className={classes.subscriptionButton}
         onClick={handleSubscribe}
       >
-        Make all profiles pro
+        Subscribe
       </Button>
     </>
   );

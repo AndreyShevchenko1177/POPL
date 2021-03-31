@@ -135,7 +135,7 @@ const DropZone = ({
     //   event.target.value = "";
     //   return;
     // }
-    console.log(file && file[0] && file[0].type, name);
+    console.log(file && file[0] && file[0].type, file[0].name);
     if (filesList.includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));
       setDragHower(false);

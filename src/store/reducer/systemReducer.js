@@ -1,4 +1,6 @@
-import { PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR } from "../actionTypes";
+import {
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL,
+} from "../actionTypes";
 
 const initialState = {
   profileData: {},
@@ -13,6 +15,7 @@ const initialState = {
     profileConnection: {},
     poplsConnection: {},
   },
+  profileCountTierLevel: 0,
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -33,6 +36,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       profileInfoSideBar: payload,
+    };
+  }
+  case PROFILE_COUNT_TIER_LEVEL: {
+    return {
+      ...state,
+      profileCountTierLevel: payload,
     };
   }
   default:

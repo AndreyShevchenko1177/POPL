@@ -6,24 +6,24 @@ import SubscribeButton from "./SubscribeButton";
 import successIcon from "../../../assets/svg/success-icon.svg";
 
 function SubscriptionCard({
-  title, price, priceId, stripe, labels,
+  title, price, priceId, stripe, labels, profilesNumber,
 }) {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <Typography className={classes.title} variant='body2'>{title}</Typography>
-      <Typography variant='body2'>${price} / mo</Typography>
       <div className={classes.priceDescriptionContainer}>
-        <span>per integration</span>
-        <span>billed annually, <b>${price} monthly</b></span>
+        <span>{profilesNumber} Profiles</span>
+        {/* <span><b>${price} month</b></span> */}
+        <Typography variant='body2'>${price} / month</Typography>
       </div>
       <div className={classes.buttonContainer}>
         <SubscribeButton priceId={priceId} stripe={stripe} />
       </div>
       <div className={classes.labelsContainer}>
         {labels.map((label) => (
-          <div className={classes.labelsItem}>
+          <div key={label} className={classes.labelsItem}>
             <div className={classes.labelIcon}>
               <SvgMaker name="successCheckMark" />
             </div>
