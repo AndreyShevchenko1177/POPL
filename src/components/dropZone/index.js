@@ -92,12 +92,12 @@ const DropZone = ({
       setDragHower(false);
       return;
     }
-    if (type && file && file[0].type && file[0].type.indexOf(type) === -1) {
-      setValidation((prev) => ({ ...prev, fileType: true }));
-      setDragHower(false);
-      event.target.value = "";
-      return;
-    }
+    // if (type && file && file[0] && file[0].type && type.includes(file[0].type)) {
+    //   setValidation((prev) => ({ ...prev, fileType: true }));
+    //   setDragHower(false);
+    //   event.target.value = "";
+    //   return;
+    // }
     if (filesList.includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));
       setDragHower(false);
@@ -130,11 +130,12 @@ const DropZone = ({
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
     }
-    if (type && file && file[0] && file[0].type && file[0].type.indexOf(type) === -1) {
-      setValidation((prev) => ({ ...prev, fileType: true }));
-      event.target.value = "";
-      return;
-    }
+    // if (type && file && file[0] && file[0].type && type.includes(file[0].type)) {
+    //   setValidation((prev) => ({ ...prev, fileType: true }));
+    //   event.target.value = "";
+    //   return;
+    // }
+    console.log(file && file[0] && file[0].type, name);
     if (filesList.includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));
       setDragHower(false);
@@ -165,7 +166,7 @@ const DropZone = ({
         : -1;
 
     if (index >= 0) {
-      const result = emails.map((el) => el[index]).filter((el) => el);
+      const result = emails.map((el) => el[index]).filter((el, i, array) => el && array.indexOf(el) === i);
       if (!result.length) {
         return dispatch(snackBarAction({
           message: "No emails was found",
@@ -266,13 +267,13 @@ const DropZone = ({
               </ol>
             </>}
         </div>
-        {!isFetching && <Button
+        {!isFetching && !!Object.keys(files).length && <Button
           className={classes.buttonWrapper}
           onClick={(e) => importCsv(e)}
           variant="contained"
           color="primary"
         >
-          { Object.keys(files).length ? "Upload File" : "Add File"}
+          Upload File
         </Button>}
       </div>
     </div>
