@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
   },
   priceDescriptionContainer: {
     display: "flex",
-    minHeight: 90,
+    minHeight: 150,
     flexDirection: "column",
     paddingTop: 10,
     "& span:first-child": {

@@ -22,14 +22,14 @@ function SubscriptionCard({
         <SubscribeButton priceId={priceId} stripe={stripe} />
       </div>
       <div className={classes.labelsContainer}>
-        {labels.map((label) => (
+        {/* {labels.map((label) => (
           <div key={label} className={classes.labelsItem}>
             <div className={classes.labelIcon}>
               <SvgMaker name="successCheckMark" />
             </div>
             <span>{label}</span>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
