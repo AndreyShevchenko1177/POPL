@@ -33,18 +33,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch) => {
   }
   let correctProfile = { customId: getId(12), id: myProfile.id };
   Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-  return dispatch(profilesInfo(correctProfile, userId));
-};
-
-const popsActionRequest = (id) => {
-  const getPopsFormData = new FormData();
-  getPopsFormData.append("sAction", "AjaxGetPops");
-  getPopsFormData.append("pid", Number(id));
-  getPopsFormData.append("ajax", 1);
-
-  return axios.post("", getPopsFormData, {
-    withCredentials: true,
-  });
+  return dispatch(profilesInfo([correctProfile], userId));
 };
 
 const profilesInfo = (profiles, userId) => async (dispatch) => {

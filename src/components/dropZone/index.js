@@ -175,7 +175,7 @@ const DropZone = ({
           open: true,
         }));
       }
-      return dispatch(inviteByEmailAction(result, null, userData.name, files));
+      return dispatch(inviteByEmailAction(result, null, userData, files));
     }
     return dispatch(snackBarAction({
       message: "No \"Email\" or \"Email Address\" column was found",
