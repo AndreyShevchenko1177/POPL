@@ -33,7 +33,7 @@ function PermanentDrawerLeft() {
     campaignsOpen: false,
   });
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const profileInfoSideBar = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
+  const { result: profileInfoSideBar } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const [childrenAmount, setChildrenAmount] = useState();
 
   const handleCollapseClick = (name) => {
@@ -112,7 +112,6 @@ function PermanentDrawerLeft() {
         />
       </div>
       <div>
-        {console.log(profileInfoSideBar)}
         <List className={classes.ulMenu}>
           <Link to="/">
             <ListItem

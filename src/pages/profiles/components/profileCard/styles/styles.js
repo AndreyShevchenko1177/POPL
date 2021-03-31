@@ -201,8 +201,8 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
     paddingBottom: 10,
     "& > div": {
-      width: "100%"
-    }
+      width: "100%",
+    },
   },
   switchLabelWrapper: {
     width: "100%",
@@ -219,5 +219,33 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
     color: "#000000",
     fontWeight: 400,
+  },
+  profileConnection: {
+    position: "absolute",
+    right: 35,
+    top: "40%",
+    fontSize: 12,
+    borderRadius: "50%",
+    padding: 2,
+    minWidth: 25,
+    height: 25,
+    textAlign: "center",
+    color: "#fff",
+    backgroundColor: "#646464",
+    zIndex: 1000,
+  },
+  profilePopls: {
+    position: "absolute",
+    right: 35,
+    top: "calc(75% + 2px)",
+    fontSize: 12,
+    borderRadius: "50%",
+    padding: 2,
+    minWidth: 25,
+    height: 25,
+    textAlign: "center",
+    color: "#fff",
+    backgroundColor: "#646464",
+    zIndex: 1000,
   },
 }));

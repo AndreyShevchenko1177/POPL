@@ -9,7 +9,9 @@ const initialState = {
     open: false,
   },
   profileInfoSideBar: {
-
+    result: {},
+    profileConnection: {},
+    poplsConnection: {},
   },
 };
 

@@ -43,10 +43,14 @@ const profilesInfo = (profiles, userId) => async (dispatch) => {
   const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
   result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
   // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
-  const connections = await getCollectionData("people", [...profiles.map((el) => el.id), userId]);
+  const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
+  const profileConnection = {};
+  const poplsConnection = {};
+  popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
+  connections.forEach((item) => profileConnection[item.docId] = item.data.length);
   result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
   dispatch({
     type: PROFILE_INFO_FOR_SIDE_BAR,
-    payload: result,
+    payload: { result, profileConnection, poplsConnection },
   });
 };
