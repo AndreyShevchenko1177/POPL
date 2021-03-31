@@ -88,7 +88,7 @@ export const signInChildAction = (credo) => async (dispatch) => {
   }
 };
 
-const inviteByEmailRequest = (email, userData) => {
+const inviteByEmailRequest = (email, userData, emailId) => {
   const formdata = new FormData();
   formdata.append("ajax", "1");
   formdata.append("sAction", "AddToDashboardEmail");
@@ -96,7 +96,16 @@ const inviteByEmailRequest = (email, userData) => {
   formdata.append("sToName", "name");
   formdata.append("sCompanyName", userData.name);
   formdata.append("iID", userData.id);
+  formdata.append("sChild", `[${emailId}]`);
   formdata.append("sSubject", "Hey name, time to go pro :rocket:");
+  return axios.post("", formdata);
+};
+
+const getIdFromEmail = async (email) => {
+  const formdata = new FormData();
+  formdata.append("ajax", "1");
+  formdata.append("sAction", "GetIdFromEmail");
+  formdata.append("iEmail", email);
   return axios.post("", formdata);
 };
 
@@ -105,7 +114,11 @@ export const inviteByEmailAction = (emails, callBack, userData, files) => async 
     dispatch(isFetchingAction(true));
     const { emailsList } = getState().addProfilesReducer;
     const reqEmails = emails.filter((email) => !emailsList.includes(email.emailString?.trim() || email.trim()));
-    await Promise.all(reqEmails.map((email) => inviteByEmailRequest(email.emailString?.trim() || email.trim(), userData)));
+    for (const email of emails) {
+      const { data } = await getIdFromEmail(email.emailString?.trim() || email.trim());
+      reqEmails.map((email) => inviteByEmailRequest(email.emailString?.trim() || email.trim(), userData, data));
+    }
+    // await Promise.all();
     callBack && callBack([]);
     dispatch(isFetchingAction(false));
     reqEmails.forEach((email) => dispatch(addEmailAction(email.emailString?.trim() || email.trim())));
