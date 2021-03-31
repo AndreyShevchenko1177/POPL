@@ -1,5 +1,5 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
 } from "../actionTypes";
 
 const initialState = {
@@ -86,6 +86,12 @@ export default function realTimeAnalytics(
   }
   case CLEAN: {
     return initialState;
+  }
+  case CLEAN_BY_NAME: {
+    return {
+      ...state,
+      [payload]: initialState[payload],
+    };
   }
   default:
     return state;
