@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   Grid, FormGroup, Button,
@@ -23,9 +24,11 @@ function ProfilePanel({
 }) {
   const classes = useStyles();
   const history = useHistory();
-
+  const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
     <Grid container spacing={2}>
+      <div className={classes.profileConnection}>{profileConnection[id]}</div>
+      <div className={classes.profilePopls}>{poplsConnection[id]}</div>
       <Grid item xs={12}>
         <div className={clsx(section2, "target-element")}>
           <div className="full-w">

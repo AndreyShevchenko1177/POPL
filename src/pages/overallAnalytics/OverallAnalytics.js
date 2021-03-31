@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
-  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
+  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest, individualPopsCountAction,
 } from "./store/actions";
 import "./styles/styles.css";
 import {
@@ -69,10 +69,17 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    if (location.state?.id) dispatch(getStatisticItem(location.state));
     // if (location.state?.poplId) dispatch(getStatisticItem(location.state));
-    dispatch(getStatisticItemsRequest(userId));
-    location.state?.poplName ? dispatch(getPopsAction(null, location.state?.poplName)) : dispatch(getPopsAction(location.state?.id));
+
+    if (location.state?.poplName) {
+      dispatch(getPopsAction(null, location.state?.poplName));
+    } else if (location.state?.id) {
+      dispatch(getStatisticItem(location.state));
+      dispatch(getPopsAction(location.state?.id));
+    } else {
+      dispatch(getStatisticItemsRequest(userId));
+      dispatch(getPopsAction(location.state?.id));
+    }
     return () => {
       dispatch(cleanAction());
     };
@@ -101,7 +108,7 @@ function OverallAnalytics() {
           linkTaps={topStatisticsData.data?.linkTaps}
           totalProfiles={topStatisticsData.data?.totalProfiles}
           totalPopls={topStatisticsData.data?.totalPopls}
-          isFetched={isFetching}
+          isFetched={topStatisticsData.isFetched}
         />{" "}
         {/* add linkTaps, totalViews here */}
         <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>

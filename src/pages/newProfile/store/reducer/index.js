@@ -111,8 +111,8 @@ export default function addProfilesReducer(
     // console.log(payload);
     return {
       ...state,
-      fileList: [...state.filesList.filter((name) => {
-        console.log(name !== payload);
+      filesList: [...state.filesList.filter((name) => {
+        console.log(name !== payload, payload, state.filesList);
         return name !== payload;
       })],
     };

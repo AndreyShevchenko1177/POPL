@@ -35,7 +35,7 @@ function EmailInvite() {
 
   const handleInvite = () => {
     if (!email.length) return;
-    dispatch(inviteByEmailAction(email, setEmail, userData.name));
+    dispatch(inviteByEmailAction(email, setEmail, userData));
   };
 
   const handleKeyChange = (event) => {

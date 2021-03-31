@@ -1,10 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import useStyles from "./styles/styles";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 
 function TierLevel({ used, max }) {
   const classes = useStyles();
+  const history = useHistory();
+
   return (
     <div className={classes.tierContainer}>
       <div className={classes.tierHeader}>
@@ -28,6 +31,7 @@ function TierLevel({ used, max }) {
       <Button
         variant='outlined'
         classes={{ root: classes.tierButton }}
+        onClick={() => history.push("/settings/billing")}
       >
         Upgrade Plan
       </Button>

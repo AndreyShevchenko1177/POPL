@@ -1,7 +1,9 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
 import axios from "axios";
-import { PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR } from "../actionTypes";
+import {
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL,
+} from "../actionTypes";
 import { getId } from "../../utils/uniqueId";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -33,19 +35,13 @@ export const getProfileInfoRequest = (userId) => async (dispatch) => {
   }
   let correctProfile = { customId: getId(12), id: myProfile.id };
   Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-  return dispatch(profilesInfo(correctProfile, userId));
+  return dispatch(profilesInfo([correctProfile], userId));
 };
 
-const popsActionRequest = (id) => {
-  const getPopsFormData = new FormData();
-  getPopsFormData.append("sAction", "AjaxGetPops");
-  getPopsFormData.append("pid", Number(id));
-  getPopsFormData.append("ajax", 1);
-
-  return axios.post("", getPopsFormData, {
-    withCredentials: true,
-  });
-};
+export const profileCountTierLevelAction = (number) => ({
+  type: PROFILE_COUNT_TIER_LEVEL,
+  payload: number,
+});
 
 const profilesInfo = (profiles, userId) => async (dispatch) => {
   let result = {};
@@ -54,10 +50,14 @@ const profilesInfo = (profiles, userId) => async (dispatch) => {
   const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
   result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
   // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
-  const connections = await getCollectionData("people", [...profiles.map((el) => el.id), userId]);
+  const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
+  const profileConnection = {};
+  const poplsConnection = {};
+  popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
+  connections.forEach((item) => profileConnection[item.docId] = item.data.length);
   result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
   dispatch({
     type: PROFILE_INFO_FOR_SIDE_BAR,
-    payload: result,
+    payload: { result, profileConnection, poplsConnection },
   });
 };

@@ -3,7 +3,7 @@
 import axios from "axios";
 
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
 } from "../actionTypes";
 
 import { snackBarAction } from "../../../../store/actions";
@@ -24,7 +24,6 @@ const popsActionRequest = (id) => {
 
 export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
   try {
-    console.log(poplName);
     const { id } = getState().authReducer.signIn.data;
     let result;
     if (!userId) {
@@ -39,6 +38,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         };
 
         result = result.filter((pop) => matchString(pop[1]) === poplName);
+        dispatch(individualPopsCountAction(result.length));
       }
     } else {
       const response = await popsActionRequest(userId);
@@ -82,7 +82,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
 };
 
 export const getStatisticItemsRequest = (userId) => async (dispatch) => {
-  dispatch(isFetchingAction(true));
+  dispatch(cleanActionName("topStatisticsData"));
   const myProfile = await getProfileAction(userId);
   const response = await profileIds(userId);
   if (response.data) {
@@ -102,7 +102,7 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
 };
 
 export const getStatisticItem = (profiles) => async (dispatch) => {
-  dispatch(isFetchingAction(true));
+  dispatch(cleanActionName("topStatisticsData"));
   let result = {};
   if (!Array.isArray(profiles)) {
     result.totalProfiles = "1";
@@ -126,6 +126,11 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
   });
 };
 
+export const individualPopsCountAction = (number) => ({
+  type: INDIVIDUAL_POPS_COUNT,
+  payload: number,
+});
+
 const isFetchingAction = (isFetching) => ({
   type: IS_DATA_FETCHING,
   payload: isFetching,
@@ -133,4 +138,9 @@ const isFetchingAction = (isFetching) => ({
 
 export const cleanAction = () => ({
   type: CLEAN,
+});
+
+export const cleanActionName = (name) => ({
+  type: CLEAN_BY_NAME,
+  payload: name,
 });

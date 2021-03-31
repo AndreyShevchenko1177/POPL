@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import {
@@ -18,6 +18,7 @@ import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
+import { profileCountTierLevelAction } from "../../store/actions";
 import poplIcon from "../../assets/poplIcon.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
 
@@ -33,8 +34,9 @@ function PermanentDrawerLeft() {
     campaignsOpen: false,
   });
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const profileInfoSideBar = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
-  const [childrenAmount, setChildrenAmount] = useState();
+  const { profileCountTierLevel } = useSelector(({ systemReducer }) => systemReducer);
+  const { result: profileInfoSideBar } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
+  const dispatch = useDispatch();
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -87,8 +89,9 @@ function PermanentDrawerLeft() {
     if (userData?.id) {
       getChildrenIdsRequest(userData.id)
         .then((res) => {
-          if (res.data) setChildrenAmount(JSON.parse(res.data).length + 1);
-          else setChildrenAmount(1);
+          console.log(res);
+          if (res.data) dispatch(profileCountTierLevelAction(JSON.parse(res.data).length + 1));
+          else dispatch(profileCountTierLevelAction(1));
         })
         .catch((err) => console.log(err));
     }
@@ -112,7 +115,6 @@ function PermanentDrawerLeft() {
         />
       </div>
       <div>
-        {console.log(profileInfoSideBar)}
         <List className={classes.ulMenu}>
           <Link to="/">
             <ListItem
@@ -500,7 +502,7 @@ function PermanentDrawerLeft() {
         </List>
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
-        <TierLevel used={childrenAmount} max={10} />
+        <TierLevel used={profileCountTierLevel} max={10} />
       </div>
     </Drawer>
   );

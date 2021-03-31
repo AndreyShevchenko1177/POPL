@@ -2,17 +2,17 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   chipButton: {
-    backgroundColor: "transparent",
+    backgroundColor: "transparent !important",
     position: "absolute",
-    paddingRight: "10px",
+    paddingRight: "10px !important",
     // left: '50%',
     // transform: 'translate(-50%, 0)',
     width: "30px",
-    height: "30px",
+    height: "30px !important",
     top: "-10px",
     left: "52%",
     "&:focus": {
-      backgroundColor: "transparent",
+      backgroundColor: "transparent !important",
     },
   },
   previewContainer: {

@@ -66,6 +66,7 @@ export default makeStyles((theme) => ({
   },
   connectedWithNames: {
     width: "80%",
+    height: "90px",
     marginLeft: "auto",
     padding: "10px 10px 10px 0",
     fontFamily: "AvenirNextCyr, san-serif, arial",

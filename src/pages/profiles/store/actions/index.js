@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
-import { snackBarAction } from "../../../../store/actions";
+import { snackBarAction, profileCountTierLevelAction } from "../../../../store/actions";
 import { getId } from "../../../../utils";
 import {
   GET_DATA_PROFILES_SUCCESS,
@@ -30,11 +30,13 @@ export const getProfilesIds = (userId) => async (dispatch) => {
         business: p.business,
         social: p.social,
       }));
+      dispatch(profileCountTierLevelAction(profiles.length));
       return dispatch({
         type: GET_DATA_PROFILES_SUCCESS,
         payload: profiles,
       });
     }
+    dispatch(profileCountTierLevelAction(1));
     let correctProfile = { customId: getId(12), id: myProfile.id };
     Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
     dispatch({

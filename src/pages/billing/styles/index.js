@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   container: {
     padding: "100px 40px 0 40px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   cardsContainerWrapper: {
     position: "relative",
@@ -62,5 +65,20 @@ export default makeStyles((theme) => ({
     top: "-5px",
     left: "50%",
     transform: "translateX(-50%)",
+  },
+  footer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "50px 0 20px 0",
+  },
+  contactSalesButton: {
+    height: 40,
+    marginTop: 10,
+    backgroundColor: "#1791f4",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#1791f4",
+    },
   },
 }));
