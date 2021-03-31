@@ -57,7 +57,7 @@ function Billing() {
           </div> */}
           <div className={classes.cardsContainer}>
             {config.map(({
-              id, title, price, priceId, labels, profilesNumber,
+              id, title, price, priceId, labels, profilesNumber, quantity,
             }) => (
               <div className={classes.cardItemContainer} key={id}>
                 <SubscriptionCard
@@ -67,6 +67,7 @@ function Billing() {
                   priceId={priceId}
                   stripe={stripe}
                   labels={labels}
+                  quantity={quantity}
                 />
               </div>
             ))}

@@ -6,7 +6,7 @@ import SubscribeButton from "./SubscribeButton";
 import successIcon from "../../../assets/svg/success-icon.svg";
 
 function SubscriptionCard({
-  title, price, priceId, stripe, labels, profilesNumber,
+  title, price, priceId, stripe, labels, profilesNumber, quantity,
 }) {
   const classes = useStyles();
 
@@ -19,7 +19,7 @@ function SubscriptionCard({
         <Typography variant='body2'>${price} / month</Typography>
       </div>
       <div className={classes.buttonContainer}>
-        <SubscribeButton priceId={priceId} stripe={stripe} />
+        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} />
       </div>
       <div className={classes.labelsContainer}>
         {/* {labels.map((label) => (

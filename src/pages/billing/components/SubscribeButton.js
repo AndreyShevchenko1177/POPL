@@ -5,7 +5,7 @@ import { snackBarAction } from "../../../store/actions";
 import { setCookie } from "../../../utils/cookie";
 import useStyles from "./styles";
 
-function SubscribeButton({ priceId, stripe }) {
+function SubscribeButton({ priceId, stripe, quantity }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ function SubscribeButton({ priceId, stripe }) {
     let formdata = new FormData();
     formdata.append("sAction", "CheckoutSessionStripe");
     formdata.append("sPriceId", priceId);
-    formdata.append("sQuantity", 5);
+    formdata.append("sQuantity", quantity);
 
     let requestOptions = {
       method: "POST",
