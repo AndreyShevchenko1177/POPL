@@ -16,7 +16,7 @@ const initialState = [
   {
     id: 3,
     title: "Views",
-    value: "1,200",
+    value: "",
     percentage: "12%",
     isTop: true,
   },
