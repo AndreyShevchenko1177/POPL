@@ -40,19 +40,19 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
     }
     const profileName = {};
     const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    profilesData.forEach(({ data, id }) => profileName[id] = data.name);
+    profilesData.forEach(({ data, id, image }) => profileName[id] = { name: data.name, image });
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
-    console.log(result);
     result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
     let allConnections = Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []);
     allConnections = allConnections.map((con, _, connections) => {
-      const names = connections
+      const dublicates = {};
+      connections
         .filter(({ id }) => id === con.id) // searching for the same connections in all profiles
         .map(({ profileId }) => profileId) // getting all profile ids with whome connection connected
         .map((pId) => profileName[pId]) // getting profile names
-        .filter((f, index, arr) => arr.indexOf(f) === index); // remove dublicated connections
-      return { ...con, names };
+        .map((f) => dublicates[f.name] = f);
+      return { ...con, names: Object.values(dublicates) };
     });
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
@@ -141,18 +141,20 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
     }
     const profileName = {};
     const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    profilesData.forEach(({ data, id }) => profileName[id] = data.name);
+    profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image });
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
     result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
     let allConnections = Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []);
     allConnections = allConnections.map((con, _, connections) => {
-      const names = connections
+      const dublicates = {};
+      connections
         .filter(({ id }) => id === con.id) // searching for the same connections in all profiles
         .map(({ profileId }) => profileId) // getting all profile ids with whome connection connected
         .map((pId) => profileName[pId]) // getting profile names
-        .filter((f, index, arr) => arr.indexOf(f) === index); // remove dublicated connections
-      return { ...con, names };
+        .map((f) => dublicates[f.name] = f);
+
+      return { ...con, names: Object.values(dublicates) };
     });
     dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,

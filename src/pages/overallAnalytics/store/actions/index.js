@@ -28,8 +28,14 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
     let result;
     if (!userId) {
       const { data } = await profileIds(id);
-      const ids = JSON.parse(data);
-      const response = await Promise.all([...ids, id].map((id) => popsActionRequest(id)));
+      let response;
+      if (data) {
+        const ids = JSON.parse(data);
+        response = await Promise.all([...ids, id].map((id) => popsActionRequest(id)));
+      } else {
+        response = await Promise.all([id].map((id) => popsActionRequest(id)));
+      }
+
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
       if (poplName) {
         const matchString = (popValue) => {
