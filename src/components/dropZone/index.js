@@ -92,12 +92,12 @@ const DropZone = ({
       setDragHower(false);
       return;
     }
-    // if (type && file && file[0] && file[0].type && type.includes(file[0].type)) {
-    //   setValidation((prev) => ({ ...prev, fileType: true }));
-    //   setDragHower(false);
-    //   event.target.value = "";
-    //   return;
-    // }
+    if (file && file[0] && file[0].name && file[0].name.split(".")[file[0].name.split(".").length - 1] !== "csv") {
+      setValidation((prev) => ({ ...prev, fileType: true }));
+      setDragHower(false);
+      event.target.value = "";
+      return;
+    }
     if (filesList.includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));
       setDragHower(false);
@@ -130,11 +130,11 @@ const DropZone = ({
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
     }
-    // if (type && file && file[0] && file[0].type && type.includes(file[0].type)) {
-    //   setValidation((prev) => ({ ...prev, fileType: true }));
-    //   event.target.value = "";
-    //   return;
-    // }
+    if (file && file[0] && file[0].name && file[0].name.split(".")[file[0].name.split(".").length - 1] !== "csv") {
+      setValidation((prev) => ({ ...prev, fileType: true }));
+      event.target.value = "";
+      return;
+    }
     console.log(file && file[0] && file[0].type, file[0].name);
     if (filesList.includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));

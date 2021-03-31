@@ -15,6 +15,7 @@ function SubscribeButton({ priceId, stripe }) {
     let formdata = new FormData();
     formdata.append("sAction", "CheckoutSessionStripe");
     formdata.append("sPriceId", priceId);
+    formdata.append("sQuantity", 5);
 
     let requestOptions = {
       method: "POST",
