@@ -43,7 +43,7 @@ export const profileCountTierLevelAction = (number) => ({
   payload: number,
 });
 
-const profilesInfo = (profiles, userId) => async (dispatch) => {
+export const profilesInfo = (profiles) => async (dispatch) => {
   let result = {};
   result.totalProfiles = `${profiles.length}`;
   // const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));

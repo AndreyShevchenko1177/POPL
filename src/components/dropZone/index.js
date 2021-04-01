@@ -98,12 +98,6 @@ const DropZone = ({
       event.target.value = "";
       return;
     }
-    // if (filesList.includes(file[0].name)) {
-    //   setValidation((prev) => ({ ...prev, duplicated: true }));
-    //   setDragHower(false);
-    //   event.target.value = "";
-    //   return;
-    // }
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
@@ -224,9 +218,8 @@ const DropZone = ({
         onDrop={onDrop}
         onClick={openFileDialog}
         className={styles.container}
-        style={files ? { justifyContent: "space-between", borderColor: dragHover ? "#0238e8" : " #d0d0d0" } : { margin: 0, justifyContent: "center", borderColor: dragHover ? "#0238e8" : " #d0d0d0" }}
       >
-        <div className={classes.dashedContainer}>
+        <div style={dragHover ? { borderColor: "#3da5f5" } : {}} className={classes.dashedContainer}>
           { !Object.keys(files).length
             ? (
               <div className={classes.IconTextWrapper}>

@@ -110,9 +110,10 @@ const getIdFromEmail = async (email) => {
   return axios.post("", formdata);
 };
 
-export const inviteByEmailAction = (emails, userData) => async (dispatch, getState) => {
+export const inviteByEmailAction = (emails, userData, clear) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
+    clear();
     const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);
     for (const email of reqEmails) {
       const { data } = await getIdFromEmail(email);

@@ -222,8 +222,8 @@ export default makeStyles((theme) => ({
   },
   profileConnection: {
     position: "absolute",
-    right: 35,
-    top: "40%",
+    right: 50,
+    top: "calc(45% + 1px)",
     fontSize: 12,
     borderRadius: "50%",
     padding: 2,
@@ -236,8 +236,8 @@ export default makeStyles((theme) => ({
   },
   profilePopls: {
     position: "absolute",
-    right: 35,
-    top: "calc(75% + 2px)",
+    right: 50,
+    top: "calc(80% + 2px)",
     fontSize: 12,
     borderRadius: "50%",
     padding: 2,
