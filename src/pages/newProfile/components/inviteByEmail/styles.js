@@ -89,6 +89,7 @@ export default makeStyles((theme) => ({
   buttonsContainer: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     width: "100%",
     padding: "30px 0 0 0",
   },
@@ -110,6 +111,7 @@ export default makeStyles((theme) => ({
   },
   importPreviewContainer: {
     display: "flex",
+    alignItems: "center",
   },
   preview: {
     display: "flex",
@@ -143,7 +145,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "flex-start !important",
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: 10,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,

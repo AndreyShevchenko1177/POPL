@@ -7,7 +7,7 @@ import {
   INVITE_BY_EMAIL_FAIL,
   IS_DATA_FETCHING,
   FILES_LIST,
-  EMAILS_LIST,
+  ADD_EMAIL,
   REMOVE_FILE,
   CLEAR_STATE,
 } from "../actionTypes";
@@ -25,8 +25,7 @@ const initialState = {
     success: false,
     error: null,
   },
-  filesList: [],
-  emailsList: [],
+  filesList: {},
   isFetching: false,
 };
 
@@ -98,23 +97,33 @@ export default function addProfilesReducer(
   case FILES_LIST: {
     return {
       ...state,
-      filesList: [...state.filesList, payload],
+      filesList: {
+        ...state.filesList,
+        [payload.fileName]: payload.emails,
+      },
     };
   }
-  case EMAILS_LIST: {
+  case ADD_EMAIL: {
     return {
       ...state,
-      emailsList: [...state.emailsList, payload],
+      filesList: {
+        ...state.filesList,
+        emailsFromTextField: [...state.emailsFromTextField, payload],
+      },
     };
   }
   case REMOVE_FILE: {
-    // console.log(payload);
+    if (!payload) {
+      return {
+        ...state,
+        filesList: initialState.filesList,
+      };
+    }
+    const result = { ...state.filesList };
+    delete result[payload];
     return {
       ...state,
-      filesList: [...state.filesList.filter((name) => {
-        console.log(name !== payload, payload, state.filesList);
-        return name !== payload;
-      })],
+      filesList: result,
     };
   }
   case CLEAR_STATE: {

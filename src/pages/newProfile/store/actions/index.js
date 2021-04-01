@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
 import {
@@ -8,8 +9,8 @@ import {
   IS_DATA_FETCHING,
   INVITE_BY_EMAIL_SUCCESS,
   INVITE_BY_EMAIL_FAIL,
-  EMAILS_LIST,
   FILES_LIST,
+  ADD_EMAIL,
   REMOVE_FILE,
   CLEAR_STATE,
 } from "../actionTypes";
@@ -109,20 +110,19 @@ const getIdFromEmail = async (email) => {
   return axios.post("", formdata);
 };
 
-export const inviteByEmailAction = (emails, callBack, userData, files) => async (dispatch, getState) => {
+export const inviteByEmailAction = (emails, userData) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
-    const { emailsList } = getState().addProfilesReducer;
-    const reqEmails = emails.filter((email) => !emailsList.includes(email.emailString?.trim() || email.trim()));
-    for (const email of emails) {
-      const { data } = await getIdFromEmail(email.emailString?.trim() || email.trim());
-      reqEmails.map((email) => inviteByEmailRequest(email.emailString?.trim() || email.trim(), userData, data));
+    const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);
+    for (const email of reqEmails) {
+      const { data } = await getIdFromEmail(email);
+      if (data == 0) continue;
+      inviteByEmailRequest(email, userData, data);
     }
-    // await Promise.all();
-    callBack && callBack([]);
     dispatch(isFetchingAction(false));
-    reqEmails.forEach((email) => dispatch(addEmailAction(email.emailString?.trim() || email.trim())));
-    if (files) dispatch(addFileAction(Object.values(files)[0].file.name));
+    dispatch(removeFileAction());
+    // reqEmails.forEach((email) => dispatch(addEmailAction(email.emailString?.trim() || email.trim())));
+    // if (files) dispatch(addFileAction(Object.values(files)[0].file.name));
     dispatch({
       type: INVITE_BY_EMAIL_SUCCESS,
       payload: "success",
@@ -145,14 +145,14 @@ export const inviteByEmailAction = (emails, callBack, userData, files) => async 
   }
 };
 
-export const addEmailAction = (email) => ({
-  type: EMAILS_LIST,
-  payload: email,
-});
-
 export const addFileAction = (fileName) => ({
   type: FILES_LIST,
   payload: fileName,
+});
+
+export const addEmailAction = (email) => ({
+  type: ADD_EMAIL,
+  payload: email,
 });
 
 export const removeFileAction = (fileName) => ({

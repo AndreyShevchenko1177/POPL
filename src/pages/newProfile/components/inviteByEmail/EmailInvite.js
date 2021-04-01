@@ -1,8 +1,11 @@
+/* eslint-disable no-return-assign */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { inviteByEmailAction, clearStateAction, removeFileAction } from "../../store/actions";
+import {
+  inviteByEmailAction, clearStateAction, removeFileAction,
+} from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
@@ -27,6 +30,7 @@ function EmailInvite() {
     if (event.target.value.split(",").length > 1) {
       if (regexp.test(event.target.value.split(",")[0])) {
         setEmail((em) => ([...em, { emailString: `${event.target.value.split(",")[0]} `, id: getId(8) }]));
+        // dispatch(addEmailAction({ emailString: `${event.target.value.split(",")[0]} `, id: getId(8) }));
         return setValue("");
       }
     }
@@ -34,8 +38,9 @@ function EmailInvite() {
   };
 
   const handleInvite = () => {
-    if (!email.length) return;
-    dispatch(inviteByEmailAction(email, setEmail, userData));
+    const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
+    if (!emailsList.length) return;
+    dispatch(inviteByEmailAction(emailsList, userData));
   };
 
   const handleKeyChange = (event) => {
@@ -63,7 +68,7 @@ function EmailInvite() {
 
   useEffect(() => {
     if (isEmailSuccess) {
-      setIsOpenDropZone(false);
+      // setIsOpenDropZone(false);
       dispatch(clearStateAction("inviteByEmail"));
       dispatch(snackBarAction({
         message: "Your contacts imported successfully",
@@ -105,9 +110,9 @@ function EmailInvite() {
                 Import Emails
                 </Button>
                 <div className={classes.preview}>
-                  {filesList.map((file) => (
+                  {Object.keys(filesList).map((file) => (
                     <div className={classes.previewItem} key={file}>
-                      <Preview deleteAction={() => handleDeletePreviewFile(file)} width="30px" height="30px" fileName={file} />
+                      <Preview small={true} deleteAction={() => handleDeletePreviewFile(file)} width="50px" height="50px" fileName={file} />
                     </div>
                   ))}
                 </div>
@@ -135,6 +140,7 @@ function EmailInvite() {
             }}
             icon={<SvgMaker name={"csv"} fill='#fff' />}
             quantity={1}
+            handleClose={() => setIsOpenDropZone(false)}
           />
         </div>
       </>}

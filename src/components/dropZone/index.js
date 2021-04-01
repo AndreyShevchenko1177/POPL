@@ -7,12 +7,12 @@ import Papa from "papaparse";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import Loader from "../Loader";
-import { inviteByEmailAction } from "../../pages/newProfile/store/actions";
+import { addFileAction } from "../../pages/newProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 import Preview from "./components/Preview";
 
 const DropZone = ({
-  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon,
+  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon, handleClose,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -135,8 +135,7 @@ const DropZone = ({
       event.target.value = "";
       return;
     }
-    console.log(file && file[0] && file[0].type, file[0].name);
-    if (filesList.includes(file[0].name)) {
+    if (Object.keys(filesList).includes(file[0].name)) {
       setValidation((prev) => ({ ...prev, duplicated: true }));
       setDragHower(false);
       event.target.value = "";
@@ -175,7 +174,8 @@ const DropZone = ({
           open: true,
         }));
       }
-      return dispatch(inviteByEmailAction(result, null, userData, files));
+      dispatch(addFileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
+      return handleClose();
     }
     return dispatch(snackBarAction({
       message: "No \"Email\" or \"Email Address\" column was found",
@@ -226,25 +226,27 @@ const DropZone = ({
         className={styles.container}
         style={files ? { justifyContent: "space-between", borderColor: dragHover ? "#0238e8" : " #d0d0d0" } : { margin: 0, justifyContent: "center", borderColor: dragHover ? "#0238e8" : " #d0d0d0" }}
       >
-        { !Object.keys(files).length
-          ? (
-            <div className={classes.IconTextWrapper}>
-              <div className={styles.iconContainer}>{icon}</div>
-              <Typography variant='body2'>Drag and drop your CSV here</Typography>
-              <Typography className={classes.maxFileSize}>Maximum file size is <b>50MB</b></Typography>
-              <p className={classes.selectLink}>Or selecet it from your computer</p>
+        <div className={classes.dashedContainer}>
+          { !Object.keys(files).length
+            ? (
+              <div className={classes.IconTextWrapper}>
+                <div className={styles.iconContainer}>{icon}</div>
+                <Typography variant='body2'>Drag and drop your CSV here</Typography>
+                <Typography className={classes.maxFileSize}>Maximum file size is <b>50MB</b></Typography>
+                <p className={classes.selectLink}>Or select it from your computer</p>
+              </div>
+            )
+            : <div className={classes.previewContainer}>
+              {
+                Object.keys(files).map((file) => (
+                  <div key={file} >
+                    <Preview fileName={Object.values(files)[0].file.name} deleteAction={() => handleDeleteFile(file)} />
+                  </div>
+                ))
+              }
             </div>
-          )
-          : <div className={classes.previewContainer}>
-            {
-              Object.keys(files).map((file) => (
-                <div key={file} >
-                  <Preview fileName={Object.values(files)[0].file.name} deleteAction={() => handleDeleteFile(file)} />
-                </div>
-              ))
-            }
-          </div>
-        }
+          }
+        </div>
         { !Object.keys(files).length && <input
           ref={fileInputRef}
           type='file'
