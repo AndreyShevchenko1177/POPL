@@ -98,12 +98,12 @@ const DropZone = ({
       event.target.value = "";
       return;
     }
-    if (filesList.includes(file[0].name)) {
-      setValidation((prev) => ({ ...prev, duplicated: true }));
-      setDragHower(false);
-      event.target.value = "";
-      return;
-    }
+    // if (filesList.includes(file[0].name)) {
+    //   setValidation((prev) => ({ ...prev, duplicated: true }));
+    //   setDragHower(false);
+    //   event.target.value = "";
+    //   return;
+    // }
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
