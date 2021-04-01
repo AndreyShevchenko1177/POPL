@@ -218,9 +218,8 @@ const DropZone = ({
         onDrop={onDrop}
         onClick={openFileDialog}
         className={styles.container}
-        style={files ? { justifyContent: "space-between", borderColor: dragHover ? "#0238e8" : " #d0d0d0" } : { margin: 0, justifyContent: "center", borderColor: dragHover ? "#0238e8" : " #d0d0d0" }}
       >
-        <div className={classes.dashedContainer}>
+        <div style={dragHover ? { borderColor: "#3da5f5" } : {}} className={classes.dashedContainer}>
           { !Object.keys(files).length
             ? (
               <div className={classes.IconTextWrapper}>

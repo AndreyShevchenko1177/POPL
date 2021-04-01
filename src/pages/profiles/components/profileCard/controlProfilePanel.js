@@ -27,11 +27,8 @@ function ProfilePanel({
   const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
     <Grid container spacing={2}>
-      {profileConnection[id] && <>
-        <div className={classes.profileConnection}>{profileConnection[id]}</div>
-        <div className={classes.profilePopls}>{poplsConnection[id]}</div>
-      </>
-      }
+      <div className={classes.profileConnection}>{profileConnection[id] || 0}</div>
+      <div className={classes.profilePopls}>{poplsConnection[id] || 0}</div>
       <Grid item xs={12}>
         <div className={clsx(section2, "target-element")}>
           <div className="full-w">
