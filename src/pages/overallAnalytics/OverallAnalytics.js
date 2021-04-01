@@ -24,9 +24,8 @@ function OverallAnalytics() {
   );
   const isFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.isFetching);
   const [chartData, setChartData] = useState();
-  const currentDate1 = `${monthsFullName[getMonth(new Date())]} ${getDay(
-    new Date(),
-  ) - 13}, ${getYear(new Date())}-`;
+  const minTimestamp = new Date().getTime() - (86400000 * 13);
+  const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
     new Date(),
   )}, ${getYear(new Date())}`;
@@ -46,6 +45,7 @@ function OverallAnalytics() {
     const maxDateMilis = maxDate.setHours(0, 0, 0, 0);
     const minDateMilis = minDate.setHours(0, 0, 0, 0);
     if (maxDateMilis < minDateMilis) {
+      console.log("maxDateMilis < minDateMilis", minDate, maxDate);
       setChartData(generateChartData(popsData, maxDate, minDate));
       return setCalendar({
         ...calendar,
@@ -60,6 +60,7 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
+    console.log("", minDate, maxDate);
     setChartData(generateChartData(popsData, minDate, maxDate));
   };
 

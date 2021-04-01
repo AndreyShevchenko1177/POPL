@@ -21,32 +21,33 @@ export function generateChartData(popsData, minDate, maxDate) {
 
   const result = {};
   // let date = currentDate.setHours(0, 0, 0, 0);
-  console.log(calendarRange, currentDate);
+  // console.log(calendarRange, currentDate);
 
   // initing result object dates
-  if (calendarRange !== 0) {
-    for (let i = calendarRange || 13; i > 0; i--) {
+  if (typeof calendarRange === "undefined") {
+    for (let i = 13; i > 0; i--) {
       const date = new Date().setDate(currentDate.getDate() - i);
       // const normalFormat = new Date(date);
       const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
       result[key] = 0;
     }
   }
+  if (calendarRange > 0) {
+    for (let i = calendarRange; i > 0; i--) {
+      // console.log(new Date(currentDate), new Date(new Date(currentDate).setDate(currentDate.getDate() - i)));
+      const date = new Date(currentDate).setDate(currentDate.getDate() - i);
+      const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
+      result[key] = 0;
+    }
+  }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
-  const transformResult = {};
-  const dateArray = Object.keys(result).map((el) => ({ d: new Date(el), v: result[el] }));
-  dateArray.sort((a, b) => a.d - b.d).forEach(({ d, v }) => {
-    const normalFormat = new Date(d);
-    const key = `${getYear(normalFormat)}-${normalizeDate(getMonth(normalFormat) + 1)}-${normalizeDate(getDay(normalFormat))}`;
-    transformResult[key] = v;
-  });
 
   popsData.forEach((pop) => {
     const date = pop[2].split(" ")[0];
-    if (date in transformResult) {
-      transformResult[date] = (transformResult[date] || 0) + 1;
+    if (date in result) {
+      result[date] = (result[date] || 0) + 1;
     }
   });
-  console.log("AFTER", result, transformResult);
-  return transformResult;
+  // console.log("AFTER", result);
+  return result;
 }
