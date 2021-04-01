@@ -40,7 +40,7 @@ function EmailInvite() {
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
     if (!emailsList.length) return;
-    dispatch(inviteByEmailAction(emailsList, userData));
+    dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], userData, () => setEmail([])));
   };
 
   const handleKeyChange = (event) => {

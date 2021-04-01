@@ -49,7 +49,7 @@ const useStyles = (after, before, input) => makeStyles((theme) => ({
   checked: {
     "&$switchBase": {
       color: "#ffffff",
-      transform: "translateX(90px)",
+      transform: "translateX(105px)",
       paddingTop: 2,
       "&:hover": {
         backgroundColor: "#ffffff33",
