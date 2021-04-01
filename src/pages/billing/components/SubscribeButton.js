@@ -5,11 +5,23 @@ import { snackBarAction } from "../../../store/actions";
 import { setCookie } from "../../../utils/cookie";
 import useStyles from "./styles";
 
-function SubscribeButton({ priceId, stripe, quantity }) {
+function SubscribeButton({
+  priceId, stripe, quantity, unitsRange,
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleSubscribe = async () => {
+    if (quantity < unitsRange[0] || quantity > unitsRange[1]) {
+      return dispatch(
+        snackBarAction({
+          message: `You have currently only ${quantity} Profiles`,
+          severity: "warning",
+          duration: 3000,
+          open: true,
+        }),
+      );
+    }
     let myHeaders = new Headers();
 
     let formdata = new FormData();

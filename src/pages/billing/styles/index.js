@@ -35,7 +35,7 @@ export default makeStyles((theme) => ({
   },
   cardItemContainer: {
     width: "33%",
-    minHeight: 570,
+    minHeight: 350,
     "&:nth-child(2)": {
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -71,9 +71,13 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: "50px 0 20px 0",
+    "& > h3": {
+      fontWeight: "200 !important",
+    },
   },
   contactSalesButton: {
-    height: 40,
+    height: 50,
+    width: 200,
     marginTop: 10,
     backgroundColor: "#1791f4",
     color: "#ffffff",

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
 import SubscriptionCard from "./components/SubscriptionCard";
+import { profileIds } from "../profiles/store/actions/requests";
 
 const stripe = window.Stripe(stripeConfig.stripePk);
 
@@ -12,33 +14,38 @@ const config = [
     id: 1,
     title: "Basic",
     price: "50",
-    quantity: 5,
+    unitsRange: [1, 5],
     profilesNumber: "1-5",
     priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
-    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
   },
   {
     id: 2,
     title: "Growth",
     price: "100",
-    quantity: 20,
+    unitsRange: [6, 20],
     profilesNumber: "6-20",
     priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
-    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
   },
   {
     id: 3,
     title: "Enterprise",
     price: "300",
-    quantity: 100,
+    unitsRange: [21, 100],
     priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
     profilesNumber: "21-100",
-    labels: ["Connect Portal", "1000 Connected Users", "Visual Workflow Builder", "Webhook Triggers", "Connect API"],
   },
 ];
 
 function Billing() {
   const classes = useStyles();
+  const [quantity, setQuantity] = useState(null);
+  const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+
+  useEffect(() => {
+    profileIds(userId)
+      .then((res) => (res.data ? setQuantity(JSON.parse(res.data).length + 1) : setQuantity(1)))
+      .catch((err) => setQuantity(null));
+  });
 
   return (
     <>
@@ -57,7 +64,7 @@ function Billing() {
           </div> */}
           <div className={classes.cardsContainer}>
             {config.map(({
-              id, title, price, priceId, labels, profilesNumber, quantity,
+              id, title, price, priceId, profilesNumber, unitsRange,
             }) => (
               <div className={classes.cardItemContainer} key={id}>
                 <SubscriptionCard
@@ -66,15 +73,15 @@ function Billing() {
                   profilesNumber={profilesNumber}
                   priceId={priceId}
                   stripe={stripe}
-                  labels={labels}
                   quantity={quantity}
+                  unitsRange={unitsRange}
                 />
               </div>
             ))}
           </div>
         </div>
         <div className={classes.footer}>
-          <Typography variant="body1">More than 100 Profiles?</Typography>
+          <Typography variant="h3">More than 100 Profiles?</Typography>
           <Button className={classes.contactSalesButton}>Contact Sales</Button>
         </div>
       </div>

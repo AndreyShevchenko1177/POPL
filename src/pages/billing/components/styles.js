@@ -15,9 +15,9 @@ export default makeStyles((theme) => ({
     minHeight: 150,
     flexDirection: "column",
     paddingTop: 10,
-    "& span:first-child": {
+    "& span": {
       fontSize: "16px",
-      paddingBottom: 8,
+      padding: "10px 0",
     },
   },
   buttonContainer: {
