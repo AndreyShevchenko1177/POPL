@@ -91,7 +91,7 @@ export default function Card({
                     : userIcon
                 }
                 name={name}
-                styles={{ width: "120px", height: "60px", borderRadius: "10px" }}
+                styles={{ width: "100px", height: "60px", borderRadius: "10px" }}
               />
               <Checkbox
                 color="primary"
