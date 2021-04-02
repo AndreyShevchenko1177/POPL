@@ -1,5 +1,5 @@
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO,
 } from "../actionTypes";
 
 const initialState = {
@@ -15,7 +15,11 @@ const initialState = {
     profileConnection: {},
     poplsConnection: {},
   },
-  profileCountTierLevel: 0,
+  tierLevelInfo: {
+    count: null,
+    subscriptionName: null,
+    maxProfiles: null,
+  },
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -41,7 +45,19 @@ export default function systemReducer(state = initialState, { type, payload }) {
   case PROFILE_COUNT_TIER_LEVEL: {
     return {
       ...state,
-      profileCountTierLevel: payload,
+      tierLevelInfo: {
+        ...state.tierLevelInfo,
+        count: payload,
+      },
+    };
+  }
+  case SUBSCRIPTION_INFO: {
+    return {
+      ...state,
+      tierLevelInfo: {
+        ...state.tierLevelInfo,
+        ...payload,
+      },
     };
   }
   default:

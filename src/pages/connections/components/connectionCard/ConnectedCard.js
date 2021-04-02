@@ -75,9 +75,9 @@ export function ConnectedCard({
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
             <div className={classes.connectedWithNames}>
               {names?.map((el, key) => (
-                <div key={key} style={{ display: "flex", alignItems: "center" }}>
-                  <img style={{ width: 15, height: 15, marginRight: 5 }} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
-                  <p > {el.name}</p>
+                <div key={key} style={{ display: "flex", alignItems: "center", padding: "5px 0" }}>
+                  <img style={{ width: 30, height: 30, marginRight: 10 }} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
+                  <p style={{ fontSize: "16px" }}> {el.name}</p>
                 </div>
 
               ))}

@@ -16,6 +16,8 @@ export const SuccessPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => history.push("/settings/billing"), 5000);
     dispatch(setUserProAction(userData.id));
+    const { pricingName, unitsRange } = JSON.parse(getCookie("sessionId"));
+    localStorage.setItem("subscription", JSON.stringify({ pricingName, unitsRange }));
     return () => {
       clearTimeout(timer);
       deleteCookies("sessionId");
@@ -24,7 +26,7 @@ export const SuccessPage = () => {
 
   return (
     <>
-      {getCookie("sessionId") === params.sessionId ? (
+      {JSON.parse(getCookie("sessionId")).id === params.sessionId ? (
         <div className={classes.container}>
           <img className={classes.icon} alt="success" src={successIcon} />
           <p className={classes.resultText}>Your payment successfully</p>

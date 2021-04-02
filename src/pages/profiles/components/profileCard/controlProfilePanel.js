@@ -26,9 +26,7 @@ function ProfilePanel({
   const history = useHistory();
   const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
-    <Grid container spacing={2}>
-      <div className={classes.profileConnection}>{profileConnection[id] || 0}</div>
-      <div className={classes.profilePopls}>{poplsConnection[id] || 0}</div>
+    <Grid container spacing={1}>
       <Grid item xs={12}>
         <div className={clsx(section2, "target-element")}>
           <div className="full-w">
@@ -60,6 +58,8 @@ function ProfilePanel({
           size="small"
           color="primary"
           className={classes.button}
+          classes={{ endIcon: classes.buttonStaistics }}
+          endIcon={<div>{profileConnection[id] || 0}</div>}
           startIcon={
             <img
               className={classes.connectIcon}
@@ -76,6 +76,21 @@ function ProfilePanel({
         <Button
           variant="outlined"
           fullWidth
+          size="small"
+          color="primary"
+          className={classes.button}
+          endIcon={<div>{poplsConnection[id] || 0}</div>}
+          classes={{ endIcon: classes.buttonStaistics }}
+          startIcon={<VisibilityIcon />}
+          onClick={(event) => handleClickPoplItem(event, "popl")}
+        >
+          Popls
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          variant="outlined"
+          fullWidth
           className={classes.button}
           size="small"
           color="primary"
@@ -85,19 +100,6 @@ function ProfilePanel({
           })}
         >
           Analytics
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          variant="outlined"
-          fullWidth
-          size="small"
-          color="primary"
-          className={classes.button}
-          startIcon={<VisibilityIcon />}
-          onClick={(event) => handleClickPoplItem(event, "popl")}
-        >
-          Popls
         </Button>
       </Grid>
     </Grid>

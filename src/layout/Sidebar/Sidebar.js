@@ -18,7 +18,7 @@ import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
-import { profileCountTierLevelAction } from "../../store/actions";
+import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
 import poplIcon from "../../assets/poplIcon.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
 
@@ -34,7 +34,7 @@ function PermanentDrawerLeft() {
     campaignsOpen: false,
   });
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const { profileCountTierLevel } = useSelector(({ systemReducer }) => systemReducer);
+  const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
   const { result: profileInfoSideBar } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const dispatch = useDispatch();
 
@@ -54,14 +54,7 @@ function PermanentDrawerLeft() {
     let name = location.pathname.split("/")[1];
     if (name === "analytics") {
       name = location.pathname.split("/")[2];
-      // setCollapse({ ...collapse, analyticsOpen: true });
     }
-    // if (
-    //   ["profiles", "connections", "campaigns"].includes(name)
-    //   && location.pathname.split("/").length > 2
-    // ) {
-    //   name = location.pathname.split("/")[2];
-    // }
 
     if (name === "crm-integrations") {
       setCollapse({
@@ -89,13 +82,19 @@ function PermanentDrawerLeft() {
     if (userData?.id) {
       getChildrenIdsRequest(userData.id)
         .then((res) => {
-          console.log(res);
           if (res.data) dispatch(profileCountTierLevelAction(JSON.parse(res.data).length + 1));
           else dispatch(profileCountTierLevelAction(1));
         })
         .catch((err) => console.log(err));
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (localStorage.getItem("subscription")) {
+      const result = JSON.parse(localStorage.getItem("subscription"));
+      dispatch(getSubscriptionInfoAction({ subscriptionName: result.pricingName, maxProfiles: result.unitsRange }));
+    }
+  }, []);
 
   return (
     <Drawer
@@ -178,61 +177,8 @@ function PermanentDrawerLeft() {
                   [classes.listTextHighLight]: highlight.profiles,
                 }),
               }}>{profileInfoSideBar.totalProfiles}</Typography>
-              {/* {collapse.profilesIsOpen
-                ? <ExpandLessIcon
-                  style={{ fill: "#7d8286" }}
-                />
-                : <ExpandMoreIcon
-                  style={{ fill: "#7d8286" }}
-                />
-              } */}
             </ListItem>
           </Link>
-          {/* <Collapse in={collapse.profilesIsOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link to="/profiles/new-profile">
-                <ListItem
-                  button
-                  className={clsx(classes.nested, {
-                    [classes.ulListHighLight]: highlight["new-profile"],
-                  })}
-                  onClick={() => highlightList("new-profile")}
-                >
-                  <ListItemText
-                    disableTypography
-                    classes={{
-                      root: clsx(classes.listTextNested, {
-                        [classes.listTextHighLight]: highlight["new-profile"],
-                      }),
-                    }}
-                    primary="Add profile"
-                  />
-                </ListItem>
-              </Link>
-            </List>
-            <List component="div" disablePadding>
-              <ListItem
-                button
-                className={clsx(classes.nested, {
-                  [classes.ulListHighLight]: highlight.popls,
-                })}
-                onClick={() => {
-                  highlightList("popls");
-                  history.push("/profiles/popls", { disabled: true });
-                }}
-              >
-                <ListItemText
-                  disableTypography
-                  classes={{
-                    root: clsx(classes.listTextNested, {
-                      [classes.listTextHighLight]: highlight.popls,
-                    }),
-                  }}
-                  primary="Popls"
-                />
-              </ListItem>
-            </List>
-          </Collapse> */}
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
@@ -303,36 +249,7 @@ function PermanentDrawerLeft() {
                 [classes.listTextHighLight]: highlight.connections,
               }),
             }}>{profileInfoSideBar.connections}</Typography>
-            {/* {collapse.connectionsOpen
-              ? <ExpandLessIcon
-                style={{ fill: "#7d8286" }}
-              />
-              : <ExpandMoreIcon
-                style={{ fill: "#7d8286" }}
-              />
-            } */}
           </ListItem>
-          {/* <Collapse in={collapse.connectionsOpen} timeout="auto" unmountOnExit>
-            <Link to="/connections/crm-integrations">
-              <ListItem
-                button
-                className={clsx(classes.nested, {
-                  [classes.ulListHighLight]: highlight["crm-integrations"],
-                })}
-                onClick={() => highlightList("crm-integrations")}
-              >
-                <ListItemText
-                  disableTypography
-                  classes={{
-                    root: clsx(classes.listTextNested, {
-                      [classes.listTextHighLight]: highlight["crm-integrations"],
-                    }),
-                  }}
-                  primary="CRM Integrations"
-                />
-              </ListItem>
-            </Link>
-          </Collapse> */}
           <Link to="/campaigns">
             <ListItem
               divider={false}
@@ -362,38 +279,8 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Campaigns"
               />
-              {/* {collapse.campaignsOpen
-                ? <ExpandLessIcon
-                  style={{ fill: "#7d8286" }}
-                />
-                : <ExpandMoreIcon
-                  style={{ fill: "#7d8286" }}
-                />
-              } */}
             </ListItem>
           </Link>
-          {/* <Collapse in={collapse.campaignsOpen} timeout="auto" unmountOnExit>
-            <Link to="/campaings/pop-branding">
-              <ListItem
-                divider={false}
-                className={clsx(classes.nested, {
-                  [classes.ulListHighLight]: highlight["pop-branding"],
-                })}
-                button
-                onClick={() => highlightList("pop-branding")}
-              >
-                <ListItemText
-                  disableTypography
-                  classes={{
-                    root: clsx(classes.listTextNested, {
-                      [classes.listTextHighLight]: highlight["pop-branding"],
-                    }),
-                  }}
-                  primary="Pop Branding"
-                />
-              </ListItem>
-            </Link>
-          </Collapse> */}
           <Link to="/analytics/overall">
             <ListItem
               divider={false}
@@ -502,7 +389,7 @@ function PermanentDrawerLeft() {
         </List>
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
-        <TierLevel used={profileCountTierLevel} max={10} />
+        <TierLevel {...tierLevelInfo} />
       </div>
     </Drawer>
   );

@@ -4,9 +4,11 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
+import clsx from "clsx";
 import {
   getProfilesIds, setDirectAction, setProfileStatusAction, turnProfileAction,
 } from "./store/actions";
+import Header from "../../components/Header";
 import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
@@ -165,75 +167,80 @@ export default function Profiles() {
   }, [checkboxes]);
 
   return (
-    <div className="main-padding relative full-h o-none">
-      <Grid container alignItems="center">
-        {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
-        <SearchStripe
-          showAll={false}
-          handleOpen={handleOpenNewProfilePage}
-          btn_title="Add Profile"
-          handleCheck={handleCheck}
-          handleSearch={handleSearch}
-          checked={mainCheck}
-          checkboxes={checkboxes}
-          arrowHandler={arrowHandler}
-          selectObject={{
-            openProfileSelect,
-            setOpenProfileSelect,
-            selectCheck,
-            selectBtn,
-            config: selectCheckboxes,
-          }}
-          reverse
-        />
-        {isLoading ? (
-          <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
-        ) : profiles?.length ? (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="list">
-              {(provided) => (
-                <div
-                  className="full-w"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {profiles.map((el, index) => (
-                    <Draggable
-                      key={el.customId}
-                      draggableId={`${el.customId}`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          draggable="true"
-                          className={classes.container}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <ProfileCard
-                            {...el}
-                            mainCheck={mainCheck}
-                            handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
-                            profilesCheck={profilesCheck}
-                            checkboxes={checkboxes}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        ) : (
-          <div className={classes.noDataText}>
+    <>
+      <Header
+        rootLink="Profiles"
+      />
+      <div className={clsx("main-padding relative", "full-h", "o-none", classes.mainPageWrapper)}>
+        <Grid container alignItems="center">
+          {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
+          <SearchStripe
+            showAll={false}
+            handleOpen={handleOpenNewProfilePage}
+            btn_title="Add Profile"
+            handleCheck={handleCheck}
+            handleSearch={handleSearch}
+            checked={mainCheck}
+            checkboxes={checkboxes}
+            arrowHandler={arrowHandler}
+            selectObject={{
+              openProfileSelect,
+              setOpenProfileSelect,
+              selectCheck,
+              selectBtn,
+              config: selectCheckboxes,
+            }}
+            reverse
+          />
+          {isLoading ? (
+            <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
+          ) : profiles?.length ? (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="list">
+                {(provided) => (
+                  <div
+                    className="full-w"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {profiles.map((el, index) => (
+                      <Draggable
+                        key={el.customId}
+                        draggableId={`${el.customId}`}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            draggable="true"
+                            className={classes.container}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <ProfileCard
+                              {...el}
+                              mainCheck={mainCheck}
+                              handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
+                              profilesCheck={profilesCheck}
+                              checkboxes={checkboxes}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          ) : (
+            <div className={classes.noDataText}>
                 No profiles was found
-          </div>
-        )
-        }
-      </Grid>
-    </div>
+            </div>
+          )
+          }
+        </Grid>
+      </div>
+    </>
   );
 }

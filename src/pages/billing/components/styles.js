@@ -45,6 +45,8 @@ export default makeStyles((theme) => ({
     width: "100%",
     height: 50,
     backgroundColor: "#1791f4",
+    borderRadius: 4,
+    fontSize: "17px",
     color: "#ffffff",
     "&:hover": {
       backgroundColor: "#1791f4",
