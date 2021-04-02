@@ -24,7 +24,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!popsData) dispatch(getPopsAction(userData.id));
+    if (!popsData) dispatch(getPopsAction());
   }, []);
 
   useEffect(() => {

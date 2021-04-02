@@ -81,7 +81,7 @@ function ProfilePanel({
           className={classes.button}
           endIcon={<div>{poplsConnection[id] || 0}</div>}
           classes={{ endIcon: classes.buttonStaistics }}
-          startIcon={<img className='white' style={{ width: "15px" }} alt='popl' src={poplIcon} />}
+          startIcon={<img className='white' style={{ width: "15px", height: "15px" }} alt='popl' src={poplIcon} />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
         >
           Popls
