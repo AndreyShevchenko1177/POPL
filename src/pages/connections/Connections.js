@@ -124,7 +124,6 @@ function Connections() {
             fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
-            btn_title="Add"
             handleSearch={handleSearch}
             disabled
             showCRM

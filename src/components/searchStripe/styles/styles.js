@@ -5,13 +5,13 @@ export default makeStyles((theme) => ({
     padding: "8px 16px",
     display: "flex",
     alignItems: "center",
-    margin: "0px 30px",
+    marginLeft: 30,
     width: "100%",
     borderRadius: theme.custom.mainBorderRadius,
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
     "@media (max-width:1000px)": {
-      margin: "0 15px",
+      marginLeft: 15,
     },
   },
   searchContainer: {
@@ -26,9 +26,10 @@ export default makeStyles((theme) => ({
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
-  },
-  crmButton: {
-    paddingLeft: 10,
+    marginLeft: 30,
+    "@media (max-width:1000px)": {
+      marginLeft: 15,
+    },
   },
   button: {
     height: "50px",
@@ -54,6 +55,13 @@ export default makeStyles((theme) => ({
     justifyContent: "space-evenly",
 
     // marginRight: 12,
+  },
+  showAllButton: {
+    minWidth: "100px",
+    marginLeft: 30,
+    "@media (max-width:1000px)": {
+      marginLeft: 15,
+    },
   },
   addIcon: {
     "& > *:first-child": {

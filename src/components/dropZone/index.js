@@ -40,6 +40,16 @@ const DropZone = ({
     Object.keys(result).length > 0 ? setFiles(result) : setFiles({});
   };
 
+  const handleUpload = (e) => {
+    dispatch(snackBarAction({
+      message: "File uploaded",
+      severity: "success",
+      duration: 3000,
+      open: true,
+    }));
+    importCsv(e);
+  };
+
   const readImage = (file, index) => {
     // Check if the file is an image.
     if (file.type && file.type.indexOf("image") === -1) {
@@ -225,7 +235,6 @@ const DropZone = ({
               <div className={classes.IconTextWrapper}>
                 <div className={styles.iconContainer}>{icon}</div>
                 <Typography variant='body2'>Drag and drop your CSV here</Typography>
-                <Typography className={classes.maxFileSize}>Maximum file size is <b>50MB</b></Typography>
                 <p className={classes.selectLink}>Or select it from your computer</p>
               </div>
             )
@@ -257,6 +266,7 @@ const DropZone = ({
               <Typography variant='h5'>File Format:</Typography>
               <ol>
                 <li>Must be CSV</li>
+                <li>Maximum file size is <b>50MB</b></li>
                 <li>First row is column header</li>
                 <li>One of the header must be "Email" or "Email Address"</li>
               </ol>
@@ -264,7 +274,7 @@ const DropZone = ({
         </div>
         {!isFetching && !!Object.keys(files).length && <Button
           className={classes.buttonWrapper}
-          onClick={(e) => importCsv(e)}
+          onClick={(e) => handleUpload(e)}
           variant="contained"
           color="primary"
         >

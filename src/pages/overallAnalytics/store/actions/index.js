@@ -1,7 +1,5 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-return-assign */
-import axios from "axios";
-
 import {
   GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
 } from "../actionTypes";
@@ -10,17 +8,7 @@ import { snackBarAction } from "../../../../store/actions";
 import { getPoplsDataById } from "../../../popls/store/actions/requests";
 import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
 import { getId } from "../../../../utils";
-
-const popsActionRequest = (id) => {
-  const getPopsFormData = new FormData();
-  getPopsFormData.append("sAction", "AjaxGetPops");
-  getPopsFormData.append("pid", Number(id));
-  getPopsFormData.append("ajax", 1);
-
-  return axios.post("", getPopsFormData, {
-    withCredentials: true,
-  });
-};
+import * as requests from "./requests";
 
 export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
   try {
@@ -31,9 +19,9 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
       let response;
       if (data) {
         const ids = JSON.parse(data);
-        response = await Promise.all([...ids, id].map((id) => popsActionRequest(id)));
+        response = await Promise.all([...ids, id].map((id) => requests.popsActionRequest(id)));
       } else {
-        response = await Promise.all([id].map((id) => popsActionRequest(id)));
+        response = await Promise.all([id].map((id) => requests.popsActionRequest(id)));
       }
 
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
@@ -47,7 +35,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         dispatch(individualPopsCountAction(result.length));
       }
     } else {
-      const response = await popsActionRequest(userId);
+      const response = await requests.popsActionRequest(userId);
       result = response.data;
     }
 
@@ -89,6 +77,8 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
 
 export const getStatisticItemsRequest = (userId) => async (dispatch) => {
   dispatch(cleanActionName("topStatisticsData"));
+  const allThree = await requests.getAllThreeStats(userId);
+  console.log("allThree", allThree);
   const myProfile = await getProfileAction(userId);
   const response = await profileIds(userId);
   if (response.data) {
@@ -113,14 +103,14 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
   if (!Array.isArray(profiles)) {
     result.totalProfiles = "1";
     result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
-    const { data } = await popsActionRequest(profiles.id);
+    const { data } = await requests.popsActionRequest(profiles.id);
     result.popsCount = data.length;
     const popls = await getPoplsDataById(profiles.id);
     result.totalPopls = `${popls.data.length}`;
   } else {
     result.totalProfiles = `${profiles.length}`;
     result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
-    const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
+    const data = await Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)));
     const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
     result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
     result.popsCount = data.reduce((a, b) => a + b.data.length, 0);

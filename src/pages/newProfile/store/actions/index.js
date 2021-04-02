@@ -117,7 +117,7 @@ export const inviteByEmailAction = (emails, userData, clear) => async (dispatch,
     const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);
     for (const email of reqEmails) {
       const { data } = await getIdFromEmail(email);
-      if (data == 0) continue;
+      if (data == 0 || data == userData.id) continue;
       inviteByEmailRequest(email, userData, data);
     }
     dispatch(isFetchingAction(false));

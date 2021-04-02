@@ -58,6 +58,27 @@ function SearchStripe({
         disabled={isShow}
         showAll={showAll}
       />
+      {btn_title && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          startIcon={<AddIcon />}
+          onClick={handleOpen}
+        >
+          {btn_title}
+        </Button>
+      </div>}
+      {showCRM && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          onClick={() => console.log("export to crm")}
+        >
+          Export to CRM
+        </Button>
+      </div>}
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
           fullWidth
@@ -69,29 +90,7 @@ function SearchStripe({
         <div>
           <SearchIcon style={{ cursor: "pointer" }}/>
         </div>
-
       </Paper>
-      <div className={classes.buttonWrapper}>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          startIcon={<AddIcon />}
-          onClick={handleOpen}
-        >
-          {btn_title}
-        </Button>
-      </div>
-      {showCRM && <div className={clsx(classes.buttonWrapper, classes.crmButton)}>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          onClick={() => console.log("export to crm")}
-        >
-          Export to CRM
-        </Button>
-      </div>}
     </div>
   );
 }
