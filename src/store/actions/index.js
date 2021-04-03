@@ -22,7 +22,7 @@ export const snackBarAction = (payload) => ({
 export const getProfileInfoRequest = (userId) => async (dispatch) => {
   const myProfile = await getProfileAction(userId);
   const response = await profileIds(userId);
-  if (response.data && response.data !== 'null') {
+  if (response.data && response.data !== "null") {
     const idsArray = JSON.parse(response.data);
     const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
@@ -44,22 +44,26 @@ export const profileCountTierLevelAction = (number) => ({
 });
 
 export const profilesInfo = (profiles) => async (dispatch) => {
-  let result = {};
-  result.totalProfiles = `${profiles.length}`;
-  // const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
-  const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
-  result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
-  // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
-  const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
-  const profileConnection = {};
-  const poplsConnection = {};
-  popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
-  connections.forEach((item) => profileConnection[item.docId] = item.data.length);
-  result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
-  dispatch({
-    type: PROFILE_INFO_FOR_SIDE_BAR,
-    payload: { result, profileConnection, poplsConnection },
-  });
+  try {
+    let result = {};
+    result.totalProfiles = `${profiles.length}`;
+    // const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
+    const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
+    result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+    // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
+    const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
+    const profileConnection = {};
+    const poplsConnection = {};
+    popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
+    connections.forEach((item) => profileConnection[item.docId] = item.data.length);
+    result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
+    dispatch({
+      type: PROFILE_INFO_FOR_SIDE_BAR,
+      payload: { result, profileConnection, poplsConnection },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => ({

@@ -23,7 +23,7 @@ function ProfilePanel({
   section2,
   name,
 }) {
-  const classes = useStyles(isSafari)();
+  const classes = useStyles();
   const history = useHistory();
   const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
@@ -58,7 +58,7 @@ function ProfilePanel({
           fullWidth
           size="small"
           color="primary"
-          className={classes.button}
+          className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           classes={{ endIcon: isSafari ? classes.buttonStaisticsSafari : classes.buttonStaistics }}
           endIcon={<div>{profileConnection[id] || 0}</div>}
           startIcon={

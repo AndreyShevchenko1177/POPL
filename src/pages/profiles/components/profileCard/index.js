@@ -30,7 +30,7 @@ export default function Card({
   id,
   profileOff,
 }) {
-  const classes = useStyles()();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [directOn, setDirectOn] = useState({
     direct: false,
@@ -69,8 +69,6 @@ export default function Card({
   useEffect(() => {
     if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
   }, [direct]);
-
-  console.log(profileOff);
 
   return (
     <>
