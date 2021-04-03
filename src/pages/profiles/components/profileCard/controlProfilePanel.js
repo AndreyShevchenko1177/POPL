@@ -6,10 +6,10 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import connectIcon from "../../../../assets/svg/connect.svg";
 import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
+import poplIcon from "../../../../assets/poplIcon_black.png";
 
 function ProfilePanel({
   id,
@@ -81,7 +81,7 @@ function ProfilePanel({
           className={classes.button}
           endIcon={<div>{poplsConnection[id] || 0}</div>}
           classes={{ endIcon: classes.buttonStaistics }}
-          startIcon={<VisibilityIcon />}
+          startIcon={<img className='white' style={{ width: "15px" }} alt='popl' src={poplIcon} />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
         >
           Popls

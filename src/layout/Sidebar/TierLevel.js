@@ -14,17 +14,17 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
         <div className={classes.tierIcon}>
           <SvgMaker fill="#7d8286" width={30} height={30} name='users'/>
         </div>
-        <span>{subscriptionName || "Subscribe"}</span>
+        <span>{"Tier Level"}</span>
       </div>
-      {count && maxProfiles && <>
+      {count && <>
         <div className={classes.barTrack}>
           <div
-            style={{ width: `${((count / maxProfiles[1]) * 100) > 100 ? 100 : (count / maxProfiles[1]) * 100}%`, backgroundColor: ((count / maxProfiles[1]) * 100) > 100 ? "#F52B00" : "#73bef2" }}
+            style={{ width: `${((count / 5) * 100) > 100 ? 100 : (count / 5) * 100}%`, backgroundColor: ((count / 5) * 100) > 100 ? "#F52B00" : "#73bef2" }}
             className={classes.networkContainerBarItem}
           ></div>
         </div>
         <div className={classes.tierValue}>
-          <span>{count || ""} profiles of {maxProfiles[1]} profiles used</span>
+          <span>{count || ""} profiles of {5} profiles used</span>
         </div>
       </>}
       <Button

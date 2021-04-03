@@ -21,6 +21,8 @@ import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/reques
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
 import poplIcon from "../../assets/poplIcon.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
+import profiles from "../../assets/profiles_grey.png";
+import profilesWhite from "../../assets/profiles_white.png";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -157,10 +159,12 @@ function PermanentDrawerLeft() {
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div className={classes.sideBarIcons}>
-                  <SvgMaker
+                  {/* <SvgMaker
                     name='profile'
                     fill="#7d8286"
-                  />
+                  /> */}
+                  <img className='white' style={{ width: "100%" }} alt='popl' src={profilesWhite} />
+                  <img className='dark' style={{ width: "100%" }} alt='popl' src={profiles} />
                 </div>
               </ListItemIcon>
               <ListItemText
