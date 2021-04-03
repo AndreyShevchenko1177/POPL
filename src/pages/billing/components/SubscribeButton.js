@@ -67,7 +67,7 @@ function SubscribeButton({
         className={classes.subscriptionButton}
         onClick={handleSubscribe}
       >
-        Subscribe
+        Free 7 day trial
       </Button>
     </>
   );

@@ -22,7 +22,7 @@ export const snackBarAction = (payload) => ({
 export const getProfileInfoRequest = (userId) => async (dispatch) => {
   const myProfile = await getProfileAction(userId);
   const response = await profileIds(userId);
-  if (response.data) {
+  if (response.data && response.data !== 'null') {
     const idsArray = JSON.parse(response.data);
     const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({

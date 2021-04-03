@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export default makeStyles((theme) => ({
+export default (isSafari) => makeStyles((theme) => ({
   root: {
     display: "flex",
     padding: "0",
@@ -225,8 +225,17 @@ export default makeStyles((theme) => ({
       fontSize: "12px !important",
       color: "#7d8286",
     },
+    "& > span" : {
+      position: isSafari ? 'absolute' : 'relative'
+    }
   },
   buttonStaistics: {
     marginLeft: "auto",
   },
+  buttonStaisticsSafari: {
+    marginLeft: 12,
+  },
+  buttonStaisticsSafariForPopls: {
+    marginLeft: 55
+  }
 }));

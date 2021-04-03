@@ -30,7 +30,7 @@ export default function Card({
   id,
   profileOff,
 }) {
-  const classes = useStyles();
+  const classes = useStyles()();
   const dispatch = useDispatch();
   const [directOn, setDirectOn] = useState({
     direct: false,

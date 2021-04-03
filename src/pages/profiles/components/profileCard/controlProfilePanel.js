@@ -9,6 +9,7 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import connectIcon from "../../../../assets/svg/connect.svg";
 import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
+import { isSafari } from "../../../../constants";
 import poplIcon from "../../../../assets/poplIcon_black.png";
 
 function ProfilePanel({
@@ -22,7 +23,7 @@ function ProfilePanel({
   section2,
   name,
 }) {
-  const classes = useStyles();
+  const classes = useStyles(isSafari)();
   const history = useHistory();
   const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
@@ -58,7 +59,7 @@ function ProfilePanel({
           size="small"
           color="primary"
           className={classes.button}
-          classes={{ endIcon: classes.buttonStaistics }}
+          classes={{ endIcon: isSafari ? classes.buttonStaisticsSafari : classes.buttonStaistics }}
           endIcon={<div>{profileConnection[id] || 0}</div>}
           startIcon={
             <img
@@ -80,8 +81,8 @@ function ProfilePanel({
           color="primary"
           className={classes.button}
           endIcon={<div>{poplsConnection[id] || 0}</div>}
-          classes={{ endIcon: classes.buttonStaistics }}
-          startIcon={<img className='white' style={{ width: "15px" }} alt='popl' src={poplIcon} />}
+          classes={{ endIcon: isSafari ? classes.buttonStaisticsSafariForPopls : classes.buttonStaistics }}
+          startIcon={<img className='white' style={{ width: "15px", height: "15px" }} alt='popl' src={poplIcon} />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
         >
           Popls
