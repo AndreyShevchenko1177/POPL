@@ -14,10 +14,9 @@ function SubscriptionCard({
       <div className={classes.priceDescriptionContainer}>
         <Typography variant='body2'>{profilesNumber} Profiles</Typography>
         <span>${price} month</span>
-        {/* <Typography variant='body2'>${price} / month</Typography> */}
       </div>
       <div className={classes.buttonContainer}>
-        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} />
+        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} />
       </div>
       <div className={classes.labelsContainer}>
       </div>

@@ -110,6 +110,7 @@ function OverallAnalytics() {
           linkTaps={topStatisticsData.data?.linkTaps}
           totalProfiles={topStatisticsData.data?.totalProfiles}
           totalPopls={topStatisticsData.data?.totalPopls}
+          views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />{" "}
         {/* add linkTaps, totalViews here */}

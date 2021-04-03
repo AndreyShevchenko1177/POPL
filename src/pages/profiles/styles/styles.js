@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
+  mainPageWrapper: {
+    paddingTop: 100,
+  },
   root: {
     padding: "8px 16px",
     display: "flex",

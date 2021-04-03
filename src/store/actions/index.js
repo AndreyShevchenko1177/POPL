@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 import axios from "axios";
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO,
 } from "../actionTypes";
 import { getId } from "../../utils/uniqueId";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
@@ -61,3 +61,11 @@ export const profilesInfo = (profiles) => async (dispatch) => {
     payload: { result, profileConnection, poplsConnection },
   });
 };
+
+export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => ({
+  type: SUBSCRIPTION_INFO,
+  payload: {
+    subscriptionName,
+    maxProfiles,
+  },
+});
