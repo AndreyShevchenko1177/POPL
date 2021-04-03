@@ -111,7 +111,6 @@ function PoplsItem() {
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
             handleSearch={handleSearch}
-            btn_title="Add Popl"
             disabled
           />
         </div>

@@ -90,13 +90,13 @@ export default makeStyles((theme) => ({
   },
   listText: {
     fontFamily: "AvenirNextCyr",
-    fontSize: "16px",
+    fontSize: "14px",
     letterSpacing: "1.5px",
     color: "#7d8286",
   },
   listTextNested: {
     fontFamily: "AvenirNextCyr",
-    fontSize: "14px",
+    fontSize: "12px",
     letterSpacing: "1.5px",
     color: "#7d8286",
   },
@@ -134,7 +134,7 @@ export default makeStyles((theme) => ({
     "& > span": {
       color: "#7d8286",
       fontFamily: "AvenirNextCyr, san-serif, arial",
-      fontSize: "1rem",
+      fontSize: "14px",
       letterSpacing: "1.5px",
     },
   },
@@ -161,7 +161,7 @@ export default makeStyles((theme) => ({
     "& > span": {
       color: "#7d8286",
       fontFamily: "AvenirNextCyr, san-serif, arial",
-      fontSize: "1rem",
+      fontSize: "14px",
     },
   },
   tierButton: {

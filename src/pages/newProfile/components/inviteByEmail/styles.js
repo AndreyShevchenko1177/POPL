@@ -112,6 +112,9 @@ export default makeStyles((theme) => ({
   importPreviewContainer: {
     display: "flex",
     alignItems: "center",
+    "& > button:first-child": {
+      marginRight: 20,
+    },
   },
   preview: {
     display: "flex",

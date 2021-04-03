@@ -86,7 +86,8 @@ export default makeStyles((theme) => ({
   buttonWrapper: {
     position: "absolute",
     bottom: 10,
-    right: 20,
+    left: "50%",
+    transform: "translateX(-50%)",
   },
   fileName: {
     display: "flex",

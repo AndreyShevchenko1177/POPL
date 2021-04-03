@@ -101,6 +101,7 @@ function OverallAnalytics() {
         rootLinkClick={handleShowAllStat}
         lastChild={location.state?.name || location.state?.poplName}
         firstChild={location.state?.name ? "Profiles" : location.state?.poplName ? "Popls" : ""}
+        firstChildRedirectPath={location.state?.poplName ? "/popls" : "/profiles"}
         path="/analytics/overall"
       />
       <div className="overall-analytics-container">

@@ -71,7 +71,7 @@ function EmailInvite() {
       // setIsOpenDropZone(false);
       dispatch(clearStateAction("inviteByEmail"));
       dispatch(snackBarAction({
-        message: "Your contacts imported successfully",
+        message: "Invites sent successfully",
         severity: "success",
         duration: 3000,
         open: true,
