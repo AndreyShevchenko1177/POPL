@@ -84,7 +84,7 @@ function PermanentDrawerLeft() {
     if (userData?.id) {
       getChildrenIdsRequest(userData.id)
         .then((res) => {
-          if (res.data) dispatch(profileCountTierLevelAction(JSON.parse(res.data).length + 1));
+          if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(res.data).length + 1));
           else dispatch(profileCountTierLevelAction(1));
         })
         .catch((err) => console.log(err));

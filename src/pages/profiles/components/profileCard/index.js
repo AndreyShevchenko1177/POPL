@@ -70,8 +70,6 @@ export default function Card({
     if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
   }, [direct]);
 
-  console.log(profileOff);
-
   return (
     <>
       <DragDots position="center" />

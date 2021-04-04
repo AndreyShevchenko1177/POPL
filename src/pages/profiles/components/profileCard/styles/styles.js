@@ -226,7 +226,26 @@ export default makeStyles((theme) => ({
       color: "#7d8286",
     },
   },
+  buttonRelative: {
+    "& > span": {
+      position: "relative",
+    },
+  },
+  buttonAbsolute: {
+    "& > span": {
+      position: "absolute",
+    },
+  },
   buttonStaistics: {
     marginLeft: "auto",
+    "& > span": {
+      position: "relative",
+    },
+  },
+  buttonStaisticsSafari: {
+    marginLeft: 12,
+  },
+  buttonStaisticsSafariForPopls: {
+    marginLeft: 55,
   },
 }));

@@ -1,20 +1,20 @@
-import firebase, { db } from "./firebase.config";
+import firebase from "./firebase.config";
 
-const getData = async (collection, docId) => {
+const getData = async (db, collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get();
   return { data: data.data()?.history.map((con) => ({ ...con, profileId: docId, names: [] })) || [], docId };
 };
 
 export const getCollectionData = async (collection, docIdArray) => {
   try {
-    console.log(docIdArray, "fdsfds");
+    const db = firebase.firestore();
     await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
       console.log("in promise");
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           try {
-            const data = await Promise.all((docIdArray.map((docId) => getData(collection, docId))));
+            const data = await Promise.all((docIdArray.map((docId) => getData(db, collection, docId))));
             resolve(data);
           } catch (error) {
             reject(error);

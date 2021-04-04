@@ -8,8 +8,9 @@ import realTimeAnalytics from "../../pages/overallAnalytics/store/reducer";
 import connectionsReducer from "../../pages/connections/store/reducer";
 import stripeResult from "../../pages/stripeResultPages/store/reducer";
 import addProfilesReducer from "../../pages/newProfile/store/reducer";
+import { LOGOUT } from "../../pages/auth/store/actionTypes";
 
-export default combineReducers({
+const appReducer = combineReducers({
   form: formReducer,
   authReducer,
   profilesReducer,
@@ -20,3 +21,13 @@ export default combineReducers({
   stripeResult,
   addProfilesReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === LOGOUT) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+
+export default rootReducer;

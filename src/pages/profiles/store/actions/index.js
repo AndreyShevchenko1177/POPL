@@ -51,6 +51,7 @@ export const getProfilesIds = (userId) => async (dispatch) => {
       ],
     });
   } catch (error) {
+    console.log(error);
     dispatch(
       snackBarAction({
         message: "Server error",
