@@ -92,10 +92,10 @@ function ProfilePanel({
         <Button
           variant="outlined"
           fullWidth
-          className={classes.button}
           size="small"
           color="primary"
           startIcon={<EqualizerIcon />}
+          className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           onClick={() => history.push("/analytics/overall", {
             id, name, business, social,
           })}
