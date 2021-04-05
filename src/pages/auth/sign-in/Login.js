@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  makeStyles,
-  Input,
+  OutlinedInput,
   Button,
   Paper,
   Grid,
   InputAdornment,
-  InputLabel,
   FormControl,
   IconButton,
   Typography,
@@ -21,29 +19,8 @@ import Mail from "@material-ui/icons/Mail";
 import { signInConfig } from "../validationConfig";
 import { signInAction } from "../store/actions";
 import { ValidationProvider } from "../../../utils";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "98vh",
-  },
-  Input: {
-    // margin: `8px 0`,
-  },
-  loginBg: {
-    maxWidth: "400px",
-    minHeight: "60vh",
-    borderRadius: 8,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 30,
-  },
-  loginBtn: { margin: "30px 0", width: "50%" },
-  adornment: {
-    padding: 12,
-    color: "rgba(0,0,0,0.54)",
-  },
-}));
+import useStyles from "./styles";
+import AnimationComponent from "./AnimationComponent";
 
 function Login(props) {
   const classes = useStyles();
@@ -70,15 +47,12 @@ function Login(props) {
   }, [result]);
 
   return (
-    <>
-      <Grid
-        container
-        justify="center"
-        spacing={2}
-        alignItems="center"
-        className={clsx(classes.root)}
-      >
-        <Paper elevation={3} className={classes.loginBg}>
+    <div className={classes.root}>
+      <div className={classes.loginContainer}>
+        <div className={classes.topIconContainer}>
+          <img alt='logo' className={classes.logo} src="/assests/logo/popl_logo_black.png" />
+        </div>
+        <Paper elevation={0} className={classes.loginFormWrapper}>
           <ValidationProvider config={signInConfig}>
             {(events, values, errors) => (
               <Grid
@@ -110,34 +84,28 @@ function Login(props) {
                   xs={12}
                   align="center"
                 >
-                  <FormControl fullWidth>
-                    <InputLabel>Username/Email</InputLabel>
-                    <Input
-                      type="text"
-                      label="Username/Email"
-                      name="username"
-                      fullWidth
-                      error={!!errors.username || result.error}
-                      value={values.username}
-                      onChange={events.onChange}
-                      onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
-                      }
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <Mail />
-                        </InputAdornment>
-                      }
-                      autoFocus
-                    />
-                    <FormHelperText
-                      id="outlined-weight-helper-text"
-                      error={true}
-                    >
-                      {result.error
-                        ? "Some field is incorrect"
-                        : errors.username}
-                    </FormHelperText>
-                  </FormControl>
+                  <div className={classes.inputWrapper}>
+                    <span>Email</span>
+                    <FormControl fullWidth>
+                      <OutlinedInput
+                        type="text"
+                        // label="Username/Email"
+                        name="username"
+                        fullWidth
+                        error={!!errors.username || result.error}
+                        value={values.username}
+                        onChange={events.onChange}
+                        onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
+                        }
+                        endAdornment={
+                          <InputAdornment classes={{ root: classes.emailAdornment }} position="end">
+                            <Mail />
+                          </InputAdornment>
+                        }
+                        autoFocus
+                      />
+                    </FormControl>
+                  </div>
                 </Grid>
                 <Grid
                   item
@@ -148,38 +116,40 @@ function Login(props) {
                   xs={12}
                   align="center"
                 >
-                  <FormControl fullWidth>
-                    <InputLabel>Password</InputLabel>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      label="Password"
-                      name="password"
-                      fullWidth
-                      error={!!errors.password || result.error}
-                      value={values.password}
-                      onChange={events.onChange}
-                      onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
-                      }
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                    <FormHelperText
-                      id="outlined-weight-helper-text"
-                      error={true}
-                    >
-                      {result.error
-                        ? "Some field is incorrect"
-                        : errors.password}
-                    </FormHelperText>
-                  </FormControl>
+                  <div className={classes.inputWrapper}>
+                    <span>Password</span>
+                    <FormControl fullWidth>
+                      <OutlinedInput
+                        type={showPassword ? "text" : "password"}
+                        // label="Password"
+                        name="password"
+                        fullWidth
+                        error={!!errors.password || result.error}
+                        value={values.password}
+                        onChange={events.onChange}
+                        onKeyDown={(event) => events.onKeyDown(event, signIn, "Enter")
+                        }
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      <FormHelperText
+                        id="outlined-weight-helper-text"
+                        error={true}
+                      >
+                        {result.error
+                          ? "Invalid email or password"
+                          : errors.password}
+                      </FormHelperText>
+                    </FormControl>
+                  </div>
                 </Grid>
                 <Grid
                   align="center"
@@ -225,8 +195,9 @@ function Login(props) {
             )}
           </ValidationProvider>
         </Paper>
-      </Grid>
-    </>
+      </div>
+      <AnimationComponent />
+    </div>
   );
 }
 
