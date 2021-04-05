@@ -24,8 +24,8 @@ function SearchStripe({
   isShow,
   isFetching,
   showCRM,
-  showAll,
-  checkboxes,
+  showAll = true,
+  checkboxes = {},
 }) {
   const classes = useStyles();
 
@@ -40,10 +40,10 @@ function SearchStripe({
           classes={{ root: "custom-checkbox-root" }}
           style={{ padding: "8px" }}
         />
-        <KeyboardArrowDownIcon
+        {/* <KeyboardArrowDownIcon
           style={{ color: "#7d7d7d", cursor: "pointer" }}
           onClick={() => arrowHandler(true)}
-        />
+        /> */}
         {!disabled && <CustomSelect
           checkProfiles={Object.values(checkboxes).filter(({ checked }) => checked).map(({ id }) => id)}
           config={selectObject.config}
@@ -51,6 +51,18 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
+      {!showAll && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+          // startIcon={<AddIcon />}
+          disabled={!Object.values(checkboxes).some((el) => el.checked)}
+          onClick={() => arrowHandler(true)}
+        >
+          {"Actions"}
+        </Button>
+      </div>}
       <Filters
         isFetching={isFetching}
         setFilters={setFilters}

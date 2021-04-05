@@ -285,84 +285,32 @@ function PermanentDrawerLeft() {
               />
             </ListItem>
           </Link>
-          <Link to="/analytics/overall">
-            <ListItem
-              divider={false}
-              className={clsx(classes.ulList, {
-                [classes.ulListHighLight]: highlight.analytics,
-              })}
-              button
-              onClick={() => {
-                handleCollapseClick("analyticsOpen");
-                highlightList("overall");
-              }}
-            >
-              <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div className={classes.sideBarIcons}>
-                  <SvgMaker
-                    name='analytics'
-                    fill="#7d8286"
-                  />
-                </div>
-              </ListItemIcon>
-              <ListItemText
-                to="/analytics/locations"
-                disableTypography
-                classes={{ root: classes.listText }}
-                primary="Analytics"
-              />
-              {collapse.analyticsOpen
-                ? <ExpandLessIcon
-                  style={{ fill: "#7d8286" }}
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight.overall,
+            })}
+            button
+            onClick={() => {
+              handleCollapseClick("analyticsOpen");
+              highlightList("overall");
+              history.push("/analytics", {});
+            }}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <div className={classes.sideBarIcons}>
+                <SvgMaker
+                  name='analytics'
+                  fill="#7d8286"
                 />
-                : <ExpandMoreIcon
-                  style={{ fill: "#7d8286" }}
-                />
-              }
-            </ListItem>
-          </Link>
-          <Collapse in={collapse.analyticsOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link to="/analytics/overall">
-                <ListItem
-                  button
-                  className={clsx(classes.nested, {
-                    [classes.ulListHighLight]: highlight.overall,
-                  })}
-                  onClick={() => highlightList("overall")}
-                >
-                  <ListItemText
-                    disableTypography
-                    classes={{
-                      root: clsx(classes.listTextNested, {
-                        [classes.listTextHighLight]: highlight.overall,
-                      }),
-                    }}
-                    primary="Overall"
-                  />
-                </ListItem>
-              </Link>
-              <Link to="/analytics/locations">
-                <ListItem
-                  button
-                  className={clsx(classes.nested, {
-                    [classes.ulListHighLight]: highlight.locations,
-                  })}
-                  onClick={() => highlightList("locations")}
-                >
-                  <ListItemText
-                    disableTypography
-                    classes={{
-                      root: clsx(classes.listTextNested, {
-                        [classes.listTextHighLight]: highlight.locations,
-                      }),
-                    }}
-                    primary="Individual"
-                  />
-                </ListItem>
-              </Link>
-            </List>
-          </Collapse>
+              </div>
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              classes={{ root: classes.listText }}
+              primary="Analytics"
+            />
+          </ListItem>
           <Link to="/settings">
             <ListItem
               button

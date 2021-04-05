@@ -90,7 +90,7 @@ function App(props) {
           <ClipApp />
         </PrivateRoute>
         <PrivateRoute
-          path="/analytics/overall"
+          path="/analytics"
           exact
           isLoggedIn={profileData?.id}
         >

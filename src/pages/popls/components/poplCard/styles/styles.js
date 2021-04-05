@@ -27,7 +27,13 @@ export default makeStyles((theme) => ({
     color: "#565956",
   },
   tableCell: {
-    width: "120px",
+    minWidth: "120px",
+  },
+  tableCellValue: {
+    width: "70px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   iconsButtonWrapper: {
     display: "flex",
@@ -52,5 +58,9 @@ export default makeStyles((theme) => ({
     padding: "20px",
     borderTopRightRadius: theme.custom.mainBorderForBigElement,
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
+  },
+  popsCountNumber: {
+    display: "flex",
+
   },
 }));

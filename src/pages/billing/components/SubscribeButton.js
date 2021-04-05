@@ -12,16 +12,16 @@ function SubscribeButton({
   const dispatch = useDispatch();
 
   const handleSubscribe = async () => {
-    if (quantity < unitsRange[0] || quantity > unitsRange[1]) {
-      return dispatch(
-        snackBarAction({
-          message: `You have currently only ${quantity} Profiles`,
-          severity: "warning",
-          duration: 3000,
-          open: true,
-        }),
-      );
-    }
+    // if (quantity < unitsRange[0] || quantity > unitsRange[1]) {
+    //   return dispatch(
+    //     snackBarAction({
+    //       message: `You have currently only ${quantity} Profiles`,
+    //       severity: "warning",
+    //       duration: 3000,
+    //       open: true,
+    //     }),
+    //   );
+    // }
     let myHeaders = new Headers();
 
     let formdata = new FormData();

@@ -181,7 +181,7 @@ export const collectSelectedPopls = (id) => async (dispatch) => {
     dispatch({
       type: COLLECT_SELECTED_POPLS_REQUEST,
     });
-    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current.data], []));
+    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current], []));
     dispatch({
       type: COLLECT_SELECTED_POPLS_SUCCESS,
       payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),

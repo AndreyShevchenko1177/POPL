@@ -1,4 +1,4 @@
-import firebase from "./firebase.config";
+import firebase, { db } from "./firebase.config";
 
 const getData = async (db, collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get();
@@ -7,7 +7,6 @@ const getData = async (db, collection, docId) => {
 
 export const getCollectionData = async (collection, docIdArray) => {
   try {
-    const db = firebase.firestore();
     await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
       console.log("in promise");

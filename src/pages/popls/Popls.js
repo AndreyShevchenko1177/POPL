@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Dialog, DialogContent, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  getPoplsAction, clearAddPopl, clearEditPopl, collectSelectedPopls, clearData,
+  getPoplsAction, collectSelectedPopls, clearData,
 } from "./store/actions";
-import PoplForm from "./components/poplForm";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
@@ -22,19 +21,8 @@ function PoplsItem() {
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
-  const [isOpenForm, setIsOpenForm] = useState(false);
-  const [currentPopl, setCurrentPopl] = useState();
   const [dragablePopls, setPopls] = useState([]);
   const [fitlersCheck, setFiltersCheck] = useState({});
-
-  const handleOpenForm = (popl) => {
-    if (popl) {
-      setCurrentPopl(popl);
-    } else {
-      setCurrentPopl();
-    }
-    setIsOpenForm(true);
-  };
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -54,9 +42,10 @@ function PoplsItem() {
 
   const setFilters = (event, name) => {
     switch (name) {
-    case "all": dispatch(collectSelectedPopls(profileData.id));
-
-    // case "all": dispatch(retieveSelectedPopls());
+    case "all": {
+      location.state.profilesData = undefined;
+      dispatch(collectSelectedPopls(profileData.id));
+    }
     default:
     }
   };
@@ -73,13 +62,6 @@ function PoplsItem() {
   }, []);
 
   useEffect(() => {
-    if (!isOpenForm) {
-      dispatch(clearAddPopl());
-      dispatch(clearEditPopl());
-    }
-  }, [isOpenForm]);
-
-  useEffect(() => {
     setPopls(popls);
   }, [popls]);
 
@@ -88,8 +70,6 @@ function PoplsItem() {
       setPopls(filterPopls);
     }
   }, [filterPopls]);
-
-  console.log(dragablePopls);
 
   return (
     <>
@@ -109,7 +89,6 @@ function PoplsItem() {
             setFilters={setFilters}
             fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
-            handleOpen={() => handleOpenForm()}
             handleSearch={handleSearch}
             disabled
           />
@@ -144,7 +123,7 @@ function PoplsItem() {
                             <PoplCard
                               key={popl.id}
                               popl={popl}
-                              editAction={handleOpenForm}
+                              userId={profileData.id}
                             />
                           </Paper>
                         )}
@@ -156,19 +135,6 @@ function PoplsItem() {
             </Droppable>
           </DragDropContext>
         )}
-        <Dialog
-          open={isOpenForm}
-          onClose={() => setIsOpenForm(false)}
-          maxWidth="md"
-        >
-          <DialogContent>
-            <PoplForm
-              setIsOpenForm={setIsOpenForm}
-              mid={location.state?.id}
-              popl={currentPopl}
-            />
-          </DialogContent>
-        </Dialog>
       </div>
     </>
   );

@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   Checkbox, Button,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
+import { getPopsForPoplItem } from "../../store/actions/requests";
+import Loader from "../../../../components/Loader";
 
-function PoplCard({ popl, editAction }) {
+function PoplCard({ popl, userId }) {
   const classes = useStyles();
   const history = useHistory();
+  const [popsCount, setPopsCount] = useState();
+  const [mounted, setMounted] = useState(true);
+
+  useEffect(() => {
+    getPopsForPoplItem(userId, popl.name)
+      .then((res) => mounted && setPopsCount(` ${res}`))
+      .catch((err) => console.log(err));
+
+    return () => setMounted(false);
+  }, []);
 
   return (
     <>
@@ -26,16 +37,15 @@ function PoplCard({ popl, editAction }) {
         <img className={classes.avatar} alt="logo" src={userIcon} />
       </div>
       <div className={classes.contenContainer}>
-        {/* <Typography variant="h5">{popl.name}</Typography> */}
         <table>
           <tbody className={classes.cardTable}>
             <tr>
               <td className={classes.tableCell}>Profile Owner:</td>
-              <td>{popl.profileOwner}</td>
+              <td className={classes.tableCellValue}>{popl.profileOwner}</td>
             </tr>
             <tr>
-              <td className={classes.tableCell}>Popl ID:</td>
-              <td>{popl.name}</td>
+              <td className={classes.tableCell}>Nickname:</td>
+              <td className={classes.tableCellValue}>{popl.nickname}</td>
             </tr>
             <tr>
               <td className={classes.tableCell}>Activated:</td>
@@ -45,41 +55,24 @@ function PoplCard({ popl, editAction }) {
         </table>
       </div>
       <div className={classes.poplPagePoplCardButtonsContainer}>
-        {/* <Button
-          variant="outlined"
-          size="small"
-          startIcon={<EditIcon />}
-          className={classes.button}
-          onClick={() => editAction(popl)}
-        >
-          Edit
-        </Button> */}
         <Button
           variant="outlined"
           size="small"
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
-          onClick={() => history.push("/analytics/overall", { poplName: popl.name })}
+          onClick={() => history.push("/analytics", { poplName: popl.name })}
         >
           Analytics
         </Button>
-        {/* <div className={classes.iconsButtonWrapper}>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <FileCopyIcon />
-          </IconButton>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <DeleteOutlineIcon />
-          </IconButton>
-        </div> */}
+        <div className={classes.popsCountNumber}>
+          <span>Pops: </span>
+          {popsCount || <Loader styles={{
+            size: 5, width: 20, height: 20, marginLeft: 10,
+          }} />
+          }
+        </div>
+        {/* <Typography variant='subtitle1'>Pops: {popsCount}</Typography> */}
       </div>
     </>
   );

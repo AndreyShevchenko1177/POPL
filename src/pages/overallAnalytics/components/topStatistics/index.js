@@ -18,8 +18,6 @@ function TopStatistics(props) {
     });
   }, [props]);
 
-  console.log(data);
-
   return (
     <div className={classes.topStatisticsContainer}>
       {data.map((item) => (

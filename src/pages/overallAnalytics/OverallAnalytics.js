@@ -23,7 +23,7 @@ function OverallAnalytics() {
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
   const isFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.isFetching);
-  const [chartData, setChartData] = useState();
+  const [chartData, setChartData] = useState(null);
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
@@ -70,8 +70,6 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    // if (location.state?.poplId) dispatch(getStatisticItem(location.state));
-
     if (location.state?.poplName) {
       dispatch(getPopsAction(null, location.state?.poplName));
     } else if (location.state?.id) {
@@ -81,9 +79,11 @@ function OverallAnalytics() {
       dispatch(getStatisticItemsRequest(userId));
       dispatch(getPopsAction(location.state?.id));
     }
-    return () => {
-      dispatch(cleanAction());
-    };
+  }, [location]);
+
+  useEffect(() => () => {
+    dispatch(cleanAction());
+    setChartData(null);
   }, []);
 
   useEffect(() => {
@@ -102,7 +102,7 @@ function OverallAnalytics() {
         lastChild={location.state?.name || location.state?.poplName}
         firstChild={location.state?.name ? "Profiles" : location.state?.poplName ? "Popls" : ""}
         firstChildRedirectPath={location.state?.poplName ? "/popls" : "/profiles"}
-        path="/analytics/overall"
+        path="/analytics"
       />
       <div className="overall-analytics-container">
         <TopStatistics

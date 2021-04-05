@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-export const config = {
+const config = {
   apiKey: "AIzaSyCFY3BojPYmqXOzIiKh7___cT2Xe1vY38Q",
   authDomain: "poplco.firebaseapp.com",
   databaseURL: "https://poplco.firebaseio.com",
@@ -11,6 +11,8 @@ export const config = {
   measurementId: "G-38RXN89B96",
 };
 firebase.initializeApp(config);
+firebase.firestore().enablePersistence();
+export const db = firebase.firestore();
 console.log("firebase");
 
 export default firebase;

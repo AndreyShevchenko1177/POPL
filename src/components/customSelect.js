@@ -4,8 +4,8 @@ import { Checkbox, makeStyles, Button } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   container: {
     position: "absolute",
-    top: 75,
-    left: 0,
+    top: 80,
+    left: 72,
     minWidth: 150,
     minHeight: 200,
     backgroundColor: "#ffffff",
@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
     zIndex: 10,
+    "@media (min-width:1000px)": {
+      left: 87,
+    },
   },
   wrapper: {
     display: "flex",

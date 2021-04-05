@@ -68,4 +68,11 @@ export default makeStyles((theme) => ({
       fontSize: 32,
     },
   },
+  actionButton: {
+    height: "50px",
+    minWidth: "100px",
+    fontFamily: "AvenirNextCyr",
+    fontSize: "16px",
+    borderRadius: theme.custom.mainBorderRadius,
+  },
 }));

@@ -166,7 +166,8 @@ const DropZone = ({
       ? header.indexOf("email")
       : header.indexOf("email address") !== -1
         ? header.indexOf("email address")
-        : -1;
+        : header.indexOf("e-mail") !== -1
+          ? header.indexOf("e-mail") : -1;
 
     if (index >= 0) {
       const result = emails.map((el) => el[index]).filter((el, i, array) => el && array.indexOf(el) === i);
@@ -182,7 +183,7 @@ const DropZone = ({
       return handleClose();
     }
     return dispatch(snackBarAction({
-      message: "No \"Email\" or \"Email Address\" column was found",
+      message: "No \"Email\", \"Email Address\" or \"E-mail\" column was found",
       severity: "error",
       duration: 3000,
       open: true,
