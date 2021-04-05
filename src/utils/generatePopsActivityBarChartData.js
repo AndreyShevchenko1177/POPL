@@ -4,7 +4,6 @@ import {
 } from "./dates";
 
 export function generateChartData(popsData, minDate, maxDate) {
-  console.log("BEFORE", minDate, maxDate);
   let calendarRange;
   let currentDate;
   if (!popsData?.length) return;
@@ -23,6 +22,7 @@ export function generateChartData(popsData, minDate, maxDate) {
   // let date = currentDate.setHours(0, 0, 0, 0);
   // console.log(calendarRange, currentDate);
 
+  console.log("DATES", minDate, "\n\n", maxDate, "\n\n", new Date(), "\n\n");
   // initing result object dates
   if (typeof calendarRange === "undefined") {
     for (let i = 13; i > 0; i--) {
