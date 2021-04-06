@@ -10,6 +10,7 @@ import {
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
+import { getPopsAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 
@@ -19,6 +20,7 @@ function PoplsItem() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops.data);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [dragablePopls, setPopls] = useState([]);
@@ -52,9 +54,9 @@ function PoplsItem() {
 
   useEffect(() => {
     if (location.state?.profilesData?.id) {
-      return dispatch(getPoplsAction(location.state?.profilesData.id, "single"));
-    }
-    dispatch(getPoplsAction(profileData.id));
+      dispatch(getPoplsAction(location.state?.profilesData.id, "single"));
+    } else dispatch(getPoplsAction(profileData.id));
+    dispatch(getPopsAction(profileData.id));
   }, []);
 
   useEffect(() => () => {
@@ -123,7 +125,7 @@ function PoplsItem() {
                             <PoplCard
                               key={popl.id}
                               popl={popl}
-                              userId={profileData.id}
+                              allPops={pops}
                             />
                           </Paper>
                         )}

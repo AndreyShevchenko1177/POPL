@@ -7,23 +7,18 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
-import { dateFormat } from "../../../../utils/dates";
-import { getPopsForPoplItem } from "../../store/actions/requests";
+import { dateFormat, filterPops } from "../../../../utils";
 import Loader from "../../../../components/Loader";
 
-function PoplCard({ popl, userId }) {
+function PoplCard({ popl, allPops }) {
   const classes = useStyles();
   const history = useHistory();
   const [popsCount, setPopsCount] = useState();
-  const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
-    getPopsForPoplItem(userId, popl.name)
-      .then((res) => mounted && setPopsCount(` ${res}`))
-      .catch((err) => console.log(err));
-
-    return () => setMounted(false);
-  }, []);
+    if (allPops) setPopsCount(` ${allPops.filter((pop) => filterPops.filterPopsByPoplName(pop[1]) === popl.name).length}`);
+  }, [allPops]);
+  console.log(popsCount);
 
   return (
     <>

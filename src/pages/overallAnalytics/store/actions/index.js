@@ -7,7 +7,7 @@ import {
 import { snackBarAction } from "../../../../store/actions";
 import { getPoplsDataById } from "../../../popls/store/actions/requests";
 import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
-import { getId } from "../../../../utils";
+import { getId, filterPops } from "../../../../utils";
 import * as requests from "./requests";
 
 export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
@@ -24,35 +24,60 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         response = await Promise.all([id].map((id) => requests.popsActionRequest(id)));
       }
 
-      result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
-      if (poplName) {
-        const matchString = (popValue) => {
-          const result = popValue.slice(-14);
-          return result && result.length === 14 ? result : null;
-        };
+      // filterPops.filterPoplPops();
 
-        result = result.filter((pop) => matchString(pop[1]) === poplName);
+      result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
+      const poplPops = [];
+      const qrCodePops = [];
+      const walletPops = [];
+
+      console.log(poplPops);
+      if (poplName) {
+        result = result.filter((pop) => filterPops.filterPopsByPoplName(pop[1]) === poplName);
         dispatch(individualPopsCountAction(result.length));
+        result.forEach((pop) => {
+          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+        });
+      } else {
+        result.forEach((pop) => {
+          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+        });
       }
+      const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
     } else {
       const response = await requests.popsActionRequest(userId);
+      if (typeof response === "string") {
+        console.log(userId);
+        dispatch(
+          snackBarAction({
+            message: "Download pops error",
+            severity: "error",
+            duration: 3000,
+            open: true,
+          }),
+        );
+        return dispatch({
+          type: GET_POPS_FAIL,
+          payload: "error",
+        });
+      }
+
+      const poplPops = [];
+      const qrCodePops = [];
+      const walletPops = [];
+      response.data.forEach((pop) => {
+        if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+        if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+        if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+      });
+      const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
       result = response.data;
     }
 
-    if (typeof response === "string") {
-      dispatch(
-        snackBarAction({
-          message: "Download pops error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        }),
-      );
-      return dispatch({
-        type: GET_POPS_FAIL,
-        payload: "error",
-      });
-    }
     return dispatch({
       type: GET_POPS_SUCCESS,
       payload: result,
