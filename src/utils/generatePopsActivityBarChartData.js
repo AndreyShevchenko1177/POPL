@@ -22,7 +22,7 @@ export function generateChartData(popsData, minDate, maxDate) {
   // let date = currentDate.setHours(0, 0, 0, 0);
   // console.log(calendarRange, currentDate);
 
-  console.log("DATES", minDate, "\n\n", maxDate, "\n\n", new Date(), "\n\n");
+  console.log("DATES", "\n\n", new Date(), "\n\n");
   // initing result object dates
   if (typeof calendarRange === "undefined") {
     for (let i = 13; i > 0; i--) {
@@ -41,6 +41,8 @@ export function generateChartData(popsData, minDate, maxDate) {
     }
   }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
+  console.log("DATES", "\n\n", `${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`, "\n\n");
+  console.log("DATES", "\n\n", `${getYear(new Date())}-${normalizeDate(getMonth(new Date()) + 1)}-${normalizeDate(getDay(new Date()))}`, "\n\n");
 
   const data = {};
   Object.keys(popsData).forEach((popKey) => {
