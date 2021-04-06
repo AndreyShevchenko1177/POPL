@@ -66,6 +66,7 @@ export default function NetworkActivity({
                     }
                   }
                 }
+                q.ticks[q.ticks.length - 1] = "0";
               },
             }],
           },
