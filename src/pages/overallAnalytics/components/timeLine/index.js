@@ -10,25 +10,6 @@ import Loader from "../../../../components/Loader";
 import { getMothName, getMonth, getDay } from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
 
-const barData = [
-  {
-    title: "Facebook Campaign",
-    value: 75,
-  },
-  {
-    title: "Twitter Campaign",
-    value: 60,
-  },
-  {
-    title: "Conventional Media",
-    value: 35,
-  },
-  {
-    title: "Bill Boards",
-    value: 40,
-  },
-];
-
 export default function NetworkActivity({
   data, calendar, setCalendar, setDate,
 }) {
@@ -104,23 +85,6 @@ export default function NetworkActivity({
             </>
           )}
         </div>
-        {/* <div className={classes["network-container__bar"]}>
-          <div className={classes["network-container__header-text"]}>
-            <Typography variant="h5" className={classes.barText}>
-              Top Campaign Perfomance
-            </Typography>
-          </div>
-          <div className={classes["network-container__bar-wrapper"]}>
-            {barData.map((props, key) => (
-              <div
-                key={key}
-                className={classes["network-container__bar-item-container"]}
-              >
-                <CustomBar {...props} />
-              </div>
-            ))}
-          </div>
-        </div> */}
       </div>
     </div>
   );

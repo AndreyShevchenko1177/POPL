@@ -35,6 +35,8 @@ function OverallAnalytics() {
     normalData: [currentDate1, currentDate2],
   });
 
+  console.log(chartData);
+
   const setDate = (minDate, maxDate) => {
     const minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,

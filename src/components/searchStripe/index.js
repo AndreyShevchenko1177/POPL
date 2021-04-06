@@ -56,7 +56,7 @@ function SearchStripe({
           variant="contained"
           color="primary"
           classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-          // startIcon={<AddIcon />}
+          endIcon={<KeyboardArrowDownIcon />}
           disabled={!Object.values(checkboxes).some((el) => el.checked)}
           onClick={() => arrowHandler(true)}
         >

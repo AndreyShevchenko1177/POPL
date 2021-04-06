@@ -11,7 +11,7 @@ const chartOptions = {
       ],
     },
     legend: {
-      display: false,
+      display: true,
     },
   },
   data: {
@@ -19,6 +19,7 @@ const chartOptions = {
       {
         data: [],
         pointRadius: 3,
+        label: "Popl",
         lineTension: 0.1,
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
@@ -29,6 +30,7 @@ const chartOptions = {
       {
         data: [],
         pointRadius: 3,
+        label: "QR Code",
         lineTension: 0.1,
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
@@ -40,6 +42,7 @@ const chartOptions = {
         data: [],
         pointRadius: 3,
         lineTension: 0.1,
+        label: "Wallet",
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
         borderColor: "rgba(255, 255, 59, 1)",
@@ -49,10 +52,11 @@ const chartOptions = {
       {
         data: [],
         pointRadius: 3,
+        label: "Total Pops",
         lineTension: 0.1,
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
-        borderColor: "rgba(33, 150, 243, 1)",
+        borderColor: "rgba(70, 70, 70, 0.87)",
         maxBarThickness: 50,
         fill: true,
       },

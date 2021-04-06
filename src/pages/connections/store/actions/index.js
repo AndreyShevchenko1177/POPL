@@ -40,7 +40,7 @@ export const getConnectionsAction = (userId, isSingle) => async (dispatch) => {
     }
     const profileName = {};
     const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    profilesData.forEach(({ data, id, image }) => profileName[id] = { name: data.name, image });
+    profilesData.forEach(({ data, id, image }) => profileName[id] = { name: data.name, image: data.image });
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
     result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));

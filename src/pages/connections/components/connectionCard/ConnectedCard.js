@@ -76,6 +76,7 @@ export function ConnectedCard({
             <div className={classes.connectedWithNames}>
               {names?.map((el, key) => (
                 <Paper key={key} className={classes.nameItem}>
+                  {/* {console.log(el)} */}
                   <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
                   <p className={classes.nameItemName} > {el.name}</p>
                 </Paper>

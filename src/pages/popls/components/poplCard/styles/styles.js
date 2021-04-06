@@ -61,6 +61,6 @@ export default makeStyles((theme) => ({
   },
   popsCountNumber: {
     display: "flex",
-
+    justifyContent: "center",
   },
 }));
