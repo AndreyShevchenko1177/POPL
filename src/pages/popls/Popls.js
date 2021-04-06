@@ -10,7 +10,7 @@ import {
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { getPopsAction } from "../overallAnalytics/store/actions";
+import { getPopsAction, cleanActionName } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 
@@ -20,7 +20,7 @@ function PoplsItem() {
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
-  const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops.data);
+  const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [dragablePopls, setPopls] = useState([]);
@@ -61,6 +61,7 @@ function PoplsItem() {
 
   useEffect(() => () => {
     dispatch(clearData("collectPopl"));
+    dispatch(cleanActionName("allPops"));
   }, []);
 
   useEffect(() => {

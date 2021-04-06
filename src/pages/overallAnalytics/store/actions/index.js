@@ -31,7 +31,6 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
       const qrCodePops = [];
       const walletPops = [];
 
-      console.log(poplPops);
       if (poplName) {
         result = result.filter((pop) => filterPops.filterPopsByPoplName(pop[1]) === poplName);
         dispatch(individualPopsCountAction(result.length));
@@ -48,10 +47,12 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         });
       }
       const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
+      result = {
+        poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+      };
     } else {
       const response = await requests.popsActionRequest(userId);
       if (typeof response === "string") {
-        console.log(userId);
         dispatch(
           snackBarAction({
             message: "Download pops error",
@@ -75,7 +76,9 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
       });
       const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
-      result = response.data;
+      result = {
+        poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+      };
     }
 
     return dispatch({

@@ -6,7 +6,7 @@ import {
 export function generateChartData(popsData, minDate, maxDate) {
   let calendarRange;
   let currentDate;
-  if (!popsData?.length) return;
+  if (!Object.values(popsData)?.length) return;
   if (minDate) {
     const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate))}-${normalizeDate(getDay(maxDate))}`.split("-");
     const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate))}-${normalizeDate(getDay(minDate))}`.split("-");
@@ -42,12 +42,27 @@ export function generateChartData(popsData, minDate, maxDate) {
   }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
 
-  popsData.forEach((pop) => {
-    const date = pop[2].split(" ")[0];
-    if (date in result) {
-      result[date] = (result[date] || 0) + 1;
-    }
+  const data = {};
+  Object.keys(popsData).forEach((popKey) => {
+    let ownResult = { ...result };
+    popsData[popKey].forEach((item) => {
+      const date = item[2].split(" ")[0];
+      if (date in result) {
+        ownResult[date] = (ownResult[date] || 0) + 1;
+      }
+    });
+    data[popKey] = ownResult;
   });
+  console.log("generate");
+  // Object.keys(popsData).forEach((pop) => {
+  // popsData[pop].forEach((item) => {
+  //   const date = item[2].split(" ")[0];
+  //   if (date in result) {
+  //     const data = { [pop]: (result[date][pop] || 0) + 1 };
+  //     result[date] = { ...data };
+  //   }
+  // });
+  // });
   // console.log("AFTER", result);
-  return result;
+  return { ...data, labels: Object.keys(result) };
 }

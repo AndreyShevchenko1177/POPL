@@ -87,7 +87,7 @@ function OverallAnalytics() {
   }, []);
 
   useEffect(() => {
-    if (popsData?.length) {
+    if (popsData && Object.values(popsData).length) {
       setChartData(generateChartData(popsData));
     } else {
       setChartData(popsData);

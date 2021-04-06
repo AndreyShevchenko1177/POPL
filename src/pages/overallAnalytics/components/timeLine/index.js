@@ -8,6 +8,7 @@ import chartOptions from "./chartOptions";
 import CustomBar from "./bar";
 import Loader from "../../../../components/Loader";
 import { getMothName, getMonth, getDay } from "../../../../utils/dates";
+import { getId } from "../../../../utils/uniqueId";
 
 const barData = [
   {
@@ -35,13 +36,16 @@ export default function NetworkActivity({
   const [chartData, setChartData] = useState();
   useEffect(() => {
     if (data) {
-      const result = [];
+      const result = {};
       const labels = [];
-      Object.keys(data).forEach((key) => {
-        result.push(data[key]);
-        labels.push(`${getMothName(getMonth(key))} ${getDay(key)}`);
+      Object.keys(data).forEach((key, i) => {
+        if (key === "labels") {
+          data[key].forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
+          return;
+        }
+        result[key] = Object.values(data[key]);
+        chartOptions.data.datasets[i].data = [...Object.values(data[key])];
       });
-      chartOptions.data.datasets[0].data = result;
       chartOptions.data.labels = labels;
       setChartData({
         data: { ...chartOptions.data },
@@ -90,7 +94,7 @@ export default function NetworkActivity({
             />
           ) : (
             <>
-              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line options={chartData?.options} data={chartData?.data} />
+              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
                 : (
                   <div className={classes.noDataText}>
                   No data for this period
