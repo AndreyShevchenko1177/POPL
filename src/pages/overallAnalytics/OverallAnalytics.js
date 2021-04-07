@@ -116,7 +116,12 @@ function OverallAnalytics() {
         />
         <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
-      <BottomWidgets userId={userId} views={topStatisticsData.data?.topViewedProfiles} popsData={chartData} />
+      <BottomWidgets
+        topPopped={topStatisticsData.data?.topPoppedPopls}
+        userId={userId}
+        views={topStatisticsData.data?.topViewedProfiles}
+        popsData={chartData}
+      />
     </>
   );
 }

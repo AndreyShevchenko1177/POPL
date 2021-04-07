@@ -1,5 +1,5 @@
 export const filterPops = {
-  filterPopsByPoplName: (popValue) => {
+  slicePoplNameFromPop: (popValue) => {
     const result = popValue.slice(-14);
     return result && result.length === 14 ? result : null;
   },

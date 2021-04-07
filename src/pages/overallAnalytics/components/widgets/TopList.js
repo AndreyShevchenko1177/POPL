@@ -16,8 +16,9 @@ function TopList({ data }) {
             <TableBody>
               {data.map((item, key) => (
                 <TableRow classes={{ root: classes.tableRow }} key={key}>
+                  <TableCell classes={{ root: classes.tableCellRank }}>{key}</TableCell>
                   <TableCell classes={{ root: classes.tableCell }}>{item.name}</TableCell>
-                  <TableCell align='right' classes={{ root: classes.tableCell }}>{item.data?.views}</TableCell>
+                  <TableCell align='right' classes={{ root: classes.tableCell }}>{item.value}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

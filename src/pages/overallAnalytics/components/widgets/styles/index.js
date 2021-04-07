@@ -74,9 +74,13 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
   },
   tableRow: {
+    height: 50,
     "&:nth-child(odd)": {
       backgroundColor: "#f6f6f6",
     },
+  },
+  tableCellRank: {
+    width: 20,
   },
   tableCell: {
     padding: 5,

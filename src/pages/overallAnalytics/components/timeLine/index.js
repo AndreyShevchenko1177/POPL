@@ -5,7 +5,6 @@ import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
-import CustomBar from "./bar";
 import Loader from "../../../../components/Loader";
 import { getMothName, getMonth, getDay } from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
@@ -40,7 +39,28 @@ export default function NetworkActivity({
   };
 
   const renderLegend = (chart) => {
-
+    const html = `<div style="display: flex; align-items: center; height: 30px: max-width: 200px">
+    <div style="position: relative; width: 100px; height: 30px; margin-right: 10px">
+     <div style="position: absolute; width: 20px; height: 20px; background-color: red; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+      </div>
+      <hr style="width: 100px; position: absolute; top: 50%; background-color: red; transform: translateY(-50%); height: 5px; border: none; margin: 0; border-radius: 5px">
+    </div>
+    <span style="line-height: 30px">Label</span>
+  </div>`;
+    // const { data } = chart;
+    // return data.datasets[0].data
+    //   .map(
+    //     (_, i) => `
+    //           <div id="legend-${i}-item" class="legend-item" >
+    //             <span style="background-color:
+    //               ${data.datasets[0].backgroundColor[i]}; margin-right: 10px; border-radius: 50%;">
+    //               &nbsp;&nbsp;&nbsp;&nbsp;
+    //             </span>
+    //             ${data.labels[i] && `<span class="label">${data.labels[i]}</span>`}
+    //           </div>
+    //     `,
+    //   )
+    //   .join("");
   };
 
   useEffect(() => {

@@ -24,15 +24,13 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         response = await Promise.all([id].map((id) => requests.popsActionRequest(id)));
       }
 
-      // filterPops.filterPoplPops();
-
       result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
       const poplPops = [];
       const qrCodePops = [];
       const walletPops = [];
 
       if (poplName) {
-        result = result.filter((pop) => filterPops.filterPopsByPoplName(pop[1]) === poplName);
+        result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
         dispatch(individualPopsCountAction(result.length));
         result.forEach((pop) => {
           if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
@@ -136,6 +134,12 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
       const popls = await getPoplsDataById(profiles.id);
       result.totalPopls = `${popls.data.length}`;
       result.views = views.data.views;
+      result.topPoppedPopls = {};
+      popls.forEach((popl) => result.topPoppedPopls[popl.name] = []);
+      data.forEach((pop) => {
+        const name = filterPops.slicePoplNameFromPop(pop[1]);
+        if (name && name in result.topPoppedPopls) result.topPoppedPopls[name].push(pop);
+      });
     } else {
       result.totalProfiles = `${profiles.length}`;
       result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
@@ -146,6 +150,21 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
       result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
       result.topViewedProfiles = [...views.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
       result.views = views.reduce((a, b) => a + b.data.views, 0);
+      const topPoppedPopls = {};
+      popls
+        .reduce((acc, popls) => [...acc, ...popls.data], [])
+        .forEach((popl) => topPoppedPopls[popl.name] = []);
+
+      data
+        .reduce((acc, pops) => [...acc, ...pops.data], [])
+        .forEach((pop) => {
+          const name = filterPops.slicePoplNameFromPop(pop[1]);
+          if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+        });
+
+      result.topPoppedPopls = Object.keys(topPoppedPopls)
+        .map((key) => ({ [key]: topPoppedPopls[key] }))
+        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
     }
 
     return dispatch({

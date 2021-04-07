@@ -16,7 +16,7 @@ function PoplCard({ popl, allPops }) {
   const [popsCount, setPopsCount] = useState();
   console.log(popsCount, allPops);
   useEffect(() => {
-    if (allPops) setPopsCount(` ${allPops.filter((pop) => filterPops.filterPopsByPoplName(pop[1]) === popl.name).length}`);
+    if (allPops) setPopsCount(` ${allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length}`);
   }, [allPops]);
 
   return (
