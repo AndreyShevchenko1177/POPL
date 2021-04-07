@@ -1,9 +1,9 @@
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-export default function Loader({ styles = {} }) {
+export default function Loader({ containerStyles = {}, styles = {} }) {
   return (
-    <div>
+    <div style={containerStyles}>
       <CircularProgress style={styles} />
     </div>
   );

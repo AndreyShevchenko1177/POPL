@@ -124,32 +124,37 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
 };
 
 export const getStatisticItem = (profiles) => async (dispatch) => {
-  dispatch(cleanActionName("topStatisticsData"));
-  let result = {};
-  if (!Array.isArray(profiles)) {
-    const views = await requests.getAllThreeStats(profiles.id);
-    result.totalProfiles = "1";
-    result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
-    const { data } = await requests.popsActionRequest(profiles.id);
-    result.popsCount = data.length;
-    const popls = await getPoplsDataById(profiles.id);
-    result.totalPopls = `${popls.data.length}`;
-    result.views = views.data.views;
-  } else {
-    result.totalProfiles = `${profiles.length}`;
-    result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
-    const data = await Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)));
-    const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
-    const views = await Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)));
-    result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
-    result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
-    result.views = views.reduce((a, b) => a + b.data.views, 0);
-  }
+  try {
+    dispatch(cleanActionName("topStatisticsData"));
+    let result = {};
+    if (!Array.isArray(profiles)) {
+      const views = await requests.getAllThreeStats(profiles.id);
+      result.totalProfiles = "1";
+      result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
+      const { data } = await requests.popsActionRequest(profiles.id);
+      result.popsCount = data.length;
+      const popls = await getPoplsDataById(profiles.id);
+      result.totalPopls = `${popls.data.length}`;
+      result.views = views.data.views;
+    } else {
+      result.totalProfiles = `${profiles.length}`;
+      result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
+      const data = await Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)));
+      const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
+      const views = await Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)));
+      result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+      result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
+      result.topViewedProfiles = [...views.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
+      result.views = views.reduce((a, b) => a + b.data.views, 0);
+    }
 
-  return dispatch({
-    type: GET_TOP_STATISTICS_SUCCESS,
-    payload: result,
-  });
+    return dispatch({
+      type: GET_TOP_STATISTICS_SUCCESS,
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const individualPopsCountAction = (number) => ({

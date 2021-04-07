@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import clsx from "clsx";
 import {
-  getProfilesIds, setDirectAction, setProfileStatusAction, turnProfileAction,
+  getProfilesDataAction, setDirectAction, setProfileStatusAction, turnProfileAction,
 } from "./store/actions";
 import Header from "../../components/Header";
 import ProfileCard from "./components/profileCard";
@@ -136,7 +136,7 @@ export default function Profiles() {
   };
 
   useEffect(() => {
-    dispatch(getProfilesIds(userData.id));
+    dispatch(getProfilesDataAction(userData.id));
   }, []);
 
   useEffect(() => {

@@ -11,13 +11,14 @@ export const popsActionRequest = (id) => {
   });
 };
 
-export const getAllThreeStats = (id) => {
+export const getAllThreeStats = async (id) => {
   const formdata = new FormData();
   formdata.append("sAction", "GetAllThree");
   formdata.append("iID", id);
   formdata.append("ajax", 1);
 
-  return axios.post("", formdata, {
+  const response = await axios.post("", formdata, {
     withCredentials: true,
   });
+  return { id, data: response.data };
 };

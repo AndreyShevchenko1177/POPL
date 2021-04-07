@@ -4,17 +4,19 @@ import { useLocation } from "react-router-dom";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
-  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest, individualPopsCountAction,
+  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
-import "./styles/styles.css";
 import {
   generateChartData, getYear, getMonth, getDay, monthsFullName,
 } from "../../utils";
 import Header from "../../components/Header";
+import useStyles from "./styles";
+import BottomWidgets from "./components/widgets";
 
 function OverallAnalytics() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const classes = useStyles();
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
@@ -106,7 +108,7 @@ function OverallAnalytics() {
         firstChildRedirectPath={location.state?.poplName ? "/popls" : "/profiles"}
         path="/analytics"
       />
-      <div className="overall-analytics-container">
+      <div className={classes.overallAnalyticsContainer}>
         <TopStatistics
           popsCount={topStatisticsData.data?.popsCount}
           linkTaps={topStatisticsData.data?.linkTaps}
@@ -114,10 +116,10 @@ function OverallAnalytics() {
           totalPopls={topStatisticsData.data?.totalPopls}
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
-        />{" "}
-        {/* add linkTaps, totalViews here */}
+        />
         <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
+      <BottomWidgets userId={userId} views={topStatisticsData.data?.topViewedProfiles} />
     </>
   );
 }

@@ -16,7 +16,7 @@ import {
 } from "../actionTypes";
 import * as requests from "./requests";
 
-export const getProfilesIds = (userId) => async (dispatch) => {
+export const getProfilesDataAction = (userId) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true));
     const myProfile = await requests.getProfileAction(userId);
@@ -75,7 +75,7 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
       type: ADD_LINK_SUCCESS,
       payload: "success",
     });
-    return dispatch(getProfilesIds(userId));
+    return dispatch(getProfilesDataAction(userId));
     // dispatch(
     //   snackBarAction({
     //     message: "Error by adding link",
@@ -130,7 +130,7 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch) =
   try {
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
-    if (userId) return dispatch(getProfilesIds(userId));
+    if (userId) return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -143,7 +143,7 @@ export const turnProfileAction = (profileIds, state, userId) => async (dispatch)
   try {
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
-    if (userId) return dispatch(getProfilesIds(userId));
+    if (userId) return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -156,7 +156,7 @@ export const setProfileStatusAction = (profileIds, state, userId) => async (disp
   try {
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));
-    if (userId) return dispatch(getProfilesIds(userId));
+    if (userId) return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     return dispatch({
       type: SET_PROFILE_STATUS_FAIL,
