@@ -24,7 +24,6 @@ function OverallAnalytics() {
   const topStatisticsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
-  const isFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.isFetching);
   const [chartData, setChartData] = useState(null);
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
@@ -36,8 +35,6 @@ function OverallAnalytics() {
     dateRange: [new Date(currentDate1), new Date(currentDate2)],
     normalData: [currentDate1, currentDate2],
   });
-
-  console.log(chartData);
 
   const setDate = (minDate, maxDate) => {
     const minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
@@ -119,7 +116,7 @@ function OverallAnalytics() {
         />
         <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
-      <BottomWidgets userId={userId} views={topStatisticsData.data?.topViewedProfiles} />
+      <BottomWidgets userId={userId} views={topStatisticsData.data?.topViewedProfiles} popsData={chartData} />
     </>
   );
 }

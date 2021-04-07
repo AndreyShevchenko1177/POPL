@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import WidgetsContainer from "./WidgetsContainer";
@@ -5,11 +6,13 @@ import TopList from "./TopList";
 import PieChart from "./PieChart";
 import useStyles from "./styles";
 import { getProfilesDataAction } from "../../../profiles/store/actions";
+import labels, { backgroundColor, chartOptions } from "./chartConfig";
 
-function BottomWidgets({ views, userId }) {
+function BottomWidgets({ views, userId, popsData }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [viewedProfiles, setViewedProfiles] = useState();
+  const [popsDataProportion, setPopsDataProportion] = useState(null);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
 
   useEffect(() => {
@@ -24,7 +27,31 @@ function BottomWidgets({ views, userId }) {
       } else dispatch(getProfilesDataAction(userId));
     }
   }, [views, profilesData]);
-  console.log(viewedProfiles);
+
+  useEffect(() => {
+    if (popsData) {
+      delete popsData.labels;
+      delete popsData.allPops;
+      const datasets = [];
+      const chartLabels = [];
+      const chartBackGroundColors = [];
+      setPopsDataProportion(() => {
+        Object.keys(popsData).forEach((popName) => {
+          chartLabels.push(labels[popName]);
+          chartBackGroundColors.push(backgroundColor[popName]);
+          datasets.push(Object.values(popsData[popName]).reduce((sum, cur) => sum += cur, 0));
+        });
+        return {
+          labels: chartLabels,
+          datasets: [{
+            data: datasets,
+            backgroundColor: chartBackGroundColors,
+            ...chartOptions,
+          }],
+        };
+      });
+    }
+  }, [popsData]);
 
   return (
     <div className={classes.bottomWidgetsRoot}>
@@ -38,10 +65,10 @@ function BottomWidgets({ views, userId }) {
       </div>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer heading='Pops proportion'>
-          <PieChart />
+          <PieChart data={popsDataProportion} index={1}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Direct on/off proportion'>
-          <PieChart />
+          <PieChart data={popsDataProportion} index={2}/>
         </WidgetsContainer>
       </div>
     </div>

@@ -112,3 +112,40 @@ p {
 .full-w > div {
   border-radius: 30px;
 }
+
+#legend1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#legend2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chart-container {
+  display: flex;
+  height: 100%;
+}
+
+.chart-wrapper {
+  height: 100%;
+  width: 75%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  position: relative;
+}
+
+.legend-item {
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+.disable-legend {
+  text-decoration: line-through;
+}
+div:nth-last-child().disable-legend {
+  text-decoration: line-through;
+}

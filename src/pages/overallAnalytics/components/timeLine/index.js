@@ -1,5 +1,5 @@
 /* eslint-disable guard-for-in */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography } from "@material-ui/core";
 import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
@@ -14,7 +14,35 @@ export default function NetworkActivity({
   data, calendar, setCalendar, setDate,
 }) {
   const classes = useStyles();
+  const chartRef = useRef();
   const [chartData, setChartData] = useState();
+
+  const handleClickLabel = (e, index) => {
+    const ctx = chartRef.current.chartInstance;
+    const meta = [];
+    ctx.data.datasets.forEach((dataset, index) => {
+      meta.push(ctx.getDatasetMeta(index));
+    });
+    const label1Length = ctx.data.datasets[0].data.length;
+    if (label1Length > index) {
+      meta[0].data[index].hidden = !meta[0].data[index].hidden;
+    } else {
+      meta[1].data[index - label1Length].hidden = !meta[1].data[
+        index - label1Length
+      ].hidden;
+    }
+    if (e.currentTarget.lastElementChild.classList.contains("disable-legend")) {
+      e.currentTarget.lastElementChild.classList.remove("disable-legend");
+    } else {
+      e.currentTarget.lastElementChild.classList.add("disable-legend");
+    }
+    ctx.update();
+  };
+
+  const renderLegend = (chart) => {
+
+  };
+
   useEffect(() => {
     if (data) {
       const result = {};
@@ -32,6 +60,7 @@ export default function NetworkActivity({
         data: { ...chartOptions.data },
         options: {
           ...chartOptions.options,
+          legendCallback: (chart) => renderLegend(chart),
           scales: {
             ...chartOptions.scales,
             xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: result.length === 1 }],
@@ -56,10 +85,20 @@ export default function NetworkActivity({
     }
   }, [data]);
 
+  useEffect(() => {
+    if (chartRef.current?.chartInstance) {
+      document.querySelector("#lineChart").innerHTML = chartRef.current?.chartInstance?.generateLegend();
+      document.querySelectorAll("#lineChart div").forEach((item, index) => {
+        item.addEventListener("click", (e) => handleClickLabel(e, index));
+      });
+    }
+  }, [chartData]);
+
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
         <div className={classes["network-container__title"]}>
+          <div id='lineChart'></div>
           <Typography variant="h5" className={classes.text}>
             Pops Over Time
           </Typography>
@@ -76,7 +115,7 @@ export default function NetworkActivity({
             />
           ) : (
             <>
-              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
+              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
                 : (
                   <div className={classes.noDataText}>
                   No data for this period
