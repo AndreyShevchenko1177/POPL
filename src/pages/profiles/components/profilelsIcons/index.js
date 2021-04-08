@@ -3,12 +3,10 @@ import icons from "./icons";
 import useStyles from "../profileCard/styles/styles";
 
 export default function SocialPoplsIcons({ style, data, handleClick }) {
-  const classes = useStyles();
-
   const linkRedirect = (path) => {
-    console.log(path);
-    window.open(path);
+    window.open(`https://${path}`);
   };
+  const classes = useStyles();
 
   return (
     <>
@@ -17,7 +15,7 @@ export default function SocialPoplsIcons({ style, data, handleClick }) {
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
           <div
-            onClick={(event) => handleClick(event, () => linkRedirect(icons[id].path + value))}
+            onClick={(event) => handleClick(event, () => linkRedirect(value))}
             className={classes.iconItem}
           >
             <img className={style} src={icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media` : icons[id].icon} alt={title} />

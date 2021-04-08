@@ -11,7 +11,7 @@ const chartOptions = {
       ],
     },
     legend: {
-      display: true,
+      display: false,
     },
   },
   data: {

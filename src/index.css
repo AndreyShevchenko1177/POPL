@@ -125,6 +125,14 @@ p {
   justify-content: center;
 }
 
+#lineChart {
+  position: absolute;
+  display: flex;
+  top: -30px;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
 .chart-container {
   display: flex;
   height: 100%;

@@ -73,6 +73,8 @@ function BottomWidgets({
     }
   }, [popsData]);
 
+  console.log(popsDataProportion);
+
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>

@@ -50,7 +50,7 @@ export default function Dashboard() {
         </Button>
       </div>
       <Paper className={classes.chart_container}>
-        <Typography className="pb-10" variant="h5">
+        <Typography style={{ paddingBottom: 40 }} className="pb-10" variant="h5">
           Cumulative pop data
         </Typography>
         <Chart data={chartData} />

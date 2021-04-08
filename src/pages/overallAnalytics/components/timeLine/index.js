@@ -22,11 +22,12 @@ export default function NetworkActivity({
     ctx.data.datasets.forEach((dataset, index) => {
       meta.push(ctx.getDatasetMeta(index));
     });
-    const label1Length = ctx.data.datasets[0].data.length;
+    const label1Length = ctx.data.datasets.length;
+
     if (label1Length > index) {
-      meta[0].data[index].hidden = !meta[0].data[index].hidden;
+      meta[index].hidden = !meta[index].hidden;
     } else {
-      meta[1].data[index - label1Length].hidden = !meta[1].data[
+      meta[index - label1Length].hidden = !meta[
         index - label1Length
       ].hidden;
     }
@@ -39,28 +40,17 @@ export default function NetworkActivity({
   };
 
   const renderLegend = (chart) => {
-    const html = `<div style="display: flex; align-items: center; height: 30px: max-width: 200px">
-    <div style="position: relative; width: 100px; height: 30px; margin-right: 10px">
-     <div style="position: absolute; width: 20px; height: 20px; background-color: red; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    const { data } = chart;
+    return data.datasets.map(({ label, borderColor }, i) => `
+    <div class="legendItem" style="display: flex; align-items: center; height: 30px: max-width: 200px; cursor: pointer;">
+      <div style="position: relative; width: 100px; height: 30px; margin-right: 10px">
+        <div style="position: absolute; width: 20px; height: 20px; background-color: ${borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
       </div>
-      <hr style="width: 100px; position: absolute; top: 50%; background-color: red; transform: translateY(-50%); height: 5px; border: none; margin: 0; border-radius: 5px">
+        <hr style="width: 100px; position: absolute; top: 50%; background-color: ${borderColor}; transform: translateY(-50%); height: 5px; border: none; margin: 0; border-radius: 5px">
+      </div>
+    ${label && `<span class="label" style="line-height: 30px">${label}</span>`}
     </div>
-    <span style="line-height: 30px">Label</span>
-  </div>`;
-    // const { data } = chart;
-    // return data.datasets[0].data
-    //   .map(
-    //     (_, i) => `
-    //           <div id="legend-${i}-item" class="legend-item" >
-    //             <span style="background-color:
-    //               ${data.datasets[0].backgroundColor[i]}; margin-right: 10px; border-radius: 50%;">
-    //               &nbsp;&nbsp;&nbsp;&nbsp;
-    //             </span>
-    //             ${data.labels[i] && `<span class="label">${data.labels[i]}</span>`}
-    //           </div>
-    //     `,
-    //   )
-    //   .join("");
+    `).join("");
   };
 
   useEffect(() => {
@@ -108,7 +98,7 @@ export default function NetworkActivity({
   useEffect(() => {
     if (chartRef.current?.chartInstance) {
       document.querySelector("#lineChart").innerHTML = chartRef.current?.chartInstance?.generateLegend();
-      document.querySelectorAll("#lineChart div").forEach((item, index) => {
+      document.querySelectorAll(".legendItem").forEach((item, index) => {
         item.addEventListener("click", (e) => handleClickLabel(e, index));
       });
     }
@@ -118,7 +108,6 @@ export default function NetworkActivity({
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
         <div className={classes["network-container__title"]}>
-          <div id='lineChart'></div>
           <Typography variant="h5" className={classes.text}>
             Pops Over Time
           </Typography>
@@ -129,6 +118,7 @@ export default function NetworkActivity({
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
+          <div id='lineChart'></div>
           {chartData === undefined ? (
             <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
