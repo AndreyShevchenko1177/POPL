@@ -7,7 +7,7 @@ import PoplCard from "./components/PoplCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../overallAnalytics/store/actions";
-import { generateChartData } from "../../utils";
+import { generateLineChartData } from "../../utils";
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -29,7 +29,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData(generateChartData(popsData));
+      setChartData(generateLineChartData(popsData));
     } else {
       setChartData(popsData);
     }

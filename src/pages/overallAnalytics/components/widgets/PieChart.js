@@ -6,7 +6,6 @@ import Loader from "../../../../components/Loader";
 function PieChart({ data = {}, index }) {
   const classes = useStyles();
   const chart = useRef();
-
   const handleClickLabel = (e, index) => {
     const ctx = chart.current.chartInstance;
     const meta = [];
@@ -54,13 +53,12 @@ function PieChart({ data = {}, index }) {
       });
     }
   }, [data]);
-
   return data
     ? <div className='chart-container'>
       <div className='chart-wrapper'>
         <Doughnut
           ref={chart}
-          data={data}
+          data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.indexOf(el) === i) }] }}
           legend={{ display: false }}
           options={{
             legendCallback: (chart) => {

@@ -1,9 +1,10 @@
+/* eslint-disable no-return-assign */
 import moment from "moment";
 import {
   getYear, getMonth, getDay, normalizeDate,
 } from "./dates";
 
-export function generateChartData(popsData, minDate, maxDate) {
+const dateGeneration = (popsData, minDate, maxDate) => {
   let calendarRange;
   let currentDate;
   if (!Object.values(popsData)?.length) return;
@@ -43,7 +44,11 @@ export function generateChartData(popsData, minDate, maxDate) {
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
   console.log("DATES", "\n\n", `${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`, "\n\n");
   console.log("DATES", "\n\n", `${getYear(new Date())}-${normalizeDate(getMonth(new Date()) + 1)}-${normalizeDate(getDay(new Date()))}`, "\n\n");
+  return result;
+};
 
+export const generateLineChartData = (popsData, minDate, maxDate) => {
+  const result = dateGeneration(popsData, minDate, maxDate);
   const data = {};
   Object.keys(popsData).forEach((popKey) => {
     let ownResult = { ...result };
@@ -55,16 +60,29 @@ export function generateChartData(popsData, minDate, maxDate) {
     });
     data[popKey] = ownResult;
   });
-  console.log("generate");
-  // Object.keys(popsData).forEach((pop) => {
-  // popsData[pop].forEach((item) => {
-  //   const date = item[2].split(" ")[0];
-  //   if (date in result) {
-  //     const data = { [pop]: (result[date][pop] || 0) + 1 };
-  //     result[date] = { ...data };
-  //   }
-  // });
-  // });
-  // console.log("AFTER", result);
   return { ...data, labels: Object.keys(result) };
-}
+};
+
+export const generateDohnutChartData = (popsData, minDate, maxDate) => {
+  const result = dateGeneration(popsData, minDate, maxDate);
+  const data = {};
+  delete popsData.allPops;
+  Object.keys(popsData).forEach((popKey) => {
+    let ownResult = { ...result };
+    let correctResult = {};
+    popsData[popKey].forEach((item) => {
+      const date = item[2].split(" ")[0];
+      const direct = item[3];
+      if (date in result) {
+        if (direct == "1") {
+          ownResult[date] = { ...(ownResult[date] || {}), directOn: (ownResult[date]?.directOn || 0) + 1 };
+        } else {
+          ownResult[date] = { ...(ownResult[date] || {}), directOff: (ownResult[date]?.directOff || 0) + 1 };
+        }
+      }
+    });
+    Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+    data[popKey] = correctResult;
+  });
+  return data;
+};

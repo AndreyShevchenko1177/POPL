@@ -15,4 +15,15 @@ export const chartOptions = {
 
   hoverOffset: 4,
 };
+
+export const dohnutLabels = {
+  directOn: "Direct on",
+  directOff: "Direct off",
+};
+
+export const dohnutBackgroundColor = {
+  directOn: "rgba(76, 175, 80, 1)",
+  directOff: "rgba(255, 255, 59, 1)",
+};
+
 export default labels;

@@ -7,7 +7,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateChartData, getYear, getMonth, getDay, monthsFullName,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -47,7 +47,7 @@ function OverallAnalytics() {
     const minDateMilis = minDate.setHours(0, 0, 0, 0);
     if (maxDateMilis < minDateMilis) {
       console.log("maxDateMilis < minDateMilis", minDate, maxDate);
-      setChartData(generateChartData(popsData, maxDate, minDate));
+      setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -62,7 +62,7 @@ function OverallAnalytics() {
       visible: false,
     });
     console.log("", minDate, maxDate);
-    setChartData(generateChartData(popsData, minDate, maxDate));
+    setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
   };
 
   const handleShowAllStat = () => {
@@ -89,7 +89,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData(generateChartData(popsData));
+      setChartData({ lineData: generateLineChartData(popsData), dohnutData: generateDohnutChartData(popsData) });
     } else {
       setChartData(popsData);
     }
@@ -114,13 +114,14 @@ function OverallAnalytics() {
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />
-        <NetworkActivity data={chartData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
+        <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
       <BottomWidgets
         topPopped={topStatisticsData.data?.topPoppedPopls}
         userId={userId}
         views={topStatisticsData.data?.topViewedProfiles}
-        popsData={chartData}
+        popsData={chartData?.lineData}
+        dohnutData={chartData?.dohnutData}
       />
     </>
   );

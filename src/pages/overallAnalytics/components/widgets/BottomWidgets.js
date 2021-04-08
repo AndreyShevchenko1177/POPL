@@ -1,19 +1,22 @@
 /* eslint-disable no-return-assign */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import WidgetsContainer from "./WidgetsContainer";
 import TopList from "./TopList";
 import PieChart from "./PieChart";
 import useStyles from "./styles";
 import { getProfilesDataAction } from "../../../profiles/store/actions";
-import labels, { backgroundColor, chartOptions } from "./chartConfig";
+import labels, {
+  backgroundColor, chartOptions, dohnutLabels, dohnutBackgroundColor,
+} from "./chartConfig";
 import icons from "../../../profiles/components/profilelsIcons/icons";
 
 function BottomWidgets({
-  views, userId, popsData, topPopped,
+  views, userId, popsData, topPopped, dohnutData,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const refPopped = useRef(null);
   const [viewedProfiles, setViewedProfiles] = useState(null);
   const [topPoppedPopls, setTopPoppedPopls] = useState(null);
   const [popsDataProportion, setPopsDataProportion] = useState(null);
@@ -24,7 +27,6 @@ function BottomWidgets({
   useEffect(() => {
     if (views) {
       if (profilesData) {
-        console.log(profilesData);
         const result = [];
         const linkTaps = [];
         profilesData.forEach((profile) => {
@@ -69,9 +71,7 @@ function BottomWidgets({
       const datasetsPopsDataProportion = [];
       const chartLabelsPopsDataProportion = [];
       const chartBackGroundColorsPopsDataProportion = [];
-      const datasetsPopsDirectOnOff = [];
-      const chartLabelsDirectOnOff = [];
-      const chartBackGroundColorsDirectOnOff = [];
+
       setPopsDataProportion(() => {
         Object.keys(popsData).forEach((popName) => {
           chartLabelsPopsDataProportion.push(labels[popName]);
@@ -87,23 +87,51 @@ function BottomWidgets({
           }],
         };
       });
-      setPopsDirectOnOff(() => {
-
-      });
     }
   }, [popsData]);
+
+  useEffect(() => {
+    if (dohnutData) {
+      const datasetDirectProportion = [];
+      const chartLabelsDirectOnOff = [];
+      const chartBackGroundColorsDirectOnOff = [];
+      setPopsDirectOnOff(() => {
+        let allData = {
+          directOn: 0,
+          directOff: 0,
+        };
+        Object.keys(dohnutData).forEach((popName) => {
+          Object.values(dohnutData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
+          // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
+        });
+        Object.keys({ ...allData }).forEach((item) => {
+          chartLabelsDirectOnOff.push(dohnutLabels[item]);
+          chartBackGroundColorsDirectOnOff.push(dohnutBackgroundColor[item]);
+          datasetDirectProportion.push(allData[item]);
+        });
+        return {
+          labels: [...chartLabelsDirectOnOff],
+          datasets: [{
+            data: [...datasetDirectProportion],
+            backgroundColor: [...chartBackGroundColorsDirectOnOff],
+            ...chartOptions,
+          }],
+        };
+      });
+    }
+  }, [dohnutData]);
 
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer heading='Top viewed Profiles'>
-          <TopList data={viewedProfiles}></TopList>
+          <TopList data={viewedProfiles} refPopped={refPopped}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Top popped Popls'>
-          <TopList data={topPoppedPopls}></TopList>
+          <TopList data={topPoppedPopls} />
         </WidgetsContainer>
         <WidgetsContainer heading='Top tapped Links'>
-          <TopList data={linkTapsData}></TopList>
+          <TopList data={linkTapsData}/>
         </WidgetsContainer>
       </div>
       <div className={classes.twoWidgetsWrapper}>
@@ -111,7 +139,7 @@ function BottomWidgets({
           <PieChart data={popsDataProportion} index={1}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Direct on/off proportion'>
-          <PieChart data={popsDataProportion} index={2}/>
+          <PieChart data={popsDirectOnOff} index={2}/>
         </WidgetsContainer>
       </div>
     </div>
