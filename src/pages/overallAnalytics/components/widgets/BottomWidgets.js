@@ -17,7 +17,8 @@ function BottomWidgets({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const refPopped = useRef(null);
+  const refProfiles = useRef(null);
+  const refPopls = useRef(null);
   const [viewedProfiles, setViewedProfiles] = useState(null);
   const [topPoppedPopls, setTopPoppedPopls] = useState(null);
   const [popsDataProportion, setPopsDataProportion] = useState(null);
@@ -142,10 +143,10 @@ function BottomWidgets({
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer heading='Top viewed Profiles'>
-          <TopList data={viewedProfiles} refPopped={refPopped}/>
+          <TopList data={viewedProfiles} refPopped={refProfiles}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Top popped Popls'>
-          <TopList data={topPoppedPopls} />
+          <TopList data={topPoppedPopls} refPopped={refPopls}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Top tapped Links'>
           <TopList data={linkTapsData}/>
