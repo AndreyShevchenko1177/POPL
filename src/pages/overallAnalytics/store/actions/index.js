@@ -44,7 +44,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
         });
       }
-      const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
+      // const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
       result = {
         poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
       };
@@ -73,7 +73,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
         if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
       });
-      const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
+      // const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
       result = {
         poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
       };
@@ -127,6 +127,14 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
     let result = {};
     if (!Array.isArray(profiles)) {
       const views = await requests.getAllThreeStats(profiles.id);
+      const profilesIds = await profileIds(profiles.id);
+      let topViewedViews = [];
+      if (profilesIds.data) {
+        const idsArray = JSON.parse(profilesIds.data);
+        console.log(idsArray);
+        topViewedViews = await Promise.all([...idsArray, profiles.id].map((id) => requests.getAllThreeStats(id)));
+      }
+
       result.totalProfiles = "1";
       result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
       const { data } = await requests.popsActionRequest(profiles.id);
@@ -134,12 +142,18 @@ export const getStatisticItem = (profiles) => async (dispatch) => {
       const popls = await getPoplsDataById(profiles.id);
       result.totalPopls = `${popls.data.length}`;
       result.views = views.data.views;
-      result.topPoppedPopls = {};
-      popls.forEach((popl) => result.topPoppedPopls[popl.name] = []);
+      result.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
+      result.views = topViewedViews.reduce((a, b) => a + b.data.views, 0);
+      const topPoppedPopls = {};
+      popls.data.forEach((popl) => topPoppedPopls[popl.name] = []);
       data.forEach((pop) => {
         const name = filterPops.slicePoplNameFromPop(pop[1]);
-        if (name && name in result.topPoppedPopls) result.topPoppedPopls[name].push(pop);
+        if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
       });
+
+      result.topPoppedPopls = Object.keys(topPoppedPopls)
+        .map((key) => ({ [key]: topPoppedPopls[key] }))
+        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
     } else {
       result.totalProfiles = `${profiles.length}`;
       result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;

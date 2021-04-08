@@ -1,7 +1,4 @@
 import React from "react";
-import {
-  Table, TableBody, TableRow, TableCell,
-} from "@material-ui/core";
 import Loader from "../../../../components/Loader";
 import useStyles from "./styles";
 
@@ -11,18 +8,14 @@ function TopList({ data }) {
   return (
     <>
       {data
-        ? <div>
-          <Table>
-            <TableBody>
-              {data.map((item, key) => (
-                <TableRow classes={{ root: classes.tableRow }} key={key}>
-                  <TableCell classes={{ root: classes.tableCellRank }}>{key}</TableCell>
-                  <TableCell classes={{ root: classes.tableCell }}>{item.name}</TableCell>
-                  <TableCell align='right' classes={{ root: classes.tableCell }}>{item.value}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        ? <div className={classes.tableBody}>
+          {data.map((item, key) => (
+            <div className={classes.tableRow } key={key}>
+              <div className={classes.tableCellRank }>{key + 1}</div>
+              <div className={classes.tableCellName }>{item.name}</div>
+              <div className={classes.tableCellValue }>{item.value}</div>
+            </div>
+          ))}
         </div>
         : <Loader containerStyles={{
           width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",

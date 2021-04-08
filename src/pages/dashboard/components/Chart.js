@@ -37,7 +37,7 @@ export default function Chart({ data }) {
   const renderLegend = (chart) => {
     const { data } = chart;
     return data.datasets.map(({ label, borderColor }, i) => `
-    <div class="legendItem" style="display: flex; align-items: center; height: 30px: max-width: 200px; cursor: pointer;">
+    <div class="legendItem" style="display: flex; align-items: center; height: 30px; max-width: 200px; cursor: pointer; margin-right: 10px">
       <div style="position: relative; width: 100px; height: 30px; margin-right: 10px">
         <div style="position: absolute; width: 20px; height: 20px; background-color: ${borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
       </div>

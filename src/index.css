@@ -130,7 +130,7 @@ p {
   display: flex;
   top: -30px;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .chart-container {

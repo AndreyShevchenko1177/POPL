@@ -3,54 +3,29 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   bottomWidgetsRoot: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     padding: "20px 50px",
-    "@media (max-width: 1600px)": {
-      justifyContent: "flex-start",
-      flexDirection: "column",
-    },
   },
   twoWidgetsWrapper: {
     display: "flex",
-    width: "50%",
+    width: "100%",
     flexGrow: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     minWidth: 610,
-    paddingBottom: 10,
-    "&:first-child": {
-      paddingRight: 5,
-    },
-    "&:last-child": {
-      paddingLeft: 5,
-    },
-    "@media (max-width: 1600px)": {
-      justifyContent: "flex-start",
-      "&:last-child": {
-        paddingLeft: 0,
-      },
-      "&:first-child": {
-        paddingRight: 0,
-      },
-      paddingBottom: 30,
-      width: "100%",
-    },
+    paddingBottom: 30,
   },
   widgetRoot: {
     position: "relative",
-    width: "45%",
+    width: "27%",
     flexGrow: 1,
     minWidth: 300,
     maxWidth: 400,
     padding: 10,
+    marginRight: 30,
     borderRadius: theme.custom.mainBorderRadius,
-    "&:first-child": {
-      marginRight: 10,
-    },
-    "@media (max-width: 1600px)": {
-      "&:first-child": {
-        marginRight: 30,
-      },
+    "&:last-child": {
+      marginRight: 0,
     },
   },
   widgetChildContainer: {
@@ -73,17 +48,49 @@ export default makeStyles((theme) => ({
   widgetHeading: {
     fontWeight: "bold",
   },
+  tableBody: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
   tableRow: {
-    height: 50,
+    width: "100%",
+    height: 45,
+    display: "flex",
+    alignItems: "center",
     "&:nth-child(odd)": {
       backgroundColor: "#f6f6f6",
     },
   },
   tableCellRank: {
-    width: 20,
-  },
-  tableCell: {
+    width: "15%",
     padding: 5,
+  },
+  tableCellName: {
+    display: "flex",
+    alignItems: "center",
+    padding: 5,
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    width: "80%",
     borderBottom: "none",
+  },
+  tableCellValue: {
+    padding: 5,
+    display: "flex",
+    justifyContent: "flex-end",
+    borderBottom: "none",
+    width: "25%",
+  },
+  linkIcon: {
+    width: 25,
+    height: 25,
+    marginRight: 5,
+  },
+  linkTapsName: {
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
   },
 }));
