@@ -121,18 +121,18 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
   return dispatch(getStatisticItem(correctProfile));
 };
 
-export const getStatisticItem = (profiles) => async (dispatch) => {
+export const getStatisticItem = (profiles) => async (dispatch, getState) => {
   try {
     dispatch(cleanActionName("topStatisticsData"));
     let result = {};
     if (!Array.isArray(profiles)) {
+      const userId = getState().authReducer.signIn.data.id;
       const views = await requests.getAllThreeStats(profiles.id);
-      const profilesIds = await profileIds(profiles.id);
+      const profilesIds = await profileIds(userId);
       let topViewedViews = [];
       if (profilesIds.data) {
         const idsArray = JSON.parse(profilesIds.data);
-        console.log(idsArray);
-        topViewedViews = await Promise.all([...idsArray, profiles.id].map((id) => requests.getAllThreeStats(id)));
+        topViewedViews = await Promise.all([...idsArray, userId].map((id) => requests.getAllThreeStats(id)));
       }
 
       result.totalProfiles = "1";
