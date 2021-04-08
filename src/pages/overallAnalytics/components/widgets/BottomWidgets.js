@@ -1,6 +1,7 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import WidgetsContainer from "./WidgetsContainer";
 import TopList from "./TopList";
 import PieChart from "./PieChart";
@@ -23,23 +24,39 @@ function BottomWidgets({
   const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const location = useLocation();
 
   useEffect(() => {
     if (views) {
       if (profilesData) {
         const result = [];
         const linkTaps = [];
-        profilesData.forEach((profile) => {
-          const links = profile.activeProfile === "1" ? profile.social : profile.business;
-          links.forEach((link) => {
+        let links = [];
+        if (location.state?.id) {
+          if (location.state?.personalMode?.text === "Personal") {
+            links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName.name }))];
+          } else {
+            links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName.name }))];
+          }
+        } else {
+          profilesData.forEach((profile) => {
+            links = profile.activeProfile === "1"
+              ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name }))]
+              : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name }))];
+          });
+        }
+
+        links
+          .sort((a, b) => b.clicks - a.clicks)
+          .forEach((link) => {
             const component = (
               <>
                 <img className={classes.linkIcon} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                <span className={classes.linkTapsName}>{`${link.value}/${profile.name}`}</span>
+                <span className={classes.linkTapsName}>{`${link.value} / ${link.profileName}`}</span>
               </>);
             linkTaps.push({ name: component, value: link.clicks });
           });
-        });
+
         views.forEach((item) => {
           const targetProfile = profilesData.find((profile) => profile.id === item.id);
           if (targetProfile) result.push({ name: targetProfile.name, value: item.data?.views });

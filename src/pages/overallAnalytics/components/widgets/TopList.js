@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 import { useLocation } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import useStyles from "./styles";
@@ -15,11 +16,11 @@ function TopList({ data, refPopped }) {
     <>
       {data
         ? <div className={classes.tableBody}>
-          {data.map((item, key) => (
-            <div className={classes.tableRow } key={key} ref={location.state?.name ? refPopped : null}>
+          {data.map(({ name, value }, key) => (
+            <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopped : null}>
               <div className={classes.tableCellRank }>{key + 1}</div>
-              <div className={classes.tableCellName }>{item.name}</div>
-              <div className={classes.tableCellValue }>{item.value}</div>
+              <div className={classes.tableCellName }>{name}</div>
+              <div className={classes.tableCellValue }>{value}</div>
             </div>
           ))}
         </div>

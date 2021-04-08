@@ -62,6 +62,10 @@ export default makeStyles((theme) => ({
       backgroundColor: "#f6f6f6",
     },
   },
+  activeTableRow: {
+    backgroundColor: "#787878 !important",
+    color: "#ffffff",
+  },
   tableCellRank: {
     width: "15%",
     padding: 5,
