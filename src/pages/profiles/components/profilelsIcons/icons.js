@@ -36,134 +36,167 @@ const icons = {
   3: {
     icon: Instagram,
     placeholder: "Instagram username",
+    path: "https://instagram.com/",
   },
   4: {
     icon: Snapchat,
     placeholder: "Snapchat username",
+    path: "https://www.snapchat.com/add/",
   },
   5: {
     icon: Twitter,
     placeholder: "Twitter username",
+    path: "https://twitter.com/",
   },
   6: {
     icon: Facebook,
     placeholder: "Facebook profile link",
+    path: "",
   },
   7: {
     icon: Linkedin,
     placeholder: "LinkedIn profile link",
+    path: "https://linkedin.com/in/",
   },
   8: {
     icon: NumberIcon,
     placeholder: "Phone number",
+    path: "",
   },
   9: {
     icon: MailTo,
     placeholder: "Email address",
+    path: "mailto:",
   },
   10: {
     icon: Youtube,
     placeholder: "Youtube user/channel link",
+    path: "",
   },
   11: {
     icon: TikTok,
     placeholder: "TikTok username",
+    path: "https://www.tiktok.com/@",
   },
   12: {
     icon: SoundCloud,
     placeholder: "SoundCloud username",
+    path: "https://soundcloud.com/",
   },
   13: {
     icon: Spotify,
     placeholder: "Link to Spotify",
+    path: "",
   },
   14: {
     icon: AppleMusic,
     placeholder: "Link to Apple Music",
+    path: "",
   },
   15: {
     icon: Venmo,
     placeholder: "Venmo username",
+    path: "venmo://",
   },
   16: {
     icon: CashApp,
     placeholder: "Cash App username",
+    path: "https://cash.app/$",
   },
   17: {
     icon: PayPal,
     placeholder: "paypal.me link",
+    path: "https://www.paypal.me/",
   },
   18: {
     icon: Whatsapp,
     placeholder: "WhatsApp number",
+    path: "https://api.whatsapp.com/send?phone=",
   },
   19: {
     icon: Pinterest,
     placeholder: "Pinterest username",
+    path: "https://pinterest.com/",
   },
   21: {
     icon: Twitch,
     placeholder: "Twitch username",
+    path: "https://www.twitch.tv/",
   },
   22: {
     icon: ContactCard,
     placeholder: "Phone number",
+    paht: "https://poplme.co/addtocontacts/",
   },
   23: {
     icon: Custom,
     placeholder: "Any app or website link",
+    path: "",
   },
   24: {
     icon: Safari,
     placeholder: "Website link",
+    path: "",
   },
   25: {
     icon: Address,
     placeholder: "Business address",
+    path: "https://www.google.com/maps/search/?api=1&query=",
   },
   27: {
     icon: FaceTime,
     placeholder: "FaceTime number",
+    path: "facetime",
   },
   28: {
     icon: Calendly,
     placeholder: "Calendly link",
+    path: "",
   },
   29: {
     icon: OnlyFans,
     placeholder: "OnlyFans link",
+    path: "",
   },
   30: {
     icon: Podcasts,
     placeholder: "Apple podcast link",
+    path: "",
   },
   31: {
     icon: Call,
     placeholder: "Phone number",
+    path: "tel:",
   },
   33: {
     icon: Discord,
     placeholder: "",
+    path: "",
   },
   34: {
     icon: Yelp,
     placeholder: "Yelp link",
+    path: "",
   },
   35: {
     icon: Ambassador,
     placeholder: "Ambassador referral link",
+    path: "",
   },
   36: {
     icon: LinkTree,
     placeholder: "Linktree link",
+    path: "",
   },
   37: {
     icon: File,
     placeholder: "Tinder profile link",
+    path: "",
   },
   38: {
     icon: Clubhouse,
     placeholder: "Your Clubhouse link",
+    path: "",
   },
 };
 
