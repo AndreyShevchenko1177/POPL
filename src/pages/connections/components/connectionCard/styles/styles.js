@@ -27,6 +27,9 @@ export default makeStyles((theme) => ({
     maxWidth: "500px",
   },
   cardTable: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 10,
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     color: "#565956",
@@ -34,8 +37,14 @@ export default makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+  tableRow: {
+    display: "flex",
+  },
   tableCell: {
-    width: "120px",
+    width: "180px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   iconsButtonWrapper: {
     display: "flex",

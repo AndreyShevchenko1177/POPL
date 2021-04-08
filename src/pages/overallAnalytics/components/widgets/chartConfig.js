@@ -5,9 +5,9 @@ const labels = {
 };
 
 export const backgroundColor = {
-  poplPops: "rgba(244, 67, 54, 1)",
-  qrCodePops: "rgba(76, 175, 80, 1)",
-  walletPops: "rgba(255, 255, 59, 1)",
+  poplPops: "rgba(62, 116, 226, 1)",
+  qrCodePops: "rgba(107, 187, 228, 1)",
+  walletPops: "rgba(213, 229, 106, 1)",
 };
 
 export const chartOptions = {
@@ -22,8 +22,8 @@ export const dohnutLabels = {
 };
 
 export const dohnutBackgroundColor = {
-  directOn: "rgba(76, 175, 80, 1)",
-  directOff: "rgba(255, 255, 59, 1)",
+  directOn: "rgba(107, 187, 228, 1)",
+  directOff: "rgba(213, 229, 106, 1)",
 };
 
 export default labels;

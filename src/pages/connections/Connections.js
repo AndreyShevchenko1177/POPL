@@ -24,11 +24,12 @@ function Connections() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentConnection, setCurrentConnection] = useState();
   const [dragableConnections, setConnections] = useState([]);
-  const [fitlersCheck, setFiltersCheck] = useState({});
   const [needHeight, setNeedHeight] = useState({
     height: 0,
     offset: 0,
   });
+
+  console.log(dragableConnections);
 
   const handleOpenForm = (connection) => {
     if (connection) {
@@ -123,7 +124,6 @@ function Connections() {
         <div className={classes.poplsHeaderContainer}>
           <SearchStripe
             setFilters={showAll}
-            fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleOpen={() => handleOpenForm()}
             handleSearch={handleSearch}

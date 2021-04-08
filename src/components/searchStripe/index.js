@@ -19,7 +19,6 @@ function SearchStripe({
   arrowHandler = () => console.log("add event"),
   selectObject,
   disabled,
-  fitlersCheck,
   setFilters,
   isShow,
   isFetching,
@@ -66,7 +65,6 @@ function SearchStripe({
       <Filters
         isFetching={isFetching}
         setFilters={setFilters}
-        fitlersCheck={fitlersCheck}
         disabled={isShow}
         showAll={showAll}
       />

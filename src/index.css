@@ -67,6 +67,10 @@ p {
   padding-top: 5px;
 }
 
+.pt-10 {
+  padding-top: 10px;
+}
+
 /* margins */
 .mb-10 {
   margin-bottom: 10px;

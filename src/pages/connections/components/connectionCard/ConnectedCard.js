@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Checkbox, Typography, Button, Paper,
+  Checkbox, Typography, Button, Paper, Tooltip,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -42,23 +42,21 @@ export function ConnectedCard({
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>
         <div className={classes.contenContainer}>
-          <table>
-            <tbody className={classes.cardTable}>
-              <tr>
-                <td className={classes.tableCell}>Name:</td>
-                <td>{name}</td>
-              </tr>
-              <tr>
-                <td className={classes.tableCell}>Connect Date:</td>
-                <td>{dateFormat(time)}</td>
-              </tr>
-              <tr>
-                <td className={classes.tableCell}>URL:</td>
-                <td><a href={url} target='blank'>{url && url.split("https://")[1]}</a></td>
-              </tr>
-            </tbody>
-          </table>
-          <div className='pt-5'>
+          <div className={classes.cardTable}>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>Name:</div>
+              <div className={classes.tableCell}>{name}</div>
+            </div>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>First Connected Date:</div>
+              <div className={classes.tableCell}>{dateFormat(time)}</div>
+            </div>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>URL:</div>
+              <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
+            </div>
+          </div>
+          <div className='pt-10'>
             <Button
               variant="text"
               size="small"
@@ -75,12 +73,13 @@ export function ConnectedCard({
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
             <div className={classes.connectedWithNames}>
               {names?.map((el, key) => (
-                <Paper key={key} className={classes.nameItem}>
-                  {/* {console.log(el)} */}
-                  <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
-                  <p className={classes.nameItemName} > {el.name}</p>
-                </Paper>
-
+                <Tooltip key={key} title={"connected date comming soon"} placement="top">
+                  <Paper className={classes.nameItem}>
+                    {/* {console.log(el)} */}
+                    <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
+                    <p className={classes.nameItemName} > {el.name}</p>
+                  </Paper>
+                </Tooltip>
               ))}
             </div>
           </Paper>

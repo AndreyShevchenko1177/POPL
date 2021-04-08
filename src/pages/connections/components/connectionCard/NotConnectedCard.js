@@ -48,22 +48,20 @@ export function NotConnectedCard({
         </div>
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
-          <table>
-            <tbody className={classes.cardTable}>
-              <tr>
-                <td className={classes.tableCell}>Email:</td>
-                <td>{email}</td>
-              </tr>
-              <tr>
-                <td className={classes.tableCell}>Phone:</td>
-                <td>{number}</td>
-              </tr>
-              <tr>
-                <td className={classes.tableCell}>Created:</td>
-                <td>{dateFormat(time)}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className={classes.cardTable}>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>Email:</div>
+              <div className={classes.tableCell}>{email}</div>
+            </div>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>Phone:</div>
+              <div className={classes.tableCell}>{number}</div>
+            </div>
+            <div className={classes.tableRow}>
+              <div className={classes.tableCell}>Created:</div>
+              <div className={classes.tableCell}>{dateFormat(time)}</div>
+            </div>
+          </div>
         </div>
         <div className={classes.notConnectedViaConnectContainer}>
           <Typography variant='h6'>VIA CONNECT</Typography>
