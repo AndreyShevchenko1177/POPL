@@ -10,7 +10,13 @@ function NewProfile() {
   return (
     <>
       <div>
-        <Header rootLink="Profiles" lastChild="Add Profile" path="/profiles" />
+        <Header
+          rootLink="Profiles"
+          firstChild="Add Profile"
+          firstChildRedirectPath="/profiles/add-profile"
+          lastChild="Existing Profile"
+          path="/profiles"
+        />
       </div>
       <div className={classes.container}>
         <div className={classes.pageWrapper}>

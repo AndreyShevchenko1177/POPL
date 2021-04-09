@@ -24,7 +24,6 @@ function PoplsItem() {
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [dragablePopls, setPopls] = useState([]);
-  const [fitlersCheck, setFiltersCheck] = useState({});
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -90,7 +89,6 @@ function PoplsItem() {
           <SearchStripe
             isFetching={isFetching}
             setFilters={setFilters}
-            fitlersCheck={fitlersCheck}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             handleSearch={handleSearch}
             disabled

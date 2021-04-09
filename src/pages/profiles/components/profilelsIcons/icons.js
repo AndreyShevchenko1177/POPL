@@ -51,7 +51,7 @@ const icons = {
   6: {
     icon: Facebook,
     placeholder: "Facebook profile link",
-    path: "",
+    path: "http://",
   },
   7: {
     icon: Linkedin,
@@ -61,7 +61,7 @@ const icons = {
   8: {
     icon: NumberIcon,
     placeholder: "Phone number",
-    path: "",
+    path: "sms:",
   },
   9: {
     icon: MailTo,
@@ -71,7 +71,7 @@ const icons = {
   10: {
     icon: Youtube,
     placeholder: "Youtube user/channel link",
-    path: "",
+    path: "http://",
   },
   11: {
     icon: TikTok,
@@ -86,17 +86,17 @@ const icons = {
   13: {
     icon: Spotify,
     placeholder: "Link to Spotify",
-    path: "",
+    path: "http://",
   },
   14: {
     icon: AppleMusic,
     placeholder: "Link to Apple Music",
-    path: "",
+    path: "http://",
   },
   15: {
     icon: Venmo,
     placeholder: "Venmo username",
-    path: "venmo://",
+    path: "https://venmo.com/",
   },
   16: {
     icon: CashApp,
@@ -126,17 +126,17 @@ const icons = {
   22: {
     icon: ContactCard,
     placeholder: "Phone number",
-    paht: "https://poplme.co/addtocontacts/",
+    path: "https://poplme.co/addtocontacts/",
   },
   23: {
     icon: Custom,
     placeholder: "Any app or website link",
-    path: "",
+    path: "http://",
   },
   24: {
     icon: Safari,
     placeholder: "Website link",
-    path: "",
+    path: "http://",
   },
   25: {
     icon: Address,
@@ -151,17 +151,17 @@ const icons = {
   28: {
     icon: Calendly,
     placeholder: "Calendly link",
-    path: "",
+    path: "http://",
   },
   29: {
     icon: OnlyFans,
     placeholder: "OnlyFans link",
-    path: "",
+    path: "http://",
   },
   30: {
     icon: Podcasts,
     placeholder: "Apple podcast link",
-    path: "",
+    path: "http://",
   },
   31: {
     icon: Call,
@@ -171,32 +171,32 @@ const icons = {
   33: {
     icon: Discord,
     placeholder: "",
-    path: "",
+    path: "http://",
   },
   34: {
     icon: Yelp,
     placeholder: "Yelp link",
-    path: "",
+    path: "http://",
   },
   35: {
     icon: Ambassador,
     placeholder: "Ambassador referral link",
-    path: "",
+    path: "http://",
   },
   36: {
     icon: LinkTree,
     placeholder: "Linktree link",
-    path: "",
+    path: "http://",
   },
   37: {
     icon: File,
     placeholder: "Tinder profile link",
-    path: "",
+    path: "http://",
   },
   38: {
     icon: Clubhouse,
     placeholder: "Your Clubhouse link",
-    path: "",
+    path: "http://",
   },
 };
 

@@ -7,7 +7,7 @@ import poplsReducer from "../../pages/popls/store/reducer";
 import realTimeAnalytics from "../../pages/overallAnalytics/store/reducer";
 import connectionsReducer from "../../pages/connections/store/reducer";
 import stripeResult from "../../pages/stripeResultPages/store/reducer";
-import addProfilesReducer from "../../pages/newProfile/store/reducer";
+import addProfilesReducer from "../../pages/addExistingProfile/store/reducer";
 import { LOGOUT } from "../../pages/auth/store/actionTypes";
 
 const appReducer = combineReducers({

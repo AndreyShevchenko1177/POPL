@@ -6,7 +6,12 @@ export default function SocialPoplsIcons({ style, data, handleClick }) {
   const classes = useStyles();
 
   const linkRedirect = (path) => {
-    window.open(path);
+    try {
+      console.log(path);
+      window.open(path);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

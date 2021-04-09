@@ -29,8 +29,6 @@ function Connections() {
     offset: 0,
   });
 
-  console.log(dragableConnections);
-
   const handleOpenForm = (connection) => {
     if (connection) {
       setCurrentConnection(connection);

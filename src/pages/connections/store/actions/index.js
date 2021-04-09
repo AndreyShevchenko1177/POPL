@@ -141,21 +141,43 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
     }
     const profileName = {};
     const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image });
+    profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image, id });
     const result = await getCollectionData("people", idsArray);
     const idsObject = {};
     result.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
     let allConnections = Object.values(idsObject).reduce((sum, cur) => ([...sum, ...cur]), []);
-    allConnections = allConnections.map((con, _, connections) => {
-      const dublicates = {};
-      connections
-        .filter(({ id }) => id === con.id) // searching for the same connections in all profiles
-        .map(({ profileId }) => profileId) // getting all profile ids with whome connection connected
-        .map((pId) => profileName[pId]) // getting profile names
-        .map((f) => dublicates[f.name] = f);
-
-      return { ...con, names: Object.values(dublicates) };
-    });
+    allConnections = allConnections
+      .map((con, _, connections) => {
+        const dublicates = {};
+        connections
+          .filter(({ id }) => id === con.id) // searching for the same connections in all profiles
+          .map(({ profileId }) => profileId) // getting all profile ids with whome connection connected
+          .map((pId) => profileName[pId]) // getting profile names
+          .forEach((f, i) => {
+          // if (i < 10) console.log(f);
+            dublicates[f.name] = f;
+          });
+        return { ...con, names: Object.values(dublicates) };
+      });
+    // .filter((con, i, connections) => {
+    //   if ("noPopl" in con) return con.email.indexOf()
+    // })
+    // .map((con, _, connections) => {
+    //   con.names.forEach((name, i) => {
+    //     // const result = connections.filter((connection) => connection.profileId === name.id);
+    //     // const connectionName = result.names.find((el) => el.id == con.profileId);
+    //     // if (i < 10) console.log(connectionName);
+    //     if (name.id === con.profileId) name.connected = con.time;
+    //     // name.connected = "";
+    //     // if (i < 10) console.log(result);
+    //     // result.forEach((connection, i) => {
+    //     //   const connectionName = connection.names.find((el) => el.id == connection.profileId);
+    //     //   // if (i < 10) console.log(connectionName);
+    //     //   if (connectionName) connectionName.connected = con.time;
+    //     // });
+    //   });
+    //   return con;
+    // });
     dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
       payload: { ...idsObject, allConnections, type },

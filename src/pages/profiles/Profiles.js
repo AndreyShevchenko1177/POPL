@@ -34,7 +34,7 @@ export default function Profiles() {
   const [wizard, setWizard] = useState({ open: false, data: [] });
 
   function handleOpenNewProfilePage() {
-    history.push("/profiles/new-profile");
+    history.push("/profiles/add-profile");
   }
 
   function handleOnDragEnd(result) {

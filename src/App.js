@@ -16,13 +16,15 @@ import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 import OverallAnalytics from "./pages/overallAnalytics";
-import NewProfile from "./pages/newProfile";
+import AddExistingProfile from "./pages/addExistingProfile";
+import AddNewProfile from "./pages/addNewProfile";
 import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
 import PopBranding from "./pages/popBranding";
 import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
+import AddProfile from "./pages/addProfile";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 import { getProfileInfoRequest } from "./store/actions";
@@ -61,7 +63,21 @@ function App(props) {
           exact
           isLoggedIn={profileData?.id}
         >
-          <NewProfile />
+          <AddExistingProfile />
+        </PrivateRoute>
+        <PrivateRoute
+          path="/profiles/add-profile/new"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <AddNewProfile />
+        </PrivateRoute>
+        <PrivateRoute
+          path="/profiles/add-profile"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <AddProfile />
         </PrivateRoute>
         <PrivateRoute path="/popls" exact isLoggedIn={profileData?.id}>
           <PoplsItem />

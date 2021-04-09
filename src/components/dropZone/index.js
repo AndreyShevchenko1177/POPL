@@ -7,7 +7,7 @@ import Papa from "papaparse";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import Loader from "../Loader";
-import { addFileAction } from "../../pages/newProfile/store/actions";
+import { addFileAction } from "../../pages/addExistingProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 import Preview from "./components/Preview";
 

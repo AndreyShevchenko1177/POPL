@@ -35,9 +35,9 @@ function BottomWidgets({
         let links = [];
         if (location.state?.id) {
           if (location.state?.personalMode?.text === "Personal") {
-            links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName.name }))];
+            links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName }))];
           } else {
-            links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName.name }))];
+            links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName }))];
           }
         } else {
           profilesData.forEach((profile) => {
@@ -71,6 +71,8 @@ function BottomWidgets({
       setLinkTapsData(null);
     }
   }, [views, profilesData]);
+
+  console.log(location.state);
 
   useEffect(() => {
     if (topPopped) {
