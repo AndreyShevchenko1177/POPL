@@ -10,7 +10,7 @@ import { dateFormat } from "../../../../utils/dates";
 import Popup from "./Popup";
 
 export function NotConnectedCard({
-  name, url, image, time, editAction, note, number, email, ...rest
+  name, url, image, time, note, number, email, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -24,9 +24,9 @@ export function NotConnectedCard({
     {
       id: 2,
       name: "Edit",
-      onClick: () => editAction({
-        ...rest, name, email, number, note,
-      }),
+      // onClick: () => editAction({
+      //   ...rest, name, email, number, note,
+      // }),
     },
     {
       id: 1,

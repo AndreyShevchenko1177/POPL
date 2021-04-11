@@ -52,10 +52,12 @@ function BottomWidgets({
           .forEach((link) => {
             const component = (
               <>
+                <span className={classes.linkTapsName}>{link.profileName}</span>
                 <img className={classes.linkIcon} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                <span className={classes.linkTapsName}>{`${link.value} / ${link.profileName}`}</span>
               </>);
-            linkTaps.push({ name: component, value: link.clicks });
+            linkTaps.push({
+              name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
+            });
           });
 
         views.forEach((item) => {
@@ -71,8 +73,6 @@ function BottomWidgets({
       setLinkTapsData(null);
     }
   }, [views, profilesData]);
-
-  console.log(location.state);
 
   useEffect(() => {
     if (topPopped) {
@@ -151,7 +151,7 @@ function BottomWidgets({
           <TopList data={topPoppedPopls} refPopped={refPopls}/>
         </WidgetsContainer>
         <WidgetsContainer heading='Top tapped Links'>
-          <TopList data={linkTapsData}/>
+          <TopList data={linkTapsData} isLinks={true} />
         </WidgetsContainer>
       </div>
       <div className={classes.twoWidgetsWrapper}>

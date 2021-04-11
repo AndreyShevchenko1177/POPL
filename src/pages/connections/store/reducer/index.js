@@ -1,13 +1,8 @@
 import {
   GET_CONNECTIONS_SUCCESS,
   GET_CONNECTIONS_FAIL,
-  ADD_CONNECTIONS_SUCCESS,
-  ADD_CONNECTIONS_FAIL,
-  EDIT_CONNECTIONS_SUCCESS,
-  EDIT_CONNECTIONS_FAIL,
   CLEAR_EDIT_CONNECTIONS,
   CLEAR_ADD_CONNECTIONS,
-  COLLECT_SELECTED_CONNECTIONS_REQUEST,
   COLLECT_SELECTED_CONNECTIONS_SUCCESS,
   COLLECT_SELECTED_CONNECTIONS_FAIL,
   GET_PROFILES_IDS_SUCCESS,
@@ -18,19 +13,10 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  addConnection: {
-    data: null,
-    error: null,
-  },
-  editConnection: {
-    data: null,
-    error: null,
-  },
   collectConnections: {
     data: null,
     allConnections: null,
     error: null,
-    isFetching: false,
   },
   profilesIds: {
     data: [],
@@ -60,50 +46,6 @@ export default function connectionsReducer(state = initialState, { type, payload
       },
     };
   }
-  case ADD_CONNECTIONS_SUCCESS: {
-    return {
-      ...state,
-      addConnection: {
-        error: null,
-        data: payload,
-      },
-    };
-  }
-  case ADD_CONNECTIONS_FAIL: {
-    return {
-      ...state,
-      addConnection: {
-        data: null,
-        error: payload,
-      },
-    };
-  }
-  case EDIT_CONNECTIONS_SUCCESS: {
-    return {
-      ...state,
-      editConnection: {
-        data: payload,
-        error: null,
-      },
-    };
-  }
-  case EDIT_CONNECTIONS_FAIL: {
-    return {
-      ...state,
-      editConnection: {
-        data: null,
-        error: payload,
-      },
-    };
-  }
-  case COLLECT_SELECTED_CONNECTIONS_REQUEST: {
-    return {
-      ...state,
-      collectConnections: {
-        isFetching: true,
-      },
-    };
-  }
   case COLLECT_SELECTED_CONNECTIONS_SUCCESS: {
     return {
       ...state,
@@ -111,8 +53,8 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: payload[payload.type],
         connections: payload,
         error: null,
-        isFetching: true,
       },
+      isFetching: false,
     };
   }
   case COLLECT_SELECTED_CONNECTIONS_FAIL: {
@@ -122,8 +64,8 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: null,
         allConnections: null,
         error,
-        isFetching: true,
       },
+      isFetching: false,
     };
   }
   case RETRIEVE_SELECTED_CONNECTIONS: {

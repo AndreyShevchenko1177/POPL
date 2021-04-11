@@ -92,6 +92,7 @@ function SearchStripe({
       <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
           fullWidth
+          onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
           className={classes.searchInput}
           onChange={handleSearch}
           placeholder="Search"

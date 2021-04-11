@@ -3,24 +3,27 @@ import clsx from "clsx";
 import { useLocation } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import useStyles from "./styles";
+import icons from "../../../profiles/components/profilelsIcons/icons";
 
-function TopList({ data, refPopped }) {
+function TopList({ data, refPopped, isLinks }) {
   const classes = useStyles();
   const location = useLocation();
 
   useEffect(() => {
     refPopped?.current?.scrollIntoView();
   }, [data]);
-
+  console.log(data);
   return (
     <>
       {data
         ? <div className={classes.tableBody}>
-          {data.map(({ name, value }, key) => (
+          {data.map(({
+            name, value, linkId, linkValue,
+          }, key) => (
             <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopped : null}>
               <div className={classes.tableCellRank }>{key + 1}</div>
               <div className={classes.tableCellName }>{name}</div>
-              <div className={classes.tableCellValue }>{value}</div>
+              <div className={clsx(classes.tableCellValue, isLinks && classes.tableCellValueLink)}>{isLinks ? <a href={icons[linkId].path + linkValue}>{icons[linkId].path + linkValue}</a> : value}</div>
             </div>
           ))}
         </div>

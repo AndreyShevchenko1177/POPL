@@ -87,10 +87,19 @@ export default makeStyles((theme) => ({
     borderBottom: "none",
     width: "25%",
   },
+  tableCellValueLink: {
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    justifyContent: "flex-start",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
   linkIcon: {
     width: 25,
     height: 25,
-    marginRight: 5,
+    marginLeft: 10,
   },
   linkTapsName: {
     textOverflow: "ellipsis",

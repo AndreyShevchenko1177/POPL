@@ -11,7 +11,7 @@ import { dateFormat } from "../../../../utils/dates";
 import Popup from "./Popup";
 
 export function ConnectedCard({
-  name, url, image, time, editAction, names, ...rest
+  name, url, image, time, names, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -72,8 +72,8 @@ export function ConnectedCard({
           <Paper className={classes.connectedWithInfo}>
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
             <div className={classes.connectedWithNames}>
-              {names?.map((el, key) => (
-                <Tooltip key={key} title={"comming soon"} placement="top">
+              {Object.values(names)?.map((el, key) => (
+                <Tooltip key={key} title={dateFormat(el.connected) || ""} placement="top">
                   <Paper className={classes.nameItem}>
                     {/* {console.log(el)} */}
                     <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>

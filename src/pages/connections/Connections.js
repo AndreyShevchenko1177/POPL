@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Dialog, DialogContent, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  getConnectionsAction, clearAddConnection, clearEditConnection, collectSelectedConnections, clearConnectionData,
+  collectSelectedConnections, clearConnectionData, isFetchingAction,
 } from "./store/actions";
-import ConnectionForm from "./components/connectionForm";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
 import SearchStripe from "../../components/searchStripe";
@@ -21,22 +20,13 @@ function Connections() {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const { data: filterConnections } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
-  const [isOpenForm, setIsOpenForm] = useState(false);
-  const [currentConnection, setCurrentConnection] = useState();
+  const connections = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections.connections?.connections);
   const [dragableConnections, setConnections] = useState([]);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
     offset: 0,
   });
-
-  const handleOpenForm = (connection) => {
-    if (connection) {
-      setCurrentConnection(connection);
-    } else {
-      setCurrentConnection();
-    }
-    setIsOpenForm(true);
-  };
+  const [isShowAll, setIsShowAll] = useState(false);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -50,56 +40,62 @@ function Connections() {
 
   const handleSearch = (event) => {
     if (!event.target.value) {
+      if (location.state?.id) {
+        return setConnections(connections[location.state.id]);
+      }
       return setConnections(filterConnections);
     }
-    setConnections((filterConnections).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+    if (location.state?.id) {
+      console.log("ind");
+      return setConnections((connections[location.state.id]).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+    }
+    console.log("all");
+    setConnections(filterConnections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const showAll = (event, name) => {
-    switch (name) {
-    case "all": {
-      location.state = { ...location.state, name: "", disabled: true };
-      dispatch(collectSelectedConnections(profileData.id, "allConnections"));
-    }
+    dispatch(isFetchingAction(true));
+    setIsShowAll(true);
+    location.state = {
+      ...location.state, name: "", disabled: true,
+    };
+  };
+
+  console.log(location.state);
+
+  useEffect(() => {
+    dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+
+    return () => dispatch(clearConnectionData("collectConnections"));
+  }, []);
+
+  useEffect(() => {
+    if (isShowAll) {
+      setConnections(filterConnections);
+      setIsShowAll(false);
+      dispatch(isFetchingAction(false));
       setNeedHeight({
         height: 0,
         offset: 0,
       });
-
-    default:
     }
-  };
-
-  useEffect(() => {
-    if (location.state?.id) return dispatch(getConnectionsAction(location.state?.id, "single"));
-    dispatch(collectSelectedConnections(profileData.id, "allConnections"));
-  }, []);
-
-  useEffect(() => () => {
-    dispatch(clearConnectionData("collectConnections"));
-  }, []);
-
-  useEffect(() => {
-    if (!isOpenForm) {
-      dispatch(clearAddConnection());
-      dispatch(clearEditConnection());
-    }
-  }, [isOpenForm]);
+  }, [isShowAll]);
 
   useEffect(() => {
     if (!filterConnections) return setConnections([]);
+    if (location.state?.id) {
+      return setConnections(connections[location.state.id].slice(0, 19));
+    }
     setConnections(filterConnections.slice(0, 19));
   }, [filterConnections]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
-    if (filterConnections) {
-      return setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
+    if (location.state?.id) {
+      return setConnections((con) => ([...con, ...connections[location.state.id].slice(needHeight.offset, (needHeight.offset + 19))]));
     }
     setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
-
-  // console.log(dragableConnections);
 
   return (
     <>
@@ -123,7 +119,6 @@ function Connections() {
           <SearchStripe
             setFilters={showAll}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
-            handleOpen={() => handleOpenForm()}
             handleSearch={handleSearch}
             disabled
             showCRM
@@ -160,12 +155,10 @@ function Connections() {
                             ? <NotConnectedCard
                               key={connection.customId}
                               {...connection}
-                              editAction={handleOpenForm}
                             />
                             : <ConnectedCard
                               key={connection.customId}
                               {...connection}
-                              editAction={handleOpenForm}
                             />
                           }
                         </Paper>
@@ -178,18 +171,6 @@ function Connections() {
             </Droppable>
           </DragDropContext>
         )}
-        <Dialog
-          open={isOpenForm}
-          onClose={() => setIsOpenForm(false)}
-          maxWidth="md"
-        >
-          <DialogContent>
-            <ConnectionForm
-              setIsOpenForm={setIsOpenForm}
-              connection={currentConnection}
-            />
-          </DialogContent>
-        </Dialog>
       </div>
     </>
   );
