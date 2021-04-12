@@ -74,6 +74,8 @@ function BottomWidgets({
     }
   }, [views, profilesData]);
 
+  console.log(location.state);
+
   useEffect(() => {
     if (topPopped) {
       const result = [];

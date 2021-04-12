@@ -32,14 +32,14 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
     const profileName = {};
     const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image });
-    const allConnections = await getCollectionData("people", idsArray);
-    const filteredConnections = uniqueObjectsInArray(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.email);
-
+    let allConnections = await getCollectionData("people", idsArray);
+    const filteredConnections = uniqueObjectsInArray(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id);
+    const idsObject = {};
+    allConnections.forEach(({ data, docId }) => idsObject[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id));
     filteredConnections.forEach((con) => {
       const names = {};
       allConnections.forEach(({ data, docId }) => {
         data.forEach((el) => {
-          el.names[el.profileId] = { ...profileName[docId], connected: el.time };
           if (el.id === con.id && !("noPopl" in el)) {
             names[docId] = { ...profileName[docId], connected: el.time };
           }
@@ -49,8 +49,19 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
       con.customId = Number(getId(12, "1234567890"));
     });
 
-    const idsObject = {};
-    allConnections.forEach(({ data, docId }) => idsObject[docId] = data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })));
+    Object.values(idsObject).forEach((connections) => {
+      connections.forEach((con) => {
+        const names = {};
+        allConnections.forEach(({ data, docId }) => {
+          data.forEach((el) => {
+            if (el.id === con.id && !("noPopl" in el)) {
+              names[docId] = { ...profileName[docId], connected: el.time };
+            }
+          });
+        });
+        con.names = names;
+      });
+    });
 
     dispatch({
       type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,

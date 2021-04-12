@@ -99,7 +99,7 @@ export default makeStyles((theme) => ({
   linkIcon: {
     width: 25,
     height: 25,
-    marginLeft: 10,
+    margin: "0 5px 0 auto",
   },
   linkTapsName: {
     textOverflow: "ellipsis",

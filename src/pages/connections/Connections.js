@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
@@ -17,6 +17,7 @@ function Connections() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const { data: filterConnections } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
@@ -26,7 +27,6 @@ function Connections() {
     height: 0,
     offset: 0,
   });
-  const [isShowAll, setIsShowAll] = useState(false);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -41,45 +41,29 @@ function Connections() {
   const handleSearch = (event) => {
     if (!event.target.value) {
       if (location.state?.id) {
-        return setConnections(connections[location.state.id]);
+        return setConnections(connections[location.state.id].slice(0, 19));
       }
-      return setConnections(filterConnections);
+      return setConnections(filterConnections.slice(0, 19));
     }
     if (location.state?.id) {
-      console.log("ind");
       return setConnections((connections[location.state.id]).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
     }
-    console.log("all");
     setConnections(filterConnections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const showAll = (event, name) => {
     dispatch(isFetchingAction(true));
-    setIsShowAll(true);
-    location.state = {
-      ...location.state, name: "", disabled: true,
-    };
+    setTimeout(() => dispatch(isFetchingAction(false), 1000));
+    // setConnections(filterConnections);
+    history.push("/connections", { disabled: true });
+    setConnections(filterConnections);
   };
-
-  console.log(location.state);
 
   useEffect(() => {
     dispatch(collectSelectedConnections(profileData.id, "allConnections"));
 
     return () => dispatch(clearConnectionData("collectConnections"));
   }, []);
-
-  useEffect(() => {
-    if (isShowAll) {
-      setConnections(filterConnections);
-      setIsShowAll(false);
-      dispatch(isFetchingAction(false));
-      setNeedHeight({
-        height: 0,
-        offset: 0,
-      });
-    }
-  }, [isShowAll]);
 
   useEffect(() => {
     if (!filterConnections) return setConnections([]);
@@ -96,6 +80,10 @@ function Connections() {
     }
     setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
+
+  // useEffect(() => {
+  //   dispatch(isFetchingAction(false));
+  // }, [dragableConnections]);
 
   return (
     <>
