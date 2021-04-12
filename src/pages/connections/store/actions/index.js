@@ -7,11 +7,9 @@ import {
   GET_CONNECTIONS_FAIL,
   CLEAR_ADD_CONNECTIONS,
   CLEAR_EDIT_CONNECTIONS,
-  COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-  COLLECT_SELECTED_CONNECTIONS_FAIL,
-  RETRIEVE_SELECTED_CONNECTIONS,
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
+  SHOW_ALL_CONNECTIONS,
   CLEAR_CONNECTIONS_DATA,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -20,11 +18,12 @@ import { snackBarAction } from "../../../../store/actions";
 import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
 import { uniqueObjectsInArray } from "../../../../utils";
 
-export const collectSelectedConnections = (id, type) => async (dispatch) => {
+export const collectSelectedConnections = (id, type, isSingle) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
-    const idsArray = [id];
-    const { data } = await profileIds(id);
+    const profileId = getState().authReducer.signIn.data.id;
+    const idsArray = [profileId];
+    const { data } = await profileIds(profileId);
 
     if (data) {
       JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
@@ -62,10 +61,11 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
         con.names = names;
       });
     });
-
     dispatch({
-      type: COLLECT_SELECTED_CONNECTIONS_SUCCESS,
-      payload: { allConnections: filteredConnections, connections: idsObject, type },
+      type: GET_CONNECTIONS_SUCCESS,
+      payload: {
+        allConnections: isSingle ? idsObject[id] : filteredConnections, connections: filteredConnections,
+      },
     });
   } catch (error) {
     dispatch(snackBarAction({
@@ -75,15 +75,16 @@ export const collectSelectedConnections = (id, type) => async (dispatch) => {
       open: true,
     }));
     dispatch({
-      type: COLLECT_SELECTED_CONNECTIONS_FAIL,
+      type: GET_CONNECTIONS_FAIL,
       error,
     });
   }
 };
 
-export const retieveSelectedConnections = () => ({
-  type: RETRIEVE_SELECTED_CONNECTIONS,
-});
+export const showAllConnectionsAction = () => (dispatch) => {
+  dispatch(isFetchingAction(true));
+  return dispatch({ type: SHOW_ALL_CONNECTIONS });
+};
 
 export const getProfilesIdsAction = (userId) => async (dispatch) => {
   try {

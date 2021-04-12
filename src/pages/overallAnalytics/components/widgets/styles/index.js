@@ -67,7 +67,7 @@ export default makeStyles((theme) => ({
     color: "#ffffff",
   },
   tableCellRank: {
-    width: "15%",
+    width: "10%",
     padding: 5,
   },
   tableCellName: {
@@ -77,24 +77,22 @@ export default makeStyles((theme) => ({
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    width: "80%",
+    width: "70%",
     borderBottom: "none",
+  },
+  tableCellNameLink: {
+    width: "35% !important",
   },
   tableCellValue: {
     padding: 5,
     display: "flex",
     justifyContent: "flex-end",
     borderBottom: "none",
-    width: "25%",
+    width: "20%",
   },
   tableCellValueLink: {
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
+    width: "50% !important",
     justifyContent: "flex-start",
-    "&:hover": {
-      textDecoration: "underline",
-    },
   },
   linkIcon: {
     width: 25,
@@ -105,5 +103,14 @@ export default makeStyles((theme) => ({
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     overflow: "hidden",
+    paddingRight: 5,
+  },
+  linkLink: {
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 }));

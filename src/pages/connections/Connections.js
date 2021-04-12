@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  collectSelectedConnections, clearConnectionData, isFetchingAction,
+  collectSelectedConnections, clearConnectionData, isFetchingAction, showAllConnectionsAction,
 } from "./store/actions";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
@@ -20,8 +20,7 @@ function Connections() {
   const history = useHistory();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
-  const { data: filterConnections } = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections);
-  const connections = useSelector(({ connectionsReducer }) => connectionsReducer.collectConnections.connections?.connections);
+  const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const [dragableConnections, setConnections] = useState([]);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
@@ -40,50 +39,34 @@ function Connections() {
 
   const handleSearch = (event) => {
     if (!event.target.value) {
-      if (location.state?.id) {
-        return setConnections(connections[location.state.id].slice(0, 19));
-      }
-      return setConnections(filterConnections.slice(0, 19));
+      return setConnections(connections.slice(0, 19));
     }
-    if (location.state?.id) {
-      return setConnections((connections[location.state.id]).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
-    }
-    setConnections(filterConnections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+    setConnections(connections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const showAll = (event, name) => {
-    dispatch(isFetchingAction(true));
-    setTimeout(() => dispatch(isFetchingAction(false), 1000));
-    // setConnections(filterConnections);
     history.push("/connections", { disabled: true });
-    setConnections(filterConnections);
+    dispatch(showAllConnectionsAction());
   };
 
   useEffect(() => {
+    if (location.state?.id) {
+      return dispatch(collectSelectedConnections(location.state.id, "allConnections", true));
+    }
     dispatch(collectSelectedConnections(profileData.id, "allConnections"));
 
     return () => dispatch(clearConnectionData("collectConnections"));
   }, []);
 
   useEffect(() => {
-    if (!filterConnections) return setConnections([]);
-    if (location.state?.id) {
-      return setConnections(connections[location.state.id].slice(0, 19));
-    }
-    setConnections(filterConnections.slice(0, 19));
-  }, [filterConnections]);
+    if (!connections) return setConnections([]);
+    setConnections(connections.slice(0, 19));
+  }, [connections]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
-    if (location.state?.id) {
-      return setConnections((con) => ([...con, ...connections[location.state.id].slice(needHeight.offset, (needHeight.offset + 19))]));
-    }
-    setConnections((con) => ([...con, ...filterConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
+    setConnections((con) => ([...con, ...connections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
-
-  // useEffect(() => {
-  //   dispatch(isFetchingAction(false));
-  // }, [dragableConnections]);
 
   return (
     <>

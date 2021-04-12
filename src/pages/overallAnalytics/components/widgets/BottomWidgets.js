@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect, useState, useRef } from "react";
+import { Tooltip } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import WidgetsContainer from "./WidgetsContainer";
@@ -52,7 +53,7 @@ function BottomWidgets({
           .forEach((link) => {
             const component = (
               <>
-                <span className={classes.linkTapsName}>{link.profileName}</span>
+                <Tooltip PopperProps={{ disablePortal: true }} title={link.profileName} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
                 <img className={classes.linkIcon} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
               </>);
             linkTaps.push({
@@ -73,8 +74,6 @@ function BottomWidgets({
       setLinkTapsData(null);
     }
   }, [views, profilesData]);
-
-  console.log(location.state);
 
   useEffect(() => {
     if (topPopped) {

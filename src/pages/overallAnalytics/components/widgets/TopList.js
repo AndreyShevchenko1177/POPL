@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
+import { Tooltip } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import useStyles from "./styles";
@@ -22,8 +23,11 @@ function TopList({ data, refPopped, isLinks }) {
           }, key) => (
             <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopped : null}>
               <div className={classes.tableCellRank }>{key + 1}</div>
-              <div className={classes.tableCellName }>{name}</div>
-              <div className={clsx(classes.tableCellValue, isLinks && classes.tableCellValueLink)}>{isLinks ? <a href={icons[linkId].path + linkValue}>{icons[linkId].path + linkValue}</a> : value}</div>
+              <div className={clsx(classes.tableCellName, isLinks && classes.tableCellNameLink) }>{name}</div>
+              <div className={clsx(classes.tableCellValue, isLinks && classes.tableCellValueLink)}>{isLinks
+                ? <Tooltip PopperProps={{ disablePortal: true }} title={icons[linkId].path + linkValue} placement="top"><a className={classes.linkLink} href={icons[linkId].path + linkValue}>{icons[linkId].path + linkValue}</a></Tooltip>
+                : value}
+              </div>
             </div>
           ))}
         </div>
