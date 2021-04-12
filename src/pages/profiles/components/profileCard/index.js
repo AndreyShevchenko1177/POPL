@@ -116,6 +116,7 @@ export default function Card({
             <div className={clsx(classes.section4, "target-element")}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
+                profileId={id}
                 data={personalMode.direct ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8) : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)}
                 style={classes.linkImage}
               />

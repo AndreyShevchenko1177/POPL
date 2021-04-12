@@ -57,7 +57,7 @@ export default function NetworkActivity({
     if (data) {
       const result = {};
       const labels = [];
-      console.log("data has come to chart component", data);
+      console.log("data to chart component", data);
       Object.keys(data).forEach((key, i) => {
         if (key === "labels") {
           data[key].forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));

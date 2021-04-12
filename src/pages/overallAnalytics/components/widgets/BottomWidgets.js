@@ -12,9 +12,10 @@ import labels, {
   backgroundColor, chartOptions, dohnutLabels, dohnutBackgroundColor,
 } from "./chartConfig";
 import icons from "../../../profiles/components/profilelsIcons/icons";
+import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLoadAction";
 
 function BottomWidgets({
-  views, userId, popsData, topPopped, dohnutData,
+  views, userId, popsData, topPopped, dohnutData, widgetLayerString,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -27,6 +28,11 @@ function BottomWidgets({
   const [linkTapsData, setLinkTapsData] = useState(null);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const location = useLocation();
+
+  const handleDownloadFile = (linkId, path, value) => {
+    if (linkId !== 37) return;
+    downLoadFile(path, value);
+  };
 
   useEffect(() => {
     if (views) {
@@ -54,7 +60,14 @@ function BottomWidgets({
             const component = (
               <>
                 <Tooltip PopperProps={{ disablePortal: true }} title={link.profileName} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
-                <img className={classes.linkIcon} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                {link.id === 37
+                  ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
+                    <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                  </div>
+                  : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
+                    <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                  </a>
+                }
               </>);
             linkTaps.push({
               name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
@@ -74,8 +87,6 @@ function BottomWidgets({
       setLinkTapsData(null);
     }
   }, [views, profilesData]);
-
-  console.log(location.state);
 
   useEffect(() => {
     if (topPopped) {
@@ -147,22 +158,22 @@ function BottomWidgets({
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
-        <WidgetsContainer heading='Top viewed Profiles'>
-          <TopList data={viewedProfiles} refPopped={refProfiles}/>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
+          <PieChart data={popsDataProportion} index={1}/>
         </WidgetsContainer>
-        <WidgetsContainer heading='Top popped Popls'>
-          <TopList data={topPoppedPopls} refPopped={refPopls}/>
-        </WidgetsContainer>
-        <WidgetsContainer heading='Top tapped Links'>
-          <TopList data={linkTapsData} isLinks={true} />
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
+          <PieChart data={popsDirectOnOff} index={2}/>
         </WidgetsContainer>
       </div>
       <div className={classes.twoWidgetsWrapper}>
-        <WidgetsContainer heading='Pops proportion'>
-          <PieChart data={popsDataProportion} index={1}/>
+        <WidgetsContainer layerString="Total" heading='Top viewed Profiles'>
+          <TopList data={viewedProfiles} refPopped={refProfiles}/>
         </WidgetsContainer>
-        <WidgetsContainer heading='Direct on/off proportion'>
-          <PieChart data={popsDirectOnOff} index={2}/>
+        <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top popped Popls'>
+          <TopList data={topPoppedPopls} refPopped={refPopls}/>
+        </WidgetsContainer>
+        <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top tapped Links'>
+          <TopList data={linkTapsData} isLinks={true} />
         </WidgetsContainer>
       </div>
     </div>

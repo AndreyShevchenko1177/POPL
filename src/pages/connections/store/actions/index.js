@@ -48,6 +48,8 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
       con.customId = Number(getId(12, "1234567890"));
     });
 
+    filteredConnections.sort((a, b) => new Date(a.time) - new Date(b.time));
+
     Object.values(idsObject).forEach((connections) => {
       connections.forEach((con) => {
         const names = {};
@@ -68,6 +70,7 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
       },
     });
   } catch (error) {
+    console.log(error);
     dispatch(snackBarAction({
       message: "Server error",
       severity: "error",

@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid, Paper } from "@material-ui/core";
-import useStyles from "./styles";
-import TabNavigation from "./TabNavigation";
-import InviteHeader from "./InviteHeader";
+import useStyles from "./inviteByEmail/styles";
+import TabNavigation from "./inviteByEmail/TabNavigation";
+import InviteHeader from "./inviteByEmail/InviteHeader";
 
-export default function NewProfileForm() {
+export default function TabContainer() {
   const classes = useStyles();
 
   return (

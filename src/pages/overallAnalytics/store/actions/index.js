@@ -179,7 +179,7 @@ export const getStatisticItem = (profiles) => async (dispatch, getState) => {
       result.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
       result.views = topViewedViews.reduce((a, b) => a + b.data.views, 0);
       const topPoppedPopls = {};
-      popls.data.forEach((popl) => topPoppedPopls[popl.name] = []);
+      popls.data.forEach((popl) => topPoppedPopls[popl.nickname || popl.name] = []);
       data.forEach((pop) => {
         const name = filterPops.slicePoplNameFromPop(pop[1]);
         if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);

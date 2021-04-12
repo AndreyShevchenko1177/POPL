@@ -3,7 +3,6 @@ import { getProfileAction, profileIds } from "../../../profiles/store/actions/re
 import { popsActionRequest } from "../../../overallAnalytics/store/actions/requests";
 
 export const getPoplsDataById = async (id) => {
-  console.log("id", id);
   const getPopolsFormData = new FormData();
   getPopolsFormData.append("sAction", "GetPoplsForId");
   getPopolsFormData.append("ajax", 1);

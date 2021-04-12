@@ -1,10 +1,10 @@
 import React from "react";
-import InviteByEmail from "./components/inviteByEmail";
+import TabsContainer from "./components/TabContainer";
 import useStyles from "./styles/styles";
 import Header from "../../components/Header";
 // import CustomInput from "../../components/customInput";
 
-function NewProfile() {
+function AddExistingProfile() {
   const classes = useStyles();
 
   return (
@@ -20,12 +20,11 @@ function NewProfile() {
       </div>
       <div className={classes.container}>
         <div className={classes.pageWrapper}>
-          <InviteByEmail />
+          <TabsContainer />
         </div>
-        {/* <CustomInput/> */}
       </div>
     </>
   );
 }
 
-export default NewProfile;
+export default AddExistingProfile;

@@ -88,7 +88,7 @@ export default makeStyles((theme) => ({
     marginBottom: 5,
   },
   nameItemImage: {
-    width: 30,
+    width: 45,
     height: 25,
     marginRight: 10,
     borderRadius: "4px",

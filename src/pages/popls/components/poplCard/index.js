@@ -55,7 +55,7 @@ function PoplCard({ popl, allPops }) {
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
-          onClick={() => history.push("/analytics", { name: popl.name })}
+          onClick={() => history.push("/analytics", { name: popl.name, poplName: popl.name })}
         >
           Analytics
         </Button>

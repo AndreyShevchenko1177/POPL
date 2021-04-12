@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     width: "100%",
     flexGrow: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     minWidth: 610,
     paddingBottom: 30,
   },
@@ -35,18 +35,31 @@ export default makeStyles((theme) => ({
   widgetHeadingContainer: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
     paddingBottom: 10,
     marginBottom: 10,
   },
   infoIcon: {
-    marginLeft: "auto",
+    marginLeft: 10,
     display: "flex",
     alignItems: "center",
     cursor: "pointer",
   },
   widgetHeading: {
+    whiteSpace: "nowrap",
     fontWeight: "bold",
+  },
+  layerStringContainer: {
+    maxWidth: "50%",
+    padding: "0 10px",
+    marginLeft: "auto",
+  },
+  widgetLayerString: {
+    fontWeight: "bold",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   tableBody: {
     display: "flex",
@@ -81,7 +94,7 @@ export default makeStyles((theme) => ({
     borderBottom: "none",
   },
   tableCellNameLink: {
-    width: "35% !important",
+    width: "45% !important",
   },
   tableCellValue: {
     padding: 5,
@@ -91,13 +104,16 @@ export default makeStyles((theme) => ({
     width: "20%",
   },
   tableCellValueLink: {
-    width: "50% !important",
+    width: "40% !important",
     justifyContent: "flex-start",
   },
   linkIcon: {
+    margin: "0 5px 0 auto",
+    cursor: "pointer",
+  },
+  iconLink: {
     width: 25,
     height: 25,
-    margin: "0 5px 0 auto",
   },
   linkTapsName: {
     textOverflow: "ellipsis",

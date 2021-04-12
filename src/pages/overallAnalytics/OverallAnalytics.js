@@ -24,6 +24,7 @@ function OverallAnalytics() {
   const topStatisticsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
+  const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState(null);
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
@@ -70,11 +71,14 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (location.state?.poplName) {
+      setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
       dispatch(getPopsAction(null, location.state?.poplName));
     } else if (location.state?.id) {
+      setWidgetLayerString({ layer: "Profile", name: location.state.name });
       dispatch(getStatisticItem(location.state));
       dispatch(getPopsAction(location.state?.id));
     } else {
+      setWidgetLayerString({ layer: "Total", name: "Total" });
       dispatch(getStatisticItemsRequest(userId));
       dispatch(getPopsAction(location.state?.id));
     }
@@ -87,7 +91,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      console.log("when data has come from server", generateLineChartData(popsData));
+      console.log("data from server", generateLineChartData(popsData));
       setChartData({ lineData: generateLineChartData(popsData), dohnutData: generateDohnutChartData(popsData) });
     } else {
       setChartData(popsData);
@@ -113,12 +117,13 @@ function OverallAnalytics() {
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />
-        {console.log("Before chart get data", chartData.lineData)}
+        {console.log("Before chart get data", chartData?.lineData)}
         <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
       <BottomWidgets
         topPopped={topStatisticsData.data?.topPoppedPopls}
         userId={userId}
+        widgetLayerString={widgetLayerString}
         views={topStatisticsData.data?.topViewedProfiles}
         popsData={chartData?.lineData}
         dohnutData={chartData?.dohnutData}

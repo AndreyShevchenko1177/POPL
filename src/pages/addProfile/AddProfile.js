@@ -21,7 +21,7 @@ function ChoicePage() {
         <div className={classes.choiceWrapper}>
           <div className={classes.choiceHeader}>
             <span>
-            Do you want to create new Profile?
+              What type of profiles do you want to add?
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
@@ -29,14 +29,14 @@ function ChoicePage() {
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Existing Profile'
-                description='Add Profile from existing email'
+                description='add profiles from existing popl accounts'
               />
             </div>
             <div onClick={() => history.push("/profiles/add-profile/new")}>
               <ChoiceCard
                 Icon={() => <FlashOnIcon fontSize='large'/>}
                 title='New Profile'
-                description='Add new Profile'
+                description='create new popl profiles to add'
               />
             </div>
           </div>

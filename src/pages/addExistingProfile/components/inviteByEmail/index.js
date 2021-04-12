@@ -1,1 +1,1 @@
-export { default } from "./InviteByEmailTab";
+export { default } from "../TabContainer";

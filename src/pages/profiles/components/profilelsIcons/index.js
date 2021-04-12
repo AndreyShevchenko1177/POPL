@@ -1,14 +1,17 @@
 import React from "react";
 import icons from "./icons";
 import useStyles from "../profileCard/styles/styles";
+import { downLoadFile } from "./downLoadAction";
 
-export default function SocialPoplsIcons({ style, data, handleClick }) {
+export default function SocialPoplsIcons({
+  style, data, handleClick, profileId,
+}) {
   const classes = useStyles();
 
-  const linkRedirect = (path) => {
+  const linkRedirect = (path, linkId, value) => {
     try {
-      console.log(path);
-      window.open(path);
+      if (linkId !== 37) return window.open(path);
+      downLoadFile(path, value);
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +24,7 @@ export default function SocialPoplsIcons({ style, data, handleClick }) {
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
           <div
-            onClick={(event) => handleClick(event, () => linkRedirect(icons[id].path + value))}
+            onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
             className={classes.iconItem}
           >
             <img className={style} src={icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media` : icons[id].icon} alt={title} />

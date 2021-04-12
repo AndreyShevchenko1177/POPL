@@ -13,7 +13,7 @@ function TopList({ data, refPopped, isLinks }) {
   useEffect(() => {
     refPopped?.current?.scrollIntoView();
   }, [data]);
-  console.log(data);
+
   return (
     <>
       {data
@@ -25,7 +25,7 @@ function TopList({ data, refPopped, isLinks }) {
               <div className={classes.tableCellRank }>{key + 1}</div>
               <div className={clsx(classes.tableCellName, isLinks && classes.tableCellNameLink) }>{name}</div>
               <div className={clsx(classes.tableCellValue, isLinks && classes.tableCellValueLink)}>{isLinks
-                ? <Tooltip PopperProps={{ disablePortal: true }} title={icons[linkId].path + linkValue} placement="top"><a className={classes.linkLink} href={icons[linkId].path + linkValue}>{icons[linkId].path + linkValue}</a></Tooltip>
+                ? <Tooltip PopperProps={{ disablePortal: true }} title={icons[linkId].path + linkValue} placement="top"><a className={classes.linkLink} href={icons[linkId].path + linkValue}>{icons[linkId].text}</a></Tooltip>
                 : value}
               </div>
             </div>

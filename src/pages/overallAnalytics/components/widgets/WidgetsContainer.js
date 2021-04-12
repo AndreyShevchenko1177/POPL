@@ -3,13 +3,16 @@ import { Paper, Typography } from "@material-ui/core";
 import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles";
 
-function WidgetsContainer({ children, heading }) {
+function WidgetsContainer({ children, heading, layerString }) {
   const classes = useStyles();
 
   return (
     <Paper elevation={3} className={classes.widgetRoot}>
       <div className={classes.widgetHeadingContainer}>
         <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
+        <div className={classes.layerStringContainer}>
+          <Typography classes={{ subtitle1: classes.widgetLayerString }} variant='subtitle1'>{layerString}</Typography>
+        </div>
         <div className={classes.infoIcon}>
           <SvgMaker
             name='info'
