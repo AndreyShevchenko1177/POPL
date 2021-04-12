@@ -46,7 +46,6 @@ function OverallAnalytics() {
     const maxDateMilis = maxDate.setHours(0, 0, 0, 0);
     const minDateMilis = minDate.setHours(0, 0, 0, 0);
     if (maxDateMilis < minDateMilis) {
-      console.log("maxDateMilis < minDateMilis", minDate, maxDate);
       setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
       return setCalendar({
         ...calendar,
@@ -61,7 +60,6 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
-    console.log("", minDate, maxDate);
     setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
   };
 
@@ -89,6 +87,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
+      console.log("when data has come from server", generateLineChartData(popsData));
       setChartData({ lineData: generateLineChartData(popsData), dohnutData: generateDohnutChartData(popsData) });
     } else {
       setChartData(popsData);
@@ -101,8 +100,8 @@ function OverallAnalytics() {
         rootLink="Analytics"
         rootLinkClick={handleShowAllStat}
         lastChild={location.state?.name || location.state?.poplName}
-        firstChild={location.state?.name ? "Profiles" : location.state?.poplName ? "Popls" : ""}
-        firstChildRedirectPath={location.state?.poplName ? "/popls" : "/profiles"}
+        firstChild={location.state?.id ? "Profiles" : location.state?.name ? "Popls" : ""}
+        firstChildRedirectPath={location.state?.id ? "/profiles" : "/popls"}
         path="/analytics"
       />
       <div className={classes.overallAnalyticsContainer}>
@@ -114,6 +113,7 @@ function OverallAnalytics() {
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />
+        {console.log("Before chart get data", chartData.lineData)}
         <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
       </div>
       <BottomWidgets

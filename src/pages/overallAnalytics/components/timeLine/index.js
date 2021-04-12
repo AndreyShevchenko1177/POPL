@@ -57,6 +57,7 @@ export default function NetworkActivity({
     if (data) {
       const result = {};
       const labels = [];
+      console.log("data has come to chart component", data);
       Object.keys(data).forEach((key, i) => {
         if (key === "labels") {
           data[key].forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
@@ -65,6 +66,7 @@ export default function NetworkActivity({
         result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(data[key])];
       });
+      console.log("chart labels", labels);
       chartOptions.data.labels = labels;
       setChartData({
         data: { ...chartOptions.data },
@@ -125,6 +127,7 @@ export default function NetworkActivity({
             />
           ) : (
             <>
+              {console.log("when chart start render", chartData)}
               {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
                 : (
                   <div className={classes.noDataText}>

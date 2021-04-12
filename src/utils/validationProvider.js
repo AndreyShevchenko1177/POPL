@@ -4,7 +4,7 @@ import React, { useState } from "react";
 function validation(keys, params, value) {
   const errors = {};
   keys.map((key) => {
-    const notRequiredFields = !params[key].required || value[key];
+    const notRequiredFields = !params[key].required && value[key];
     if (notRequiredFields && params[key].minLength > value[key].length) {
       errors[key] = params[key].errors.minLength;
     }
@@ -34,15 +34,11 @@ function validation(keys, params, value) {
     }
     if (params[key].dependencies) {
       params[key].dependencies.forEach((dep) => {
-        if (typeof value[dep] === "string") {
-          if (params[key].reverse) {
-            if (value[dep] && !value[key]) {
-              errors[key] = params[key].errors[dep];
-            }
-          } else if (!value[dep] && !value[key]) {
+        if (params[key].reverseAction) {
+          if (value[dep] && !value[key]) {
             errors[key] = params[key].errors[dep];
           }
-        } else if (value[dep] && !value[key]) {
+        } else if (!value[dep] && !value[key]) {
           errors[key] = params[key].errors[dep];
         }
       });

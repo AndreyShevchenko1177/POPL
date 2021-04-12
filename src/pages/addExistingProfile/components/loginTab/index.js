@@ -57,13 +57,13 @@ function LoginTab() {
           <Grid className={classes.loginInputsContainer} container spacing={3}>
             <Grid className={classes.loginInput} item xs={8}>
               <FormControl fullWidth>
-                <InputLabel>Username/Email</InputLabel>
+                <InputLabel error={!!errors.email}>Username/Email</InputLabel>
                 <Input
                   type="text"
                   label="Username/Email"
                   name="email"
                   fullWidth
-                  error={!!errors.username}
+                  error={!!errors.email}
                   value={values.email}
                   onChange={events.onChange}
                   endAdornment={
@@ -74,13 +74,13 @@ function LoginTab() {
                   autoFocus
                 />
                 <FormHelperText id="outlined-weight-helper-text" error={true}>
-                  {errors.username}
+                  {errors.email}
                 </FormHelperText>
               </FormControl>
             </Grid>
             <Grid className={classes.loginInput} item xs={8}>
               <FormControl fullWidth>
-                <InputLabel>Password</InputLabel>
+                <InputLabel error={!!errors.password}>Password</InputLabel>
                 <Input
                   type={showPassword ? "text" : "password"}
                   label="Password"

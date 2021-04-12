@@ -22,8 +22,6 @@ const dateGeneration = (popsData, minDate, maxDate) => {
   const result = {};
   // let date = currentDate.setHours(0, 0, 0, 0);
   // console.log(calendarRange, currentDate);
-
-  console.log("DATES", "\n\n", new Date(), "\n\n");
   // initing result object dates
   if (typeof calendarRange === "undefined") {
     for (let i = 13; i > 0; i--) {
@@ -42,8 +40,6 @@ const dateGeneration = (popsData, minDate, maxDate) => {
     }
   }
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
-  console.log("DATES", "\n\n", `${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`, "\n\n");
-  console.log("DATES", "\n\n", `${getYear(new Date())}-${normalizeDate(getMonth(new Date()) + 1)}-${normalizeDate(getDay(new Date()))}`, "\n\n");
   return result;
 };
 
