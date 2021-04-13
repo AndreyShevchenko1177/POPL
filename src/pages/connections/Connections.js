@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  collectSelectedConnections, clearConnectionData, isFetchingAction, showAllConnectionsAction,
+  collectSelectedConnections, clearConnectionData, showAllConnectionsAction,
 } from "./store/actions";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";

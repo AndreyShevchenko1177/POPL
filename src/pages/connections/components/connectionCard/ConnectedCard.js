@@ -7,7 +7,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
-import { dateFormat } from "../../../../utils/dates";
+import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "./Popup";
 
 export function ConnectedCard({
@@ -49,7 +49,7 @@ export function ConnectedCard({
             </div>
             <div className={classes.tableRow}>
               <div className={classes.tableCell}>First Connected Date:</div>
-              <div className={classes.tableCell}>{dateFormat(time)}</div>
+              <div className={classes.tableCell}>{formatDateConnections(time)}</div>
             </div>
             <div className={classes.tableRow}>
               <div className={classes.tableCell}>URL:</div>
@@ -73,7 +73,7 @@ export function ConnectedCard({
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
             <div className={classes.connectedWithNames}>
               {Object.values(names)?.map((el, key) => (
-                <Tooltip key={key} title={dateFormat(el.connected) || ""} placement="top">
+                <Tooltip key={key} title={formatDateConnections(el.connected) || ""} placement="top">
                   <Paper className={classes.nameItem}>
                     {/* {console.log(el)} */}
                     <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>

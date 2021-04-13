@@ -57,14 +57,15 @@ export default function NetworkActivity({
     if (data) {
       const result = {};
       const labels = [];
-      console.log("data to chart component", data);
-      Object.keys(data).forEach((key, i) => {
-        if (key === "labels") {
-          data[key].forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
+      let newData = Object.keys(data).map((el) => data[el]);
+      newData = [...newData.splice(3, 1), ...newData];
+      newData.forEach((values, i) => {
+        if (Array.isArray(values)) {
+          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
           return;
         }
-        result[key] = Object.values(data[key]);
-        chartOptions.data.datasets[i].data = [...Object.values(data[key])];
+        // result[key] = Object.values(data[key]);
+        chartOptions.data.datasets[i].data = [...Object.values(values)];
       });
       console.log("chart labels", labels);
       chartOptions.data.labels = labels;

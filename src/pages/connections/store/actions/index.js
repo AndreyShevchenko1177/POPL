@@ -16,7 +16,7 @@ import {
 
 import { snackBarAction } from "../../../../store/actions";
 import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
-import { uniqueObjectsInArray } from "../../../../utils";
+import { uniqueObjectsInArray, formatDateConnections } from "../../../../utils";
 
 export const collectSelectedConnections = (id, type, isSingle) => async (dispatch, getState) => {
   try {
@@ -48,7 +48,7 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
       con.customId = Number(getId(12, "1234567890"));
     });
 
-    filteredConnections.sort((a, b) => new Date(a.time) - new Date(b.time));
+    filteredConnections.sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time)));
 
     Object.values(idsObject).forEach((connections) => {
       connections.forEach((con) => {
