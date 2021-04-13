@@ -24,6 +24,7 @@ function PoplsItem() {
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [dragablePopls, setPopls] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -38,12 +39,14 @@ function PoplsItem() {
     if (!event.target.value) {
       return setPopls(filterPopls || popls);
     }
+    setSearchValue(event.target.value);
     setPopls((filterPopls || popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
   };
 
   const setFilters = (event, name) => {
     switch (name) {
     case "all": {
+      setSearchValue("");
       location.state.profilesData = undefined;
       dispatch(collectSelectedPopls(profileData.id));
     }
@@ -90,6 +93,7 @@ function PoplsItem() {
             isFetching={isFetching}
             setFilters={setFilters}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+            searchValue={searchValue}
             handleSearch={handleSearch}
             disabled
           />

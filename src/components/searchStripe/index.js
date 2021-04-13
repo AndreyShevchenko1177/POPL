@@ -15,6 +15,7 @@ function SearchStripe({
   btn_title,
   checked,
   handleCheck,
+  searchValue,
   handleSearch,
   arrowHandler = () => console.log("add event"),
   selectObject,
@@ -94,6 +95,7 @@ function SearchStripe({
           fullWidth
           onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
           className={classes.searchInput}
+          value={searchValue}
           onChange={handleSearch}
           placeholder="Search"
           inputProps={{ "aria-label": "search here" }}

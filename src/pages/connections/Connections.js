@@ -26,6 +26,7 @@ function Connections() {
     height: 0,
     offset: 0,
   });
+  const [searchValue, setSearchValue] = useState("");
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -41,11 +42,13 @@ function Connections() {
     if (!event.target.value) {
       return setConnections(connections.slice(0, 19));
     }
+    setSearchValue(event.target.value);
     setConnections(connections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const showAll = (event, name) => {
     history.push("/connections", { disabled: true });
+    setSearchValue("");
     dispatch(showAllConnectionsAction());
   };
 
@@ -90,6 +93,7 @@ function Connections() {
           <SearchStripe
             setFilters={showAll}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+            searchValue={searchValue}
             handleSearch={handleSearch}
             disabled
             showCRM

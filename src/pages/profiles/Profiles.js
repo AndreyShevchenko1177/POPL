@@ -25,6 +25,7 @@ export default function Profiles() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
+  const [searchValue, setSearchValue] = useState("");
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
   const [mainCheck, setMainCheck] = useState(false);
@@ -65,6 +66,7 @@ export default function Profiles() {
     if (!event.target.value) {
       return setProfiles(profilesData);
     }
+    setSearchValue(event.target.value);
     const result = profilesData.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setProfiles(result);
   };
@@ -179,6 +181,7 @@ export default function Profiles() {
             handleOpen={handleOpenNewProfilePage}
             btn_title="Add Profile"
             handleCheck={handleCheck}
+            searchValue={searchValue}
             handleSearch={handleSearch}
             checked={mainCheck}
             checkboxes={checkboxes}

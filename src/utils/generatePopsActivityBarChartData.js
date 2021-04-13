@@ -62,8 +62,8 @@ export const generateLineChartData = (popsData, minDate, maxDate) => {
 export const generateDohnutChartData = (popsData, minDate, maxDate) => {
   const result = dateGeneration(popsData, minDate, maxDate);
   const data = {};
-  delete popsData.allPops;
-  Object.keys(popsData).forEach((popKey) => {
+  const { allPops, ...newPopsData } = popsData;
+  Object.keys(newPopsData).forEach((popKey) => {
     let ownResult = { ...result };
     let correctResult = {};
     popsData[popKey].forEach((item) => {

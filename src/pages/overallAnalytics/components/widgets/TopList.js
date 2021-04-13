@@ -10,8 +10,14 @@ function TopList({ data, refPopped, isLinks }) {
   const classes = useStyles();
   const location = useLocation();
 
+  const getScrollValue = (v) => () => v; // with closure
+
   useEffect(() => {
-    refPopped?.current?.scrollIntoView();
+    if (refPopped?.current) {
+      const getScrollYValue = getScrollValue((window.scrollY));
+      refPopped?.current?.scrollIntoView(false);
+      window.scrollTo({ top: getScrollYValue() });
+    }
   }, [data]);
 
   return (
