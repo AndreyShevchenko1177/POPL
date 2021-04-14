@@ -10,7 +10,9 @@ import DragDots from "../../../../components/dragDots";
 import { dateFormat, filterPops } from "../../../../utils";
 import Loader from "../../../../components/Loader";
 
-function PoplCard({ popl, allPops }) {
+function PoplCard({
+  popl, allPops, poplsCheck, customId, checkboxes,
+}) {
   const classes = useStyles();
   const history = useHistory();
   const [popsCount, setPopsCount] = useState();
@@ -27,6 +29,10 @@ function PoplCard({ popl, allPops }) {
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}
           style={{ width: "40px", height: "40px" }}
+          onClick={poplsCheck}
+          name={`${customId}`}
+          classes={{ root: "custom-checkbox-root" }}
+          checked={checkboxes[customId]?.checked || false}
         />
         <img className={classes.avatar} alt="logo" src={userIcon} />
       </div>
@@ -60,11 +66,17 @@ function PoplCard({ popl, allPops }) {
           Analytics
         </Button>
         <div className={classes.popsCountNumber}>
-          <span>Pops: </span>
-          {popsCount || <Loader styles={{
-            size: 5, width: 20, height: 20, marginLeft: 10,
-          }} />
-          }
+          <span>
+            {
+              popsCount
+              || <Loader
+                styles={{
+                  size: 5, width: 20, height: 20, marginLeft: 10,
+                }}
+              />
+            }
+            Pops
+          </span>
         </div>
         {/* <Typography variant='subtitle1'>Pops: {popsCount}</Typography> */}
       </div>

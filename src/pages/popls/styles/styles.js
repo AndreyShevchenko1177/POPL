@@ -33,7 +33,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,
-    boxShadow: theme.custom.mainBoxShadow,
+    // boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
   },
   filtersContainer: {

@@ -23,7 +23,8 @@ export default makeStyles((theme) => ({
   },
   buttonWrapper: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
+    paddingTop: 20,
     paddingBottom: 20,
   },
   addIcon: {

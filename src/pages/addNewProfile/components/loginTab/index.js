@@ -44,11 +44,11 @@ function LoginTab() {
   return (
     <div>
       <Grid className={classes.loginInputsContainer} container spacing={3}>
-        <Grid className={classes.loginInput} item xs={9}>
+        <Grid className={classes.loginInput} item xs={4}>
           <TextField
             type="number"
             autoComplete="off"
-            label="enter the number of profiles you’d like to create below"
+            helperText="enter the number of profiles you’d like to create below" // you’d like to create below
             name="profilesNumber"
             fullWidth
             autoFocus
