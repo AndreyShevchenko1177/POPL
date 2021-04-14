@@ -49,3 +49,41 @@ export const selectConfig = [
     checked: false,
   },
 ];
+
+export const sortConfig = [
+  // {
+  //   id: 1,
+  //   active: false,
+  //   label: "set default sort",
+  //   name: "defaultSort",
+  //   type: "button",
+  // },
+  {
+    id: 2,
+    active: false,
+    label: "number of connections",
+    name: "connectionNumber",
+    type: "button",
+  },
+  {
+    id: 3,
+    active: false,
+    label: "number of pops",
+    name: "popsNumber",
+    type: "button",
+  },
+  {
+    id: 4,
+    active: false,
+    label: "number of link taps",
+    name: "linkTapsNumber",
+    type: "button",
+  },
+  {
+    id: 5,
+    active: false,
+    label: "number of popls",
+    name: "poplsNumber",
+    type: "button",
+  },
+];

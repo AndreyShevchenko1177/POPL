@@ -13,7 +13,7 @@ import ProfileCard from "./components/profileCard";
 import SearchStripe from "../../components/searchStripe";
 import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
-import { selectConfig } from "./selectConfig";
+import { selectConfig, sortConfig } from "./selectConfig";
 import CustomWizard from "../../components/wizard";
 import { snackBarAction } from "../../store/actions";
 
@@ -24,14 +24,19 @@ export default function Profiles() {
   const profilesData = useSelector(
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
+  const { profileConnection, poplsConnection, popsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const [searchValue, setSearchValue] = useState("");
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
-  const [openProfileSelect, setOpenProfileSelect] = useState({ open: false, component: "" });
+  const [openProfileSelect, setOpenProfileSelect] = useState({
+    action: { open: false, component: "" },
+    sort: { open: false, component: "" },
+  });
   const [selectCheckboxes, setSelectCheckboxes] = useState(selectConfig);
+  const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [wizard, setWizard] = useState({ open: false, data: [] });
 
   function handleOpenNewProfilePage() {
@@ -91,20 +96,20 @@ export default function Profiles() {
     });
   };
 
-  const arrowHandler = (value) => {
-    if (openProfileSelect.component === "select") {
-      return setOpenProfileSelect({ open: false, component: "" });
-    }
-    setOpenProfileSelect({ open: value, component: "searchStripe" });
+  const arrowHandler = (value, name) => {
+    // if (openProfileSelect[name].component === "select") {
+    //   return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    // }
+    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: value, component: "searchStripe" } });
   };
 
   const selectCheck = (event, name) => {
     setSelectCheckboxes((prevSelect) => prevSelect.map((el) => (el.name === name ? ({ ...el, checked: event.target.checked }) : el)));
   };
 
-  const selectBtn = (name, profileIds) => {
+  const selectBtn = (name, profileIds, selectName) => {
     if (Object.values(checkboxes).map((el) => el.checked).includes(true)) {
-      setOpenProfileSelect({ open: false, component: "listItem" });
+      setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
       if (name === "addLink") {
         const filterProfiles = profiles.filter((el) => checkboxes[el.customId].checked);
         return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
@@ -136,6 +141,26 @@ export default function Profiles() {
       }));
     }
   };
+
+  const sortHandler = (name, _, selectName) => {
+    if (!Object.keys(profileConnection).length) return;
+    setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
+    setProfiles((prevProfiles) => {
+      const sortProfiles = [...prevProfiles].sort((a, b) => b[name] - a[name]);
+      return sortProfiles;
+    });
+    setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
+  };
+
+  useEffect(() => {
+    setProfiles((prevProfile) => prevProfile.map((prof) => ({
+      ...prof,
+      connectionNumber: profileConnection[prof.id],
+      poplsNumber: poplsConnection[prof.id],
+      popsNumber: popsConnection[prof.id],
+      linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
+    })));
+  }, [poplsConnection]);
 
   useEffect(() => {
     dispatch(getProfilesDataAction(userData.id));
@@ -173,11 +198,12 @@ export default function Profiles() {
       <Header
         rootLink="Profiles"
       />
-      <div className={clsx("main-padding relative", "full-h", "o-none", classes.mainPageWrapper)}>
+      <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
           <SearchStripe
             showAll={false}
+            isShowSortBtn
             handleOpen={handleOpenNewProfilePage}
             btn_title="Add Profile"
             handleCheck={handleCheck}
@@ -192,6 +218,8 @@ export default function Profiles() {
               selectCheck,
               selectBtn,
               config: selectCheckboxes,
+              sortConfig: sortingConfig,
+              sortHandler,
             }}
             reverse
           />

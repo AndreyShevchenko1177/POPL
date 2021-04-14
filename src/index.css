@@ -43,6 +43,10 @@ p {
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
 /* display */
 .flex {
   display: flex;

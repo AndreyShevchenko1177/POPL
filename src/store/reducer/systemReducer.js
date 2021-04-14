@@ -14,6 +14,7 @@ const initialState = {
     result: {},
     profileConnection: {},
     poplsConnection: {},
+    popsConnection: {},
   },
   tierLevelInfo: {
     count: null,

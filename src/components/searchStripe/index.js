@@ -5,7 +5,6 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import clsx from "clsx";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
 import Filters from "../filters";
@@ -25,6 +24,7 @@ function SearchStripe({
   isFetching,
   showCRM,
   showAll = true,
+  isShowSortBtn,
   checkboxes = {},
 }) {
   const classes = useStyles();
@@ -45,9 +45,10 @@ function SearchStripe({
           onClick={() => arrowHandler(true)}
         /> */}
         {!disabled && <CustomSelect
+          selectName='action'
           checkProfiles={Object.values(checkboxes).filter(({ checked }) => checked).map(({ id }) => id)}
           config={selectObject.config}
-          isOpen={selectObject.openProfileSelect.open}
+          isOpen={selectObject.openProfileSelect.action.open}
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
@@ -58,10 +59,31 @@ function SearchStripe({
           classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
           endIcon={<KeyboardArrowDownIcon />}
           disabled={!Object.values(checkboxes).some((el) => el.checked)}
-          onClick={() => arrowHandler(true)}
+          onClick={() => arrowHandler(true, "action")}
         >
           {"Actions"}
         </Button>
+      </div>}
+
+      {isShowSortBtn && <div className='relative'>
+        <div className={classes.buttonWrapper}>
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+            endIcon={<KeyboardArrowDownIcon />}
+            onClick={() => arrowHandler(true, "sort")}
+          >
+            {"Sort"}
+          </Button>
+          {!disabled && <CustomSelect
+            selectName='sort'
+            checkProfiles={Object.values(checkboxes).filter(({ checked }) => checked).map(({ id }) => id)}
+            config={selectObject.sortConfig}
+            isOpen={selectObject.openProfileSelect.sort.open}
+            events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.sortHandler }}
+          />}
+        </div>
       </div>}
       <Filters
         isFetching={isFetching}

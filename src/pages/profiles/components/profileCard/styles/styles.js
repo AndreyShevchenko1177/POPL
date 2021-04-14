@@ -78,12 +78,19 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   section1_avatar: {
+    // position: "relative",
     width: "200px",
     margin: "0 20px",
     display: "flex",
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
+  },
+  checkboxWrapper: {
+    position: "absolute",
+    // bottom: "-30px",
+    top: 70,
+    left: 10,
   },
   wrapper: {
     display: "flex",
@@ -116,6 +123,7 @@ export default makeStyles((theme) => ({
     fontSize: 18,
   },
   section4: {
+    position: "relative",
     width: "100%",
     display: "flex",
     paddingRight: "10px",
@@ -140,6 +148,7 @@ export default makeStyles((theme) => ({
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
   linkClicksWrapper: {
+    width: 40,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -166,8 +175,17 @@ export default makeStyles((theme) => ({
     //   width: 40,
     // },
   },
+  tapsHeading: {
+    position: "absolute",
+    left: "-40px",
+    bottom: 14,
+    fontWeight: "bold !important",
+  },
   clicksText: {
     paddingTop: 10,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     fontFamily: "AvenirNextCyr, san-serif, arial",
     "@media (max-width:1450px)": {
       fontSize: "12px",

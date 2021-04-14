@@ -1,15 +1,12 @@
 import axios from "axios";
 
 export function downloadContacts(path, fileName) {
-  axios({
-    url: path,
-    method: "GET",
+  console.log(path);
+  axios.get("", {
     responseType: "blob",
-    headers: {
-      "Content-Type": "application/pdf",
-    },
   })
     .then((blob) => {
+      console.log(blob);
       // Create blob link to download
       const url = window.URL.createObjectURL(
         new Blob([blob]),

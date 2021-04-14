@@ -89,17 +89,21 @@ export default function Card({
                     : userIcon
                 }
                 name={name}
-                styles={{ width: "100px", height: "60px", borderRadius: "10px" }}
+                styles={{
+                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: "46px",
+                }}
               />
-              <Checkbox
-                color="primary"
-                inputProps={{ "aria-label": "primary checkbox" }}
-                onClick={profilesCheck}
-                name={customId}
-                style={{ padding: "8px" }}
-                classes={{ root: "custom-checkbox-root" }}
-                checked={checkboxes[customId]?.checked || false}
-              />
+              <div className={classes.checkboxWrapper}>
+                <Checkbox
+                  color="primary"
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                  onClick={profilesCheck}
+                  name={customId}
+                  style={{ padding: "8px" }}
+                  classes={{ root: "custom-checkbox-root" }}
+                  checked={checkboxes[customId]?.checked || false}
+                />
+              </div>
             </div>
             <div className='full-w'>
               <div className={clsx(classes.section1_title, "target-element")}>
@@ -120,6 +124,7 @@ export default function Card({
                 data={personalMode.direct ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8) : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)}
                 style={classes.linkImage}
               />
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.tapsHeading }}>Taps</Typography>
             </div>
             <div className={clsx(classes.section6, "target-element")}>
               <Button
