@@ -29,7 +29,8 @@ export default function Main({ children, stripe }) {
         style={{
           flexGrow: 1,
           backgroundColor: "#ffffff",
-          overflow: location.pathname === "/connections" ? "hidden" : "",
+          overflow: "auto",
+          maxWidth: "calc(100vw - 320px)",
         }}
       >
         {children}

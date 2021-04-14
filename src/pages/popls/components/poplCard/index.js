@@ -37,22 +37,20 @@ function PoplCard({
         <img className={classes.avatar} alt="logo" src={userIcon} />
       </div>
       <div className={classes.contenContainer}>
-        <table>
-          <tbody className={classes.cardTable}>
-            <tr>
-              <td className={classes.tableCell}>Profile Owner:</td>
-              <td className={classes.tableCellValue}>{popl.profileOwner}</td>
-            </tr>
-            <tr>
-              <td className={classes.tableCell}>Nickname:</td>
-              <td className={classes.tableCellValue}>{popl.nickname}</td>
-            </tr>
-            <tr>
-              <td className={classes.tableCell}>Activated:</td>
-              <td>{dateFormat(popl.activationDate, "withTime")}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className={classes.cardTable}>
+          <div className={classes.tableRow}>
+            <div className={classes.tableCell}>Profile Owner:</div>
+            <div className={classes.tableCell}>{popl.profileOwner}</div>
+          </div>
+          <div className={classes.tableRow}>
+            <div className={classes.tableCell}>Nickname:</div>
+            <div className={classes.tableCell}>{popl.nickname}</div>
+          </div>
+          <div className={classes.tableRow}>
+            <div className={classes.tableCell}>Activated:</div>
+            <div className={classes.tableCell}>{dateFormat(popl.activationDate, "withTime")}</div>
+          </div>
+        </div>
       </div>
       <div className={classes.poplPagePoplCardButtonsContainer}>
         <Button

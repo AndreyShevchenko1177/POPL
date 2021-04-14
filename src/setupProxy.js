@@ -19,4 +19,13 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+  app.use(
+    "/addtocontacts",
+    createProxyMiddleware({
+      target: "https://poplme.co",
+      pathRewrite: { "^/addtocontacts": "/" },
+      headers: { "X-Forwarded-Prefix": "/" },
+      changeOrigin: true,
+    }),
+  );
 };

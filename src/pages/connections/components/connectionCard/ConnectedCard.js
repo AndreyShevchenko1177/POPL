@@ -42,13 +42,10 @@ export function ConnectedCard({
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>
         <div className={classes.contenContainer}>
+          <Typography variant="h5">{name}</Typography>
           <div className={classes.cardTable}>
             <div className={classes.tableRow}>
-              <div className={classes.tableCell}>Name:</div>
-              <div className={classes.tableCell}>{name}</div>
-            </div>
-            <div className={classes.tableRow}>
-              <div className={classes.tableCell}>First Connected Date:</div>
+              <div className={classes.tableCell}>First Connected:</div>
               <div className={classes.tableCell}>{formatDateConnections(time)}</div>
             </div>
             <div className={classes.tableRow}>
@@ -76,7 +73,7 @@ export function ConnectedCard({
                 <Tooltip key={key} title={formatDateConnections(el.connected) || ""} placement="top">
                   <Paper className={classes.nameItem}>
                     {/* {console.log(el)} */}
-                    <img alt='userIcon' className={classes.nameItemImage} src={process.env.REACT_APP_BASE_IMAGE_URL + el.image}/>
+                    <img alt='userIcon' className={classes.nameItemImage} src={el.image ? process.env.REACT_APP_BASE_IMAGE_URL + el.image : userIcon} />
                     <p className={classes.nameItemName} > {el.name}</p>
                   </Paper>
                 </Tooltip>

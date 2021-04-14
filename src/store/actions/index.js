@@ -8,7 +8,7 @@ import { profileIds, getProfileAction } from "../../pages/profiles/store/actions
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
-import { uniqueObjectsInArray, filterPops, getId } from "../../utils";
+import { uniqueObjectsInArray, formatDateConnections, getId } from "../../utils";
 
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
@@ -59,6 +59,10 @@ export const profilesInfo = (profiles) => async (dispatch) => {
     pops.forEach((item) => popsConnection[item.config.data.get("pid")] = item.data.length);
     connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
     result.connections = uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length;
+    result.latestConnections = uniqueObjectsInArray(connections
+      .reduce((acc, item) => ([...acc, ...item.data])
+        .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
+      .slice(0, 10);
 
     dispatch({
       type: PROFILE_INFO_FOR_SIDE_BAR,

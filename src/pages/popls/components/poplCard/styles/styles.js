@@ -22,15 +22,21 @@ export default makeStyles((theme) => ({
     padding: "20px",
   },
   cardTable: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 10,
     fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     color: "#565956",
+    "& a": {
+      textDecoration: "underline",
+    },
+  },
+  tableRow: {
+    display: "flex",
   },
   tableCell: {
-    minWidth: "120px",
-  },
-  tableCellValue: {
-    width: "70px",
+    width: "180px",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",

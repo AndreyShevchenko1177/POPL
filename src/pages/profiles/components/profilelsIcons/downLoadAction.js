@@ -6,11 +6,7 @@ export function downLoadFile(path, fileName) {
     url: path,
     method: "GET",
     responseType: "blob",
-    headers: {
-      "Content-Type": "application/pdf",
-    },
   })
-    // .then((response) => response.blob())
     .then((blob) => {
       // Create blob link to download
       const url = window.URL.createObjectURL(
@@ -20,7 +16,7 @@ export function downLoadFile(path, fileName) {
       link.href = url;
       link.setAttribute(
         "download",
-        `${fileName}.pdf`,
+        `${fileName}`,
       );
 
       // Append to html link element page

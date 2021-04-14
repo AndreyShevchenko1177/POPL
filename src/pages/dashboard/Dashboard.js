@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Paper, Typography, Button } from "@material-ui/core";
-import PoplCard from "./components/PoplCard";
+import {
+  Paper, Typography, Button, Tooltip,
+} from "@material-ui/core";
+import ConnectionCard from "./components/ConnectionCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../overallAnalytics/store/actions";
 import { generateLineChartData } from "../../utils";
+import Loader from "../../components/Loader";
 
 export default function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const { latestConnections } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar.result);
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
@@ -34,6 +39,8 @@ export default function Dashboard() {
       setChartData(popsData);
     }
   }, [popsData]);
+
+  console.log(latestConnections);
 
   return (
     <div className="main-padding">
@@ -56,12 +63,18 @@ export default function Dashboard() {
         <Chart data={chartData} />
       </Paper>
       <div className={classes.latestPoplsContainer}>
-        <Typography variant="h5">Latest popls</Typography>
+        <Typography variant="h5">Latest connections</Typography>
       </div>
       <div className={classes.container}>
-        <div className={classes.popl_container}>
-          <PoplCard name="Popl1" />
-        </div>
+        {latestConnections
+          ? latestConnections.map((connection) => (
+            <div key={connection.id} className={classes.connections_container}>
+              <ConnectionCard {...connection} />
+            </div>
+          ))
+          : <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
+        }
+        <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>
       </div>
     </div>
   );

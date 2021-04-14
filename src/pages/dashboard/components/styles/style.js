@@ -33,6 +33,7 @@ export default makeStyles((theme) => ({
   },
   header_body: {
     padding: "10px",
+    height: 40,
   },
   footer: {
     padding: "20px 10px",
@@ -59,5 +60,13 @@ export default makeStyles((theme) => ({
     top: "40%",
     left: "40%",
     fontWeight: "500",
+  },
+  avatar: {
+    width: "240px",
+    height: "140px",
+    borderRadius: "10px",
+  },
+  connectionNameText: {
+    fontWeight: "bold !important",
   },
 }));

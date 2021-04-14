@@ -2,12 +2,14 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
+    position: "relative",
     display: "flex",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
+    overflowY: "auto",
+    minHeight: 260,
+    alignItems: "center",
   },
-  popl_container: {
-    padding: "20px 0px",
+  connections_container: {
+    padding: "20px 20px 20px 20px",
   },
   chart_container: {
     padding: "10px",
@@ -34,5 +36,9 @@ export default makeStyles((theme) => ({
   },
   latestPoplsContainer: {
     padding: "20px 0 0 0",
+  },
+  showMoreIcon: {
+    fontSize: 50,
+    cursor: "pointer",
   },
 }));
