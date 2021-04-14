@@ -75,7 +75,7 @@ function PoplCard({
                 }}
               />
             }
-            Pops
+            <span style={{ marginLeft: 5 }}>Pops</span>
           </span>
         </div>
         {/* <Typography variant='subtitle1'>Pops: {popsCount}</Typography> */}
