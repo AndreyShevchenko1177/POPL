@@ -5,6 +5,7 @@ import {
   Grid,
   Button,
   TextField,
+  Typography,
 } from "@material-ui/core";
 // import { addChildProfileAction, signInChildAction, clearStateAction } from "../../store/actions";
 // import { clearStateAction as clearProfilesState } from "../../../profiles/store/actions";
@@ -44,11 +45,16 @@ function LoginTab() {
   return (
     <div>
       <Grid className={classes.loginInputsContainer} container spacing={3}>
-        <Grid className={classes.loginInput} item xs={4}>
+        {/* <Grid item xs={5}> */}
+        <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>enter the number of profiles you’d like to create below:</Typography>
+        {/* </Grid> */}
+        <Grid className={classes.loginInput} item xs={2}>
           <TextField
             type="number"
+            variant='outlined'
+            size='small'
             autoComplete="off"
-            helperText="enter the number of profiles you’d like to create below" // you’d like to create below
+            // helperText="enter the number of profiles you’d like to create below" // you’d like to create below
             name="profilesNumber"
             fullWidth
             autoFocus

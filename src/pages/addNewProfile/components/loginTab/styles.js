@@ -11,4 +11,8 @@ export default makeStyles((theme) => ({
   passwordInputIconbutton: {
     padding: "0 0 0 5px",
   },
+  inputHeading: {
+    fontWeight: "bold !important",
+    paddingTop: 20,
+  },
 }));

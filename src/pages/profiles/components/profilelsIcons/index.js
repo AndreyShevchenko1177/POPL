@@ -2,6 +2,7 @@ import React from "react";
 import icons from "./icons";
 import useStyles from "../profileCard/styles/styles";
 import { downLoadFile } from "./downLoadAction";
+import { downloadContacts } from "./downLoadContacts";
 
 export default function SocialPoplsIcons({
   style, data, handleClick, profileId,
@@ -10,8 +11,10 @@ export default function SocialPoplsIcons({
 
   const linkRedirect = (path, linkId, value) => {
     try {
-      if (linkId !== 37) return window.open(path);
-      downLoadFile(path, value);
+      if (linkId === 37) return downLoadFile(path, value);
+      if (linkId === 22) return downloadContacts(path, value);
+      // if (linkId === 22) return;
+      return window.open(path);
     } catch (error) {
       console.log(error);
     }

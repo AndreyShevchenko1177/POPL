@@ -8,6 +8,7 @@ import { getId } from "../../utils/uniqueId";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
+import { uniqueObjectsInArray } from "../../utils";
 
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
@@ -47,16 +48,15 @@ export const profilesInfo = (profiles) => async (dispatch) => {
   try {
     let result = {};
     result.totalProfiles = `${profiles.length}`;
-    // const data = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
     const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
     result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
-    // result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
     const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
     const profileConnection = {};
     const poplsConnection = {};
     popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
-    connections.forEach((item) => profileConnection[item.docId] = item.data.length);
-    result.connections = connections.reduce((sum, cur) => sum += cur.data.length, 0);
+    connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
+    result.connections = uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length;
+
     dispatch({
       type: PROFILE_INFO_FOR_SIDE_BAR,
       payload: { result, profileConnection, poplsConnection },

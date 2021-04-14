@@ -48,7 +48,7 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
       con.customId = Number(getId(12, "1234567890"));
     });
 
-    filteredConnections.sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time)));
+    filteredConnections.sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time)));
 
     Object.values(idsObject).forEach((connections) => {
       connections.forEach((con) => {

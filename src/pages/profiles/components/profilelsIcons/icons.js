@@ -145,7 +145,7 @@ const icons = {
     icon: ContactCard,
     text: "Contact Card",
     placeholder: "Phone number",
-    path: "https://poplme.co/addtocontacts/",
+    path: "addtocontacts/",
   },
   23: {
     icon: Custom,
