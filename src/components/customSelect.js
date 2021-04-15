@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 55,
     left: 30,
-    minWidth: 175,
+    minWidth: 150,
     minHeight: 175,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderRadius,
@@ -69,7 +69,10 @@ function CustomSelect({
 
   const onBlurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
-    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }));
+    if (event.relatedTarget?.name === selectName) {
+      return;
+    }
+    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false } }));
   };
 
   useEffect(() => {

@@ -97,10 +97,7 @@ export default function Profiles() {
   };
 
   const arrowHandler = (value, name) => {
-    // if (openProfileSelect[name].component === "select") {
-    //   return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
-    // }
-    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: value, component: "searchStripe" } });
+    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
   };
 
   const selectCheck = (event, name) => {

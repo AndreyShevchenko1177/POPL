@@ -175,3 +175,9 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.gif {
+  background-image: url("./assets/circle_grow.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+}

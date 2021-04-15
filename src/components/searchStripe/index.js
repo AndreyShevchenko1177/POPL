@@ -60,6 +60,7 @@ function SearchStripe({
           endIcon={<KeyboardArrowDownIcon />}
           disabled={!Object.values(checkboxes).some((el) => el.checked)}
           onClick={() => arrowHandler(true, "action")}
+          name='action'
         >
           {"Actions"}
         </Button>
@@ -73,8 +74,9 @@ function SearchStripe({
             classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
             endIcon={<KeyboardArrowDownIcon />}
             onClick={() => arrowHandler(true, "sort")}
+            name='sort'
           >
-            {"Sort"}
+            {"Sort by"}
           </Button>
           {!disabled && <CustomSelect
             selectName='sort'
@@ -112,7 +114,7 @@ function SearchStripe({
           Export to CRM
         </Button>
       </div>}
-      <Paper component="form" className={classes.root} elevation={3}>
+      <Paper component="form" className={classes.root} elevation={3} style={{ width: btn_title === "Add Profile" ? 340 : "100%" }}>
         <InputBase
           fullWidth
           onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
