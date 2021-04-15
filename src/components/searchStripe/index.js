@@ -2,6 +2,7 @@ import React from "react";
 import {
   Paper, InputBase, Checkbox, Button,
 } from "@material-ui/core";
+import clsx from "clsx";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -71,6 +72,7 @@ function SearchStripe({
           <Button
             variant="contained"
             color="primary"
+            style={{ whiteSpace: "nowrap" }}
             classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
             endIcon={<KeyboardArrowDownIcon />}
             onClick={() => arrowHandler(true, "sort")}
@@ -114,7 +116,7 @@ function SearchStripe({
           Export to CRM
         </Button>
       </div>}
-      <Paper component="form" className={classes.root} elevation={3} style={{ width: btn_title === "Add Profile" ? 340 : "100%" }}>
+      <Paper component="form" className={classes.root} elevation={3}>
         <InputBase
           fullWidth
           onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
