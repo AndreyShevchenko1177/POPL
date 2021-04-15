@@ -9,11 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Collapse,
   Typography,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";

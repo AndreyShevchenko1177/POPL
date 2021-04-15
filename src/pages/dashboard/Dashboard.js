@@ -74,7 +74,7 @@ export default function Dashboard() {
           ))
           : <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         }
-        <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>
+        {latestConnections && <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>}
       </div>
     </div>
   );

@@ -36,6 +36,7 @@ export default makeStyles((theme) => ({
   },
   titleText: {
     color: "#808080",
+    marginLeft: 5,
   },
   topStatisticsItemValue: {
     fontSize: "2.5rem",

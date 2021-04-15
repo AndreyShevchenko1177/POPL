@@ -5,8 +5,9 @@ import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
 
 function StatisticItem({
-  title, value, count, isFetched,
+  title, value, count, isFetched, icon,
 }) {
+  console.log(icon);
   const classes = useStyles();
   return (
     <div className={classes.topStatisticsItemContainer}>
@@ -15,7 +16,7 @@ function StatisticItem({
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>
           <div className={classes.topStatisticsItemTitle}>
-            <AvTimerIcon className={classes.icon} />
+            {icon}
             <Typography variant="h6" className={classes.titleText}>
               {title}
             </Typography>
