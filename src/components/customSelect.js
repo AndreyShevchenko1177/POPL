@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Checkbox, makeStyles, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  actioncontainer: {
+  actionContainer: {
     position: "absolute",
     top: 80,
     left: 72,
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       left: 87,
     },
   },
-  sortcontainer: {
+  sortContainer: {
     position: "absolute",
     top: 55,
     left: 30,
@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  actionitemsWrapper: {
+  actionItemsWrapper: {
     width: "85%",
   },
-  sortitemsWrapper: {
+  sortItemsWrapper: {
     width: "100%",
   },
   itemContainer: {
@@ -59,6 +59,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.specifyText,
     fontFamily: theme.typography.fontFamily,
   },
+  actionBtn: {
+    padding: "6px 8px",
+  },
+  sortBtn: {
+    padding: "6px 16px",
+  },
 }));
 
 function CustomSelect({
@@ -69,10 +75,8 @@ function CustomSelect({
 
   const onBlurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
-    if (event.relatedTarget?.name === selectName) {
-      return;
-    }
-    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: 'select' } }));
+    if (event.relatedTarget?.name === selectName) return;
+    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }));
   };
 
   useEffect(() => {
@@ -81,9 +85,9 @@ function CustomSelect({
 
   return (
     <>
-      {isOpen && <div ref={ref} tabIndex={1} onBlur={onBlurHandler} className={classes[`${selectName}container`]}>
+      {isOpen && <div ref={ref} tabIndex={1} onBlur={onBlurHandler} className={classes[`${selectName}Container`]}>
         <div className={classes.wrapper}>
-          <div className={classes[`${selectName}itemsWrapper`]} >
+          <div className={classes[`${selectName}ItemsWrapper`]} >
             {config.map(({
               id, label, type, name, checked, active,
             }) => {
@@ -104,7 +108,7 @@ function CustomSelect({
               } if (type === "button") {
                 return (
                   <div key={id} className={clsx(classes.itemContainer, { [classes.activeItemContainer]: active })}>
-                    <Button name={name} color="primary" onClick={() => events.btnHandler(name, checkProfiles, selectName)}>
+                    <Button className={classes[`${selectName}Btn`]} name={name} color="primary" onClick={() => events.btnHandler(name, checkProfiles, selectName)}>
                       {label}
                     </Button>
                   </div>
@@ -112,7 +116,7 @@ function CustomSelect({
               }
               return (
                 <div>
-                          data
+                  data
                 </div>
               );
             })}

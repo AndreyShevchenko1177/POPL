@@ -1,13 +1,11 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import AvTimerIcon from "@material-ui/icons/AvTimer";
 import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
 
 function StatisticItem({
   title, value, count, isFetched, icon,
 }) {
-  console.log(icon);
   const classes = useStyles();
   return (
     <div className={classes.topStatisticsItemContainer}>
