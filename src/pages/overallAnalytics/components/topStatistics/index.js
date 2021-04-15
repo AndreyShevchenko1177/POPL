@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StatisticItem from "./statisticItem";
 import useStyles from "./styles/styles";
-import initialState from "./initialState";
+import initialState from "./iconsConfig";
 
 function TopStatistics(props) {
   const classes = useStyles();

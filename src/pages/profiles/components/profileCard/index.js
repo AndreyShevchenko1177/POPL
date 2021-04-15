@@ -9,10 +9,9 @@ import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
-import { imagesExtensions } from "../../../../constants";
+import { imagesExtensions, isSafari } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
-import { isSafari } from '../../../../constants';
 
 export default function Card({
   handleClickPoplItem,
@@ -95,7 +94,7 @@ export default function Card({
                 }}
               />
               <div className={clsx(classes.checkboxWrapper, {
-                'mt-10': isSafari
+                "mt-10": isSafari,
               })}>
                 <Checkbox
                   color="primary"
@@ -120,7 +119,7 @@ export default function Card({
             </div>
           </div>
           <div className={clsx(classes.wrapper, {
-            'mt-25': isSafari
+            "mt-25": isSafari,
           })}>
             <div className={clsx(classes.section4, "target-element")}>
               <SocialPoplsIcons

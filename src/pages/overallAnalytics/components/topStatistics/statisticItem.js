@@ -21,7 +21,7 @@ function StatisticItem({
           </div>
           <div
             className={classes.topStatisticsItemValue}
-            style={{ textAlign: value ? "start" : "center" }}
+            style={{ textAlign: "center" }}
           >
             {value || "-"}
           </div>

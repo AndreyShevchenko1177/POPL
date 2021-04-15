@@ -8,6 +8,13 @@ export default makeStyles((theme) => ({
     minHeight: 260,
     alignItems: "center",
   },
+  headingWrapper: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 10,
+  },
   connections_container: {
     padding: "20px 20px 20px 20px",
   },

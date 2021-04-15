@@ -99,7 +99,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     minWidth: "700px",
     height: "85px",
-    padding: "0 30px 0 60px",
+    padding: "0 30px 0 65px",
   },
   section2: {
     width: "100%",
@@ -177,8 +177,8 @@ export default makeStyles((theme) => ({
   },
   tapsHeading: {
     position: "absolute",
-    left: "-40px",
-    bottom: 14,
+    right: "130px",
+    bottom: "12px",
     fontWeight: "bold !important",
   },
   clicksText: {

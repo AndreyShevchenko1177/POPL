@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 55,
     left: 30,
-    minWidth: 150,
+    minWidth: 120,
     minHeight: 175,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderRadius,

@@ -9,6 +9,7 @@ const initialState = [
     value: " ",
     percentage: "2%",
     isTop: false,
+    icon: <img style={{ width: "20px", height: "20px" }} alt='popl' src={poplIcon} />,
   },
   {
     id: "linkTaps",
@@ -40,7 +41,7 @@ const initialState = [
     value: " ",
     percentage: "6%",
     isTop: true,
-    icon: <img style={{ width: "20px", height: "20px" }} alt='popl' src={poplIcon} />,
+    icon: <SvgMaker name='database' width={25} height={25} fill="#7d8286" />,
   },
 ];
 

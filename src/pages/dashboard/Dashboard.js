@@ -44,17 +44,19 @@ export default function Dashboard() {
 
   return (
     <div className="main-padding">
-      <Typography variant="h3">Welcome {userData.name}</Typography>
-      <div className={classes.buttonWrapper}>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          startIcon={<AddIcon />}
-          onClick={handleOpen}
-        >
+      <div className={classes.headingWrapper}>
+        <Typography variant="h3">Welcome {userData.name}</Typography>
+        <div className={classes.buttonWrapper}>
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            startIcon={<AddIcon />}
+            onClick={handleOpen}
+          >
           Add profile
-        </Button>
+          </Button>
+        </div>
       </div>
       <Paper className={classes.chart_container}>
         <Typography style={{ paddingBottom: 40 }} className="pb-10" variant="h5">
