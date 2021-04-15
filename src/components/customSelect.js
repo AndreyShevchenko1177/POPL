@@ -72,7 +72,7 @@ function CustomSelect({
     if (event.relatedTarget?.name === selectName) {
       return;
     }
-    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false } }));
+    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: 'select' } }));
   };
 
   useEffect(() => {

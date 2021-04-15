@@ -12,6 +12,7 @@ import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
+import { isSafari } from '../../../../constants';
 
 export default function Card({
   handleClickPoplItem,
@@ -93,7 +94,9 @@ export default function Card({
                   width: "100px", height: "60px", borderRadius: "10px", marginLeft: "46px",
                 }}
               />
-              <div className={classes.checkboxWrapper}>
+              <div className={clsx(classes.checkboxWrapper, {
+                'mt-10': isSafari
+              })}>
                 <Checkbox
                   color="primary"
                   inputProps={{ "aria-label": "primary checkbox" }}
@@ -116,7 +119,9 @@ export default function Card({
               </div>
             </div>
           </div>
-          <div className={classes.wrapper}>
+          <div className={clsx(classes.wrapper, {
+            'mt-25': isSafari
+          })}>
             <div className={clsx(classes.section4, "target-element")}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}

@@ -80,6 +80,15 @@ p {
   margin-bottom: 10px;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-25 {
+  margin-top: 25px
+}
+
+
 /* width */
 .full-w {
   width: 100%;
@@ -174,10 +183,4 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
-}
-
-.gif {
-  background-image: url("./assets/circle_grow.gif");
-  background-repeat: no-repeat;
-  background-size: cover;
 }

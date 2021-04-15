@@ -16,6 +16,7 @@ import Loader from "../../components/Loader";
 import { selectConfig, sortConfig } from "./selectConfig";
 import CustomWizard from "../../components/wizard";
 import { snackBarAction } from "../../store/actions";
+import { isSafari } from "../../constants";
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -97,6 +98,9 @@ export default function Profiles() {
   };
 
   const arrowHandler = (value, name) => {
+    if (openProfileSelect[name].component === "select" && isSafari) {
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    }
     setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
   };
 
