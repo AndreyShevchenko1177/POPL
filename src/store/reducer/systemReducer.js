@@ -1,5 +1,5 @@
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION,
 } from "../actionTypes";
 
 const initialState = {
@@ -21,6 +21,7 @@ const initialState = {
     subscriptionName: null,
     maxProfiles: null,
   },
+  isFetching: false,
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -29,6 +30,7 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       profileData: payload,
+      isFetching: false,
     };
   }
   case ALERT: {
@@ -41,6 +43,7 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       profileInfoSideBar: payload,
+      isFetching: false,
     };
   }
   case PROFILE_COUNT_TIER_LEVEL: {
@@ -50,6 +53,7 @@ export default function systemReducer(state = initialState, { type, payload }) {
         ...state.tierLevelInfo,
         count: payload,
       },
+      isFetching: false,
     };
   }
   case SUBSCRIPTION_INFO: {
@@ -59,6 +63,13 @@ export default function systemReducer(state = initialState, { type, payload }) {
         ...state.tierLevelInfo,
         ...payload,
       },
+      isFetching: false,
+    };
+  }
+  case FETCHING_ACTION: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   default:

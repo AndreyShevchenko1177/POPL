@@ -10,6 +10,7 @@ import ConnectionCard from "./components/ConnectionCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "../overallAnalytics/store/actions";
+import { getProfileInfoRequest } from "../../store/actions";
 import { generateLineChartData } from "../../utils";
 import Loader from "../../components/Loader";
 
@@ -22,6 +23,7 @@ export default function Dashboard() {
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
+  const { isFetching } = useSelector(({ systemReducer }) => systemReducer);
   const [chartData, setChartData] = useState();
 
   const handleOpen = () => {
@@ -30,6 +32,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!popsData) dispatch(getPopsAction());
+    dispatch(getProfileInfoRequest(userData.id));
   }, []);
 
   useEffect(() => {
@@ -39,8 +42,6 @@ export default function Dashboard() {
       setChartData(popsData);
     }
   }, [popsData]);
-
-  console.log(latestConnections);
 
   return (
     <div className="main-padding">
@@ -68,7 +69,7 @@ export default function Dashboard() {
         <Typography variant="h5">Latest connections</Typography>
       </div>
       <div className={classes.container}>
-        {latestConnections
+        {latestConnections && !isFetching
           ? latestConnections.map((connection) => (
             <div key={connection.id} className={classes.connections_container}>
               <ConnectionCard {...connection} />
@@ -76,7 +77,8 @@ export default function Dashboard() {
           ))
           : <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         }
-        {latestConnections && <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>}
+        {latestConnections?.length > 0 && !isFetching && <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>}
+        {latestConnections?.length === 0 && !isFetching && <div><b>You haven't any connections</b></div>}
       </div>
     </div>
   );

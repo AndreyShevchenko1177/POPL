@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     width: "300px",
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
+    cursor: "pointer",
   },
   container: {
     display: "flex",
@@ -68,5 +69,8 @@ export default makeStyles((theme) => ({
   },
   connectionNameText: {
     fontWeight: "bold !important",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 }));

@@ -1,8 +1,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
-import axios from "axios";
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION,
 } from "../actionTypes";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -20,23 +19,34 @@ export const snackBarAction = (payload) => ({
   payload,
 });
 
-export const getProfileInfoRequest = (userId) => async (dispatch) => {
-  const myProfile = await getProfileAction(userId);
-  const response = await profileIds(userId);
-  if (response.data && response.data !== "null") {
-    const idsArray = JSON.parse(response.data);
-    const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
-      ...p,
-      customId: getId(12),
-      business: p.business,
-      social: p.social,
-    }));
-    return dispatch(profilesInfo(profiles, userId));
+export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch(fetchingAction(true));
+    const profilesData = getState().profilesReducer.dataProfiles.data;
+    let profiles;
+    if (!profilesData) {
+      const myProfile = await getProfileAction(userId);
+      const response = await profileIds(userId);
+      let idsArray;
+      profiles = [{ ...myProfile.data, id: myProfile.id, customId: getId(12) }];
+      if (response.data && response.data !== "null") {
+        idsArray = JSON.parse(response.data);
+        const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
+        profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
+          ...p,
+          customId: getId(12),
+          business: p.business,
+          social: p.social,
+        }));
+      }
+    } else {
+      profiles = profilesData;
+    }
+
+    return dispatch(profilesInfoAction(profiles));
+  } catch (error) {
+    console.log(error);
   }
-  let correctProfile = { customId: getId(12), id: myProfile.id };
-  Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-  return dispatch(profilesInfo([correctProfile], userId));
 };
 
 export const profileCountTierLevelAction = (number) => ({
@@ -44,8 +54,9 @@ export const profileCountTierLevelAction = (number) => ({
   payload: number,
 });
 
-export const profilesInfo = (profiles) => async (dispatch) => {
+export const profilesInfoAction = (profiles) => async (dispatch) => {
   try {
+    // dispatch(fetchingAction(true));
     let result = {};
     result.totalProfiles = `${profiles.length}`;
     const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
@@ -62,7 +73,11 @@ export const profilesInfo = (profiles) => async (dispatch) => {
     result.latestConnections = uniqueObjectsInArray(connections
       .reduce((acc, item) => ([...acc, ...item.data])
         .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
-      .slice(0, 10);
+      .slice(0, 10)
+      .map((con) => {
+        const parentProfile = profiles.find((profile) => profile.id === con.profileId);
+        return { ...con, parentProfileName: parentProfile?.name || "" };
+      });
 
     dispatch({
       type: PROFILE_INFO_FOR_SIDE_BAR,
@@ -83,57 +98,7 @@ export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => 
   },
 });
 
-// export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
-//   try {
-//     const { id } = getState().authReducer.signIn.data;
-//     let result;
-//       const response = await requests.popsActionRequest(userId);
-//       if (typeof response === "string") {
-//         dispatch(
-//           snackBarAction({
-//             message: "Download pops error",
-//             severity: "error",
-//             duration: 3000,
-//             open: true,
-//           }),
-//         );
-//         return dispatch({
-//           type: GET_POPS_FAIL,
-//           payload: "error",
-//         });
-//       }
-
-//       const poplPops = [];
-//       const qrCodePops = [];
-//       const walletPops = [];
-//       response.data.forEach((pop) => {
-//         if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-//         if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-//         if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
-//       });
-//       // const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
-//       result = {
-//         poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
-//       };
-
-//     return dispatch({
-//       type: GET_POPS_SUCCESS,
-//       payload: result,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     dispatch({
-//       type: GET_POPS_FAIL,
-//       payload: error,
-//     });
-
-//     dispatch(
-//       snackBarAction({
-//         message: "Server error",
-//         severity: "error",
-//         duration: 3000,
-//         open: true,
-//       }),
-//     );
-//   }
-// };
+export const fetchingAction = (isFetching) => ({
+  type: FETCHING_ACTION,
+  payload: isFetching,
+});

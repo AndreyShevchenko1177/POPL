@@ -151,46 +151,32 @@ function Login(props) {
                     </FormControl>
                   </div>
                 </Grid>
-                <Grid
-                  align="center"
-                  item
-                  xl={12}
-                  lg={12}
-                  md={12}
-                  sm={12}
-                  xs={12}
-                >
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    // disabled={!Object.keys(value).length}
-                    color="primary"
-                    type="submit"
-                    className={classes.loginBtn}
-                    onClick={() => events.submit(signIn)}
-                  >
+                <div className={classes.buttonsWrapper}>
+                  <div className={classes.submitButton}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      // disabled={!Object.keys(value).length}
+                      color="primary"
+                      type="submit"
+                      className={classes.loginBtn}
+                      onClick={() => events.submit(signIn)}
+                    >
                     Submit
-                  </Button>
-                </Grid>
-                <Grid
-                  align="center"
-                  item
-                  xl={12}
-                  lg={12}
-                  md={12}
-                  sm={12}
-                  xs={12}
-                >
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    color="primary"
-                    type="button"
-                    onClick={() => history.push("/sign-up")}
-                  >
+                    </Button>
+                  </div>
+                  <div className={classes.donHaveAccButton}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      color="primary"
+                      type="button"
+                      onClick={() => history.push("/sign-up")}
+                    >
                     Don't have a profile? Join here
-                  </Button>
-                </Grid>
+                    </Button>
+                  </div>
+                </div>
               </Grid>
             )}
           </ValidationProvider>

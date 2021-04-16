@@ -121,7 +121,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     padding: 0,
   },
-  loginBtn: { margin: "30px 0", width: "50%" },
+  loginBtn: { margin: "30px 0" },
   adornment: {
     padding: 12,
     color: "rgba(0,0,0,0.54)",
@@ -143,5 +143,23 @@ export default makeStyles((theme) => ({
       height: "100%",
       opacity: 0,
     },
+  },
+  buttonsWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  submitButton: {
+    display: "flex",
+    justifyContent: "center",
+    width: "80%",
+  },
+  donHaveAccButton: {
+    display: "flex",
+    justifyContent: "center",
+    width: "60%",
+    minWidth: 230,
   },
 }));
