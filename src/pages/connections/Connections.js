@@ -12,6 +12,8 @@ import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
+import { sortConfig } from "./selectConfig";
+import { isSafari } from "../../constants";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -27,7 +29,12 @@ function Connections() {
     offset: 0,
   });
   const [searchValue, setSearchValue] = useState("");
-
+  const [openProfileSelect, setOpenProfileSelect] = useState({
+    action: { open: false, component: "" },
+    sort: { open: false, component: "" },
+  });
+  const [sortingConfig, setSortingConfig] = useState(sortConfig);
+  const [sortConnections, setSortConnections] = useState();
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -39,10 +46,10 @@ function Connections() {
   };
 
   const handleSearch = (event) => {
+    setSearchValue(event.target.value);
     if (!event.target.value) {
       return setConnections(connections.slice(0, 19));
     }
-    setSearchValue(event.target.value);
     setConnections(connections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
@@ -50,6 +57,24 @@ function Connections() {
     history.push("/connections", { disabled: true });
     setSearchValue("");
     dispatch(showAllConnectionsAction());
+  };
+
+  const arrowHandler = (value, name) => {
+    if (openProfileSelect[name].component === "select" && isSafari) {
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    }
+    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+  };
+
+  const sortHandler = (name, _, selectName) => {
+    if (!(dragableConnections).length) return;
+    setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
+    setConnections(() => {
+      const sortProfiles = [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
+      return sortProfiles.slice(0, 19);
+    });
+    setSortConnections((prevConnections) => [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
+    setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
   useEffect(() => {
@@ -64,11 +89,12 @@ function Connections() {
   useEffect(() => {
     if (!connections) return setConnections([]);
     setConnections(connections.slice(0, 19));
+    setSortConnections(connections);
   }, [connections]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
-    setConnections((con) => ([...con, ...connections.slice(needHeight.offset, (needHeight.offset + 19))]));
+    setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
   return (
@@ -91,12 +117,19 @@ function Connections() {
       >
         <div className={classes.poplsHeaderContainer}>
           <SearchStripe
+            isShowSortBtn
             setFilters={showAll}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             searchValue={searchValue}
             handleSearch={handleSearch}
-            disabled
             showCRM
+            arrowHandler={arrowHandler}
+            selectObject={{
+              openProfileSelect,
+              setOpenProfileSelect,
+              sortConfig: sortingConfig,
+              sortHandler,
+            }}
           />
         </div>
         {isLoading ? (

@@ -10,7 +10,7 @@ export default function ConnectionCard({
   const classes = useStyles();
   const history = useHistory();
 
-  const handleClick = () => ("noPopl" in rest ? history.push("/connections") : history.push(window.open(url)));
+  const handleClick = () => ("noPopl" in rest ? history.push("/connections", { connectionCardId: rest.id }) : history.push(window.open(url)));
 
   return (
     <div className={classes.root} onClick={handleClick}>

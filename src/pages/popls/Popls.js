@@ -14,6 +14,9 @@ import "./styles/styles.css";
 import { getPopsAction, cleanActionName } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
+import { sortConfig } from "./selectConfig";
+import { isSafari } from "../../constants";
+import { filterPops } from "../../utils";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -28,6 +31,11 @@ function PoplsItem() {
   const [searchValue, setSearchValue] = useState("");
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
+  const [openProfileSelect, setOpenProfileSelect] = useState({
+    action: { open: false, component: "" },
+    sort: { open: false, component: "" },
+  });
+  const [sortingConfig, setSortingConfig] = useState(sortConfig);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -39,10 +47,10 @@ function PoplsItem() {
   };
 
   const handleSearch = (event) => {
+    setSearchValue(event.target.value);
     if (!event.target.value) {
       return setPopls(filterPopls || popls);
     }
-    setSearchValue(event.target.value);
     setPopls((filterPopls || popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
   };
 
@@ -75,6 +83,23 @@ function PoplsItem() {
         ...popls.find((el) => el.customId === name),
       },
     });
+  };
+
+  const arrowHandler = (value, name) => {
+    if (openProfileSelect[name].component === "select" && isSafari) {
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    }
+    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+  };
+
+  const sortHandler = (name, _, selectName) => {
+    if (!(dragablePopls).length) return;
+    setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
+    setPopls((prevPopls) => {
+      const sortProfiles = [...prevPopls].sort((a, b) => b[name] - a[name]);
+      return sortProfiles;
+    });
+    setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
   useEffect(() => {
@@ -112,7 +137,8 @@ function PoplsItem() {
   }, []);
 
   useEffect(() => {
-    setPopls(popls);
+    if (!pops) return;
+    setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   }, [popls]);
 
   useEffect(() => {
@@ -135,6 +161,7 @@ function PoplsItem() {
       >
         <div className="popls-header-container">
           <SearchStripe
+            isShowSortBtn
             isFetching={isFetching}
             handleCheck={handleCheck}
             checked={mainCheck}
@@ -143,7 +170,13 @@ function PoplsItem() {
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             searchValue={searchValue}
             handleSearch={handleSearch}
-            disabled
+            arrowHandler={arrowHandler}
+            selectObject={{
+              openProfileSelect,
+              setOpenProfileSelect,
+              sortConfig: sortingConfig,
+              sortHandler,
+            }}
           />
         </div>
         {isLoading ? (

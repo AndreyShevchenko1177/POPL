@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Checkbox, Typography, Button, Paper, Tooltip,
 } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import useStyles from "./styles/styles";
@@ -14,6 +15,8 @@ export function ConnectedCard({
   name, url, image, time, names, ...rest
 }) {
   const classes = useStyles();
+  const location = useLocation();
+  const refConnection = useRef(null);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   const handleDeleteConnection = () => {
@@ -29,15 +32,26 @@ export function ConnectedCard({
     },
   ];
 
+  const getScrollValue = (v) => () => v; // with closure
+
+  useEffect(() => {
+    if (refConnection?.current) {
+      const getScrollYValue = getScrollValue((window.scrollY));
+      refConnection?.current?.scrollIntoView(false);
+      window.scrollTo({ top: getScrollYValue() });
+    }
+  }, []);
+
   return (
     <>
       <DragDots position="center" />
-      <div className={classes.leftContentWrapper}>
+      <div className={classes.leftContentWrapper} ref={location.state?.connectionCardId === rest.id ? refConnection : null}>
         <div className={classes.container}>
           <Checkbox
             color="primary"
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}
+            checked={location.state?.connectionCardId === rest.id}
           />
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>

@@ -69,10 +69,11 @@ export default function Profiles() {
   }
 
   const handleSearch = (event) => {
+    if (!profilesData && !profilesData.length) return;
+    setSearchValue(event.target.value);
     if (!event.target.value) {
       return setProfiles(profilesData);
     }
-    setSearchValue(event.target.value);
     const result = profilesData.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setProfiles(result);
   };
