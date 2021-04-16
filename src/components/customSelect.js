@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 55,
     left: 30,
-    minWidth: 150,
+    minWidth: 120,
     minHeight: 60,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderRadius,
@@ -64,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sortBtn: {
     padding: "6px 16px",
+    whiteSpace: "nowrap",
+    // width: "100%",
   },
 }));
 
