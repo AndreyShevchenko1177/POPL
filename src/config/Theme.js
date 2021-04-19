@@ -32,6 +32,8 @@ let theme = createMuiTheme({
     mainBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
     iconBoxShadow: "0px 0px 5px 5px rgb(207 207 207 / 50%)",
     mainBorderRadius: 10,
+    modalOpacityBackground: "#808080",
+    modalOpacity: "0.45",
     mainBorderForBigElement: 15,
     mainBorderGreyColor: "#bababa",
   },

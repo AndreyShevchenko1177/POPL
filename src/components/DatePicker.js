@@ -1,9 +1,9 @@
 import React, {
   Fragment, useRef, useEffect,
 } from "react";
-import Calendar from "react-range-calendar";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Calendar from "./calendar";
 
 function CDatePicker({ calendar, setCalendar, setDate }) {
   const ref = useRef();
@@ -45,6 +45,7 @@ function CDatePicker({ calendar, setCalendar, setDate }) {
             dateRange={calendar.dateRange}
             type="free-range"
             onDateClick={setDate}
+            maxDate={new Date().getTime()}
           />
         </div>
       )}
