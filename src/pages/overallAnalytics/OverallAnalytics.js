@@ -79,6 +79,7 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
+    console.log(location.state);
     if (location.state?.poplName) {
       setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
       dispatch(getPopsAction(null, location.state?.poplName));

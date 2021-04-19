@@ -169,9 +169,12 @@ export const getStatisticItem = (profiles, profileIds) => async (dispatch, getSt
       const userId = getState().authReducer.signIn.data.id;
       const views = await requests.getAllThreeStats(profiles.id);
       let topViewedViews = [];
-      if (profileIds.data) {
+      if (profileIds && profileIds.data) {
         const idsArray = JSON.parse(profileIds.data);
         topViewedViews = await Promise.all([...idsArray, userId].map((id) => requests.getAllThreeStats(id)));
+        result.views = topViewedViews.reduce((a, b) => a + b.data.views, 0);
+      } else {
+        result.views = views.data.views;
       }
 
       result.totalProfiles = "1";
@@ -180,9 +183,7 @@ export const getStatisticItem = (profiles, profileIds) => async (dispatch, getSt
       result.popsCount = data.length;
       const popls = await getPoplsDataById(profiles.id);
       result.totalPopls = `${popls.data.length}`;
-      result.views = views.data.views;
       result.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
-      result.views = topViewedViews.reduce((a, b) => a + b.data.views, 0);
       const topPoppedPopls = {};
       popls.data.forEach((popl) => topPoppedPopls[popl.nickname || popl.name] = []);
       data.forEach((pop) => {
