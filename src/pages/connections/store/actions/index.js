@@ -22,15 +22,26 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
   try {
     dispatch(isFetchingAction(true));
     const profileId = getState().authReducer.signIn.data.id;
-    const idsArray = [profileId];
-    const { data } = await profileIds(profileId);
-
-    if (data) {
-      JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
-    }
+    const storeProfiles = getState().profilesReducer.dataProfiles.data;
     const profileName = {};
-    const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image });
+    let idsArray = [];
+    if (storeProfiles) {
+      storeProfiles.forEach(({ id, ...data }) => {
+        idsArray.push(Number(id));
+        profileName[id] = { name: data.name, image: data.image };
+      });
+    } else {
+      idsArray = [profileId];
+      const { data } = await profileIds(profileId);
+
+      if (data) {
+        JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+      }
+
+      const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
+      profilesData.forEach(({ data, id }) => profileName[id] = { name: data.name, image: data.image });
+    }
+
     let allConnections = await getCollectionData("people", idsArray);
     const filteredConnections = uniqueObjectsInArray(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id);
     const idsObject = {};

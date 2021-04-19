@@ -36,12 +36,10 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         if (data) {
           idsArray = JSON.parse(data);
         }
-        console.log([...idsArray, id]);
         topViewedViews = await Promise.all([...idsArray, id].map((id) => requests.getAllThreeStats(id)));
         widgetsStats.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
         const popls = await Promise.all([...idsArray, id].map((el) => getPoplsDataById(el)));
         const pops = await Promise.all([...idsArray, id].map((el) => requests.popsActionRequest(el)));
-        console.log(popls);
         const topPoppedPopls = {};
         popls
           .reduce((acc, popls) => [...acc, ...popls.data], [])
@@ -57,8 +55,6 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         widgetsStats.topPoppedPopls = Object.keys(topPoppedPopls)
           .map((key) => ({ [key]: topPoppedPopls[key] }))
           .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-
-        console.log(widgetsStats);
 
         result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
         widgetsStats.popsCount = result.length;
@@ -78,7 +74,6 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
       });
 
-      // const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
       result = {
         poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
       };
@@ -135,10 +130,21 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
   }
 };
 
-export const getStatisticItemsRequest = (userId) => async (dispatch) => {
+export const getStatisticItemsRequest = (userId) => async (dispatch, getState) => {
   dispatch(cleanActionName("topStatisticsData"));
-  const myProfile = await getProfileAction(userId);
+  const storeProfiles = getState().profilesReducer.dataProfiles.data;
   const response = await profileIds(userId);
+  if (storeProfiles && response.data) {
+    const profiles = storeProfiles.map((p) => ({
+      ...p,
+      customId: getId(12),
+      business: p.business,
+      social: p.social,
+    }));
+    return dispatch(getStatisticItem(profiles, response));
+  }
+
+  const myProfile = await getProfileAction(userId);
   if (response.data) {
     const idsArray = JSON.parse(response.data);
     const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
@@ -148,24 +154,23 @@ export const getStatisticItemsRequest = (userId) => async (dispatch) => {
       business: p.business,
       social: p.social,
     }));
-    return dispatch(getStatisticItem(profiles));
+    return dispatch(getStatisticItem(profiles, response));
   }
   let correctProfile = { customId: getId(12), id: myProfile.id };
   Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-  return dispatch(getStatisticItem(correctProfile));
+  return dispatch(getStatisticItem(correctProfile, response));
 };
 
-export const getStatisticItem = (profiles) => async (dispatch, getState) => {
+export const getStatisticItem = (profiles, profileIds) => async (dispatch, getState) => {
   try {
     dispatch(cleanActionName("topStatisticsData"));
     let result = {};
     if (!Array.isArray(profiles)) {
       const userId = getState().authReducer.signIn.data.id;
       const views = await requests.getAllThreeStats(profiles.id);
-      const profilesIds = await profileIds(userId);
       let topViewedViews = [];
-      if (profilesIds.data) {
-        const idsArray = JSON.parse(profilesIds.data);
+      if (profileIds.data) {
+        const idsArray = JSON.parse(profileIds.data);
         topViewedViews = await Promise.all([...idsArray, userId].map((id) => requests.getAllThreeStats(id)));
       }
 

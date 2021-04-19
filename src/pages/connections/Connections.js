@@ -73,6 +73,10 @@ function Connections() {
       const sortProfiles = [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
       return sortProfiles.slice(0, 19);
     });
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
     setSortConnections((prevConnections) => [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };

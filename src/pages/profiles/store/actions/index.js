@@ -16,20 +16,31 @@ import {
 } from "../actionTypes";
 import * as requests from "./requests";
 
-export const getProfilesDataAction = (userId) => async (dispatch) => {
+export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
+    const storeProfiles = getState().profilesReducer.dataProfiles.data;
     const myProfile = await requests.getProfileAction(userId);
     const response = await requests.profileIds(userId);
+    let profiles = [];
     if (response.data) {
-      const idsArray = JSON.parse(response.data);
-      const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
-      const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
-        ...p,
-        customId: getId(12),
-        business: p.business,
-        social: p.social,
-      }));
+      if (storeProfiles) {
+        profiles = storeProfiles.map((p) => ({
+          ...p,
+          customId: getId(12),
+          business: p.business,
+          social: p.social,
+        }));
+      } else {
+        const idsArray = JSON.parse(response.data);
+        const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
+        profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
+          ...p,
+          customId: getId(12),
+          business: p.business,
+          social: p.social,
+        }));
+      }
       dispatch(profilesInfoAction(profiles));
       dispatch(profileCountTierLevelAction(profiles.length));
       return dispatch({

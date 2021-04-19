@@ -38,16 +38,25 @@ function OverallAnalytics() {
   });
 
   const setDate = (minDate, maxDate) => {
-    const minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+    let minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,
     )}, ${getYear(minDate)}-`;
-    const maxD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+    let maxD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
       maxDate,
     )}, ${getYear(maxDate)}`;
     const maxDateMilis = maxDate.setHours(0, 0, 0, 0);
     const minDateMilis = minDate.setHours(0, 0, 0, 0);
+    const currentDateMilis = new Date(currentDate2).setHours(0, 0, 0, 0);
+    if (maxDateMilis > currentDateMilis) {
+      maxDate = new Date(currentDate2);
+      maxD = currentDate2;
+    }
+    if (minDateMilis > currentDateMilis) {
+      minDate = new Date(currentDate2);
+      minD = currentDate2;
+    }
     if (maxDateMilis < minDateMilis) {
-      setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
+      setChartData({ lineData: generateLineChartData(popsData, maxDate, minDate), dohnutData: generateDohnutChartData(popsData, maxDate, minDate) });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],

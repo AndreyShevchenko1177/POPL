@@ -31,7 +31,6 @@ export const getPoplsAction = (id, isSingle) => async (dispatch) => {
     let response = {
       data: null,
     };
-    console.log(isSingle);
     if (!isSingle) {
       response = await profileIds(id);
     }
