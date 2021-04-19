@@ -21,7 +21,7 @@ export default function ConnectionCard({
             <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
           </div>
           <div className={classes.header_body}>
-            <Typography variant="subtitle1" classes={{ subtitle1: classes.connectionNameText }}>{parentProfileName}<span style={{ fontWeight: "normal" }}> connected with </span>{name}</Typography>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.connectionNameText }}>{name}<span style={{ fontWeight: "normal" }}> connected with </span>{parentProfileName}</Typography>
           </div>
         </div>
       </div>

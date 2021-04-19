@@ -19,3 +19,8 @@ export const addProfileNamesToPopls = async (id) => {
   const profileData = await getProfileAction(id);
   return popls.data.map((popl) => ({ ...popl, profileOwner: profileData.data.name }));
 };
+
+export const getPoplsFromProfiles = async ({ id, name }) => {
+  const popls = await getPoplsDataById(id);
+  return popls.data.map((popl) => ({ ...popl, profileOwner: name }));
+};

@@ -18,20 +18,15 @@ import * as requests from "./requests";
 
 export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
-    dispatch(isFetchingAction(true));
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
-    const myProfile = await requests.getProfileAction(userId);
-    const response = await requests.profileIds(userId);
     let profiles = [];
-    if (response.data) {
-      if (storeProfiles) {
-        profiles = storeProfiles.map((p) => ({
-          ...p,
-          customId: getId(12),
-          business: p.business,
-          social: p.social,
-        }));
-      } else {
+    if (!storeProfiles) {
+      dispatch(isFetchingAction(true));
+      const myProfile = await requests.getProfileAction(userId);
+      const response = await requests.profileIds(userId);
+      profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
+
+      if (response.data) {
         const idsArray = JSON.parse(response.data);
         const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
         profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
@@ -40,27 +35,15 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
           business: p.business,
           social: p.social,
         }));
+
+        dispatch(profilesInfoAction(profiles));
+        dispatch(profileCountTierLevelAction(profiles.length));
+        return dispatch({
+          type: GET_DATA_PROFILES_SUCCESS,
+          payload: profiles,
+        });
       }
-      dispatch(profilesInfoAction(profiles));
-      dispatch(profileCountTierLevelAction(profiles.length));
-      return dispatch({
-        type: GET_DATA_PROFILES_SUCCESS,
-        payload: profiles,
-      });
     }
-    dispatch(profileCountTierLevelAction(1));
-    let correctProfile = { customId: getId(12), id: myProfile.id };
-    dispatch(profilesInfoAction([correctProfile]));
-    Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-    dispatch({
-      type: GET_DATA_PROFILES_SUCCESS,
-      payload: [{
-        ...correctProfile,
-        business: correctProfile.business,
-        social: correctProfile.social,
-      },
-      ],
-    });
   } catch (error) {
     console.log(error);
     dispatch(

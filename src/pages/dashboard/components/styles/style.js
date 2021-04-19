@@ -33,6 +33,8 @@ export default makeStyles((theme) => ({
     borderRadius: "50%",
   },
   header_body: {
+    display: "flex",
+    justifyContent: "center",
     padding: "10px",
     height: 40,
   },

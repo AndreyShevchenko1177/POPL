@@ -54,7 +54,7 @@ function PoplsItem() {
     setPopls((filterPopls || popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
   };
 
-  const setFilters = (event, name) => {
+  const showAll = (event, name) => {
     switch (name) {
     case "all": {
       setSearchValue("");
@@ -131,15 +131,15 @@ function PoplsItem() {
     dispatch(getPopsAction(profileData.id));
   }, []);
 
-  useEffect(() => () => {
-    dispatch(clearData("collectPopl"));
-    dispatch(cleanActionName("allPops"));
-  }, []);
+  // useEffect(() => () => {
+  //   dispatch(clearData("collectPopl"));
+  //   dispatch(cleanActionName("allPops"));
+  // }, []);
 
   useEffect(() => {
     if (!pops) return;
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
-  }, [popls]);
+  }, [popls, pops]);
 
   useEffect(() => {
     if (filterPopls) {
@@ -166,7 +166,7 @@ function PoplsItem() {
             handleCheck={handleCheck}
             checked={mainCheck}
             checkboxes={checkboxes}
-            setFilters={setFilters}
+            setFilters={showAll}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             searchValue={searchValue}
             handleSearch={handleSearch}

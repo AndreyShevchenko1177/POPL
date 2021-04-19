@@ -78,8 +78,6 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   section1_avatar: {
-    // position: "relative",
-    width: "200px",
     margin: "0 20px",
     display: "flex",
     flexDirection: "row-reverse",
@@ -124,7 +122,6 @@ export default makeStyles((theme) => ({
   },
   section4: {
     position: "relative",
-    width: "100%",
     display: "flex",
     paddingRight: "10px",
     alignItems: "flex-end",
@@ -164,20 +161,13 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.iconBoxShadow,
     width: 40,
     height: 40,
-    // "@media (max-width:1450px)": {
-    //   width: 40,
-    //   height: 40,
-    // },
   },
   linkImage: {
     width: 30,
-    // "@media (max-width:1450px)": {
-    //   width: 40,
-    // },
   },
   tapsHeading: {
     position: "absolute",
-    right: "130px",
+    right: "-10px",
     bottom: "12px",
     fontWeight: "bold !important",
   },

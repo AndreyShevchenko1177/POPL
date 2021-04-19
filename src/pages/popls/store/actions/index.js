@@ -24,37 +24,48 @@ import { snackBarAction } from "../../../../store/actions";
 import { profileIds } from "../../../profiles/store/actions/requests";
 import * as requests from "./requests";
 
-export const getPoplsAction = (id, isSingle) => async (dispatch) => {
+export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
   try {
-    dispatch(isFetchingAction(true));
-    const idsArray = [id];
-    let response = {
-      data: null,
-    };
-    if (!isSingle) {
-      response = await profileIds(id);
-    }
+    const storeProfiles = getState().profilesReducer.dataProfiles.data;
+    const storePopls = getState().poplsReducer.allPopls.data;
 
-    if (response.data) {
-      JSON.parse(response.data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+    if (!storePopls.length) {
+      dispatch(isFetchingAction(true));
+      let result;
+      if (!storeProfiles) {
+        const idsArray = [id];
+        let response = {
+          data: null,
+        };
+        if (!isSingle) {
+          response = await profileIds(id);
+        }
+
+        if (response.data) {
+          JSON.parse(response.data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+        }
+        result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id)))
+          .then((res) => res.reduce((result, current) => [...result, ...current], []));
+        if (typeof result === "string") {
+          dispatch(isFetchingAction(false));
+          return dispatch(
+            snackBarAction({
+              message: "Download popls error",
+              severity: "error",
+              duration: 3000,
+              open: true,
+            }),
+          );
+        }
+      } else {
+        result = await Promise.all(storeProfiles.map((profile) => requests.getPoplsFromProfiles(profile)))
+          .then((res) => res.reduce((result, current) => [...result, ...current], []));
+      }
+      dispatch({
+        type: GET_POPLS_SUCCESS,
+        payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
+      });
     }
-    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current], []));
-    if (typeof result === "string") {
-      dispatch(isFetchingAction(false));
-      return dispatch(
-        snackBarAction({
-          message: "Download popls error",
-          severity: "error",
-          duration: 3000,
-          open: true,
-        }),
-      );
-    }
-    dispatch({
-      type: GET_POPLS_SUCCESS,
-      payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
-    });
-    return dispatch(isFetchingAction(false));
   } catch (error) {
     dispatch({
       type: GET_POPLS_FAIL,

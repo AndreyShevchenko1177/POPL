@@ -266,11 +266,13 @@ export default function Profiles() {
                 )}
               </Droppable>
             </DragDropContext>
-          ) : (
-            <div className={classes.noDataText}>
-                No profiles was found
-            </div>
-          )
+          ) : profilesData?.length === 0
+            ? (
+              <div className={classes.noDataText}>
+                    No profiles was found
+              </div>
+            )
+            : null
           }
         </Grid>
       </div>

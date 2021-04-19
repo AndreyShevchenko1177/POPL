@@ -52,6 +52,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         error: null,
         data: payload,
       },
+      isFetching: false,
     };
   }
   case GET_POPLS_FAIL: {
@@ -61,6 +62,7 @@ export default function poplsReducer(state = initialState, { type, payload, erro
         data: [],
         error: payload,
       },
+      isFetching: false,
     };
   }
   case ADD_POPLS_SUCCESS: {
