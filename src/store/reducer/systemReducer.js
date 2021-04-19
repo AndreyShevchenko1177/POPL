@@ -1,5 +1,5 @@
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS,
 } from "../actionTypes";
 
 const initialState = {
@@ -63,6 +63,13 @@ export default function systemReducer(state = initialState, { type, payload }) {
         ...state.tierLevelInfo,
         ...payload,
       },
+      isFetching: false,
+    };
+  }
+  case UPDATE_CONNECTIONS: {
+    return {
+      ...state,
+      profileInfoSideBar: payload,
       isFetching: false,
     };
   }

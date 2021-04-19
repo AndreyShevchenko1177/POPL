@@ -8,12 +8,6 @@ import {
   ADD_POPLS_FAIL,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
-  COLLECT_SELECTED_POPLS_REQUEST,
-  COLLECT_SELECTED_POPLS_SUCCESS,
-  RETRIEVE_SELECTED_POPLS,
-  COLLECT_SELECTED_POPLS_FAIL,
-  GET_PROFILES_IDS_SUCCESS,
-  GET_PROFILES_IDS_FAIL,
   CLEAR_ADD_POPL,
   CLEAR_EDIT_POPL,
   CLEAR_DATA,
@@ -61,7 +55,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
         result = await Promise.all(storeProfiles.map((profile) => requests.getPoplsFromProfiles(profile)))
           .then((res) => res.reduce((result, current) => [...result, ...current], []));
       }
-      dispatch({
+      return dispatch({
         type: GET_POPLS_SUCCESS,
         payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
       });
@@ -177,55 +171,6 @@ export const editPoplAction = (body) => async (dispatch) => {
         open: true,
       }),
     );
-  }
-};
-
-export const collectSelectedPopls = (id) => async (dispatch) => {
-  try {
-    dispatch(isFetchingAction(true));
-    const idsArray = [id];
-    const { data } = await profileIds(id);
-    if (data) {
-      JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
-    }
-    dispatch({
-      type: COLLECT_SELECTED_POPLS_REQUEST,
-    });
-    const result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id))).then((res) => res.reduce((result, current) => [...result, ...current], []));
-    dispatch({
-      type: COLLECT_SELECTED_POPLS_SUCCESS,
-      payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
-    });
-    return dispatch(isFetchingAction(false));
-  } catch (error) {
-    dispatch({
-      type: COLLECT_SELECTED_POPLS_FAIL,
-      error,
-    });
-    return dispatch(isFetchingAction(false));
-  }
-};
-
-export const retieveSelectedPopls = () => ({
-  type: RETRIEVE_SELECTED_POPLS,
-});
-
-export const getProfilesIdsAction = (userId) => async (dispatch) => {
-  try {
-    const idsArray = [userId];
-    const response = await profileIds(userId);
-    if (response.data) {
-      JSON.parse(response.data).forEach((id) => idsArray.push(id));
-    }
-    return dispatch({
-      type: GET_PROFILES_IDS_SUCCESS,
-      payload: idsArray,
-    });
-  } catch (error) {
-    return dispatch({
-      type: GET_PROFILES_IDS_FAIL,
-      error,
-    });
   }
 };
 

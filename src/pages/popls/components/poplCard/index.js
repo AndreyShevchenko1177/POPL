@@ -7,19 +7,13 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
-import { dateFormat, filterPops } from "../../../../utils";
-import Loader from "../../../../components/Loader";
+import { dateFormat } from "../../../../utils";
 
 function PoplCard({
-  popl, allPops, poplsCheck, customId, checkboxes,
+  popl, poplsCheck, customId, checkboxes,
 }) {
   const classes = useStyles();
   const history = useHistory();
-  const [popsCount, setPopsCount] = useState();
-
-  useEffect(() => {
-    if (allPops) setPopsCount(` ${allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length}`);
-  }, [allPops]);
 
   return (
     <>
@@ -65,18 +59,10 @@ function PoplCard({
         </Button>
         <div className={classes.popsCountNumber}>
           <span>
-            {
-              popsCount
-              || <Loader
-                styles={{
-                  size: 5, width: 20, height: 20, marginLeft: 10,
-                }}
-              />
-            }
+            { popl.popsNumber }
             <span style={{ marginLeft: 5 }}>Pops</span>
           </span>
         </div>
-        {/* <Typography variant='subtitle1'>Pops: {popsCount}</Typography> */}
       </div>
     </>
   );

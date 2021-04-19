@@ -17,10 +17,10 @@ export const getPoplsDataById = async (id) => {
 export const addProfileNamesToPopls = async (id) => {
   const popls = await getPoplsDataById(id);
   const profileData = await getProfileAction(id);
-  return popls.data.map((popl) => ({ ...popl, profileOwner: profileData.data.name }));
+  return popls.data.map((popl) => ({ ...popl, profileOwner: profileData.data.name, profileId: id }));
 };
 
 export const getPoplsFromProfiles = async ({ id, name }) => {
   const popls = await getPoplsDataById(id);
-  return popls.data.map((popl) => ({ ...popl, profileOwner: name }));
+  return popls.data.map((popl) => ({ ...popl, profileOwner: name, profileId: id }));
 };

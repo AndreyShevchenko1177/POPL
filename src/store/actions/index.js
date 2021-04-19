@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS,
 } from "../actionTypes";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -56,7 +56,6 @@ export const profileCountTierLevelAction = (number) => ({
 
 export const profilesInfoAction = (profiles) => async (dispatch) => {
   try {
-    // dispatch(fetchingAction(true));
     let result = {};
     result.totalProfiles = `${profiles.length}`;
     const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
@@ -88,6 +87,24 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateConnectionsNumber = (connections, porfileConnections) => (dispatch, getState) => {
+  const prevState = getState().systemReducer.profileInfoSideBar;
+  const profilesCon = {};
+  Object.keys(porfileConnections).forEach((key) => profilesCon[key] = porfileConnections[key].length);
+  dispatch({
+    type: UPDATE_CONNECTIONS,
+    payload: {
+      ...prevState,
+      result: {
+        ...prevState.result,
+        connections: connections.length,
+        latestConnections: connections.sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))).slice(0, 10),
+      },
+      profileConnection: profilesCon,
+    },
+  });
 };
 
 export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => ({

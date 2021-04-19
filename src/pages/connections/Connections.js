@@ -83,9 +83,9 @@ function Connections() {
 
   useEffect(() => {
     if (location.state?.id) {
-      return dispatch(collectSelectedConnections(location.state.id, "allConnections", true));
+      return dispatch(collectSelectedConnections(location.state.id, true));
     }
-    dispatch(collectSelectedConnections(profileData.id, "allConnections"));
+    dispatch(collectSelectedConnections(profileData.id));
 
     return () => dispatch(clearConnectionData("collectConnections"));
   }, []);

@@ -14,11 +14,11 @@ import {
   IS_DATA_FETCHING,
 } from "../actionTypes";
 
-import { snackBarAction } from "../../../../store/actions";
+import { snackBarAction, updateConnectionsNumber } from "../../../../store/actions";
 import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
-import { uniqueObjectsInArray, formatDateConnections } from "../../../../utils";
+import { uniqueObjectsInArray, formatDateConnections, filterPops } from "../../../../utils";
 
-export const collectSelectedConnections = (id, type, isSingle) => async (dispatch, getState) => {
+export const collectSelectedConnections = (id, isSingle) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true));
     const profileId = getState().authReducer.signIn.data.id;
@@ -74,6 +74,7 @@ export const collectSelectedConnections = (id, type, isSingle) => async (dispatc
         con.names = names;
       });
     });
+    dispatch(updateConnectionsNumber(filteredConnections, idsObject));
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {

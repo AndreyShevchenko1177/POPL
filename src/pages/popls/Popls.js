@@ -1,17 +1,15 @@
 /* eslint-disable no-return-assign */
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
-import {
-  getPoplsAction, collectSelectedPopls, clearData,
-} from "./store/actions";
+import { getPoplsAction } from "./store/actions";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { getPopsAction, cleanActionName } from "../overallAnalytics/store/actions";
+import { getPopsAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
@@ -25,8 +23,8 @@ function PoplsItem() {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
+  const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
-  const { data: filterPopls, isFetching } = useSelector(({ poplsReducer }) => poplsReducer.collectPopl);
   const [dragablePopls, setPopls] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [mainCheck, setMainCheck] = useState(false);
@@ -35,6 +33,7 @@ function PoplsItem() {
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
   });
+  const history = useHistory();
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
 
   const handleOnDragEnd = (result) => {
@@ -49,17 +48,17 @@ function PoplsItem() {
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
     if (!event.target.value) {
-      return setPopls(filterPopls || popls);
+      return setPopls(popls);
     }
-    setPopls((filterPopls || popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
+    setPopls((popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
   };
 
   const showAll = (event, name) => {
     switch (name) {
     case "all": {
       setSearchValue("");
-      location.state.profilesData = undefined;
-      dispatch(collectSelectedPopls(profileData.id));
+      history.push("/popls");
+      setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
     default:
     }
@@ -125,27 +124,19 @@ function PoplsItem() {
   }, [checkboxes]);
 
   useEffect(() => {
-    if (location.state?.profilesData?.id) {
-      dispatch(getPoplsAction(location.state?.profilesData.id, "single"));
-    } else dispatch(getPoplsAction(profileData.id));
+    dispatch(getPoplsAction(profileData.id));
     dispatch(getPopsAction(profileData.id));
   }, []);
 
-  // useEffect(() => () => {
-  //   dispatch(clearData("collectPopl"));
-  //   dispatch(cleanActionName("allPops"));
-  // }, []);
-
   useEffect(() => {
     if (!pops) return;
+    if (location.state?.profilesData?.id) {
+      return setPopls(popls
+        .filter((popl) => popl.profileId === location.state.profilesData.id)
+        .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+    }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   }, [popls, pops]);
-
-  useEffect(() => {
-    if (filterPopls) {
-      setPopls(filterPopls);
-    }
-  }, [filterPopls]);
 
   return (
     <>
@@ -210,7 +201,7 @@ function PoplsItem() {
                               key={popl.id}
                               popl={popl}
                               customId={popl.customId}
-                              allPops={pops}
+                              // allPops={pops}
                               poplsCheck={poplsCheck}
                               checkboxes={checkboxes}
                             />
