@@ -1,12 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import useStyles from "./styles/styles";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
+import useLongPress from "../../components/useLongPressHook";
+import { restricteModeAction } from "../../store/actions";
 
 function TierLevel({ count, subscriptionName, maxProfiles }) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const generateMax = (count) => {
     if (count < 6) return 5;
@@ -14,6 +18,20 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
     if (count > 20) return 100;
     return 5;
   };
+
+  const onLongPress = () => {
+    dispatch(restricteModeAction(true));
+  };
+
+  const onClick = () => {
+    history.push("/settings/billing");
+  };
+
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 5000,
+  };
+  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
   return (
     <div className={classes.tierContainer}>
@@ -34,13 +52,16 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
           <span>{count || ""} profiles of {generateMax(count)} profiles used</span>
         </div>
       </>}
-      <Button
-        variant='outlined'
-        classes={{ root: classes.tierButton }}
-        onClick={() => history.push("/settings/billing")}
-      >
+      <div className={classes.tierLevelButtonWrapper}>
+        <Button
+          variant='outlined'
+          classes={{ root: classes.tierButton }}
+          onClick={() => history.push("/settings/billing")}
+        >
         Upgrade Plan
-      </Button>
+        </Button>
+        <button className={classes.longPressButton} {...longPressEvent}></button>
+      </div>
     </div>
   );
 }

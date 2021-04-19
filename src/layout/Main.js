@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
+import { restricteModeAction } from "../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,16 +47,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Main({ children, stripe }) {
   const classes = useStyles();
   const location = useLocation();
+  const dispatch = useDispatch();
   const history = useHistory();
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const [isRestricted, setIsRestricted] = useState(true);
+  const { isRestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
 
   useEffect(() => {
-    if (userData.id == 2097) setIsRestricted(true);
-  }, []);
-
-  useEffect(() => {
-    if (location.pathname === "/settings/billing") return setIsRestricted(false);
+    if (location.pathname === "/settings/billing") dispatch(restricteModeAction(false));
   }, [location]);
 
   return (
@@ -69,13 +66,13 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: isRestricted ? "hidden" : "auto",
+          overflow: isRestrictedMode ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
       >
         <>
           {children}
-          {isRestricted && <div className={classes.restrictedViewRoot}>
+          {isRestrictedMode && <div className={classes.restrictedViewRoot}>
             <div className={classes.restrictedViewOpacity}>
 
             </div>
@@ -86,7 +83,7 @@ export default function Main({ children, stripe }) {
                 right: 10,
                 cursor: "pointer",
               }}
-              onClick={() => setIsRestricted(false)}
+              onClick={() => dispatch(restricteModeAction(false))}
             />
             <Button
               className={classes.upgradePlanButton}

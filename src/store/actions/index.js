@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS,
+  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS, SHOW_RESTRICTED_MODE,
 } from "../actionTypes";
 import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -113,6 +113,11 @@ export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => 
     subscriptionName,
     maxProfiles,
   },
+});
+
+export const restricteModeAction = (isRestricted) => ({
+  type: SHOW_RESTRICTED_MODE,
+  payload: isRestricted,
 });
 
 export const fetchingAction = (isFetching) => ({
