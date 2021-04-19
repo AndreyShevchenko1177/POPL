@@ -30,7 +30,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     paddingTop: 10,
-    fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     color: "#565956",
     "& a": {
@@ -79,7 +78,6 @@ export default makeStyles((theme) => ({
     height: "120px",
     overflow: "auto",
     padding: 10,
-    fontFamily: "AvenirNextCyr, san-serif, arial",
   },
   nameItem: {
     display: "flex",
@@ -140,11 +138,9 @@ export default makeStyles((theme) => ({
     maxHeight: 100,
   },
   noteTitle: {
-    fontFamily: "AvenirNextCyr, sna-serif, arial",
     fontSize: "16px",
   },
   noteText: {
-    fontFamily: "AvenirNextCyr, sna-serif, arial",
     fontSize: "14px",
   },
   popupWrapper: {
@@ -161,7 +157,6 @@ export default makeStyles((theme) => ({
     minHeight: 30,
     "& > div": {
       padding: "3px 0 3px 10px",
-      fontFamily: "AvenirNextCyr, sna-serif, arial",
       fontWeight: "500",
       border: "1px solid #ffffff",
       cursor: "pointer",

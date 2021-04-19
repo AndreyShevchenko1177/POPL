@@ -29,7 +29,6 @@ export default makeStyles((theme) => ({
   button: {
     height: "50px",
     minWidth: "150px",
-    fontFamily: "AvenirNextCyr",
     fontSize: "13px",
   },
   addIcon: {

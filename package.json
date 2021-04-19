@@ -55,6 +55,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "upload:aws": "scp -r -i ../testAWSkeys.pem ./build ubuntu@ec2-3-137-126-31.us-east-2.compute.amazonaws.com:~/html",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "postinstall": "patch-package"

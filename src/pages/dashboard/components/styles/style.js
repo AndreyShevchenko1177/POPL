@@ -21,11 +21,12 @@ export default makeStyles((theme) => ({
   },
   header_icon: {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     borderBottom: "0.5px solid grey",
-    paddingBottom: "10px",
-    height: "220px",
-    alignItems: "center",
+    padding: 10,
+    height: 220,
   },
   userIcon: {
     width: "170px",
@@ -47,7 +48,6 @@ export default makeStyles((theme) => ({
   button: {
     height: "40px",
     width: "45%",
-    fontFamily: "AvenirNextCyr",
     fontSize: "13px",
     borderRadius: 8,
   },
@@ -68,6 +68,7 @@ export default makeStyles((theme) => ({
     width: "240px",
     height: "140px",
     borderRadius: "10px",
+    marginBottom: 15,
   },
   connectionNameText: {
     fontWeight: "bold !important",

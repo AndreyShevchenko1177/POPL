@@ -28,6 +28,7 @@ import AddProfile from "./pages/addProfile";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 import { getProfileInfoRequest } from "./store/actions";
+import { getDashboardPlanAction } from "./pages/auth/store/actions";
 
 setAxios();
 
@@ -42,6 +43,7 @@ function App(props) {
     }
     if (profileData) {
       dispatch(getProfileInfoRequest(profileData.id));
+      dispatch(getDashboardPlanAction(profileData.id));
     }
   }, [profileData]);
 

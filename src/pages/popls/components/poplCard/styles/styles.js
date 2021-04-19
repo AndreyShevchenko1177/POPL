@@ -25,7 +25,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     paddingTop: 10,
-    fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     color: "#565956",
     "& a": {

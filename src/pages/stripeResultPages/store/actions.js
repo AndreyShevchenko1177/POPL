@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SET_USER_PRO_SUCCESS, SET_USER_PRO_FAIL } from "./actionTypes";
+import * as requests from "./requests";
 
 const setUserProRequest = (profileId) => {
   const body = JSON.stringify({
@@ -24,6 +25,7 @@ export const setUserProAction = (userId) => async (dispatch) => {
     const response = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
+    // await requests.setDashboardPlan(userId)
     if (response.data) {
       const idsArray = JSON.parse(response.data);
       const result = await Promise.all([...idsArray, userId].map((id) => setUserProRequest(id))).then((res) => res.map((d) => d.json()));

@@ -4,7 +4,6 @@ export default function Header({ title }) {
   return (
     <Typography
       style={{
-        fontFamily: "AvenirNextCyr",
         fontSize: "24px",
         fontWeight: "bolder",
       }}

@@ -166,7 +166,14 @@ function Login(props) {
                     </Button>
                   </div>
                   <div className={classes.donHaveAccButton}>
-                    <Button
+                    <Typography
+                      variant='subtitle1'
+                      classes={{ subtitle1: classes.haveAccountLink }}
+                      onClick={() => history.push("/sign-up")}
+                    >
+                      Don't have a profile? Join here
+                    </Typography>
+                    {/* <Button
                       variant="contained"
                       fullWidth
                       color="primary"
@@ -174,7 +181,7 @@ function Login(props) {
                       onClick={() => history.push("/sign-up")}
                     >
                     Don't have a profile? Join here
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Grid>

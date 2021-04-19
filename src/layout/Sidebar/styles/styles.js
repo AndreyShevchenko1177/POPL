@@ -89,13 +89,11 @@ export default makeStyles((theme) => ({
     backgroundColor: "#e0dede",
   },
   listText: {
-    fontFamily: "AvenirNextCyr",
     fontSize: "14px",
     letterSpacing: "1.5px",
     color: "#7d8286",
   },
   listTextNested: {
-    fontFamily: "AvenirNextCyr",
     fontSize: "12px",
     letterSpacing: "1.5px",
     color: "#7d8286",
@@ -133,7 +131,6 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
     "& > span": {
       color: "#7d8286",
-      fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "14px",
       letterSpacing: "1.5px",
     },
@@ -160,7 +157,6 @@ export default makeStyles((theme) => ({
     padding: "10px 0",
     "& > span": {
       color: "#7d8286",
-      fontFamily: "AvenirNextCyr, san-serif, arial",
       fontSize: "14px",
     },
   },

@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: 30,
   },
-  loginBtn: { margin: "30px 0", width: "50%" },
+  loginBtn: { margin: "30px 0", width: "80%" },
   adornment: {
     padding: 12,
     color: "rgba(0,0,0,0.54)",
@@ -46,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
   errorMsg: {
     color: "#FF0000",
     textAlign: "left",
+  },
+  haveAccountLink: {
+    fontWeight: "bold !important",
+    cursor: "pointer",
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
 }));
 
@@ -281,7 +288,14 @@ function SignUp(props) {
                   sm={12}
                   xs={12}
                 >
-                  <Button
+                  <Typography
+                    variant='subtitle1'
+                    classes={{ subtitle1: classes.haveAccountLink }}
+                    onClick={() => history.push("/sign-in")}
+                  >
+                      Don't have a profile? Join here
+                  </Typography>
+                  {/* <Button
                     variant="contained"
                     fullWidth
                     color="primary"
@@ -289,7 +303,7 @@ function SignUp(props) {
                     onClick={() => history.push("/sign-in")}
                   >
                     Already Set up? Log in here
-                  </Button>
+                  </Button> */}
                 </Grid>
               </Grid>
             )}

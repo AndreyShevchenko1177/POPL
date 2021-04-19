@@ -70,8 +70,8 @@ export default function Dashboard() {
       </div>
       <div className={classes.container}>
         {latestConnections && !isFetching
-          ? latestConnections.map((connection) => (
-            <div key={connection.id} className={classes.connections_container}>
+          ? latestConnections.map((connection, index) => (
+            <div key={index} className={classes.connections_container}>
               <ConnectionCard {...connection} />
             </div>
           ))

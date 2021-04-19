@@ -91,7 +91,7 @@ export default function Main({ children, stripe }) {
               color="primary"
               onClick={() => history.push("/settings/billing")}
             >
-              Upgrade Plan
+              Subscribe now
             </Button>
           </div>}
 

@@ -50,12 +50,10 @@ export default makeStyles((theme) => ({
   button: {
     height: "50px",
     minWidth: "150px",
-    fontFamily: "AvenirNextCyr",
     fontSize: "13px",
   },
   searchInput: {
     marginLeft: theme.spacing(1),
-    fontFamily: "AvenirNextCyr",
     fontSize: "15px",
     flex: 1,
   },

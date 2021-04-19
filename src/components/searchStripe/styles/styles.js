@@ -34,13 +34,11 @@ export default makeStyles((theme) => ({
   button: {
     height: "50px",
     minWidth: "160px",
-    fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     borderRadius: theme.custom.mainBorderRadius,
   },
   searchInput: {
     marginLeft: theme.spacing(1),
-    fontFamily: "AvenirNextCyr",
     fontSize: "15px",
     flex: 1,
   },
@@ -71,7 +69,6 @@ export default makeStyles((theme) => ({
   actionButton: {
     height: "50px",
     minWidth: "100px",
-    fontFamily: "AvenirNextCyr",
     fontSize: "16px",
     borderRadius: theme.custom.mainBorderRadius,
   },

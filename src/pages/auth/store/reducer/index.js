@@ -3,6 +3,8 @@ import {
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
   SIGN_UP_SUCCESS,
+  GET_DASHBOARD_PLAN_SUCCESS,
+  GET_DASHBOARD_PLAN_FAIL,
   LOGOUT,
 } from "../actionTypes";
 import { deleteCookies, existingCookies } from "../../../../utils/cookie";
@@ -14,6 +16,10 @@ const initialState = {
   },
   signUp: {
     data: false,
+    error: null,
+  },
+  dashboardPlan: {
+    data: null,
     error: null,
   },
 };
@@ -55,6 +61,24 @@ export default function authReducer(state = initialState, { type, payload }) {
       ...state,
       signUp: {
         ...state.signUp,
+        error: payload,
+      },
+    };
+  }
+  case GET_DASHBOARD_PLAN_SUCCESS: {
+    return {
+      ...state,
+      dashboardPlan: {
+        data: payload,
+        error: null,
+      },
+    };
+  }
+  case GET_DASHBOARD_PLAN_FAIL: {
+    return {
+      ...state,
+      dashboardPlan: {
+        data: null,
         error: payload,
       },
     };

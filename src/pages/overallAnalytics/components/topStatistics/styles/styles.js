@@ -42,6 +42,5 @@ export default makeStyles((theme) => ({
     fontSize: "2.5rem",
     color: "#6f829a",
     fontWeight: "bold",
-    fontFamily: "AvenirNextCyr",
   },
 }));

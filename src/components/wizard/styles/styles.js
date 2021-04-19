@@ -120,7 +120,6 @@ export default makeStyles((theme) => ({
     bottom: "-30px",
     left: 10,
     color: "#ff0000",
-    fontFamily: "AvenirNextCyr, san-serif, arial",
   },
   btnContainer: {
     width: "50%",

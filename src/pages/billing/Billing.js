@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Typography } from "@material-ui/core";
+import axios from "axios";
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
@@ -42,10 +43,18 @@ function Billing() {
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   useEffect(() => {
+    // const bodyFormData = new FormData();
+    // bodyFormData.append("sAction", "SetDashboardPlan");
+    // bodyFormData.append("ajax", 1);
+    // bodyFormData.append("iID", userId);
+    // bodyFormData.append("iPlan ", "1");
+    // axios.post("", bodyFormData, {
+    //   withCredentials: true,
+    // });
     profileIds(userId)
       .then((res) => (res.data ? setQuantity(JSON.parse(res.data).length + 1) : setQuantity(1)))
       .catch((err) => setQuantity(null));
-  });
+  }, [userId]);
 
   return (
     <>

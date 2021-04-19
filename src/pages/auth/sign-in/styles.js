@@ -162,4 +162,11 @@ export default makeStyles((theme) => ({
     width: "60%",
     minWidth: 230,
   },
+  haveAccountLink: {
+    fontWeight: "bold !important",
+    cursor: "pointer",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
 }));

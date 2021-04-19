@@ -176,7 +176,6 @@ export default makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    fontFamily: "AvenirNextCyr, san-serif, arial",
     "@media (max-width:1450px)": {
       fontSize: "12px",
     },

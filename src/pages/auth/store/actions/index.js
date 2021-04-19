@@ -4,9 +4,12 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
+  GET_DASHBOARD_PLAN_SUCCESS,
+  GET_DASHBOARD_PLAN_FAIL,
   LOGOUT,
 } from "../actionTypes";
 import { snackBarAction } from "../../../../store/actions";
+import * as requests from "./requests";
 
 export const signInAction = (credo) => async (dispatch) => {
   try {
@@ -80,6 +83,18 @@ export const signUpAction = (credo) => async (dispatch) => {
         open: true,
       }),
     );
+  }
+};
+
+export const getDashboardPlanAction = (id) => async (dispatch) => {
+  try {
+    const { data } = await requests.dashboardPlanRequest(id);
+    return dispatch({
+      type: GET_DASHBOARD_PLAN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 
