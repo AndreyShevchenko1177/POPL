@@ -10,7 +10,7 @@ import { getMothName, getMonth, getDay } from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
 
 export default function NetworkActivity({
-  data, calendar, setCalendar, setDate,
+  data, calendar, setCalendar, setDate, selectOption, options,
 }) {
   const classes = useStyles();
   const chartRef = useRef();
@@ -67,7 +67,6 @@ export default function NetworkActivity({
         // result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(values)];
       });
-      console.log("chart labels", labels);
       chartOptions.data.labels = labels;
       setChartData({
         data: { ...chartOptions.data },
@@ -116,7 +115,7 @@ export default function NetworkActivity({
           </Typography>
         </div>
         <div style={{ position: "relative" }}>
-          <DatePicker calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
+          <DatePicker selectOption={selectOption} options={options} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
@@ -128,7 +127,6 @@ export default function NetworkActivity({
             />
           ) : (
             <>
-              {console.log("when chart start render", chartData)}
               {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
                 : (
                   <div className={classes.noDataText}>

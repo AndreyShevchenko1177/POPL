@@ -101,6 +101,11 @@ function PoplsItem() {
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
+  const resetSort = () => {
+    setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+    setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
+  };
+
   useEffect(() => {
     const checkBoxObject = {};
     dragablePopls && dragablePopls.forEach((el) => {
@@ -167,6 +172,7 @@ function PoplsItem() {
               setOpenProfileSelect,
               sortConfig: sortingConfig,
               sortHandler,
+              resetSort,
             }}
           />
         </div>

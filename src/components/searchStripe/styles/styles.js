@@ -23,6 +23,7 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   buttonWrapper: {
+    position: "relative",
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
@@ -71,5 +72,13 @@ export default makeStyles((theme) => ({
     minWidth: "100px",
     fontSize: "16px",
     borderRadius: theme.custom.mainBorderRadius,
+  },
+  sortText: {
+    position: "absolute",
+    width: "150px",
+    display: "flex",
+    alignItems: "center",
+    bottom: "-30px",
+    left: "5px",
   },
 }));

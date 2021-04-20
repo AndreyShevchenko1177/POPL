@@ -2,10 +2,10 @@ import React from "react";
 import {
   Paper, InputBase, Checkbox, Button,
 } from "@material-ui/core";
-import clsx from "clsx";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import CloseIcon from "@material-ui/icons/Close";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
 import Filters from "../filters";
@@ -69,6 +69,12 @@ function SearchStripe({
 
       {isShowSortBtn && <div className='relative'>
         <div className={classes.buttonWrapper}>
+          {selectObject.sortConfig.some(({ active }) => active) && <div className={classes.sortText}>
+            <span>
+              {selectObject.sortConfig.find(({ active }) => active)?.label}
+            </span>
+            <CloseIcon style={{ cursor: "pointer" }} onClick={selectObject.resetSort}/>
+          </div>}
           <Button
             variant="contained"
             color="primary"

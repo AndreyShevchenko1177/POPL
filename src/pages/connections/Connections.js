@@ -81,6 +81,15 @@ function Connections() {
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
+  const resetSort = () => {
+    setConnections(() => connections.slice(0, 19));
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
+    setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
+  };
+
   useEffect(() => {
     if (location.state?.id) {
       return dispatch(collectSelectedConnections(location.state.id, true));
@@ -133,6 +142,7 @@ function Connections() {
               setOpenProfileSelect,
               sortConfig: sortingConfig,
               sortHandler,
+              resetSort,
             }}
           />
         </div>

@@ -154,6 +154,17 @@ export default function Profiles() {
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
+  const resetSort = () => {
+    setProfiles((prevProfile) => profilesData.map((prof) => ({
+      ...prof,
+      connectionNumber: profileConnection[prof.id],
+      poplsNumber: poplsConnection[prof.id],
+      popsNumber: popsConnection[prof.id],
+      linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
+    })));
+    setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
+  };
+
   useEffect(() => {
     setProfiles((prevProfile) => prevProfile.map((prof) => ({
       ...prof,
@@ -221,6 +232,7 @@ export default function Profiles() {
               selectBtn,
               config: selectCheckboxes,
               sortConfig: sortingConfig,
+              resetSort,
               sortHandler,
             }}
             reverse

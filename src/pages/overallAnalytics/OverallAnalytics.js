@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, dateFormat,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -17,6 +18,7 @@ function OverallAnalytics() {
   const dispatch = useDispatch();
   const location = useLocation();
   const classes = useStyles();
+  const [options, setOption] = useState("");
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
@@ -38,6 +40,7 @@ function OverallAnalytics() {
   });
 
   const setDate = (minDate, maxDate) => {
+    setOption("");
     let minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,
     )}, ${getYear(minDate)}-`;
@@ -64,6 +67,9 @@ function OverallAnalytics() {
         visible: false,
       });
     }
+    console.log({
+      minDate, maxDate, minD, maxD,
+    }, "set date function, component - overallanalytics");
     setCalendar({
       ...calendar,
       dateRange: [minDate, maxDate],
@@ -73,13 +79,85 @@ function OverallAnalytics() {
     setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
   };
 
+  const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
+    console.log({
+      dateFromRange, dateFrom, dateTo, maxD, minD,
+    }, "generate data, component - overallanalytics");
+    setChartData({ lineData: generateLineChartData(popsData, dateFrom, dateTo), dohnutData: generateDohnutChartData(popsData, dateFrom, dateTo) });
+    return setCalendar({
+      ...calendar,
+      dateRange: [dateTo, dateFromRange],
+      normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
+      visible: false,
+    });
+  };
+
   const handleShowAllStat = () => {
     dispatch(getStatisticItemsRequest(userId));
     dispatch(getPopsAction());
   };
 
+  const selectOption = (event) => {
+    setOption(event.target.value);
+    switch (event.target.value) {
+    case "last 7": {
+      const dateTo = moment().toDate();
+      const dateFrom = moment().subtract(6, "d").toDate();
+      const dateFromRange = moment().subtract(7, "d").toDate();
+      let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
+        dateTo,
+      )}, ${getYear(dateTo)}-`;
+      let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
+        dateFrom,
+      )}, ${getYear(dateFrom)}`;
+      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+    }
+    case "month to date": {
+      const dateTo = moment().toDate();
+      const dateFrom = moment().subtract(1, "months").endOf("month").subtract(-1, "d")
+        .toDate();
+      const dateFromRange = moment().subtract(1, "months").endOf("month").toDate();
+      let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
+        dateTo,
+      )}, ${getYear(dateTo)}-`;
+      let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
+        dateFrom,
+      )}, ${getYear(dateFrom)}`;
+      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+    }
+    case "last month": {
+      const dateTo = moment().toDate();
+      const dateFrom = moment().subtract(1, "months").subtract(-1, "d").toDate();
+      const dateFromRange = moment().subtract(1, "months").toDate();
+      let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
+        dateTo,
+      )}, ${getYear(dateTo)}-`;
+      let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
+        dateFrom,
+      )}, ${getYear(dateFrom)}`;
+      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+    }
+    case "week to date": {
+      const dateTo = moment().toDate();
+      const dateFrom = moment().subtract(1, "weeks").endOf("isoWeek").subtract(-1, "d")
+        .toDate();
+      const dateFromRange = moment().subtract(1, "weeks").endOf("isoWeek")
+        .toDate();
+      let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
+        dateTo,
+      )}, ${getYear(dateTo)}-`;
+      let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
+        dateFrom,
+      )}, ${getYear(dateFrom)}`;
+      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+    }
+    default: {
+      return console.log("default");
+    }
+    }
+  };
+
   useEffect(() => {
-    console.log(location.state);
     if (location.state?.poplName) {
       setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
       dispatch(getPopsAction(null, location.state?.poplName));
@@ -101,7 +179,6 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      console.log("data from server", generateLineChartData(popsData));
       setChartData({ lineData: generateLineChartData(popsData), dohnutData: generateDohnutChartData(popsData) });
     } else {
       setChartData(popsData);
@@ -127,8 +204,7 @@ function OverallAnalytics() {
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />
-        {console.log("Before chart get data", chartData?.lineData)}
-        <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
+        <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate} options={options} selectOption={selectOption}/>
       </div>
       <BottomWidgets
         topPopped={topStatisticsData.data?.topPoppedPopls}
