@@ -15,7 +15,7 @@ import {
 } from "../actionTypes";
 import { getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
-import { profileIds } from "../../../profiles/store/actions/requests";
+import { profileIdsRequest } from "../../../profiles/store/actions/requests";
 import * as requests from "./requests";
 
 export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
@@ -32,7 +32,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
           data: null,
         };
         if (!isSingle) {
-          response = await profileIds(id);
+          response = await profileIdsRequest(id);
         }
 
         if (response.data) {

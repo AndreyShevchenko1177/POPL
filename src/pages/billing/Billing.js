@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
 import SubscriptionCard from "./components/SubscriptionCard";
-import { profileIds } from "../profiles/store/actions/requests";
+import { profileIdsRequest } from "../profiles/store/actions/requests";
 
 const stripe = window.Stripe(stripeConfig.stripePk);
 
@@ -51,7 +51,7 @@ function Billing() {
     // axios.post("", bodyFormData, {
     //   withCredentials: true,
     // });
-    profileIds(userId)
+    profileIdsRequest(userId)
       .then((res) => (res.data ? setQuantity(JSON.parse(res.data).length + 1) : setQuantity(1)))
       .catch((err) => setQuantity(null));
   }, [userId]);

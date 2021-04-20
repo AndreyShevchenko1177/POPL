@@ -6,7 +6,7 @@ import {
 
 import { snackBarAction } from "../../../../store/actions";
 import { getPoplsDataById } from "../../../popls/store/actions/requests";
-import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
 import { getId, filterPops } from "../../../../utils";
 import * as requests from "./requests";
 
@@ -15,7 +15,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
     const { id } = getState().authReducer.signIn.data;
     let result;
     if (!userId) {
-      const { data } = await profileIds(id);
+      const { data } = await profileIdsRequest(id);
       let response;
       if (data) {
         const ids = JSON.parse(data);
@@ -133,93 +133,89 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
 export const getStatisticItemsRequest = (userId) => async (dispatch, getState) => {
   dispatch(cleanActionName("topStatisticsData"));
   const storeProfiles = getState().profilesReducer.dataProfiles.data;
-  const response = await profileIds(userId);
-  if (storeProfiles && response.data) {
+  let profilesList;
+  if (storeProfiles) {
+    profilesList = storeProfiles.map((profile) => profile.id);
     const profiles = storeProfiles.map((p) => ({
       ...p,
       customId: getId(12),
       business: p.business,
       social: p.social,
     }));
-    return dispatch(getStatisticItem(profiles, response));
+    return dispatch(getStatisticItem(profiles, profilesList));
   }
 
+  profilesList = await profileIdsRequest(userId);
+
   const myProfile = await getProfileAction(userId);
-  if (response.data) {
-    const idsArray = JSON.parse(response.data);
+  let profiles = [{ ...myProfile.data, customId: getId(12), id: myProfile.id }];
+  if (profilesList.data) {
+    const idsArray = JSON.parse(profilesList.data);
     const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
-    const profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
+    profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
       ...p,
       customId: getId(12),
       business: p.business,
       social: p.social,
     }));
-    return dispatch(getStatisticItem(profiles, response));
   }
-  let correctProfile = { customId: getId(12), id: myProfile.id };
-  Object.keys(myProfile.data).forEach((el) => correctProfile[el] = myProfile.data[el]);
-  return dispatch(getStatisticItem(correctProfile, response));
+  return dispatch(getStatisticItem(profiles, profilesList.data));
 };
 
-export const getStatisticItem = (profiles, profileIds) => async (dispatch, getState) => {
+export const getStatisticItem = (profiles, isSingle) => async (dispatch, getState) => {
   try {
     dispatch(cleanActionName("topStatisticsData"));
     let result = {};
-    if (!Array.isArray(profiles)) {
-      const userId = getState().authReducer.signIn.data.id;
-      const views = await requests.getAllThreeStats(profiles.id);
-      let topViewedViews = [];
-      if (profileIds && profileIds.data) {
-        const idsArray = JSON.parse(profileIds.data);
-        topViewedViews = await Promise.all([...idsArray, userId].map((id) => requests.getAllThreeStats(id)));
-        result.views = topViewedViews.reduce((a, b) => a + b.data.views, 0);
+    // <================>
+    // just for individual profile level
+    let storeProfiles = getState().profilesReducer.dataProfiles.data;
+    const parentUserId = getState().authReducer.signIn.data.id;
+    let profilesList = [parentUserId];
+    // getting all profiles ids for top viewed profiles widget. needs just on individual profile level
+    if (isSingle) {
+      if (storeProfiles) {
+        profilesList = storeProfiles.map((profile) => profile.id);
       } else {
-        result.views = views.data.views;
+        let result = await profileIdsRequest(parentUserId);
+        if (result.data) profilesList = [...JSON.parse(result.data), ...profilesList];
       }
+    }
+    // <==============>
 
-      result.totalProfiles = "1";
-      result.linkTaps = `${[...profiles.business, ...profiles.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)}`;
-      const { data } = await requests.popsActionRequest(profiles.id);
-      result.popsCount = data.length;
-      const popls = await getPoplsDataById(profiles.id);
-      result.totalPopls = `${popls.data.length}`;
-      result.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
-      const topPoppedPopls = {};
-      popls.data.forEach((popl) => topPoppedPopls[popl.nickname || popl.name] = []);
-      data.forEach((pop) => {
+    const data = await Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)));
+    const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
+    const views = await Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)));
+    let viewsTopViewedProfiles;
+
+    if (isSingle) {
+      // if individual profile level
+      viewsTopViewedProfiles = await Promise.all(profilesList.map((el) => requests.getAllThreeStats(el)));
+    } else {
+      viewsTopViewedProfiles = views;
+    }
+
+    result.totalProfiles = `${profiles.length}`;
+    result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
+    result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+    result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
+    result.topViewedProfiles = [...viewsTopViewedProfiles.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
+    result.views = views.reduce((a, b) => a + b.data.views, 0);
+
+    const topPoppedPopls = {};
+    popls
+      .reduce((acc, popls) => [...acc, ...popls.data], [])
+      .forEach((popl) => topPoppedPopls[popl.name] = []);
+
+    data
+      .reduce((acc, pops) => [...acc, ...pops.data], [])
+      .forEach((pop) => {
         const name = filterPops.slicePoplNameFromPop(pop[1]);
         if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
       });
 
-      result.topPoppedPopls = Object.keys(topPoppedPopls)
-        .map((key) => ({ [key]: topPoppedPopls[key] }))
-        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-    } else {
-      result.totalProfiles = `${profiles.length}`;
-      result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
-      const data = await Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)));
-      const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
-      const views = await Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)));
-      result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
-      result.popsCount = data.reduce((a, b) => a + b.data.length, 0);
-      result.topViewedProfiles = [...views.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
-      result.views = views.reduce((a, b) => a + b.data.views, 0);
-      const topPoppedPopls = {};
-      popls
-        .reduce((acc, popls) => [...acc, ...popls.data], [])
-        .forEach((popl) => topPoppedPopls[popl.name] = []);
-
-      data
-        .reduce((acc, pops) => [...acc, ...pops.data], [])
-        .forEach((pop) => {
-          const name = filterPops.slicePoplNameFromPop(pop[1]);
-          if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
-        });
-
-      result.topPoppedPopls = Object.keys(topPoppedPopls)
-        .map((key) => ({ [key]: topPoppedPopls[key] }))
-        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-    }
+    result.topPoppedPopls = Object.keys(topPoppedPopls)
+      .map((key) => ({ [key]: topPoppedPopls[key] }))
+      .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
 
     return dispatch({
       type: GET_TOP_STATISTICS_SUCCESS,

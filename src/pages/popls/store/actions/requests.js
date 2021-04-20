@@ -1,6 +1,5 @@
 import axios from "axios";
-import { getProfileAction, profileIds } from "../../../profiles/store/actions/requests";
-import { popsActionRequest } from "../../../overallAnalytics/store/actions/requests";
+import { getProfileAction } from "../../../profiles/store/actions/requests";
 
 export const getPoplsDataById = async (id) => {
   const getPopolsFormData = new FormData();

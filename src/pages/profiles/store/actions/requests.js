@@ -9,7 +9,7 @@ export const getChildrenIdsRequest = (userId) => {
   });
 };
 
-export const profileIds = async (userId) => {
+export const profileIdsRequest = async (userId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "getChild");
   bodyFormData.append("iID", userId);

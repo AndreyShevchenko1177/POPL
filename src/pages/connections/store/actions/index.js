@@ -15,7 +15,7 @@ import {
 } from "../actionTypes";
 
 import { snackBarAction, updateConnectionsNumber } from "../../../../store/actions";
-import { profileIds, getProfileAction } from "../../../profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
 import { uniqueObjectsInArray, formatDateConnections, filterPops } from "../../../../utils";
 
 export const collectSelectedConnections = (id, isSingle) => async (dispatch, getState) => {
@@ -32,7 +32,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
       });
     } else {
       idsArray = [profileId];
-      const { data } = await profileIds(profileId);
+      const { data } = await profileIdsRequest(profileId);
 
       if (data) {
         JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
@@ -104,7 +104,7 @@ export const showAllConnectionsAction = () => (dispatch) => {
 export const getProfilesIdsAction = (userId) => async (dispatch) => {
   try {
     const idsArray = [userId];
-    const response = await profileIds(userId);
+    const response = await profileIdsRequest(userId);
     if (response.data) {
       JSON.parse(response.data).forEach((id) => idsArray.push(id));
     }

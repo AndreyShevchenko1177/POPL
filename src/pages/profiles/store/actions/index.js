@@ -23,7 +23,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
     if (!storeProfiles) {
       dispatch(isFetchingAction(true));
       const myProfile = await requests.getProfileAction(userId);
-      const response = await requests.profileIds(userId);
+      const response = await requests.profileIdsRequest(userId);
       profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
 
       if (response.data) {
@@ -98,30 +98,9 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
   }
 };
 
-const directRequest = (id, state) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "SetDirectDashboard");
-  bodyFormData.append("ajax", "1");
-  bodyFormData.append("iID", id);
-  bodyFormData.append("bIsDirect", state);
-  return axios.post("", bodyFormData);
-};
-
-const turnProfileRequest = (id, state) => {
-  const profileData = {
-    id,
-    value: state,
-  };
-  return axios({
-    method: "post",
-    url: "",
-    baseURL: "/emailAdd",
-    data: profileData,
-  });
-};
-
 export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
   try {
+    dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
     if (userId) return dispatch(getProfilesDataAction(userId));
@@ -135,6 +114,7 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch) =
 
 export const turnProfileAction = (profileIds, state, userId) => async (dispatch) => {
   try {
+    dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
     if (userId) return dispatch(getProfilesDataAction(userId));
@@ -148,6 +128,7 @@ export const turnProfileAction = (profileIds, state, userId) => async (dispatch)
 
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
   try {
+    dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));
     if (userId) return dispatch(getProfilesDataAction(userId));

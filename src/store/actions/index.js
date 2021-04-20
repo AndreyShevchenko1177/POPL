@@ -3,7 +3,7 @@
 import {
   PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS, SHOW_RESTRICTED_MODE,
 } from "../actionTypes";
-import { profileIds, getProfileAction } from "../../pages/profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
@@ -26,7 +26,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     let profiles;
     if (!profilesData) {
       const myProfile = await getProfileAction(userId);
-      const response = await profileIds(userId);
+      const response = await profileIdsRequest(userId);
       let idsArray;
       profiles = [{ ...myProfile.data, id: myProfile.id, customId: getId(12) }];
       if (response.data && response.data !== "null") {

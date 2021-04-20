@@ -85,7 +85,7 @@ function OverallAnalytics() {
       dispatch(getPopsAction(null, location.state?.poplName));
     } else if (location.state?.id) {
       setWidgetLayerString({ layer: "Profile", name: location.state.name });
-      dispatch(getStatisticItem(location.state));
+      dispatch(getStatisticItem([location.state], "single"));
       dispatch(getPopsAction(location.state?.id));
     } else {
       setWidgetLayerString({ layer: "Total", name: "Total" });
