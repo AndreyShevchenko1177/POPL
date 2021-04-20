@@ -100,7 +100,7 @@ function OverallAnalytics() {
   const selectOption = (event) => {
     setOption(event.target.value);
     switch (event.target.value) {
-    case "last 7": {
+    case "last 7 days": {
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(6, "d").toDate();
       const dateFromRange = moment().subtract(7, "d").toDate();
