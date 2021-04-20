@@ -33,7 +33,7 @@ const selectConfig = [
 
 function MSelect({ onClick, options }) {
   return (
-    <FormControl variant="outlined" fullWidth style={{ backgroundColor: "#fff", zIndex: 10 }}>
+    <FormControl variant="outlined" fullWidth style={{ backgroundColor: "#fff", zIndex: 10 }} size="small">
       <InputLabel id="demo-simple-select-outlined-label">Choose option</InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"

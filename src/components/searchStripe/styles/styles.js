@@ -75,10 +75,15 @@ export default makeStyles((theme) => ({
   },
   sortText: {
     position: "absolute",
+    fontSize: 15,
+    color: "#666666",
+    fontWeight: "200",
     width: "150px",
+    height: 25,
     display: "flex",
     alignItems: "center",
     bottom: "-30px",
     left: "5px",
+    paddingTop: 5,
   },
 }));

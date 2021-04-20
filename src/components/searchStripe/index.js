@@ -71,9 +71,11 @@ function SearchStripe({
         <div className={classes.buttonWrapper}>
           {selectObject.sortConfig.some(({ active }) => active) && <div className={classes.sortText}>
             <span>
-              {selectObject.sortConfig.find(({ active }) => active)?.label}
+              <i>{selectObject.sortConfig.find(({ active }) => active)?.label}</i>
             </span>
-            <CloseIcon style={{ cursor: "pointer" }} onClick={selectObject.resetSort}/>
+            <CloseIcon style={{
+              cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+            }} onClick={selectObject.resetSort}/>
           </div>}
           <Button
             variant="contained"
