@@ -139,6 +139,7 @@ export default function Card({
                 data={personalMode.direct ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8) : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)}
                 style={classes.linkImage}
                 showEditIcon={showEditIcon}
+                setShowEditIcon={setShowEditIcon}
                 showEditModal={showEditModal}
                 name={name}
               />

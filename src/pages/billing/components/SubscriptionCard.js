@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import SubscribeButton from "./SubscribeButton";
 
 function SubscriptionCard({
-  title, price, priceId, stripe, profilesNumber, quantity, unitsRange,
+  title, price, priceId, stripe, profilesNumber, quantity, unitsRange, subscriptionId,
 }) {
   const classes = useStyles();
 
@@ -16,7 +16,7 @@ function SubscriptionCard({
         <span>${price} month</span>
       </div>
       <div className={classes.buttonContainer}>
-        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} />
+        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />
       </div>
       <div className={classes.labelsContainer}>
       </div>

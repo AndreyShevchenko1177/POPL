@@ -6,7 +6,7 @@ import { setCookie } from "../../../utils/cookie";
 import useStyles from "./styles";
 
 function SubscribeButton({
-  priceId, stripe, quantity, unitsRange, title,
+  priceId, stripe, quantity, unitsRange, title, subscriptionId,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -39,7 +39,9 @@ function SubscribeButton({
     fetch("/api", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setCookie("sessionId", JSON.stringify({ id: result, pricingName: title, unitsRange }));
+        setCookie("sessionId", JSON.stringify({
+          id: result, pricingName: title, subscriptionId, unitsRange,
+        }));
         stripe.redirectToCheckout({ sessionId: result })
           .then((res) => console.log(res))
           .catch((err) => dispatch(

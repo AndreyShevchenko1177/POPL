@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import successIcon from "../../assets/svg/success-icon.svg";
@@ -16,8 +17,15 @@ export const SuccessPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => history.push("/settings/billing"), 5000);
     dispatch(setUserProAction(userData.id));
-    const { pricingName, unitsRange } = JSON.parse(getCookie("sessionId"));
-    localStorage.setItem("subscription", JSON.stringify({ pricingName, unitsRange }));
+    const { pricingName, unitsRange, subscriptionId } = JSON.parse(getCookie("sessionId"));
+    const bodyFormData = new FormData();
+    bodyFormData.append("sAction", "SetDashboardPlan");
+    bodyFormData.append("ajax", 1);
+    bodyFormData.append("iID", userData.id);
+    bodyFormData.append("iPlan", subscriptionId);
+    axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
     return () => {
       clearTimeout(timer);
       deleteCookies("sessionId");

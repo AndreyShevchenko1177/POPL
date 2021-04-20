@@ -6,7 +6,7 @@ import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName, showEditIcon, showEditModal, name,
+  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name,
 }) {
   const classes = useStyles();
 
@@ -19,13 +19,20 @@ export default function SocialPoplsIcons({
       console.log(error);
     }
   };
+
+  const handleClickEditIcon = (title, value, id, clicks, iconId, name) => {
+    console.log("ok");
+    setShowEditIcon(false);
+    showEditModal(title, value, id, clicks, iconId, name);
+  };
+
   return (
     <>
       {data.map(({
         title, value, id, clicks, icon,
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
-          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => showEditModal(title, value, id, clicks, icons[id], name)}>
+          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name)}>
             <EditIcon style={{ width: 15, height: 15 }}/>
           </div>}
           <div

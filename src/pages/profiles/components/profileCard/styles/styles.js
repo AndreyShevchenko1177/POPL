@@ -159,6 +159,13 @@ export default makeStyles((theme) => ({
   },
   linksEditWrapper: {
     position: "absolute",
+    width: 20,
+    height: 20,
+    backgroundColor: "#d8d5d5",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     top: -7,
     right: -7,
   },
