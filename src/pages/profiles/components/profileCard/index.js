@@ -143,7 +143,6 @@ export default function Card({
                 showEditModal={showEditModal}
                 name={name}
               />
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.tapsHeading }}>Taps</Typography>
             </div>
             <div className={clsx(classes.section6, "target-element")}>
               <Button

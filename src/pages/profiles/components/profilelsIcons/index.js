@@ -41,7 +41,7 @@ export default function SocialPoplsIcons({
           >
             <img className={style} src={icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media` : icons[id].icon} alt={title} />
           </div>
-          <span className={classes.clicksText}>{`${clicks}`}</span>
+          {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
         </div>
       ))}
     </>

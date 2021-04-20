@@ -129,7 +129,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     display: "flex",
     paddingRight: "10px",
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   section4_sub_wrapper: {
     display: "flex",
@@ -182,12 +182,6 @@ export default makeStyles((theme) => ({
   },
   linkImage: {
     width: 30,
-  },
-  tapsHeading: {
-    position: "absolute",
-    right: "-10px",
-    bottom: "12px",
-    fontWeight: "bold !important",
   },
   clicksText: {
     paddingTop: 10,
