@@ -10,6 +10,11 @@ import Calendar from "./calendar";
 
 const selectConfig = [
   {
+    id: 0,
+    label: "None",
+    value: "none",
+  },
+  {
     id: 1,
     label: "last 7 days",
     value: "lastSevenDays",
@@ -42,9 +47,6 @@ function MSelect({ onClick, options }) {
         onChange={onClick}
         label="Choose option"
       >
-        <MenuItem value="" id='DefaultMOption'>
-          <em>None</em>
-        </MenuItem>
         {selectConfig.map((item, key) => <MenuItem id='MOption' key={key} value={item.label}>{item.label}</MenuItem>)}
       </Select>
     </FormControl>

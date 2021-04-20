@@ -152,7 +152,18 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     default: {
-      return console.log("default");
+      const dateTo = moment().toDate();
+      const dateFrom = moment().subtract(2, "weeks").subtract(-1, "d")
+        .toDate();
+      const dateFromRange = moment().subtract(2, "weeks")
+        .toDate();
+      let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
+        dateTo,
+      )}, ${getYear(dateTo)}-`;
+      let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
+        dateFrom,
+      )}, ${getYear(dateFrom)}`;
+      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     }
   };
