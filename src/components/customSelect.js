@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   sortContainer: {
     position: "absolute",
     top: 55,
-    left: 30,
+    // left: 30,
     minWidth: 120,
     minHeight: 60,
     backgroundColor: "#ffffff",
@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
     zIndex: 10,
-    "@media (min-width:1000px)": {
-      left: 30,
-    },
+    // "@media (min-width:1000px)": {
+    //   left: 30,
+    // },
   },
   wrapper: {
     display: "flex",

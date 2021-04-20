@@ -11,7 +11,7 @@ import Calendar from "./calendar";
 const selectConfig = [
   {
     id: 1,
-    label: "last 7",
+    label: "last 7 days",
     value: "lastSevenDays",
   },
   {
