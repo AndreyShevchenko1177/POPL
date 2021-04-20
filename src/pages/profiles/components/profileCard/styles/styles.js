@@ -67,11 +67,16 @@ export default makeStyles((theme) => ({
   },
   section1: {
     display: "flex",
+    position: "relative",
     width: "100%",
     maxHeight: "140px",
     minWidth: "180px",
     alignItems: "flex-start",
     padding: "20px 0 10px 0",
+  },
+  section1_editIcon: {
+    position: "absolute",
+    right: 10,
   },
   section1_title: {
     display: "flex",
@@ -147,9 +152,15 @@ export default makeStyles((theme) => ({
   linkClicksWrapper: {
     width: 40,
     display: "flex",
+    position: "relative",
     flexDirection: "column",
     alignItems: "center",
     margin: "0 15px 15px 0",
+  },
+  linksEditWrapper: {
+    position: "absolute",
+    top: -7,
+    right: -7,
   },
   iconItem: {
     display: "flex",

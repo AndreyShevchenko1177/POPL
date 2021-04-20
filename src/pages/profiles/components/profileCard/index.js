@@ -9,6 +9,7 @@ import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
+import SvgMaker from "../../../../components/svgMaker";
 import { imagesExtensions, isSafari } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
@@ -29,6 +30,7 @@ export default function Card({
   direct,
   id,
   profileOff,
+  showEditModal,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -40,6 +42,7 @@ export default function Card({
     direct: false,
     text: "Personal",
   });
+  const [showEditIcon, setShowEditIcon] = useState(false);
   const extension = image.split(".");
 
   const setBio = () => {
@@ -62,6 +65,10 @@ export default function Card({
     });
   };
 
+  const editIconHandler = () => {
+    setShowEditIcon(!showEditIcon);
+  };
+
   useEffect(() => {
     if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });
   }, [activeProfile]);
@@ -81,6 +88,9 @@ export default function Card({
         <div className={classes.mainContent}>
           {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
+            <div className={classes.section1_editIcon} onClick={editIconHandler}>
+              <SvgMaker name="editIcon" width={showEditIcon ? 20 : 25} height={showEditIcon ? 20 : 25}/>
+            </div>
             <div className={clsx(classes.section1_avatar, "target-element")}>
               <Avatar
                 src={
@@ -128,6 +138,9 @@ export default function Card({
                 profileName={name}
                 data={personalMode.direct ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8) : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)}
                 style={classes.linkImage}
+                showEditIcon={showEditIcon}
+                showEditModal={showEditModal}
+                name={name}
               />
               <Typography variant='subtitle1' classes={{ subtitle1: classes.tapsHeading }}>Taps</Typography>
             </div>

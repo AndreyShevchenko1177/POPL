@@ -15,6 +15,7 @@ import useStyles from "./styles/styles";
 import Loader from "../../components/Loader";
 import { selectConfig, sortConfig } from "./selectConfig";
 import CustomWizard from "../../components/wizard";
+import EditLinkModal from "./components/editLink";
 import { snackBarAction } from "../../store/actions";
 import { isSafari } from "../../constants";
 
@@ -39,6 +40,7 @@ export default function Profiles() {
   const [selectCheckboxes, setSelectCheckboxes] = useState(selectConfig);
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [wizard, setWizard] = useState({ open: false, data: [] });
+  const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/add-profile");
@@ -165,6 +167,17 @@ export default function Profiles() {
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
 
+  const showEditModal = (title, value, id, clicks, icon, name) => {
+    setEditLinkModal({
+      ...editLinkModal,
+      open: true,
+      data: {
+        title, value, id, clicks, icon, name,
+
+      },
+    });
+  };
+
   useEffect(() => {
     setProfiles((prevProfile) => prevProfile.map((prof) => ({
       ...prof,
@@ -214,6 +227,7 @@ export default function Profiles() {
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
+          {editLinkModal.open && <EditLinkModal setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
           <SearchStripe
             showAll={false}
             isShowSortBtn
@@ -264,6 +278,7 @@ export default function Profiles() {
                           >
                             <ProfileCard
                               {...el}
+                              showEditModal={showEditModal}
                               mainCheck={mainCheck}
                               handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
                               profilesCheck={profilesCheck}

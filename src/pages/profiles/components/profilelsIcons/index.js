@@ -1,11 +1,12 @@
 import React from "react";
+import EditIcon from "@material-ui/icons/Edit";
 import icons from "./icons";
 import useStyles from "../profileCard/styles/styles";
 import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName,
+  style, data, handleClick, profileId, profileName, showEditIcon, showEditModal, name,
 }) {
   const classes = useStyles();
 
@@ -18,13 +19,15 @@ export default function SocialPoplsIcons({
       console.log(error);
     }
   };
-
   return (
     <>
       {data.map(({
         title, value, id, clicks, icon,
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
+          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => showEditModal(title, value, id, clicks, icons[id], name)}>
+            <EditIcon style={{ width: 15, height: 15 }}/>
+          </div>}
           <div
             onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
             className={classes.iconItem}
