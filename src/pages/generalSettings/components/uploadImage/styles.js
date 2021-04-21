@@ -9,7 +9,6 @@ export default makeStyles((theme) => ({
     },
     "& > div": {
       display: "flex",
-      // alignItems: "center",
       flexDirection: "column",
       justifyContent: "center",
       width: "100%",
@@ -34,7 +33,6 @@ export default makeStyles((theme) => ({
     backgroundColor: "#f3f4f5",
     justifyContent: "center",
     width: "100%",
-    // border: `2px dashed ${theme.custom.mainBorderGreyColor}`,
     height: 100,
   },
   previewContainer: {
@@ -72,6 +70,5 @@ export default makeStyles((theme) => ({
   uploadImageText: {
     color: "#999a9b",
     fontSize: "20px !important",
-    // fontWeight: "bold !important",
   },
 }));

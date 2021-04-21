@@ -91,7 +91,7 @@ export default makeStyles((theme) => ({
   listText: {
     fontSize: "14px",
     letterSpacing: "1.5px",
-    color: "#7d8286",
+    color: "#000000",
   },
   listTextNested: {
     fontSize: "12px",
@@ -130,7 +130,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     paddingBottom: 10,
     "& > span": {
-      color: "#7d8286",
+      color: "#000000",
       fontSize: "14px",
       letterSpacing: "1.5px",
     },
@@ -156,7 +156,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     padding: "10px 0",
     "& > span": {
-      color: "#7d8286",
+      color: "#000000",
       fontSize: "14px",
     },
   },
@@ -166,7 +166,7 @@ export default makeStyles((theme) => ({
     height: 36,
   },
   tierButton: {
-    color: "#7d8286",
+    color: "#000000",
     borderColor: "#7d8286",
     // width: "60%",
     position: "absolute",

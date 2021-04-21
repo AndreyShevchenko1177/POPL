@@ -7,6 +7,7 @@ import SvgMaker from "../../components/svgMaker/SvgMaker";
 import useLongPress from "../../components/useLongPressHook";
 import { restricteModeAction } from "../../store/actions";
 import { subscriptionConfig } from "../../pages/billing";
+import tierIcon from "../../assets/tierIcon.png";
 
 function TierLevel({ count, subscriptionName, maxProfiles }) {
   const classes = useStyles();
@@ -41,7 +42,8 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
           ? <>
             <div className={classes.tierHeader}>
               <div className={classes.tierIcon}>
-                <SvgMaker fill="#7d8286" width={30} height={30} name='users'/>
+                {/* <SvgMaker fill="#000000" width={30} height={30} name='users'/> */}
+                <img style={{ width: 25, height: 25 }} alt='popl' src={tierIcon} />
               </div>
               <span>{currentPlan.title}</span>
             </div>

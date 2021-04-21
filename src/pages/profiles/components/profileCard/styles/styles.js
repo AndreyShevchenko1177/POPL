@@ -150,7 +150,7 @@ export default makeStyles((theme) => ({
     borderBottomRightRadius: theme.custom.mainBorderForBigElement,
   },
   linkClicksWrapper: {
-    width: 40,
+    width: 35,
     display: "flex",
     position: "relative",
     flexDirection: "column",
@@ -174,11 +174,9 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffffff",
-    padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
-    boxShadow: theme.custom.iconBoxShadow,
-    width: 40,
-    height: 40,
+    // width: 40,
+    // height: 40,
   },
   linkImage: {
     width: 30,

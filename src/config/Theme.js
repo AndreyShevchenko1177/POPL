@@ -83,17 +83,17 @@ let theme = createMuiTheme({
     MuiTypography: {
       h1: {
         fontWeight: "700",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "50px !important",
       },
       h2: {
         fontWeight: "700",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "32px !important",
       },
       h3: {
         fontWeight: "700",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "28px !important",
       },
       h4: {
@@ -101,27 +101,27 @@ let theme = createMuiTheme({
       },
       h5: {
         fontWeight: "700",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "17px !important",
       },
       h6: {
         fontWeight: "normal",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "16px !important",
       },
       body1: {
         fontWeight: "200",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "20px !important",
       },
       body2: {
         fontWeight: "700",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "20px !important",
       },
       subtitle1: {
         fontWeight: "normal",
-        fontFamily: "dmSans",
+        fontFamily: "DM Sans",
         fontSize: "14px !important",
       },
     },

@@ -66,7 +66,7 @@ export default function Profiles() {
       typeof event.target.className === "string"
       && event.target.className.includes("target-element")
     ) {
-      history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
+      // history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
   }
 
@@ -258,7 +258,7 @@ export default function Profiles() {
               <Droppable droppableId="list">
                 {(provided) => (
                   <div
-                    className="full-w"
+                    className="full-w pb-50"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >

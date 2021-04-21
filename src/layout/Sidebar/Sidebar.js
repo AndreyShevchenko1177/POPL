@@ -18,8 +18,14 @@ import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/reques
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
 import poplIcon from "../../assets/poplIcon.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
-import profiles from "../../assets/profiles_grey.png";
-import profilesWhite from "../../assets/profiles_white.png";
+import profiles from "../../assets/profiles.png";
+import profilesWhite from "../../assets/profile_white.png";
+import connections from "../../assets/connections.png";
+import connectionsWhite from "../../assets/connections_white.png";
+import analytics from "../../assets/analytics.png";
+import analyticsWhite from "../../assets/analytics_white.png";
+import settings from "../../assets/settings.png";
+import settingsWhite from "../../assets/settings_white.png";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -155,7 +161,7 @@ function PermanentDrawerLeft() {
               }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div className={classes.sideBarIcons}>
+                <div style={{ width: 25, height: 25 }} className={classes.sideBarIcons}>
                   {/* <SvgMaker
                     name='profile'
                     fill="#7d8286"
@@ -230,10 +236,12 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <div className={classes.sideBarIcons}>
-                <SvgMaker
+                {/* <SvgMaker
                   name='connection'
                   fill="#7d8286"
-                />
+                /> */}
+                <img className='white' style={{ width: "100%" }} alt='popl' src={connectionsWhite} />
+                <img className='dark' style={{ width: "100%" }} alt='popl' src={connections} />
               </div>
             </ListItemIcon>
             <ListItemText
@@ -295,11 +303,15 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <div className={classes.sideBarIcons}>
-                <SvgMaker
+              <div style={{
+                width: 30, height: 30, display: "flex", alignItems: "center",
+              }} className={classes.sideBarIcons}>
+                {/* <SvgMaker
                   name='analytics'
                   fill="#7d8286"
-                />
+                /> */}
+                <img className='white' style={{ width: "100%" }} alt='popl' src={analyticsWhite} />
+                <img className='dark' style={{ width: "100%" }} alt='popl' src={analytics} />
               </div>
             </ListItemIcon>
             <ListItemText
@@ -317,11 +329,15 @@ function PermanentDrawerLeft() {
               onClick={() => highlightList("settings")}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div className={classes.sideBarIcons}>
-                  <SvgMaker
+                <div style={{
+                  width: 25, height: 25, display: "flex", alignItems: "center",
+                }} className={classes.sideBarIcons}>
+                  {/* <SvgMaker
                     name='settings'
                     fill="#7d8286"
-                  />
+                  /> */}
+                  <img className='white' style={{ width: "100%" }} alt='popl' src={settingsWhite} />
+                  <img className='dark' style={{ width: "100%" }} alt='popl' src={settings} />
                 </div>
               </ListItemIcon>
               <ListItemText
