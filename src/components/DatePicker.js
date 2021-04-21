@@ -2,7 +2,7 @@ import React, {
   Fragment, useRef, useEffect,
 } from "react";
 import {
-  FormControl, InputLabel, Select, MenuItem,
+  FormControl, InputLabel, Select, MenuItem, Paper,
 } from "@material-ui/core";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -84,21 +84,32 @@ function CDatePicker({
         <ArrowDropDownIcon fontSize="small" />
       </div>
       {calendar.visible && (
+
         <div
-          style={{ position: "absolute", right: "0px", outline: "none" }}
+          style={{
+            position: "absolute", right: "0px", outline: "none", zIndex: 10,
+          }}
           ref={ref}
           onBlur={blurhandler}
           tabIndex={1}
         >
-          <MSelect onClick={selectOption} options={options}/>
-          <Calendar
-            visible={calendar.visible}
-            dateRange={calendar.dateRange}
-            type="free-range"
-            onDateClick={setDate}
-            maxDate={new Date().getTime()}
-          />
+          <Paper elevation={3} style={{ padding: "25px 15px 15px 15px", borderRadius: "10px" }}>
+            <div style={{ marginBottom: 25 }}>
+              <div style={{ marginBottom: 5 }}>
+                <span style={{ fontWeight: 600, fontSize: 15 }}>Date range</span>
+              </div>
+              <MSelect onClick={selectOption} options={options}/>
+            </div>
+            <Calendar
+              visible={calendar.visible}
+              dateRange={calendar.dateRange}
+              type="free-range"
+              onDateClick={setDate}
+              maxDate={new Date().getTime()}
+            />
+          </Paper>
         </div>
+
       )}
     </Fragment>
   );

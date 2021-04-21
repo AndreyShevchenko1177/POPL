@@ -10,7 +10,7 @@ function StatisticItem({
   return (
     <div className={classes.topStatisticsItemContainer}>
       {count === undefined || isFetched ? (
-        <Loader />
+        <Loader containerStyles={{ display: "flex", alignItems: "center" }} />
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>
           <div className={classes.topStatisticsItemTitle}>

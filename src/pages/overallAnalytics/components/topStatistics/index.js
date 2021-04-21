@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Typography, Paper } from "@material-ui/core";
 import StatisticItem from "./statisticItem";
 import useStyles from "./styles/styles";
 import initialState from "./iconsConfig";
@@ -19,18 +20,25 @@ function TopStatistics(props) {
   }, [props]);
 
   return (
+
     <div className={classes.topStatisticsContainer}>
-      {data.map((item) => (
-        <React.Fragment key={item.id}>
-          <StatisticItem
-            count={props.popsCount}
-            isFetched={props.isFetched}
-            {...item}
-          />
-          <div className={classes.topStatisticsItemsDivider}></div>
-        </React.Fragment>
-      ))}
+      <div>
+        <Typography variant="body2">All time</Typography>
+      </div>
+      <Paper elevation={3} className={classes.topStatisticsWrapper}>
+        {data.map((item) => (
+          <React.Fragment key={item.id}>
+            <StatisticItem
+              count={props.popsCount}
+              isFetched={props.isFetched}
+              {...item}
+            />
+            <div className={classes.topStatisticsItemsDivider}></div>
+          </React.Fragment>
+        ))}
+      </Paper>
     </div>
+
   );
 }
 

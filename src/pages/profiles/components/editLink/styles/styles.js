@@ -42,11 +42,11 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    width: 420,
+    width: "100%",
     height: 500,
     overflow: "auto",
     "@media (max-width:1400px)": {
-      width: 350,
+      width: 400,
       height: 400,
     },
   },
