@@ -2,10 +2,10 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   topStatisticsWrapper: {
-    padding: "15px 5px",
+    padding: "10px 5px",
     width: "100%",
     display: "flex",
-    minHeight: 112,
+    minHeight: 100,
     justifyContent: "space-between",
     minWidth: "800px",
     borderRadius: theme.custom.mainBorderRadius,
