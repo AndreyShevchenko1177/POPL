@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import useStyles from "./styles/styles";
 import Loader from "../../../../components/Loader";
+import { addCommas } from "../../../../utils";
 
 function StatisticItem({
   title, value, count, isFetched, icon,
@@ -23,7 +24,7 @@ function StatisticItem({
             className={classes.topStatisticsItemValue}
             style={{ textAlign: "center" }}
           >
-            {value || "-"}
+            {addCommas(String(value)) || "-"}
           </div>
         </div>
       )}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import clsx from "clsx";
 import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
@@ -20,7 +19,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <div className={clsx(classes.linksContainer, { [classes.linksContainerScreenTwo]: value })}>{children}</div>
+        <div className={classes.linksContainer}>{children}</div>
       )}
     </div>
   );

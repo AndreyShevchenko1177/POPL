@@ -1,46 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Grid,
   Button,
   TextField,
   Typography,
 } from "@material-ui/core";
-// import { addChildProfileAction, signInChildAction, clearStateAction } from "../../store/actions";
-// import { clearStateAction as clearProfilesState } from "../../../profiles/store/actions";
+import { addNewProfileWithRandomEmail, clearAction } from "../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 
 function LoginTab() {
   const classes = useStyles();
-  const history = useHistory();
   const [value, setValue] = useState("");
-  const signInData = useSelector(({ addProfilesReducer }) => addProfilesReducer.childSignIn.data);
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const addChildProfile = useSelector(({ addProfilesReducer }) => addProfilesReducer.addChildProfile.data);
   const dispatch = useDispatch();
+  const isAddProfileSuccess = useSelector(({ newProfileReducer }) => newProfileReducer.addProfileByRandomEmailSuccess);
 
   const handleChange = (event) => {
     // if (isNaN(Number(event.target.value))) return;
     setValue(event.target.value);
   };
 
-  const create = (values) => {
-    // dispatch(signInChildAction(values));
+  const create = () => {
+    dispatch(addNewProfileWithRandomEmail(value));
   };
 
   useEffect(() => {
-    // if (signInData) dispatch(addChildProfileAction(userData.id, signInData.id));
-  }, [signInData]);
-
-  useEffect(() => {
-    if (addChildProfile) {
-      // dispatch(clearStateAction("addChildProfile"));
-      // dispatch(clearStateAction("childSignIn"));
-      // dispatch(clearProfilesState("dataProfiles"));
-      history.push("/profiles");
+    if (isAddProfileSuccess) {
+      setValue("");
+      dispatch(clearAction("addProfileByRandomEmailSuccess"));
+      dispatch(snackBarAction({
+        message: "Invites sent successfully",
+        severity: "success",
+        duration: 3000,
+        open: true,
+      }));
     }
-  }, [addChildProfile]);
+  }, [isAddProfileSuccess]);
 
   return (
     <div>
