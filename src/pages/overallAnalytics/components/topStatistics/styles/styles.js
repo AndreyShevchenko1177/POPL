@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     padding: "15px 5px",
     width: "100%",
     display: "flex",
+    minHeight: 112,
     justifyContent: "space-between",
     minWidth: "800px",
     borderRadius: theme.custom.mainBorderRadius,
@@ -14,7 +15,6 @@ export default makeStyles((theme) => ({
     marginTop: 80,
     "& > div:first-child": {
       display: "flex",
-      justifyContent: "center",
       marginBottom: 10,
     },
 
