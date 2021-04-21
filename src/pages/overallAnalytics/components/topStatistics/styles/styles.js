@@ -1,12 +1,23 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
-  topStatisticsContainer: {
+  topStatisticsWrapper: {
+    padding: "15px 5px",
     width: "100%",
     display: "flex",
-    marginTop: 80,
     justifyContent: "space-between",
     minWidth: "800px",
+    borderRadius: theme.custom.mainBorderRadius,
+  },
+  topStatisticsContainer: {
+    width: "100%",
+    marginTop: 80,
+    "& > div:first-child": {
+      display: "flex",
+      justifyContent: "center",
+      marginBottom: 10,
+    },
+
   },
   topStatisticsItemsDivider: {
     borderRight: "2px solid #b3b6b5",
