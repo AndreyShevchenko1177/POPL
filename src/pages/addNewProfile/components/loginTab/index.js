@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { addNewProfileWithRandomEmail, clearAction } from "../../store/actions";
+import { addNewProfileWithRandomEmailAction, clearAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 
@@ -22,7 +22,7 @@ function LoginTab() {
   };
 
   const create = () => {
-    dispatch(addNewProfileWithRandomEmail(value));
+    dispatch(addNewProfileWithRandomEmailAction(Number(value)));
   };
 
   useEffect(() => {

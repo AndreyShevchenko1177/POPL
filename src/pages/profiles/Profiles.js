@@ -28,6 +28,7 @@ export default function Profiles() {
   );
   const { profileConnection, poplsConnection, popsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
+  const deleteLinkData = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.data);
   const [searchValue, setSearchValue] = useState("");
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
@@ -41,6 +42,7 @@ export default function Profiles() {
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [wizard, setWizard] = useState({ open: false, data: [] });
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
+  const [profileType, setProfileType] = useState({}); // person or business;
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/add-profile");
@@ -167,12 +169,12 @@ export default function Profiles() {
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
 
-  const showEditModal = (title, value, id, clicks, icon, name) => {
+  const showEditModal = (title, value, id, clicks, icon, name, hash) => {
     setEditLinkModal({
       ...editLinkModal,
       open: true,
       data: {
-        title, value, id, clicks, icon, name,
+        title, value, id, clicks, icon, name, hash,
 
       },
     });
@@ -219,6 +221,19 @@ export default function Profiles() {
     }
   }, [checkboxes]);
 
+  useEffect(() => {
+    if (deleteLinkData) {
+      setProfiles(profiles.map((item) => {
+        if (item.id == deleteLinkData.profileId) {
+          const business = item.business.filter((el) => el.id != deleteLinkData.linkId);
+          const social = item.social.filter((el) => el.id != deleteLinkData.linkId);
+          return { ...item, business, social };
+        }
+        return item;
+      }));
+    }
+  }, [deleteLinkData]);
+
   return (
     <>
       <Header
@@ -227,7 +242,7 @@ export default function Profiles() {
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
-          {editLinkModal.open && <EditLinkModal setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
+          {editLinkModal.open && <EditLinkModal profileType={profileType} setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
           <SearchStripe
             showAll={false}
             isShowSortBtn
@@ -283,6 +298,7 @@ export default function Profiles() {
                               handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
                               profilesCheck={profilesCheck}
                               checkboxes={checkboxes}
+                              setProfileType={setProfileType}
                             />
                           </div>
                         )}

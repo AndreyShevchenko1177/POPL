@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { addNewProfileByEmailAction, clearAction } from "../../store/actions";
+import { addNewProfileByEmailAction, clearAction, removeFileAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
@@ -18,7 +18,7 @@ function EmailInvite() {
   const [email, setEmail] = useState([]);
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
-  const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
+  const { isFetching, filesList } = useSelector(({ newProfileReducer }) => newProfileReducer);
   const isAddProfileSuccess = useSelector(({ newProfileReducer }) => newProfileReducer.addProfileByEmailSuccess);
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function EmailInvite() {
     }
   };
 
-  const handleDeletePreviewFile = (name) => console.log(name);
+  const handleDeletePreviewFile = (name) => dispatch(removeFileAction(name));
 
   const removeEmail = (id) => {
     setEmail((em) => em.filter((email) => email.id !== id));
@@ -138,6 +138,7 @@ function EmailInvite() {
             icon={<SvgMaker name={"csv"} fill='#fff' />}
             quantity={1}
             handleClose={() => setIsOpenDropZone(false)}
+            page='addNewProfile'
           />
         </div>
       </>}

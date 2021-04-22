@@ -11,6 +11,7 @@ import {
   ADD_LINK_FAIL,
   SET_DIRECT_ON_OFF_FAIL,
   SET_PROFILE_STATUS_FAIL,
+  DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -137,6 +138,33 @@ export const setProfileStatusAction = (profileIds, state, userId) => async (disp
       type: SET_PROFILE_STATUS_FAIL,
       error,
     });
+  }
+};
+
+export const deleteLinkAction = (linkType, linkHash, profileId, linkId, success) => async (dispatch) => {
+  try {
+    console.log(linkType, linkHash, profileId, linkId);
+    const bodyFormData = new FormData();
+    bodyFormData.append("sAction", "AjaxCleanLinkValue");
+    bodyFormData.append("iProfileNum", linkType);
+    bodyFormData.append("sHash", linkHash);
+
+    const result = await axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
+    console.log(result);
+    if (result.data.done) {
+      success();
+      return dispatch({
+        type: DELETE_PROFILE_LINK,
+        payload: {
+          profileId,
+          linkId,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -31,6 +31,7 @@ export default function Card({
   id,
   profileOff,
   showEditModal,
+  setProfileType,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ export default function Card({
   };
 
   const editIconHandler = () => {
+    setProfileType((pt) => ({ ...pt, [id]: activeProfile }));
     setShowEditIcon(!showEditIcon);
   };
 
