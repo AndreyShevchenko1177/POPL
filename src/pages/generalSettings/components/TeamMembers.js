@@ -39,7 +39,7 @@ function TeamMembers() {
           style={{ border: "1px solid #bababa" }}
           className={classes.colorElement}
         >
-          Show all Members
+          You and manage team members
         </div>
       </div>
       {isShow && <Paper className={classes.teamMembersPopup}>

@@ -138,7 +138,10 @@ export default function Card({
                 handleClick={handleClickPoplItem}
                 profileId={id}
                 profileName={name}
-                data={personalMode.direct ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8) : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)}
+                data={personalMode.direct
+                  ? business?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)
+                  : social?.sort((a, b) => b.clicks - a.clicks).slice(0, 8)
+                }
                 style={classes.linkImage}
                 showEditIcon={showEditIcon}
                 setShowEditIcon={setShowEditIcon}
