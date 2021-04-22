@@ -16,8 +16,8 @@ function EditScreen({
   };
 
   return (
-    <div className={classes.linkContainer}>
-      <div className={classes.linkImageValueContainer}>
+    <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
+      <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
         <div className={classes.secondPageLink}>
           <img className={classes.secondScreenLinkImage} src={icon.icon} alt={id} />
         </div>

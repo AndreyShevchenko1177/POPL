@@ -52,7 +52,7 @@ export default makeStyles((theme) => ({
   linkContainer: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     alignItems: "center",
     width: 420,
     height: 505,
