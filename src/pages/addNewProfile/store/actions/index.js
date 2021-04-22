@@ -6,8 +6,8 @@ import { clearStateAction, getProfilesDataAction } from "../../../profiles/store
 
 export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch, getState) => {
   try {
-    const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email)));
     const userId = getState().authReducer.signIn.data.id;
+    const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email, userId)));
     console.log(result);
     successCallBack();
     dispatch(clearStateAction("dataProfiles"));
@@ -25,7 +25,7 @@ export const addNewProfileWithRandomEmailAction = (emailCount) => async (dispatc
     const result = [];
     const userId = getState().authReducer.signIn.data.id;
     for (const count of new Array(emailCount).fill()) {
-      result.push(await requests.addNewProfileWithRandomEmailRequest());
+      result.push(await requests.addNewProfileWithRandomEmailRequest(userId));
     }
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfilesDataAction(userId));

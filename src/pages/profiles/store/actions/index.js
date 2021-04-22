@@ -99,12 +99,13 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
   }
 };
 
-export const setDirectAction = (profileIds, state, userId) => async (dispatch) => {
+export const setDirectAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
+    const { id } = getState().authReducer.signIn.data;
     dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
-    if (userId) return dispatch(getProfilesDataAction(userId));
+    if (id) return dispatch(getProfilesDataAction(id));
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -113,8 +114,9 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch) =
   }
 };
 
-export const turnProfileAction = (profileIds, state, userId) => async (dispatch) => {
+export const turnProfileAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
+    const { id } = getState().authReducer.signIn.data;
     dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
@@ -127,8 +129,9 @@ export const turnProfileAction = (profileIds, state, userId) => async (dispatch)
   }
 };
 
-export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch) => {
+export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
+    const { id } = getState().authReducer.signIn.data;
     dispatch(clearStateAction("dataProfiles"));
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));

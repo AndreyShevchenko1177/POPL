@@ -97,7 +97,7 @@ export default function Profiles() {
       ...checkboxes,
       [name]: {
         checked: !checkboxes[name].checked,
-        ...profilesData.find((el) => el.customId === name),
+        ...profilesData?.find((el) => el.customId === name),
       },
     });
   };
@@ -201,10 +201,11 @@ export default function Profiles() {
 
   useEffect(() => {
     const checkBoxObject = {};
+    console.log(profiles);
     profiles && profiles.forEach((el) => {
       checkBoxObject[el.customId] = {
         checked: false,
-        ...profilesData.find((item) => item.customId === el.customId),
+        ...profilesData?.find((item) => item.customId === el.customId),
       };
     });
     setCheckBoxes(checkBoxObject);
