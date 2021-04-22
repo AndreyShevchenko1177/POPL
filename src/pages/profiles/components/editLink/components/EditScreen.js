@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography } from "@material-ui/core";
 import useStyles from "../styles/styles";
 
 function EditScreen({
-  icon, id, title, value, isDeleteTab, profileBtnTitle, allProfilesBtnTitle,
+  icon, id, title, value, hash, isDeleteTab, profileBtnTitle, allProfilesBtnTitle, profileBtnEvent, allProfileBtnEvent,
 }) {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState({ title: "", value: "" });
@@ -15,14 +15,16 @@ function EditScreen({
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
 
-  const editLink = () => console.log("addLink");
   return (
-    <div className={clsx(classes.linkContainer, { [classes.linkContainerScreenTwo]: !!isDeleteTab })}>
+    <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
-        <div className={clsx(classes.link, classes.secondPageLink)}>
+        <div className={classes.secondPageLink}>
           <img className={classes.secondScreenLinkImage} src={icon.icon} alt={id} />
         </div>
         {!isDeleteTab && <div className={classes.linkInputsWrapper}>
+          <div className={classes.labelContainer}>
+            <Typography variant='h5'>Title</Typography>
+          </div>
           <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
             <TextField
               fullWidth
@@ -35,7 +37,11 @@ function EditScreen({
               }}
             />
           </div>
+          <div className={classes.labelContainer}>
+            <Typography variant='h5'>Url</Typography>
+          </div>
           <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
+
             <TextField
               fullWidth
               value={inputValue.value || value}
@@ -56,7 +62,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
-            onClick={editLink}
+            onClick={() => profileBtnEvent(hash)}
           >
             {profileBtnTitle}
           </Button>
@@ -66,7 +72,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
-            onClick={editLink}
+            onClick={allProfileBtnEvent}
           >
             {allProfilesBtnTitle}
           </Button>

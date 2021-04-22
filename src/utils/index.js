@@ -5,3 +5,4 @@ export * from "./uniqueId";
 export * from "./validationProvider";
 export * from "./filterPops";
 export * from "./uniqueObjectsInArray";
+export * from "./addCommas";

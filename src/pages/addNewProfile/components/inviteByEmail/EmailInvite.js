@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { addNewProfileByEmailAction, clearAction, removeFileAction } from "../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Loader from "../../../../components/Loader";
@@ -16,8 +18,8 @@ function EmailInvite() {
   const [email, setEmail] = useState([]);
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
-  const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const { isFetching, filesList } = useSelector(({ newProfileReducer }) => newProfileReducer);
+  const isAddProfileSuccess = useSelector(({ newProfileReducer }) => newProfileReducer.addProfileByEmailSuccess);
   const classes = useStyles();
   const dispatch = useDispatch();
   const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -35,6 +37,7 @@ function EmailInvite() {
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
     if (!emailsList.length && !email.length) return;
+    dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], () => setEmail([])));
   };
 
   const handleKeyChange = (event) => {
@@ -54,24 +57,24 @@ function EmailInvite() {
     }
   };
 
-  const handleDeletePreviewFile = (name) => console.log(name);
+  const handleDeletePreviewFile = (name) => dispatch(removeFileAction(name));
 
   const removeEmail = (id) => {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  // useEffect(() => {
-  //   if (isEmailSuccess) {
-  //     // setIsOpenDropZone(false);
-  //     dispatch(clearStateAction("inviteByEmail"));
-  //     dispatch(snackBarAction({
-  //       message: "Invites sent successfully",
-  //       severity: "success",
-  //       duration: 3000,
-  //       open: true,
-  //     }));
-  //   }
-  // }, [isEmailSuccess]);
+  useEffect(() => {
+    if (isAddProfileSuccess) {
+      // setIsOpenDropZone(false);
+      dispatch(clearAction("addProfileByEmailSuccess"));
+      dispatch(snackBarAction({
+        message: "Invites sent successfully",
+        severity: "success",
+        duration: 3000,
+        open: true,
+      }));
+    }
+  }, [isAddProfileSuccess]);
 
   return (
     <div className='relative'>
@@ -135,6 +138,7 @@ function EmailInvite() {
             icon={<SvgMaker name={"csv"} fill='#fff' />}
             quantity={1}
             handleClose={() => setIsOpenDropZone(false)}
+            page='addNewProfile'
           />
         </div>
       </>}

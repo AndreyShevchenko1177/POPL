@@ -5,13 +5,13 @@
   font-display: swap;
   src: url("./assets/fonts/avenirnextcyr-medium.ttf") format("truetype");
 } */
-@font-face {
+/* @font-face {
   font-family: "DM Sans";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url("./assets/fonts/dmSans/DMSans-Regular.ttf") format("truetype");
-}
+} */
 body * {
   box-sizing: border-box;
   font-family: "DM Sans", sans-serif, arial;

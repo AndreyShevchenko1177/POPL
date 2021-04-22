@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import clsx from "clsx";
+import { useDispatch } from "react-redux";
 import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
 import useStyles from "./styles/styles";
+import { deleteLinkAction } from "../../store/actions";
 
 function TabPanel(props) {
   const {
@@ -20,7 +21,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <div className={clsx(classes.linksContainer, { [classes.linksContainerScreenTwo]: value })}>{children}</div>
+        <div className={classes.linksContainer}>{children}</div>
       )}
     </div>
   );
@@ -41,8 +42,11 @@ function header(value, classes, cl) {
   );
 }
 
-function EditLinkModal({ isOpen, setEditLinkModal, data }) {
+function EditLinkModal({
+  isOpen, setEditLinkModal, data, profileType,
+}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [value, setValue] = useState({
     key: 0,
     link: {},
@@ -54,6 +58,11 @@ function EditLinkModal({ isOpen, setEditLinkModal, data }) {
   const blurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
     setEditLinkModal((v) => ({ ...v, open: false }));
+  };
+
+  const deleteLink = (hash) => {
+    const [pId, type] = Object.entries(profileType)[0];
+    dispatch(deleteLinkAction(type, hash, pId, data.id, () => setEditLinkModal((v) => ({ ...v, open: false }))));
   };
 
   useEffect(() => {
@@ -97,6 +106,8 @@ function EditLinkModal({ isOpen, setEditLinkModal, data }) {
                 {...data}
                 profileBtnTitle={`Edit ${data.name} link`}
                 allProfilesBtnTitle='Edit all profiles links'
+                profileBtnEvent={() => console.log("one edit")}
+                allProfileBtnEvent={() => console.log("all edit")}
               />
             </TabPanel>
             <TabPanel value={value.key} index={1}>
@@ -105,6 +116,8 @@ function EditLinkModal({ isOpen, setEditLinkModal, data }) {
                 profileBtnTitle={`delete ${data.name} link`}
                 allProfilesBtnTitle='delete all profiles links'
                 isDeleteTab={value.key}
+                profileBtnEvent={deleteLink}
+                allProfileBtnEvent={() => console.log("all delete")}
               />
             </TabPanel>
           </div>

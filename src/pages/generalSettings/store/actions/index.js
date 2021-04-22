@@ -4,18 +4,47 @@
 import { snackBarAction, profileCountTierLevelAction, profilesInfoAction } from "../../../../store/actions";
 import { getId } from "../../../../utils";
 import {
+  GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
   IS_DATA_FETCHING,
+  GET_COMPANY_INFO_FAIL,
 } from "../actionTypes";
 import * as requests from "./requests";
 
 export const updateUserProfile = ({ name, color, websiteLink }) => async (dispatch) => {
   try {
-    if (name) await requests.setCompanyColor(color);
-    if (color) await requests.setCompanyName(name);
-    if (websiteLink) await requests.setCompanyWebSite(websiteLink);
+    if (name || name === "") await requests.setCompanyName(name);
+    if (color || color === "") await requests.setCompanyColor(color);
+    if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
+    dispatch(clearStateAction("companyInfo"));
+    dispatch(getCompanyInfoAction());
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getCompanyInfoAction = () => async (dispatch, getState) => {
+  try {
+    const companyInfo = getState().generalSettingsReducer.companyInfo.data;
+    let result = companyInfo;
+    if (!companyInfo) {
+      dispatch(isFetchingAction(true));
+      const userId = getState().authReducer.signIn.data.id;
+      const { data } = await requests.getCompanyInfo(userId);
+      result = data;
+      console.log(data);
+    }
+
+    dispatch({
+      type: GET_COMPANY_INFO_SUCCESS,
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: GET_COMPANY_INFO_FAIL,
+      payload: error,
+    });
   }
 };
 
