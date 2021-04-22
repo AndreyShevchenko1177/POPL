@@ -180,6 +180,8 @@ export default makeStyles((theme) => ({
   },
   linkImage: {
     width: 30,
+    height: 30,
+    boxShadow: theme.custom.iconBoxShadow,
   },
   clicksText: {
     paddingTop: 10,
