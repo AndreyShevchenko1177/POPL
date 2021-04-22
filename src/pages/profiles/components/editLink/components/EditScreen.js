@@ -62,6 +62,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
+            style={{ whiteSpace: "nowrap" }}
             onClick={() => profileBtnEvent(hash)}
           >
             {profileBtnTitle}
@@ -72,6 +73,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
+            style={{ whiteSpace: "nowrap" }}
             onClick={allProfileBtnEvent}
           >
             {allProfilesBtnTitle}
