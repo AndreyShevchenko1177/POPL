@@ -9,6 +9,7 @@ import connectionsReducer from "../../pages/connections/store/reducer";
 import stripeResult from "../../pages/stripeResultPages/store/reducer";
 import addProfilesReducer from "../../pages/addExistingProfile/store/reducer";
 import newProfileReducer from "../../pages/addNewProfile/store/reducer";
+import generalSettingsReducer from "../../pages/generalSettings/store/reducer";
 import { LOGOUT } from "../../pages/auth/store/actionTypes";
 
 const appReducer = combineReducers({
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   stripeResult,
   addProfilesReducer,
   newProfileReducer,
+  generalSettingsReducer,
 });
 
 const rootReducer = (state, action) => {

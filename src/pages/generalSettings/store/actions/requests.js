@@ -26,3 +26,12 @@ export const setCompanyColor = (color) => {
     withCredentials: true,
   });
 };
+
+export const getCompanyInfo = (userId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "GetCompanyInfo");
+  bodyFormData.append("iID", userId);
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
