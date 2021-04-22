@@ -39,7 +39,13 @@ export default function SocialPoplsIcons({
             onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
             className={classes.iconItem}
           >
-            <img className={style} src={icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media` : icons[id].icon} alt={title} />
+            <img
+              className={style}
+              src={icon
+                ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+                : icons[id].icon} alt={title}
+
+            />
           </div>
           {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
         </div>

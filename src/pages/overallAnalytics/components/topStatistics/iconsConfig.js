@@ -1,5 +1,6 @@
-import poplIcon from "../../../../assets/poplIcon.png";
-import profiles from "../../../../assets/profiles_grey.png";
+import poplIcon from "../../../../assets/poplIcon_black.png";
+import profiles from "../../../../assets/profiles.png";
+import popls from "../../../../assets/totalPopls.png";
 import SvgMaker from "../../../../components/svgMaker/SvgMaker";
 
 const initialState = [
@@ -17,7 +18,7 @@ const initialState = [
     value: " ",
     percentage: "3%",
     isTop: true,
-    icon: <SvgMaker name='finger' width={25} height={25} fill="#7d8286" />,
+    icon: <SvgMaker name='finger' width={25} height={25} fill="#000000" />,
   },
   {
     id: "views",
@@ -25,7 +26,7 @@ const initialState = [
     value: " ",
     percentage: "12%",
     isTop: true,
-    icon: <SvgMaker name='overview' width={25} height={25} fill="#7d8286" />,
+    icon: <SvgMaker name='overview' width={25} height={25} fill="#000000" />,
   },
   {
     id: "totalProfiles",
@@ -33,7 +34,7 @@ const initialState = [
     value: " ",
     percentage: "5%",
     isTop: false,
-    icon: <img style={{ width: "25px", height: "20px" }} alt='popl' src={profiles} />,
+    icon: <img style={{ width: "25px", height: "30px" }} alt='popl' src={profiles} />,
   },
   {
     id: "totalPopls",
@@ -41,7 +42,7 @@ const initialState = [
     value: " ",
     percentage: "6%",
     isTop: true,
-    icon: <SvgMaker name='database' width={25} height={25} fill="#7d8286" />,
+    icon: <img style={{ width: "20px", height: "25px" }} alt='popl' src={popls} />,
   },
 ];
 

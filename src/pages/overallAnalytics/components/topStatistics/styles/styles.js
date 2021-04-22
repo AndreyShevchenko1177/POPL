@@ -46,12 +46,12 @@ export default makeStyles((theme) => ({
     marginRight: "3px",
   },
   titleText: {
-    color: "#808080",
+    color: "#000000",
     marginLeft: 5,
   },
   topStatisticsItemValue: {
     fontSize: "2.5rem",
-    color: "#6f829a",
+    color: "#000000",
     fontWeight: "bold",
   },
 }));
