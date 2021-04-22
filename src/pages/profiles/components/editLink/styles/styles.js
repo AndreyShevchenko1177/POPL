@@ -64,7 +64,9 @@ export default makeStyles((theme) => ({
   },
   linkImageValueContainer: {
     display: "flex",
+    height: "100%",
     flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     width: "100%",
   },

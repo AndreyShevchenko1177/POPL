@@ -145,15 +145,16 @@ export const deleteLinkAction = (linkType, linkHash, profileId, linkId, success)
   try {
     console.log(linkType, linkHash, profileId, linkId);
     const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "AjaxCleanLinkValue");
+    bodyFormData.append("sAction", "DeleteLinkDashboard");
     bodyFormData.append("iProfileNum", linkType);
     bodyFormData.append("sHash", linkHash);
-
+    bodyFormData.append("iLinkID", linkId);
+    bodyFormData.append("iID", profileId);
     const result = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
     console.log(result);
-    if (result.data.done) {
+    if (result.data.success) {
       success();
       return dispatch({
         type: DELETE_PROFILE_LINK,

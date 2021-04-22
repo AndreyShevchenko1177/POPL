@@ -104,8 +104,8 @@ function EditLinkModal({
             <TabPanel value={value.key} index={0}>
               <EditScreen
                 {...data}
-                profileBtnTitle={`Edit ${data.name} link`}
-                allProfilesBtnTitle='Edit all profiles links'
+                profileBtnTitle={`Edit ${data.name}'s link`}
+                allProfilesBtnTitle='Edit link from all profiles'
                 profileBtnEvent={() => console.log("one edit")}
                 allProfileBtnEvent={() => console.log("all edit")}
               />
@@ -113,8 +113,8 @@ function EditLinkModal({
             <TabPanel value={value.key} index={1}>
               <EditScreen
                 {...data}
-                profileBtnTitle={`delete ${data.name} link`}
-                allProfilesBtnTitle='delete all profiles links'
+                profileBtnTitle={`delete ${data.name}'s link`}
+                allProfilesBtnTitle='delete link from all profiles'
                 isDeleteTab={value.key}
                 profileBtnEvent={deleteLink}
                 allProfileBtnEvent={() => console.log("all delete")}

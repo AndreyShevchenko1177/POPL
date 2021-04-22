@@ -1,31 +1,17 @@
-import axios from "axios";
+import * as requests from "./requests";
 import {
   ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST,
 } from "../actionsType";
+import { clearStateAction, getProfilesDataAction } from "../../../profiles/store/actions";
 
-const addNewProfileByEmailRequest = (email) => {
-  console.log(email);
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "AjaxCreateAccountWithEmailOnly");
-  bodyFormData.append("sEmail", email);
-  return axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-};
-
-const addNewProfileWithRandomEmailRequest = async () => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "AjaxCreateAccountWithRandomEmail");
-  return axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-};
-
-export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch) => {
+export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch, getState) => {
   try {
-    const result = await Promise.all(emails.map((email) => addNewProfileByEmailRequest(email)));
+    const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email)));
+    const userId = getState().authReducer.signIn.data.id;
     console.log(result);
     successCallBack();
+    dispatch(clearStateAction("dataProfiles"));
+    dispatch(getProfilesDataAction(userId));
     return dispatch({
       type: ADD_NEW_PROFILE_BY_EMAIL,
     });
@@ -34,12 +20,15 @@ export const addNewProfileByEmailAction = (emails, successCallBack) => async (di
   }
 };
 
-export const addNewProfileWithRandomEmailAction = (emailCount) => async (dispatch) => {
+export const addNewProfileWithRandomEmailAction = (emailCount) => async (dispatch, getState) => {
   try {
     const result = [];
+    const userId = getState().authReducer.signIn.data.id;
     for (const count of new Array(emailCount).fill()) {
-      result.push(await addNewProfileWithRandomEmailRequest());
+      result.push(await requests.addNewProfileWithRandomEmailRequest());
     }
+    dispatch(clearStateAction("dataProfiles"));
+    dispatch(getProfilesDataAction(userId));
     dispatch({
       type: ADD_NEW_PROFILE_BY_RANDOM_EMAIL,
       payload: true,
