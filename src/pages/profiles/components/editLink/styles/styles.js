@@ -43,18 +43,10 @@ export default makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     width: "100%",
-    height: 500,
+    height: "505",
     overflow: "auto",
-    "@media (max-width:1400px)": {
-      width: 400,
-      height: 400,
-    },
-  },
-  linksContainerScreenTwo: {
-    height: 420,
-    "@media (max-width:1400px)": {
-      width: "100%",
-      height: 360,
+    "@media(max-width:1400px)": {
+      height: 500,
     },
   },
   linkContainer: {
@@ -63,17 +55,11 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     width: 420,
-    height: 500,
-    paddingTop: 30,
+    height: 505,
+    paddingTop: 15,
     "@media (max-width:1400px)": {
       width: 350,
-      height: 400,
-    },
-  },
-  linkContainerScreenTwo: {
-    height: 400,
-    "@media (max-width:1400px)": {
-      height: 360,
+      height: "100%",
     },
   },
   linkImageValueContainer: {
@@ -109,7 +95,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    padding: "20px 0 20px 0",
+    padding: "10px 0 15px 0",
     "@media (max-width:1400px)": {
       padding: "20px 0 20px 0",
     },
@@ -136,7 +122,6 @@ export default makeStyles((theme) => ({
   },
   btnContainer: {
     width: "50%",
-    paddingBottom: 20,
     "& div:first-child": {
       marginBottom: 15,
     },
@@ -183,5 +168,11 @@ export default makeStyles((theme) => ({
   },
   tab2: {
     borderBottom: "1px solid #b2afaf",
+  },
+  labelContainer: {
+    // display: "flex",
+    width: "65%",
+    // justifyContent: "flex-start",
+    marginBottom: 5,
   },
 }));

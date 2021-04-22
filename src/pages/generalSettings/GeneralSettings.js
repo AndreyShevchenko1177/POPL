@@ -1,7 +1,10 @@
 import { Button } from "@material-ui/core";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import Header from "../../components/Header";
 import SettingsField from "./components/SettingsField";
+import TeamMembers from "./components/TeamMembers";
+import { updateUserProfile } from "./store/actions";
 import UpladImage from "./components/uploadImage";
 import useStyles from "./styles";
 
@@ -12,6 +15,7 @@ function GeneralSettings() {
     websiteLink: "",
     color: "",
   });
+  const dispatch = useDispatch();
 
   console.log(fieldsState);
 
@@ -21,6 +25,8 @@ function GeneralSettings() {
     setFieldsState({ ...fieldsState, [name]: value });
   };
 
+  const handleSave = () => dispatch(updateUserProfile(fieldsState));
+
   return (
     <>
       <Header
@@ -29,6 +35,7 @@ function GeneralSettings() {
         path="/settings"
       />
       <div className={classes.container}>
+        <UpladImage />
         <SettingsField
           title="Name"
           name="name"
@@ -37,12 +44,13 @@ function GeneralSettings() {
           handleChange={handleChangeField}
         />
         <SettingsField
-          title="Websit URL"
+          title="Website URL"
           name="websiteLink"
           placeholder="Enter you website URL"
           value={fieldsState.websiteLink}
           handleChange={handleChangeField}
         />
+        <TeamMembers />
         <SettingsField
           title="Primary Color"
           setFieldsState={setFieldsState}
@@ -51,11 +59,11 @@ function GeneralSettings() {
           value={fieldsState.color}
           handleChange={handleChangeField}
         />
-        <UpladImage />
         <div className={classes.buttonContainer}>
           <Button
             variant='contained'
             color='primary'
+            onClick={handleSave}
           >
             Save
           </Button>

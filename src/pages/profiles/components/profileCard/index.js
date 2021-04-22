@@ -100,7 +100,7 @@ export default function Card({
                 }
                 name={name}
                 styles={{
-                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: "46px",
+                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: "49px",
                 }}
               />
               <div className={clsx(classes.checkboxWrapper, {

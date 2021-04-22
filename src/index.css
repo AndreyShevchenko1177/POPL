@@ -6,7 +6,7 @@
   src: url("./assets/fonts/avenirnextcyr-medium.ttf") format("truetype");
 } */
 @font-face {
-  font-family: "dmSans";
+  font-family: "DM Sans";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -14,7 +14,7 @@
 }
 body * {
   box-sizing: border-box;
-  font-family: "dmSans", sans-serif, arial;
+  font-family: "DM Sans", sans-serif, arial;
   outline: none;
 }
 body {
@@ -73,6 +73,10 @@ p {
 /* paddings */
 .pb-10 {
   padding-bottom: 10px;
+}
+
+.pb-50 {
+  padding-bottom: 50px;
 }
 
 .pt-5 {
