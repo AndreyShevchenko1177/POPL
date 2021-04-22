@@ -16,7 +16,7 @@ import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
-import poplIcon from "../../assets/poplIcon.png";
+import poplIcon from "../../assets/poplIcon_black.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
 import profiles from "../../assets/profiles.png";
 import profilesWhite from "../../assets/profile_white.png";
@@ -133,7 +133,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='overview'
-                    fill="#7d8286"
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>
@@ -275,7 +275,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='campaigns'
-                    fill="#7d8286"
+                    fill="#000000"
                   />
                 </div>
               </ListItemIcon>

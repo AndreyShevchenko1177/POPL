@@ -20,8 +20,6 @@ function GeneralSettings() {
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const { isFetching } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
 
-  console.log(fieldsState);
-
   const handleChangeField = (event) => {
     event.persist();
     const { name, value } = event.target;

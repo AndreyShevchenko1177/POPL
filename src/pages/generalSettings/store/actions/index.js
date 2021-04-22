@@ -13,9 +13,9 @@ import * as requests from "./requests";
 
 export const updateUserProfile = ({ name, color, websiteLink }) => async (dispatch) => {
   try {
-    if (name) await requests.setCompanyName(name);
-    if (color) await requests.setCompanyColor(color);
-    if (websiteLink) await requests.setCompanyWebSite(websiteLink);
+    if (name || name === "") await requests.setCompanyName(name);
+    if (color || color === "") await requests.setCompanyColor(color);
+    if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());
   } catch (error) {
