@@ -8,11 +8,12 @@ import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import Loader from "../Loader";
 import { addFileAction } from "../../pages/addExistingProfile/store/actions";
+import { addFileNewProfileAction } from "../../pages/addNewProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 import Preview from "./components/Preview";
 
 const DropZone = ({
-  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon, handleClose,
+  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon, handleClose, page,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -161,6 +162,14 @@ const DropZone = ({
   const importCsv = (event) => {
     event.stopPropagation();
     let [header, ...emails] = parseCsv;
+    if (!header) {
+      return dispatch(snackBarAction({
+        message: "Csv file is empty",
+        severity: "error",
+        duration: 3000,
+        open: true,
+      }));
+    }
     header = header.map((el) => el.toLowerCase());
     let index = header.indexOf("email") !== -1
       ? header.indexOf("email")
@@ -179,7 +188,11 @@ const DropZone = ({
           open: true,
         }));
       }
-      dispatch(addFileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
+      if (page === "addNewProfile") {
+        dispatch(addFileNewProfileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
+      } else {
+        dispatch(addFileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
+      }
       return handleClose();
     }
     return dispatch(snackBarAction({

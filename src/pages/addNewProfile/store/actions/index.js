@@ -1,5 +1,7 @@
 import axios from "axios";
-import { ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR } from "../actionsType";
+import {
+  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST,
+} from "../actionsType";
 
 const addNewProfileByEmailRequest = (email) => {
   console.log(email);
@@ -11,25 +13,51 @@ const addNewProfileByEmailRequest = (email) => {
   });
 };
 
-export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch) => {
-  const result = await Promise.all(emails.map((email) => addNewProfileByEmailRequest(email)));
-  console.log(result);
-  successCallBack();
-  return dispatch({
-    type: ADD_NEW_PROFILE_BY_EMAIL,
-  });
-};
-
-export const addNewProfileWithRandomEmail = (emailCount) => async (dispatch) => {
+const addNewProfileWithRandomEmailRequest = async () => {
   const bodyFormData = new FormData();
-  console.log(emailCount);
   bodyFormData.append("sAction", "AjaxCreateAccountWithRandomEmail");
-
-  const result = await axios.post("", bodyFormData, {
+  return axios.post("", bodyFormData, {
     withCredentials: true,
   });
-  console.log(result);
 };
+
+export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch) => {
+  try {
+    const result = await Promise.all(emails.map((email) => addNewProfileByEmailRequest(email)));
+    console.log(result);
+    successCallBack();
+    return dispatch({
+      type: ADD_NEW_PROFILE_BY_EMAIL,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addNewProfileWithRandomEmailAction = (emailCount) => async (dispatch) => {
+  try {
+    const result = [];
+    for (const count of new Array(emailCount).fill()) {
+      result.push(await addNewProfileWithRandomEmailRequest());
+    }
+    dispatch({
+      type: ADD_NEW_PROFILE_BY_RANDOM_EMAIL,
+      payload: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addFileNewProfileAction = (fileName) => ({
+  type: FILES_LIST,
+  payload: fileName,
+});
+
+export const removeFileAction = (fileName) => ({
+  type: REMOVE_FILE,
+  payload: fileName,
+});
 
 export const clearAction = (payload) => ({
   type: CLEAR,

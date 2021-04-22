@@ -4,7 +4,7 @@ import { TextField, Button, Typography } from "@material-ui/core";
 import useStyles from "../styles/styles";
 
 function EditScreen({
-  icon, id, title, value, isDeleteTab, profileBtnTitle, allProfilesBtnTitle,
+  icon, id, title, value, hash, isDeleteTab, profileBtnTitle, allProfilesBtnTitle, profileBtnEvent, allProfileBtnEvent,
 }) {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState({ title: "", value: "" });
@@ -15,7 +15,6 @@ function EditScreen({
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
 
-  const editLink = () => console.log("addLink");
   return (
     <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
@@ -63,7 +62,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
-            onClick={editLink}
+            onClick={() => profileBtnEvent(hash)}
           >
             {profileBtnTitle}
           </Button>
@@ -73,7 +72,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
-            onClick={editLink}
+            onClick={allProfileBtnEvent}
           >
             {allProfilesBtnTitle}
           </Button>

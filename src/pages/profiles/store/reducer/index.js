@@ -3,6 +3,7 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
+  DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -17,6 +18,10 @@ const initialState = {
     error: null,
   },
   addLink: {
+    data: null,
+    error: null,
+  },
+  deleteLink: {
     data: null,
     error: null,
   },
@@ -66,6 +71,15 @@ export default function profilesReducer(
         error,
       },
       isFetching: false,
+    };
+  }
+  case DELETE_PROFILE_LINK: {
+    return {
+      ...state,
+      deleteLink: {
+        data: payload,
+        error: null,
+      },
     };
   }
   case IS_DATA_FETCHING: {
