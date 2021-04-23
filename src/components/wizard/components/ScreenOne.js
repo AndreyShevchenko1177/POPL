@@ -22,7 +22,7 @@ function ScreenOne({ data, onClick }) {
         </div>
       ))} */}
       {Object.keys(iconsByCategories).map((cat, key) => (
-        <div key={key}>
+        <div className={classes.linksSectionContainer} key={key}>
           <div className={classes.categoryTitle} key={key}>
             <Typography variant='subtitle2'>{cat}</Typography>
           </div>
@@ -35,8 +35,8 @@ function ScreenOne({ data, onClick }) {
                   icon: icons[id], id,
                 })}
               >
-                <img style={{ width: "60px" }} src={icons[id].icon} alt={id} />
-                <Typography variant='h5'>{icons[id].text}</Typography>
+                <img style={{ width: "40px" }} src={icons[id].icon} alt={id} />
+                {/* <Typography variant='h5'>{icons[id].text}</Typography> */}
               </div>
             ))}
           </div>
