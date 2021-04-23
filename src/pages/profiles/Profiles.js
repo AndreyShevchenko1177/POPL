@@ -121,22 +121,22 @@ export default function Profiles() {
         return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
       }
       if (name === "makeDirectOn") {
-        dispatch(setDirectAction(profileIds, "1", userData.id));
+        dispatch(setDirectAction(profileIds, "1"));
       }
       if (name === "makeDirectOff") {
-        dispatch(setDirectAction(profileIds, "0", userData.id));
+        dispatch(setDirectAction(profileIds, "0"));
       }
       if (name === "makeBusiness") {
-        dispatch(setProfileStatusAction(profileIds, "2", userData.id));
+        dispatch(setProfileStatusAction(profileIds, "2"));
       }
       if (name === "makePersonal") {
-        dispatch(setProfileStatusAction(profileIds, "1", userData.id));
+        dispatch(setProfileStatusAction(profileIds, "1"));
       }
       if (name === "turnProfileOn") {
-        dispatch(turnProfileAction(profileIds, "true", userData.id));
+        dispatch(turnProfileAction(profileIds, "true"));
       }
       if (name === "turnProfileOff") {
-        dispatch(turnProfileAction(profileIds, "false", userData.id));
+        dispatch(turnProfileAction(profileIds, "false"));
       }
     } else {
       dispatch(snackBarAction({
@@ -195,17 +195,17 @@ export default function Profiles() {
   }, []);
 
   useEffect(() => {
+    console.log("profiles", profilesData);
     if (!profilesData) return;
     setProfiles(profilesData);
   }, [profilesData]);
 
   useEffect(() => {
     const checkBoxObject = {};
-    console.log(profiles);
     profiles && profiles.forEach((el) => {
       checkBoxObject[el.customId] = {
         checked: false,
-        ...profilesData?.find((item) => item.customId === el.customId),
+        ...profilesData.find((item) => item.customId === el.customId),
       };
     });
     setCheckBoxes(checkBoxObject);

@@ -9,8 +9,11 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
+  SET_DIRECT_ON_OFF_SUCCESS,
   SET_DIRECT_ON_OFF_FAIL,
+  SET_PROFILE_STATUS_SUCCESS,
   SET_PROFILE_STATUS_FAIL,
+  TURN_PROFILE_ON_OFF_SUCCESS,
   DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
@@ -99,16 +102,40 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
   }
 };
 
-export const setDirectAction = (profileIds, state, userId) => async (dispatch, getState) => {
+export const setDirectAction = (profileIds, state, isSingle) => async (dispatch) => {
   try {
-    const { id } = getState().authReducer.signIn.data;
+    if (!isSingle) dispatch(isFetchingAction(true));
+    const result = await Promise.allSettled(profileIds.map((el) => requests.directRequest(el, state)));
+    dispatch({
+      type: SET_DIRECT_ON_OFF_SUCCESS,
+      payload: {
+        profileIds: result.filter((res) => res.status === "fulfilled").map((res) => res.value.config.data.get("iID")),
+        state,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return dispatch({
+      type: SET_DIRECT_ON_OFF_FAIL,
+      error,
+    });
+  }
+};
 
-    if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
-    if (userId) {
-      dispatch(clearStateAction("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
-    }
+export const turnProfileAction = (profileIds, state) => async (dispatch, getState) => {
+  try {
+    dispatch(isFetchingAction(true));
+    const result = await Promise.allSettled(profileIds.map((el) => requests.turnProfileRequest(el, state)));
+    dispatch({
+      type: TURN_PROFILE_ON_OFF_SUCCESS,
+      payload: {
+        profileIds: result.filter((res) => res.status === "fulfilled").map((res) => {
+          const { id } = JSON.parse(res.value.config.data);
+          return id;
+        }),
+        state,
+      },
+    });
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -117,34 +144,17 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch, g
   }
 };
 
-export const turnProfileAction = (profileIds, state, userId) => async (dispatch, getState) => {
+export const setProfileStatusAction = (profileIds, state, isSingle) => async (dispatch, getState) => {
   try {
-    const { id } = getState().authReducer.signIn.data;
-
-    if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
-    if (userId) {
-      dispatch(clearStateAction("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
-    }
-  } catch (error) {
-    return dispatch({
-      type: SET_DIRECT_ON_OFF_FAIL,
-      error,
+    if (!isSingle) dispatch(isFetchingAction(true));
+    const result = await Promise.allSettled(profileIds.map((el) => requests.statusRequest(el, state)));
+    dispatch({
+      type: SET_PROFILE_STATUS_SUCCESS,
+      payload: {
+        profileIds: result.filter((res) => res.status === "fulfilled").map((res) => res.value.config.data.get("iID")),
+        state,
+      },
     });
-  }
-};
-
-export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch, getState) => {
-  try {
-    const { id } = getState().authReducer.signIn.data;
-
-    if (userId) dispatch(isFetchingAction(true));
-    await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));
-    if (userId) {
-      dispatch(clearStateAction("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
-    }
   } catch (error) {
     return dispatch({
       type: SET_PROFILE_STATUS_FAIL,
@@ -156,15 +166,7 @@ export const setProfileStatusAction = (profileIds, state, userId) => async (disp
 export const deleteLinkAction = (linkType, linkHash, profileId, linkId, success) => async (dispatch) => {
   try {
     console.log(linkType, linkHash, profileId, linkId);
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "DeleteLinkDashboard");
-    bodyFormData.append("iProfileNum", linkType);
-    bodyFormData.append("sHash", linkHash);
-    bodyFormData.append("iLinkID", linkId);
-    bodyFormData.append("iID", profileId);
-    const result = await axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
+    const result = await requests.deleteLinkRequest(linkType, linkHash, profileId, linkId);
     console.log(result);
     if (result.data.success) {
       success();

@@ -53,17 +53,9 @@ export default function Card({
 
   const handleSwitchChanger = (event, name) => {
     if (name === "dir2") {
-      dispatch(setProfileStatusAction([id], personalMode.direct ? "1" : "2"));
-      return setPersonalMode({
-        direct: !personalMode.direct,
-        text: !personalMode.direct ? "Business" : "Personal",
-      });
+      return dispatch(setProfileStatusAction([id], personalMode.direct ? "1" : "2", "single"));
     }
-    dispatch(setDirectAction([id], directOn.direct ? "0" : "1"));
-    return setDirectOn({
-      direct: !directOn.direct,
-      text: "Direct",
-    });
+    return dispatch(setDirectAction([id], directOn.direct ? "0" : "1", "single"));
   };
 
   const editIconHandler = () => {
@@ -73,10 +65,12 @@ export default function Card({
 
   useEffect(() => {
     if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });
+    else setPersonalMode({ direct: false, text: "Personal" });
   }, [activeProfile]);
 
   useEffect(() => {
     if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
+    else setDirectOn({ direct: false, text: "Direct Off" });
   }, [direct]);
 
   return (

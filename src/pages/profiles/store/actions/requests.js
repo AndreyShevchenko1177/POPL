@@ -37,6 +37,7 @@ export const turnProfileRequest = (id, state) => {
   };
   return axios({
     method: "post",
+    timeout: 10000,
     url: "",
     baseURL: "/emailAdd",
     data: profileData,
@@ -71,6 +72,18 @@ export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
   bodyFormData.append("aValues[]", value);
   bodyFormData.append("aIcons[]", "");
   bodyFormData.append("aProfiles[]", activeProfile);
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
+export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "DeleteLinkDashboard");
+  bodyFormData.append("iProfileNum", linkType);
+  bodyFormData.append("sHash", linkHash);
+  bodyFormData.append("iLinkID", linkId);
+  bodyFormData.append("iID", "2121asasasa2");
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });

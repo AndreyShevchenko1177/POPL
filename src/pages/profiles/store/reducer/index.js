@@ -3,6 +3,9 @@ import {
   GET_DATA_PROFILES_FAIL,
   ADD_LINK_SUCCESS,
   ADD_LINK_FAIL,
+  SET_DIRECT_ON_OFF_SUCCESS,
+  SET_PROFILE_STATUS_SUCCESS,
+  TURN_PROFILE_ON_OFF_SUCCESS,
   DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
@@ -80,6 +83,60 @@ export default function profilesReducer(
         data: payload,
         error: null,
       },
+    };
+  }
+  case SET_DIRECT_ON_OFF_SUCCESS: {
+    return {
+      ...state,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          let transformedProfile = { ...profile };
+          payload.profileIds.forEach((profileId) => {
+            if (profileId == profile.id) {
+              transformedProfile = { ...profile, direct: payload.state };
+            }
+          });
+          return transformedProfile;
+        }),
+      },
+      isFetching: false,
+    };
+  }
+  case SET_PROFILE_STATUS_SUCCESS: {
+    return {
+      ...state,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          let transformedProfile = { ...profile };
+          payload.profileIds.forEach((profileId) => {
+            if (profileId == profile.id) {
+              transformedProfile = { ...profile, activeProfile: payload.state };
+            }
+          });
+          return transformedProfile;
+        }),
+      },
+      isFetching: false,
+    };
+  }
+  case TURN_PROFILE_ON_OFF_SUCCESS: {
+    return {
+      ...state,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          let transformedProfile = { ...profile };
+          payload.profileIds.forEach((profileId) => {
+            if (profileId == profile.id) {
+              transformedProfile = { ...profile, profileOff: payload.state === "true" ? "0" : "1" };
+            }
+          });
+          return transformedProfile;
+        }),
+      },
+      isFetching: false,
     };
   }
   case IS_DATA_FETCHING: {
