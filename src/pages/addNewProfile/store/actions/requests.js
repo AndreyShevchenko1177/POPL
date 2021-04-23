@@ -14,7 +14,7 @@ export const addNewProfileByEmailRequest = (email, parentId) => {
 export const addNewProfileWithRandomEmailRequest = async (parentId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "CreateAccountWithRandomEmail");
-  bodyFormData.append("sParent ", parentId);
+  bodyFormData.append("sParent", parentId);
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });
