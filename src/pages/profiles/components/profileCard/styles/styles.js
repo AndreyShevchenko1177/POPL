@@ -173,7 +173,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: "5%",
+    borderRadius: "20%",
     backgroundColor: "rgb(170 170 170 / 50%)",
     boxShadow: theme.custom.iconBoxShadow,
     "-webkit-box-shadow": theme.custom.iconBoxShadow,
