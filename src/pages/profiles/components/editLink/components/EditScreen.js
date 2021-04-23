@@ -4,7 +4,7 @@ import { TextField, Button, Typography } from "@material-ui/core";
 import useStyles from "../styles/styles";
 
 function EditScreen({
-  icon, id, title, value, hash, isDeleteTab, profileBtnTitle, allProfilesBtnTitle, profileBtnEvent, allProfileBtnEvent,
+  currentIcon, icon, id, title, value, hash, isDeleteTab, profileBtnTitle, allProfilesBtnTitle, profileBtnEvent, allProfileBtnEvent,
 }) {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState({ title: "", value: "" });
@@ -14,12 +14,15 @@ function EditScreen({
     event.persist();
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
-
+  console.log(currentIcon, icon);
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
       <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
         <div className={classes.secondPageLink}>
-          <img className={classes.secondScreenLinkImage} src={icon.icon} alt={id} />
+
+          <img className={classes.secondScreenLinkImage} src={icon
+            ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+            : currentIcon.icon} alt={id} />
         </div>
         {!isDeleteTab && <div className={classes.linkInputsWrapper}>
           <div className={classes.labelContainer}>
@@ -46,7 +49,7 @@ function EditScreen({
               fullWidth
               value={inputValue.value || value}
               name='value'
-              placeholder={icon.placeholder}
+              placeholder={currentIcon.placeholder}
               onChange={handleSetLinkUrl}
               InputProps={{
                 disableUnderline: true,

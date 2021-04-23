@@ -20,9 +20,9 @@ export default function SocialPoplsIcons({
     }
   };
 
-  const handleClickEditIcon = (title, value, id, clicks, icon, name, hash) => {
+  const handleClickEditIcon = (title, value, id, clicks, currentIcon, name, hash, icon) => {
     setShowEditIcon(false);
-    showEditModal(title, value, id, clicks, icon, name, hash);
+    showEditModal(title, value, id, clicks, currentIcon, name, hash, icon);
   };
 
   return (
@@ -32,7 +32,7 @@ export default function SocialPoplsIcons({
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
 
-          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash)}>
+          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
             <EditIcon style={{ width: 15, height: 15 }}/>
           </div>}
           <div
