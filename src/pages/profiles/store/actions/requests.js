@@ -83,7 +83,7 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
   bodyFormData.append("iProfileNum", linkType);
   bodyFormData.append("sHash", linkHash);
   bodyFormData.append("iLinkID", linkId);
-  bodyFormData.append("iID", "2121asasasa2");
+  bodyFormData.append("iID", profileId);
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });
