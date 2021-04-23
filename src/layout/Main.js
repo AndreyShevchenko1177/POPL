@@ -8,6 +8,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
 import { restricteModeAction } from "../store/actions";
+import { subscriptionConfig } from "../pages/billing/index";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,10 +51,21 @@ export default function Main({ children, stripe }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isRestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
+  const { totalProfiles } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar.result);
+  const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
     if (location.pathname === "/settings/billing") dispatch(restricteModeAction(false));
   }, [location]);
+
+  useEffect(() => {
+    if (totalProfiles && dashboardPlan) {
+      const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+      if (subscription) {
+        if (totalProfiles > subscription.unitsRange[1]) dispatch(restricteModeAction(true));
+      }
+    }
+  }, [totalProfiles, dashboardPlan]);
 
   return (
     <div className={classes.root}>
