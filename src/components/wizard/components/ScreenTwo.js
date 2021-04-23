@@ -41,7 +41,7 @@ function ScreenTwo({
   return (
     <div className={classes.linkContainer}>
       <div className={classes.linkImageValueContainer}>
-        <div className={clsx(classes.link, classes.secondPageLink)}>
+        <div className={clsx(classes.secondPageLink)}>
           <img className={classes.secondScreenLinkImage} src={icon.icon} alt={id} />
         </div>
         <div className={classes.linkInputsWrapper}>

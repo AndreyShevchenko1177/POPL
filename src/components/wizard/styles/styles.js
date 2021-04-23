@@ -46,16 +46,21 @@ export default makeStyles((theme) => ({
   linksContainer: {
     display: "flex",
     flexWrap: "wrap",
-    // justifyContent: "center",
+    height: "100%",
     width: "100%",
-    overflow: "auto",
+    // overflow: "auto",
     "@media (max-width:1400px)": {
       width: "100%",
-      height: 550,
+    },
+    "@media (max-width:1000px)": {
+      justifyContent: "center",
     },
   },
   linksSectionContainer: {
-    width: 250,
+    width: 275,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   linksContainerScreenTwo: {
     display: "flex",
@@ -81,10 +86,16 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   secondPageLink: {
-    width: 200,
-    "@media (max-width:1400px)": {
-      width: 160,
-    },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "10px 10px",
+    backgroundColor: "rgb(170 170 170 / 50%)",
+    width: 150,
+    height: 150,
+    boxShadow: theme.custom.iconBoxShadow,
+    borderRadius: theme.custom.mainBorderRadius,
+    textAlign: "center",
   },
   secondScreenLinkImage: {
     width: "100%",
@@ -94,16 +105,14 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
   },
   link: {
-    // width: "100%",
-    // maxWidth: "120px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: "10px 10px",
     margin: "10px 10px",
     backgroundColor: "rgb(170 170 170 / 50%)",
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     boxShadow: theme.custom.iconBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
     textAlign: "center",
@@ -159,22 +168,19 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   categoryContainer: {
-    // display: "flex",
-    // flexWrap: "wrap",
     display: "grid",
-    /* grid-template-rows: auto 1fr; */
-    gridTemplateColumns: "repeat(8, 1fr)",
+    gridTemplateColumns: "repeat(3, 70px)",
     "@media (max-width:1400px)": {
-      gridTemplateColumns: "repeat(3, 1fr)",
+      gridTemplateColumns: "repeat(3, 70px)",
     },
   },
   categoryLastChild: {
-    "& > div:last-child": {
-      gridColumn: "span 8",
-      "@media (max-width:1400px)": {
-        gridColumn: "span 3",
-      },
-    },
+    // "& > div:last-child": {
+    //   gridColumn: "span 8",
+    //   "@media (max-width:1400px)": {
+    //     gridColumn: "span 3",
+    //   },
+    // },
 
   },
   categoryTitle: {

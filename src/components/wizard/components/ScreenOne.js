@@ -35,7 +35,7 @@ function ScreenOne({ data, onClick }) {
                   icon: icons[id], id,
                 })}
               >
-                <img style={{ width: "40px" }} src={icons[id].icon} alt={id} />
+                <img style={{ width: "50px" }} src={icons[id].icon} alt={id} />
                 {/* <Typography variant='h5'>{icons[id].text}</Typography> */}
               </div>
             ))}
