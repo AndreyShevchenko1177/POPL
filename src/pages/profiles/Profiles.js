@@ -169,12 +169,12 @@ export default function Profiles() {
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
 
-  const showEditModal = (title, value, id, clicks, icon, name, hash) => {
+  const showEditModal = (title, value, id, clicks, currentIcon, name, hash, icon) => {
     setEditLinkModal({
       ...editLinkModal,
       open: true,
       data: {
-        title, value, id, clicks, icon, name, hash,
+        title, value, id, clicks, currentIcon, name, hash, icon,
 
       },
     });
@@ -195,7 +195,6 @@ export default function Profiles() {
   }, []);
 
   useEffect(() => {
-    console.log("profiles", profilesData);
     if (!profilesData) return;
     setProfiles(profilesData);
   }, [profilesData]);

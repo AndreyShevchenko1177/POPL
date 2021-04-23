@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     left: "-40px",
     width: "calc(100% + 80px)",
     height: "calc(100% + 48px)",
-    minHeight: "100vh",
+    minHeight: "300vh",
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
     position: "absolute",
@@ -20,15 +20,20 @@ export default makeStyles((theme) => ({
   wizardContainer: {
     position: "absolute",
     top: "120px",
-    left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
+    minWidth: 400,
+    maxWidth: 1138,
+    minHeight: 600,
+    width: "calc(100% - 80px)",
+    // left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
     padding: "15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     zIndex: 50,
     outline: "none",
-    "@media (max-width:1400px)": {
-      left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
+    "@media (min-width:1515px)": {
+      left: "calc(50% - 570px)",
+      // left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
     },
   },
   closeIcon: {
@@ -39,16 +44,19 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   linksContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: 420,
-    height: 500,
+    // display: "flex",
+    // flexWrap: "wrap",
+    // justifyContent: "center",
+    width: "100%",
     overflow: "auto",
     "@media (max-width:1400px)": {
-      width: 350,
-      height: 400,
+      width: "100%",
+      height: 550,
     },
+  },
+  linksContainerScreenTwo: {
+    display: "flex",
+    justifyContent: "center",
   },
   linkContainer: {
     display: "flex",
@@ -83,9 +91,12 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
   },
   link: {
+    // width: "100%",
+    // maxWidth: "120px",
     padding: "10px 10px",
     margin: "10px 10px",
     backgroundColor: "#ffffff",
+    minWidth: 105,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
     textAlign: "center",
@@ -139,5 +150,28 @@ export default makeStyles((theme) => ({
       textDecoration: "underline",
     },
     cursor: "pointer",
+  },
+  categoryContainer: {
+    // display: "flex",
+    // flexWrap: "wrap",
+    display: "grid",
+    /* grid-template-rows: auto 1fr; */
+    gridTemplateColumns: "repeat(8, 1fr)",
+    "@media (max-width:1400px)": {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+  },
+  categoryLastChild: {
+    "& > div:last-child": {
+      gridColumn: "span 8",
+      "@media (max-width:1400px)": {
+        gridColumn: "span 3",
+      },
+    },
+
+  },
+  categoryTitle: {
+    textAlign: "center",
+    marginTop: 30,
   },
 }));

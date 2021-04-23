@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import { Typography } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ScreenOne from "./ScreenOne";
@@ -7,7 +8,7 @@ import useStyles from "../styles/styles";
 
 function TabPanel(props) {
   const {
-    children, value, index, ...other
+    children, isSreenTwo, value, index, ...other
   } = props;
   const classes = useStyles();
 
@@ -20,7 +21,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <div className={classes.linksContainer}>{children}</div>
+        <div className={clsx(classes.linksContainer, { [classes.linksContainerScreenTwo]: isSreenTwo })}>{children}</div>
       )}
     </div>
   );
@@ -63,7 +64,7 @@ export default function WizardPanel({ data, closeWizard, profileData }) {
       <TabPanel value={value.key} index={0}>
         <ScreenOne data={data} onClick={(link) => setValue({ ...value, key: 1, link })}/>
       </TabPanel>
-      <TabPanel value={value.key} index={1}>
+      <TabPanel value={value.key} index={1} isSreenTwo>
         <ScreenTwo {...value.link} closeWizard={closeWizard} profileData={profileData} />
       </TabPanel>
     </div>

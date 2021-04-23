@@ -124,6 +124,11 @@ let theme = createMuiTheme({
         fontFamily: "DM Sans",
         fontSize: "14px !important",
       },
+      subtitle2: {
+        fontWeight: "700",
+        fontFamily: "DM Sans",
+        fontSize: "24px !important",
+      },
     },
     MuiListItemIcon: {
       root: {
