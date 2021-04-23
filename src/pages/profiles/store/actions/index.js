@@ -102,10 +102,13 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
 export const setDirectAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
     const { id } = getState().authReducer.signIn.data;
-    dispatch(clearStateAction("dataProfiles"));
+
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.directRequest(el, state)));
-    if (id) return dispatch(getProfilesDataAction(id));
+    if (userId) {
+      dispatch(clearStateAction("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
+    }
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -117,10 +120,13 @@ export const setDirectAction = (profileIds, state, userId) => async (dispatch, g
 export const turnProfileAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
     const { id } = getState().authReducer.signIn.data;
-    dispatch(clearStateAction("dataProfiles"));
+
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.turnProfileRequest(el, state)));
-    if (userId) return dispatch(getProfilesDataAction(userId));
+    if (userId) {
+      dispatch(clearStateAction("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
+    }
   } catch (error) {
     return dispatch({
       type: SET_DIRECT_ON_OFF_FAIL,
@@ -132,10 +138,13 @@ export const turnProfileAction = (profileIds, state, userId) => async (dispatch,
 export const setProfileStatusAction = (profileIds, state, userId) => async (dispatch, getState) => {
   try {
     const { id } = getState().authReducer.signIn.data;
-    dispatch(clearStateAction("dataProfiles"));
+
     if (userId) dispatch(isFetchingAction(true));
     await Promise.all(profileIds.map((el) => requests.statusRequest(el, state)));
-    if (userId) return dispatch(getProfilesDataAction(userId));
+    if (userId) {
+      dispatch(clearStateAction("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
+    }
   } catch (error) {
     return dispatch({
       type: SET_PROFILE_STATUS_FAIL,
