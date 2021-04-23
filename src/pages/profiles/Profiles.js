@@ -113,6 +113,11 @@ export default function Profiles() {
     setSelectCheckboxes((prevSelect) => prevSelect.map((el) => (el.name === name ? ({ ...el, checked: event.target.checked }) : el)));
   };
 
+  const addLinkClick = (id) => {
+    const filterProfiles = profiles.filter((el) => el.id === id);
+    return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
+  };
+
   const selectBtn = (name, profileIds, selectName) => {
     if (Object.values(checkboxes).map((el) => el.checked).includes(true)) {
       setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
@@ -295,6 +300,7 @@ export default function Profiles() {
                             <ProfileCard
                               {...el}
                               showEditModal={showEditModal}
+                              showAddLinkWiz={() => addLinkClick(el.id)}
                               mainCheck={mainCheck}
                               handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
                               profilesCheck={profilesCheck}

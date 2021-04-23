@@ -73,19 +73,8 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
       type: ADD_LINK_SUCCESS,
       payload: "success",
     });
+    dispatch(clearStateAction("dataProfiles"));
     return dispatch(getProfilesDataAction(userId));
-    // dispatch(
-    //   snackBarAction({
-    //     message: "Error by adding link",
-    //     severity: "error",
-    //     duration: 3000,
-    //     open: true,
-    //   }),
-    // );
-    // return dispatch({
-    //   type: ADD_LINK_FAIL,
-    //   error: { text: "fail" },
-    // });
   } catch (error) {
     dispatch(
       snackBarAction({

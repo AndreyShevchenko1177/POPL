@@ -13,6 +13,7 @@ import SvgMaker from "../../../../components/svgMaker";
 import { imagesExtensions, isSafari } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
+import addLinkIcon from "../../../../assets/add.png";
 
 export default function Card({
   handleClickPoplItem,
@@ -32,6 +33,7 @@ export default function Card({
   profileOff,
   showEditModal,
   setProfileType,
+  showAddLinkWiz,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -142,6 +144,15 @@ export default function Card({
                 showEditModal={showEditModal}
                 name={name}
               />
+              <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper}>
+                <div className={classes.iconItem}>
+                  <img
+                    alt='add-icon'
+                    className={classes.linkImage}
+                    src={addLinkIcon}
+                  />
+                </div>
+              </div>
             </div>
             <div className={clsx(classes.section6, "target-element")}>
               <Button
