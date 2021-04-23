@@ -19,6 +19,7 @@ import {
   IS_DATA_FETCHING,
 } from "../actionTypes";
 import * as requests from "./requests";
+import { setUserProRequest } from "../../../stripeResultPages/store/requests";
 
 export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
@@ -40,6 +41,9 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
           social: p.social,
         }));
 
+        profiles.forEach((profile) => {
+          if (profile.pro == "0") setUserProRequest(profile.id);
+        });
         dispatch(profilesInfoAction(profiles));
         dispatch(profileCountTierLevelAction(profiles.length));
         return dispatch({
