@@ -144,7 +144,7 @@ export default function Card({
                 showEditModal={showEditModal}
                 name={name}
               />
-              <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper}>
+              {showEditIcon && <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper}>
                 <div className={classes.iconItem}>
                   <img
                     alt='add-icon'
@@ -152,7 +152,7 @@ export default function Card({
                     src={addLinkIcon}
                   />
                 </div>
-              </div>
+              </div>}
             </div>
             <div className={clsx(classes.section6, "target-element")}>
               <Button

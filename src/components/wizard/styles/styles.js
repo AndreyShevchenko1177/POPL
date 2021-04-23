@@ -20,10 +20,10 @@ export default makeStyles((theme) => ({
   wizardContainer: {
     position: "absolute",
     top: "120px",
-    minWidth: 400,
-    maxWidth: 1138,
+    // minWidth: 400,
+    // maxWidth: 1138,
     minHeight: 600,
-    width: "calc(100% - 80px)",
+    width: 900,
     // left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
     padding: "15px",
     backgroundColor: "#ffffff",
