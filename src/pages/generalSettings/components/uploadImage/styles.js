@@ -26,6 +26,11 @@ export default makeStyles((theme) => ({
       backgroundColor: "transparent !important",
     },
   },
+  headingDropZoneWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   dashedContainer: {
     display: "flex",
     alignItems: "center",

@@ -120,6 +120,7 @@ const DropZone = ({
     <div className={classes.container}>
       <div
         onClick={openFileDialog}
+        className={classes.headingDropZoneWrapper}
       >
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
         <div className={classes.dashedContainer}>

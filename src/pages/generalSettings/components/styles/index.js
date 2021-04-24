@@ -8,15 +8,20 @@ export default makeStyles((theme) => ({
   paddingWrapper: {
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
     height: "100%",
     width: "100%",
     padding: "10px 15px",
+    "& input": {
+      textAlign: "center",
+    },
   },
   fieldTitle: {
     fontWeight: "bold !important",
   },
   colorInputContainer: {
     display: "flex",
+    justifyContent: "center",
     width: "100%",
 
   },

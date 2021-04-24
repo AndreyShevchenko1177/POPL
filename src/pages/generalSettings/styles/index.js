@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     margin: "0 auto",
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
     height: "100%",
     width: 500,
   },
