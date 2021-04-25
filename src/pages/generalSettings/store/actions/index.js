@@ -18,9 +18,13 @@ export const updateUserProfile = ({
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
 
-    const uploadedFile = undefined; // here should be firebase upload function
-    if (uploadedFile) {
-      await requests.setCompanyImage("https://uri/", "name", "type");
+    let uploadedFile; // here should be firebase upload function
+    if (file) {
+      uploadedFile = await requests.setCompanyAvatar(file);
+      console.log(uploadedFile);
+      if (typeof uploadedFile === "string") {
+        await requests.setCompanyImage(file.name);
+      }
     }
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());

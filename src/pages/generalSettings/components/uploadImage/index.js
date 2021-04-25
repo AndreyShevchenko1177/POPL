@@ -10,7 +10,7 @@ import Preview from "./components/Preview";
 import SvgMaker from "../../../../components/svgMaker";
 
 const DropZone = ({
-  quantity, multiple,
+  quantity, multiple, setFieldsState,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -70,7 +70,6 @@ const DropZone = ({
   const onFilesAdded = async (event) => {
     event.persist();
     const file = event.target.files;
-    console.log(file[0]?.type);
     if (quantity && files && Object.keys(files).length >= quantity) {
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
@@ -83,6 +82,7 @@ const DropZone = ({
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
+    setFieldsState((fs) => ({ ...fs, file: file[0] }));
     handleFilesObject(file);
   };
 
