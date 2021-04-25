@@ -1,8 +1,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
-import { snackBarAction, profileCountTierLevelAction, profilesInfoAction } from "../../../../store/actions";
-import { getId } from "../../../../utils";
+import { snackBarAction } from "../../../../store/actions";
 import {
   GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
@@ -11,11 +10,18 @@ import {
 } from "../actionTypes";
 import * as requests from "./requests";
 
-export const updateUserProfile = ({ name, color, websiteLink }) => async (dispatch) => {
+export const updateUserProfile = ({
+  name, color, websiteLink, file,
+}) => async (dispatch) => {
   try {
     if (name || name === "") await requests.setCompanyName(name);
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
+
+    const uploadedFile = undefined; // here should be firebase upload function
+    if (uploadedFile) {
+      await requests.setCompanyImage("https://uri/", "name", "type");
+    }
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());
   } catch (error) {

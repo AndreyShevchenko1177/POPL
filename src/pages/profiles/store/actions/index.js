@@ -42,7 +42,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         }));
 
         profiles.forEach((profile) => {
-          if (profile.pro == "0") setUserProRequest(profile.id);
+          if (profile.pro == "0") requests.makeProfileProRequest(profile.id);
         });
         dispatch(profilesInfoAction(profiles));
         dispatch(profileCountTierLevelAction(profiles.length));

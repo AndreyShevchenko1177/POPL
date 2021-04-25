@@ -27,6 +27,19 @@ export const setCompanyColor = (color) => {
   });
 };
 
+export const setCompanyImage = (uri, name, type) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "AjaxSetCompanyImage");
+  bodyFormData.append("CompanyProfileImage", {
+    uri,
+    name,
+    type,
+  });
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
 export const getCompanyInfo = (userId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "GetCompanyInfo");

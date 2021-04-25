@@ -88,3 +88,18 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
     withCredentials: true,
   });
 };
+
+export const makeProfileProRequest = (userId) => {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-Platform": "ios",
+      "Content-Type": "application/json",
+      Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi",
+    },
+  };
+
+  fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options)
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
+};
