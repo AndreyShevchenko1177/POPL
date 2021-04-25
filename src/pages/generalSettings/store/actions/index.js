@@ -14,6 +14,7 @@ export const updateUserProfile = ({
   name, color, websiteLink, file,
 }) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     if (name || name === "") await requests.setCompanyName(name);
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
