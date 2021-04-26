@@ -91,6 +91,26 @@ export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
   });
 };
 
+export const editLinkRequest = ({
+  linkType, linkId, linkHash, linkValue, linkTitle, profileId,
+}) => {
+  console.log({
+    linkType, linkId, linkHash, linkValue, linkTitle, profileId,
+  });
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "UpdateLinkValueDashboard");
+  bodyFormData.append("iProfileNum", linkType);
+  bodyFormData.append("iLinkID", linkId);
+  bodyFormData.append("sHash", linkHash);
+  bodyFormData.append("sValue", linkValue);
+  bodyFormData.append("sLinkTitle", linkTitle);
+  bodyFormData.append("iID", profileId);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
 export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "DeleteLinkDashboard");

@@ -4,7 +4,7 @@ import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
 import useStyles from "./styles/styles";
-import { deleteLinkAction } from "../../store/actions";
+import { deleteLinkAction, editLinkAction } from "../../store/actions";
 
 function TabPanel(props) {
   const {
@@ -58,6 +58,21 @@ function EditLinkModal({
   const blurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
     setEditLinkModal((v) => ({ ...v, open: false }));
+  };
+
+  const editLink = (hash, value, title) => {
+    const [pId, type] = Object.entries(profileType)[0];
+    const links = [{
+      profileId: pId, linkType: type, linkHash: hash, linkValue: value, linkTitle: title, linkId: data.id,
+    }];
+    dispatch(editLinkAction(links));
+  };
+
+  const editAllLinks = (hash, id, title, value, editValue, editTitle) => {
+    const needToEdit = allLinks.filter((link) => link.id === id && link.title === title && link.value === value);
+    dispatch(editLinkAction(needToEdit.map((el) => ({
+      ...el, linkHash: el.hash, linkTitle: editTitle, linkValue: editValue,
+    }))));
   };
 
   const deleteLink = (hash) => {
@@ -114,8 +129,8 @@ function EditLinkModal({
                 {...data}
                 profileBtnTitle={`Edit ${data.name}'s link`}
                 allProfilesBtnTitle='Edit link from all profiles'
-                profileBtnEvent={() => console.log("one edit")}
-                allProfileBtnEvent={() => console.log("all edit")}
+                profileBtnEvent={editLink}
+                allProfileBtnEvent={editAllLinks}
               />
             </TabPanel>
             <TabPanel value={value.key} index={1}>

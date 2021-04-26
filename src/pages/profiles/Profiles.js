@@ -262,9 +262,9 @@ export default function Profiles() {
           {editLinkModal.open && <EditLinkModal allLinks={profiles.reduce((s, {
             business, social, activeProfile, id,
           }) => [...s, ...business.map((el) => ({
-            ...el, linkType: activeProfile, profileId: id, linkId: el.id,
+            ...el, linkType: activeProfile, profileId: id, linkId: el.id, linkValue: el.value, linkTitle: el.title,
           })), ...social.map((el) => ({
-            ...el, linkType: activeProfile, profileId: id, linkId: el.id,
+            ...el, linkType: activeProfile, profileId: id, linkId: el.id, linkValue: el.value, linkTitle: el.title,
           }))], [])} profileType={profileType} setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
           <SearchStripe
             showAll={false}

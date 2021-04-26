@@ -162,11 +162,20 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
   }
 };
 
+export const editLinkAction = (linksArray) => async (dispatch, getState) => {
+  try {
+    const userId = getState().authReducer.signIn.data.id;
+    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item)));
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const deleteLinkAction = (success, linksArray) => async (dispatch, getState) => {
   try {
-    const links = linksArray;
     const userId = getState().authReducer.signIn.data.id;
-    const result = await Promise.all(links.map(({
+    const result = await Promise.all(linksArray.map(({
       linkType, linkHash, profileId, linkId,
     }) => requests.deleteLinkRequest(linkType, linkHash, profileId, linkId)));
     if (result.every(({ data }) => !!data.success)) {
