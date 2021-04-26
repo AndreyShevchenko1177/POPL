@@ -11,6 +11,15 @@ module.exports = function (app) {
     }),
   );
   app.use(
+    "/make-pro",
+    createProxyMiddleware({
+      target: "https://us-central1-poplco.cloudfunctions.net/pro",
+      pathRewrite: { "^/emailAdd": "/" },
+      headers: { "X-Forwarded-Prefix": "/" },
+      changeOrigin: true,
+    }),
+  );
+  app.use(
     "/api",
     createProxyMiddleware({
       target: "https://poplme.co",

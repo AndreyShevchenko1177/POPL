@@ -41,9 +41,15 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
           social: p.social,
         }));
 
+        const unProProfileIds = [];
         profiles.forEach((profile) => {
-          if (profile.pro == "0") requests.makeProfileProRequest(profile.id);
+          if (profile.pro == "0") {
+            unProProfileIds.push(profile.id);
+          }
         });
+        await Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
+        Promise.all(unProProfileIds.map((id) => requests.makeProfileProRequest(id)));
+
         dispatch(profilesInfoAction(profiles));
         dispatch(profileCountTierLevelAction(profiles.length));
         return dispatch({

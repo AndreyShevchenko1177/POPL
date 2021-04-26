@@ -2,6 +2,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import { snackBarAction } from "../../../../store/actions";
+import { getId } from "../../../../utils";
 import {
   GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
@@ -21,7 +22,9 @@ export const updateUserProfile = ({
 
     let uploadedFile; // here should be firebase upload function
     if (file) {
-      uploadedFile = await requests.setCompanyAvatar(file);
+      console.log(file);
+      // file.name = getId(12);
+      uploadedFile = await requests.setCompanyAvatar(new File([file], `${getId(12)}`, { type: file.type }));
       console.log(uploadedFile);
       if (typeof uploadedFile === "string") {
         await requests.setCompanyImage(file.name);

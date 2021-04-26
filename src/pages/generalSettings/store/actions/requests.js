@@ -39,12 +39,12 @@ export const getCompanyInfo = (userId) => {
 
 export const setCompanyImage = (name) => {
   console.log(name);
-  // const bodyFormData = new FormData();
-  // bodyFormData.append("sAction", "AjaxSetCompanyImage");
-  // bodyFormData.append("CompanyProfileImage", name);
-  // return axios.post("", bodyFormData, {
-  //   withCredentials: true,
-  // });
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "AjaxSetCompanyImage");
+  bodyFormData.append("CompanyProfileImage", name);
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
 };
 
 export const setCompanyAvatar = async (file) => {

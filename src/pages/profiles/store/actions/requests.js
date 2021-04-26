@@ -44,6 +44,20 @@ export const turnProfileRequest = (id, state) => {
   });
 };
 
+export const makeProfileProRequest = (id) => {
+  const data = {
+    id: id.toString(),
+    value: "1",
+  };
+  return axios({
+    method: "post",
+    timeout: 10000,
+    url: "",
+    baseURL: "/make-pro",
+    data,
+  });
+};
+
 export const directRequest = (id, state) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "SetDirectDashboard");
@@ -89,17 +103,15 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
   });
 };
 
-export const makeProfileProRequest = (userId) => {
+export const makeProfileSubscriberRequest = (userId) => {
   const options = {
     method: "GET",
     headers: {
       "X-Platform": "ios",
       "Content-Type": "application/json",
-      Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi",
+      Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
     },
   };
 
-  fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options)
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options);
 };
