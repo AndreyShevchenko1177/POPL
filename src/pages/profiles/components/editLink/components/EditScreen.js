@@ -77,7 +77,7 @@ function EditScreen({
             color="primary"
             fullWidth
             style={{ whiteSpace: "nowrap" }}
-            onClick={allProfileBtnEvent}
+            onClick={() => allProfileBtnEvent(hash, id, title, value)}
           >
             {allProfilesBtnTitle}
           </Button>

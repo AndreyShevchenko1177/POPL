@@ -236,6 +236,18 @@ export default function Profiles() {
         }
         return item;
       }));
+      //     setProfiles(profiles.map((item) => {
+      //       let editProfile = {};
+      //       deleteLinkData.forEach((link) => {
+      //         if (item.id == link.profileId) {
+      //           const business = item.business.filter((el) => el.id != link.linkId);
+      //           const social = item.social.filter((el) => el.id != link.linkId);
+      //           editProfile[item.id] = { ...(Object.keys(editProfile).length === 0 ? item : editProfile), business, social };
+      //         }
+      //         editProfile[item.id] = item;
+      //       });
+      //       return editProfile[item.id];
+      //     }));
     }
   }, [deleteLinkData]);
 
@@ -247,7 +259,13 @@ export default function Profiles() {
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
-          {editLinkModal.open && <EditLinkModal profileType={profileType} setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
+          {editLinkModal.open && <EditLinkModal allLinks={profiles.reduce((s, {
+            business, social, activeProfile, id,
+          }) => [...s, ...business.map((el) => ({
+            ...el, linkType: activeProfile, profileId: id, linkId: el.id,
+          })), ...social.map((el) => ({
+            ...el, linkType: activeProfile, profileId: id, linkId: el.id,
+          }))], [])} profileType={profileType} setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
           <SearchStripe
             showAll={false}
             isShowSortBtn

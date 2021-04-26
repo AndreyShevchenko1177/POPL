@@ -156,20 +156,25 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
   }
 };
 
-export const deleteLinkAction = (linkType, linkHash, profileId, linkId, success) => async (dispatch) => {
+export const deleteLinkAction = (success, linksArray) => async (dispatch, getState) => {
   try {
-    console.log(linkType, linkHash, profileId, linkId);
-    const result = await requests.deleteLinkRequest(linkType, linkHash, profileId, linkId);
-    console.log(result);
-    if (result.data.success) {
+    const links = linksArray;
+    const userId = getState().authReducer.signIn.data.id;
+    const result = await Promise.all(links.map(({
+      linkType, linkHash, profileId, linkId,
+    }) => requests.deleteLinkRequest(linkType, linkHash, profileId, linkId)));
+    if (result.every(({ data }) => !!data.success)) {
       success();
-      return dispatch({
-        type: DELETE_PROFILE_LINK,
-        payload: {
-          profileId,
-          linkId,
-        },
-      });
+      if (result.length < 2) {
+        return dispatch({
+          type: DELETE_PROFILE_LINK,
+          payload: {
+            profileId: linksArray[0].profileId,
+            linkId: linksArray[0].linkId,
+          },
+        });
+      }
+      return getProfilesDataAction(userId);
     }
   } catch (error) {
     console.log(error);

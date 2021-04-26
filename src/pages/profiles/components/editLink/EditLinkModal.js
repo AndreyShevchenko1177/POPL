@@ -43,7 +43,7 @@ function header(value, classes, cl) {
 }
 
 function EditLinkModal({
-  isOpen, setEditLinkModal, data, profileType,
+  isOpen, setEditLinkModal, data, profileType, allLinks,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -62,7 +62,15 @@ function EditLinkModal({
 
   const deleteLink = (hash) => {
     const [pId, type] = Object.entries(profileType)[0];
-    dispatch(deleteLinkAction(type, hash, pId, data.id, () => setEditLinkModal((v) => ({ ...v, open: false }))));
+    const links = [{
+      linkType: type, linkHash: hash, profileId: pId, linkId: data.id,
+    }];
+    dispatch(deleteLinkAction(() => setEditLinkModal((v) => ({ ...v, open: false })), links));
+  };
+
+  const deleteAllLinks = (hash, id, title, value) => {
+    const needToDelete = allLinks.filter((link) => link.id === id && link.title === title && link.value === value);
+    dispatch(deleteLinkAction(() => setEditLinkModal((v) => ({ ...v, open: false })), needToDelete.map((el) => ({ ...el, linkHash: el.hash }))));
   };
 
   useEffect(() => {
@@ -117,7 +125,7 @@ function EditLinkModal({
                 allProfilesBtnTitle='delete link from all profiles'
                 isDeleteTab={value.key}
                 profileBtnEvent={deleteLink}
-                allProfileBtnEvent={() => console.log("all delete")}
+                allProfileBtnEvent={deleteAllLinks}
               />
             </TabPanel>
           </div>
