@@ -14,6 +14,7 @@ import {
   SET_PROFILE_STATUS_SUCCESS,
   SET_PROFILE_STATUS_FAIL,
   TURN_PROFILE_ON_OFF_SUCCESS,
+  EDIT_PROFILE_LINK,
   DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
@@ -162,11 +163,29 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
   }
 };
 
-export const editLinkAction = (linksArray) => async (dispatch, getState) => {
+export const editLinkAction = (success, linksArray) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item)));
     console.log(result);
+    if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
+      if (result.length < 2) {
+        success("link");
+        return dispatch({
+          type: EDIT_PROFILE_LINK,
+          payload: {
+            profileId: linksArray[0].profileId,
+            linkId: linksArray[0].linkId,
+            linkTitle: linksArray[0].linkTitle,
+            linkValue: linksArray[0].linkValue,
+          },
+        });
+      }
+
+      // success("links");
+      dispatch(clearStateAction("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
+    }
   } catch (error) {
     console.log(error);
   }

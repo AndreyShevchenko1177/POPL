@@ -6,6 +6,7 @@ import {
   SET_DIRECT_ON_OFF_SUCCESS,
   SET_PROFILE_STATUS_SUCCESS,
   TURN_PROFILE_ON_OFF_SUCCESS,
+  EDIT_PROFILE_LINK,
   DELETE_PROFILE_LINK,
   CLEAR_STATE,
   IS_DATA_FETCHING,
@@ -25,6 +26,10 @@ const initialState = {
     error: null,
   },
   deleteLink: {
+    data: null,
+    error: null,
+  },
+  editLink: {
     data: null,
     error: null,
   },
@@ -74,6 +79,15 @@ export default function profilesReducer(
         error,
       },
       isFetching: false,
+    };
+  }
+  case EDIT_PROFILE_LINK: {
+    return {
+      ...state,
+      editLink: {
+        data: payload,
+        error: null,
+      },
     };
   }
   case DELETE_PROFILE_LINK: {

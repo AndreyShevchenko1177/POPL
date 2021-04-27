@@ -10,7 +10,7 @@ export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dis
     const errors = [];
     dispatch(fetchData(true));
     const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email, userId)));
-    result.filter(({ data }) => !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
+    result.filter(({ data }) => typeof data === "string" || !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
     if (errors.length > 0) {
       resultCallBack(true, errors);
       return dispatch(fetchData(false));

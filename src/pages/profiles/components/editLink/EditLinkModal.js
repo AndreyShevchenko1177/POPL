@@ -5,6 +5,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
 import useStyles from "./styles/styles";
 import { deleteLinkAction, editLinkAction } from "../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 
 function TabPanel(props) {
   const {
@@ -60,17 +61,27 @@ function EditLinkModal({
     setEditLinkModal((v) => ({ ...v, open: false }));
   };
 
+  const successCb = (link) => {
+    setEditLinkModal((v) => ({ ...v, open: false }));
+    dispatch(snackBarAction({
+      message: `You successfully changed ${link}`,
+      severity: "success",
+      duration: 3000,
+      open: true,
+    }));
+  };
+
   const editLink = (hash, value, title) => {
     const [pId, type] = Object.entries(profileType)[0];
     const links = [{
       profileId: pId, linkType: type, linkHash: hash, linkValue: value, linkTitle: title, linkId: data.id,
     }];
-    dispatch(editLinkAction(links));
+    dispatch(editLinkAction(successCb, links));
   };
 
   const editAllLinks = (hash, id, title, value, editValue, editTitle) => {
     const needToEdit = allLinks.filter((link) => link.id === id && link.title === title && link.value === value);
-    dispatch(editLinkAction(needToEdit.map((el) => ({
+    dispatch(editLinkAction(successCb, needToEdit.map((el) => ({
       ...el, linkHash: el.hash, linkTitle: editTitle, linkValue: editValue,
     }))));
   };
