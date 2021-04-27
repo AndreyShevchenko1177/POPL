@@ -12,11 +12,12 @@ export function downLoadFile(path, fileName) {
       const url = window.URL.createObjectURL(
         new Blob([blob]),
       );
+      const name = fileName.split(".")[1] ? fileName : `${fileName}.pdf`;
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute(
         "download",
-        `${fileName}`,
+        `${name}`,
       );
 
       // Append to html link element page

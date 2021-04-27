@@ -14,7 +14,7 @@ function EditScreen({
     event.persist();
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
-  console.log(currentIcon, icon);
+
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
       <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
@@ -66,7 +66,7 @@ function EditScreen({
             color="primary"
             fullWidth
             style={{ whiteSpace: "nowrap" }}
-            onClick={() => profileBtnEvent(hash)}
+            onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title)}
           >
             {profileBtnTitle}
           </Button>
@@ -77,7 +77,7 @@ function EditScreen({
             color="primary"
             fullWidth
             style={{ whiteSpace: "nowrap" }}
-            onClick={() => allProfileBtnEvent(hash, id, title, value)}
+            onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title)}
           >
             {allProfilesBtnTitle}
           </Button>
