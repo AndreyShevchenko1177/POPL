@@ -38,7 +38,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
   return (
     <>
       {currentPlan && <div style={currentPlan.id != 0 ? {} : { alignItems: "center" }} className={classes.tierContainer}>
-        {currentPlan.id != 0
+        {currentPlan.id == 0
           ? <>
             <div className={classes.tierHeader}>
               <div className={classes.tierIcon}>
@@ -50,12 +50,12 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
             {count && <>
               <div className={classes.barTrack}>
                 <div
-                  style={{ width: `${((count / currentPlan.unitsRange[1]) * 100) > 100 ? 100 : (count / currentPlan.unitsRange[1]) * 100}%`, backgroundColor: ((count / currentPlan.unitsRange[1]) * 100) > 100 ? "#F52B00" : "#73bef2" }}
+                  style={{ width: `${((count / currentPlan?.unitsRange && currentPlan?.unitsRange[1]) * 100) > 100 ? 100 : (count / currentPlan?.unitsRange && currentPlan?.unitsRange[1]) * 100}%`, backgroundColor: ((count / currentPlan?.unitsRange && currentPlan?.unitsRange[1]) * 100) > 100 ? "#F52B00" : "#73bef2" }}
                   className={classes.networkContainerBarItem}
                 ></div>
               </div>
               <div className={classes.tierValue}>
-                <span>{count || ""} profiles of {currentPlan.unitsRange[1]} profiles used</span>
+                <span>{count || ""} profiles of {currentPlan?.unitsRange && currentPlan?.unitsRange[1]} profiles used</span>
               </div>
             </>}
             <div className={classes.tierLevelButtonWrapper}>

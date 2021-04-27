@@ -27,6 +27,7 @@ import analytics from "../../assets/analytics.png";
 import analyticsWhite from "../../assets/analytics_white.png";
 import settings from "../../assets/settings.png";
 import settingsWhite from "../../assets/settings_white.png";
+import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -43,6 +44,7 @@ function PermanentDrawerLeft() {
   const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
   const { result: profileInfoSideBar } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const dispatch = useDispatch();
+  const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -100,6 +102,7 @@ function PermanentDrawerLeft() {
       const result = JSON.parse(localStorage.getItem("subscription"));
       dispatch(getSubscriptionInfoAction({ subscriptionName: result.pricingName, maxProfiles: result.unitsRange }));
     }
+    dispatch(getCompanyInfoAction());
   }, []);
 
   return (
@@ -355,7 +358,7 @@ function PermanentDrawerLeft() {
         </List>
       </div>
       <div>
-        {/* <ProfileImage name={userData.name} /> */}
+        <ProfileImage name={"kldsjfaslkjdfas;lkjdfasl;jdfa;sljf"} image={profileInfo && profileInfo[3]} color={profileInfo && profileInfo[1]}/>
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />
