@@ -63,12 +63,14 @@ function EditLinkModal({
 
   const successCb = (link) => {
     setEditLinkModal((v) => ({ ...v, open: false }));
-    dispatch(snackBarAction({
-      message: `You successfully changed ${link}`,
-      severity: "success",
-      duration: 3000,
-      open: true,
-    }));
+    if (link) {
+      return dispatch(snackBarAction({
+        message: `You successfully changed ${link}`,
+        severity: "success",
+        duration: 3000,
+        open: true,
+      }));
+    }
   };
 
   const editLink = (hash, value, title) => {

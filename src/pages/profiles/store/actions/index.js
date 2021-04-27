@@ -182,7 +182,7 @@ export const editLinkAction = (success, linksArray) => async (dispatch, getState
         });
       }
 
-      // success("links");
+      success();
       dispatch(clearStateAction("dataProfiles"));
       return dispatch(getProfilesDataAction(userId));
     }
