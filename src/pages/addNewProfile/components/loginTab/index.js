@@ -8,12 +8,14 @@ import {
 } from "@material-ui/core";
 import { addNewProfileWithRandomEmailAction, clearAction } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
+import Loader from "../../../../components/Loader";
 import useStyles from "./styles";
 
 function LoginTab() {
   const classes = useStyles();
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
+  const { isFetching } = useSelector(({ newProfileReducer }) => newProfileReducer);
   const isAddProfileSuccess = useSelector(({ newProfileReducer }) => newProfileReducer.addProfileByRandomEmailSuccess);
 
   const handleChange = (event) => {
@@ -22,7 +24,16 @@ function LoginTab() {
   };
 
   const create = () => {
-    dispatch(addNewProfileWithRandomEmailAction(Number(value)));
+    dispatch(addNewProfileWithRandomEmailAction(Number(value)), (isError, errorMessage) => {
+      if (isError) {
+        return dispatch(snackBarAction({
+          message: errorMessage,
+          severity: "error",
+          duration: 3000,
+          open: true,
+        }));
+      }
+    });
   };
 
   useEffect(() => {
@@ -41,6 +52,7 @@ function LoginTab() {
   return (
     <div>
       <Grid className={classes.loginInputsContainer} container spacing={3}>
+        {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
         {/* <Grid item xs={5}> */}
         <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>enter the number of profiles you’d like to create below:</Typography>
         {/* </Grid> */}
@@ -50,6 +62,7 @@ function LoginTab() {
             variant='outlined'
             size='small'
             autoComplete="off"
+            disabled={isFetching}
             // helperText="enter the number of profiles you’d like to create below" // you’d like to create below
             name="profilesNumber"
             fullWidth
@@ -63,6 +76,7 @@ function LoginTab() {
             variant="contained"
             color="primary"
             onClick={create}
+            disabled={isFetching}
             fullWidth
           >
                 Create profiles

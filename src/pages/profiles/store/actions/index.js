@@ -174,7 +174,9 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
           },
         });
       }
-      return getProfilesDataAction(userId);
+      console.log(result);
+      dispatch(clearStateAction("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
     }
   } catch (error) {
     console.log(error);

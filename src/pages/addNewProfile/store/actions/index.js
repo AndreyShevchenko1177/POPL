@@ -1,15 +1,21 @@
 import * as requests from "./requests";
 import {
-  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST,
+  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING,
 } from "../actionsType";
 import { clearStateAction, getProfilesDataAction } from "../../../profiles/store/actions";
 
-export const addNewProfileByEmailAction = (emails, successCallBack) => async (dispatch, getState) => {
+export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
+    const errors = [];
+    dispatch(fetchData(true));
     const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email, userId)));
-    console.log(result);
-    successCallBack();
+    result.filter(({ data }) => !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
+    if (errors.length > 0) {
+      resultCallBack(true, errors);
+      return dispatch(fetchData(false));
+    }
+    resultCallBack();
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfilesDataAction(userId));
     return dispatch({
@@ -20,12 +26,19 @@ export const addNewProfileByEmailAction = (emails, successCallBack) => async (di
   }
 };
 
-export const addNewProfileWithRandomEmailAction = (emailCount) => async (dispatch, getState) => {
+export const addNewProfileWithRandomEmailAction = (emailCount, resultCallBack) => async (dispatch, getState) => {
   try {
     const result = [];
+    const errors = [];
     const userId = getState().authReducer.signIn.data.id;
+    dispatch(fetchData(true));
     for (const count of new Array(emailCount).fill()) {
       result.push(await requests.addNewProfileWithRandomEmailRequest(userId));
+    }
+    result.filter(({ data }) => !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
+    if (errors.length > 0) {
+      resultCallBack(true, errors);
+      return dispatch(fetchData(false));
     }
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfilesDataAction(userId));
@@ -50,5 +63,10 @@ export const removeFileAction = (fileName) => ({
 
 export const clearAction = (payload) => ({
   type: CLEAR,
+  payload,
+});
+
+const fetchData = (payload) => ({
+  type: IS_FETCHING,
   payload,
 });

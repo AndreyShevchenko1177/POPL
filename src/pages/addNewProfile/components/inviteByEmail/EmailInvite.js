@@ -37,7 +37,18 @@ function EmailInvite() {
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
     if (!emailsList.length && !email.length) return;
-    dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], () => setEmail([])));
+    dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
+      if (isError) {
+        dispatch(snackBarAction({
+          message: `such emails already exists - ${errorMessage}`,
+          severity: "error",
+          duration: 3000,
+          open: true,
+        }));
+        return setEmail([]);
+      }
+      return setEmail([]);
+    }));
   };
 
   const handleKeyChange = (event) => {
@@ -77,72 +88,73 @@ function EmailInvite() {
   }, [isAddProfileSuccess]);
 
   return (
-    <div className='relative'>
-      <Grid container className={classes.emailsComponentWrapper} spacing={3}>
-        {isFetching
-          ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />
-          : <>
-            <div className={classes.emailContainer}>
-              <div className={classes.emailChipContainer}>
-                {email.map(({ emailString, id }) => <div key={id} className={classes.emailChip}>
-                  <p>
-                    {emailString}
-                  </p>
-                  <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
-                </div>)}
-                <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
-              </div>
-
+    <>
+      {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
+      <div className='relative'>
+        <Grid container className={classes.emailsComponentWrapper} spacing={3}>
+          <div className={classes.emailContainer}>
+            <div className={classes.emailChipContainer}>
+              {email.map(({ emailString, id }) => <div key={id} className={classes.emailChip}>
+                <p>
+                  {emailString}
+                </p>
+                <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
+              </div>)}
+              <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
             </div>
-            <div
-              className={classes.buttonsContainer}
-            >
-              <div className={classes.importPreviewContainer}>
-                <Button
-                  className={classes.emailBtn}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setIsOpenDropZone(true)}
-                >
-                Import Emails
-                </Button>
-                <div className={classes.preview}>
-                  {Object.keys(filesList).map((file) => (
-                    <div className={classes.previewItem} key={file}>
-                      <Preview small={true} deleteAction={() => handleDeletePreviewFile(file)} width="50px" height="50px" fileName={file} />
-                    </div>
-                  ))}
-                </div>
-              </div>
 
+          </div>
+          <div
+            className={classes.buttonsContainer}
+          >
+            <div className={classes.importPreviewContainer}>
               <Button
                 className={classes.emailBtn}
                 variant="contained"
-                onClick={handleInvite}
                 color="primary"
+                disabled={isFetching}
+                onClick={() => setIsOpenDropZone(true)}
               >
-                Create profiles
+                Import Emails
               </Button>
+              <div className={classes.preview}>
+                {Object.keys(filesList).map((file) => (
+                  <div className={classes.previewItem} key={file}>
+                    <Preview small={true} deleteAction={() => handleDeletePreviewFile(file)} width="50px" height="50px" fileName={file} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </>}
-      </Grid>
-      {isOpenDropZone && <>
-        <div className={classes.opacityBackground} onClick={() => setIsOpenDropZone(false)}></div>
-        <div>
-          <DropZone
-            styles={{
-              wrapper: classes.dropZoneWrapper,
-              container: classes.dropZoneContainer,
-              iconContainer: classes.dropZoneIconContainer,
-            }}
-            icon={<SvgMaker name={"csv"} fill='#fff' />}
-            quantity={1}
-            handleClose={() => setIsOpenDropZone(false)}
-            page='addNewProfile'
-          />
-        </div>
-      </>}
-    </div>
+
+            <Button
+              className={classes.emailBtn}
+              variant="contained"
+              onClick={handleInvite}
+              color="primary"
+              disabled={isFetching}
+            >
+                Create profiles
+            </Button>
+          </div>
+        </Grid>
+        {isOpenDropZone && <>
+          <div className={classes.opacityBackground} onClick={() => setIsOpenDropZone(false)}></div>
+          <div>
+            <DropZone
+              styles={{
+                wrapper: classes.dropZoneWrapper,
+                container: classes.dropZoneContainer,
+                iconContainer: classes.dropZoneIconContainer,
+              }}
+              icon={<SvgMaker name={"csv"} fill='#fff' />}
+              quantity={1}
+              handleClose={() => setIsOpenDropZone(false)}
+              page='addNewProfile'
+            />
+          </div>
+        </>}
+      </div>
+    </>
   );
 }
 

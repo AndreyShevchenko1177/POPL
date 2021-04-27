@@ -1,5 +1,5 @@
 import {
-  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST,
+  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING,
 } from "../actionsType";
 
 const initialState = {
@@ -15,12 +15,14 @@ export default function newProfileReducer(state = initialState, { type, payload 
     return {
       ...state,
       addProfileByEmailSuccess: true,
+      isFetching: false,
     };
   }
   case ADD_NEW_PROFILE_BY_RANDOM_EMAIL: {
     return {
       ...state,
       addProfileByRandomEmailSuccess: true,
+      isFetching: false,
     };
   }
   case REMOVE_FILE: {
@@ -44,6 +46,12 @@ export default function newProfileReducer(state = initialState, { type, payload 
         ...state.filesList,
         [payload.fileName]: payload.emails,
       },
+    };
+  }
+  case IS_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   case CLEAR: {
