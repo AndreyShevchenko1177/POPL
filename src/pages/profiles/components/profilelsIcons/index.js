@@ -27,7 +27,7 @@ export default function SocialPoplsIcons({
 
   return (
     <>
-      {data.map(({
+      {[...data].reverse().map(({
         title, value, id, clicks, icon, hash,
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>

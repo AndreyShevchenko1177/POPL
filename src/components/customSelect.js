@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   actionContainer: {
     position: "absolute",
     top: 80,
-    left: 72,
+    left: 208,
     minWidth: 150,
     minHeight: 200,
     backgroundColor: "#ffffff",
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
     zIndex: 10,
     "@media (min-width:1000px)": {
-      left: 87,
+      left: 238,
     },
   },
   sortContainer: {

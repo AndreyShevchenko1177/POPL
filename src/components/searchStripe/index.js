@@ -53,19 +53,6 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
-      {!showAll && <div className={classes.buttonWrapper}>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-          endIcon={<KeyboardArrowDownIcon />}
-          disabled={!Object.values(checkboxes).some((el) => el.checked)}
-          onClick={() => arrowHandler(true, "action")}
-          name='action'
-        >
-          {"Actions"}
-        </Button>
-      </div>}
 
       {isShowSortBtn && <div className='relative'>
         <div className={classes.buttonWrapper}>
@@ -96,6 +83,19 @@ function SearchStripe({
             events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.sortHandler }}
           />}
         </div>
+      </div>}
+      {!showAll && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+          endIcon={<KeyboardArrowDownIcon />}
+          disabled={!Object.values(checkboxes).some((el) => el.checked)}
+          onClick={() => arrowHandler(true, "action")}
+          name='action'
+        >
+          {"Actions"}
+        </Button>
       </div>}
       <Filters
         isFetching={isFetching}
