@@ -255,7 +255,7 @@ export default function Profiles() {
   useEffect(() => {
     if (editLinkData) {
       setProfiles(profiles.map((item) => {
-        if (item.id === editLinkData.profileId) {
+        if (item.id == editLinkData.profileId) {
           const business = item.business.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
           const social = item.social.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
           return { ...item, business, social };
