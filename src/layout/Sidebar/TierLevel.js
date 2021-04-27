@@ -37,7 +37,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
 
   return (
     <>
-      {currentPlan && <div className={classes.tierContainer}>
+      {currentPlan && <div style={currentPlan.id != 0 ? {} : { alignItems: "center" }} className={classes.tierContainer}>
         {currentPlan.id != 0
           ? <>
             <div className={classes.tierHeader}>
@@ -75,7 +75,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
               classes={{ root: classes.tierButton }}
               onClick={() => history.push("/settings/billing")}
             >
-              Subscribe now
+                Subscribe now
             </Button>
             <button className={classes.longPressButton} {...longPressEvent}></button>
           </div>}

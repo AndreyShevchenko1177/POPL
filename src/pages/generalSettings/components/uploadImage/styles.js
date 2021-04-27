@@ -64,9 +64,10 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
   },
   image: {
-    width: 120,
-    height: 70,
-    borderRadius: "10px",
+    width: 80,
+    height: 80,
+    borderRadius: "50%",
+    objectFit: "cover",
   },
   fieldTitle: {
     fontWeight: "bold !important",

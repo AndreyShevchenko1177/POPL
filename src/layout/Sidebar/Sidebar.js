@@ -16,6 +16,7 @@ import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
+import ProfileImage from "./ProfileImage";
 import poplIcon from "../../assets/poplIcon_black.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
 import profiles from "../../assets/profiles.png";
@@ -352,6 +353,9 @@ function PermanentDrawerLeft() {
             </ListItem>
           </Link>
         </List>
+      </div>
+      <div>
+        {/* <ProfileImage name={userData.name} /> */}
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />

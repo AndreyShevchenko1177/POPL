@@ -23,11 +23,11 @@ export const updateUserProfile = ({
     let uploadedFile; // here should be firebase upload function
     if (file) {
       console.log(file);
-      // file.name = getId(12);
-      uploadedFile = await requests.setCompanyAvatar(new File([file], `${getId(12)}`, { type: file.type }));
+      const name = getId(12);
+      uploadedFile = await requests.setCompanyAvatar(new File([file], `${name}`, { type: file.type }));
       console.log(uploadedFile);
       if (typeof uploadedFile === "string") {
-        await requests.setCompanyImage(file.name);
+        await requests.setCompanyImage(name);
       }
     }
     dispatch(clearStateAction("companyInfo"));
