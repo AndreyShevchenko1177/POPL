@@ -81,6 +81,7 @@ export default function Main({ children, stripe }) {
           overflow: isRestrictedMode ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
+        id='main'
       >
         <>
           {children}
