@@ -177,4 +177,18 @@ export default makeStyles((theme) => ({
     // justifyContent: "flex-start",
     marginBottom: 5,
   },
+  editLink: {
+    "& span div": {
+      display: "flex",
+      width: 150,
+      margin: "0px !important",
+    },
+    "& span div p": {
+      // width: "50px",
+      margin: 0,
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+    },
+  },
 }));

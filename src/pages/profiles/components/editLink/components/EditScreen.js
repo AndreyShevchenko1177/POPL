@@ -66,6 +66,7 @@ function EditScreen({
             color="primary"
             fullWidth
             style={{ whiteSpace: "nowrap" }}
+            className={classes.editLink}
             onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title)}
           >
             {profileBtnTitle}
@@ -76,6 +77,7 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
+            className={classes.editLink}
             style={{ whiteSpace: "nowrap" }}
             onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title)}
           >

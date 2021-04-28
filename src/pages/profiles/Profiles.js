@@ -209,7 +209,7 @@ export default function Profiles() {
     const checkBoxObject = {};
     profiles && profiles.forEach((el) => {
       checkBoxObject[el.customId] = {
-        checked: false,
+        checked: !!checkboxes[el.customId]?.checked,
         ...profilesData.find((item) => item.customId === el.customId),
       };
     });

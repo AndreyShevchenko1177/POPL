@@ -14,9 +14,10 @@ function TopList({ data, refPopped, isLinks }) {
 
   useEffect(() => {
     if (refPopped?.current) {
+      const main = document.querySelector("#main");
       const getScrollYValue = getScrollValue((window.scrollY));
       refPopped?.current?.scrollIntoView(false);
-      window.scrollTo({ top: getScrollYValue() });
+      main.scrollTo({ top: getScrollYValue() });
     }
   }, [data]);
 

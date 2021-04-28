@@ -140,7 +140,7 @@ function EditLinkModal({
             <TabPanel value={value.key} index={0}>
               <EditScreen
                 {...data}
-                profileBtnTitle={`Edit ${data.name}'s link`}
+                profileBtnTitle={<div>Edit&nbsp; <p>{data.name}</p>'s link</div>}
                 allProfilesBtnTitle='Edit link from all profiles'
                 profileBtnEvent={editLink}
                 allProfileBtnEvent={editAllLinks}
@@ -149,8 +149,8 @@ function EditLinkModal({
             <TabPanel value={value.key} index={1}>
               <EditScreen
                 {...data}
-                profileBtnTitle={`delete ${data.name}'s link`}
-                allProfilesBtnTitle='delete link from all profiles'
+                profileBtnTitle={<div>Delete&nbsp;  <p>{data.name}</p>'s link</div>}
+                allProfilesBtnTitle='Delete link from all profiles'
                 isDeleteTab={value.key}
                 profileBtnEvent={deleteLink}
                 allProfileBtnEvent={deleteAllLinks}
