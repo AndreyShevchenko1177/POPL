@@ -7,7 +7,6 @@ function Preview({
   deleteAction, file, width = "100px", height = "100px", small,
 }) {
   const classes = useStyles();
-  // console.log(file);
   return (
     <div className={classes.imageContainer}>
       <img alt='logo' className={classes.image} src={file.src} />

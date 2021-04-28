@@ -2,7 +2,9 @@ import React, {
   useRef, useState, useEffect,
 } from "react";
 import { useDispatch } from "react-redux";
-import { Typography } from "@material-ui/core";
+import { Typography, Chip } from "@material-ui/core";
+import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import CreateIcon from "@material-ui/icons/Create";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
@@ -10,7 +12,7 @@ import Preview from "./components/Preview";
 import SvgMaker from "../../../../components/svgMaker";
 
 const DropZone = ({
-  quantity, multiple, setFieldsState,
+  quantity, multiple, setFieldsState, image,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -123,27 +125,45 @@ const DropZone = ({
         className={classes.headingDropZoneWrapper}
       >
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
-        <div className={classes.dashedContainer}>
-          { !Object.keys(files).length
-            ? (
-              <div className={classes.IconTextWrapper}>
-                <div className={classes.iconContainer}>
-                  <SvgMaker name="uploadCloud" fill="#999a9b" width={30} height={30} />
-                </div>
-                <Typography variant='subtitle1' classes={{ subtitle1: classes.uploadImageText }}>Upload Image</Typography>
-              </div>
-            )
-            : <div className={classes.previewContainer}>
-              {
-                Object.keys(files).map((key) => (
-                  <div key={key} >
-                    <Preview file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+        {
+          !image
+            ? <div className={classes.dashedContainer}>
+              { !Object.keys(files).length
+                ? (
+                  <div className={classes.IconTextWrapper}>
+                    <div className={classes.iconContainer}>
+                      <SvgMaker name="uploadCloud" fill="#999a9b" width={30} height={30} />
+                    </div>
+                    <Typography variant='subtitle1' classes={{ subtitle1: classes.uploadImageText }}>Upload</Typography>
                   </div>
-                ))
+                )
+                : <div className={classes.previewContainer}>
+                  {
+                    Object.keys(files).map((key) => (
+                      <div key={key} >
+                        <Preview file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+                      </div>
+                    ))
+                  }
+                </div>
               }
             </div>
-          }
-        </div>
+            : <div className='relative'>
+              <Chip
+                className={classes.chipButton}
+                deleteicon={<RemoveIcon />}
+                size='medium'
+                onDelete={() => {}}
+              />
+              <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${image}?alt=media`} />
+              <Chip
+                className={classes.chipButtonEdit}
+                deleteIcon={<CreateIcon />}
+                size='medium'
+                onDelete={() => {}}
+              />
+            </div>
+        }
         { !Object.keys(files).length && <input
           ref={fileInputRef}
           type='file'
