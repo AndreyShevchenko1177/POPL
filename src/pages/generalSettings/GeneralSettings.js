@@ -15,7 +15,7 @@ function GeneralSettings() {
     name: "",
     color: "",
     websiteLink: "",
-    file: {},
+    file: null,
   });
   const dispatch = useDispatch();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
@@ -53,7 +53,7 @@ function GeneralSettings() {
       {isFetching
         ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }}/>
         : <div className={classes.container}>
-          <UpladImage setFieldsState={setFieldsState} />
+          <UpladImage image={companyInfo && companyInfo[3]} setFieldsState={setFieldsState} />
           <SettingsField
             title="Name"
             name="name"

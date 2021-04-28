@@ -53,6 +53,7 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
+
       {!showAll && <div className={classes.buttonWrapper}>
         <Button
           variant="contained"

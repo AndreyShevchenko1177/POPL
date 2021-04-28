@@ -29,6 +29,7 @@ export default function Profiles() {
   const { profileConnection, poplsConnection, popsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const deleteLinkData = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.data);
+  const editLinkData = useSelector(({ profilesReducer }) => profilesReducer.editLink.data);
   const [searchValue, setSearchValue] = useState("");
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
@@ -250,6 +251,19 @@ export default function Profiles() {
       //     }));
     }
   }, [deleteLinkData]);
+
+  useEffect(() => {
+    if (editLinkData) {
+      setProfiles(profiles.map((item) => {
+        if (item.id == editLinkData.profileId) {
+          const business = item.business.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
+          const social = item.social.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
+          return { ...item, business, social };
+        }
+        return item;
+      }));
+    }
+  }, [editLinkData]);
 
   return (
     <>

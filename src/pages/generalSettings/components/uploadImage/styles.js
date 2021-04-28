@@ -21,7 +21,19 @@ export default makeStyles((theme) => ({
     width: "30px",
     height: "30px !important",
     top: "-14px",
-    right: "-25px",
+    right: "-15px",
+    "&:focus": {
+      backgroundColor: "transparent !important",
+    },
+  },
+  chipButtonEdit: {
+    backgroundColor: "transparent !important",
+    position: "absolute",
+    paddingRight: "10px !important",
+    width: "30px",
+    height: "30px !important",
+    bottom: "-14px",
+    right: "-10px",
     "&:focus": {
       backgroundColor: "transparent !important",
     },
@@ -34,11 +46,12 @@ export default makeStyles((theme) => ({
   dashedContainer: {
     display: "flex",
     alignItems: "center",
-    borderRadius: theme.custom.mainBorderRadius,
+    borderRadius: "50%",
     backgroundColor: "#f3f4f5",
     justifyContent: "center",
-    width: "100%",
-    height: 100,
+    width: "80px",
+    height: "80px",
+    cursor: "pointer",
   },
   previewContainer: {
     display: "flex",
@@ -64,9 +77,10 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
   },
   image: {
-    width: 120,
-    height: 70,
-    borderRadius: "10px",
+    width: 80,
+    height: 80,
+    borderRadius: "50%",
+    objectFit: "cover",
   },
   fieldTitle: {
     fontWeight: "bold !important",
@@ -74,6 +88,6 @@ export default makeStyles((theme) => ({
   },
   uploadImageText: {
     color: "#999a9b",
-    fontSize: "20px !important",
+    fontSize: "12px !important",
   },
 }));

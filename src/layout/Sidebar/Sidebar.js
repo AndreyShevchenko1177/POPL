@@ -16,6 +16,7 @@ import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
+import ProfileImage from "./ProfileImage";
 import poplIcon from "../../assets/poplIcon_black.png";
 import poplIconWhite from "../../assets/poplIcon_white.png";
 import profiles from "../../assets/profiles.png";
@@ -26,6 +27,7 @@ import analytics from "../../assets/analytics.png";
 import analyticsWhite from "../../assets/analytics_white.png";
 import settings from "../../assets/settings.png";
 import settingsWhite from "../../assets/settings_white.png";
+import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -42,6 +44,7 @@ function PermanentDrawerLeft() {
   const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
   const { result: profileInfoSideBar } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   const dispatch = useDispatch();
+  const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -99,6 +102,7 @@ function PermanentDrawerLeft() {
       const result = JSON.parse(localStorage.getItem("subscription"));
       dispatch(getSubscriptionInfoAction({ subscriptionName: result.pricingName, maxProfiles: result.unitsRange }));
     }
+    dispatch(getCompanyInfoAction());
   }, []);
 
   return (
@@ -189,42 +193,6 @@ function PermanentDrawerLeft() {
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
-              [classes.ulListHighLight]: highlight.popls,
-            })}
-            button
-            onClick={() => {
-              highlightList("popls");
-              history.push("/popls", { disabled: true });
-            }}
-          >
-            <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <div className={classes.sideBarIcons}>
-                {/* <SvgMaker
-                  name='popl'
-                  fill="#7d8286"
-                /> */}
-                <img className='white' style={{ width: "100%" }} alt='popl' src={poplIconWhite} />
-                <img className='dark' style={{ width: "100%" }} alt='popl' src={poplIcon} />
-              </div>
-            </ListItemIcon>
-            <ListItemText
-              disableTypography
-              classes={{
-                root: clsx(classes.listText, {
-                  [classes.listTextHighLight]: highlight.popls,
-                }),
-              }}
-              primary="Popls"
-            />
-            <Typography variant='subtitle1' classes={{
-              root: clsx(classes.listText, {
-                [classes.listTextHighLight]: highlight.popls,
-              }),
-            }}>{profileInfoSideBar.totalPopls}</Typography>
-          </ListItem>
-          <ListItem
-            divider={false}
-            className={clsx(classes.ulList, {
               [classes.ulListHighLight]: highlight.connections,
             })}
             button
@@ -258,6 +226,42 @@ function PermanentDrawerLeft() {
                 [classes.listTextHighLight]: highlight.connections,
               }),
             }}>{profileInfoSideBar.connections}</Typography>
+          </ListItem>
+          <ListItem
+            divider={false}
+            className={clsx(classes.ulList, {
+              [classes.ulListHighLight]: highlight.popls,
+            })}
+            button
+            onClick={() => {
+              highlightList("popls");
+              history.push("/popls", { disabled: true });
+            }}
+          >
+            <ListItemIcon classes={{ root: classes.listItemIcon }}>
+              <div className={classes.sideBarIcons}>
+                {/* <SvgMaker
+                  name='popl'
+                  fill="#7d8286"
+                /> */}
+                <img className='white' style={{ width: "100%" }} alt='popl' src={poplIconWhite} />
+                <img className='dark' style={{ width: "100%" }} alt='popl' src={poplIcon} />
+              </div>
+            </ListItemIcon>
+            <ListItemText
+              disableTypography
+              classes={{
+                root: clsx(classes.listText, {
+                  [classes.listTextHighLight]: highlight.popls,
+                }),
+              }}
+              primary="Popls"
+            />
+            <Typography variant='subtitle1' classes={{
+              root: clsx(classes.listText, {
+                [classes.listTextHighLight]: highlight.popls,
+              }),
+            }}>{profileInfoSideBar.totalPopls}</Typography>
           </ListItem>
           <Link to="/campaigns">
             <ListItem
@@ -352,6 +356,9 @@ function PermanentDrawerLeft() {
             </ListItem>
           </Link>
         </List>
+      </div>
+      <div>
+        <ProfileImage name={profileInfo && profileInfo[0]} image={profileInfo && profileInfo[3]} color={profileInfo && profileInfo[1]}/>
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />

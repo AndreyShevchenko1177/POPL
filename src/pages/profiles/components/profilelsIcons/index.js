@@ -27,7 +27,7 @@ export default function SocialPoplsIcons({
 
   return (
     <>
-      {data.map(({
+      {[...data].slice(0, 8).map(({
         title, value, id, clicks, icon, hash,
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
@@ -43,8 +43,7 @@ export default function SocialPoplsIcons({
               className={style}
               src={icon
                 ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-                : icons[id].icon} alt={title}
-
+                : icons[id]?.icon} alt={title}
             />
           </div>
           {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}

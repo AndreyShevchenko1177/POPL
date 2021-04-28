@@ -37,7 +37,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
 
   return (
     <>
-      {currentPlan && <div className={classes.tierContainer}>
+      {currentPlan && <div style={currentPlan.id != 0 ? {} : { alignItems: "center" }} className={classes.tierContainer}>
         {currentPlan.id != 0
           ? <>
             <div className={classes.tierHeader}>
@@ -50,7 +50,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
             {count && <>
               <div className={classes.barTrack}>
                 <div
-                  style={{ width: `${((count / currentPlan.unitsRange[1]) * 100) > 100 ? 100 : (count / currentPlan.unitsRange[1]) * 100}%`, backgroundColor: ((count / currentPlan.unitsRange[1]) * 100) > 100 ? "#F52B00" : "#73bef2" }}
+                  style={{ width: `${((count / currentPlan.unitsRange[1]) * 100) > 100 ? 100 : (count / currentPlan.unitsRange[1]) * 100}%`, backgroundColor: ((count / currentPlan?.unitsRange[1]) * 100) > 100 ? "#F52B00" : "#73bef2" }}
                   className={classes.networkContainerBarItem}
                 ></div>
               </div>
@@ -75,7 +75,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
               classes={{ root: classes.tierButton }}
               onClick={() => history.push("/settings/billing")}
             >
-              Subscribe now
+                Subscribe now
             </Button>
             <button className={classes.longPressButton} {...longPressEvent}></button>
           </div>}

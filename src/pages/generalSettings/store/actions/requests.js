@@ -41,7 +41,7 @@ export const setCompanyImage = (name) => {
   console.log(name);
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "AjaxSetCompanyImage");
-  bodyFormData.append("CompanyProfileImage", name);
+  bodyFormData.append("sCompanyProfileImage", name);
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });
