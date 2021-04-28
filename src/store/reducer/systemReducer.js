@@ -1,5 +1,12 @@
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS, SHOW_RESTRICTED_MODE,
+  PROFILE_DATA, ALERT,
+  PROFILE_INFO_FOR_SIDE_BAR,
+  PROFILE_COUNT_TIER_LEVEL,
+  SUBSCRIPTION_INFO,
+  FETCHING_ACTION,
+  UPDATE_CONNECTIONS,
+  SHOW_RESTRICTED_MODE,
+  HIDE_RESTRICTED_MODE,
 } from "../actionTypes";
 
 const initialState = {
@@ -22,6 +29,7 @@ const initialState = {
     maxProfiles: null,
   },
   isRestrictedMode: false,
+  isHiderestrictedMode: false,
   isFetching: false,
 };
 
@@ -84,6 +92,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isFetching: payload,
+    };
+  }
+  case HIDE_RESTRICTED_MODE: {
+    return {
+      ...state,
+      isHiderestrictedMode: true,
     };
   }
   default:

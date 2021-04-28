@@ -6,3 +6,4 @@ export const SUBSCRIPTION_INFO = "[SYSTEM] SUBSCRIPTION INFO";
 export const FETCHING_ACTION = "[SYSTEM] FETCHING ACTION";
 export const UPDATE_CONNECTIONS = "[SYSTEM] UPDATE CONNECTIONS";
 export const SHOW_RESTRICTED_MODE = "[SYSTEM] SHOW RESTRICTED MODE";
+export const HIDE_RESTRICTED_MODE = "[SYSTEM] HIDE RESTRICTED MODE"; // using this type just for testing mode to hide restricted window

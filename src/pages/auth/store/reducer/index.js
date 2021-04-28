@@ -6,6 +6,7 @@ import {
   GET_DASHBOARD_PLAN_SUCCESS,
   GET_DASHBOARD_PLAN_FAIL,
   LOGOUT,
+  CLEAN_STATE,
 } from "../actionTypes";
 import { deleteCookies, existingCookies } from "../../../../utils/cookie";
 
@@ -32,8 +33,8 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       signIn: {
-        ...state.signIn,
         data,
+        error: null,
       },
     };
   }
@@ -41,7 +42,6 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       signIn: {
-        ...state.signIn,
         data: null,
         error: payload,
       },
@@ -51,8 +51,8 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       signUp: {
-        ...state.signUp,
         data: payload,
+        error: null,
       },
     };
   }
@@ -60,7 +60,7 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       signUp: {
-        ...state.signUp,
+        data: null,
         error: payload,
       },
     };
@@ -87,6 +87,12 @@ export default function authReducer(state = initialState, { type, payload }) {
     localStorage.removeItem("profileData");
     existingCookies.forEach((name) => deleteCookies(name));
     return initialState;
+  }
+  case CLEAN_STATE: {
+    return {
+      ...state,
+      [payload]: initialState[payload],
+    };
   }
   default:
     return state;

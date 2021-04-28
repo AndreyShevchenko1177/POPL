@@ -50,14 +50,13 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         });
         await Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
         Promise.all(unProProfileIds.map((id) => requests.makeProfileProRequest(id)));
-
-        dispatch(profilesInfoAction(profiles));
-        dispatch(profileCountTierLevelAction(profiles.length));
-        return dispatch({
-          type: GET_DATA_PROFILES_SUCCESS,
-          payload: profiles,
-        });
       }
+      dispatch(profilesInfoAction(profiles));
+      dispatch(profileCountTierLevelAction(profiles.length));
+      return dispatch({
+        type: GET_DATA_PROFILES_SUCCESS,
+        payload: profiles,
+      });
     }
   } catch (error) {
     console.log(error);

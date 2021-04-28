@@ -1,7 +1,14 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
 import {
-  PROFILE_DATA, ALERT, PROFILE_INFO_FOR_SIDE_BAR, PROFILE_COUNT_TIER_LEVEL, SUBSCRIPTION_INFO, FETCHING_ACTION, UPDATE_CONNECTIONS, SHOW_RESTRICTED_MODE,
+  PROFILE_DATA, ALERT,
+  PROFILE_INFO_FOR_SIDE_BAR,
+  PROFILE_COUNT_TIER_LEVEL,
+  SUBSCRIPTION_INFO,
+  FETCHING_ACTION,
+  UPDATE_CONNECTIONS,
+  SHOW_RESTRICTED_MODE,
+  HIDE_RESTRICTED_MODE,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -123,4 +130,8 @@ export const restricteModeAction = (isRestricted) => ({
 export const fetchingAction = (isFetching) => ({
   type: FETCHING_ACTION,
   payload: isFetching,
+});
+
+export const hideRestrictedModeAction = () => ({
+  type: HIDE_RESTRICTED_MODE,
 });

@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
-import { restricteModeAction } from "../store/actions";
+import { restricteModeAction, hideRestrictedModeAction } from "../store/actions";
 import { subscriptionConfig } from "../pages/billing/index";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,22 +50,24 @@ export default function Main({ children, stripe }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isRestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
+  const { isRestrictedMode, isHiderestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
   const { totalProfiles } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar.result);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
-    if (location.pathname === "/settings/billing") dispatch(restricteModeAction(false));
-  }, [location]);
-
-  useEffect(() => {
-    if (totalProfiles && dashboardPlan) {
+    const allowedPaths = ["/settings", "/settings/general-settings", "/profiles", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new", "/"];
+    console.log(location.pathname);
+    if (dashboardPlan == 0 || dashboardPlan === "") {
+      if (!allowedPaths.includes(location.pathname)) dispatch(restricteModeAction(true));
+      else if (totalProfiles > 1 && location.pathname === "/profiles") dispatch(restricteModeAction(true));
+      else dispatch(restricteModeAction(false));
+    } else {
       const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
       if (subscription) {
         if (totalProfiles > subscription.unitsRange[1]) dispatch(restricteModeAction(true));
       }
     }
-  }, [totalProfiles, dashboardPlan]);
+  }, [location, totalProfiles, dashboardPlan]);
 
   return (
     <div className={classes.root}>
@@ -85,7 +87,7 @@ export default function Main({ children, stripe }) {
       >
         <>
           {children}
-          {isRestrictedMode && <div className={classes.restrictedViewRoot}>
+          {isRestrictedMode && !isHiderestrictedMode && <div className={classes.restrictedViewRoot}>
             <div className={classes.restrictedViewOpacity}>
 
             </div>
@@ -96,7 +98,10 @@ export default function Main({ children, stripe }) {
                 right: 10,
                 cursor: "pointer",
               }}
-              onClick={() => dispatch(restricteModeAction(false))}
+              onClick={() => {
+                dispatch(hideRestrictedModeAction());
+                dispatch(restricteModeAction(false));
+              }}
             />
             <Button
               className={classes.upgradePlanButton}

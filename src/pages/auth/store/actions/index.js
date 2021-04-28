@@ -6,6 +6,7 @@ import {
   SIGN_UP_FAIL,
   GET_DASHBOARD_PLAN_SUCCESS,
   GET_DASHBOARD_PLAN_FAIL,
+  CLEAN_STATE,
   LOGOUT,
 } from "../actionTypes";
 import { snackBarAction } from "../../../../store/actions";
@@ -100,4 +101,9 @@ export const getDashboardPlanAction = (id) => async (dispatch) => {
 
 export const logoutAction = () => ({
   type: LOGOUT,
+});
+
+export const cleanAction = (name) => ({
+  type: CLEAN_STATE,
+  payload: name,
 });

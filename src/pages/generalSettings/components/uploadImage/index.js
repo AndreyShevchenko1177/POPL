@@ -159,7 +159,7 @@ const DropZone = ({
             : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")}>
               <Chip
                 className={classes.chipButton}
-                deleteiIcon={<RemoveIcon />}
+                deleteiicon={<RemoveIcon />}
                 size='medium'
                 onDelete={() => {
                   setCompanyImage("");

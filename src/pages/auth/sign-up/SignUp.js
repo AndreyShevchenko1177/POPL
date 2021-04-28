@@ -19,7 +19,7 @@ import Mail from "@material-ui/icons/Mail";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
-import { signUpAction } from "../store/actions";
+import { signUpAction, cleanAction } from "../store/actions";
 import { snackBarAction } from "../../../store/actions";
 import { ValidationProvider } from "../../../utils";
 
@@ -94,6 +94,8 @@ function SignUp(props) {
       }));
     }
   }, [signUpResult]);
+
+  useEffect(() => () => dispatch(cleanAction("signUp")), []);
 
   return (
     <>
