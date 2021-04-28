@@ -31,6 +31,7 @@ import Discord from "../../../../assets/discord.png";
 import Yelp from "../../../../assets/yelp.png";
 import Ambassador from "../../../../assets/ambassadorIcon.png";
 import Clubhouse from "../../../../assets/clubhouse.png";
+import EmbeddedVideo from "../../../../assets/embeddedVideo.png";
 
 const icons = {
   3: {
@@ -229,6 +230,12 @@ const icons = {
     icon: Clubhouse,
     text: "Clubhouse",
     placeholder: "Your Clubhouse link",
+    path: "http://",
+  },
+  39: {
+    icon: EmbeddedVideo,
+    text: "",
+    placeholder: "Your video link",
     path: "http://",
   },
 };
