@@ -358,7 +358,7 @@ function PermanentDrawerLeft() {
         </List>
       </div>
       <div>
-        <ProfileImage name={"kldsjfaslkjdfas;lkjdfasl;jdfa;sljf"} image={profileInfo && profileInfo[3]} color={profileInfo && profileInfo[1]}/>
+        <ProfileImage name={profileInfo && profileInfo[0]} image={profileInfo && profileInfo[3]} color={profileInfo && profileInfo[1]}/>
       </div>
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />

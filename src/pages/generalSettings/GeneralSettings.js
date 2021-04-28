@@ -15,7 +15,7 @@ function GeneralSettings() {
     name: "",
     color: "",
     websiteLink: "",
-    file: {},
+    file: null,
   });
   const dispatch = useDispatch();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);

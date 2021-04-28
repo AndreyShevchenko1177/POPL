@@ -19,17 +19,18 @@ export const updateUserProfile = ({
     if (name || name === "") await requests.setCompanyName(name);
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
-
+    console.log(file);
     let uploadedFile; // here should be firebase upload function
     if (file) {
       console.log(file);
-      const name = getId(12);
-      uploadedFile = await requests.setCompanyAvatar(new File([file], `${name}`, { type: file.type }));
+      uploadedFile = getId(12);
+      await requests.setCompanyAvatar(new File([file], `${uploadedFile}`, { type: file.type }));
       console.log(uploadedFile);
-      if (typeof uploadedFile === "string") {
-        await requests.setCompanyImage(name);
-      }
     }
+    if (typeof uploadedFile === "string") {
+      await requests.setCompanyImage(uploadedFile);
+    } else requests.setCompanyImage("");
+
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());
   } catch (error) {

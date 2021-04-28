@@ -38,7 +38,7 @@ function TierLevel({ count, subscriptionName, maxProfiles }) {
   return (
     <>
       {currentPlan && <div style={currentPlan.id != 0 ? {} : { alignItems: "center" }} className={classes.tierContainer}>
-        {currentPlan.id == 0
+        {currentPlan.id != 0
           ? <>
             <div className={classes.tierHeader}>
               <div className={classes.tierIcon}>

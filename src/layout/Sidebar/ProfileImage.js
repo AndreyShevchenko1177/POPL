@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
     width: 70,
     height: 70,
     borderRadius: "50%",
+    marginRight: 10,
   },
   name: {
-    paddingLeft: 10,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     width: 70,
     height: 70,
     borderRadius: "50%",
+    marginRight: 10,
   },
 }));
 
