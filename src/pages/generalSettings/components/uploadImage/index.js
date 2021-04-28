@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Typography, Chip } from "@material-ui/core";
 import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import CreateIcon from "@material-ui/icons/Create";
+import clsx from "clsx";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
@@ -29,6 +30,7 @@ const DropZone = ({
     fileType: false,
     duplicated: false,
   });
+  const [companyImage, setCompanyImage] = useState("");
 
   const handleDeleteFile = (key) => {
     const result = { ...files };
@@ -85,6 +87,7 @@ const DropZone = ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
     setFieldsState((fs) => ({ ...fs, file: file[0] }));
+    setCompanyImage("");
     handleFilesObject(file);
   };
 
@@ -118,15 +121,19 @@ const DropZone = ({
     }
   }, [validation]);
 
+  useEffect(() => {
+    if (image) setCompanyImage(image);
+  }, [image]);
+
   return (
     <div className={classes.container}>
       <div
-        onClick={openFileDialog}
+        onClick={companyImage ? () => {} : openFileDialog}
         className={classes.headingDropZoneWrapper}
       >
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
         {
-          !image
+          !companyImage
             ? <div className={classes.dashedContainer}>
               { !Object.keys(files).length
                 ? (
@@ -148,19 +155,22 @@ const DropZone = ({
                 </div>
               }
             </div>
-            : <div className='relative'>
+            : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")}>
               <Chip
                 className={classes.chipButton}
-                deleteicon={<RemoveIcon />}
+                deleteiIcon={<RemoveIcon />}
                 size='medium'
-                onDelete={() => {}}
+                onDelete={() => {
+                  setCompanyImage("");
+                  setFieldsState((prev) => ({ ...prev, file: null }));
+                }}
               />
               <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${image}?alt=media`} />
               <Chip
                 className={classes.chipButtonEdit}
                 deleteIcon={<CreateIcon />}
                 size='medium'
-                onDelete={() => {}}
+                onDelete={() => openFileDialog()}
               />
             </div>
         }

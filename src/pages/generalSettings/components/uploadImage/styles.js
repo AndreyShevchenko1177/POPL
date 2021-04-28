@@ -4,6 +4,8 @@ export default makeStyles((theme) => ({
   container: {
     width: "100%",
     padding: "10px 15px",
+    display: "flex",
+    justifyContent: "center",
     "& input": {
       display: "none",
     },
@@ -42,6 +44,9 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  companyImageWrapper: {
+    width: "80px !important",
   },
   dashedContainer: {
     display: "flex",

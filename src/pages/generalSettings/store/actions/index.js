@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
-import { snackBarAction } from "../../../../store/actions";
 import { getId } from "../../../../utils";
 import {
   GET_COMPANY_INFO_SUCCESS,
