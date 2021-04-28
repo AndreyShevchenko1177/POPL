@@ -59,7 +59,7 @@ export default function Profiles() {
     setProfiles(items);
   }
 
-  function handleClickPoplItem(event, id, buttonName) {
+  function handleClickPoplItem(event, id, buttonName, customId) {
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
@@ -69,6 +69,7 @@ export default function Profiles() {
       typeof event.target.className === "string"
       && event.target.className.includes("target-element")
     ) {
+      setCheckBoxes((cb) => ({ ...cb, [customId]: { ...cb[customId], checked: !cb[customId].checked } }));
       // history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
   }
@@ -333,7 +334,7 @@ export default function Profiles() {
                               showEditModal={showEditModal}
                               showAddLinkWiz={() => addLinkClick(el.id)}
                               mainCheck={mainCheck}
-                              handleClickPoplItem={(event, buttonName) => handleClickPoplItem(event, el.id, buttonName)}
+                              handleClickPoplItem={(event, buttonName, customId) => handleClickPoplItem(event, el.id, buttonName, customId)}
                               profilesCheck={profilesCheck}
                               checkboxes={checkboxes}
                               setProfileType={setProfileType}

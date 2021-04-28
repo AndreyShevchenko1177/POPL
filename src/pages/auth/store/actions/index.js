@@ -60,7 +60,7 @@ export const signUpAction = (credo) => async (dispatch) => {
     if (!data.success) {
       return dispatch({
         type: SIGN_UP_FAIL,
-        payload: data.success,
+        payload: data,
       });
     }
 

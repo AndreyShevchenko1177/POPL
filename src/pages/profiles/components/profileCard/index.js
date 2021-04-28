@@ -65,6 +65,11 @@ export default function Card({
     setShowEditIcon(!showEditIcon);
   };
 
+  const changeIconSize = (event, size) => {
+    event.currentTarget.style.transform = `scale(${size})`;
+    event.currentTarget.style.transition = "transform 0.25s";
+  };
+
   useEffect(() => {
     if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });
     else setPersonalMode({ direct: false, text: "Personal" });
@@ -81,13 +86,13 @@ export default function Card({
       <Paper
         elevation={checkboxes[customId]?.checked ? 20 : 0}
         className={clsx(classes.root, profileOff === "1" ? classes.rootProfileOffBackground : (personalMode.direct && classes.rootBusinessModeBackground))}
-        onClick={handleClickPoplItem}
+        onClick={(event) => handleClickPoplItem(event, undefined, customId)}
       >
         <div className={classes.mainContent}>
           {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
-            <div className={classes.section1_editIcon} onClick={editIconHandler}>
-              <SvgMaker name="editIcon" width={showEditIcon ? 20 : 25} height={showEditIcon ? 20 : 25}/>
+            <div className={classes.section1_editIcon} onClick={editIconHandler} onMouseUp={(event) => changeIconSize(event, 1)} onMouseDown={(event) => changeIconSize(event, 0.7)}>
+              <SvgMaker name="editIcon" width={25} height={25}/>
             </div>
             <div className={clsx(classes.section1_avatar, "target-element")}>
               <Avatar

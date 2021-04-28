@@ -13,8 +13,7 @@ function AnimationComponent() {
     })}>
       <div className={classes.textContainer}>
 
-        <Typography className={classes.animationContainerHeading} variant='h2'>Some Heading</Typography>
-        <Typography variant='h6'>Some description</Typography>
+        <Typography className={classes.animationContainerHeading} variant='h2'>Popl Enterprise</Typography>
         <Typography variant='h6'>Contact us at <a className={classes.link} href="https://popl.co/" target='blank'>popl.co</a></Typography>
       </div>
       {!isSafari && <>

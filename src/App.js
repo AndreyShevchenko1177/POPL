@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
 import PoplsItem from "./pages/popls";
@@ -51,11 +52,16 @@ function App(props) {
     <Router>
       <Switch>
         {/* <Main> */}
+
         <Route path="/sign-up" exact>
-          <SignUp />
+          <Auth>
+            <SignUp />
+          </Auth>
         </Route>
         <Route path="/sign-in" exact>
-          <Login />
+          <Auth>
+            <Login />
+          </Auth>
         </Route>
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
           <Profiles />

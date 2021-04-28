@@ -20,6 +20,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
 import { signUpAction } from "../store/actions";
+import { snackBarAction } from "../../../store/actions";
 import { ValidationProvider } from "../../../utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +85,14 @@ function SignUp(props) {
 
   useEffect(() => {
     if (signUpResult.data) history.push("/");
+    if (signUpResult.error !== null) {
+      dispatch(snackBarAction({
+        message: signUpResult.error.message,
+        severity: "error",
+        duration: 5000,
+        open: true,
+      }));
+    }
   }, [signUpResult]);
 
   return (
@@ -116,21 +125,21 @@ function SignUp(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  <Typography variant="h3">Set up your Popl!</Typography>
+                  <Typography variant="h3">Set up your Profile!</Typography>
                   <br />
                   <Typography variant="body1">
-                    Enter your information below to set up your Popl
+                    Enter your information below to set up your Profile
                   </Typography>
                 </Grid>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel>Username/Email</InputLabel>
+                    <InputLabel>Username</InputLabel>
                     <Input
                       type="text"
-                      label="Username/Email"
+                      label="Username"
                       name="username"
                       fullWidth
-                      error={!!errors.username || signUpResult.error}
+                      error={!!errors.username || signUpResult.error?.success}
                       value={values.username}
                       onChange={events.onChange}
                       onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
@@ -146,7 +155,7 @@ function SignUp(props) {
                       id="outlined-weight-helper-text"
                       error={true}
                     >
-                      {signUpResult.error
+                      {signUpResult.error?.success
                         ? "Some field is incorrect"
                         : errors.username}
                     </FormHelperText>
@@ -160,7 +169,7 @@ function SignUp(props) {
                       label="Email"
                       name="email"
                       fullWidth
-                      error={!!errors.email || signUpResult.error}
+                      error={!!errors.email || signUpResult.error?.success}
                       value={values.email}
                       onChange={events.onChange}
                       onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
@@ -176,7 +185,7 @@ function SignUp(props) {
                       id="outlined-weight-helper-text"
                       error={true}
                     >
-                      {signUpResult.error
+                      {signUpResult.error?.success
                         ? "Some field is incorrect"
                         : errors.email}
                     </FormHelperText>
@@ -190,7 +199,7 @@ function SignUp(props) {
                       label="Password"
                       name="password"
                       fullWidth
-                      error={!!errors.password || signUpResult.error}
+                      error={!!errors.password || signUpResult.error?.success}
                       value={values.password}
                       onChange={events.onChange}
                       onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
@@ -214,7 +223,7 @@ function SignUp(props) {
                       id="outlined-weight-helper-text"
                       error={true}
                     >
-                      {signUpResult.error
+                      {signUpResult.error?.success
                         ? "Some field is incorrect"
                         : errors.password}
                     </FormHelperText>
@@ -228,7 +237,7 @@ function SignUp(props) {
                       label="Confirm password"
                       name="confirmPassword"
                       fullWidth
-                      error={!!errors.confirmPassword || signUpResult.error}
+                      error={!!errors.confirmPassword || signUpResult.error?.success}
                       value={values.confirmPassword}
                       onChange={events.onChange}
                       onKeyDown={(event) => events.onKeyDown(event, signUp, "Enter")
@@ -253,7 +262,7 @@ function SignUp(props) {
                       id="outlined-weight-helper-text"
                       error={true}
                     >
-                      {signUpResult.error
+                      {signUpResult.error?.success
                         ? "Some field is incorrect"
                         : errors.confirmPassword}
                     </FormHelperText>
@@ -293,7 +302,7 @@ function SignUp(props) {
                     classes={{ subtitle1: classes.haveAccountLink }}
                     onClick={() => history.push("/sign-in")}
                   >
-                      Don't have a profile? Join here
+                      Already have a profile? Sign in
                   </Typography>
                   {/* <Button
                     variant="contained"
