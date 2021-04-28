@@ -49,11 +49,11 @@ const DropZone = ({
         if (type[type.length - 1] === "sheet") src = icons.xls;
       }
       if (src === "") src = icons.unknown;
-      return setFiles((prev) => ({ ...prev, [getId(12)]: { file, src } }));
+      return setFiles((prev) => ({ [getId(12)]: { file, src } }));
     }
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
-      setFiles((prev) => ({ ...prev, [getId(12)]: { file, src: event.target.result } }));
+      setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
     });
     reader.readAsDataURL(file);
   };
@@ -68,6 +68,7 @@ const DropZone = ({
   };
 
   const openFileDialog = () => {
+    console.log("hello");
     fileInputRef.current?.click();
   };
 
@@ -148,7 +149,7 @@ const DropZone = ({
                   {
                     Object.keys(files).map((key) => (
                       <div key={key} >
-                        <Preview file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+                        <Preview openFileDialog={openFileDialog} file={files[key]} deleteAction={() => handleDeleteFile(key)} />
                       </div>
                     ))
                   }
@@ -174,7 +175,7 @@ const DropZone = ({
               />
             </div>
         }
-        { !Object.keys(files).length && <input
+        { <input
           ref={fileInputRef}
           type='file'
           multiple={!!multiple}

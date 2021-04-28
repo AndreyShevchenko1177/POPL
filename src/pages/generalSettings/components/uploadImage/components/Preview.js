@@ -1,10 +1,11 @@
 import React from "react";
 import { Chip } from "@material-ui/core";
 import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import CreateIcon from "@material-ui/icons/Create";
 import useStyles from "../styles";
 
 function Preview({
-  deleteAction, file, width = "100px", height = "100px", small,
+  deleteAction, file, openFileDialog,
 }) {
   const classes = useStyles();
   return (
@@ -15,6 +16,12 @@ function Preview({
         deleteicon={<RemoveIcon />}
         size='medium'
         onDelete={deleteAction}
+      />
+      <Chip
+        className={classes.chipButtonEdit}
+        deleteIcon={<CreateIcon />}
+        size='medium'
+        onDelete={() => openFileDialog()}
       />
     </div>
   );
