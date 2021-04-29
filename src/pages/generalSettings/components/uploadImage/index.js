@@ -36,6 +36,7 @@ const DropZone = ({
     const result = { ...files };
     delete result[key];
     Object.keys(result).length > 0 ? setFiles(result) : setFiles({});
+    // if (image) setFieldsState((fs) => ({ ...fs, file: image }));
   };
 
   const readImage = (file, index) => {
@@ -68,7 +69,6 @@ const DropZone = ({
   };
 
   const openFileDialog = () => {
-    console.log("hello");
     fileInputRef.current?.click();
   };
 
@@ -90,6 +90,7 @@ const DropZone = ({
     setFieldsState((fs) => ({ ...fs, file: file[0] }));
     setCompanyImage("");
     handleFilesObject(file);
+    event.target.value = "";
   };
 
   useEffect(() => {
@@ -123,7 +124,9 @@ const DropZone = ({
   }, [validation]);
 
   useEffect(() => {
-    if (image) setCompanyImage(image);
+    if (image) {
+      setCompanyImage(image);
+    }
   }, [image]);
 
   return (

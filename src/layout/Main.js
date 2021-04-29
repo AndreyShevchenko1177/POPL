@@ -55,8 +55,7 @@ export default function Main({ children, stripe }) {
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
-    const allowedPaths = ["/settings", "/settings/general-settings", "/profiles", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new", "/"];
-    console.log(location.pathname);
+    const allowedPaths = ["/settings", "/settings/general-settings", "/profiles", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
     if (dashboardPlan == 0 || dashboardPlan === "") {
       if (!allowedPaths.includes(location.pathname)) dispatch(restricteModeAction(true));
       else if (totalProfiles > 1 && location.pathname === "/profiles") dispatch(restricteModeAction(true));
@@ -87,31 +86,35 @@ export default function Main({ children, stripe }) {
       >
         <>
           {children}
-          {isRestrictedMode && !isHiderestrictedMode && <div className={classes.restrictedViewRoot}>
-            <div className={classes.restrictedViewOpacity}>
-
-            </div>
-            <HighlightOffIcon
-              style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                dispatch(hideRestrictedModeAction());
-                dispatch(restricteModeAction(false));
-              }}
-            />
-            <Button
-              className={classes.upgradePlanButton}
-              variant="contained"
-              color="primary"
-              onClick={() => history.push("/settings/billing")}
+          {isRestrictedMode && !isHiderestrictedMode
+            && <div
+              style={location.pathname === "/" ? { height: "calc(100vh - 110px)", top: 110 } : {}}
+              className={classes.restrictedViewRoot}
             >
+              <div className={classes.restrictedViewOpacity}>
+
+              </div>
+              <HighlightOffIcon
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  dispatch(hideRestrictedModeAction());
+                  dispatch(restricteModeAction(false));
+                }}
+              />
+              <Button
+                className={classes.upgradePlanButton}
+                variant="contained"
+                color="primary"
+                onClick={() => history.push("/settings/billing")}
+              >
               Subscribe now
-            </Button>
-          </div>}
+              </Button>
+            </div>}
 
         </>
       </main>

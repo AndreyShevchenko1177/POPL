@@ -42,7 +42,6 @@ function GeneralSettings() {
       setFieldsState(result);
     }
   }, [companyInfo]);
-  console.log(fieldsState.file);
 
   return (
     <>

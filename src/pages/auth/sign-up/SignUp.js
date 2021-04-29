@@ -135,7 +135,7 @@ function SignUp(props) {
                 </Grid>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel>Username</InputLabel>
+                    <InputLabel>Name</InputLabel>
                     <Input
                       type="text"
                       label="Name"

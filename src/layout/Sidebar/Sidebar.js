@@ -55,15 +55,12 @@ function PermanentDrawerLeft() {
     setCollapse({ ...setRestFalse, [name]: !collapse[name] });
   };
 
-  console.log(highlight);
-
   const highlightList = (name) => {
     setHighLight({ [name]: true });
   };
 
   useEffect(() => {
     let name = location.pathname.split("/")[1];
-    console.log(location);
     if (location.pathname.includes("general-settings")) {
       name = "profileInfo";
     }

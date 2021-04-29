@@ -20,15 +20,14 @@ export const updateUserProfile = ({
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
     console.log(file);
     let uploadedFile; // here should be firebase upload function
-    if (file) {
-      console.log(file);
+    if (file && typeof file !== "string") {
       uploadedFile = getId(12);
       await requests.setCompanyAvatar(new File([file], `${uploadedFile}`, { type: file.type }));
-      console.log(uploadedFile);
     }
+    console.log(file);
     if (typeof uploadedFile === "string") {
       await requests.setCompanyImage(uploadedFile);
-    } else requests.setCompanyImage("");
+    } else requests.setCompanyImage(file || "");
 
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());
