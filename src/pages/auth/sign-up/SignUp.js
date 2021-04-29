@@ -138,7 +138,7 @@ function SignUp(props) {
                     <InputLabel>Username</InputLabel>
                     <Input
                       type="text"
-                      label="Username"
+                      label="Name"
                       name="username"
                       fullWidth
                       error={!!errors.username || signUpResult.error?.success}
