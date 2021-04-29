@@ -55,14 +55,17 @@ function PermanentDrawerLeft() {
     setCollapse({ ...setRestFalse, [name]: !collapse[name] });
   };
 
+  console.log(highlight);
+
   const highlightList = (name) => {
     setHighLight({ [name]: true });
   };
 
   useEffect(() => {
     let name = location.pathname.split("/")[1];
-    if (name === "analytics") {
-      name = location.pathname.split("/")[2];
+    console.log(location);
+    if (location.pathname.includes("general-settings")) {
+      name = "profileInfo";
     }
 
     if (name === "crm-integrations") {
@@ -308,12 +311,12 @@ function PermanentDrawerLeft() {
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
-              [classes.ulListHighLight]: highlight.overall,
+              [classes.ulListHighLight]: highlight.analytics,
             })}
             button
             onClick={() => {
               handleCollapseClick("analyticsOpen");
-              highlightList("overall");
+              highlightList("analytics");
               history.push("/analytics", {});
             }}
           >
@@ -366,11 +369,38 @@ function PermanentDrawerLeft() {
               />
             </ListItem>
           </Link>
+          {profileInfo && <Link to="/settings/general-settings">
+            <ListItem
+              button
+              className={clsx(classes.ulList, {
+                [classes.ulListHighLight]: highlight.profileInfo,
+              })}
+              onClick={() => highlightList("profileInfo")}
+            >
+              <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                <div style={{
+                  width: 25, height: 25, display: "flex", alignItems: "center",
+                }} className={classes.sideBarIcons}>
+                  {profileInfo[3] && <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />}
+                  {profileInfo[1] && !profileInfo[3] && <div className={classes.profileCircle} style={{ backgroundColor: profileInfo[1] }}></div>}
+                </div>
+              </ListItemIcon>
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listText, {
+                    [classes.listTextHighLight]: highlight.profileInfo,
+                  }),
+                }}
+                primary={profileInfo[0]}
+              />
+            </ListItem>
+          </Link>}
         </List>
       </div>
-      <div>
+      {/* <div>
         <ProfileImage name={profileInfo && profileInfo[0]} image={profileInfo && profileInfo[3]} color={profileInfo && profileInfo[1]}/>
-      </div>
+      </div> */}
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />
       </div>

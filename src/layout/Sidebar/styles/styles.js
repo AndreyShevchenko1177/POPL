@@ -185,4 +185,23 @@ export default makeStyles((theme) => ({
     height: "100%",
     cursor: "pointer",
   },
+  profileImage: {
+    width: 20,
+    height: 20,
+    borderRadius: "50%",
+    marginRight: 10,
+  },
+  profileName: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  profileCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: "50%",
+    marginLeft: 3,
+  },
 }));
