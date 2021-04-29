@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Paper, InputBase, Checkbox, Button,
 } from "@material-ui/core";
@@ -27,8 +28,10 @@ function SearchStripe({
   showAll = true,
   isShowSortBtn,
   checkboxes = {},
+  templates,
 }) {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.searchContainer}>
@@ -113,6 +116,18 @@ function SearchStripe({
           onClick={handleOpen}
         >
           {btn_title}
+        </Button>
+      </div>}
+      {templates && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ minWidth: 100 }}
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          onClick={() => history.push("/templates")}
+          name='action'
+        >
+          {"Templates"}
         </Button>
       </div>}
       {showCRM && <div className={classes.buttonWrapper}>

@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     position: "relative",
     width: "100%",
-    height: "100px",
+    height: 100,
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -27,15 +27,15 @@ export default makeStyles((theme) => ({
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
-    marginLeft: 30,
+    marginLeft: 15,
     "@media (max-width:1000px)": {
       marginLeft: 15,
     },
   },
   button: {
-    height: "50px",
-    minWidth: "160px",
-    fontSize: "16px",
+    height: 40,
+    minWidth: 140,
+    fontSize: "14px",
     borderRadius: theme.custom.mainBorderRadius,
   },
   searchInput: {
@@ -44,6 +44,8 @@ export default makeStyles((theme) => ({
     flex: 1,
   },
   checkbox: {
+    height: 40,
+    width: 50,
     backgroundColor: theme.palette.background.paper,
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
@@ -68,9 +70,9 @@ export default makeStyles((theme) => ({
     },
   },
   actionButton: {
-    height: "50px",
+    height: "40px",
     minWidth: "100px",
-    fontSize: "16px",
+    fontSize: "14px",
     borderRadius: theme.custom.mainBorderRadius,
   },
   sortText: {

@@ -26,6 +26,9 @@ import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
 import AddProfile from "./pages/addProfile";
+import Templates from "./pages/templates";
+import AddTemplate from "./pages/addTemplate";
+import MyTemplates from "./pages/myTemplates";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 import { getProfileInfoRequest } from "./store/actions";
@@ -51,8 +54,6 @@ function App(props) {
   return (
     <Router>
       <Switch>
-        {/* <Main> */}
-
         <Route path="/sign-up" exact>
           <Auth>
             <SignUp />
@@ -122,6 +123,15 @@ function App(props) {
         </PrivateRoute>
         <PrivateRoute path="/settings" exact isLoggedIn={profileData?.id}>
           <Settings />
+        </PrivateRoute>
+        <PrivateRoute path="/templates" exact isLoggedIn={profileData?.id}>
+          <Templates />
+        </PrivateRoute>
+        <PrivateRoute path="/templates/add-template" exact isLoggedIn={profileData?.id}>
+          <AddTemplate />
+        </PrivateRoute>
+        <PrivateRoute path="/templates/my-templates" exact isLoggedIn={profileData?.id}>
+          <MyTemplates />
         </PrivateRoute>
         <PrivateRoute path="/settings/general-settings" exact isLoggedIn={profileData?.id}>
           <GeneralSettings />

@@ -292,6 +292,7 @@ export default function Profiles() {
             checked={mainCheck}
             checkboxes={checkboxes}
             arrowHandler={arrowHandler}
+            templates={true}
             selectObject={{
               openProfileSelect,
               setOpenProfileSelect,
