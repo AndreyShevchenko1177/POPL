@@ -102,7 +102,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     minWidth: "700px",
     height: "85px",
-    padding: "0 30px 0 65px",
+    padding: "0 30px 0 69px",
   },
   section2: {
     width: "100%",

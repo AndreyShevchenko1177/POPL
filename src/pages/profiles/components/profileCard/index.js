@@ -103,7 +103,7 @@ export default function Card({
                 }
                 name={name}
                 styles={{
-                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: "49px",
+                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: imagesExtensions.includes(extension[extension.length - 1]) ? "49px" : "27px",
                 }}
               />
               <div className={clsx(classes.checkboxWrapper, {
@@ -120,14 +120,14 @@ export default function Card({
                 />
               </div>
             </div>
-            <div className='full-w'>
+            <div className='full-w target-element'>
               <div className={clsx(classes.section1_title, "target-element")}>
-                <Typography className="cursor-default" variant="h5">
+                <Typography className="cursor-default target-element" variant="h5">
                   {name}
                 </Typography>
               </div>
-              <div className={clsx(classes.section3, "target-element")}>
-                <div className={classes.section3_text}>{setBio()}</div>
+              <div className={classes.section3}>
+                <div className={clsx(classes.section3_text, "target-element")}>{setBio()}</div>
               </div>
             </div>
           </div>

@@ -58,16 +58,16 @@ export function ConnectedCard({
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
           <div className={classes.cardTable}>
-            <div className={classes.tableRow}>
+            {/* <div className={classes.tableRow}>
               <div className={classes.tableCell}>Last Connected:</div>
               <div className={classes.tableCell}>{formatDateConnections(time)}</div>
-            </div>
+            </div> */}
             {/* <div className={classes.tableRow}>
               <div className={classes.tableCell}>URL:</div>
               <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
             </div> */}
           </div>
-          <div className='pt-10'>
+          <div style={{ paddingTop: "28px" }}>
             <Button
               variant="text"
               size="small"
@@ -83,10 +83,9 @@ export function ConnectedCard({
           <Paper className={classes.connectedWithInfo}>
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
             <div className={classes.connectedWithNames}>
-              {Object.values(names)?.map((el, key) => (
+              {Object.values(names)?.sort((a, b) => new Date(formatDateConnections(b.connected)) - new Date(formatDateConnections(a.connected)))?.map((el, key) => (
                 <Tooltip key={key} title={formatDateConnections(el.connected) || ""} placement="top">
                   <Paper className={classes.nameItem}>
-                    {/* {console.log(el)} */}
                     <img alt='userIcon' className={classes.nameItemImage} src={el.image ? process.env.REACT_APP_BASE_IMAGE_URL + el.image : userIcon} />
                     <p className={classes.nameItemName} > {el.name}</p>
                   </Paper>
