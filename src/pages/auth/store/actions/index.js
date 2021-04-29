@@ -53,7 +53,7 @@ export const signUpAction = (credo) => async (dispatch) => {
     const bodyFormData = new FormData();
     bodyFormData.append("sEmail", credo.email);
     bodyFormData.append("sPassword", credo.password);
-    bodyFormData.append("Name", credo.username);
+    bodyFormData.append("sName", credo.username);
     bodyFormData.append("sAction", "SaveMember");
     bodyFormData.append("ajax", 1);
 
