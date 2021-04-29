@@ -6,4 +6,6 @@ export const SUBSCRIPTION_INFO = "[SYSTEM] SUBSCRIPTION INFO";
 export const FETCHING_ACTION = "[SYSTEM] FETCHING ACTION";
 export const UPDATE_CONNECTIONS = "[SYSTEM] UPDATE CONNECTIONS";
 export const SHOW_RESTRICTED_MODE = "[SYSTEM] SHOW RESTRICTED MODE";
-export const HIDE_RESTRICTED_MODE = "[SYSTEM] HIDE RESTRICTED MODE"; // using this type just for testing mode to hide restricted window
+export const HIDE_RESTRICTED_MODE = "[SYSTEM] HIDE RESTRICTED MODE"; // using this type just for testing mode to hide restricted window;
+export const PROFILE_INFO_FOR_MAIN_PAGE = "[SYSTEM] PROFILE INFO FOR MAIN PAGE";
+export const UPDATE_SIDE_BAR_DATA_STATUS = "[SYSTEM] UPDATE SIDE BAR DATA STATUS";

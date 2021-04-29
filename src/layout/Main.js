@@ -51,7 +51,7 @@ export default function Main({ children, stripe }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isRestrictedMode, isHiderestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
-  const { totalProfiles } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar.result);
+  const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {

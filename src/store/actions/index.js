@@ -9,6 +9,8 @@ import {
   UPDATE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
   HIDE_RESTRICTED_MODE,
+  PROFILE_INFO_FOR_MAIN_PAGE,
+  UPDATE_SIDE_BAR_DATA_STATUS,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -29,6 +31,9 @@ export const snackBarAction = (payload) => ({
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
   try {
     dispatch(fetchingAction(true));
+    dispatch({
+      type: UPDATE_SIDE_BAR_DATA_STATUS,
+    });
     const profilesData = getState().profilesReducer.dataProfiles.data;
     let profiles;
     if (!profilesData) {
@@ -65,6 +70,10 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
   try {
     let result = {};
     result.totalProfiles = `${profiles.length}`;
+    dispatch({
+      type: PROFILE_INFO_FOR_MAIN_PAGE,
+      payload: profiles.length,
+    });
     const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
     const pops = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
     result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);

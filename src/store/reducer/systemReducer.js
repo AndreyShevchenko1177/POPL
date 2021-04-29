@@ -7,6 +7,8 @@ import {
   UPDATE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
   HIDE_RESTRICTED_MODE,
+  PROFILE_INFO_FOR_MAIN_PAGE,
+  UPDATE_SIDE_BAR_DATA_STATUS,
 } from "../actionTypes";
 
 const initialState = {
@@ -22,12 +24,14 @@ const initialState = {
     profileConnection: {},
     poplsConnection: {},
     popsConnection: {},
+    isFetching: false,
   },
   tierLevelInfo: {
     count: null,
     subscriptionName: null,
     maxProfiles: null,
   },
+  profilesInfoMainPage: null,
   isRestrictedMode: false,
   isHiderestrictedMode: false,
   isFetching: false,
@@ -78,7 +82,10 @@ export default function systemReducer(state = initialState, { type, payload }) {
   case UPDATE_CONNECTIONS: {
     return {
       ...state,
-      profileInfoSideBar: payload,
+      profileInfoSideBar: {
+        ...payload,
+        isFetching: false,
+      },
       isFetching: false,
     };
   }
@@ -98,6 +105,21 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isHiderestrictedMode: true,
+    };
+  }
+  case PROFILE_INFO_FOR_MAIN_PAGE: {
+    return {
+      ...state,
+      profilesInfoMainPage: payload,
+    };
+  }
+  case UPDATE_SIDE_BAR_DATA_STATUS: {
+    return {
+      ...state,
+      profileInfoSideBar: {
+        ...state.profileInfoSideBar,
+        isFetching: true,
+      },
     };
   }
   default:

@@ -33,7 +33,6 @@ function EmailInvite() {
     }
     setValue(event.target.value);
   };
-
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
     if (!emailsList.length && !email.length) return;
@@ -45,8 +44,10 @@ function EmailInvite() {
           duration: 3000,
           open: true,
         }));
+        dispatch(removeFileAction(Object.keys(filesList)[0]));
         return setEmail([]);
       }
+      dispatch(removeFileAction(Object.keys(filesList)[0]));
       return setEmail([]);
     }));
   };
