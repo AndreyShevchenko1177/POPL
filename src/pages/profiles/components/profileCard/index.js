@@ -94,7 +94,7 @@ export default function Card({
             <div className={classes.section1_editIcon} onClick={editIconHandler} onMouseUp={(event) => changeIconSize(event, 1)} onMouseDown={(event) => changeIconSize(event, 0.7)}>
               <SvgMaker name="editIcon" width={25} height={25}/>
             </div>
-            <div className={clsx(classes.section1_avatar, "target-element")}>
+            <div className={clsx(classes.section1_avatar)}>
               <Avatar
                 src={
                   imagesExtensions.includes(extension[extension.length - 1])
@@ -121,20 +121,20 @@ export default function Card({
               </div>
             </div>
             <div className='full-w target-element'>
-              <div className={clsx(classes.section1_title, "target-element")}>
+              <div className={clsx(classes.section1_title)}>
                 <Typography className="cursor-default target-element" variant="h5">
                   {name}
                 </Typography>
               </div>
               <div className={classes.section3}>
-                <div className={clsx(classes.section3_text, "target-element")}>{setBio()}</div>
+                <div className={clsx(classes.section3_text)}>{setBio()}</div>
               </div>
             </div>
           </div>
           <div className={clsx(classes.wrapper, {
             "mt-25": isSafari,
-          })}>
-            <div className={clsx(classes.section4, "target-element")}>
+          }, "target-element")}>
+            <div className={clsx(classes.section4)}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
                 profileId={id}
@@ -159,7 +159,7 @@ export default function Card({
                 </div>
               </div>}
             </div>
-            <div className={clsx(classes.section6, "target-element")}>
+            <div className={clsx(classes.section6)}>
               <Button
                 variant="text"
                 size="small"

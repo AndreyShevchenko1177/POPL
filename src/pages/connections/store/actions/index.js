@@ -43,7 +43,6 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     }
 
     let allConnections = await getCollectionData("people", idsArray);
-    console.log(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []).filter((el) => el.id == 4822));
     // removing duplicated connections from array
     const filteredConnections = uniqueObjectsInArray(allConnections
       .reduce((acc, item) => ([...acc, ...item.data]), []) // in allConnections we have array with profile id's. in each profile id placed array of connections related to this certain profile and we gathering it in one array
@@ -91,7 +90,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {
-        allConnections: isSingle ? idsObject[id] : filteredConnections, connections: filteredConnections,
+        allConnections: isSingle ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))) : filteredConnections, connections: filteredConnections,
       },
     });
   } catch (error) {

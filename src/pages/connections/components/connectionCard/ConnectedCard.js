@@ -58,14 +58,14 @@ export function ConnectedCard({
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
           <div className={classes.cardTable}>
-            {/* <div className={classes.tableRow}>
-              <div className={classes.tableCell}>Last Connected:</div>
+            <div className={classes.tableRow}>
+              {/* <div className={classes.tableCell}>Last Connected:</div> */}
               <div className={classes.tableCell}>{formatDateConnections(time)}</div>
-            </div> */}
-            {/* <div className={classes.tableRow}>
-              <div className={classes.tableCell}>URL:</div>
+            </div>
+            <div className={classes.tableRow}>
+              {/* <div className={classes.tableCell}>URL:</div> */}
               <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
-            </div> */}
+            </div>
           </div>
           <div style={{ paddingTop: "28px" }}>
             <Button

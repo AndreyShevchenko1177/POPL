@@ -60,7 +60,6 @@ export default function Profiles() {
   }
 
   function handleClickPoplItem(event, id, buttonName, customId) {
-    console.log(event);
     if (typeof buttonName === "function") return buttonName();
     event.preventDefault();
     if (buttonName === "popl") {
@@ -68,9 +67,8 @@ export default function Profiles() {
     }
     if (
       typeof event.target.className === "string"
-      && event.target.className.includes("target-element")
+      && (event.target.className.includes("target-element") || event.target.offsetParent?.className?.includes("target-element"))
     ) {
-      console.log("test");
       setCheckBoxes((cb) => ({ ...cb, [customId]: { ...cb[customId], checked: !cb[customId].checked } }));
       // history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }

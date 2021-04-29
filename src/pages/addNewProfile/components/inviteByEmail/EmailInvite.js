@@ -39,7 +39,7 @@ function EmailInvite() {
     dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
       if (isError) {
         dispatch(snackBarAction({
-          message: `such emails already exists - ${errorMessage}`,
+          message: `such emails already exists - ${errorMessage.length > 2 ? `${errorMessage.slice(0, 2).join(", ")} and ${errorMessage.length - 2} more` : errorMessage.join(", ")}`,
           severity: "error",
           duration: 3000,
           open: true,

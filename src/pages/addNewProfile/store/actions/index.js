@@ -12,6 +12,18 @@ export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dis
     const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email, userId)));
     result.filter(({ data }) => typeof data === "string" || !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
     if (errors.length > 0) {
+      if (errors.length === result.length) {
+        resultCallBack(true, errors);
+        return dispatch(fetchData(false));
+      }
+      dispatch(clearStateAction("dataProfiles"));
+      dispatch(getProfilesDataAction(userId));
+      dispatch({
+        type: UPDATE_SIDE_BAR_DATA_STATUS,
+      });
+      dispatch({
+        type: ADD_NEW_PROFILE_BY_EMAIL,
+      });
       resultCallBack(true, errors);
       return dispatch(fetchData(false));
     }
