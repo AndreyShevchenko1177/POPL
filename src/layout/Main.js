@@ -57,8 +57,10 @@ export default function Main({ children, stripe }) {
   useEffect(() => {
     const allowedPaths = ["/settings", "/settings/general-settings", "/profiles", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
     if (dashboardPlan == 0 || dashboardPlan === "") {
-      if (!allowedPaths.includes(location.pathname)) dispatch(restricteModeAction(true));
-      else if (totalProfiles > 1 && location.pathname === "/profiles") dispatch(restricteModeAction(true));
+      if (!allowedPaths.includes(location.pathname)) {
+        if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
+        dispatch(restricteModeAction(true));
+      } else if (totalProfiles > 1 && location.pathname === "/profiles") dispatch(restricteModeAction(true));
       else dispatch(restricteModeAction(false));
     } else {
       const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
