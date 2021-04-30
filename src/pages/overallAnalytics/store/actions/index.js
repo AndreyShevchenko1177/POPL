@@ -4,10 +4,10 @@ import {
   GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
 } from "../actionTypes";
 
+import { removeCommas, getId, filterPops } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 import { getPoplsDataById } from "../../../popls/store/actions/requests";
 import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
-import { getId, filterPops } from "../../../../utils";
 import * as requests from "./requests";
 
 export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
@@ -18,7 +18,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
       const { data } = await profileIdsRequest(id);
       let response;
       if (data) {
-        const ids = JSON.parse(data);
+        const ids = JSON.parse(removeCommas(data));
         response = await Promise.all([...ids, id].map((id) => requests.popsActionRequest(id)));
       } else {
         response = await Promise.all([id].map((id) => requests.popsActionRequest(id)));
@@ -34,7 +34,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         let topViewedViews = [];
         let idsArray = [id];
         if (data) {
-          idsArray = JSON.parse(data);
+          idsArray = JSON.parse(removeCommas(data));
         }
         topViewedViews = await Promise.all([...idsArray, id].map((id) => requests.getAllThreeStats(id)));
         widgetsStats.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
@@ -150,7 +150,7 @@ export const getStatisticItemsRequest = (userId) => async (dispatch, getState) =
   const myProfile = await getProfileAction(userId);
   let profiles = [{ ...myProfile.data, customId: getId(12), id: myProfile.id }];
   if (profilesList.data) {
-    const idsArray = JSON.parse(profilesList.data);
+    const idsArray = JSON.parse(removeCommas(profilesList.data));
     const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
     profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
       ...p,

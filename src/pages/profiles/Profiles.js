@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import clsx from "clsx";
 import {
-  getProfilesDataAction, setDirectAction, setProfileStatusAction, turnProfileAction,
+  getProfilesDataAction, setDirectAction, setProfileStatusAction, turnProfileAction, changeProfileOrder,
 } from "./store/actions";
 import Header from "../../components/Header";
 import ProfileCard from "./components/profileCard";
@@ -18,6 +18,17 @@ import CustomWizard from "../../components/wizard";
 import EditLinkModal from "./components/editLink";
 import { snackBarAction } from "../../store/actions";
 import { isSafari } from "../../constants";
+
+const parentContainerStyle = {
+  display: "flex",
+  position: "relative",
+  marginTop: 20,
+  width: "100%",
+  minWidth: "800px",
+  WebkitBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
+  boxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
+  outline: "none",
+};
 
 export default function Profiles() {
   const dispatch = useDispatch();
@@ -55,7 +66,7 @@ export default function Profiles() {
     const items = [...profiles];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
+    dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)));
     setProfiles(items);
   }
 
@@ -238,18 +249,6 @@ export default function Profiles() {
         }
         return item;
       }));
-      //     setProfiles(profiles.map((item) => {
-      //       let editProfile = {};
-      //       deleteLinkData.forEach((link) => {
-      //         if (item.id == link.profileId) {
-      //           const business = item.business.filter((el) => el.id != link.linkId);
-      //           const social = item.social.filter((el) => el.id != link.linkId);
-      //           editProfile[item.id] = { ...(Object.keys(editProfile).length === 0 ? item : editProfile), business, social };
-      //         }
-      //         editProfile[item.id] = item;
-      //       });
-      //       return editProfile[item.id];
-      //     }));
     }
   }, [deleteLinkData]);
 
@@ -317,32 +316,49 @@ export default function Profiles() {
                     ref={provided.innerRef}
                   >
                     {profiles.map((el, index) => (
-                      <Draggable
-                        key={el.customId}
-                        draggableId={`${el.customId}`}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            draggable="true"
-                            className={classes.container}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <ProfileCard
-                              {...el}
-                              showEditModal={showEditModal}
-                              showAddLinkWiz={() => addLinkClick(el.id)}
-                              mainCheck={mainCheck}
-                              handleClickPoplItem={(event, buttonName, customId) => handleClickPoplItem(event, el.id, buttonName, customId)}
-                              profilesCheck={profilesCheck}
-                              checkboxes={checkboxes}
-                              setProfileType={setProfileType}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
+                      el.id == userData.id
+                        ? <div
+                          key={el.customId}
+                          style={parentContainerStyle}
+                        >
+                          <ProfileCard
+                            {...el}
+                            isDotsRemove
+                            showEditModal={showEditModal}
+                            showAddLinkWiz={() => addLinkClick(el.id)}
+                            mainCheck={mainCheck}
+                            handleClickPoplItem={(event, buttonName, customId) => handleClickPoplItem(event, el.id, buttonName, customId)}
+                            profilesCheck={profilesCheck}
+                            checkboxes={checkboxes}
+                            setProfileType={setProfileType}
+                          />
+                        </div>
+                        : <Draggable
+                          key={el.customId}
+                          draggableId={`${el.customId}`}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              draggable="true"
+                              className={classes.container}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <ProfileCard
+                                {...el}
+                                showEditModal={showEditModal}
+                                showAddLinkWiz={() => addLinkClick(el.id)}
+                                mainCheck={mainCheck}
+                                handleClickPoplItem={(event, buttonName, customId) => handleClickPoplItem(event, el.id, buttonName, customId)}
+                                profilesCheck={profilesCheck}
+                                checkboxes={checkboxes}
+                                setProfileType={setProfileType}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
                     ))}
                     {provided.placeholder}
                   </div>

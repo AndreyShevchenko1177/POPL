@@ -16,6 +16,7 @@ import ProfilePanel from "./controlProfilePanel";
 import addLinkIcon from "../../../../assets/add.png";
 
 export default function Card({
+  isDotsRemove,
   handleClickPoplItem,
   profilesCheck,
   checkboxes,
@@ -82,7 +83,7 @@ export default function Card({
 
   return (
     <>
-      <DragDots position="center" />
+      {!isDotsRemove && <DragDots position="center" />}
       <Paper
         elevation={checkboxes[customId]?.checked ? 20 : 0}
         className={clsx(classes.root, profileOff === "1" ? classes.rootProfileOffBackground : (personalMode.direct && classes.rootBusinessModeBackground))}

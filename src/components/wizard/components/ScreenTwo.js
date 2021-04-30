@@ -6,7 +6,7 @@ import useStyles from "../styles/styles";
 import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
 
 function ScreenTwo({
-  icon, id, closeWizard, profileData,
+  icon, id, closeWizard, profileData, disabled,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -78,6 +78,7 @@ function ScreenTwo({
           color="primary"
           fullWidth
           onClick={addLink}
+          disabled={disabled}
         >
           Add link
         </Button>

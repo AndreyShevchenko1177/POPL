@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Paper, TextField, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import UploadImage from "../../components/uploadImage";
 import TemplateCard from "./components/TemplateCard";
+import CustomWizard from "../../components/wizard";
 
 function AddTemplate() {
   const classes = useStyles();
@@ -16,6 +18,8 @@ function AddTemplate() {
     businessName: "",
     businessBio: "",
   });
+  const [wizard, setWizard] = useState({ open: false, data: [] });
+  const [parentProfile] = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
 
   const handleChange = (event) => {
     event.persist();
@@ -23,6 +27,9 @@ function AddTemplate() {
     setValues({ ...values, [name]: value });
   };
 
+  const openWizard = () => {
+    setWizard({ ...wizard, open: !wizard.open });
+  };
   return (
     <>
       <Header
@@ -30,6 +37,7 @@ function AddTemplate() {
         lastChild="Add Template"
         path="/templates"
       />
+      {wizard.open && <CustomWizard disabled data={[parentProfile]} isOpen={wizard.open} setIsOpen={setWizard}/>}
       <div className={classes.container}>
         <Paper elevation={10} className={classes.tempNameInputWrapper}>
           <TextField
@@ -45,6 +53,7 @@ function AddTemplate() {
             cardTitle='Personal'
             setImage={(value) => setValues({ ...values, personalImage: value })}
             handleChange={handleChange}
+            openWizard={openWizard}
             values={values}
           />
           <TemplateCard
@@ -52,6 +61,7 @@ function AddTemplate() {
             setImage={(value) => setValues({ ...values, personalImage: value })}
             handleChange={handleChange}
             values={values}
+            openWizard={openWizard}
           />
         </div>
       </div>

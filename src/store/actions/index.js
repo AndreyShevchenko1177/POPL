@@ -16,7 +16,9 @@ import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
-import { uniqueObjectsInArray, formatDateConnections, getId } from "../../utils";
+import {
+  uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
+} from "../../utils";
 
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
@@ -42,7 +44,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       let idsArray;
       profiles = [{ ...myProfile.data, id: myProfile.id, customId: getId(12) }];
       if (response.data && response.data !== "null") {
-        idsArray = JSON.parse(response.data);
+        idsArray = JSON.parse(removeCommas(response.data));
         const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
         profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
           ...p,

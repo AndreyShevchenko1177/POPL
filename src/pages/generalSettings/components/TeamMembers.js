@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Paper, TextField, Typography } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { getProfilesDataAction } from "../../profiles/store/actions";
 import userIcon from "../../../assets/svg/user.svg";
 import useStyles from "./styles";
 
-function TeamMembers() {
+function TeamMembers({ showConfirmModal }) {
   const [isShow, setIsShow] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [profilesList, setProfilesList] = useState([]);
@@ -28,6 +29,10 @@ function TeamMembers() {
     const { value } = event.target;
     setSearchValue(value);
     setProfilesList(value ? profilesList.filter(({ name }) => name.toLowerCase().includes(value.toLowerCase())) : [...profiles]);
+  };
+
+  const deleteProfile = (id) => {
+    showConfirmModal(id);
   };
 
   return (
@@ -56,9 +61,14 @@ function TeamMembers() {
           />
         </div>
         <div className={classes.content}>
-          {profilesList.map(({ customId, name, image }) => (
+          {profilesList.map(({
+            customId, name, image, id,
+          }) => (
             <div key={customId} className={classes.memberWrapper}>
               <Paper elevation={10} className={classes.memberItem}>
+                {userId !== id && <div className={classes.deleteIcon} onClick={() => deleteProfile(id)} >
+                  <HighlightOffIcon />
+                </div>}
                 <img alt='userIcon' className={classes.nameItemImage} src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} />
                 <p className={classes.nameItemName} > {name}</p>
               </Paper>

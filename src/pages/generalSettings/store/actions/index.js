@@ -1,14 +1,19 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
-import { getId } from "../../../../utils";
+import axios from "axios";
+import { getId, removeCommas } from "../../../../utils";
 import {
   GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
+  DELETE_PROFILE,
   IS_DATA_FETCHING,
   GET_COMPANY_INFO_FAIL,
+  UPDATE_SIDE_BAR_DATA_STATUS,
 } from "../actionTypes";
 import * as requests from "./requests";
+import { snackBarAction } from "../../../../store/actions";
+import { getProfilesDataAction, clearStateAction as clearProfilesState } from "../../../profiles/store/actions";
 
 export const updateUserProfile = ({
   name, color, websiteLink, file,
@@ -58,6 +63,39 @@ export const getCompanyInfoAction = () => async (dispatch, getState) => {
       type: GET_COMPANY_INFO_FAIL,
       payload: error,
     });
+  }
+};
+
+export const deleteProfileAction = (profileId) => async (dispatch, getState) => {
+  const userId = getState().authReducer.signIn.data.id;
+  let result;
+  try {
+    const bodyFormData = new FormData();
+    bodyFormData.append("sAction", "RemoveChild");
+    bodyFormData.append("sChild", profileId.toString());
+    bodyFormData.append("iID", userId.toString());
+    result = await axios.post("", bodyFormData);
+    if (Array.isArray(JSON.parse(removeCommas(result.data)))) {
+      dispatch(snackBarAction({
+        message: "Profile was successfully deleted",
+        severity: "success",
+        duration: 4000,
+        open: true,
+      }));
+      dispatch({
+        type: UPDATE_SIDE_BAR_DATA_STATUS,
+      });
+      dispatch(clearProfilesState("dataProfiles"));
+      return dispatch(getProfilesDataAction(userId));
+    }
+  } catch (error) {
+    console.log(error);
+    return dispatch(snackBarAction({
+      message: result.data,
+      severity: "error",
+      duration: 4000,
+      open: true,
+    }));
   }
 };
 

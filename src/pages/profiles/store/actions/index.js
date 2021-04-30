@@ -2,8 +2,9 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
+import { Form } from "redux-form";
 import { snackBarAction, profileCountTierLevelAction, profilesInfoAction } from "../../../../store/actions";
-import { getId } from "../../../../utils";
+import { getId, removeCommas } from "../../../../utils";
 import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
@@ -16,6 +17,7 @@ import {
   TURN_PROFILE_ON_OFF_SUCCESS,
   EDIT_PROFILE_LINK,
   DELETE_PROFILE_LINK,
+  CHANGE_PROFILE_ORDER,
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -33,7 +35,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
 
       if (response.data) {
-        const idsArray = JSON.parse(response.data);
+        const idsArray = JSON.parse(removeCommas(response.data));
         const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
         profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
           ...p,
@@ -129,7 +131,7 @@ export const turnProfileAction = (profileIds, state) => async (dispatch, getStat
       type: TURN_PROFILE_ON_OFF_SUCCESS,
       payload: {
         profileIds: result.filter((res) => res.status === "fulfilled").map((res) => {
-          const { id } = JSON.parse(res.value.config.data);
+          const { id } = JSON.parse(removeCommas(res.value.config.data));
           return id;
         }),
         state,
@@ -211,6 +213,20 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
       dispatch(clearStateAction("dataProfiles"));
       return dispatch(getProfilesDataAction(userId));
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changeProfileOrder = (child) => async (dispatch, getState) => {
+  const userId = getState().authReducer.signIn.data.id;
+  try {
+    const bodyFormData = new FormData();
+    bodyFormData.append("sAction", "ReorderChild");
+    bodyFormData.append("sChild", JSON.stringify(child));
+    bodyFormData.append("iID", userId);
+    const result = await axios.post("", bodyFormData);
+    console.log(child, userId);
   } catch (error) {
     console.log(error);
   }

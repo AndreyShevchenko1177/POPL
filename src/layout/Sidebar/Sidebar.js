@@ -29,6 +29,7 @@ import settings from "../../assets/settings.png";
 import settingsWhite from "../../assets/settings_white.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
+import { removeCommas } from "../../utils";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -91,7 +92,7 @@ function PermanentDrawerLeft() {
     if (userData?.id) {
       getChildrenIdsRequest(userData.id)
         .then((res) => {
-          if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(res.data).length + 1));
+          if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(removeCommas(res.data)).length + 1));
           else dispatch(profileCountTierLevelAction(1));
         })
         .catch((err) => console.log(err));

@@ -14,9 +14,11 @@ import {
   IS_DATA_FETCHING,
 } from "../actionTypes";
 
+import {
+  removeCommas, uniqueObjectsInArray, formatDateConnections, filterPops,
+} from "../../../../utils";
 import { snackBarAction, updateConnectionsNumber } from "../../../../store/actions";
 import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
-import { uniqueObjectsInArray, formatDateConnections, filterPops } from "../../../../utils";
 
 export const collectSelectedConnections = (id, isSingle) => async (dispatch, getState) => {
   try {
@@ -35,7 +37,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
       const { data } = await profileIdsRequest(profileId);
 
       if (data) {
-        JSON.parse(data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+        JSON.parse(removeCommas(data)).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
       }
 
       const profilesData = await Promise.all(idsArray.map((id) => getProfileAction(id)));
@@ -118,7 +120,7 @@ export const getProfilesIdsAction = (userId) => async (dispatch) => {
     const idsArray = [userId];
     const response = await profileIdsRequest(userId);
     if (response.data) {
-      JSON.parse(response.data).forEach((id) => idsArray.push(id));
+      JSON.parse(removeCommas(response.data)).forEach((id) => idsArray.push(id));
     }
     return dispatch({
       type: GET_PROFILES_IDS_SUCCESS,

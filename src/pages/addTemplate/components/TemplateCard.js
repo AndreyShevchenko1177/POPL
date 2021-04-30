@@ -3,7 +3,7 @@ import UploadImage from "../../../components/uploadImage";
 import useStyles from "../styles";
 
 function TemplateCard({
-  cardTitle, setImage, handleChange, values,
+  cardTitle, setImage, handleChange, values, openWizard,
 }) {
   const classes = useStyles();
 
@@ -39,7 +39,7 @@ function TemplateCard({
       <div className={classes.itemWrapper}>
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Add Links</Typography>
         <div
-          onClick={() => {}}
+          onClick={openWizard}
           style={{ border: "1px solid #bababa" }}
           className={classes.addLinkButton}
         >

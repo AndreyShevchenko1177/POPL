@@ -65,6 +65,7 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   memberItem: {
+    position: "relative",
     display: "flex",
     alignItems: "center",
     padding: 10,
@@ -89,5 +90,16 @@ export default makeStyles((theme) => ({
     color: "#808080",
     cursor: "pointer",
     zIndex: 2000,
+  },
+  deleteIcon: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    cursor: "pointer",
+    "& svg": {
+      fill: "#808080",
+      width: 22,
+      height: 22,
+    },
   },
 }));

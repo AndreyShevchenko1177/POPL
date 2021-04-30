@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
 import SettingsField from "./components/SettingsField";
 import TeamMembers from "./components/TeamMembers";
-import { updateUserProfile, getCompanyInfoAction } from "./store/actions";
+import { updateUserProfile, getCompanyInfoAction, deleteProfileAction } from "./store/actions";
 import Loader from "../../components/Loader";
 import UpladImage from "./components/uploadImage";
 import useStyles from "./styles";
+import ConfirmModal from "../../components/ConfirmModal";
 
 function GeneralSettings() {
   const classes = useStyles();
@@ -20,6 +21,7 @@ function GeneralSettings() {
   const dispatch = useDispatch();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const { isFetching } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
+  const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
 
   const handleChangeField = (event) => {
     event.persist();
@@ -28,6 +30,19 @@ function GeneralSettings() {
   };
 
   const handleSave = () => dispatch(updateUserProfile(fieldsState));
+
+  const onConfirmModal = (id) => {
+    setConfirmModal({ open: !conFirmModal.open, data: id });
+  };
+
+  const onOk = () => {
+    dispatch(deleteProfileAction(conFirmModal.data));
+    setConfirmModal({ open: !conFirmModal.open, data: null });
+  };
+
+  const onCancel = () => {
+    setConfirmModal({ open: !conFirmModal.open, data: null });
+  };
 
   useEffect(() => {
     dispatch(getCompanyInfoAction());
@@ -50,6 +65,15 @@ function GeneralSettings() {
         lastChild="General Settings"
         path="/settings"
       />
+      <ConfirmModal
+        open={conFirmModal.open}
+        onClose={onConfirmModal}
+        dialogTitle='Do you really want to delete this profile?'
+        okButtonTitle='OK'
+        cancelButtonTitle='Cancel'
+        onOk={onOk}
+        onCancel={onCancel}
+      />
       {isFetching
         ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }}/>
         : <div className={classes.container}>
@@ -68,7 +92,7 @@ function GeneralSettings() {
             value={fieldsState.websiteLink}
             handleChange={handleChangeField}
           />
-          <TeamMembers />
+          <TeamMembers showConfirmModal={onConfirmModal}/>
           <SettingsField
             title="Primary Color"
             setFieldsState={setFieldsState}

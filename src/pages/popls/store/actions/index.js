@@ -13,7 +13,7 @@ import {
   CLEAR_DATA,
   IS_DATA_FETCHING,
 } from "../actionTypes";
-import { getId } from "../../../../utils";
+import { getId, removeCommas } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 import { profileIdsRequest } from "../../../profiles/store/actions/requests";
 import * as requests from "./requests";
@@ -36,7 +36,7 @@ export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
         }
 
         if (response.data) {
-          JSON.parse(response.data).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
+          JSON.parse(removeCommas(response.data)).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
         }
         result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id)))
           .then((res) => res.reduce((result, current) => [...result, ...current], []));
