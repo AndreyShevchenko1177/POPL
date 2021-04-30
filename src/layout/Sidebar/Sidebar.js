@@ -386,7 +386,7 @@ function PermanentDrawerLeft() {
               <ListItemText
                 disableTypography
                 classes={{
-                  root: clsx(classes.listText, {
+                  root: clsx(classes.listText, "pr-10", {
                     [classes.listTextHighLight]: highlight.profileInfo,
                   }),
                 }}
