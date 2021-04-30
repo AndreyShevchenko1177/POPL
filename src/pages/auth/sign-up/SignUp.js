@@ -84,7 +84,7 @@ function SignUp(props) {
   };
 
   useEffect(() => {
-    if (signUpResult.data) history.push("/");
+    if (signUpResult.data) history.push("/sign-in");
     if (signUpResult.error !== null) {
       dispatch(snackBarAction({
         message: signUpResult.error.message,

@@ -66,7 +66,7 @@ export default function Profiles() {
     const items = [...profiles];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)));
+    dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
     setProfiles(items);
   }
 

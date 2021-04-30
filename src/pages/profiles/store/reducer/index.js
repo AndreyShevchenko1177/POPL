@@ -8,6 +8,7 @@ import {
   TURN_PROFILE_ON_OFF_SUCCESS,
   EDIT_PROFILE_LINK,
   DELETE_PROFILE_LINK,
+  SET_LOCAL_PROFILES_ORDER,
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -151,6 +152,15 @@ export default function profilesReducer(
         }),
       },
       isFetching: false,
+    };
+  }
+  case SET_LOCAL_PROFILES_ORDER: {
+    return {
+      ...state,
+      dataProfiles: {
+        data: payload,
+        error: null,
+      },
     };
   }
   case IS_DATA_FETCHING: {

@@ -1,7 +1,9 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable no-continue */
 export const removeCommas = (string) => {
   let commas = "";
   let newString = "";
+  if (string[0] === "[" && string.length === 1) return newString = "[]";
   for (let i = 0; i < string.length; i++) {
     if (commas.length > 1 && string[i] !== ",") {
       commas = "";

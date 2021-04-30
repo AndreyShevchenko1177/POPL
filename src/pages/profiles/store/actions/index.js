@@ -18,6 +18,7 @@ import {
   EDIT_PROFILE_LINK,
   DELETE_PROFILE_LINK,
   CHANGE_PROFILE_ORDER,
+  SET_LOCAL_PROFILES_ORDER,
   CLEAR_STATE,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -33,8 +34,8 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       const myProfile = await requests.getProfileAction(userId);
       const response = await requests.profileIdsRequest(userId);
       profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
-
-      if (response.data) {
+      console.log(response.data);
+      if (response.data && response.data !== "null") {
         const idsArray = JSON.parse(removeCommas(response.data));
         const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
         profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
@@ -77,6 +78,11 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
     return dispatch(isFetchingAction(false));
   }
 };
+
+export const setLocalProfilesOrder = (profiles) => ({
+  type: SET_LOCAL_PROFILES_ORDER,
+  payload: profiles,
+});
 
 export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch) => {
   try {
@@ -218,7 +224,7 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
   }
 };
 
-export const changeProfileOrder = (child) => async (dispatch, getState) => {
+export const changeProfileOrder = (child, profiles) => async (dispatch, getState) => {
   const userId = getState().authReducer.signIn.data.id;
   try {
     const bodyFormData = new FormData();
@@ -226,6 +232,7 @@ export const changeProfileOrder = (child) => async (dispatch, getState) => {
     bodyFormData.append("sChild", JSON.stringify(child));
     bodyFormData.append("iID", userId);
     const result = await axios.post("", bodyFormData);
+    dispatch(setLocalProfilesOrder(profiles));
     console.log(child, userId);
   } catch (error) {
     console.log(error);
