@@ -167,7 +167,7 @@ function PermanentDrawerLeft() {
               }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div style={{ width: 25, height: 25 }} className={classes.sideBarIcons}>
+                <div style={{ width: 20, height: 20 }} className={classes.sideBarIcons}>
                   {/* <SvgMaker
                     name='profile'
                     fill="#7d8286"
@@ -209,7 +209,7 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <div className={classes.sideBarIcons}>
+              <div style={{ width: 20, height: 20 }} className={classes.sideBarIcons}>
                 {/* <SvgMaker
                   name='connection'
                   fill="#7d8286"
@@ -248,7 +248,7 @@ function PermanentDrawerLeft() {
             }}
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
-              <div className={classes.sideBarIcons}>
+              <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
                 {/* <SvgMaker
                   name='popl'
                   fill="#7d8286"
@@ -288,7 +288,7 @@ function PermanentDrawerLeft() {
               }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div className={classes.sideBarIcons}>
+                <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
                   <SvgMaker
                     name='campaigns'
                     fill="#000000"
@@ -320,7 +320,7 @@ function PermanentDrawerLeft() {
           >
             <ListItemIcon classes={{ root: classes.listItemIcon }}>
               <div style={{
-                width: 30, height: 30, display: "flex", alignItems: "center",
+                width: 25, height: 20, display: "flex", alignItems: "center",
               }} className={classes.sideBarIcons}>
                 {/* <SvgMaker
                   name='analytics'
@@ -346,7 +346,7 @@ function PermanentDrawerLeft() {
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{
-                  width: 25, height: 25, display: "flex", alignItems: "center",
+                  width: 20, height: 20, display: "flex", alignItems: "center",
                 }} className={classes.sideBarIcons}>
                   {/* <SvgMaker
                     name='settings'
@@ -377,7 +377,7 @@ function PermanentDrawerLeft() {
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{
-                  width: 25, height: 25, display: "flex", alignItems: "center",
+                  width: 40, height: 40, display: "flex", alignItems: "center",
                 }} className={classes.sideBarIcons}>
                   {profileInfo[3] && <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />}
                   {profileInfo[1] && !profileInfo[3] && <div className={classes.profileCircle} style={{ backgroundColor: profileInfo[1] }}></div>}

@@ -81,7 +81,7 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: isRestrictedMode ? "hidden" : "auto",
+          overflow: isRestrictedMode && !isHiderestrictedMode ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
         id='main'

@@ -1,9 +1,12 @@
-import { Paper, TextField, Typography } from "@material-ui/core";
+import {
+  Button, Paper, TextField, Typography,
+} from "@material-ui/core";
 import UploadImage from "../../../components/uploadImage";
 import useStyles from "../styles";
+import LinksCard from "./LinksCard";
 
 function TemplateCard({
-  cardTitle, setImage, handleChange, values, openWizard,
+  cardTitle, setImage, handleChange, values, openWizard, links, setValues,
 }) {
   const classes = useStyles();
 
@@ -38,14 +41,18 @@ function TemplateCard({
       </div>
       <div className={classes.itemWrapper}>
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Add Links</Typography>
-        <div
-          onClick={openWizard}
-          style={{ border: "1px solid #bababa" }}
-          className={classes.addLinkButton}
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => openWizard(cardTitle.toLowerCase())}
         >
           Tap to add Link
-        </div>
+        </Button>
       </div>
+      {!!links.length && <LinksCard
+        links={links}
+        deleteAction={(id) => setValues((prev) => ({ ...prev, [`${cardTitle.toLowerCase()}Links`]: prev[`${cardTitle.toLowerCase()}Links`].filter((el) => el.customId !== id) }))}
+      />}
     </Paper>
   );
 }

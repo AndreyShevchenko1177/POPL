@@ -74,7 +74,9 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
     bodyFormData.append("sAction", "RemoveChild");
     bodyFormData.append("sChild", profileId.toString());
     bodyFormData.append("iID", userId.toString());
-    result = await axios.post("", bodyFormData);
+    result = await axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
     if (Array.isArray(JSON.parse(removeCommas(result.data)))) {
       dispatch(snackBarAction({
         message: "Profile was successfully deleted",

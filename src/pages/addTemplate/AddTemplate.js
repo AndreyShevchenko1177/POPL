@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Paper, TextField, Typography } from "@material-ui/core";
+import {
+  Button, Paper, TextField, Typography,
+} from "@material-ui/core";
 import Header from "../../components/Header";
 import useStyles from "./styles";
-import UploadImage from "../../components/uploadImage";
 import TemplateCard from "./components/TemplateCard";
 import CustomWizard from "../../components/wizard";
 
@@ -17,9 +18,11 @@ function AddTemplate() {
     businessImage: null,
     businessName: "",
     businessBio: "",
+    personalLinks: [],
+    businessLinks: [],
   });
-  const [wizard, setWizard] = useState({ open: false, data: [] });
-  const [parentProfile] = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const [wizard, setWizard] = useState({ open: false, data: [], card: "personal" });
+  // const [parentProfile] = useSelector(({ profilesReducer }) => profilesReducer?.dataProfiles?.data);
 
   const handleChange = (event) => {
     event.persist();
@@ -27,9 +30,11 @@ function AddTemplate() {
     setValues({ ...values, [name]: value });
   };
 
-  const openWizard = () => {
-    setWizard({ ...wizard, open: !wizard.open });
+  const openWizard = (card) => {
+    setWizard({ ...wizard, open: !wizard.open, card });
   };
+
+  console.log(values.personalLinks);
   return (
     <>
       <Header
@@ -37,7 +42,12 @@ function AddTemplate() {
         lastChild="Add Template"
         path="/templates"
       />
-      {wizard.open && <CustomWizard disabled data={[parentProfile]} isOpen={wizard.open} setIsOpen={setWizard}/>}
+      {wizard.open && <CustomWizard
+        disabled data={[]}
+        isOpen={wizard.open}
+        setIsOpen={setWizard}
+        action={(link) => setValues((prev) => ({ ...prev, [`${wizard.card}Links`]: [...prev[`${wizard.card}Links`], link] }))}
+      />}
       <div className={classes.container}>
         <Paper elevation={10} className={classes.tempNameInputWrapper}>
           <TextField
@@ -55,6 +65,8 @@ function AddTemplate() {
             handleChange={handleChange}
             openWizard={openWizard}
             values={values}
+            links={values.personalLinks}
+            setValues={setValues}
           />
           <TemplateCard
             cardTitle='Business'
@@ -62,8 +74,16 @@ function AddTemplate() {
             handleChange={handleChange}
             values={values}
             openWizard={openWizard}
+            links={values.businessLinks}
+            setValues={setValues}
           />
         </div>
+        <Button
+          variant='contained'
+          color='primary'
+        >
+          Save Template
+        </Button>
       </div>
     </>
   );

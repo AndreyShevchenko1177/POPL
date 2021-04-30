@@ -4,9 +4,10 @@ import { Button, TextField } from "@material-ui/core";
 import clsx from "clsx";
 import useStyles from "../styles/styles";
 import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
+import { getId } from "../../../utils";
 
 function ScreenTwo({
-  icon, id, closeWizard, profileData, disabled,
+  icon, id, closeWizard, profileData, action,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -77,8 +78,13 @@ function ScreenTwo({
           variant="contained"
           color="primary"
           fullWidth
-          onClick={addLink}
-          disabled={disabled}
+          onClick={action
+            ? () => {
+              action({ ...inputValue, id, customId: getId(8) });
+              closeWizard();
+            }
+            : addLink
+          }
         >
           Add link
         </Button>

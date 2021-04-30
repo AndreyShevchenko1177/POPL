@@ -186,8 +186,8 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   profileImage: {
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     borderRadius: "50%",
     marginRight: 10,
   },
@@ -199,8 +199,8 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
   },
   profileCircle: {
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     borderRadius: "50%",
     marginLeft: 3,
   },

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
-    padding: "100px 40px 0 40px",
+    padding: "100px 40px 50px 40px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -19,6 +19,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     width: "100%",
     justifyContent: "center",
+    paddingBottom: 20,
   },
   contentSideContainer: {
     width: "48%",
@@ -56,6 +57,63 @@ export default makeStyles((theme) => ({
     borderRadius: 10,
     "& input": {
       display: "none",
+    },
+  },
+  linksContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 10,
+    width: "100%",
+    padding: "10px 0",
+    maxWidth: "270px",
+  },
+  linkItemPadding: {
+    padding: 5,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 65,
+  },
+  linksItemWrapper: {
+    position: "relative",
+    display: "flex",
+    padding: 5,
+    width: "90%",
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
+  },
+  iconItem: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    padding: 15,
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.iconBoxShadow,
+    width: 40,
+    height: 40,
+  },
+  closeIcon: {
+    position: "absolute",
+    top: "-10px",
+    right: "-10px",
+    color: "#808080",
+    cursor: "pointer",
+  },
+  linkImage: {
+    width: 30,
+    height: 30,
+  },
+  textContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 20,
+    width: "calc(100% - 70px)",
+    "& > p": {
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
     },
   },
 }));
