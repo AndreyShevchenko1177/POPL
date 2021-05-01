@@ -77,7 +77,7 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
     result = await axios.post("", bodyFormData, {
       withCredentials: true,
     });
-    if (Array.isArray(result.data) || result.data === "[") {
+    if (Array.isArray(result.data) || !result.data) {
       dispatch(snackBarAction({
         message: "Profile was successfully deleted",
         severity: "success",
