@@ -106,6 +106,7 @@ function GeneralSettings() {
               variant='contained'
               color='primary'
               onClick={handleSave}
+              style={{ width: 200 }}
             >
             Save
             </Button>

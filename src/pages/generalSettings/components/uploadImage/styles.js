@@ -90,6 +90,7 @@ export default makeStyles((theme) => ({
   fieldTitle: {
     fontWeight: "bold !important",
     paddingBottom: 10,
+    fontSize: "16px !important",
   },
   uploadImageText: {
     color: "#999a9b",
