@@ -189,7 +189,6 @@ export default makeStyles((theme) => ({
     width: 40,
     height: 40,
     borderRadius: "50%",
-    marginRight: 10,
   },
   profileName: {
     overflow: "hidden",
