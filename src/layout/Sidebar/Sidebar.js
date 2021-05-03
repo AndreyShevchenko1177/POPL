@@ -374,6 +374,7 @@ function PermanentDrawerLeft() {
                 [classes.ulListHighLight]: highlight.profileInfo,
               })}
               onClick={() => highlightList("profileInfo")}
+              style={{ paddingLeft: 33 }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{
@@ -385,7 +386,7 @@ function PermanentDrawerLeft() {
               </ListItemIcon>
               <ListItemText
                 disableTypography
-                style={{ paddingLeft: 10 }}
+                style={{ paddingLeft: 12 }}
                 classes={{
                   root: clsx(classes.listText, {
                     [classes.listTextHighLight]: highlight.profileInfo,

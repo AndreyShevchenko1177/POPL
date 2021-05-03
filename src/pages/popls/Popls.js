@@ -130,7 +130,7 @@ function PoplsItem() {
 
   useEffect(() => {
     dispatch(getPoplsAction(profileData.id));
-    dispatch(getPopsAction(profileData.id));
+    dispatch(getPopsAction());
   }, []);
 
   useEffect(() => {

@@ -1,14 +1,49 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { TextField, Button, Typography } from "@material-ui/core";
+import {
+  TextField, Button, Typography, IconButton,
+} from "@material-ui/core";
+import RemoveIcon from "@material-ui/icons/Remove";
 import useStyles from "../styles/styles";
+import Popup from "../../../../../components/popup";
 
 function EditScreen({
-  currentIcon, icon, id, title, value, hash, isDeleteTab, profileBtnTitle, allProfilesBtnTitle, profileBtnEvent, allProfileBtnEvent,
+  currentIcon,
+  icon,
+  id,
+  title,
+  value,
+  hash,
+  isDeleteTab,
+  profileBtnTitle,
+  allProfilesBtnTitle,
+  profileBtnEvent,
+  allProfileBtnEvent,
+  deleteBtnTitle,
+  deleteAction,
+  deleteAllLinksAction,
 }) {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState({ title: "", value: "" });
   const [isValid, setIsValid] = useState({ title: true, value: true });
+  const [isOpenPopup, setIsOpenPopup] = useState(true);
+
+  const handleOpenPopup = () => setIsOpenPopup(!isOpenPopup);
+
+  console.log(deleteBtnTitle);
+
+  const popupConfig = [
+    {
+      id: 1,
+      name: deleteBtnTitle,
+      onClick: () => deleteAction(hash, inputValue.value || value, inputValue.title || title),
+    },
+    {
+      id: 2,
+      name: "Delete link from all profiles",
+      onClick: () => deleteAllLinksAction(hash, id, title, value, inputValue.value || value, inputValue.title || title),
+    },
+  ];
 
   const handleSetLinkUrl = (event) => {
     event.persist();
@@ -19,7 +54,19 @@ function EditScreen({
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
       <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
         <div className={classes.secondPageLink}>
+          <Popup
+            config={popupConfig}
+            isOpen={isOpenPopup}
+            handleClose={handleOpenPopup}
+            styles={classes.popup}
+          />
 
+          <IconButton
+            className={classes.removeButton}
+            onClick={() => setIsOpenPopup(!isOpenPopup)}
+          >
+            <RemoveIcon className={classes.removeIcon} />
+          </IconButton>
           <img className={classes.secondScreenLinkImage} src={icon
             ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
             : currentIcon.icon} alt={id} />

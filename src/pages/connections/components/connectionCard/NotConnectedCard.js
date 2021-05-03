@@ -7,7 +7,7 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
-import Popup from "./Popup";
+import Popup from "../../../../components/popup";
 
 export function NotConnectedCard({
   name, url, image, time, note, number, email, ...rest

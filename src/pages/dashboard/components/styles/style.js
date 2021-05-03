@@ -65,9 +65,9 @@ export default makeStyles((theme) => ({
     fontWeight: "500",
   },
   avatar: {
-    width: "240px",
+    width: "140px",
     height: "140px",
-    borderRadius: "10px",
+    borderRadius: "50%",
     marginBottom: 15,
   },
   connectionNameText: {

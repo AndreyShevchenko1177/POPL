@@ -120,21 +120,25 @@ export default function NetworkActivity({
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          <div id='lineChart'></div>
-          {chartData === undefined ? (
-            <Loader
+          {/* <div id='lineChart' className={classes.lineChartContainer}>hello</div> */}
+          <div id='lineChart' ></div>
+          {chartData === undefined
+            ? <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />
-          ) : (
-            <>
-              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length ? <Line ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")} options={chartData?.options} data={chartData?.data} />
-                : (
-                  <div className={classes.noDataText}>
+            : <>
+              {chartData?.data?.datasets[0]?.data?.filter((v) => v).length
+                ? <Line
+                  ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")}
+                  options={chartData?.options}
+                  data={chartData?.data}
+                />
+                : <div className={classes.noDataText}>
                   No data for this period
-                  </div>
-                )}
+                </div>
+              }
             </>
-          )}
+          }
         </div>
       </div>
     </div>

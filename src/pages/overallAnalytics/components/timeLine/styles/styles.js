@@ -71,4 +71,8 @@ export default makeStyles((theme) => ({
     left: "40%",
     fontWeight: "500",
   },
+  lineChartContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
 }));

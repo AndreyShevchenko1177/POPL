@@ -10,7 +10,7 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { formatDateConnections } from "../../../../utils/dates";
-import Popup from "./Popup";
+import Popup from "../../../../components/popup";
 
 export function ConnectedCard({
   name, url, image, time, names, ...rest

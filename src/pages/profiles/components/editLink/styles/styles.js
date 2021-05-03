@@ -71,6 +71,7 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   secondPageLink: {
+    position: "relative",
     width: 200,
     "@media (max-width:1400px)": {
       width: 160,
@@ -189,6 +190,42 @@ export default makeStyles((theme) => ({
       textOverflow: "ellipsis",
       overflow: "hidden",
       whiteSpace: "nowrap",
+    },
+  },
+  removeButton: {
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    top: "-20px",
+    right: "-40px",
+  },
+  removeIcon: {
+    fontSize: 30,
+    // cursor: "pointer",
+  },
+  popup: {
+    position: "absolute",
+    boxShadow: theme.custom.mainBoxShadow,
+    display: "flex",
+    zIndex: 1000,
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "10px 10px 10px 10px",
+    outline: "none",
+    width: 300,
+    right: "-70px",
+    top: "-10px",
+    minHeight: 30,
+    "& > div": {
+      padding: "3px 0 3px 10px",
+      fontWeight: "500",
+      border: "1px solid #ffffff",
+      cursor: "pointer",
+      "&:hover": {
+        borderColor: "#e5e0e0",
+        borderRadius: theme.custom.mainBorderRadius,
+      },
     },
   },
 }));
