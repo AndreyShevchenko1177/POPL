@@ -104,7 +104,7 @@ export default function Card({
                 }
                 name={name}
                 styles={{
-                  width: "100px", height: "60px", borderRadius: "10px", marginLeft: imagesExtensions.includes(extension[extension.length - 1]) ? "49px" : "27px",
+                  width: "80px", height: "80px", borderRadius: "50%", marginLeft: "49px", objectFit: "cover",
                 }}
               />
               <div className={clsx(classes.checkboxWrapper, {
@@ -165,7 +165,7 @@ export default function Card({
                 variant="text"
                 size="small"
                 color="primary"
-                startIcon={<ArrowDropDownIcon />}
+                // startIcon={<ArrowDropDownIcon />}
                 onClick={() => url && window.open(`${process.env.REACT_APP_BASE_PROFILE_URL}${url}`)}
               >
                   View Profile

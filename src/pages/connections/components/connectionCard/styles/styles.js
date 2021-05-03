@@ -18,19 +18,20 @@ export default makeStyles((theme) => ({
     width: "calc(100% - 100px)",
   },
   avatar: {
-    width: "120px",
-    height: "70px",
-    borderRadius: "10px",
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    margin: "0 auto",
   },
   contenContainer: {
     padding: "20px",
-    maxWidth: "500px",
+    width: "50%",
   },
   cardTable: {
     display: "flex",
     flexDirection: "column",
     paddingTop: 10,
-    fontSize: "16px",
+    fontSize: "14px",
     color: "#565956",
     "& a": {
       textDecoration: "underline",
@@ -40,7 +41,7 @@ export default makeStyles((theme) => ({
     display: "flex",
   },
   tableCell: {
-    width: "180px",
+    width: "100%",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Checkbox, Typography, Button, Paper, Tooltip,
 } from "@material-ui/core";
+import utf8 from "utf8";
 import { useLocation } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -31,6 +32,15 @@ export function ConnectedCard({
       onClick: handleDeleteConnection,
     },
   ];
+
+  const decodeName = (name) => {
+    try {
+      const result = utf8.decode(name);
+      return result;
+    } catch (error) {
+      return name;
+    }
+  };
 
   const getScrollValue = (v) => () => v; // with closure
 
@@ -72,7 +82,7 @@ export function ConnectedCard({
               variant="text"
               size="small"
               color="primary"
-              startIcon={<ArrowDropDownIcon />}
+              // startIcon={<ArrowDropDownIcon />}
               onClick={() => url && window.open(`${url}`)}
             >
                   View Profile
