@@ -1,5 +1,5 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, DASHBOARD_POPS_DATA, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
 } from "../actionTypes";
 
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
     data: null,
     error: null,
   },
+  dashboardPops: null,
   topStatisticsData: {
     data: null,
     error: null,
@@ -76,6 +77,12 @@ export default function realTimeAnalytics(
         isFetched: false,
       },
       isFetching: false,
+    };
+  }
+  case DASHBOARD_POPS_DATA: {
+    return {
+      ...state,
+      dashboardPops: payload,
     };
   }
   case IS_DATA_FETCHING: {

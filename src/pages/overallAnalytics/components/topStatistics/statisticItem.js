@@ -24,7 +24,7 @@ function StatisticItem({
             className={classes.topStatisticsItemValue}
             style={{ textAlign: "center" }}
           >
-            {addCommas(String(value)) || "-"}
+            {value ? addCommas(String(value)) : "-"}
           </div>
         </div>
       )}

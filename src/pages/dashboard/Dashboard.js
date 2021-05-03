@@ -21,7 +21,7 @@ export default function Dashboard() {
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const { latestConnections } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar.result);
   const popsData = useSelector(
-    ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
+    ({ realTimeAnalytics }) => realTimeAnalytics.dashboardPops,
   );
   const { isFetching } = useSelector(({ systemReducer }) => systemReducer);
   const [chartData, setChartData] = useState();

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-return-assign */
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, DASHBOARD_POPS_DATA, CLEAN_BY_NAME,
 } from "../actionTypes";
 
 import { removeCommas, getId, filterPops } from "../../../../utils";
@@ -67,16 +67,22 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
           if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
         });
+      } else {
+        result.forEach((pop) => {
+          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+        });
       }
-      result.forEach((pop) => {
-        if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-        if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-        if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
-      });
-
       result = {
         poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
       };
+      if (!poplName) {
+        dispatch({
+          type: DASHBOARD_POPS_DATA,
+          payload: result,
+        });
+      }
     } else {
       const response = await requests.popsActionRequest(userId);
       if (typeof response === "string") {
