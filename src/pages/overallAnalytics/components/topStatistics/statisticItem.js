@@ -5,23 +5,23 @@ import Loader from "../../../../components/Loader";
 import { addCommas } from "../../../../utils";
 
 function StatisticItem({
-  title, value, count, isFetched, icon,
+  title, value, count, isFetched, icon, styles,
 }) {
   const classes = useStyles();
   return (
-    <div className={classes.topStatisticsItemContainer}>
+    <div className={styles?.container || classes.topStatisticsItemContainer}>
       {count === undefined || isFetched ? (
         <Loader containerStyles={{ display: "flex", alignItems: "center" }} />
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>
           <div className={classes.topStatisticsItemTitle}>
             {icon}
-            <Typography variant="h6" className={classes.titleText}>
+            <Typography variant="h6" className={styles?.titleText || classes.titleText}>
               {title}
             </Typography>
           </div>
           <div
-            className={classes.topStatisticsItemValue}
+            className={styles?.itemValue || classes.topStatisticsItemValue}
             style={{ textAlign: "center" }}
           >
             {value ? addCommas(String(value)) : "-"}

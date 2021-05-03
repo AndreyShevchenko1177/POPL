@@ -21,6 +21,7 @@ export default makeStyles((theme) => ({
   },
   "network-container__charts": {
     display: "flex",
+    flexDirection: "column",
     minHeight: 400,
     padding: "40px 10px 10px 10px",
     boxShadow: theme.custom.mainBoxShadow,
@@ -29,6 +30,7 @@ export default makeStyles((theme) => ({
   "network-container__line": {
     position: "relative",
     width: "100%",
+    minHeight: 350,
   },
   "network-container__bar": {
     position: "relative",
@@ -55,6 +57,35 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     top: "30px",
     backgroundColor: "#59b99e",
+  },
+  bottomKpisContainer: {
+    display: "flex",
+    width: "100%",
+    minHeight: 80,
+    paddingTop: 10,
+  },
+  bottomKpisItemContainer: {
+    width: "25%",
+    display: "flex",
+    justifyContent: "center",
+    maxWidth: "200px",
+  },
+  bottomKpisDivider: {
+    borderRight: "2px solid #b3b6b5",
+    display: "flex",
+    margin: "10px 0",
+    "&:last-child": {
+      borderRight: "none !important",
+    },
+  },
+  bottomKpisTitleText: {
+    fontSize: "14px !important",
+    marginLeft: 3,
+  },
+  bottomKpisItemValue: {
+    fontSize: "1.5rem",
+    color: "#000000",
+    fontWeight: "bold",
   },
   text: {
     color: "#6f829a",

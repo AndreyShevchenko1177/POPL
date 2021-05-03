@@ -8,6 +8,8 @@ import chartOptions from "./chartOptions";
 import Loader from "../../../../components/Loader";
 import { getMothName, getMonth, getDay } from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
+import StatisticItem from "../topStatistics/statisticItem";
+import kpisConfig from "./kpisConfig";
 
 export default function NetworkActivity({
   data, calendar, setCalendar, setDate, selectOption, options,
@@ -15,6 +17,7 @@ export default function NetworkActivity({
   const classes = useStyles();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
+  const [kpis, setKpis] = useState(kpisConfig);
 
   const handleClickLabel = (e, index) => {
     const ctx = chartRef.current.chartInstance;
@@ -120,8 +123,7 @@ export default function NetworkActivity({
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          {/* <div id='lineChart' className={classes.lineChartContainer}>hello</div> */}
-          <div id='lineChart' ></div>
+          <div style={{ height: "100%" }} id='lineChart' ></div>
           {chartData === undefined
             ? <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
@@ -139,6 +141,21 @@ export default function NetworkActivity({
               }
             </>
           }
+        </div>
+        <div className={classes.bottomKpisContainer}>
+          {chartData?.data?.datasets[0]?.data && kpisConfig.map((item) => <React.Fragment key={item.id}>
+            <StatisticItem
+              count={1}
+              isFetched={false}
+              {...item}
+              styles={{
+                container: classes.bottomKpisItemContainer,
+                titleText: classes.bottomKpisTitleText,
+                itemValue: classes.bottomKpisItemValue,
+              }}
+            />
+            <div className={classes.bottomKpisDivider}></div>
+          </React.Fragment>)}
         </div>
       </div>
     </div>

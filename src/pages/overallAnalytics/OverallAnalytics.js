@@ -215,7 +215,14 @@ function OverallAnalytics() {
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
         />
-        <NetworkActivity data={chartData?.lineData} calendar={calendar} setCalendar={setCalendar} setDate={setDate} options={options} selectOption={selectOption}/>
+        <NetworkActivity
+          data={chartData?.lineData}
+          calendar={calendar}
+          setCalendar={setCalendar}
+          setDate={setDate}
+          options={options}
+          selectOption={selectOption}
+        />
       </div>
       <BottomWidgets
         topPopped={topStatisticsData.data?.topPoppedPopls}
