@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    width: 500,
+    width: 800,
   },
   buttonContainer: {
     padding: "10px 15px",

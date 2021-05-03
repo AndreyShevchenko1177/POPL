@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Paper, TextField, Typography } from "@material-ui/core";
+import {
+  Button, Paper, TextField, Typography,
+} from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { getProfilesDataAction } from "../../profiles/store/actions";
@@ -39,13 +41,21 @@ function TeamMembers({ showConfirmModal }) {
     <div className={classes.fieldContainer}>
       <div className={classes.paddingWrapper}>
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Members</Typography>
-        <div
+        {/* <div
           onClick={() => setIsShow(true)}
           style={{ border: "1px solid #bababa" }}
           className={classes.colorElement}
         >
           View and manage team members
-        </div>
+        </div> */}
+        <Button
+          onClick={() => setIsShow(true)}
+          variant='contained'
+          color='primary'
+          style={{ width: "70%" }}
+        >
+        View and manage team members
+        </Button>
       </div>
       {isShow && <Paper className={classes.teamMembersPopup}>
         <CancelIcon className={classes.closeIcon} onClick={() => setIsShow(false)} />

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   fieldContainer: {
     position: "relative",
-    width: 500,
+    width: "100%",
   },
   paddingWrapper: {
     display: "flex",
@@ -18,6 +18,7 @@ export default makeStyles((theme) => ({
   },
   fieldTitle: {
     fontWeight: "bold !important",
+    fontSize: "16px !important",
   },
   colorInputContainer: {
     display: "flex",
@@ -29,9 +30,10 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    color: "#acacac",
-    fontSize: "1rem",
-    height: 30,
+    backgroundColor: "#212121",
+    color: "#ffffff",
+    fontSize: "0.875rem",
+    height: 36,
     width: "70%",
     border: "none",
     cursor: "pointer",
