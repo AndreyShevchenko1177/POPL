@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import {
-  Checkbox, makeStyles, Button, TextField, IconButton,
+  Checkbox, makeStyles, Button, TextField, IconButton, InputAdornment, Input, OutlinedInput,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 
@@ -83,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
     right: 5,
     top: 8,
   },
+  outlinedInput: {
+    height: 40,
+  },
 }));
 
 function CustomSelect({
@@ -134,19 +137,27 @@ function CustomSelect({
               } if (type === "input") {
                 return (
                   <div className='relative' key={id}>
-                    <TextField
+                    <OutlinedInput
                       value={value}
                       name={name}
+                      classes={{ root: classes.outlinedInput }}
                       onChange={events.handleChange}
                       placeholder={label}
                       variant='outlined'
                       size="small"
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton aria-label="clear" size="small" onClick={() => events.clearInput(name)}>
+                            <ClearIcon fontSize="inherit" />
+                          </IconButton>
+                        </InputAdornment>
+                      }
                     />
-                    <div className={classes.clearInputIcon} onClick={() => events.clearInput(name)}>
+                    {/* <div className={classes.clearInputIcon} onClick={() => events.clearInput(name)}>
                       <IconButton aria-label="clear" size="small">
                         <ClearIcon fontSize="inherit" />
                       </IconButton>
-                    </div>
+                    </div> */}
                   </div>
                 );
               }
