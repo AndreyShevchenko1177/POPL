@@ -103,10 +103,10 @@ export default makeStyles((theme) => ({
     marginBottom: 5,
   },
   nameItemImage: {
-    width: 45,
-    height: 25,
+    width: 30,
+    height: 30,
     marginRight: 10,
-    borderRadius: "4px",
+    borderRadius: "50%",
   },
   nameItemName: {
     fontSize: "16px",

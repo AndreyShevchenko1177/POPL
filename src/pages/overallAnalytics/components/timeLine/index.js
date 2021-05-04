@@ -148,6 +148,9 @@ export default function NetworkActivity({
             if (item.id === "popsCount") {
               item.value = chartData?.data?.datasets[0]?.data.reduce((acc, value) => acc += value, 0);
             }
+            if (item.id === "ctr") {
+              { /* item.value = */ }
+            }
             return <React.Fragment key={item.id}>
               <StatisticItem
                 count={1}

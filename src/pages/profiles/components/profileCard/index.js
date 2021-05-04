@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Paper, Typography, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import clsx from "clsx";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
@@ -14,6 +13,7 @@ import { imagesExtensions, isSafari } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import addLinkIcon from "../../../../assets/add.png";
+import editProfileIcon from "../../../../assets/edit_profile_card.png";
 
 export default function Card({
   isDotsRemove,
@@ -92,8 +92,18 @@ export default function Card({
         <div className={classes.mainContent}>
           {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
-            <div className={classes.section1_editIcon} onClick={editIconHandler} onMouseUp={(event) => changeIconSize(event, 1)} onMouseDown={(event) => changeIconSize(event, 0.7)}>
-              <SvgMaker name="editIcon" width={25} height={25}/>
+            <div
+              className={classes.section1_editIcon}
+              onClick={editIconHandler}
+              onMouseUp={(event) => changeIconSize(event, 1)}
+              onMouseDown={(event) => changeIconSize(event, 0.7)}
+            >
+              {/* <SvgMaker name="editIcon" width={25} height={25}/> */}
+              <img
+                style={{ width: 25, height: 25, cursor: "pointer" }}
+                alt='edit'
+                src={editProfileIcon}
+              />
             </div>
             <div className={clsx(classes.section1_avatar)}>
               <Avatar
