@@ -29,6 +29,14 @@ const initialState = [
     icon: <SvgMaker name='overview' width={25} height={25} fill="#000000" />,
   },
   {
+    id: "ctr",
+    title: "CTR",
+    value: " ",
+    percentage: "6%",
+    isTop: true,
+    icon: <img style={{ width: "20px", height: "25px" }} alt='popl' src={popls} />,
+  },
+  {
     id: "totalProfiles",
     title: "Total Profiles",
     value: " ",
