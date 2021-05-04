@@ -13,6 +13,7 @@ import { getPopsAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
+import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 import { filterPops } from "../../utils";
 
@@ -32,9 +33,11 @@ function PoplsItem() {
   const [openProfileSelect, setOpenProfileSelect] = useState({
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
+    filter: { open: false, component: "" },
   });
   const history = useHistory();
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
+  const [filteringConfig, setFilterConfig] = useState(filterConfig);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -48,9 +51,9 @@ function PoplsItem() {
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
     if (!event.target.value) {
-      return setPopls(popls);
+      return setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
-    setPopls((popls).filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())));
+    setPopls((popls).filter((prof) => prof.nickname.toLowerCase().includes(event.target.value.toLowerCase())).map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   };
 
   const showAll = (event, name) => {
@@ -106,6 +109,19 @@ function PoplsItem() {
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
 
+  const clearFilterInput = (name) => {
+    setFilterConfig((fc) => fc.map((item) => (item.name === name ? ({ ...item, value: "" }) : item)));
+    showAll(null, "all");
+  };
+
+  const handleChangeInputFilter = (event) => {
+    setFilterConfig((fc) => fc.map((item) => (item.name === event.target.name ? ({ ...item, value: event.target.value }) : item)));
+    if (!event.target.value) {
+      return setPopls(popls);
+    }
+    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(event.target.value.toLowerCase())));
+  };
+
   useEffect(() => {
     const checkBoxObject = {};
     dragablePopls && dragablePopls.forEach((el) => {
@@ -136,6 +152,8 @@ function PoplsItem() {
   useEffect(() => {
     if (!pops) return;
     if (location.state?.profilesData?.id) {
+      // setPopls(popls.filter((item) => item.profileOwner === location.state.profileData.name));
+      setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
       return setPopls(popls
         .filter((popl) => popl.profileId === location.state.profilesData.id)
         .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
@@ -173,7 +191,10 @@ function PoplsItem() {
               sortConfig: sortingConfig,
               sortHandler,
               resetSort,
+              handleChange: handleChangeInputFilter,
+              clearInput: clearFilterInput,
             }}
+            filterConfig={filteringConfig}
           />
         </div>
         {isLoading ? (

@@ -13,6 +13,7 @@ import useStyles from "./styles/styles";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
+import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 
 function Connections() {
@@ -32,9 +33,12 @@ function Connections() {
   const [openProfileSelect, setOpenProfileSelect] = useState({
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
+    filter: { open: false, component: "" },
   });
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
+  const [filteringConfig, setFilterConfig] = useState(filterConfig);
   const [sortConnections, setSortConnections] = useState();
+  const [showFilterModal, setShowFilterModal] = useState({ open: false, value: "" });
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -90,8 +94,22 @@ function Connections() {
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
 
+  const clearFilterInput = (name) => {
+    setFilterConfig((fc) => fc.map((item) => (item.name === name ? ({ ...item, value: "" }) : item)));
+    showAll();
+  };
+
+  const handleChangeInputFilter = (event) => {
+    setFilterConfig((fc) => fc.map((item) => (item.name === event.target.name ? ({ ...item, value: event.target.value }) : item)));
+    if (!event.target.value) {
+      return setConnections(connections.slice(0, 19));
+    }
+    setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(event.target.value.toLowerCase())).includes(true)).slice(0, 19));
+  };
+
   useEffect(() => {
     if (location.state?.id) {
+      setFilterConfig((fc) => fc.map((item) => (location.state[item.pseudoname] ? ({ ...item, value: location.state[item.pseudoname] }) : item)));
       return dispatch(collectSelectedConnections(location.state.id, true));
     }
     dispatch(collectSelectedConnections(profileData.id));
@@ -101,9 +119,12 @@ function Connections() {
 
   useEffect(() => {
     if (!connections) return setConnections([]);
+    if (location.state?.id) {
+      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(location.state.name.toLowerCase())).includes(true)).slice(0, 19));
+    }
     setConnections(connections.slice(0, 19));
     setSortConnections(connections);
-  }, [connections]);
+  }, [connections, location.state?.id]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
@@ -143,7 +164,10 @@ function Connections() {
               sortConfig: sortingConfig,
               sortHandler,
               resetSort,
+              handleChange: handleChangeInputFilter,
+              clearInput: clearFilterInput,
             }}
+            filterConfig={filteringConfig}
           />
         </div>
         {isLoading ? (

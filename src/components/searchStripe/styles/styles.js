@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    padding: "8px 16px",
+    padding: "5px 16px",
     display: "flex",
     alignItems: "center",
     marginLeft: 30,

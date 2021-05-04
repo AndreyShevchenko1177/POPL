@@ -41,7 +41,7 @@ const chartOptions = {
       {
         data: [],
         pointRadius: 3,
-        label: "QR Code",
+        label: "App QR Code",
         lineTension: 0.1,
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
@@ -53,7 +53,7 @@ const chartOptions = {
         data: [],
         pointRadius: 3,
         lineTension: 0.1,
-        label: "Wallet",
+        label: "Wallet QR Code",
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
         borderColor: "rgba(213, 229, 106, 1)",

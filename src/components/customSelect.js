@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
-import { Checkbox, makeStyles, Button } from "@material-ui/core";
+import {
+  Checkbox, makeStyles, Button, TextField, IconButton,
+} from "@material-ui/core";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme) => ({
   actionContainer: {
@@ -21,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   sortContainer: {
     position: "absolute",
     top: 55,
-    // left: 30,
     minWidth: 120,
     minHeight: 60,
     backgroundColor: "#ffffff",
@@ -29,9 +31,18 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
     zIndex: 10,
-    // "@media (min-width:1000px)": {
-    //   left: 30,
-    // },
+  },
+  filterContainer: {
+    position: "absolute",
+    top: 55,
+    minWidth: 120,
+    width: 220,
+    minHeight: 60,
+    backgroundColor: "#ffffff",
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
+    outline: "none",
+    zIndex: 10,
   },
   wrapper: {
     display: "flex",
@@ -67,6 +78,11 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     // width: "100%",
   },
+  clearInputIcon: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+  },
 }));
 
 function CustomSelect({
@@ -91,7 +107,7 @@ function CustomSelect({
         <div className={classes.wrapper}>
           <div className={classes[`${selectName}ItemsWrapper`]} >
             {config.map(({
-              id, label, type, name, checked, active,
+              id, label, type, name, checked, active, value, variant,
             }) => {
               if (type === "checkbox") {
                 return (
@@ -113,6 +129,24 @@ function CustomSelect({
                     <Button className={classes[`${selectName}Btn`]} name={name} color="primary" onClick={() => events.btnHandler(name, checkProfiles, selectName)}>
                       {label}
                     </Button>
+                  </div>
+                );
+              } if (type === "input") {
+                return (
+                  <div className='relative' key={id}>
+                    <TextField
+                      value={value}
+                      name={name}
+                      onChange={events.handleChange}
+                      placeholder={label}
+                      variant='outlined'
+                      size="small"
+                    />
+                    <div className={classes.clearInputIcon} onClick={() => events.clearInput(name)}>
+                      <IconButton aria-label="clear" size="small">
+                        <ClearIcon fontSize="inherit" />
+                      </IconButton>
+                    </div>
                   </div>
                 );
               }

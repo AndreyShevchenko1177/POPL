@@ -77,7 +77,7 @@ export function ConnectedCard({
               <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
             </div>
           </div>
-          <div style={{ paddingTop: "28px" }}>
+          <div style={{ paddingTop: "15px" }}>
             <Button
               variant="text"
               size="small"

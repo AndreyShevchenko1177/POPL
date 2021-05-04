@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { useHistory } from "react-router-dom";
 import {
   Paper, InputBase, Checkbox, Button,
@@ -29,6 +30,7 @@ function SearchStripe({
   isShowSortBtn,
   checkboxes = {},
   templates,
+  filterConfig,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -56,7 +58,28 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
-
+      <div>
+        {showAll
+        && <div className='relative'>
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant='contained'
+              color='primary'
+              classes={{ root: classes.actionButton }}
+              onClick={() => arrowHandler(true, "filter")}
+              name='filter'
+            >
+            Filter
+            </Button>
+            {!disabled && <CustomSelect
+              selectName='filter'
+              config={filterConfig}
+              isOpen={selectObject.openProfileSelect.filter.open}
+              events={{ handleChange: selectObject.handleChange, hideSelectHandler: selectObject.setOpenProfileSelect, clearInput: selectObject.clearInput }}
+            />}
+          </div>
+        </div>}
+      </div>
       {!showAll && <div className={classes.buttonWrapper}>
         <Button
           variant="contained"

@@ -15,6 +15,7 @@ export default makeStyles((theme) => ({
   },
   leftContentWrapper: {
     display: "flex",
+    alignItems: "center",
     width: "calc(100% - 100px)",
   },
   avatar: {
@@ -29,8 +30,10 @@ export default makeStyles((theme) => ({
   },
   cardTable: {
     display: "flex",
+    minHeight: 65,
+    justifyContent: "flex-end",
     flexDirection: "column",
-    paddingTop: 10,
+    // paddingTop: 10,
     fontSize: "14px",
     color: "#565956",
     "& a": {

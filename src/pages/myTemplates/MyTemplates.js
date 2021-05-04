@@ -1,6 +1,19 @@
+import Header from "../../components/Header";
+import useStyles from "./styles/styles";
+
 function MyTemplates() {
+  const classes = useStyles();
   return (
-    <h2 style={{ padding: "40px 40px" }}>Coming Soon</h2>
+    <>
+      <Header
+        rootLink="Templates"
+        path='/templates'
+        lastChild="My Template"
+      />
+      <div className={classes.container}>
+        <h2 style={{ padding: "40px 40px" }}>Coming Soon</h2>
+      </div>
+    </>
   );
 }
 

@@ -18,7 +18,7 @@ function Filters({
             disabled={isFetching || disabled}
             variant="contained"
             color="primary"
-            style={{ height: "50px" }}
+            style={{ height: "40px" }}
             onClick={(e) => setFilters(e, name)}
             name={name}
           >
