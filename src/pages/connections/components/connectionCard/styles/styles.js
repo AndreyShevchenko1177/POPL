@@ -31,12 +31,14 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
   },
-  viewProfileButton: {
-    // position: "absolute",
-    // bottom: 0,
-    // left: 0,
+  viewProfileButtonContainer: {
     paddingTop: 8,
     fontSize: 12,
+  },
+  viewProfileButton: {
+    "&:hover": {
+      backgroundColor: "rgba(33, 33, 33, 0.12)",
+    },
   },
   cardTable: {
     display: "flex",
@@ -143,6 +145,7 @@ export default makeStyles((theme) => ({
     height: "100%",
     width: 300,
     margin: "0 10px 0 auto",
+    paddingTop: 20,
   },
   noteWrapper: {
     paddingTop: 15,
