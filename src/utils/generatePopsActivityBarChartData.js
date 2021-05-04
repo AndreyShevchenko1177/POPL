@@ -62,7 +62,7 @@ export const generateLineChartData = (popsData, minDate, maxDate) => {
   return { ...data, labels: Object.keys(result) };
 };
 
-export const generateDohnutChartData = (popsData, minDate, maxDate) => {
+export const generateDohnutChartData = (popsData, isPopsData) => {
   // const result = dateGeneration(popsData, minDate, maxDate);
   const result = {};
   popsData.allPops.forEach((item) => {
@@ -78,6 +78,7 @@ export const generateDohnutChartData = (popsData, minDate, maxDate) => {
       const date = item[2].split(" ")[0];
       const direct = item[3];
       if (date in result) {
+        if (isPopsData) return ownResult[date] = (ownResult[date] || 0) + 1;
         if (direct == "1") {
           ownResult[date] = { ...(ownResult[date] || {}), directOn: (ownResult[date]?.directOn || 0) + 1 };
         } else {

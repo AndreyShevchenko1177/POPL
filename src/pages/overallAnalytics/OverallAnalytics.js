@@ -27,7 +27,11 @@ function OverallAnalytics() {
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
   const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState({
+    dohnutDirectData: null,
+    dohnutPopsData: null,
+
+  });
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
@@ -59,7 +63,7 @@ function OverallAnalytics() {
       minD = currentDate2;
     }
     if (maxDateMilis < minDateMilis) {
-      setChartData({ lineData: generateLineChartData(popsData, maxDate, minDate), dohnutData: generateDohnutChartData(popsData, maxDate, minDate) });
+      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate) });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -76,14 +80,14 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData({ lineData: generateLineChartData(popsData, minDate, maxDate), dohnutData: generateDohnutChartData(popsData, minDate, maxDate) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate) });
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
     console.log({
       dateFromRange, dateFrom, dateTo, maxD, minD,
     }, "generate data, component - overallanalytics");
-    setChartData({ lineData: generateLineChartData(popsData, dateFrom, dateTo), dohnutData: generateDohnutChartData(popsData, dateFrom, dateTo) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo) });
     return setCalendar({
       ...calendar,
       dateRange: [dateTo, dateFromRange],
@@ -190,7 +194,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData({ lineData: generateLineChartData(popsData), dohnutData: generateDohnutChartData(popsData) });
+      setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
     } else {
       setChartData(popsData);
     }
@@ -230,7 +234,7 @@ function OverallAnalytics() {
         widgetLayerString={widgetLayerString}
         views={topStatisticsData.data?.topViewedProfiles}
         popsData={chartData?.lineData}
-        dohnutData={chartData?.dohnutData}
+        dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData }}
       />
     </>
   );
