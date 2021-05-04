@@ -8,7 +8,7 @@ function MyTemplates() {
       <Header
         rootLink="Templates"
         path='/templates'
-        lastChild="My Template"
+        lastChild="My Templates"
       />
       <div className={classes.container}>
         <h2 style={{ padding: "40px 40px" }}>Coming Soon</h2>

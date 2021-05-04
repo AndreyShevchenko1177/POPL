@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: "160px",
-    height: "130px",
+    height: "170px",
     marginLeft: "10px",
     padding: "20px 0",
     "& .MuiSvgIcon-root": {
@@ -25,8 +25,21 @@ export default makeStyles((theme) => ({
     margin: "0 auto",
   },
   contenContainer: {
+    position: "relative",
     padding: "20px",
     width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  viewProfileButtonContainer: {
+    paddingTop: 8,
+    fontSize: 12,
+  },
+  viewProfileButton: {
+    "&:hover": {
+      backgroundColor: "rgba(33, 33, 33, 0.12)",
+    },
   },
   cardTable: {
     display: "flex",
@@ -135,6 +148,7 @@ export default makeStyles((theme) => ({
     height: "100%",
     width: 300,
     margin: "0 10px 0 auto",
+    paddingTop: 20,
   },
   noteWrapper: {
     paddingTop: 15,

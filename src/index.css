@@ -113,6 +113,10 @@ p {
   height: 100vh;
 }
 
+.h-55 {
+  height: 55px !important;
+}
+
 .o-none {
   outline: none;
 }
