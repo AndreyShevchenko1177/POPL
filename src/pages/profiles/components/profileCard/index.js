@@ -134,6 +134,7 @@ export default function Card({
           </div>
           <div className={clsx(classes.wrapper, {
             "mt-25": isSafari,
+            "h-55": isSafari,
           }, "target-element")}>
             <div className={clsx(classes.section4)}>
               <SocialPoplsIcons
