@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable guard-for-in */
 import React, { useEffect, useState, useRef } from "react";
 import { Typography } from "@material-ui/core";
@@ -143,19 +144,24 @@ export default function NetworkActivity({
           }
         </div>
         <div className={classes.bottomKpisContainer}>
-          {chartData?.data?.datasets[0]?.data && kpisConfig.map((item) => <React.Fragment key={item.id}>
-            <StatisticItem
-              count={1}
-              isFetched={false}
-              {...item}
-              styles={{
-                container: classes.bottomKpisItemContainer,
-                titleText: classes.bottomKpisTitleText,
-                itemValue: classes.bottomKpisItemValue,
-              }}
-            />
-            <div className={classes.bottomKpisDivider}></div>
-          </React.Fragment>)}
+          {chartData?.data?.datasets[0]?.data && kpisConfig.map((item) => {
+            if (item.id === "popsCount") {
+              item.value = chartData?.data?.datasets[0]?.data.reduce((acc, value) => acc += value, 0);
+            }
+            return <React.Fragment key={item.id}>
+              <StatisticItem
+                count={1}
+                isFetched={false}
+                {...item}
+                styles={{
+                  container: classes.bottomKpisItemContainer,
+                  titleText: classes.bottomKpisTitleText,
+                  itemValue: classes.bottomKpisItemValue,
+                }}
+              />
+              <div className={classes.bottomKpisDivider}></div>
+            </React.Fragment>;
+          })}
         </div>
       </div>
     </div>

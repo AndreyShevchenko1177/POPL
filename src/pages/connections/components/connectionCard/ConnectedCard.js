@@ -77,11 +77,12 @@ export function ConnectedCard({
               <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
             </div>
           </div>
-          <div style={{ paddingTop: "28px" }}>
+          <div className={classes.viewProfileButton}>
             <Button
               variant="text"
               size="small"
               color="primary"
+              style={{ fontSize: 15 }}
               // startIcon={<ArrowDropDownIcon />}
               onClick={() => url && window.open(`${url}`)}
             >

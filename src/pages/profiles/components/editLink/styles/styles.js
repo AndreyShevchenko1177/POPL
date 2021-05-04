@@ -199,6 +199,10 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     top: "-20px",
     right: "-40px",
+    backgroundColor: "rgba(0, 0, 0, 0.04)",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.12)",
+    },
   },
   removeIcon: {
     fontSize: 30,

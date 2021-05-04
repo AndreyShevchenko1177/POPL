@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: "160px",
-    height: "130px",
+    height: "170px",
     marginLeft: "10px",
     padding: "20px 0",
     "& .MuiSvgIcon-root": {
@@ -24,8 +24,19 @@ export default makeStyles((theme) => ({
     margin: "0 auto",
   },
   contenContainer: {
+    position: "relative",
     padding: "20px",
     width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  viewProfileButton: {
+    // position: "absolute",
+    // bottom: 0,
+    // left: 0,
+    paddingTop: 8,
+    fontSize: 12,
   },
   cardTable: {
     display: "flex",

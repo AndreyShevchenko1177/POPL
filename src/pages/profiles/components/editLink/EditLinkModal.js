@@ -16,8 +16,8 @@ function EditLinkModal({
   const ref = useRef();
 
   const blurHandler = (event) => {
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    setEditLinkModal((v) => ({ ...v, open: false }));
+    // if (event.currentTarget.contains(event.relatedTarget)) return;
+    // setEditLinkModal((v) => ({ ...v, open: false }));
   };
 
   const successCb = (link) => {
