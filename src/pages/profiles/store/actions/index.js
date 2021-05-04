@@ -174,20 +174,19 @@ export const editLinkAction = (success, linksArray) => async (dispatch, getState
   try {
     const userId = getState().authReducer.signIn.data.id;
     const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item)));
-    console.log(result);
     if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
-      if (result.length < 2) {
-        success("link");
-        return dispatch({
-          type: EDIT_PROFILE_LINK,
-          payload: {
-            profileId: linksArray[0].profileId,
-            linkId: linksArray[0].linkId,
-            linkTitle: linksArray[0].linkTitle,
-            linkValue: linksArray[0].linkValue,
-          },
-        });
-      }
+      // if (result.length < 2) {
+      //   success("link");
+      //   return dispatch({
+      //     type: EDIT_PROFILE_LINK,
+      //     payload: {
+      //       profileId: linksArray[0].profileId,
+      //       linkId: linksArray[0].linkId,
+      //       linkTitle: linksArray[0].linkTitle,
+      //       linkValue: linksArray[0].linkValue,
+      //     },
+      //   });
+      // }
 
       success();
       dispatch(clearStateAction("dataProfiles"));
@@ -206,16 +205,15 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
     }) => requests.deleteLinkRequest(linkType, linkHash, profileId, linkId)));
     if (result.every(({ data }) => !!data.success)) {
       success();
-      if (result.length < 2) {
-        return dispatch({
-          type: DELETE_PROFILE_LINK,
-          payload: {
-            profileId: linksArray[0].profileId,
-            linkId: linksArray[0].linkId,
-          },
-        });
-      }
-      console.log(result);
+      // if (result.length < 2) {
+      //   return dispatch({
+      //     type: DELETE_PROFILE_LINK,
+      //     payload: {
+      //       profileId: linksArray[0].profileId,
+      //       linkId: linksArray[0].linkId,
+      //     },
+      //   });
+      // }
       dispatch(clearStateAction("dataProfiles"));
       return dispatch(getProfilesDataAction(userId));
     }
