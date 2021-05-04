@@ -1,12 +1,46 @@
-import React from "react";
+import { makeStyles } from "@material-ui/core";
 
-export default function Avatar({ src, name, styles }) {
+const useStyles = makeStyles((theme) => ({
+  container: {
+    position: "relative",
+  },
+}));
+
+export default function Avatar({
+  src, name, styles, bgColor,
+}) {
+  const classes = useStyles();
+
+  const imageStyles = {
+    ...styles.image,
+    position: bgColor ? "absolute" : "static",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+  };
+
+  const backgroundStyles = {
+    position: "absolute",
+    width: styles.image.width,
+    height: styles.image.height,
+    borderRadius: "50%",
+    backgroundColor: bgColor,
+    top: 0,
+    left: 0,
+    zIndex: 1,
+  };
   return (
-    <img
-      className="cursor-default target-element"
-      src={src}
-      alt={name}
-      style={{ ...styles }}
-    />
+    <div
+      className={classes.container}
+      style={{ ...styles.container, width: styles.image.width, height: styles.image.height }}
+    >
+      <img
+        className="cursor-default target-element"
+        src={src}
+        alt={name}
+        style={imageStyles}
+      />
+      <div style={backgroundStyles}></div>
+    </div>
   );
 }
