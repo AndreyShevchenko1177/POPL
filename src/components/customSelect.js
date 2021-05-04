@@ -83,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
     right: 5,
     top: 8,
   },
+  outlinedInput: {
+    height: 40,
+  },
 }));
 
 function CustomSelect({
@@ -137,6 +140,7 @@ function CustomSelect({
                     <OutlinedInput
                       value={value}
                       name={name}
+                      classes={{ root: classes.outlinedInput }}
                       onChange={events.handleChange}
                       placeholder={label}
                       variant='outlined'
