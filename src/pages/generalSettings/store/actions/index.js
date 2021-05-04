@@ -50,7 +50,6 @@ export const getCompanyInfoAction = () => async (dispatch, getState) => {
       const userId = getState().authReducer.signIn.data.id;
       const { data } = await requests.getCompanyInfo(userId);
       result = data;
-      console.log(data);
     }
 
     dispatch({

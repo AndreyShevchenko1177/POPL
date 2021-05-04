@@ -39,8 +39,10 @@ const dateGeneration = (popsData, minDate, maxDate) => {
       result[key] = 0;
     }
   }
+  // console.log("RESULT", result);
   result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
-  console.log(result, "generation pops activity bar chart data");
+  result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate) + 1)}`] = 0;
+  console.log("RESULT", result);
   return result;
 };
 

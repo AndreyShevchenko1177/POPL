@@ -67,9 +67,9 @@ function OverallAnalytics() {
         visible: false,
       });
     }
-    console.log({
-      minDate, maxDate, minD, maxD,
-    }, "set date function, component - overallanalytics");
+    // console.log({
+    //   minDate, maxDate, minD, maxD,
+    // }, "set date function, component - overallanalytics");
     setCalendar({
       ...calendar,
       dateRange: [minDate, maxDate],
