@@ -1,6 +1,14 @@
+import Header from "../../components/Header";
+
 function MyTemplates() {
   return (
-    <h2 style={{ padding: "40px 40px" }}>Coming Soon</h2>
+    <>
+      <Header
+        rootLink="Templates"
+        lastChild="My Templates"
+        path="/templates"
+      />
+    </>
   );
 }
 
