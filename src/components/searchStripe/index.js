@@ -65,8 +65,9 @@ function SearchStripe({
             <Button
               variant='contained'
               color='primary'
-              classes={{ root: classes.actionButton }}
+              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => arrowHandler(true, "filter")}
+              endIcon={<KeyboardArrowDownIcon />}
               name='filter'
             >
             Filter

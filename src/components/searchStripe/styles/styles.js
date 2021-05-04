@@ -59,7 +59,7 @@ export default makeStyles((theme) => ({
   },
   showAllButton: {
     minWidth: "100px",
-    marginLeft: 30,
+    marginLeft: 15,
     "@media (max-width:1000px)": {
       marginLeft: 15,
     },

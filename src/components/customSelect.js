@@ -80,8 +80,8 @@ const useStyles = makeStyles((theme) => ({
   },
   clearInputIcon: {
     position: "absolute",
-    right: 0,
-    top: 0,
+    right: 5,
+    top: 8,
   },
 }));
 
