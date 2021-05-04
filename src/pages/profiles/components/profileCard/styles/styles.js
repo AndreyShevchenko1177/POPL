@@ -83,6 +83,7 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   section1_avatar: {
+    position: "relative",
     margin: "0 20px",
     display: "flex",
     flexDirection: "row-reverse",

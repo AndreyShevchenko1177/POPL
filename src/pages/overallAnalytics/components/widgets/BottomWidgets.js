@@ -99,18 +99,19 @@ function BottomWidgets({
   }, [topPopped]);
 
   useEffect(() => {
-    if (popsData) {
-      delete popsData.labels;
-      delete popsData.allPops;
+    const { dohnutPopsData } = dohnutData;
+    if (dohnutPopsData) {
+      delete dohnutPopsData.labels;
+      delete dohnutPopsData.allPops;
       const datasetsPopsDataProportion = [];
       const chartLabelsPopsDataProportion = [];
       const chartBackGroundColorsPopsDataProportion = [];
 
       setPopsDataProportion(() => {
-        Object.keys(popsData).forEach((popName) => {
+        Object.keys(dohnutPopsData).forEach((popName) => {
           chartLabelsPopsDataProportion.push(labels[popName]);
           chartBackGroundColorsPopsDataProportion.push(backgroundColor[popName]);
-          datasetsPopsDataProportion.push(Object.values(popsData[popName]).reduce((sum, cur) => sum += cur, 0));
+          datasetsPopsDataProportion.push(Object.values(dohnutPopsData[popName]).reduce((sum, cur) => sum += cur, 0));
         });
         return {
           labels: chartLabelsPopsDataProportion,
@@ -122,10 +123,11 @@ function BottomWidgets({
         };
       });
     }
-  }, [popsData]);
+  }, [dohnutData.dohnutPopsData]);
 
   useEffect(() => {
-    if (dohnutData) {
+    const { dohnutDirectData } = dohnutData;
+    if (dohnutDirectData) {
       const datasetDirectProportion = [];
       const chartLabelsDirectOnOff = [];
       const chartBackGroundColorsDirectOnOff = [];
@@ -134,8 +136,8 @@ function BottomWidgets({
           directOn: 0,
           directOff: 0,
         };
-        Object.keys(dohnutData).forEach((popName) => {
-          Object.values(dohnutData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
+        Object.keys(dohnutDirectData).forEach((popName) => {
+          Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
           // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
         });
         Object.keys({ ...allData }).forEach((item) => {
@@ -153,7 +155,7 @@ function BottomWidgets({
         };
       });
     }
-  }, [dohnutData]);
+  }, [dohnutData.dohnutDirectData]);
 
   return (
     <div className={classes.bottomWidgetsRoot}>

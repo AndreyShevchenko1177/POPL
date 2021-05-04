@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Paper, Typography, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import clsx from "clsx";
@@ -8,7 +8,6 @@ import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import userIcon from "../../../../assets/svg/user.svg";
-import SvgMaker from "../../../../components/svgMaker";
 import { imagesExtensions, isSafari } from "../../../../constants";
 import { setDirectAction, setProfileStatusAction } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
@@ -48,6 +47,7 @@ export default function Card({
   });
   const [showEditIcon, setShowEditIcon] = useState(false);
   const extension = image.split(".");
+  const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const setBio = () => {
     const result = personalMode.direct ? bioBusiness || bio : bio || "";
@@ -98,7 +98,6 @@ export default function Card({
               onMouseUp={(event) => changeIconSize(event, 1)}
               onMouseDown={(event) => changeIconSize(event, 0.7)}
             >
-              {/* <SvgMaker name="editIcon" width={25} height={25}/> */}
               <img
                 style={{ width: 25, height: 25, cursor: "pointer" }}
                 alt='edit'
@@ -107,6 +106,7 @@ export default function Card({
             </div>
             <div className={clsx(classes.section1_avatar)}>
               <Avatar
+                bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
                 src={
                   imagesExtensions.includes(extension[extension.length - 1])
                     ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
@@ -114,7 +114,10 @@ export default function Card({
                 }
                 name={name}
                 styles={{
-                  width: "80px", height: "80px", borderRadius: "50%", marginLeft: "49px", objectFit: "cover",
+                  image: {
+                    width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover",
+                  },
+                  container: { marginLeft: "49px" },
                 }}
               />
               <div className={clsx(classes.checkboxWrapper, {
