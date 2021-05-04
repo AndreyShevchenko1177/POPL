@@ -8,6 +8,7 @@ function StatisticItem({
   title, value, count, isFetched, icon, styles,
 }) {
   const classes = useStyles();
+
   return (
     <div className={styles?.container || classes.topStatisticsItemContainer}>
       {count === undefined || isFetched ? (
@@ -24,7 +25,11 @@ function StatisticItem({
             className={styles?.itemValue || classes.topStatisticsItemValue}
             style={{ textAlign: "center" }}
           >
-            {value ? addCommas(String(value)) : "-"}
+            {value
+              ? title !== "CTR"
+                ? addCommas(String(value))
+                : value
+              : "-"}
           </div>
         </div>
       )}
