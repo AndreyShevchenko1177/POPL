@@ -39,10 +39,12 @@ const initialState = {
   setProfileName: {
     data: null,
     error: null,
+    isFetching: false,
   },
   setProfileBio: {
     data: null,
     error: null,
+    isFetching: false,
   },
   isFetching: false,
 };
@@ -174,6 +176,15 @@ export default function profilesReducer(
     };
   }
   case IS_DATA_FETCHING: {
+    if (payload.name) {
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name],
+          isFetching: payload.isFetching,
+        },
+      };
+    }
     return {
       ...state,
       isFetching: payload,
@@ -185,6 +196,14 @@ export default function profilesReducer(
       setProfileBio: {
         data: true,
         error: null,
+        isFetching: false,
+      },
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (profile.id == payload.profileId) return { ...profile, [payload.profileState == "1" ? "bio" : "bioBusiness"]: payload.bio };
+          return profile;
+        }),
+        error: null,
       },
       isFetching: false,
     };
@@ -194,6 +213,14 @@ export default function profilesReducer(
       ...state,
       setProfileName: {
         data: true,
+        error: null,
+        isFetching: false,
+      },
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (profile.id == payload.profileId) return { ...profile, name: payload.name };
+          return profile;
+        }),
         error: null,
       },
       isFetching: false,

@@ -15,6 +15,7 @@ import {
   setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
+import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { defineDarkColor } from "../../../../utils";
@@ -53,6 +54,7 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const extension = image.split(".");
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const { setProfileName, setProfileBio } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name,
     bio,
@@ -64,7 +66,6 @@ export default function Card({
   });
   const nameField = useRef(null);
   const bioField = useRef(null);
-
   const fileInputRef = useRef(null);
 
   const handleValuesChange = (event) => {
@@ -124,6 +125,15 @@ export default function Card({
     if (!showEditIcon) setEditState({ name: false, bio: false });
     else setEditState({ name: true, bio: true });
   }, [showEditIcon]);
+
+  useEffect(() => {
+    setValues({ ...values, name });
+  }, [name]);
+
+  useEffect(() => {
+    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness });
+    return setValues({ ...values, bio });
+  }, [bio, bioBusiness]);
 
   return (
     <>
@@ -205,35 +215,38 @@ export default function Card({
             </div>
             <div className='full-w target-element'>
               <div className={clsx(classes.section1_title)}>
-                <TextField
-                  // className={classes.nameTextfield}
-                  style={{ width: settextFieldWidth(values.name.length) }}
-                  classes={{ root: classes.disabledTextfield }}
-                  name='name'
-                  onBlur={() => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name))}
-                  disabled={!editState.name}
-                  onChange={handleValuesChange}
-                  placeholder={showEditIcon ? "Enter your name" : ""}
-                  InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
-                  value={values.name}
-                  size='small'
-                />
+                {setProfileName.isFetching
+                  ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+                  : <TextField
+                    style={{ width: settextFieldWidth(values.name.length) }}
+                    classes={{ root: classes.disabledTextfield }}
+                    name='name'
+                    onBlur={() => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name))}
+                    disabled={!editState.name}
+                    onChange={handleValuesChange}
+                    placeholder={showEditIcon ? "Enter your name" : ""}
+                    InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
+                    value={values.name}
+                    size='small'
+                  />}
               </div>
               <div className={classes.section3}>
-                <TextField
-                  style={{ width: settextFieldWidth(values.bio.length, "bio") }}
-                  classes={{ root: classes.disabledTextfieldBio }}
-                  name='bio'
-                  disabled={!editState.bio}
-                  onBlur={() => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio))}
-                  multiline
-                  rowsMax={2}
-                  onChange={handleValuesChange}
-                  placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
-                  InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
-                  value={values.bio}
-                  size='small'
-                />
+                {setProfileBio.isFetching
+                  ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
+                  : <TextField
+                    style={{ width: settextFieldWidth(values.bio.length, "bio") }}
+                    classes={{ root: classes.disabledTextfieldBio }}
+                    name='bio'
+                    disabled={!editState.bio}
+                    onBlur={() => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio))}
+                    multiline
+                    rowsMax={2}
+                    onChange={handleValuesChange}
+                    placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
+                    InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
+                    value={values.bio}
+                    size='small'
+                  />}
               </div>
             </div>
           </div>

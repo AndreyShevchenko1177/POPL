@@ -154,7 +154,7 @@ export const setProfileBio = (userId, profileState, bio) => {
   bodyFormData.append("sAction", "SetBio");
   bodyFormData.append("iProfile", profileState);
   bodyFormData.append("iID", userId);
-  bodyFormData.append("iName", bio);
+  bodyFormData.append("iBio", bio);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,

@@ -79,6 +79,7 @@ export default makeStyles((theme) => ({
     right: 10,
   },
   section1_title: {
+    height: 31,
     display: "flex",
     justifyContent: "flex-start",
   },

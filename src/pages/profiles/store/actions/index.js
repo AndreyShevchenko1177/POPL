@@ -218,7 +218,7 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
     bodyFormData.append("sAction", "ReorderChild");
     bodyFormData.append("sChild", JSON.stringify(child));
     bodyFormData.append("iID", userId);
-    const result = await axios.post("", bodyFormData);
+    await axios.post("", bodyFormData);
     dispatch(setLocalProfilesOrder(profiles));
     console.log(child, userId);
   } catch (error) {
@@ -229,33 +229,35 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
 export const setProfileNameAcion = (profileId, profileState, name) => async (dispatch) => {
   console.log(profileId, profileState, name);
   try {
-    dispatch(isFetchingAction(true));
+    dispatch(isFetchingAction(true, "setProfileName"));
     const result = await requests.setProfileName(profileId, profileState, name);
     console.log(result);
     dispatch({
       type: SET_PROFILE_NAME,
+      payload: { profileId, name },
     });
   } catch (error) {
-    dispatch(isFetchingAction(false));
+    dispatch(isFetchingAction(false, "setProfileName"));
   }
 };
 
 export const setProfileBioAcion = (profileId, profileState, bio) => async (dispatch) => {
   try {
-    dispatch(isFetchingAction(true));
+    dispatch(isFetchingAction(true, "setProfileBio"));
     const result = await requests.setProfileBio(profileId, profileState, bio);
     console.log(result);
     dispatch({
       type: SET_PROFILE_BIO,
+      payload: { profileId, bio, profileState },
     });
   } catch (error) {
-    dispatch(isFetchingAction(false));
+    dispatch(isFetchingAction(false, "setProfileBio"));
   }
 };
 
-const isFetchingAction = (isFetching) => ({
+const isFetchingAction = (isFetching, name) => ({
   type: IS_DATA_FETCHING,
-  payload: isFetching,
+  payload: name ? { isFetching, name } : isFetching,
 });
 
 export const clearStateAction = (name) => (dispatch) => dispatch({
