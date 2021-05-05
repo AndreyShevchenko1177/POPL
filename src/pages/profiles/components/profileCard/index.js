@@ -172,6 +172,7 @@ export default function Card({
                     src={addLinkIcon}
                   />
                 </div>
+                <span>Add link</span>
               </div>}
             </div>
             <div className={clsx(classes.section6)}>

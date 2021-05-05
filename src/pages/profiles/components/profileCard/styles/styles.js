@@ -157,6 +157,12 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     margin: "0 15px 15px 0",
+    "& > span": {
+      position: "absolute",
+      fontSize: 10,
+      bottom: "-20px",
+      whiteSpace: "nowrap",
+    },
   },
   linksEditWrapper: {
     position: "absolute",
@@ -180,6 +186,7 @@ export default makeStyles((theme) => ({
     boxShadow: theme.custom.iconBoxShadow,
     width: 40,
     height: 40,
+    cursor: "pointer",
     // borderRadius: "20%",
     // backgroundColor: "rgb(170 170 170 / 50%)",
     // boxShadow: theme.custom.iconBoxShadow,
