@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, Typography, Button } from "@material-ui/core";
+import {
+  Paper, Button, TextField, Chip,
+} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
+import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
@@ -48,10 +51,24 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const extension = image.split(".");
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const [values, setValues] = useState({
+    name,
+    bio,
+    image,
+  });
+  const [editState, setEditState] = useState({
+    name: false,
+    bio: false,
+  });
+  const nameField = useRef(null);
+  const bioField = useRef(null);
 
-  const setBio = () => {
-    const result = personalMode.direct ? bioBusiness || bio : bio || "";
-    return result;
+  const fileInputRef = useRef(null);
+
+  const handleValuesChange = (event) => {
+    event.persist();
+    const { name, value } = event.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSwitchChanger = (event, name) => {
@@ -72,14 +89,29 @@ export default function Card({
   };
 
   useEffect(() => {
-    if (activeProfile === "2") setPersonalMode({ direct: true, text: "Business" });
-    else setPersonalMode({ direct: false, text: "Personal" });
+    if (activeProfile === "2") {
+      setPersonalMode({ direct: true, text: "Business" });
+      setValues({ ...values, bio: bioBusiness || bio });
+    } else {
+      setPersonalMode({ direct: false, text: "Personal" });
+      setValues({ ...values, bio: bio || "" });
+    }
   }, [activeProfile]);
 
   useEffect(() => {
     if (direct === "1") setDirectOn({ direct: true, text: "Direct On" });
     else setDirectOn({ direct: false, text: "Direct Off" });
   }, [direct]);
+
+  useEffect(() => {
+    if (editState.name) nameField.current?.focus();
+    if (editState.bio) bioField.current?.focus();
+  }, [editState]);
+
+  useEffect(() => {
+    if (!showEditIcon) setEditState({ name: false, bio: false });
+    else setEditState({ name: true, bio: true });
+  }, [showEditIcon]);
 
   return (
     <>
@@ -109,7 +141,7 @@ export default function Card({
                 bgColor={(generalSettingsData && generalSettingsData[1]) && generalSettingsData[1]}
                 src={
                   imagesExtensions.includes(extension[extension.length - 1])
-                    ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
+                    ? `${process.env.REACT_APP_BASE_IMAGE_URL}${values.image}`
                     : userIcon
                 }
                 name={name}
@@ -133,15 +165,53 @@ export default function Card({
                   checked={checkboxes[customId]?.checked || false}
                 />
               </div>
+              {showEditIcon && <Chip
+                className={classes.chipButton}
+                size='medium'
+                onDelete={() => {
+                  // setCompanyImage("");
+                  // setFieldsState((prev) => ({ ...prev, file: null }));
+                }}
+              />}
+              {showEditIcon && <div style={{ top: 66, right: "-11px" }} className={classes.linksEditWrapper} onClick={() => { console.log(fileInputRef.current); fileInputRef.current?.click(); }}>
+                <EditIcon style={{ width: 15, height: 15 }}/>
+              </div>}
+              <input
+                style={{ display: "none" }}
+                ref={fileInputRef}
+                type='file'
+                multiple={false}
+                onChange={() => { console.log("change"); }}
+              />
             </div>
             <div className='full-w target-element'>
               <div className={clsx(classes.section1_title)}>
-                <Typography className="cursor-default target-element" variant="h5">
-                  {name}
-                </Typography>
+                <TextField
+                  className={classes.nameTextfield}
+                  classes={{ root: classes.disabledTextfield }}
+                  name='name'
+                  disabled={!editState.name}
+                  onChange={handleValuesChange}
+                  placeholder={showEditIcon ? "Enter your name" : ""}
+                  InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
+                  value={values.name}
+                  size='small'
+                />
               </div>
               <div className={classes.section3}>
-                <div className={clsx(classes.section3_text)}>{setBio()}</div>
+                <TextField
+                  className={classes.bioTextfield}
+                  classes={{ root: classes.disabledTextfield }}
+                  name='bio'
+                  disabled={!editState.bio}
+                  multiline
+                  rowsMax={2}
+                  onChange={handleValuesChange}
+                  placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
+                  InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
+                  value={values.bio}
+                  size='small'
+                />
               </div>
             </div>
           </div>

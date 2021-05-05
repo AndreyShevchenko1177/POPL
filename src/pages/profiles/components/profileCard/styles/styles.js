@@ -72,7 +72,7 @@ export default makeStyles((theme) => ({
     maxHeight: "140px",
     minWidth: "180px",
     alignItems: "flex-start",
-    padding: "20px 0 10px 0",
+    padding: "20px 0 0px 0",
   },
   section1_editIcon: {
     position: "absolute",
@@ -82,6 +82,22 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  nameTextfield: {
+    width: "50%",
+  },
+  bioTextfield: {
+    width: "80%",
+  },
+  disabledTextfield: {
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: "#000000", // (default alpha is 0.38)
+    },
+  },
+  nameInput: {
+    fontSize: 17,
+    fontFamily: "DM Sans",
+    fontWeight: 700,
+  },
   section1_avatar: {
     position: "relative",
     margin: "0 27px",
@@ -89,6 +105,18 @@ export default makeStyles((theme) => ({
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
+  },
+  chipButton: {
+    backgroundColor: "transparent !important",
+    position: "absolute",
+    paddingRight: "10px !important",
+    width: "30px",
+    height: "30px !important",
+    top: "-14px",
+    right: "-15px",
+    "&:focus": {
+      backgroundColor: "transparent !important",
+    },
   },
   checkboxWrapper: {
     position: "absolute",
@@ -118,7 +146,9 @@ export default makeStyles((theme) => ({
   },
   section3: {
     // overflow: "hidden",
-    padding: "15px 5px 20px 0px",
+    minHeight: 58,
+    position: "relative",
+    padding: "5px 5px 0px 0px",
   },
   section3_text: {
     color: "#666666",
@@ -175,6 +205,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     top: -7,
     right: -7,
+    cursor: "pointer",
   },
   iconItem: {
     display: "flex",

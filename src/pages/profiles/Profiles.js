@@ -72,7 +72,7 @@ export default function Profiles() {
 
   function handleClickPoplItem(event, id, buttonName, customId) {
     if (typeof buttonName === "function") return buttonName();
-    event.preventDefault();
+    // event.preventDefault();
     if (buttonName === "popl") {
       return history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
