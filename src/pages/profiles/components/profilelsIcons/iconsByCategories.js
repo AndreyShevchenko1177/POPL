@@ -28,6 +28,7 @@ const icons_categories = {
     { id: 16 },
     { id: 15 },
     { id: 17 },
+    { id: 41 },
   ],
   More: [
     { id: 24 },

@@ -32,6 +32,7 @@ import Yelp from "../../../../assets/yelp.png";
 import Ambassador from "../../../../assets/ambassadorIcon.png";
 import Clubhouse from "../../../../assets/clubhouse.png";
 import EmbeddedVideo from "../../../../assets/embeddedVideo.png";
+import PoplPay from "../../../../assets/links/popl_pay.png";
 
 const icons = {
   3: {
@@ -236,6 +237,12 @@ const icons = {
     icon: EmbeddedVideo,
     text: "",
     placeholder: "Your video link",
+    path: "http://",
+  },
+  41: {
+    icon: PoplPay,
+    text: "Popl Pay",
+    placeholder: "Name of your product",
     path: "http://",
   },
 };
