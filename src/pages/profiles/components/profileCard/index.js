@@ -10,12 +10,14 @@ import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
-import userIcon from "../../../../assets/svg/user.svg";
 import { imagesExtensions, isSafari } from "../../../../constants";
-import { setDirectAction, setProfileStatusAction } from "../../store/actions";
+import {
+  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion,
+} from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import addLinkIcon from "../../../../assets/add.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
+import { defineDarkColor } from "../../../../utils";
 
 export default function Card({
   isDotsRemove,
@@ -69,6 +71,16 @@ export default function Card({
     event.persist();
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const settextFieldWidth = (length, bio) => {
+    if (length < 10) return "110px";
+    if (length > 40) return "410px";
+    let result = 0;
+    for (let i = 0; i < length - 10; i++) {
+      result += bio ? 8 : 10;
+    }
+    return `${result + 110}px`;
   };
 
   const handleSwitchChanger = (event, name) => {
@@ -138,11 +150,18 @@ export default function Card({
             </div>
             <div className={clsx(classes.section1_avatar)}>
               <Avatar
-                bgColor={(generalSettingsData && generalSettingsData[1]) && generalSettingsData[1]}
+                bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
                 src={
                   imagesExtensions.includes(extension[extension.length - 1])
                     ? `${process.env.REACT_APP_BASE_IMAGE_URL}${values.image}`
-                    : userIcon
+                    : generalSettingsData && generalSettingsData[3]
+                      ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
+                      : {
+                        name: "userIcon",
+                        fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
+                        width: 80,
+                        height: 80,
+                      }
                 }
                 name={name}
                 styles={{
@@ -173,7 +192,7 @@ export default function Card({
                   // setFieldsState((prev) => ({ ...prev, file: null }));
                 }}
               />}
-              {showEditIcon && <div style={{ top: 66, right: "-11px" }} className={classes.linksEditWrapper} onClick={() => { console.log(fileInputRef.current); fileInputRef.current?.click(); }}>
+              {showEditIcon && <div style={{ top: 64, right: "-7px" }} className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
                 <EditIcon style={{ width: 15, height: 15 }}/>
               </div>}
               <input
@@ -187,9 +206,11 @@ export default function Card({
             <div className='full-w target-element'>
               <div className={clsx(classes.section1_title)}>
                 <TextField
-                  className={classes.nameTextfield}
+                  // className={classes.nameTextfield}
+                  style={{ width: settextFieldWidth(values.name.length) }}
                   classes={{ root: classes.disabledTextfield }}
                   name='name'
+                  onBlur={() => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name))}
                   disabled={!editState.name}
                   onChange={handleValuesChange}
                   placeholder={showEditIcon ? "Enter your name" : ""}
@@ -200,10 +221,11 @@ export default function Card({
               </div>
               <div className={classes.section3}>
                 <TextField
-                  className={classes.bioTextfield}
+                  style={{ width: settextFieldWidth(values.bio.length, "bio") }}
                   classes={{ root: classes.disabledTextfieldBio }}
                   name='bio'
                   disabled={!editState.bio}
+                  onBlur={() => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio))}
                   multiline
                   rowsMax={2}
                   onChange={handleValuesChange}

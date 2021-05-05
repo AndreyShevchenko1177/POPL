@@ -7,3 +7,4 @@ export * from "./filterPops";
 export * from "./uniqueObjectsInArray";
 export * from "./addCommas";
 export * from "./removeCommas";
+export * from "./defineDarkColor";

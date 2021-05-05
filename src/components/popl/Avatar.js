@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+import SvgMaker from "../svgMaker";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -7,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Avatar({
-  src, name, styles, bgColor,
+  src, name, styles, bgColor, svg,
 }) {
   const classes = useStyles();
 
@@ -34,12 +35,18 @@ export default function Avatar({
       className={classes.container}
       style={{ ...styles.container, width: styles.image.width, height: styles.image.height }}
     >
-      <img
-        className="cursor-default target-element"
-        src={src}
-        alt={name}
-        style={imageStyles}
-      />
+      {
+        typeof src !== "object"
+          ? <img
+            className="cursor-default target-element"
+            src={src}
+            alt={name}
+            style={imageStyles}
+          />
+          : <div style={imageStyles}>
+            <SvgMaker name={src.name} fill={src.fill} width={src.width} height={src.height} />
+          </div>
+      }
       {bgColor && <div style={backgroundStyles}></div>}
     </div>
   );

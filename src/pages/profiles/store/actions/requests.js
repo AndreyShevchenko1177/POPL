@@ -137,11 +137,12 @@ export const makeProfileSubscriberRequest = (userId) => {
 };
 
 export const setProfileName = (userId, profileState, name) => {
+  console.log(typeof name);
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "SetName");
   bodyFormData.append("iProfile", profileState);
   bodyFormData.append("iID", userId);
-  bodyFormData.append("iName ", name);
+  bodyFormData.append("iName", name);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,
@@ -153,7 +154,7 @@ export const setProfileBio = (userId, profileState, bio) => {
   bodyFormData.append("sAction", "SetBio");
   bodyFormData.append("iProfile", profileState);
   bodyFormData.append("iID", userId);
-  bodyFormData.append("iName ", bio);
+  bodyFormData.append("iName", bio);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,

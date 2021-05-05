@@ -20,6 +20,8 @@ import {
   CHANGE_PROFILE_ORDER,
   SET_LOCAL_PROFILES_ORDER,
   CLEAR_STATE,
+  SET_PROFILE_NAME,
+  SET_PROFILE_BIO,
   IS_DATA_FETCHING,
 } from "../actionTypes";
 import * as requests from "./requests";
@@ -175,19 +177,6 @@ export const editLinkAction = (success, linksArray) => async (dispatch, getState
     const userId = getState().authReducer.signIn.data.id;
     const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item)));
     if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
-      // if (result.length < 2) {
-      //   success("link");
-      //   return dispatch({
-      //     type: EDIT_PROFILE_LINK,
-      //     payload: {
-      //       profileId: linksArray[0].profileId,
-      //       linkId: linksArray[0].linkId,
-      //       linkTitle: linksArray[0].linkTitle,
-      //       linkValue: linksArray[0].linkValue,
-      //     },
-      //   });
-      // }
-
       success();
       dispatch(clearStateAction("dataProfiles"));
       return dispatch(getProfilesDataAction(userId));
@@ -234,6 +223,33 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
     console.log(child, userId);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const setProfileNameAcion = (profileId, profileState, name) => async (dispatch) => {
+  console.log(profileId, profileState, name);
+  try {
+    dispatch(isFetchingAction(true));
+    const result = await requests.setProfileName(profileId, profileState, name);
+    console.log(result);
+    dispatch({
+      type: SET_PROFILE_NAME,
+    });
+  } catch (error) {
+    dispatch(isFetchingAction(false));
+  }
+};
+
+export const setProfileBioAcion = (profileId, profileState, bio) => async (dispatch) => {
+  try {
+    dispatch(isFetchingAction(true));
+    const result = await requests.setProfileBio(profileId, profileState, bio);
+    console.log(result);
+    dispatch({
+      type: SET_PROFILE_BIO,
+    });
+  } catch (error) {
+    dispatch(isFetchingAction(false));
   }
 };
 

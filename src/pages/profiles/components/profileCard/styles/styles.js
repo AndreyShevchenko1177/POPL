@@ -82,13 +82,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
-  nameTextfield: {
-    maxWidth: "50%",
-  },
-  bioTextfield: {
-    width: "auto",
-    maxWidth: "80%",
-  },
   disabledTextfield: {
     "& .MuiInputBase-root.Mui-disabled": {
       color: "#000000", // (default alpha is 0.38)
@@ -125,8 +118,8 @@ export default makeStyles((theme) => ({
     paddingRight: "10px !important",
     width: "30px",
     height: "30px !important",
-    top: "-14px",
-    right: "-15px",
+    top: "-9px",
+    right: "-10px",
     "&:focus": {
       backgroundColor: "transparent !important",
     },

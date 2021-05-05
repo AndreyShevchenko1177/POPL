@@ -11,6 +11,8 @@ import {
   SET_LOCAL_PROFILES_ORDER,
   CLEAR_STATE,
   IS_DATA_FETCHING,
+  SET_PROFILE_NAME,
+  SET_PROFILE_BIO,
 } from "../actionTypes";
 
 const initialState = {
@@ -31,6 +33,14 @@ const initialState = {
     error: null,
   },
   editLink: {
+    data: null,
+    error: null,
+  },
+  setProfileName: {
+    data: null,
+    error: null,
+  },
+  setProfileBio: {
     data: null,
     error: null,
   },
@@ -167,6 +177,26 @@ export default function profilesReducer(
     return {
       ...state,
       isFetching: payload,
+    };
+  }
+  case SET_PROFILE_BIO: {
+    return {
+      ...state,
+      setProfileBio: {
+        data: true,
+        error: null,
+      },
+      isFetching: false,
+    };
+  }
+  case SET_PROFILE_NAME: {
+    return {
+      ...state,
+      setProfileName: {
+        data: true,
+        error: null,
+      },
+      isFetching: false,
     };
   }
   case CLEAR_STATE: {
