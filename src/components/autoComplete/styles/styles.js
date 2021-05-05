@@ -6,12 +6,19 @@ export default makeStyles((theme) => ({
     maxHeight: "250px",
     overflow: "auto",
   },
+  nothingFound: {
+    padding: "5px 10px",
+    fontSize: 18,
+  },
   listItem: {
     padding: "10px 10px",
     "&:hover": {
       backgroundColor: "#efefef",
       cursor: "pointer",
     },
+  },
+  activeListItem: {
+    backgroundColor: "#efefef",
   },
   outlinedInput: {
     height: 40,
