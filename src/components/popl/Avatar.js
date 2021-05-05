@@ -40,7 +40,7 @@ export default function Avatar({
         alt={name}
         style={imageStyles}
       />
-      <div style={backgroundStyles}></div>
+      {bgColor && <div style={backgroundStyles}></div>}
     </div>
   );
 }

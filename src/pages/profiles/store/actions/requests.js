@@ -135,3 +135,27 @@ export const makeProfileSubscriberRequest = (userId) => {
 
   fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options);
 };
+
+export const setProfileName = (userId, profileState, name) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetName");
+  bodyFormData.append("iProfile", profileState);
+  bodyFormData.append("iID", userId);
+  bodyFormData.append("iName ", name);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
+export const setProfileBio = (userId, profileState, bio) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetBio");
+  bodyFormData.append("iProfile", profileState);
+  bodyFormData.append("iID", userId);
+  bodyFormData.append("iName ", bio);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};

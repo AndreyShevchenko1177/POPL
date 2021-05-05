@@ -83,20 +83,33 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-start",
   },
   nameTextfield: {
-    width: "50%",
+    maxWidth: "50%",
   },
   bioTextfield: {
-    width: "80%",
+    width: "auto",
+    maxWidth: "80%",
   },
   disabledTextfield: {
     "& .MuiInputBase-root.Mui-disabled": {
       color: "#000000", // (default alpha is 0.38)
+      fontWeight: "700",
+    },
+  },
+  disabledTextfieldBio: {
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: "#000000", // (default alpha is 0.38)
+      fontWeight: "200",
     },
   },
   nameInput: {
     fontSize: 17,
     fontFamily: "DM Sans",
     fontWeight: 700,
+  },
+  bioInput: {
+    ontSize: 17,
+    fontFamily: "DM Sans",
+    fontWeight: 200,
   },
   section1_avatar: {
     position: "relative",
