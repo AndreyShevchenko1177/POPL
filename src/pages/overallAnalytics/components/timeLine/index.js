@@ -110,6 +110,8 @@ export default function NetworkActivity({
     }
   }, [chartData]);
 
+  console.log(chartData?.data);
+
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
@@ -134,7 +136,7 @@ export default function NetworkActivity({
                 ? <Line
                   ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")}
                   options={chartData?.options}
-                  data={chartData?.data}
+                  data={chartData?.data && { datasets: chartData.data.datasets.map((el) => ({ ...el, data: el.data.filter((item, i) => i) })), labels: chartData.data.labels.filter((item, i) => i) }}
                 />
                 : <div className={classes.noDataText}>
                   No data for this period
