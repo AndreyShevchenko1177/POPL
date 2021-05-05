@@ -84,7 +84,7 @@ export default makeStyles((theme) => ({
   },
   section1_avatar: {
     position: "relative",
-    margin: "0 20px",
+    margin: "0 27px",
     display: "flex",
     flexDirection: "row-reverse",
     alignItems: "center",
@@ -94,7 +94,7 @@ export default makeStyles((theme) => ({
     position: "absolute",
     // bottom: "-30px",
     top: 57,
-    left: 0,
+    left: "-9px",
   },
   wrapper: {
     display: "flex",
@@ -103,7 +103,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     minWidth: "700px",
     height: "85px",
-    padding: "0 30px 0 69px",
+    padding: "0 30px 0 79px",
   },
   section2: {
     width: "100%",

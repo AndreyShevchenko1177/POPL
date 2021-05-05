@@ -98,7 +98,7 @@ export function ConnectedCard({
               {Object.values(names)?.sort((a, b) => new Date(formatDateConnections(b.connected)) - new Date(formatDateConnections(a.connected)))?.map((el, key) => (
                 <Tooltip key={key} title={formatDateConnections(el.connected) || ""} placement="top">
                   <Paper className={classes.nameItem}>
-                    <img alt='userIcon' className={classes.nameItemImage} src={el.image ? process.env.REACT_APP_BASE_IMAGE_URL + el.image : userIcon} />
+                    <img alt='userIcon' className={classes.nameItemImage} src={el.image ? process.env.REACT_APP_BASE_IMAGE_URL + el.image : userIcon} style={ el.image ? { objectFit: "cover" } : {}} />
                     <p className={classes.nameItemName} > {el.name}</p>
                   </Paper>
                 </Tooltip>
