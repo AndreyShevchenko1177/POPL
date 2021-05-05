@@ -201,14 +201,14 @@ export default function Card({
               <div className={classes.section3}>
                 <TextField
                   className={classes.bioTextfield}
-                  classes={{ root: classes.disabledTextfield }}
+                  classes={{ root: classes.disabledTextfieldBio }}
                   name='bio'
                   disabled={!editState.bio}
                   multiline
                   rowsMax={2}
                   onChange={handleValuesChange}
                   placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
-                  InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
+                  InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
                   value={values.bio}
                   size='small'
                 />
