@@ -106,7 +106,7 @@ export default function Card({
             </div>
             <div className={clsx(classes.section1_avatar)}>
               <Avatar
-                bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
+                bgColor={(generalSettingsData && generalSettingsData[1]) && generalSettingsData[1]}
                 src={
                   imagesExtensions.includes(extension[extension.length - 1])
                     ? `${process.env.REACT_APP_BASE_IMAGE_URL}${image}`
