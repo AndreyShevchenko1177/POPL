@@ -16,7 +16,7 @@ function StatisticItem({
       ) : (
         <div className={classes.topStatisticsItemContentWrapper}>
           <div className={classes.topStatisticsItemTitle}>
-            {icon}
+            {/* {icon} */}
             <Typography variant="h6" className={styles?.titleText || classes.titleText}>
               {title}
             </Typography>
