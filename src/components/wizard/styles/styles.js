@@ -57,7 +57,7 @@ export default makeStyles((theme) => ({
     },
   },
   linksSectionContainer: {
-    width: 275,
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -169,9 +169,9 @@ export default makeStyles((theme) => ({
   },
   categoryContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 70px)",
+    gridTemplateColumns: "repeat(12, 1fr)",
     "@media (max-width:1400px)": {
-      gridTemplateColumns: "repeat(3, 70px)",
+      gridTemplateColumns: "repeat(12, 1fr)",
     },
   },
   categoryLastChild: {

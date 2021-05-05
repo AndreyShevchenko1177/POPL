@@ -10,7 +10,7 @@ export const filterConfig = [
     id: 2,
     active: false,
     label: "Enter name",
-    name: "connectionName",
+    name: "name",
     pseudoname: "name",
     type: "input",
     value: "",

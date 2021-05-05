@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import {
-  Checkbox, makeStyles, Button, TextField,
+  Checkbox, makeStyles, Button,
 } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import AutoComplete from "./autoComplete";
 
 const useStyles = makeStyles((theme) => ({
   actionContainer: {
@@ -141,18 +141,11 @@ function CustomSelect({
               } if (type === "input") {
                 return (
                   <div className='relative' key={id}>
-                    <Autocomplete
-                      id="combo-box-demo"
-                      value={valueComplete}
-                      options={autoComleteData}
-                      getOptionLabel={(option) => (name === "poplsName" ? option.profileOwner || "" : option.name || "")}
-                      onChange={(event, newValue) => {
-                        setValue(newValue);
-                        events.handleChange(event, newValue);
-                      }}
-                      size='small'
-                      style={{ width: "100%" }}
-                      renderInput={(params) => <TextField {...params} label={label} variant="outlined" />}
+                    <AutoComplete
+                      data={autoComleteData}
+                      label={label}
+                      name={name}
+                      startFilter={events.handleChange}
                     />
                   </div>
                 );

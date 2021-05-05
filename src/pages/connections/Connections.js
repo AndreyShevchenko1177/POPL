@@ -104,7 +104,7 @@ function Connections() {
       showAll();
       return;
     }
-    setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(val.name.toLowerCase())).includes(true)).slice(0, 19));
+    setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(val.toLowerCase())).includes(true)).slice(0, 19));
   };
 
   useEffect(() => {
