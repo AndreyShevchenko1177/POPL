@@ -118,7 +118,7 @@ function PoplsItem() {
       showAll(null, "all");
       return;
     }
-    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(val.profileOwner.toLowerCase())));
+    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(val.toLowerCase())));
   };
 
   useEffect(() => {
