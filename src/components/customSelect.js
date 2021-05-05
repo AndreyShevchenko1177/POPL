@@ -146,6 +146,7 @@ function CustomSelect({
                       label={label}
                       name={name}
                       startFilter={events.handleChange}
+                      hideAutoComplete={() => events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }))}
                     />
                   </div>
                 );
