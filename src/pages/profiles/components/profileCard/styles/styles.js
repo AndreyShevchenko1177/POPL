@@ -93,8 +93,8 @@ export default makeStyles((theme) => ({
   checkboxWrapper: {
     position: "absolute",
     // bottom: "-30px",
-    top: 70,
-    left: 10,
+    top: 57,
+    left: 0,
   },
   wrapper: {
     display: "flex",
