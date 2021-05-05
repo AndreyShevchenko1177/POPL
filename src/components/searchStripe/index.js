@@ -1,6 +1,5 @@
 import React from "react";
-import clsx from "clsx";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Paper, InputBase, Checkbox, Button,
 } from "@material-ui/core";
@@ -31,9 +30,11 @@ function SearchStripe({
   checkboxes = {},
   templates,
   filterConfig,
+  autoComleteData,
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
 
   return (
     <div className={classes.searchContainer}>
@@ -62,6 +63,14 @@ function SearchStripe({
         {showAll
         && <div className='relative'>
           <div className={classes.buttonWrapper}>
+            {autoComleteData && autoComleteData.some((item) => (!item.url ? item.name === location.state?.name : item.profileOwner === location.state?.profilesData?.name)) && <div className={classes.sortText}>
+              <span style={{ whiteSpace: "nowrap" }}>
+                <i>{location.state?.name || location.state?.profilesData?.name}</i>
+              </span>
+              <CloseIcon style={{
+                cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+              }} onClick={selectObject.clearInput}/>
+            </div>}
             <Button
               variant='contained'
               color='primary'
@@ -75,6 +84,7 @@ function SearchStripe({
             {!disabled && <CustomSelect
               selectName='filter'
               config={filterConfig}
+              autoComleteData={autoComleteData}
               isOpen={selectObject.openProfileSelect.filter.open}
               events={{ handleChange: selectObject.handleChange, hideSelectHandler: selectObject.setOpenProfileSelect, clearInput: selectObject.clearInput }}
             />}

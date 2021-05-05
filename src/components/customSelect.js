@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import {
-  Checkbox, makeStyles, Button, TextField, IconButton, InputAdornment, Input, OutlinedInput,
+  Checkbox, makeStyles, Button, TextField,
 } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
   actionContainer: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 55,
     minWidth: 120,
-    width: 220,
+    width: 350,
     minHeight: 60,
     backgroundColor: "#ffffff",
     borderRadius: theme.custom.mainBorderRadius,
@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 5px",
     justifyContent: "center",
     alignItems: "center",
+    "& > div": {
+      width: "100%",
+    },
   },
   actionItemsWrapper: {
     width: "85%",
@@ -89,10 +92,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomSelect({
-  config, events, isOpen, checkProfiles, selectName,
+  config, events, isOpen, checkProfiles, selectName, autoComleteData,
 }) {
   const classes = useStyles();
   const ref = useRef();
+  const [valueComplete, setValue] = useState("");
 
   const onBlurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
@@ -137,27 +141,19 @@ function CustomSelect({
               } if (type === "input") {
                 return (
                   <div className='relative' key={id}>
-                    <OutlinedInput
-                      value={value}
-                      name={name}
-                      classes={{ root: classes.outlinedInput }}
-                      onChange={events.handleChange}
-                      placeholder={label}
-                      variant='outlined'
-                      size="small"
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton aria-label="clear" size="small" onClick={() => events.clearInput(name)}>
-                            <ClearIcon fontSize="inherit" />
-                          </IconButton>
-                        </InputAdornment>
-                      }
+                    <Autocomplete
+                      id="combo-box-demo"
+                      value={valueComplete}
+                      options={autoComleteData}
+                      getOptionLabel={(option) => (name === "poplsName" ? option.profileOwner || "" : option.name || "")}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                        events.handleChange(event, newValue);
+                      }}
+                      size='small'
+                      style={{ width: "100%" }}
+                      renderInput={(params) => <TextField {...params} label={label} variant="outlined" />}
                     />
-                    {/* <div className={classes.clearInputIcon} onClick={() => events.clearInput(name)}>
-                      <IconButton aria-label="clear" size="small">
-                        <ClearIcon fontSize="inherit" />
-                      </IconButton>
-                    </div> */}
                   </div>
                 );
               }

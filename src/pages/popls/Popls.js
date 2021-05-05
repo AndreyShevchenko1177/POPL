@@ -15,7 +15,7 @@ import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
-import { filterPops } from "../../utils";
+import { filterPops, uniqueObjectsInArray } from "../../utils";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -110,16 +110,15 @@ function PoplsItem() {
   };
 
   const clearFilterInput = (name) => {
-    setFilterConfig((fc) => fc.map((item) => (item.name === name ? ({ ...item, value: "" }) : item)));
     showAll(null, "all");
   };
 
-  const handleChangeInputFilter = (event) => {
-    setFilterConfig((fc) => fc.map((item) => (item.name === event.target.name ? ({ ...item, value: event.target.value }) : item)));
-    if (!event.target.value) {
-      return setPopls(popls);
+  const handleChangeInputFilter = (event, val) => {
+    if (!val) {
+      showAll(null, "all");
+      return;
     }
-    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(event.target.value.toLowerCase())));
+    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(val.profileOwner.toLowerCase())));
   };
 
   useEffect(() => {
@@ -152,7 +151,6 @@ function PoplsItem() {
   useEffect(() => {
     if (!pops) return;
     if (location.state?.profilesData?.id) {
-      // setPopls(popls.filter((item) => item.profileOwner === location.state.profileData.name));
       setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
       return setPopls(popls
         .filter((popl) => popl.profileId === location.state.profilesData.id)
@@ -195,6 +193,7 @@ function PoplsItem() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
+            autoComleteData={uniqueObjectsInArray(popls, (val) => val.profileOwner)}
           />
         </div>
         {isLoading ? (
