@@ -28,9 +28,17 @@ export const subscriptionConfig = [
   },
   {
     id: 3,
+    title: "Scale",
+    price: "300",
+    unitsRange: [21, 50],
+    profilesNumber: "21-50",
+    priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
+  },
+  {
+    id: 4,
     title: "Enterprise",
     price: "500",
-    unitsRange: [21, 100],
+    unitsRange: [51, 100],
     priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
     profilesNumber: "21-100",
   },
@@ -59,9 +67,6 @@ function Billing() {
           <Typography variant="h1">Popl Enterprise Pricing</Typography>
         </div>
         <div className={classes.cardsContainerWrapper}>
-          {/* <div className={classes.mostPopular}>
-            Most Popular
-          </div> */}
           <div className={classes.cardsContainer}>
             {subscriptionConfig.map(({
               id, title, price, priceId, profilesNumber, unitsRange,

@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import useStyles from "./styles/styles";
-import SvgMaker from "../../components/svgMaker/SvgMaker";
 import useLongPress from "../../components/useLongPressHook";
 import { restricteModeAction } from "../../store/actions";
 import { subscriptionConfig } from "../../pages/billing";

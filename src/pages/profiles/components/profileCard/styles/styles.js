@@ -83,6 +83,14 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  checkMarkWrapper: {
+    position: "relative",
+  },
+  comfirmCheckmark: {
+    position: "absolute",
+    left: "-20px",
+    cursor: "pointer",
+  },
   disabledTextfield: {
     "& .MuiInputBase-root.Mui-disabled": {
       color: "#000000", // (default alpha is 0.38)
@@ -99,11 +107,13 @@ export default makeStyles((theme) => ({
     fontSize: 17,
     fontFamily: "DM Sans",
     fontWeight: 700,
+    paddingRight: 20,
   },
   bioInput: {
     ontSize: 17,
     fontFamily: "DM Sans",
     fontWeight: 200,
+    paddingRight: 20,
   },
   section1_avatar: {
     position: "relative",
@@ -151,8 +161,12 @@ export default makeStyles((theme) => ({
     width: "32px",
     height: "32px",
   },
+  bioFieldWrapper: {
+    position: "relative",
+    display: "flex",
+  },
   section3: {
-    // overflow: "hidden",
+    // display: "flex",
     minHeight: 58,
     position: "relative",
     padding: "5px 5px 0px 0px",

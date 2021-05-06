@@ -210,7 +210,6 @@ export default function Profiles() {
 
   useEffect(() => {
     dispatch(getProfilesDataAction(userData.id));
-    // return () => dispatch(clearStateAction("deleteLink"));
   }, []);
 
   useEffect(() => {
@@ -239,32 +238,6 @@ export default function Profiles() {
       setMainCheck(false);
     }
   }, [checkboxes]);
-
-  // useEffect(() => {
-  //   if (deleteLinkData) {
-  //     setProfiles(profiles.map((item) => {
-  //       if (item.id == deleteLinkData.profileId) {
-  //         const business = item.business.filter((el) => el.id != deleteLinkData.linkId);
-  //         const social = item.social.filter((el) => el.id != deleteLinkData.linkId);
-  //         return { ...item, business, social };
-  //       }
-  //       return item;
-  //     }));
-  //   }
-  // }, [deleteLinkData]);
-
-  // useEffect(() => {
-  //   if (editLinkData) {
-  //     setProfiles(profiles.map((item) => {
-  //       if (item.id == editLinkData.profileId) {
-  //         const business = item.business.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
-  //         const social = item.social.map((el) => (el.id == editLinkData.linkId ? ({ ...el, title: editLinkData.linkTitle, value: editLinkData.linkValue }) : el));
-  //         return { ...item, business, social };
-  //       }
-  //       return item;
-  //     }));
-  //   }
-  // }, [editLinkData]);
 
   return (
     <>

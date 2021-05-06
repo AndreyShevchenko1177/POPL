@@ -24,27 +24,37 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     maxWidth: 1000,
-    minWidth: 800,
+    minWidth: 950,
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
-    "@media (max-width: 1150px)": {
+    "@media (max-width: 1250px)": {
       flexDirection: "column",
       minWidth: 240,
     },
   },
   cardItemContainer: {
-    width: "33%",
+    width: "25%",
     minHeight: 350,
     "&:nth-child(2)": {
+      // borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
+      borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    },
+    "&:nth-child(3)": {
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
     },
-    "@media (max-width: 1150px)": {
+    "@media (max-width: 1250px)": {
       flexDirection: "column",
       width: "100%",
       border: "none",
       "&:nth-child(2)": {
+        borderTop: `1px solid ${theme.custom.mainBorderGreyColor}`,
+        borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+        borderRight: "none",
+        borderLeft: "none",
+      },
+      "&:nth-child(3)": {
         borderTop: `1px solid ${theme.custom.mainBorderGreyColor}`,
         borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
         borderRight: "none",

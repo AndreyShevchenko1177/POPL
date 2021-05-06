@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {
+  useEffect, useState, useRef,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Paper, Button, TextField, Chip,
@@ -6,6 +8,8 @@ import {
 import Checkbox from "@material-ui/core/Checkbox";
 import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
+import DoneIcon from "@material-ui/icons/Done";
+import { Done } from "@material-ui/icons";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
@@ -64,6 +68,10 @@ export default function Card({
     name: false,
     bio: false,
   });
+  const [preventBlur, setPreventBlur] = useState({
+    name: false,
+    bio: false,
+  });
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
@@ -79,9 +87,13 @@ export default function Card({
     if (length > 40) return "410px";
     let result = 0;
     for (let i = 0; i < length - 10; i++) {
-      result += bio ? 8 : 10;
+      result += bio ? 9 : 10;
     }
     return `${result + 110}px`;
+  };
+
+  const updateFieldRequest = (event, action) => {
+    if (event.key === "Enter") action();
   };
 
   const handleSwitchChanger = (event, name) => {
@@ -123,7 +135,6 @@ export default function Card({
 
   useEffect(() => {
     if (!showEditIcon) setEditState({ name: false, bio: false });
-    else setEditState({ name: true, bio: true });
   }, [showEditIcon]);
 
   useEffect(() => {
@@ -218,35 +229,70 @@ export default function Card({
                 {setProfileName.isFetching
                   ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                   : <TextField
-                    style={{ width: settextFieldWidth(values.name.length) }}
+                    style={{ width: settextFieldWidth(values.name.length), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
-                    onBlur={() => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name))}
-                    disabled={!editState.name}
+                    onBlur={() => {
+                      if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
+                      setEditState({ ...editState, name: false });
+                      setValues({ ...values, name });
+                    }}
+                    onFocus={() => setEditState({ ...editState, name: true })}
+                    disabled={!showEditIcon}
                     onChange={handleValuesChange}
+                    onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name)))}
                     placeholder={showEditIcon ? "Enter your name" : ""}
                     InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
                     value={values.name}
                     size='small'
                   />}
+                {editState.name && <div className={classes.checkMarkWrapper}>
+                  <DoneIcon
+                    onMouseDown={() => setPreventBlur({ ...preventBlur, name: true })}
+                    className={classes.comfirmCheckmark}
+                    onClick={() => {
+                      setEditState({ ...editState, name: false });
+                      dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                    }}
+                  />
+                </div>}
               </div>
               <div className={classes.section3}>
-                {setProfileBio.isFetching
-                  ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
-                  : <TextField
-                    style={{ width: settextFieldWidth(values.bio.length, "bio") }}
-                    classes={{ root: classes.disabledTextfieldBio }}
-                    name='bio'
-                    disabled={!editState.bio}
-                    onBlur={() => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio))}
-                    multiline
-                    rowsMax={2}
-                    onChange={handleValuesChange}
-                    placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
-                    InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
-                    value={values.bio}
-                    size='small'
-                  />}
+                <div className={classes.bioFieldWrapper}>
+                  {setProfileBio.isFetching
+                    ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
+                    : <TextField
+                      style={{ width: settextFieldWidth(values.bio.length, "bio"), transition: "width 0.075s linear" }}
+                      classes={{ root: classes.disabledTextfieldBio }}
+                      name='bio'
+                      onFocus={() => setEditState({ ...editState, bio: true })}
+                      disabled={!showEditIcon}
+                      onBlur={(event) => {
+                        if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
+                        setEditState({ ...editState, bio: false });
+                        setValues({ ...values, bio: personalMode.direct ? bioBusiness : bio });
+                      }}
+                      multiline
+                      rowsMax={2}
+                      onChange={handleValuesChange}
+                      onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio)))}
+                      placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
+                      InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
+                      value={values.bio}
+                      size='small'
+                    />}
+                  {editState.bio && <div className={classes.checkMarkWrapper}>
+                    <DoneIcon
+                      onMouseDown={() => setPreventBlur({ ...preventBlur, bio: true })}
+                      style={{ bottom: "5px" }}
+                      className={classes.comfirmCheckmark}
+                      onClick={() => {
+                        setEditState({ ...editState, bio: false });
+                        dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
+                      }}
+                    />
+                  </div>}
+                </div>
               </div>
             </div>
           </div>
