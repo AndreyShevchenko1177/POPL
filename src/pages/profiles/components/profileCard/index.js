@@ -60,7 +60,7 @@ export default function Card({
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const { setProfileName, setProfileBio } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name,
+    name: name || url,
     bio,
     image,
   });

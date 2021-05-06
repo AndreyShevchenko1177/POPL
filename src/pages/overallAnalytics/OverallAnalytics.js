@@ -215,7 +215,9 @@ function OverallAnalytics() {
           popsCount={topStatisticsData.data?.popsCount}
           linkTaps={topStatisticsData.data?.linkTaps}
           totalProfiles={topStatisticsData.data?.totalProfiles}
-          ctr={topStatisticsData.data?.linkTaps && topStatisticsData.data?.views ? (topStatisticsData.data?.linkTaps / topStatisticsData.data?.views).toFixed(3) : ""}
+          ctr={topStatisticsData.data?.linkTaps && topStatisticsData.data?.views
+            ? `${((topStatisticsData.data?.linkTaps / topStatisticsData.data?.views) * 100).toFixed(1)} %`
+            : ""}
           totalPopls={topStatisticsData.data?.totalPopls}
           views={topStatisticsData.data?.views}
           isFetched={topStatisticsData.isFetched}
