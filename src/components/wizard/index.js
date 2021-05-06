@@ -11,8 +11,8 @@ function CustomWizard({
   const ref = useRef();
 
   const blurHandler = (event) => {
-    // if (event.currentTarget.contains(event.relatedTarget)) return;
-    // setIsOpen((v) => ({ ...v, open: false }));
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setIsOpen((v) => ({ ...v, open: false }));
   };
 
   useEffect(() => {
