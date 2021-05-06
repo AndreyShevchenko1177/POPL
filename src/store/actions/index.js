@@ -20,6 +20,8 @@ import {
   uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
 } from "../../utils";
 
+const GET_DATA_PROFILES_SUCCESS = "[PROFILE] GET DATA PROFILES SUCCESS";
+
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
   payload: data,
@@ -56,7 +58,10 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     } else {
       profiles = profilesData;
     }
-
+    dispatch({
+      type: GET_DATA_PROFILES_SUCCESS,
+      payload: profiles,
+    });
     return dispatch(profilesInfoAction(profiles));
   } catch (error) {
     console.log(error);

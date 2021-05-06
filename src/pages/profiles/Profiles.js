@@ -209,10 +209,6 @@ export default function Profiles() {
   }, [poplsConnection]);
 
   useEffect(() => {
-    dispatch(getProfilesDataAction(userData.id));
-  }, []);
-
-  useEffect(() => {
     if (!profilesData) return;
     setProfiles(profilesData);
   }, [profilesData]);

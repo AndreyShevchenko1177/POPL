@@ -23,6 +23,9 @@ function Connections() {
   const location = useLocation();
   const history = useHistory();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const profiles = useSelector(
+    ({ profilesReducer }) => profilesReducer.dataProfiles.data,
+  );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const [dragableConnections, setConnections] = useState([]);
@@ -119,7 +122,7 @@ function Connections() {
   useEffect(() => {
     if (!connections) return setConnections([]);
     if (location.state?.id) {
-      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(location.state.name.toLowerCase())).includes(true)).slice(0, 19));
+      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name || location.state.url).toLowerCase())).includes(true)).slice(0, 19));
     }
     setConnections(connections.slice(0, 19));
     setSortConnections(connections);
@@ -134,7 +137,7 @@ function Connections() {
     <>
       <Header
         rootLink="Connections"
-        firstChild={location.state?.name}
+        firstChild={location.state?.name || location.state?.url}
         path="/connections"
       />
       <div
@@ -167,7 +170,7 @@ function Connections() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={uniqueObjectsInArray(connections?.reduce((sum, curr) => [...sum, ...Object.values(curr.names)], []), (val) => val.name)}
+            autoComleteData={profiles}
           />
         </div>
         {isLoading ? (

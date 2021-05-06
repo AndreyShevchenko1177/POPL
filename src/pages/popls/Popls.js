@@ -22,6 +22,9 @@ function PoplsItem() {
   const classes = useStyles();
   const location = useLocation();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const profiles = useSelector(
+    ({ profilesReducer }) => profilesReducer.dataProfiles.data,
+  );
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
   const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
@@ -157,13 +160,13 @@ function PoplsItem() {
         .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
-  }, [popls, pops]);
+  }, [popls, pops, location]);
 
   return (
     <>
       <Header
         rootLink="Popls"
-        firstChild={location.state?.profilesData?.name}
+        firstChild={location.state?.profilesData?.name || location.state?.profilesData?.url}
         path="/popls"
       />
       <div
@@ -193,7 +196,7 @@ function PoplsItem() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={uniqueObjectsInArray(popls, (val) => val.profileOwner)}
+            autoComleteData={profiles}
           />
         </div>
         {isLoading ? (

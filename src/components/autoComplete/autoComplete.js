@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState, useEffect, useRef,
+} from "react";
 import clsx from "clsx";
 import { useHistory } from "react-router-dom";
 import {
@@ -8,7 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import useStyles from "./styles/styles";
 
 function AutoComplete({
-  data, label, name, startFilter, hideAutoComplete,
+  data, label, name, startFilter, hideAutoComplete, pseudoname,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -23,7 +25,7 @@ function AutoComplete({
       setLocalData(data);
       return setValue("");
     }
-    const result = data.filter((item) => item[name].toLowerCase().includes(event.target.value.toLowerCase()));
+    const result = data.filter((item) => item.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setLocalData(result);
   };
 
@@ -31,10 +33,16 @@ function AutoComplete({
     startFilter(event, selectedValue);
     setValue(selectedValue);
     hideAutoComplete();
-    if (name === "profileOwner") {
-      return history.push("/popls", { profilesData: { ...item, name: item.profileOwner, disabled: false } });
+    if (pseudoname === "popl") {
+      const popl = data.find((el) => el.id === item.id);
+      return history.push("/popls", {
+        profilesData: {
+          ...popl, disabled: false,
+        },
+      });
     }
-    history.push("/connections", { ...item });
+    const connection = data.find((el) => el.id === item.id);
+    history.push("/connections", { ...connection });
   };
 
   const setSelectedItem = (event, selectedValue, item) => {
@@ -51,13 +59,17 @@ function AutoComplete({
       setActiveItem(activeItem - 1);
     }
     if (event.key === "Enter") {
-      const selectedItem = data.find((item) => item[name] === itemRef.current.dataset.name);
-      selectItem(event, selectedItem[name], selectedItem);
+      const selectedItem = data.find((item) => item.name === itemRef.current.dataset.name);
+      selectItem(event, selectedItem.name, selectedItem);
     }
   };
 
   const clearSelectedItem = () => {
     setValue("");
+  };
+
+  const onMouseEvent = (event) => {
+    setActiveItem(event.target.dataset.key);
   };
 
   useEffect(() => {
@@ -93,8 +105,8 @@ function AutoComplete({
       />
       <div className={classes.listItemContainer}>
         {localData.length ? localData.map((item, key) => (
-          <div ref={activeItem === key ? itemRef : null} data-name={item[name]} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item[name], item)}>
-            <p>{item[name]}</p>
+          <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
+            <p data-key={key}>{item.name || item.url}</p>
           </div>
         )) : <div className={classes.nothingFound}> Nothing found </div>}
       </div>

@@ -10,7 +10,7 @@ export const filterConfig = [
     id: 2,
     label: "Enter profile owner name",
     name: "profileOwner",
-    pseudoname: "name",
+    pseudoname: "popl",
     type: "input",
     value: "",
   },

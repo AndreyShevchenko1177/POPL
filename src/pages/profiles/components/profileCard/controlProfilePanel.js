@@ -15,6 +15,7 @@ import poplIcon from "../../../../assets/poplIcon_black.png";
 function ProfilePanel({
   id,
   social,
+  url,
   business,
   handleClickPoplItem,
   handleSwitchChanger,
@@ -68,7 +69,9 @@ function ProfilePanel({
               src={connectIcon}
             />
           }
-          onClick={() => history.push("/connections", { disabled: false, id, name })}
+          onClick={() => history.push("/connections", {
+            disabled: false, id, name, url,
+          })}
         >
           Connections
         </Button>
@@ -97,7 +100,7 @@ function ProfilePanel({
           startIcon={<EqualizerIcon />}
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           onClick={() => history.push("/analytics", {
-            id, name, business, social, personalMode, profileName: name,
+            id, name, business, social, personalMode, profileName: name, url,
           })}
         >
           Analytics

@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomSelect({
-  config, events, isOpen, checkProfiles, selectName, autoComleteData,
+  config, events, isOpen, checkProfiles, selectName, autoComleteData, data,
 }) {
   const classes = useStyles();
   const ref = useRef();
@@ -114,7 +114,7 @@ function CustomSelect({
         <div className={classes.wrapper}>
           <div className={classes[`${selectName}ItemsWrapper`]} >
             {config.map(({
-              id, label, type, name, checked, active, value, variant,
+              id, label, type, name, checked, active, pseudoname,
             }) => {
               if (type === "checkbox") {
                 return (
@@ -143,8 +143,9 @@ function CustomSelect({
                   <div className='relative' key={id}>
                     <AutoComplete
                       data={autoComleteData}
+                      currentPageData={data}
                       label={label}
-                      name={name}
+                      pseudoname={pseudoname}
                       startFilter={events.handleChange}
                       hideAutoComplete={() => events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }))}
                     />

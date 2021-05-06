@@ -36,7 +36,6 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       const myProfile = await requests.getProfileAction(userId);
       const response = await requests.profileIdsRequest(userId);
       profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
-      console.log(response.data);
       if (response.data && response.data !== "null") {
         const idsArray = JSON.parse(removeCommas(response.data));
         const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));

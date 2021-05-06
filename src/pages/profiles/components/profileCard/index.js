@@ -347,6 +347,7 @@ export default function Card({
               business={business}
               social={social}
               name={name}
+              url={url}
               handleClickPoplItem={handleClickPoplItem}
               handleSwitchChanger={handleSwitchChanger}
               directOn={directOn}

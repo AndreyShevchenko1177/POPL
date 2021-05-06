@@ -63,9 +63,9 @@ function SearchStripe({
         {showAll
         && <div className='relative'>
           <div className={classes.buttonWrapper}>
-            {autoComleteData && autoComleteData.some((item) => (!item.url ? item.name === location.state?.name : item.profileOwner === location.state?.profilesData?.name)) && <div className={classes.sortText}>
+            {autoComleteData && autoComleteData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.sortText}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{location.state?.name || location.state?.profilesData?.name}</i>
+                <i>{location.state?.profilesData?.name || location.state?.profilesData?.url || location.state?.name || location.state?.url}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
