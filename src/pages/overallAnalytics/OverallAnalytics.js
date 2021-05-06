@@ -5,7 +5,7 @@ import moment from "moment";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
-  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
+  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest, getLinkTapsAction,
 } from "./store/actions";
 import {
   generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, dateFormat,

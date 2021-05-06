@@ -1,7 +1,9 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable guard-for-in */
 import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@material-ui/core";
+import moment from "moment";
 import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
@@ -18,7 +20,9 @@ export default function NetworkActivity({
   const classes = useStyles();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
-  const [kpis, setKpis] = useState(kpisConfig);
+  const dispatch = useDispatch();
+  const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.data);
+  const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.isFetching);
 
   const handleClickLabel = (e, index) => {
     const ctx = chartRef.current.chartInstance;
@@ -110,8 +114,6 @@ export default function NetworkActivity({
     }
   }, [chartData]);
 
-  console.log(chartData?.data);
-
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
@@ -147,16 +149,24 @@ export default function NetworkActivity({
         </div>
         <div className={classes.bottomKpisContainer}>
           {chartData?.data?.datasets[0]?.data && kpisConfig.map((item) => {
+            let isFetched = false;
             if (item.id === "popsCount") {
               item.value = chartData?.data?.datasets[0]?.data.reduce((acc, value) => acc += value, 0);
             }
-            if (item.id === "ctr") {
-              { /* item.value = */ }
+
+            if (item.id === "linkTaps") {
+              let result = linkTaps?.filter((link) => {
+                const linkDate = moment(link.event_at).format("x");
+                return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
+              });
+              item.value = result?.length;
+              isFetched = linkTapsFetching;
             }
+
             return <React.Fragment key={item.id}>
               <StatisticItem
                 count={1}
-                isFetched={false}
+                isFetched={isFetched}
                 {...item}
                 styles={{
                   container: classes.bottomKpisItemContainer,

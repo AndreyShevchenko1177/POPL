@@ -1,5 +1,11 @@
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING, DASHBOARD_POPS_DATA, CLEAN, INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  GET_POPS_SUCCESS,
+  GET_POPS_FAIL,
+  GET_TOP_STATISTICS_SUCCESS,
+  GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING,
+  DASHBOARD_POPS_DATA, CLEAN,
+  INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  GET_LINK_TAPS,
 } from "../actionTypes";
 
 const initialState = {
@@ -12,6 +18,11 @@ const initialState = {
     data: null,
     error: null,
     isFetched: true,
+  },
+  linkTaps: {
+    data: null,
+    error: null,
+    isFetching: false,
   },
   isFetching: false,
 };
@@ -86,9 +97,28 @@ export default function realTimeAnalytics(
     };
   }
   case IS_DATA_FETCHING: {
+    if (payload.name) {
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name],
+          isFetching: payload.isFetching,
+        },
+      };
+    }
     return {
       ...state,
       isFetching: payload,
+    };
+  }
+  case GET_LINK_TAPS: {
+    return {
+      ...state,
+      linkTaps: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
     };
   }
   case CLEAN: {

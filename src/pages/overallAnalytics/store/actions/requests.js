@@ -22,3 +22,14 @@ export const getAllThreeStats = async (id) => {
   });
   return { id, data: response.data };
 };
+
+export const getLinkTaps = async (id) => {
+  const formdata = new FormData();
+  formdata.append("sAction", "AjaxGetTapsForHash");
+  formdata.append("iMemberID", id);
+  formdata.append("ajax", 1);
+
+  return axios.post("", formdata, {
+    withCredentials: true,
+  });
+};

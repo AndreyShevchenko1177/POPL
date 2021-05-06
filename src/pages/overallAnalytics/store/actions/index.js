@@ -1,7 +1,14 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-return-assign */
 import {
-  GET_POPS_SUCCESS, GET_POPS_FAIL, GET_TOP_STATISTICS_SUCCESS, IS_DATA_FETCHING, CLEAN, INDIVIDUAL_POPS_COUNT, DASHBOARD_POPS_DATA, CLEAN_BY_NAME,
+  GET_POPS_SUCCESS,
+  GET_POPS_FAIL,
+  GET_TOP_STATISTICS_SUCCESS,
+  IS_DATA_FETCHING, CLEAN,
+  INDIVIDUAL_POPS_COUNT,
+  DASHBOARD_POPS_DATA,
+  CLEAN_BY_NAME,
+  GET_LINK_TAPS,
 } from "../actionTypes";
 
 import { removeCommas, getId, filterPops } from "../../../../utils";
@@ -171,6 +178,7 @@ export const getStatisticItemsRequest = (userId) => async (dispatch, getState) =
 export const getStatisticItem = (profiles, isSingle) => async (dispatch, getState) => {
   try {
     dispatch(cleanActionName("topStatisticsData"));
+    dispatch(isFetchingAction(true, "linkTaps"));
     let result = {};
     // <================>
     // just for individual profile level
@@ -199,6 +207,8 @@ export const getStatisticItem = (profiles, isSingle) => async (dispatch, getStat
     } else {
       viewsTopViewedProfiles = views;
     }
+
+    dispatch(getLinkTapsAction(profiles.map((el) => el.id)));
 
     result.totalProfiles = `${profiles.length}`;
     result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
@@ -237,9 +247,23 @@ export const individualPopsCountAction = (number) => ({
   payload: number,
 });
 
-const isFetchingAction = (isFetching) => ({
+export const getLinkTapsAction = (profileId) => async (dispatch, getState) => {
+  try {
+    const linkTaps = await Promise.all(profileId.map((id) => requests.getLinkTaps(id)));
+
+    dispatch({
+      type: GET_LINK_TAPS,
+      payload: linkTaps.reduce((acc, value) => ([...acc, ...value.data]), []),
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch(isFetchingAction(false, "linkTaps"));
+  }
+};
+
+export const isFetchingAction = (isFetching, name) => ({
   type: IS_DATA_FETCHING,
-  payload: isFetching,
+  payload: name ? { isFetching, name } : isFetching,
 });
 
 export const cleanAction = () => ({
