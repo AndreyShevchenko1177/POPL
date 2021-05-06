@@ -83,13 +83,13 @@ export default function Card({
   };
 
   const settextFieldWidth = (length, bio) => {
-    if (length < 10) return "110px";
+    if (length < 10) return bio ? "130px" : "110px";
     if (length > 40) return "410px";
     let result = 0;
     for (let i = 0; i < length - 10; i++) {
       result += bio ? 9 : 10;
     }
-    return `${result + 110}px`;
+    return `${result + (bio ? 130 : 110)}px`;
   };
 
   const updateFieldRequest = (event, action) => {
@@ -233,9 +233,10 @@ export default function Card({
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
                     onBlur={() => {
-                      if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
-                      setEditState({ ...editState, name: false });
-                      setValues({ ...values, name });
+                      dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                      // if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
+                      // setEditState({ ...editState, name: false });
+                      // setValues({ ...values, name });
                     }}
                     onFocus={() => setEditState({ ...editState, name: true })}
                     disabled={!showEditIcon}
@@ -246,7 +247,7 @@ export default function Card({
                     value={values.name}
                     size='small'
                   />}
-                {editState.name && <div className={classes.checkMarkWrapper}>
+                {/* {editState.name && <div className={classes.checkMarkWrapper}>
                   <DoneIcon
                     onMouseDown={() => setPreventBlur({ ...preventBlur, name: true })}
                     className={classes.comfirmCheckmark}
@@ -255,7 +256,7 @@ export default function Card({
                       dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
                     }}
                   />
-                </div>}
+                </div>} */}
               </div>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
@@ -268,20 +269,21 @@ export default function Card({
                       onFocus={() => setEditState({ ...editState, bio: true })}
                       disabled={!showEditIcon}
                       onBlur={(event) => {
-                        if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
-                        setEditState({ ...editState, bio: false });
-                        setValues({ ...values, bio: personalMode.direct ? bioBusiness : bio });
+                        dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
+                        // if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
+                        // setEditState({ ...editState, bio: false });
+                        // setValues({ ...values, bio: personalMode.direct ? bioBusiness : bio });
                       }}
                       multiline
                       rowsMax={2}
                       onChange={handleValuesChange}
                       onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio)))}
-                      placeholder={showEditIcon ? `Enter your ${personalMode.direct ? "bio business" : "bio personal"}` : ""}
+                      placeholder={showEditIcon ? "Enter your bio" : ""}
                       InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
                       value={values.bio}
                       size='small'
                     />}
-                  {editState.bio && <div className={classes.checkMarkWrapper}>
+                  {/* {editState.bio && <div className={classes.checkMarkWrapper}>
                     <DoneIcon
                       onMouseDown={() => setPreventBlur({ ...preventBlur, bio: true })}
                       style={{ bottom: "5px" }}
@@ -291,7 +293,7 @@ export default function Card({
                         dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
                       }}
                     />
-                  </div>}
+                  </div>} */}
                 </div>
               </div>
             </div>

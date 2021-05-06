@@ -186,5 +186,7 @@ export default makeStyles((theme) => ({
   categoryTitle: {
     textAlign: "center",
     marginTop: 30,
+    alignSelf: "flex-start",
+    paddingLeft: "26px",
   },
 }));

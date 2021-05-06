@@ -94,7 +94,7 @@ export default makeStyles((theme) => ({
   disabledTextfield: {
     "& .MuiInputBase-root.Mui-disabled": {
       color: "#000000", // (default alpha is 0.38)
-      fontWeight: "700",
+      fontWeight: "200",
     },
   },
   disabledTextfieldBio: {
@@ -104,16 +104,16 @@ export default makeStyles((theme) => ({
     },
   },
   nameInput: {
-    fontSize: 17,
+    fontSize: 18,
     fontFamily: "DM Sans",
-    fontWeight: 700,
-    paddingRight: 20,
+    fontWeight: 200,
+    // paddingRight: 20,
   },
   bioInput: {
     ontSize: 17,
     fontFamily: "DM Sans",
     fontWeight: 200,
-    paddingRight: 20,
+    // paddingRight: 20,
   },
   section1_avatar: {
     position: "relative",
@@ -139,7 +139,7 @@ export default makeStyles((theme) => ({
     position: "absolute",
     // bottom: "-30px",
     top: 57,
-    left: "-9px",
+    left: "-15px",
   },
   wrapper: {
     display: "flex",
