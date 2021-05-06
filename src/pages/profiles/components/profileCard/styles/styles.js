@@ -139,7 +139,7 @@ export default makeStyles((theme) => ({
     position: "absolute",
     // bottom: "-30px",
     top: 57,
-    left: "-9px",
+    left: "-15px",
   },
   wrapper: {
     display: "flex",

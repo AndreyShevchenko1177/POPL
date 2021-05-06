@@ -114,6 +114,8 @@ export default function NetworkActivity({
     }
   }, [chartData]);
 
+  calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>

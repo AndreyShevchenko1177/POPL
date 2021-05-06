@@ -63,6 +63,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     minHeight: 80,
     paddingTop: 10,
+    justifyContent: "center",
   },
   bottomKpisItemContainer: {
     width: "25%",
