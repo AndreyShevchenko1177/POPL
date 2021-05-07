@@ -61,7 +61,6 @@ function AutoComplete({
     if (event.key === "Enter") {
       if (!itemRef.current) return;
       const selectedItem = data.find((item) => item.name === itemRef.current.dataset.name);
-      if (!selectedItem.connections) return;
       selectItem(event, selectedItem.name, selectedItem);
     }
   };

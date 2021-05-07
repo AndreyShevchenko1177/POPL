@@ -196,7 +196,7 @@ function PoplsItem() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={profiles.map((item) => (item.name ? item : ({ ...item, name: item.url })))}
+            autoComleteData={profiles}
           />
         </div>
         {isLoading ? (
