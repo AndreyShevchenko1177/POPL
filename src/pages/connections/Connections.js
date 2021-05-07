@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
   collectSelectedConnections, clearConnectionData, showAllConnectionsAction,
@@ -122,7 +122,7 @@ function Connections() {
   useEffect(() => {
     if (!connections) return setConnections([]);
     if (location.state?.id) {
-      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name || location.state.url).toLowerCase())).includes(true)).slice(0, 19));
+      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name).toLowerCase())).includes(true)).slice(0, 19));
     }
     setConnections(connections.slice(0, 19));
     setSortConnections(connections);
@@ -137,7 +137,7 @@ function Connections() {
     <>
       <Header
         rootLink="Connections"
-        firstChild={location.state?.name || location.state?.url}
+        firstChild={location.state?.name}
         path="/connections"
       />
       <div
@@ -170,18 +170,12 @@ function Connections() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={profiles?.map((item) => ({
-              ...item,
-              isFull: connections?.reduce((s, c) => {
-                s[c.profileId] = Object.keys(c.names).length;
-                return s;
-              }, {})[item.id],
-            }))}
+            autoComleteData={profiles.map((item) => (item.name ? item : ({ ...item, name: item.url })))}
           />
         </div>
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        ) : (
+        ) : dragableConnections.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd} >
             <Droppable droppableId="droppable">
               {(provided) => (
@@ -225,7 +219,11 @@ function Connections() {
               )}
             </Droppable>
           </DragDropContext>
-        )}
+        ) : <div style={{
+          height: "50vh", display: "flex", justifyContent: "center", alignItems: "center",
+        }}>
+          <Typography variant='h3'>No connections for this profile</Typography>
+        </div>}
       </div>
     </>
   );
