@@ -55,10 +55,19 @@ export default function profilesReducer(
 ) {
   switch (type) {
   case GET_DATA_PROFILES_SUCCESS: {
+    const profiles = payload.map((profile) => {
+      if (!profile.name) {
+        return {
+          ...profile,
+          name: profile.url,
+        };
+      }
+      return profile;
+    });
     return {
       ...state,
       dataProfiles: {
-        data: payload,
+        data: profiles,
         error: null,
       },
       isFetching: false,

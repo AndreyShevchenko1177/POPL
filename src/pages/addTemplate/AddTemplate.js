@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import useStyles from "./styles";
 import TemplateCard from "./components/TemplateCard";
 import CustomWizard from "../../components/wizard";
+import AssignTemplate from "./components/AssignTemplate";
 
 function AddTemplate() {
   const classes = useStyles();
@@ -22,6 +23,7 @@ function AddTemplate() {
     businessLinks: [],
   });
   const [wizard, setWizard] = useState({ open: false, data: [], card: "personal" });
+  const [isShowAssign, setIsShowAssign] = useState(false);
   // const [parentProfile] = useSelector(({ profilesReducer }) => profilesReducer?.dataProfiles?.data);
 
   const handleChange = (event) => {
@@ -34,7 +36,6 @@ function AddTemplate() {
     setWizard({ ...wizard, open: !wizard.open, card });
   };
 
-  console.log(values.personalLinks);
   return (
     <>
       <Header
@@ -84,6 +85,15 @@ function AddTemplate() {
         >
           Save Template
         </Button>
+        <Button
+          className={classes.assignButton}
+          variant='contained'
+          color='primary'
+          onClick={() => setIsShowAssign(true)}
+        >
+          Assign Template
+        </Button>
+        <AssignTemplate isShow={isShowAssign} handleClose={() => setIsShowAssign(false)} />
       </div>
     </>
   );
