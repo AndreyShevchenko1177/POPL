@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable no-lone-blocks */
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,7 +16,6 @@ import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
-import { uniqueObjectsInArray } from "../../utils";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -170,7 +170,13 @@ function Connections() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={profiles}
+            autoComleteData={profiles?.map((item) => ({
+              ...item,
+              isFull: connections?.reduce((s, c) => {
+                s[c.profileId] = Object.keys(c.names).length;
+                return s;
+              }, {})[item.id],
+            }))}
           />
         </div>
         {isLoading ? (

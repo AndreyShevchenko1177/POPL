@@ -30,6 +30,7 @@ function AutoComplete({
   };
 
   const selectItem = (event, selectedValue, item) => {
+    if (!item.isFull) return;
     startFilter(event, selectedValue);
     setValue(selectedValue);
     hideAutoComplete();
@@ -59,7 +60,9 @@ function AutoComplete({
       setActiveItem(activeItem - 1);
     }
     if (event.key === "Enter") {
+      if (!itemRef.current) return;
       const selectedItem = data.find((item) => item.name === itemRef.current.dataset.name);
+      if (!selectedItem.connections) return;
       selectItem(event, selectedItem.name, selectedItem);
     }
   };

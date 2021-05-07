@@ -15,7 +15,7 @@ import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
-import { filterPops, uniqueObjectsInArray } from "../../utils";
+import { filterPops } from "../../utils";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -196,7 +196,13 @@ function PoplsItem() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={profiles}
+            autoComleteData={profiles?.map((item) => ({
+              ...item,
+              isFull: popls?.reduce((s, c) => {
+                s[c.profileId] = 1;
+                return s;
+              }, {})[item.id],
+            }))}
           />
         </div>
         {isLoading ? (
