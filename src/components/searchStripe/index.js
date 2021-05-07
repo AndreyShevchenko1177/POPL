@@ -65,7 +65,7 @@ function SearchStripe({
           <div className={classes.buttonWrapper}>
             {autoComleteData && autoComleteData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.sortText}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{location.state?.profilesData?.name || location.state?.profilesData?.url || location.state?.name || location.state?.url}</i>
+                <i>{location.state?.profilesData?.name || location.state?.name}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,

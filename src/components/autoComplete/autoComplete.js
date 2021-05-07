@@ -16,7 +16,7 @@ function AutoComplete({
   const history = useHistory();
   const itemRef = useRef();
   const [value, setValue] = useState("");
-  const [activeItem, setActiveItem] = useState(-1);
+  const [activeItem, setActiveItem] = useState({ value: -1, event: "" });
   const [localData, setLocalData] = useState([]);
 
   const handleChange = (event) => {
@@ -51,15 +51,17 @@ function AutoComplete({
 
   const setSelectedItemByKey = (event) => {
     if (event.key === "ArrowDown") {
-      if (activeItem >= localData.length - 1) return setActiveItem(0);
-      setActiveItem(activeItem + 1);
+      if (activeItem.value >= localData.length - 1) return setActiveItem({ value: 0, event: "key" });
+      setActiveItem({ value: activeItem.value + 1, event: "key" });
     }
     if (event.key === "ArrowUp") {
-      if (activeItem <= 0) return setActiveItem(localData.length - 1);
-      setActiveItem(activeItem - 1);
+      if (activeItem.value <= 0) return setActiveItem({ value: localData.length - 1, event: "key" });
+      setActiveItem({ value: activeItem.value - 1, event: "key" });
     }
     if (event.key === "Enter") {
+      if (!itemRef.current) return;
       const selectedItem = data.find((item) => item.name === itemRef.current.dataset.name);
+      if (!selectedItem.connections) return;
       selectItem(event, selectedItem.name, selectedItem);
     }
   };
@@ -69,10 +71,11 @@ function AutoComplete({
   };
 
   const onMouseEvent = (event) => {
-    setActiveItem(event.target.dataset.key);
+    setActiveItem({ value: Number(event.target.dataset.key), event: "mouse" });
   };
 
   useEffect(() => {
+    if (activeItem.event === "mouse") return;
     itemRef.current?.scrollIntoView(false);
   }, [activeItem]);
 
@@ -105,8 +108,8 @@ function AutoComplete({
       />
       <div className={classes.listItemContainer}>
         {localData.length ? localData.map((item, key) => (
-          <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
-            <p data-key={key}>{item.name || item.url}</p>
+          <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
+            <p data-key={key}>{item.name}</p>
           </div>
         )) : <div className={classes.nothingFound}> Nothing found </div>}
       </div>

@@ -1,8 +1,29 @@
+import { Paper } from "@material-ui/core";
+import { useState } from "react";
 import Header from "../../components/Header";
 import useStyles from "./styles/styles";
+import TemplateItem from "./components/TemplateItem";
+import AssignTemplate from "../addTemplate/components/AssignTemplate";
+
+const linksConfig = [
+  {
+    id: 1,
+    name: "Template 1",
+  },
+  {
+    id: 2,
+    name: "Template 2",
+  },
+  {
+    id: 3,
+    name: "Template 3",
+  },
+];
 
 function MyTemplates() {
   const classes = useStyles();
+  const [isShowAssign, setIsShowAssign] = useState(false);
+
   return (
     <>
       <Header
@@ -11,7 +32,12 @@ function MyTemplates() {
         lastChild="My Templates"
       />
       <div className={classes.container}>
-        <h2 style={{ padding: "40px 40px" }}>Coming Soon</h2>
+        <Paper className={classes.templatesContainer}>
+          {linksConfig.map(({
+            id, name, path,
+          }) => <TemplateItem key={id} name={name} showAssign={() => setIsShowAssign(true)} />)}
+        </Paper>
+        <AssignTemplate isShow={isShowAssign} handleClose={() => setIsShowAssign(false)} />
       </div>
     </>
   );

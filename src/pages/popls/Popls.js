@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import { getPoplsAction } from "./store/actions";
 import PoplCard from "./components/poplCard";
@@ -15,7 +15,7 @@ import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
-import { filterPops, uniqueObjectsInArray } from "../../utils";
+import { filterPops } from "../../utils";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -166,7 +166,7 @@ function PoplsItem() {
     <>
       <Header
         rootLink="Popls"
-        firstChild={location.state?.profilesData?.name || location.state?.profilesData?.url}
+        firstChild={location.state?.profilesData?.name}
         path="/popls"
       />
       <div
@@ -196,12 +196,12 @@ function PoplsItem() {
               clearInput: clearFilterInput,
             }}
             filterConfig={filteringConfig}
-            autoComleteData={profiles}
+            autoComleteData={profiles.map((item) => (item.name ? item : ({ ...item, name: item.url })))}
           />
         </div>
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        ) : (
+        ) : dragablePopls.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
               {(provided) => (
@@ -243,7 +243,11 @@ function PoplsItem() {
               )}
             </Droppable>
           </DragDropContext>
-        )}
+        ) : <div style={{
+          height: "50vh", display: "flex", justifyContent: "center", alignItems: "center",
+        }}>
+          <Typography variant='h3'>No popls for this profile</Typography>
+        </div>}
       </div>
     </>
   );

@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    position: "relative",
   },
   tempNameInputWrapper: {
     width: 300,
@@ -115,5 +116,66 @@ export default makeStyles((theme) => ({
       overflow: "hidden",
       whiteSpace: "nowrap",
     },
+  },
+  assignButton: {
+    marginTop: 10,
+  },
+  assignPopup: {
+    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: 400,
+    height: 400,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    boxShadow: theme.custom.mainBoxShadow,
+    backgroundColor: "#ffffff",
+    zIndex: 1000,
+    // padding: 10,
+    borderRadius: theme.custom.mainBorderRadius,
+  },
+  assignCloseIcon: {
+    position: "absolute",
+    top: "-10px",
+    right: "-10px",
+    color: "#808080",
+    cursor: "pointer",
+    zIndex: 2000,
+  },
+  assignSearchInputWrapper: {
+    width: "100%",
+    padding: "10px 20px",
+  },
+  assignContent: {
+    width: "100%",
+    height: "100%",
+    overflowY: "auto",
+  },
+  assignProfileWrapper: {
+    padding: "10px 20px",
+    width: "100%",
+  },
+  assignProfileItem: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    padding: 10,
+  },
+  assignProfileImage: {
+    width: 70,
+    height: 40,
+    borderRadius: 7,
+    marginRight: 10,
+  },
+  assignNameItemName: {
+    fontWeight: "bold",
+  },
+  assignConfirmButton: {
+    margin: "15px auto",
+  },
+  assignCheckbox: {
+    marginLeft: "auto",
   },
 }));
