@@ -20,9 +20,15 @@ export default function NetworkActivity({
   const classes = useStyles();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
-  const dispatch = useDispatch();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.isFetching);
+  const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.views.data);
+  const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.views.isFetching);
+  const [kpisData, setKpisData] = useState({
+    linkTaps: 0,
+    views: 0,
+    ctr: 0,
+  });
 
   const handleClickLabel = (e, index) => {
     const ctx = chartRef.current.chartInstance;
@@ -114,6 +120,26 @@ export default function NetworkActivity({
     }
   }, [chartData]);
 
+  useEffect(() => {
+    if (linkTaps) {
+      let result = linkTaps?.filter((link) => {
+        const linkDate = moment(link.event_at).format("x");
+        return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
+      });
+      setKpisData({ ...kpisData, linkTaps: result.length });
+    }
+  }, [linkTaps]);
+
+  useEffect(() => {
+    if (views) {
+      let result = views?.filter((view) => {
+        const viewsDate = moment(view[2]).format("x");
+        return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
+      });
+      setKpisData({ ...kpisData, views: result.reduce((acc, value) => acc += +value[3], 0) });
+    }
+  }, [views]);
+
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
   return (
@@ -157,12 +183,22 @@ export default function NetworkActivity({
             }
 
             if (item.id === "linkTaps") {
-              let result = linkTaps?.filter((link) => {
-                const linkDate = moment(link.event_at).format("x");
-                return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
-              });
-              item.value = result?.length;
+              item.value = kpisData.linkTaps;
               isFetched = linkTapsFetching;
+            }
+
+            if (item.id === "views") {
+              let result = views?.filter((view) => {
+                const viewsDate = moment(view[2]).format("x");
+                return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
+              });
+              item.value = kpisData.views;
+              isFetched = viewsFetching;
+            }
+
+            if (item.id === "ctr") {
+              item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)} %` : "";
+              isFetched = linkTapsFetching || viewsFetching;
             }
 
             return <React.Fragment key={item.id}>
@@ -174,6 +210,7 @@ export default function NetworkActivity({
                   container: classes.bottomKpisItemContainer,
                   titleText: classes.bottomKpisTitleText,
                   itemValue: classes.bottomKpisItemValue,
+                  loaderStyles: { width: 25, height: 25 },
                 }}
               />
               <div className={classes.bottomKpisDivider}></div>

@@ -33,3 +33,14 @@ export const getLinkTaps = async (id) => {
     withCredentials: true,
   });
 };
+
+export const getViews = async (id) => {
+  const formdata = new FormData();
+  formdata.append("sAction", "GetViewsNew");
+  formdata.append("iID", id);
+  formdata.append("ajax", 1);
+
+  return axios.post("", formdata, {
+    withCredentials: true,
+  });
+};

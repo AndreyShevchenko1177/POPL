@@ -5,6 +5,7 @@ import {
   GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING,
   DASHBOARD_POPS_DATA, CLEAN,
   INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  GET_VIEWS,
   GET_LINK_TAPS,
 } from "../actionTypes";
 
@@ -20,6 +21,11 @@ const initialState = {
     isFetched: true,
   },
   linkTaps: {
+    data: null,
+    error: null,
+    isFetching: false,
+  },
+  views: {
     data: null,
     error: null,
     isFetching: false,
@@ -115,6 +121,16 @@ export default function realTimeAnalytics(
     return {
       ...state,
       linkTaps: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case GET_VIEWS: {
+    return {
+      ...state,
+      views: {
         data: payload,
         error: null,
         isFetching: false,

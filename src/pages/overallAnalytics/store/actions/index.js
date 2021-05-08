@@ -9,6 +9,7 @@ import {
   DASHBOARD_POPS_DATA,
   CLEAN_BY_NAME,
   GET_LINK_TAPS,
+  GET_VIEWS,
 } from "../actionTypes";
 
 import { removeCommas, getId, filterPops } from "../../../../utils";
@@ -179,6 +180,7 @@ export const getStatisticItem = (profiles, isSingle) => async (dispatch, getStat
   try {
     dispatch(cleanActionName("topStatisticsData"));
     dispatch(isFetchingAction(true, "linkTaps"));
+    dispatch(isFetchingAction(true, "views"));
     let result = {};
     // <================>
     // just for individual profile level
@@ -209,6 +211,7 @@ export const getStatisticItem = (profiles, isSingle) => async (dispatch, getStat
     }
 
     dispatch(getLinkTapsAction(profiles.map((el) => el.id)));
+    dispatch(getViewsByDate(profiles.map((el) => el.id)));
 
     result.totalProfiles = `${profiles.length}`;
     result.linkTaps = `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`;
@@ -247,7 +250,7 @@ export const individualPopsCountAction = (number) => ({
   payload: number,
 });
 
-export const getLinkTapsAction = (profileId) => async (dispatch, getState) => {
+export const getLinkTapsAction = (profileId) => async (dispatch) => {
   try {
     const linkTaps = await Promise.all(profileId.map((id) => requests.getLinkTaps(id)));
 
@@ -258,6 +261,20 @@ export const getLinkTapsAction = (profileId) => async (dispatch, getState) => {
   } catch (error) {
     console.log(error);
     dispatch(isFetchingAction(false, "linkTaps"));
+  }
+};
+
+export const getViewsByDate = (profileId) => async (dispatch) => {
+  try {
+    const views = await Promise.all(profileId.map((id) => requests.getViews(id)));
+
+    dispatch({
+      type: GET_VIEWS,
+      payload: views.reduce((acc, value) => ([...acc, ...value.data]), []),
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch(isFetchingAction(false, "views"));
   }
 };
 
