@@ -20,6 +20,11 @@ const selectConfig = [
     value: "lastSevenDays",
   },
   {
+    id: 4,
+    label: "week to date",
+    value: "weekToDate",
+  },
+  {
     id: 2,
     label: "month to date",
     value: "monthToDate",
@@ -28,11 +33,6 @@ const selectConfig = [
     id: 3,
     label: "last month",
     value: "lastMonth",
-  },
-  {
-    id: 4,
-    label: "week to date",
-    value: "weekToDate",
   },
 ];
 
