@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
   Button, Paper, TextField, Typography,
 } from "@material-ui/core";
@@ -12,7 +13,7 @@ import AssignTemplate from "./components/AssignTemplate";
 function AddTemplate() {
   const classes = useStyles();
   const [values, setValues] = useState({
-    tempName: "",
+    name: "",
     personalImage: null,
     personalName: "",
     personalBio: "",
@@ -24,17 +25,29 @@ function AddTemplate() {
   });
   const [wizard, setWizard] = useState({ open: false, data: [], card: "personal" });
   const [isShowAssign, setIsShowAssign] = useState(false);
-  // const [parentProfile] = useSelector(({ profilesReducer }) => profilesReducer?.dataProfiles?.data);
+  const location = useLocation();
 
   const handleChange = (event) => {
     event.persist();
     const { value, name } = event.target;
+    console.log(name, value);
     setValues({ ...values, [name]: value });
   };
 
   const openWizard = (card) => {
     setWizard({ ...wizard, open: !wizard.open, card });
   };
+
+  useEffect(() => {
+    if (location.state) {
+      let result = {};
+      Object.keys(values).forEach((key) => {
+        if (key in location.state) return result[key] = location.state[key];
+        result[key] = values[key];
+      });
+      setValues(result);
+    }
+  }, [location]);
 
   return (
     <>
@@ -54,7 +67,8 @@ function AddTemplate() {
           <TextField
             variant="outlined"
             placeholder='Template Name'
-            name={values.tempName}
+            name='name'
+            value={values.name}
             onChange={handleChange}
             size="small"
           />

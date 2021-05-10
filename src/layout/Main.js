@@ -50,7 +50,7 @@ export default function Main({ children, stripe }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isRestrictedMode, isHiderestrictedMode } = useSelector(({ systemReducer }) => systemReducer);
+  const { isRestrictedMode, isHiderestrictedMode, isMainPageScroll } = useSelector(({ systemReducer }) => systemReducer);
   const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
@@ -81,7 +81,7 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: isRestrictedMode && !isHiderestrictedMode ? "hidden" : "auto",
+          overflow: (isRestrictedMode && !isHiderestrictedMode) || !isMainPageScroll ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
         id='main'

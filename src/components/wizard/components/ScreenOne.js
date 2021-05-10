@@ -23,8 +23,8 @@ function ScreenOne({ data, onClick }) {
       ))} */}
       {Object.keys(iconsByCategories).map((cat, key) => (
         <div className={classes.linksSectionContainer} key={key}>
-          <div className={classes.categoryTitle} key={key}>
-            <Typography variant='subtitle2'>{cat}</Typography>
+          <div className={classes.categoryTitleWrapper} key={key}>
+            <Typography classes={{ subtitle2: classes.categoryTitle }} variant='subtitle2'>{cat}</Typography>
           </div>
           <div className={clsx(classes.categoryContainer, { [classes.categoryLastChild]: iconsByCategories[cat].length % (viewPortWidth < 1500 ? 3 : 8) === 1 })}>
             {iconsByCategories[cat].map(({ id }, key) => (
@@ -35,7 +35,7 @@ function ScreenOne({ data, onClick }) {
                   icon: icons[id], id,
                 })}
               >
-                <img style={{ width: "50px" }} src={icons[id].icon} alt={id} />
+                <img style={{ width: 40, height: 40 }} src={icons[id].icon} alt={id} />
                 {/* <Typography variant='h5'>{icons[id].text}</Typography> */}
               </div>
             ))}

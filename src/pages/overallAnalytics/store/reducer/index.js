@@ -5,8 +5,15 @@ import {
   GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING,
   DASHBOARD_POPS_DATA, CLEAN,
   INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
-  GET_VIEWS,
-  GET_LINK_TAPS,
+  GET_VIEWS_BOTTOM,
+  GET_LINK_TAPS_BOTTOM,
+  GET_LINKS_TOP,
+  GET_VIEWS_TOP,
+  POPS_COUNT_TOP,
+  TOTAL_POPLS,
+  TOP_VIEWED_PROFILES,
+  TOP_POPPED_POPLS,
+
 } from "../actionTypes";
 
 const initialState = {
@@ -20,15 +27,45 @@ const initialState = {
     error: null,
     isFetched: true,
   },
-  linkTaps: {
+  linkTapsTop: {
     data: null,
     error: null,
-    isFetching: false,
+    isFetching: true,
   },
-  views: {
+  totalPopls: {
     data: null,
     error: null,
-    isFetching: false,
+    isFetching: true,
+  },
+  popsCountTop: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  viewsTop: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  topPoppedPopls: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  linkTapsBottom: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  topViewedProfiles: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  viewsBottom: {
+    data: null,
+    error: null,
+    isFetching: true,
   },
   isFetching: false,
 };
@@ -103,7 +140,7 @@ export default function realTimeAnalytics(
     };
   }
   case IS_DATA_FETCHING: {
-    if (payload.name) {
+    if (payload.name && typeof payload.name !== "object") {
       return {
         ...state,
         [payload.name]: {
@@ -112,25 +149,99 @@ export default function realTimeAnalytics(
         },
       };
     }
+    if (payload.name && typeof payload.name === "object") {
+      const newState = { ...state };
+      Object.keys(state).forEach((key) => {
+        payload.name.forEach((name) => {
+          if (name === key) {
+            newState[name] = {
+              ...state[newState.name],
+              isFetching: payload.isFetching,
+            };
+          }
+        });
+      });
+      return newState;
+    }
     return {
       ...state,
       isFetching: payload,
     };
   }
-  case GET_LINK_TAPS: {
+  case GET_LINK_TAPS_BOTTOM: {
     return {
       ...state,
-      linkTaps: {
+      linkTapsBottom: {
         data: payload,
         error: null,
         isFetching: false,
       },
     };
   }
-  case GET_VIEWS: {
+  case GET_VIEWS_BOTTOM: {
     return {
       ...state,
-      views: {
+      viewsBottom: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case GET_LINKS_TOP: {
+    return {
+      ...state,
+      linkTapsTop: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case GET_VIEWS_TOP: {
+    return {
+      ...state,
+      viewsTop: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case POPS_COUNT_TOP: {
+    return {
+      ...state,
+      popsCountTop: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case TOP_POPPED_POPLS: {
+    return {
+      ...state,
+      topPoppedPopls: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case TOTAL_POPLS: {
+    return {
+      ...state,
+      totalPopls: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case TOP_VIEWED_PROFILES: {
+    return {
+      ...state,
+      topViewedProfiles: {
         data: payload,
         error: null,
         isFetching: false,

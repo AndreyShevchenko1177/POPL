@@ -9,6 +9,7 @@ import {
   HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
   UPDATE_SIDE_BAR_DATA_STATUS,
+  HANDLE_MAIN_PAGE_SCROLL,
 } from "../actionTypes";
 
 const initialState = {
@@ -35,6 +36,7 @@ const initialState = {
   isRestrictedMode: false,
   isHiderestrictedMode: false,
   isFetching: false,
+  isMainPageScroll: true,
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -120,6 +122,13 @@ export default function systemReducer(state = initialState, { type, payload }) {
         ...state.profileInfoSideBar,
         isFetching: true,
       },
+    };
+  }
+  case HANDLE_MAIN_PAGE_SCROLL: {
+    console.log(payload);
+    return {
+      ...state,
+      isMainPageScroll: payload,
     };
   }
   default:

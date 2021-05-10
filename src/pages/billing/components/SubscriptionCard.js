@@ -4,12 +4,14 @@ import useStyles from "./styles";
 import SubscribeButton from "./SubscribeButton";
 
 function SubscriptionCard({
-  title, price, priceId, stripe, profilesNumber, quantity, unitsRange, subscriptionId,
+  title, price, priceId, stripe, profilesNumber, quantity, unitsRange, subscriptionId, currentPlan,
 }) {
   const classes = useStyles();
+  console.log(currentPlan);
 
   return (
     <div className={classes.container}>
+      {currentPlan && <div className={classes.currentPlan}>Current Plan</div>}
       <Typography className={classes.title} variant='body2'>{title}</Typography>
       <div className={classes.priceDescriptionContainer}>
         <Typography variant='body2'>{profilesNumber} Profiles</Typography>

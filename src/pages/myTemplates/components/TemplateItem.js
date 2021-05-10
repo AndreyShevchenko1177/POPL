@@ -19,16 +19,17 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingLeft: "16px",
   },
-  button: {
-    marginLeft: "auto",
+  buttonViewTempl: {
+    margin: "0 10px 0 auto",
   },
 }));
 
 function LinkItem({
-  name, showAssign,
+  id, name, showAssign,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <div
@@ -41,12 +42,19 @@ function LinkItem({
         {name}
       </Typography>
       <Button
-        className={classes.button}
+        className={classes.buttonViewTempl}
+        variant='contained'
+        color='primary'
+        onClick={() => history.push("/templates/add-template", { id, name })}
+      >
+        View Template
+      </Button>
+      <Button
         variant='contained'
         color='primary'
         onClick={showAssign}
       >
-      Assign Template
+        Assign Template
       </Button>
     </div>
   );

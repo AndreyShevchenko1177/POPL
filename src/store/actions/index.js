@@ -11,6 +11,7 @@ import {
   HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
   UPDATE_SIDE_BAR_DATA_STATUS,
+  HANDLE_MAIN_PAGE_SCROLL,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -150,4 +151,9 @@ export const fetchingAction = (isFetching) => ({
 
 export const hideRestrictedModeAction = () => ({
   type: HIDE_RESTRICTED_MODE,
+});
+
+export const handleMainPageScrollAction = (isScroll) => (dispatch) => dispatch({
+  type: HANDLE_MAIN_PAGE_SCROLL,
+  payload: isScroll,
 });

@@ -19,6 +19,8 @@ function TopStatistics(props) {
     });
   }, [props]);
 
+  console.log(data);
+
   return (
 
     <div className={classes.topStatisticsContainer}>
@@ -30,7 +32,7 @@ function TopStatistics(props) {
           <React.Fragment key={item.id}>
             <StatisticItem
               count={props.popsCount}
-              isFetched={props.isFetched}
+              isFetched={props.isFetched[item.id]}
               {...item}
             />
             <div className={classes.topStatisticsItemsDivider}></div>

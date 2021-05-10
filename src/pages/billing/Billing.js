@@ -16,31 +16,31 @@ export const subscriptionConfig = [
     price: "50",
     unitsRange: [1, 5],
     profilesNumber: "1-5",
-    priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
+    priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
   },
   {
     id: 2,
     title: "Growth",
-    price: "100",
+    price: "150",
     unitsRange: [6, 20],
     profilesNumber: "6-20",
-    priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
+    priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
   },
   {
     id: 3,
     title: "Scale",
-    price: "300",
+    price: "500",
     unitsRange: [21, 50],
     profilesNumber: "21-50",
-    priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
+    priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
   },
   {
     id: 4,
     title: "Enterprise",
-    price: "500",
+    price: "1000",
     unitsRange: [51, 100],
-    priceId: "price_1IaoWqJqkGKmOFO6aBcx3yWz",
-    profilesNumber: "21-100",
+    priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
+    profilesNumber: "51-100",
   },
 ];
 
@@ -48,6 +48,7 @@ function Billing() {
   const classes = useStyles();
   const [quantity, setQuantity] = useState(null);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
     profileIdsRequest(userId)
@@ -81,6 +82,7 @@ function Billing() {
                   quantity={quantity}
                   unitsRange={unitsRange}
                   subscriptionId={id}
+                  currentPlan={dashboardPlan == id}
                 />
               </div>
             ))}

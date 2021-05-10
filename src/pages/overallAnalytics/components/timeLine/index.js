@@ -20,10 +20,10 @@ export default function NetworkActivity({
   const classes = useStyles();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
-  const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.data);
-  const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTaps.isFetching);
-  const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.views.data);
-  const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.views.isFetching);
+  const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
+  const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
+  const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
+  const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
     views: 0,
@@ -136,7 +136,7 @@ export default function NetworkActivity({
         const viewsDate = moment(view[2]).format("x");
         return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
       });
-      setKpisData({ ...kpisData, views: result.reduce((acc, value) => acc += +value[3], 0) });
+      setKpisData({ ...kpisData, views: result.length });
     }
   }, [views]);
 
@@ -188,10 +188,6 @@ export default function NetworkActivity({
             }
 
             if (item.id === "views") {
-              let result = views?.filter((view) => {
-                const viewsDate = moment(view[2]).format("x");
-                return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
-              });
               item.value = kpisData.views;
               isFetched = viewsFetching;
             }
