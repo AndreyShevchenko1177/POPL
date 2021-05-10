@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import clsx from "clsx";
 import {
-  getProfilesDataAction, setDirectAction, setProfileStatusAction, turnProfileAction, changeProfileOrder, clearStateAction,
+  setDirectAction, setProfileStatusAction, turnProfileAction, changeProfileOrder,
 } from "./store/actions";
 import Header from "../../components/Header";
 import ProfileCard from "./components/profileCard";
@@ -16,7 +16,7 @@ import Loader from "../../components/Loader";
 import { selectConfig, sortConfig } from "./selectConfig";
 import CustomWizard from "../../components/wizard";
 import EditLinkModal from "./components/editLink";
-import { snackBarAction } from "../../store/actions";
+import { snackBarAction, handleMainPageScrollAction } from "../../store/actions";
 import { isSafari } from "../../constants";
 
 const parentContainerStyle = {
@@ -234,6 +234,12 @@ export default function Profiles() {
       setMainCheck(false);
     }
   }, [checkboxes]);
+
+  useEffect(() => {
+    console.log("useeffect");
+    if (wizard.open) return dispatch(handleMainPageScrollAction(false));
+    dispatch(handleMainPageScrollAction(true));
+  }, [wizard]);
 
   return (
     <>

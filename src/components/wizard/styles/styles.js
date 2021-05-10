@@ -19,20 +19,23 @@ export default makeStyles((theme) => ({
   },
   wizardContainer: {
     position: "absolute",
-    top: "120px",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     // minWidth: 400,
     // maxWidth: 1138,
-    minHeight: 600,
-    width: 900,
+    minHeight: 500,
+    width: 800,
     // left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
-    padding: "15px",
+    padding: "15px 15px 25px 15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     zIndex: 50,
     outline: "none",
-    "@media (min-width:1515px)": {
-      left: "calc(50% - 570px)",
+    "@media (max-height:760px)": {
+      marginTop: 50,
+      // left: "calc(50% - 570px)",
       // left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
     },
   },
@@ -111,8 +114,8 @@ export default makeStyles((theme) => ({
     padding: "10px 10px",
     margin: "10px 10px",
     backgroundColor: "rgb(170 170 170 / 50%)",
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     boxShadow: theme.custom.iconBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
     textAlign: "center",
@@ -168,11 +171,11 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   categoryContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(12, 1fr)",
-    "@media (max-width:1400px)": {
-      gridTemplateColumns: "repeat(12, 1fr)",
-    },
+    display: "flex",
+    // gridTemplateColumns: "repeat(12, 1fr)",
+    // "@media (max-width:1400px)": {
+    //   gridTemplateColumns: "repeat(12, 1fr)",
+    // },
   },
   categoryLastChild: {
     // "& > div:last-child": {
@@ -183,10 +186,12 @@ export default makeStyles((theme) => ({
     // },
 
   },
-  categoryTitle: {
+  categoryTitleWrapper: {
     textAlign: "center",
-    marginTop: 30,
-    alignSelf: "flex-start",
+    marginTop: 10,
     paddingLeft: "26px",
+  },
+  categoryTitle: {
+    fontSize: 20,
   },
 }));
