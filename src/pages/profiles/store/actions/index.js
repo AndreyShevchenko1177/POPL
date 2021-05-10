@@ -112,7 +112,7 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
 
 export const setDirectAction = (profileIds, state, isSingle) => async (dispatch) => {
   try {
-    if (!isSingle) dispatch(isFetchingAction(true));
+    if (isSingle) dispatch(isFetchingAction(true, "setProfilesSettings"));
     const result = await Promise.allSettled(profileIds.map((el) => requests.directRequest(el, state)));
     dispatch({
       type: SET_DIRECT_ON_OFF_SUCCESS,
@@ -132,7 +132,7 @@ export const setDirectAction = (profileIds, state, isSingle) => async (dispatch)
 
 export const turnProfileAction = (profileIds, state) => async (dispatch, getState) => {
   try {
-    dispatch(isFetchingAction(true));
+    dispatch(isFetchingAction(true, "setProfilesSettings"));
     const result = await Promise.allSettled(profileIds.map((el) => requests.turnProfileRequest(el, state)));
     dispatch({
       type: TURN_PROFILE_ON_OFF_SUCCESS,
@@ -154,7 +154,7 @@ export const turnProfileAction = (profileIds, state) => async (dispatch, getStat
 
 export const setProfileStatusAction = (profileIds, state, isSingle) => async (dispatch, getState) => {
   try {
-    if (!isSingle) dispatch(isFetchingAction(true));
+    if (isSingle) dispatch(isFetchingAction(true, "setProfilesSettings"));
     const result = await Promise.allSettled(profileIds.map((el) => requests.statusRequest(el, state)));
     dispatch({
       type: SET_PROFILE_STATUS_SUCCESS,

@@ -26,6 +26,7 @@ function ProfilePanel({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const isFetching = useSelector(({ profilesReducer }) => profilesReducer.setProfilesSettings.isFetching);
   const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
   return (
     <Grid container spacing={1}>
@@ -34,19 +35,21 @@ function ProfilePanel({
           <div className="full-w">
             <FormGroup onClick={handleClickPoplItem}>
               <div className={classes.switcherContainer}>
-                <CustomSwitch
+                {<CustomSwitch
                   checked={personalMode.direct}
-                  onClick={(event) => handleSwitchChanger(event, "dir2")}
+                  onClick={(event) => !isFetching && handleSwitchChanger(event, "dir2")}
                   after='Personal'
                   before='Business'
-                />
+                  disabled={isFetching}
+                />}
               </div>
               <div className={classes.switcherContainer}>
                 <CustomSwitch
                   checked={directOn.direct}
-                  onClick={(event) => handleSwitchChanger(event, "dir1")}
+                  onClick={(event) => !isFetching && handleSwitchChanger(event, "dir1")}
                   after='Direct Off'
                   before='Direct On'
+                  disabled={isFetching}
                 />
               </div>
             </FormGroup>

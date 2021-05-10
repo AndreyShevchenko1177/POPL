@@ -46,6 +46,9 @@ const initialState = {
     error: null,
     isFetching: false,
   },
+  setProfilesSettings: {
+    isFetching: false,
+  },
   isFetching: false,
 };
 
@@ -136,6 +139,9 @@ export default function profilesReducer(
           return transformedProfile;
         }),
       },
+      setProfilesSettings: {
+        isFetching: false,
+      },
       isFetching: false,
     };
   }
@@ -154,6 +160,9 @@ export default function profilesReducer(
           return transformedProfile;
         }),
       },
+      setProfilesSettings: {
+        isFetching: false,
+      },
       isFetching: false,
     };
   }
@@ -171,6 +180,9 @@ export default function profilesReducer(
           });
           return transformedProfile;
         }),
+      },
+      setProfilesSettings: {
+        isFetching: false,
       },
       isFetching: false,
     };

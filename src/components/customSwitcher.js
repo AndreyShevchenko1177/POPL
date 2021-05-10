@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, makeStyles } from "@material-ui/core";
 
-const useStyles = (after, before, input) => makeStyles((theme) => ({
+const useStyles = (after, before, input, disabled) => makeStyles((theme) => ({
   root: {
     width: "100%",
     height: 28,
@@ -18,7 +18,7 @@ const useStyles = (after, before, input) => makeStyles((theme) => ({
     backgroundColor: "#fff",
   },
   track: {
-    background: "#646464",
+    background: disabled ? "#3b3b3b" : "#646464",
     opacity: "1 !important",
     borderRadius: theme.custom.mainBorderRadius,
     position: "relative",
@@ -59,7 +59,7 @@ const useStyles = (after, before, input) => makeStyles((theme) => ({
       backgroundColor: "#646464",
     },
     "& + $track": {
-      backgroundColor: "#ffffff !important",
+      backgroundColor: disabled ? "#3b3b3b !important" : "#ffffff !important",
       "&:before": {
         opacity: 1,
       },
@@ -85,9 +85,9 @@ const inputStyles = [
 ];
 
 const CustomSwitch = ({
-  onClick, checked, after, before,
+  onClick, checked, after, before, disabled,
 }) => {
-  const switchStyles = useStyles(after, before, inputStyles[Number(!checked)])();
+  const switchStyles = useStyles(after, before, inputStyles[Number(!checked)], disabled)();
 
   return (
     <div className='full-w'>

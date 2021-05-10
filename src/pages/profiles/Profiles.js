@@ -325,6 +325,7 @@ export default function Profiles() {
                                 profilesCheck={profilesCheck}
                                 checkboxes={checkboxes}
                                 setProfileType={setProfileType}
+                                isFetching={isLoading}
                               />
                             </div>
                           )}

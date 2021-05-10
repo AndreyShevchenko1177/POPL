@@ -44,6 +44,7 @@ export default function Card({
   showEditModal,
   setProfileType,
   showAddLinkWiz,
+  isFetching,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -355,6 +356,7 @@ export default function Card({
               directOn={directOn}
               personalMode={personalMode}
               section2={classes.section2}
+              isFetching={isFetching}
             />
           </div>
         </div>
