@@ -29,7 +29,7 @@ function PoplsItem() {
   const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
   const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
-  const [dragablePopls, setPopls] = useState([]);
+  const [dragablePopls, setPopls] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
@@ -171,7 +171,7 @@ function PoplsItem() {
       />
       <div
         className={`${
-          dragablePopls.length ? "relative" : ""
+          dragablePopls?.length ? "relative" : ""
         } main-padding popls-page-container`}
       >
         <div className="popls-header-container">
@@ -201,7 +201,7 @@ function PoplsItem() {
         </div>
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        ) : dragablePopls.length ? (
+        ) : dragablePopls?.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="list">
               {(provided) => (
@@ -243,7 +243,7 @@ function PoplsItem() {
               )}
             </Droppable>
           </DragDropContext>
-        ) : <div style={{
+        ) : dragablePopls && <div style={{
           height: "50vh", display: "flex", justifyContent: "center", alignItems: "center",
         }}>
           <Typography variant='h3'>No popls for this profile</Typography>

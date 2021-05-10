@@ -28,7 +28,7 @@ function Connections() {
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  const [dragableConnections, setConnections] = useState([]);
+  const [dragableConnections, setConnections] = useState(null);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
     offset: 0,
@@ -120,7 +120,7 @@ function Connections() {
   }, []);
 
   useEffect(() => {
-    if (!connections) return setConnections([]);
+    if (!connections) return;
     if (location.state?.id) {
       return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name).toLowerCase())).includes(true)).slice(0, 19));
     }
@@ -142,7 +142,7 @@ function Connections() {
       />
       <div
         className={`${
-          dragableConnections.length ? "relative" : ""
+          dragableConnections?.length ? "relative" : ""
         } main-padding ${classes.connectionsPageContainer}`}
         onScroll={(event) => {
           if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 150 + needHeight.height) {
@@ -175,7 +175,7 @@ function Connections() {
         </div>
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        ) : dragableConnections.length ? (
+        ) : dragableConnections?.length ? (
           <DragDropContext onDragEnd={handleOnDragEnd} >
             <Droppable droppableId="droppable">
               {(provided) => (
@@ -219,7 +219,7 @@ function Connections() {
               )}
             </Droppable>
           </DragDropContext>
-        ) : <div style={{
+        ) : dragableConnections && <div style={{
           height: "50vh", display: "flex", justifyContent: "center", alignItems: "center",
         }}>
           <Typography variant='h3'>No connections for this profile</Typography>
