@@ -1,10 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import ListIcon from "@material-ui/icons/List";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
 import useStyle from "./styles/styles";
 import ChoiceCard from "./components/AddProfileCard";
 import Header from "../../components/Header";
+import addLinkIcon from "../../assets/add.png";
 
 function ChoicePage() {
   const classes = useStyle();
@@ -34,7 +34,7 @@ function ChoicePage() {
             </div>
             <div onClick={() => history.push("/profiles/add-profile/new")}>
               <ChoiceCard
-                Icon={() => <FlashOnIcon fontSize='large'/>}
+                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Profile'
                 description='create new popl profiles to add'
               />

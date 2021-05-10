@@ -56,4 +56,8 @@ export default makeStyles((theme) => ({
     fontSize: 16,
     fontWeight: 400,
   },
+  addLink: {
+    width: 35,
+    height: 35,
+  },
 }));

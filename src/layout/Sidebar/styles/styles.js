@@ -49,7 +49,7 @@ export default makeStyles((theme) => ({
   ulMenu: { paddingTop: "0px" },
   ulList: {
     paddingLeft: "45px",
-    height: "55px",
+    height: "45px",
     background: "transparent",
     borderLeft: "3px solid transparent",
     color: "#f9f9f9",
@@ -90,7 +90,7 @@ export default makeStyles((theme) => ({
   },
   listText: {
     fontSize: "14px",
-    letterSpacing: "1.5px",
+    letterSpacing: "1px",
     color: "#000000",
   },
   listTextNested: {

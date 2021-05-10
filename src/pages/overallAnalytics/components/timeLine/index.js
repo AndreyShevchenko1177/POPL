@@ -156,7 +156,7 @@ export default function NetworkActivity({
       </div>
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
-          <div style={{ height: "100%" }} id='lineChart' ></div>
+          <div id='lineChart' ></div>
           {chartData === undefined
             ? <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
