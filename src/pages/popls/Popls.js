@@ -16,6 +16,7 @@ import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 import { filterPops } from "../../utils";
+import { updatePopl } from "./store/actions/requests";
 
 function PoplsItem() {
   const dispatch = useDispatch();

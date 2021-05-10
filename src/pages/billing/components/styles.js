@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     padding: "40px 40px",
@@ -46,10 +47,26 @@ export default makeStyles((theme) => ({
     height: 50,
     backgroundColor: "#1791f4",
     borderRadius: 4,
-    fontSize: "17px",
+    fontSize: "16px",
+    fontWeight: "bold",
     color: "#ffffff",
     "&:hover": {
       backgroundColor: "#1791f4",
     },
+  },
+  currentPlan: {
+    position: "absolute",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#ffffff",
+    width: 110,
+    height: 28,
+    fontWeight: "bold",
+    backgroundColor: "#1791f4",
+    borderRadius: 5,
+    top: "-5px",
+    left: "50%",
+    transform: "translateX(-50%)",
   },
 }));
