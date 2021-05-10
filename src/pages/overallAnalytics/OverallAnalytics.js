@@ -5,10 +5,10 @@ import moment from "moment";
 import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
-  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest, getLinkTapsAction,
+  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, dateFormat,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -23,6 +23,11 @@ function OverallAnalytics() {
   const popsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
+  const {
+    popsCountTop, totalPopls, topViewedProfiles, linkTapsTop, viewsTop,
+  } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
+  const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const topStatisticsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
   );
@@ -32,6 +37,7 @@ function OverallAnalytics() {
     dohnutPopsData: null,
 
   });
+
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
@@ -173,19 +179,21 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    if (location.state?.poplName) {
-      setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
-      dispatch(getPopsAction(null, location.state?.poplName));
-    } else if (location.state?.id) {
-      setWidgetLayerString({ layer: "Profile", name: location.state.name });
-      dispatch(getStatisticItem([location.state], "single"));
-      dispatch(getPopsAction(location.state?.id));
-    } else {
-      setWidgetLayerString({ layer: "Total", name: "Total" });
-      dispatch(getStatisticItemsRequest(userId));
-      dispatch(getPopsAction(location.state?.id));
+    if (profilesData) {
+      if (location.state?.poplName) {
+        setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
+        dispatch(getPopsAction(null, location.state?.poplName));
+      } else if (location.state?.id) {
+        setWidgetLayerString({ layer: "Profile", name: location.state.name });
+        dispatch(getStatisticItem([location.state], "single"));
+        dispatch(getPopsAction(location.state?.id));
+      } else {
+        setWidgetLayerString({ layer: "Total", name: "Total" });
+        dispatch(getStatisticItemsRequest(userId));
+        dispatch(getPopsAction(location.state?.id));
+      }
     }
-  }, [location]);
+  }, [location, profilesData]);
 
   useEffect(() => () => {
     dispatch(cleanAction());
@@ -212,15 +220,22 @@ function OverallAnalytics() {
       />
       <div className={classes.overallAnalyticsContainer}>
         <TopStatistics
-          popsCount={topStatisticsData.data?.popsCount}
-          linkTaps={topStatisticsData.data?.linkTaps}
-          totalProfiles={topStatisticsData.data?.totalProfiles}
-          ctr={topStatisticsData.data?.linkTaps && topStatisticsData.data?.views
-            ? `${((topStatisticsData.data?.linkTaps / topStatisticsData.data?.views) * 100).toFixed(1)} %`
+          popsCount={popsCountTop.data?.length}
+          linkTaps={linkTapsTop.data}
+          totalProfiles={profilesData?.length}
+          ctr={linkTapsTop.data && viewsTop.data
+            ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)} %`
             : ""}
-          totalPopls={topStatisticsData.data?.totalPopls}
-          views={topStatisticsData.data?.views}
-          isFetched={topStatisticsData.isFetched}
+          totalPopls={totalPopls.data?.length}
+          views={viewsTop.data}
+          isFetched={{
+            linkTaps: linkTapsTop.isFetching,
+            views: viewsTop.isFetching,
+            popsCount: popsCountTop.isFetching,
+            totalProfiles: profilesFetching,
+            totalPopls: totalPopls.isFetching,
+            ctr: linkTapsTop.isFetching || viewsTop.isFetching,
+          }}
         />
         <NetworkActivity
           data={chartData?.lineData}
@@ -232,11 +247,11 @@ function OverallAnalytics() {
         />
       </div>
       <BottomWidgets
-        topPopped={topStatisticsData.data?.topPoppedPopls}
+        totalPopls={totalPopls.data}
+        totalPops={popsCountTop.data}
         userId={userId}
         widgetLayerString={widgetLayerString}
-        views={topStatisticsData.data?.topViewedProfiles}
-        popsData={chartData?.lineData}
+        views={topViewedProfiles.data}
         dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData }}
       />
     </>

@@ -13,9 +13,10 @@ import labels, {
 } from "./chartConfig";
 import icons from "../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLoadAction";
+import { filterPops } from "../../../../utils";
 
 function BottomWidgets({
-  views, userId, popsData, topPopped, dohnutData, widgetLayerString,
+  views, userId, dohnutData, widgetLayerString, totalPopls, totalPops,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -33,6 +34,31 @@ function BottomWidgets({
     if (linkId !== 37) return;
     downLoadFile(path, value);
   };
+
+  useEffect(() => {
+    if (totalPopls && totalPops) {
+      const topPoppedPopls = {};
+      totalPopls
+        // .reduce((acc, popls) => [...acc, ...popls.data], [])
+        .forEach((popl) => topPoppedPopls[popl.name] = []);
+
+      totalPops
+        // .reduce((acc, pops) => [...acc, ...pops.data], [])
+        .forEach((pop) => {
+          const name = filterPops.slicePoplNameFromPop(pop[1]);
+          if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+        });
+      const sortedPoppedPopls = Object.keys(topPoppedPopls)
+        .map((key) => ({ [key]: topPoppedPopls[key] }))
+        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
+
+      const result = [];
+      sortedPoppedPopls.forEach((item) => {
+        result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
+      });
+      setTopPoppedPopls(result);
+    }
+  }, [totalPopls, totalPops]);
 
   useEffect(() => {
     if (views) {
@@ -87,16 +113,6 @@ function BottomWidgets({
       setLinkTapsData(null);
     }
   }, [views, profilesData]);
-
-  useEffect(() => {
-    if (topPopped) {
-      const result = [];
-      topPopped.forEach((item) => {
-        result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
-      });
-      setTopPoppedPopls(result);
-    }
-  }, [topPopped]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;
