@@ -33,9 +33,7 @@ function MyTemplates() {
       />
       <div className={classes.container}>
         <Paper className={classes.templatesContainer}>
-          {linksConfig.map(({
-            id, name, path,
-          }) => <TemplateItem key={id} name={name} showAssign={() => setIsShowAssign(true)} />)}
+          {linksConfig.map((template) => <TemplateItem key={template.id} {...template} showAssign={() => setIsShowAssign(true)} />)}
         </Paper>
         <AssignTemplate isShow={isShowAssign} handleClose={() => setIsShowAssign(false)} />
       </div>

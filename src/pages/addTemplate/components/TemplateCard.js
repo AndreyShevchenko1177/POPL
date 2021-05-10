@@ -22,7 +22,7 @@ function TemplateCard({
         <TextField
           variant="outlined"
           placeholder='Enter your Name'
-          name={cardTitle.toLowerCase()}
+          name={`${cardTitle.toLowerCase()}Name`}
           value={values[`${cardTitle.toLowerCase()}Name`]}
           onChange={handleChange}
           size="small"
@@ -32,9 +32,9 @@ function TemplateCard({
         <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Bio</Typography>
         <TextField
           variant="outlined"
-          placeholder='Enter your Name'
-          name={cardTitle.toLowerCase()}
-          value={values[`${cardTitle.toLowerCase()}Name`]}
+          placeholder='Enter your Bio'
+          name={`${cardTitle.toLowerCase()}Bio`}
+          value={values[`${cardTitle.toLowerCase()}Bio`]}
           onChange={handleChange}
           size="small"
         />
