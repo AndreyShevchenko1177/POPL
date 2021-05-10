@@ -374,7 +374,7 @@ function PermanentDrawerLeft() {
                 [classes.ulListHighLight]: highlight.profileInfo,
               })}
               onClick={() => highlightList("profileInfo")}
-              style={{ paddingLeft: 33 }}
+              style={{ paddingLeft: 15, marginTop: 10 }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{

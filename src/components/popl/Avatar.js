@@ -44,7 +44,7 @@ export default function Avatar({
             style={imageStyles}
           />
           : <div style={imageStyles}>
-            <SvgMaker name={src.name} fill={src.fill} width={src.width} height={src.height} />
+            {!bgColor && <SvgMaker name={src.name} fill={src.fill} width={src.width} height={src.height} />}
           </div>
       }
       {bgColor && <div style={backgroundStyles}></div>}

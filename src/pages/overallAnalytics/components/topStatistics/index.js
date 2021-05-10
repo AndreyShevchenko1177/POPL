@@ -19,8 +19,6 @@ function TopStatistics(props) {
     });
   }, [props]);
 
-  console.log(data);
-
   return (
 
     <div className={classes.topStatisticsContainer}>
@@ -35,7 +33,7 @@ function TopStatistics(props) {
               isFetched={props.isFetched[item.id]}
               {...item}
             />
-            <div className={classes.topStatisticsItemsDivider}></div>
+            {/* <div className={classes.topStatisticsItemsDivider}></div> */}
           </React.Fragment>
         ))}
       </Paper>

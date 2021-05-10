@@ -193,7 +193,7 @@ export default function NetworkActivity({
             }
 
             if (item.id === "ctr") {
-              item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)} %` : "";
+              item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
               isFetched = linkTapsFetching || viewsFetching;
             }
 
@@ -207,9 +207,10 @@ export default function NetworkActivity({
                   titleText: classes.bottomKpisTitleText,
                   itemValue: classes.bottomKpisItemValue,
                   loaderStyles: { width: 25, height: 25 },
+                  percentageFontSize: 20,
                 }}
               />
-              <div className={classes.bottomKpisDivider}></div>
+              {/* <div className={classes.bottomKpisDivider}></div> */}
             </React.Fragment>;
           })}
         </div>

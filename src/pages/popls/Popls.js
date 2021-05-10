@@ -16,7 +16,6 @@ import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 import { filterPops } from "../../utils";
-import { updatePopl } from "./store/actions/requests";
 
 function PoplsItem() {
   const dispatch = useDispatch();
@@ -161,6 +160,7 @@ function PoplsItem() {
         .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+    console.log(popls[1]);
   }, [popls, pops, location]);
 
   return (

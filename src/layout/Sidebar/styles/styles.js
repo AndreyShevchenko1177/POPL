@@ -48,8 +48,8 @@ export default makeStyles((theme) => ({
   },
   ulMenu: { paddingTop: "0px" },
   ulList: {
-    paddingLeft: "45px",
-    height: "45px",
+    paddingLeft: "28px",
+    height: "30px",
     background: "transparent",
     borderLeft: "3px solid transparent",
     color: "#f9f9f9",
@@ -113,8 +113,8 @@ export default makeStyles((theme) => ({
     height: "130px",
     bottom: "50px",
     width: "100%",
-    padding: "20px 20px 0 45px",
-    "@media (max-height:800px)": {
+    padding: "20px 20px 0 25px",
+    "@media (max-height:550px)": {
       paddingTop: "5px",
       position: "static",
     },

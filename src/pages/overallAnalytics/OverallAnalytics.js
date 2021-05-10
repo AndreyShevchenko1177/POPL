@@ -224,7 +224,7 @@ function OverallAnalytics() {
           linkTaps={linkTapsTop.data}
           totalProfiles={profilesData?.length}
           ctr={linkTapsTop.data && viewsTop.data
-            ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)} %`
+            ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)}`
             : ""}
           totalPopls={totalPopls.data?.length}
           views={viewsTop.data}

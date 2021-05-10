@@ -28,7 +28,7 @@ function StatisticItem({
             {value
               ? title !== "CTR"
                 ? addCommas(String(value))
-                : value
+                : <div><span>{value}</span><span style={{ fontSize: styles?.percentageFontSize || 30 }}>%</span></div>
               : "-"}
           </div>
         </div>
