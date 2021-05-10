@@ -14,6 +14,5 @@ firebase.initializeApp(config);
 firebase.firestore().enablePersistence();
 // firebase.auth().signInAnonymously();
 export const db = firebase.firestore();
-console.log("firebase");
 
 export default firebase;

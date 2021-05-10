@@ -49,8 +49,6 @@ function AddTemplate() {
     }
   }, [location]);
 
-  console.log(location.state, values);
-
   return (
     <>
       <Header
