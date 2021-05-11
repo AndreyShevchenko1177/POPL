@@ -12,6 +12,10 @@ import {
   PROFILE_INFO_FOR_MAIN_PAGE,
   UPDATE_SIDE_BAR_DATA_STATUS,
   HANDLE_MAIN_PAGE_SCROLL,
+  PROFILES_INFO_SIDEBAR,
+  POPLS_INFO_SIDEBAR,
+  CONNECTIONS_INFO_SIDEBAR,
+  LATEST_CONNECTIONS,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
@@ -21,6 +25,10 @@ import {
   uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
 } from "../../utils";
 
+// saving popls in popls reducer
+import { GET_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
+
+// saving profiles in profiles reducer
 const GET_DATA_PROFILES_SUCCESS = "[PROFILE] GET DATA PROFILES SUCCESS";
 
 export const getProfileData = (data) => ({
@@ -33,6 +41,7 @@ export const snackBarAction = (payload) => ({
   payload,
 });
 
+// main action for getting profiles. called in app.js
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
   try {
     dispatch(fetchingAction(true));
@@ -63,9 +72,14 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       type: GET_DATA_PROFILES_SUCCESS,
       payload: profiles,
     });
+    dispatch({
+      type: PROFILES_INFO_SIDEBAR,
+      payload: profiles.length,
+    });
     return dispatch(profilesInfoAction(profiles));
   } catch (error) {
     console.log(error);
+    dispatch(fetchingAction(false, "profilesSidebar"));
   }
 };
 
@@ -82,18 +96,58 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
       type: PROFILE_INFO_FOR_MAIN_PAGE,
       payload: profiles.length,
     });
-    const popls = await Promise.all(profiles.map((el) => getPoplsDataById(el.id)));
-    const pops = await Promise.all(profiles.map((el) => popsActionRequest(el.id)));
-    result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+    Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
+      .then((res) => {
+        console.log(res);
+        const popls = res
+          .reduce((result, current) => [...result, ...current.data], [])
+          .map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) }));
+        dispatch({
+          type: GET_POPLS_SUCCESS,
+          payload: popls,
+        });
+        console.log(popls);
+        dispatch({
+          type: POPLS_INFO_SIDEBAR,
+          payload: popls.length,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(fetchingAction(false, "poplsSidebar"));
+      });
+    // result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
+    // popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
+
+    // lates connection for overview will be removed
     const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
-    const profileConnection = {};
-    const poplsConnection = {};
-    const popsConnection = {};
-    popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
-    pops.forEach((item) => popsConnection[item.config.data.get("pid")] = item.data.length);
-    connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
-    result.connections = uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length;
+    // connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
+    dispatch({
+      type: CONNECTIONS_INFO_SIDEBAR,
+      payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length,
+    });
+
+    // latest connections
     result.latestConnections = uniqueObjectsInArray(connections
+      .reduce((acc, item) => ([...acc, ...item.data])
+        .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
+      .slice(0, 10)
+      .map((con) => {
+        const parentProfile = profiles.find((profile) => profile.id === con.profileId);
+        return { ...con, parentProfileName: parentProfile?.name || "" };
+      });
+  } catch (error) {
+    console.log(error);
+    dispatch(fetchingAction(false, "connectionsSidebar"));
+  }
+};
+
+export const getLatestConnectionsAction = () => async (dispatch, getState) => {
+  try {
+    const profiles = getState().profilesReducer.dataProfiles.data;
+
+    const connections = await getCollectionData("people", [...profiles.map(({ id }) => id)]);
+    const result = uniqueObjectsInArray(connections
       .reduce((acc, item) => ([...acc, ...item.data])
         .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
       .slice(0, 10)
@@ -103,13 +157,12 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
       });
 
     dispatch({
-      type: PROFILE_INFO_FOR_SIDE_BAR,
-      payload: {
-        result, profileConnection, poplsConnection, popsConnection,
-      },
+      type: LATEST_CONNECTIONS,
+      payload: result,
     });
   } catch (error) {
     console.log(error);
+    dispatch(fetchingAction(false, "latestConnections"));
   }
 };
 
@@ -144,9 +197,9 @@ export const restricteModeAction = (isRestricted) => ({
   payload: isRestricted,
 });
 
-export const fetchingAction = (isFetching) => ({
+export const fetchingAction = (isFetching, name) => ({
   type: FETCHING_ACTION,
-  payload: isFetching,
+  payload: name ? { isFetching, name } : isFetching,
 });
 
 export const hideRestrictedModeAction = () => ({

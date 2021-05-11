@@ -43,7 +43,12 @@ function PermanentDrawerLeft() {
   });
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
-  const { result: profileInfoSideBar, isFetching } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
+  const poplsSidebar = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.data);
+  const poplsFetching = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.isFetching);
+  const profilesSidebar = useSelector(({ systemReducer }) => systemReducer.profilesSidebar.data);
+  const profilesFetching = useSelector(({ systemReducer }) => systemReducer.profilesSidebar.isFetching);
+  const connectionsSidebar = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.data);
+  const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
@@ -185,14 +190,14 @@ function PermanentDrawerLeft() {
                 style={{ position: "relative" }}
                 primary="Profiles"
               />
-              {isFetching ? <Loader styles={{
+              {profilesFetching ? <Loader styles={{
                 width: 20, height: 20,
               }}/>
                 : <Typography variant='subtitle1' classes={{
                   root: clsx(classes.listText, {
                     [classes.listTextHighLight]: highlight.profiles,
                   }),
-                }}>{profileInfoSideBar.totalProfiles}</Typography> }
+                }}>{profilesSidebar}</Typography> }
             </ListItem>
           </Link>
           <ListItem
@@ -226,14 +231,14 @@ function PermanentDrawerLeft() {
               }}
               primary="Connections"
             />
-            {isFetching ? <Loader styles={{
+            {connectionsFetching ? <Loader styles={{
               width: 20, height: 20,
             }}/>
               : <Typography variant='subtitle1' classes={{
                 root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.connections,
                 }),
-              }}>{profileInfoSideBar.connections}</Typography>}
+              }}>{connectionsSidebar}</Typography>}
           </ListItem>
           <ListItem
             divider={false}
@@ -265,14 +270,14 @@ function PermanentDrawerLeft() {
               }}
               primary="Popls"
             />
-            {isFetching ? <Loader styles={{
+            {poplsFetching ? <Loader styles={{
               width: 20, height: 20,
             }}/>
               : <Typography variant='subtitle1' classes={{
                 root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.popls,
                 }),
-              }}>{profileInfoSideBar.totalPopls}</Typography>}
+              }}>{poplsSidebar}</Typography>}
           </ListItem>
           <Link to="/campaigns">
             <ListItem
