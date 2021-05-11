@@ -126,21 +126,11 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
 export const makeProfileSubscriberRequest = (userId) => {
   const options = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Platform": "ios",
-      Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
-    },
-    body: JSON.stringify({
-      product_id: "4000",
-      price: 4.99,
-      currency: "USD",
-      is_restore: "false",
-      app_user_id: "306074",
-      fetch_token: "sub_JSxSU2qWRtIPWI",
-    }),
+    headers: { "Content-Type": "application/json", Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV" },
+    body: JSON.stringify({ duration: "weekly" }),
   };
-  fetch("https://api.revenuecat.com/v1/receipts", options)
+
+  fetch("https://api.revenuecat.com/v1/subscribers/306074/entitlements/pro/promotional", options)
     .then((response) => response.json())
     .then((response) => {
       makeProfileProRequest("306074");

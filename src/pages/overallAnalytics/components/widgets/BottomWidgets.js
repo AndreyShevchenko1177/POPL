@@ -121,6 +121,8 @@ function BottomWidgets({
     }
   }, [views, profilesData]);
 
+  console.log(topPoppedPopls);
+
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;
     if (dohnutPopsData) {

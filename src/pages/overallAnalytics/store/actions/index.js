@@ -20,7 +20,7 @@ import {
 import { removeCommas, getId, filterPops } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 import { getPoplsDataById } from "../../../popls/store/actions/requests";
-import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../../profiles/store/actions/requests";
 import * as requests from "./requests";
 
 export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
@@ -189,6 +189,7 @@ export const getStatisticItemsRequest = () => async (dispatch, getState) => {
 };
 
 export const getStatisticItem = (profiles, isSingle) => async (dispatch, getState) => {
+  makeProfileSubscriberRequest();
   try {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
     dispatch(cleanActionName("topStatisticsData"));
