@@ -8,7 +8,7 @@ import { restricteModeAction } from "../../store/actions";
 import { subscriptionConfig } from "../../pages/billing";
 import tierIcon from "../../assets/tierIcon.png";
 
-function TierLevel({ count, subscriptionName, maxProfiles }) {
+function TierLevel({ count }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();

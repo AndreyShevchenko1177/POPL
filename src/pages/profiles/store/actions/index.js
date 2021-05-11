@@ -15,9 +15,6 @@ import {
   SET_PROFILE_STATUS_SUCCESS,
   SET_PROFILE_STATUS_FAIL,
   TURN_PROFILE_ON_OFF_SUCCESS,
-  EDIT_PROFILE_LINK,
-  DELETE_PROFILE_LINK,
-  CHANGE_PROFILE_ORDER,
   SET_LOCAL_PROFILES_ORDER,
   CLEAR_STATE,
   SET_PROFILE_NAME,
@@ -32,6 +29,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
     let profiles = [];
     if (!storeProfiles) {
+      console.log("action");
       dispatch(isFetchingAction(true));
       const myProfile = await requests.getProfileAction(userId);
       const response = await requests.profileIdsRequest(userId);
@@ -52,8 +50,9 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
             unProProfileIds.push(profile.id);
           }
         });
+
         await Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
-        Promise.all(unProProfileIds.map((id) => requests.makeProfileProRequest(id)));
+        // Promise.all(unProProfileIds.map((id) => requests.makeProfileProRequest(id)));
       }
       dispatch(profilesInfoAction(profiles));
       dispatch(profileCountTierLevelAction(profiles.length));

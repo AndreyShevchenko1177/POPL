@@ -16,7 +16,7 @@ const initialState = {
   profileData: {},
   alert: {
     message: "",
-    duration: 6000,
+    duration: 120000,
     severity: "",
     open: false,
   },

@@ -125,15 +125,27 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
 
 export const makeProfileSubscriberRequest = (userId) => {
   const options = {
-    method: "GET",
+    method: "POST",
     headers: {
-      "X-Platform": "ios",
       "Content-Type": "application/json",
+      "X-Platform": "ios",
       Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
     },
+    body: JSON.stringify({
+      product_id: "4000",
+      price: 4.99,
+      currency: "USD",
+      is_restore: "false",
+      app_user_id: "306074",
+      fetch_token: "sub_JSxSU2qWRtIPWI",
+    }),
   };
-
-  fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options);
+  fetch("https://api.revenuecat.com/v1/receipts", options)
+    .then((response) => response.json())
+    .then((response) => {
+      makeProfileProRequest("306074");
+    })
+    .catch((err) => console.error(err));
 };
 
 export const setProfileName = (userId, profileState, name) => {

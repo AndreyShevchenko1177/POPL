@@ -13,7 +13,7 @@ import {
   UPDATE_SIDE_BAR_DATA_STATUS,
   HANDLE_MAIN_PAGE_SCROLL,
 } from "../actionTypes";
-import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
@@ -34,6 +34,7 @@ export const snackBarAction = (payload) => ({
 });
 
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
+  makeProfileSubscriberRequest();
   try {
     dispatch(fetchingAction(true));
     dispatch({

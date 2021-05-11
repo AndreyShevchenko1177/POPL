@@ -236,7 +236,6 @@ export default function Profiles() {
   }, [checkboxes]);
 
   useEffect(() => {
-    console.log("useeffect");
     if (wizard.open) return dispatch(handleMainPageScrollAction(false));
     dispatch(handleMainPageScrollAction(true));
   }, [wizard]);
