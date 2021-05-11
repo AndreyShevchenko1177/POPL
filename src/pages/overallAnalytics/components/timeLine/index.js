@@ -146,7 +146,7 @@ export default function NetworkActivity({
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
         <div className={classes["network-container__title"]}>
-          <Typography variant="h5" className={classes.text}>
+          <Typography variant="h5" classes={{ h5: classes.text }}>
             Pops Over Time
           </Typography>
         </div>
@@ -155,7 +155,6 @@ export default function NetworkActivity({
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
-        {console.log(chartData?.data)}
         <div className={classes["network-container__line"]}>
           <div id='lineChart' ></div>
           {chartData === undefined
