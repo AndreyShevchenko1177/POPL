@@ -28,9 +28,7 @@ function OverallAnalytics() {
   } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
-  const topStatisticsData = useSelector(
-    ({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData,
-  );
+  const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
@@ -179,7 +177,7 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    if (profilesData) {
+    if (profilesData && popls) {
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         dispatch(getPopsAction(null, location.state?.poplName));
@@ -193,7 +191,7 @@ function OverallAnalytics() {
         dispatch(getPopsAction(location.state?.id));
       }
     }
-  }, [location, profilesData]);
+  }, [location, profilesData, popls]);
 
   useEffect(() => () => {
     dispatch(cleanAction());

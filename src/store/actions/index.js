@@ -98,7 +98,6 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
     });
     Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
       .then((res) => {
-        console.log(res);
         const popls = res
           .reduce((result, current) => [...result, ...current.data], [])
           .map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) }));
@@ -106,7 +105,6 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
           type: GET_POPLS_SUCCESS,
           payload: popls,
         });
-        console.log(popls);
         dispatch({
           type: POPLS_INFO_SIDEBAR,
           payload: popls.length,
@@ -116,26 +114,12 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
         console.log(err);
         dispatch(fetchingAction(false, "poplsSidebar"));
       });
-    // result.totalPopls = popls.reduce((sum, value) => sum += value.data.length, 0);
-    // popls.forEach((item) => poplsConnection[item.config.data.get("iID")] = item.data.length);
 
-    // lates connection for overview will be removed
     const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
-    // connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
     dispatch({
       type: CONNECTIONS_INFO_SIDEBAR,
       payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length,
     });
-
-    // latest connections
-    result.latestConnections = uniqueObjectsInArray(connections
-      .reduce((acc, item) => ([...acc, ...item.data])
-        .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
-      .slice(0, 10)
-      .map((con) => {
-        const parentProfile = profiles.find((profile) => profile.id === con.profileId);
-        return { ...con, parentProfileName: parentProfile?.name || "" };
-      });
   } catch (error) {
     console.log(error);
     dispatch(fetchingAction(false, "connectionsSidebar"));

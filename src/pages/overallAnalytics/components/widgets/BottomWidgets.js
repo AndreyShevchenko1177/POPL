@@ -28,7 +28,6 @@ function BottomWidgets({
   const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-  const topPopped = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData?.data?.topPoppedPopls);
   const location = useLocation();
 
   const handleDownloadFile = (linkId, path, value) => {
@@ -37,24 +36,28 @@ function BottomWidgets({
   };
 
   useEffect(() => {
-    if (location.state?.poplName && topPopped) {
-      const result = [];
-      topPopped.forEach((item) => {
-        result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
-      });
-      setTopPoppedPopls(result);
-    } else if (totalPopls && totalPops) {
-      const topPoppedPopls = {};
-      totalPopls
-        // .reduce((acc, popls) => [...acc, ...popls.data], [])
-        .forEach((popl) => topPoppedPopls[popl.name] = []);
+    if (totalPopls && totalPops) {
+      if (location.state?.poplName) {
+        let topPoppedPopls = {};
+        totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
 
-      totalPops
-        // .reduce((acc, pops) => [...acc, ...pops.data], [])
-        .forEach((pop) => {
+        totalPops.forEach((pop) => {
           const name = filterPops.slicePoplNameFromPop(pop[1]);
           if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
         });
+
+        topPoppedPopls = Object.keys(topPoppedPopls)
+          .map((key) => ({ [key]: topPoppedPopls[key] }))
+          .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
+        return setTopPoppedPopls(topPoppedPopls);
+      }
+      const topPoppedPopls = {};
+      totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
+
+      totalPops.forEach((pop) => {
+        const name = filterPops.slicePoplNameFromPop(pop[1]);
+        if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+      });
       const sortedPoppedPopls = Object.keys(topPoppedPopls)
         .map((key) => ({ [key]: topPoppedPopls[key] }))
         .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
@@ -65,7 +68,9 @@ function BottomWidgets({
       });
       setTopPoppedPopls(result);
     }
-  }, [totalPopls, totalPops, location, topPopped]);
+  }, [totalPopls, totalPops, location]);
+
+  console.log(topPoppedPopls);
 
   useEffect(() => {
     if (views) {
