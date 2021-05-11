@@ -25,8 +25,8 @@ const parentContainerStyle = {
   marginTop: 20,
   width: "100%",
   minWidth: "800px",
-  WebkitBoxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
-  boxShadow: "0px 0px 10px 10px rgb(207 207 207 / 50%)",
+  WebkitBoxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+  boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
   outline: "none",
 };
 
@@ -218,7 +218,7 @@ export default function Profiles() {
     profiles && profiles.forEach((el) => {
       checkBoxObject[el.customId] = {
         checked: !!checkboxes[el.customId]?.checked,
-        ...profilesData.find((item) => item.customId === el.customId),
+        ...profilesData?.find((item) => item.customId === el.customId),
       };
     });
     setCheckBoxes(checkBoxObject);

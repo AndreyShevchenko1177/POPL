@@ -10,7 +10,7 @@ import connectIcon from "../../../../assets/svg/connect.svg";
 import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
 import { isSafari } from "../../../../constants";
-import poplIcon from "../../../../assets/poplIcon_black.png";
+import poplIcon from "../../../../assets/sidebar/poplIcon_black.png";
 
 function ProfilePanel({
   id,

@@ -16,17 +16,16 @@ import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
 import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
-import ProfileImage from "./ProfileImage";
-import poplIcon from "../../assets/poplIcon_black.png";
-import poplIconWhite from "../../assets/poplIcon_white.png";
-import profiles from "../../assets/profiles.png";
-import profilesWhite from "../../assets/profile_white.png";
-import connections from "../../assets/connections.png";
-import connectionsWhite from "../../assets/connections_white.png";
-import analytics from "../../assets/analytics.png";
-import analyticsWhite from "../../assets/analytics_white.png";
-import settings from "../../assets/settings.png";
-import settingsWhite from "../../assets/settings_white.png";
+import poplIcon from "../../assets/sidebar/poplIcon_grey.png";
+import poplIconWhite from "../../assets/sidebar/poplIcon_white.png";
+import profiles from "../../assets/sidebar/profiles.png";
+import profilesWhite from "../../assets/sidebar/profile_white.png";
+import connections from "../../assets/sidebar/connections.png";
+import connectionsWhite from "../../assets/sidebar/connections_white.png";
+import analytics from "../../assets/sidebar/analytics.png";
+import analyticsWhite from "../../assets/sidebar/analytics_white.png";
+import settings from "../../assets/sidebar/settings.png";
+import settingsWhite from "../../assets/sidebar/settings_white.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 import { removeCommas } from "../../utils";
@@ -139,7 +138,7 @@ function PermanentDrawerLeft() {
                 <div className={classes.sideBarIcons}>
                   <SvgMaker
                     name='overview'
-                    fill="#000000"
+                    fill="#666666"
                   />
                 </div>
               </ListItemIcon>
@@ -291,7 +290,7 @@ function PermanentDrawerLeft() {
                 <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
                   <SvgMaker
                     name='campaigns'
-                    fill="#000000"
+                    fill="#666666"
                   />
                 </div>
               </ListItemIcon>
@@ -374,7 +373,7 @@ function PermanentDrawerLeft() {
                 [classes.ulListHighLight]: highlight.profileInfo,
               })}
               onClick={() => highlightList("profileInfo")}
-              style={{ paddingLeft: 15, marginTop: 10 }}
+              style={{ paddingLeft: 33 }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{
