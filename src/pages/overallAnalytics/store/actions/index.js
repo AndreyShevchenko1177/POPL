@@ -149,7 +149,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
   }
 };
 
-export const getStatisticItemsRequest = (userId) => async (dispatch, getState) => {
+export const getStatisticItemsRequest = () => async (dispatch, getState) => {
   dispatch(cleanActionName("topStatisticsData"));
   const storeProfiles = getState().profilesReducer.dataProfiles.data;
   return dispatch(getStatisticItem(storeProfiles));

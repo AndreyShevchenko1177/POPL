@@ -8,7 +8,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -35,7 +35,7 @@ function OverallAnalytics() {
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
     dohnutPopsData: null,
-
+    lineData: null,
   });
 
   const minTimestamp = new Date().getTime() - (86400000 * 13);
@@ -183,6 +183,7 @@ function OverallAnalytics() {
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         dispatch(getPopsAction(null, location.state?.poplName));
+        dispatch(getStatisticItemsRequest(userId));
       } else if (location.state?.id) {
         setWidgetLayerString({ layer: "Profile", name: location.state.name });
         dispatch(getStatisticItem([location.state], "single"));
@@ -197,7 +198,11 @@ function OverallAnalytics() {
 
   useEffect(() => () => {
     dispatch(cleanAction());
-    setChartData(null);
+    setChartData({
+      dohnutDirectData: null,
+      dohnutPopsData: null,
+      lineData: null,
+    });
   }, []);
 
   useEffect(() => {

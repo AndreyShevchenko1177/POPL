@@ -155,6 +155,7 @@ export default function NetworkActivity({
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
+        {console.log(chartData?.data)}
         <div className={classes["network-container__line"]}>
           <div id='lineChart' ></div>
           {chartData === undefined
