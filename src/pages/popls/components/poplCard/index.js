@@ -93,7 +93,7 @@ function PoplCard({
           </div>
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Nickname:</div>
-            {!editMode[customId] ? <div className={classes.tableCell}>{localPopl.nickname}</div>
+            {!editMode[customId] ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{localPopl.nickname}</div>
 
               : fetching ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                 : <TextField
@@ -106,7 +106,7 @@ function PoplCard({
                   placeholder={"Enter nickname"}
                   InputProps={{ disableUnderline: !editMode[customId], className: classes.nameInput }}
                   size='small'
-                  value={values.sNickName || localPopl.nickname}
+                  value={values.sNickName === undefined ? localPopl.nickname : values.sNickName}
                 /> }
           </div>
           <div className={classes.tableRow}>
