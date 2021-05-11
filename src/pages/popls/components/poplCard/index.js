@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Checkbox, Button,
 } from "@material-ui/core";
@@ -8,12 +9,15 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils";
+import { cleanAction } from "../../../overallAnalytics/store/actions";
+import { clearStateAction } from "../../../profiles/store/actions";
 
 function PoplCard({
   popl, poplsCheck, customId, checkboxes,
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -53,7 +57,10 @@ function PoplCard({
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
-          onClick={() => history.push("/analytics", { name: popl.name, poplName: popl.name })}
+          onClick={() => {
+            dispatch(cleanAction());
+            history.push("/analytics", { name: popl.name, poplName: popl.name });
+          }}
         >
           Analytics
         </Button>

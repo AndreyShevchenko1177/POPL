@@ -183,7 +183,6 @@ function OverallAnalytics() {
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         dispatch(getPopsAction(null, location.state?.poplName));
-        dispatch(getStatisticItemsRequest(userId));
       } else if (location.state?.id) {
         setWidgetLayerString({ layer: "Profile", name: location.state.name });
         dispatch(getStatisticItem([location.state], "single"));
@@ -227,7 +226,7 @@ function OverallAnalytics() {
         <TopStatistics
           popsCount={popsCountTop.data?.length}
           linkTaps={linkTapsTop.data}
-          totalProfiles={profilesData?.length}
+          totalProfiles={location.state?.poplName ? "" : profilesData?.length}
           ctr={linkTapsTop.data && viewsTop.data
             ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)}`
             : ""}

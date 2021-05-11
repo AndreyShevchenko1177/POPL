@@ -51,6 +51,12 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         }
         topViewedViews = await Promise.all([...idsArray, id].map((id) => requests.getAllThreeStats(id)));
         widgetsStats.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
+
+        dispatch({
+          type: TOP_VIEWED_PROFILES,
+          payload: [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))],
+        });
+
         const popls = await Promise.all([...idsArray, id].map((el) => getPoplsDataById(el)));
         const pops = await Promise.all([...idsArray, id].map((el) => requests.popsActionRequest(el)));
         const topPoppedPopls = {};
@@ -75,10 +81,37 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           type: GET_TOP_STATISTICS_SUCCESS,
           payload: widgetsStats,
         });
+
         result.forEach((pop) => {
           if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
           if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
           if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+        });
+
+        // settingTopStatistics
+        dispatch({
+          type: POPS_COUNT_TOP,
+          payload: [...poplPops, ...qrCodePops, ...walletPops],
+        });
+        dispatch({
+          type: TOTAL_POPLS,
+          payload: null,
+        });
+        dispatch({
+          type: GET_VIEWS_TOP,
+          payload: null,
+        });
+        dispatch({
+          type: GET_LINKS_TOP,
+          payload: null,
+        });
+        dispatch({
+          type: GET_LINK_TAPS_BOTTOM,
+          payload: null,
+        });
+        dispatch({
+          type: GET_VIEWS_BOTTOM,
+          payload: null,
         });
       } else {
         result.forEach((pop) => {

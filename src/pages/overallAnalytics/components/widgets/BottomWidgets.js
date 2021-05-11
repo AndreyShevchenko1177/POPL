@@ -28,6 +28,7 @@ function BottomWidgets({
   const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const topPopped = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.topStatisticsData?.data?.topPoppedPopls);
   const location = useLocation();
 
   const handleDownloadFile = (linkId, path, value) => {
@@ -36,7 +37,13 @@ function BottomWidgets({
   };
 
   useEffect(() => {
-    if (totalPopls && totalPops) {
+    if (location.state?.poplName && topPopped) {
+      const result = [];
+      topPopped.forEach((item) => {
+        result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
+      });
+      setTopPoppedPopls(result);
+    } else if (totalPopls && totalPops) {
       const topPoppedPopls = {};
       totalPopls
         // .reduce((acc, popls) => [...acc, ...popls.data], [])
@@ -58,7 +65,7 @@ function BottomWidgets({
       });
       setTopPoppedPopls(result);
     }
-  }, [totalPopls, totalPops]);
+  }, [totalPopls, totalPops, location, topPopped]);
 
   useEffect(() => {
     if (views) {
