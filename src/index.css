@@ -123,13 +123,17 @@ p {
 
 .datepicker {
   position: relative;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #000000;
   padding: 7px 10px;
   display: flex;
+  height: 45px;
+  width: 270px;
+  justify-content: center;
   align-items: center;
-  color: #aeaeae;
+  color: #000000;
   cursor: pointer;
   border-radius: 10px;
+  font-size: 17px;
 }
 
 .MuiFormControlLabel-label {
@@ -146,7 +150,7 @@ p {
 }
 
 .full-w > div {
-  border-radius: 30px;
+  border-radius: 15px;
 }
 
 #legend1 {

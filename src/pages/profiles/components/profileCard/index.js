@@ -242,6 +242,7 @@ export default function Card({
                     onFocus={() => setEditState({ ...editState, name: true })}
                     disabled={!showEditIcon}
                     onChange={handleValuesChange}
+                    onDoubleClick={editIconHandler}
                     onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name)))}
                     placeholder={showEditIcon ? "Enter your name" : ""}
                     InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
@@ -278,6 +279,7 @@ export default function Card({
                       multiline
                       rowsMax={2}
                       onChange={handleValuesChange}
+                      onDoubleClick={editIconHandler}
                       onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio)))}
                       placeholder={showEditIcon ? "Enter your bio" : ""}
                       InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}

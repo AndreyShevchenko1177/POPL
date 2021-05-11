@@ -89,7 +89,8 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
   },
   text: {
-    color: "#6f829a",
+    color: "#000000",
+    fontSize: 20,
   },
   barText: {
     color: "#6f829a",

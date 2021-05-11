@@ -5,7 +5,6 @@ import {
   Checkbox, Button, TextField,
 } from "@material-ui/core";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
-import clsx from "clsx";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
@@ -13,6 +12,7 @@ import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { updatePopl } from "../../store/actions/requests";
 import { dateFormat } from "../../../../utils";
 import Loader from "../../../../components/Loader";
+import { cleanAction } from "../../../overallAnalytics/store/actions";
 
 function PoplCard({
   popl, poplsCheck, customId, checkboxes, editMode, setEditMode, id, memberId,
@@ -122,7 +122,10 @@ function PoplCard({
           color="primary"
           startIcon={<EqualizerIcon />}
           className={classes.button}
-          onClick={() => history.push("/analytics", { name: popl.name, poplName: popl.name })}
+          onClick={() => {
+            dispatch(cleanAction());
+            history.push("/analytics", { name: popl.name, poplName: popl.name });
+          }}
         >
           Analytics
         </Button>

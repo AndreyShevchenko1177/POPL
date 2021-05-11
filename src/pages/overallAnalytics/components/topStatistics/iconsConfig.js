@@ -1,5 +1,5 @@
-import poplIcon from "../../../../assets/poplIcon_black.png";
-import profiles from "../../../../assets/profiles.png";
+import poplIcon from "../../../../assets/sidebar/poplIcon_black.png";
+import profiles from "../../../../assets/sidebar/profiles.png";
 import popls from "../../../../assets/totalPopls.png";
 import SvgMaker from "../../../../components/svgMaker/SvgMaker";
 

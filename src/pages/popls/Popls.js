@@ -9,7 +9,7 @@ import { getPoplsAction } from "./store/actions";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { getPopsAction } from "../overallAnalytics/store/actions";
+import { getPopsAction, cleanAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
@@ -152,6 +152,8 @@ function PoplsItem() {
     dispatch(getPopsAction());
   }, []);
 
+  useEffect(() => () => dispatch(cleanAction()), []); // cleaning analytics reducer
+
   useEffect(() => {
     if (!pops) return;
     if (location.state?.profilesData?.id) {
@@ -161,7 +163,6 @@ function PoplsItem() {
         .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
-    console.log(popls[1]);
   }, [popls, pops, location]);
 
   return (

@@ -8,7 +8,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -35,7 +35,7 @@ function OverallAnalytics() {
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
     dohnutPopsData: null,
-
+    lineData: null,
   });
 
   const minTimestamp = new Date().getTime() - (86400000 * 13);
@@ -197,7 +197,11 @@ function OverallAnalytics() {
 
   useEffect(() => () => {
     dispatch(cleanAction());
-    setChartData(null);
+    setChartData({
+      dohnutDirectData: null,
+      dohnutPopsData: null,
+      lineData: null,
+    });
   }, []);
 
   useEffect(() => {
@@ -222,7 +226,7 @@ function OverallAnalytics() {
         <TopStatistics
           popsCount={popsCountTop.data?.length}
           linkTaps={linkTapsTop.data}
-          totalProfiles={profilesData?.length}
+          totalProfiles={location.state?.poplName ? "" : profilesData?.length}
           ctr={linkTapsTop.data && viewsTop.data
             ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)}`
             : ""}
