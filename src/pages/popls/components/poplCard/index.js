@@ -85,7 +85,7 @@ function PoplCard({
           }}
         />}
         {editMode[customId] && <div className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
-          <EditIcon style={{ width: 18, height: 18 }}/>
+          <EditIcon style={{ width: 15, height: 15 }}/>
         </div>}
         <input
           style={{ display: "none" }}
