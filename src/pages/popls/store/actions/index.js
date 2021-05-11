@@ -6,6 +6,7 @@ import {
   GET_POPLS_FAIL,
   ADD_POPLS_SUCCESS,
   ADD_POPLS_FAIL,
+  EDIT_POPLS_REQUEST,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
   CLEAR_ADD_POPL,
@@ -171,6 +172,27 @@ export const editPoplAction = (body) => async (dispatch) => {
         open: true,
       }),
     );
+  }
+};
+
+export const updatePopl = (poplData) => async (dispatch) => {
+  try {
+    const bodyFormData = new FormData();
+    dispatch({
+      type: EDIT_POPLS_REQUEST,
+      payload: { [poplData.iID]: true },
+    });
+    Object.keys(poplData).forEach((item) => bodyFormData.append(item, poplData[item]));
+    const result = await axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
+
+    dispatch({
+      type: EDIT_POPLS_SUCCESS,
+      payload: { id: poplData.iID, item: Object.entries(poplData)[0] },
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

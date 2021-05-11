@@ -23,17 +23,3 @@ export const getPoplsFromProfiles = async ({ id, name }) => {
   const popls = await getPoplsDataById(id);
   return popls.data.map((popl) => ({ ...popl, profileOwner: name, profileId: id }));
 };
-
-export const updatePopl = (poplData, resultCallback) => async (dispatch) => {
-  try {
-    const bodyFormData = new FormData();
-    Object.keys(poplData).forEach((item) => bodyFormData.append(item, poplData[item]));
-    const result = await axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
-    // if (result.data.iPoplID) console.log("4332");
-    resultCallback();
-  } catch (error) {
-    resultCallback(error);
-  }
-};

@@ -9,21 +9,18 @@ import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
-import { updatePopl } from "../../store/actions/requests";
+import { updatePopl } from "../../store/actions";
 import { dateFormat } from "../../../../utils";
 import Loader from "../../../../components/Loader";
 import { cleanAction } from "../../../overallAnalytics/store/actions";
 
 function PoplCard({
-  popl, poplsCheck, customId, checkboxes, editMode, setEditMode, id, memberId,
+  popl, poplsCheck, customId, checkboxes, editMode, setEditMode, id, memberId, isFetching = {},
 }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
   const [values, setValues] = useState({});
-  const [localPopl, setLocalPopl] = useState({});
-  const [fetching, setFetching] = useState(false);
 
   const changeIconSize = (event, size) => {
     event.currentTarget.style.transform = `scale(${size})`;
@@ -38,25 +35,29 @@ function PoplCard({
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
+  const updateTextValueByKey = (event) => {
+    if (values[event.target.name] === popl.nickname) return console.log("the same name");
+    if (event.key === "Enter") {
+      return dispatch(updatePopl({
+        [event.target.name]: values[event.target.name],
+        iMemberID: memberId,
+        iID: id,
+        sAction: "UpdatePopl",
+        ajax: 1,
+      }));
+    }
+  };
+
   const updateTextValue = (event) => {
-    if (values[event.target.name] === localPopl.nickname) return console.log("the same name");
-    setFetching(true);
+    if (values[event.target.name] === popl.nickname) return console.log("the same name");
     dispatch(updatePopl({
       [event.target.name]: values[event.target.name],
       iMemberID: memberId,
       iID: id,
       sAction: "UpdatePopl",
       ajax: 1,
-    }, (error) => {
-      if (error) return console.log(error);
-      setFetching(false);
-      setLocalPopl((prevValue) => ({ ...prevValue, nickname: values[event.target.name] }));
     }));
   };
-
-  useEffect(() => {
-    setLocalPopl(popl);
-  }, []);
 
   return (
     <>
@@ -89,29 +90,30 @@ function PoplCard({
         <div className={classes.cardTable}>
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Profile Owner:</div>
-            <div className={classes.tableCell}>{localPopl.profileOwner}</div>
+            <div className={classes.tableCell}>{popl.profileOwner}</div>
           </div>
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Nickname:</div>
-            {!editMode[customId] ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{localPopl.nickname}</div>
+            {!editMode[customId] ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{popl.nickname}</div>
 
-              : fetching ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+              : isFetching[id] ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                 : <TextField
                   classes={{ root: classes.disabledTextfield }}
                   onChange={changeTextValue}
                   onBlur={updateTextValue}
+                  onKeyDown={updateTextValueByKey}
                   disabled={!editMode[customId]}
-                  onFocus={(event) => setValues((prev) => ({ ...prev, [event.target.name]: localPopl.nickname }))}
+                  onFocus={(event) => setValues((prev) => ({ ...prev, [event.target.name]: popl.nickname }))}
                   name='sNickName'
                   placeholder={"Enter nickname"}
                   InputProps={{ disableUnderline: !editMode[customId], className: classes.nameInput }}
                   size='small'
-                  value={values.sNickName === undefined ? localPopl.nickname : values.sNickName}
+                  value={values.sNickName === undefined ? popl.nickname : values.sNickName}
                 /> }
           </div>
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Activated:</div>
-            <div className={classes.tableCell}>{dateFormat(localPopl.activationDate, "withTime")}</div>
+            <div className={classes.tableCell}>{dateFormat(popl.activationDate, "withTime")}</div>
           </div>
         </div>
       </div>
@@ -131,7 +133,7 @@ function PoplCard({
         </Button>
         <div className={classes.popsCountNumber}>
           <span>
-            { localPopl.popsNumber }
+            { popl.popsNumber }
             <span style={{ marginLeft: 5 }}>Pops</span>
           </span>
         </div>

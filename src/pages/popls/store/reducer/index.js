@@ -3,12 +3,14 @@ import {
   GET_POPLS_FAIL,
   ADD_POPLS_SUCCESS,
   ADD_POPLS_FAIL,
+  EDIT_POPLS_REQUEST,
   EDIT_POPLS_SUCCESS,
   EDIT_POPLS_FAIL,
   CLEAR_EDIT_POPL,
   CLEAR_ADD_POPL,
   CLEAR_DATA,
   IS_DATA_FETCHING,
+
 } from "../actionTypes";
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
   editPopl: {
     data: null,
     error: null,
+    isFetching: false,
   },
   isFetching: false,
 };
@@ -67,12 +70,32 @@ export default function poplsReducer(state = initialState, { type, payload, erro
       },
     };
   }
-  case EDIT_POPLS_SUCCESS: {
+  case EDIT_POPLS_REQUEST: {
     return {
       ...state,
       editPopl: {
-        data: payload,
+        data: null,
         error: null,
+        isFetching: payload,
+      },
+    };
+  }
+  case EDIT_POPLS_SUCCESS: {
+    const correctProperties = {
+      sNickName: "nickname",
+      sName: "name",
+      sSlug: "url",
+    };
+    const [property, value] = payload.item;
+    return {
+      ...state,
+      allPopls: {
+        data: state.allPopls.data.map((el) => (el.id === payload.id ? ({ ...el, [correctProperties[property]]: value }) : el)),
+        error: payload,
+      },
+      editPopl: {
+        ...state.editPopl,
+        isFetching: { [payload.id]: false },
       },
     };
   }

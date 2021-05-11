@@ -26,6 +26,7 @@ function PoplsItem() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const editPoplFetching = useSelector(({ poplsReducer }) => poplsReducer.editPopl.isFetching);
   const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
   const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
@@ -241,6 +242,7 @@ function PoplsItem() {
                               checkboxes={checkboxes}
                               editMode={editMode}
                               setEditMode={setEditMode}
+                              isFetching={editPoplFetching}
                             />
                           </Paper>
                         )}
