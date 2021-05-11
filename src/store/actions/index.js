@@ -17,7 +17,7 @@ import {
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
 } from "../actionTypes";
-import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../pages/profiles/store/actions/requests";
+import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
 import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
@@ -43,7 +43,6 @@ export const snackBarAction = (payload) => ({
 
 // main action for getting profiles. called in app.js
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
-  makeProfileSubscriberRequest();
   try {
     dispatch(fetchingAction(true));
     dispatch({
