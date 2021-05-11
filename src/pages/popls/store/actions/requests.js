@@ -24,16 +24,16 @@ export const getPoplsFromProfiles = async ({ id, name }) => {
   return popls.data.map((popl) => ({ ...popl, profileOwner: name, profileId: id }));
 };
 
-export const updatePopl = (name, url, parentId, id) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "UpdatePopl");
-  bodyFormData.append("ajax", 1);
-  bodyFormData.append("sName", name);
-  bodyFormData.append("sSlug", url);
-  bodyFormData.append("iMemberID", parentId);
-  bodyFormData.append("iID", id);
-
-  return axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
+export const updatePopl = (poplData, resultCallback) => async (dispatch) => {
+  try {
+    const bodyFormData = new FormData();
+    Object.keys(poplData).forEach((item) => bodyFormData.append(item, poplData[item]));
+    const result = await axios.post("", bodyFormData, {
+      withCredentials: true,
+    });
+    // if (result.data.iPoplID) console.log("4332");
+    resultCallback();
+  } catch (error) {
+    resultCallback(error);
+  }
 };

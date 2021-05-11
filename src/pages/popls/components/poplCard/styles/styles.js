@@ -33,9 +33,12 @@ export default makeStyles((theme) => ({
   },
   tableRow: {
     display: "flex",
+    alignItems: "center",
+    height: 29,
   },
   tableCell: {
     width: "180px",
+    height: 29,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -67,5 +70,23 @@ export default makeStyles((theme) => ({
   popsCountNumber: {
     display: "flex",
     justifyContent: "center",
+  },
+  editPopl: {
+    position: "absolute",
+    right: 160,
+    bottom: 125,
+  },
+  nameInput: {
+    fontSize: 16,
+    fontFamily: "DM Sans",
+    fontWeight: 200,
+    // paddingRight: 20,
+  },
+  disabledTextfield: {
+    paddingBottom: 4,
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: "#000000", // (default alpha is 0.38)
+      fontWeight: "200",
+    },
   },
 }));

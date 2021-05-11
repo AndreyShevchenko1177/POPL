@@ -33,6 +33,7 @@ function PoplsItem() {
   const [searchValue, setSearchValue] = useState("");
   const [mainCheck, setMainCheck] = useState(false);
   const [checkboxes, setCheckBoxes] = useState({});
+  const [editMode, setEditMode] = useState({});
   const [openProfileSelect, setOpenProfileSelect] = useState({
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
@@ -216,6 +217,7 @@ function PoplsItem() {
                     .map((popl, index) => (
                       <Draggable
                         key={popl.customId}
+                        isDragDisabled={editMode[popl.customId]}
                         draggableId={`${popl.customId}`}
                         index={index}
                       >
@@ -229,15 +231,20 @@ function PoplsItem() {
                           >
                             <PoplCard
                               key={popl.id}
+                              id={popl.id}
+                              memberId={profileData.id}
                               popl={popl}
                               customId={popl.customId}
                               // allPops={pops}
                               poplsCheck={poplsCheck}
                               checkboxes={checkboxes}
+                              editMode={editMode}
+                              setEditMode={setEditMode}
                             />
                           </Paper>
                         )}
                       </Draggable>
+
                     ))}
                   {provided.placeholder}
                 </div>
