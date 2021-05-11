@@ -34,7 +34,6 @@ export default makeStyles((theme) => ({
     zIndex: 50,
     outline: "none",
     "@media (max-height:760px)": {
-      marginTop: 50,
       // left: "calc(50% - 570px)",
       // left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
     },
