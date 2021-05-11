@@ -28,6 +28,7 @@ import settings from "../../assets/sidebar/settings.png";
 import settingsWhite from "../../assets/sidebar/settings_white.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
+import { cleanAction } from "../../pages/overallAnalytics/store/actions";
 import { removeCommas } from "../../utils";
 
 function PermanentDrawerLeft() {
@@ -319,6 +320,7 @@ function PermanentDrawerLeft() {
             onClick={() => {
               handleCollapseClick("analyticsOpen");
               highlightList("analytics");
+              dispatch(cleanAction());
               history.push("/analytics", {});
             }}
           >

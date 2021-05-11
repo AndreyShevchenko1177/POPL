@@ -228,7 +228,7 @@ function OverallAnalytics() {
           ctr={linkTapsTop.data && viewsTop.data
             ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)}`
             : ""}
-          totalPopls={totalPopls.data?.length}
+          totalPopls={location.state?.poplName ? "" : totalPopls.data?.length}
           views={viewsTop.data}
           isFetched={{
             linkTaps: linkTapsTop.isFetching,

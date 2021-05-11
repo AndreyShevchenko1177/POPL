@@ -46,10 +46,14 @@ function BottomWidgets({
           if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
         });
 
-        topPoppedPopls = Object.keys(topPoppedPopls)
+        const sortedPoppedPopls = Object.keys(topPoppedPopls)
           .map((key) => ({ [key]: topPoppedPopls[key] }))
           .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-        return setTopPoppedPopls(topPoppedPopls);
+        const result = [];
+        sortedPoppedPopls.forEach((item) => {
+          result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
+        });
+        return setTopPoppedPopls(result);
       }
       const topPoppedPopls = {};
       totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
@@ -69,8 +73,6 @@ function BottomWidgets({
       setTopPoppedPopls(result);
     }
   }, [totalPopls, totalPops, location]);
-
-  console.log(topPoppedPopls);
 
   useEffect(() => {
     if (views) {
