@@ -10,6 +10,10 @@ import {
   PROFILE_INFO_FOR_MAIN_PAGE,
   UPDATE_SIDE_BAR_DATA_STATUS,
   HANDLE_MAIN_PAGE_SCROLL,
+  PROFILES_INFO_SIDEBAR,
+  POPLS_INFO_SIDEBAR,
+  CONNECTIONS_INFO_SIDEBAR,
+  LATEST_CONNECTIONS,
 } from "../actionTypes";
 
 const initialState = {
@@ -31,6 +35,26 @@ const initialState = {
     count: null,
     subscriptionName: null,
     maxProfiles: null,
+  },
+  profilesSidebar: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  poplsSidebar: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  connectionsSidebar: {
+    data: null,
+    error: null,
+    isFetching: true,
+  },
+  latestConnections: {
+    data: null,
+    error: null,
+    isFetching: true,
   },
   profilesInfoMainPage: null,
   isRestrictedMode: false,
@@ -98,6 +122,15 @@ export default function systemReducer(state = initialState, { type, payload }) {
     };
   }
   case FETCHING_ACTION: {
+    if (payload.name) {
+      return {
+        ...state,
+        [payload.name]: {
+          ...state[payload.name],
+          isFetching: payload.isFetching,
+        },
+      };
+    }
     return {
       ...state,
       isFetching: payload,
@@ -121,6 +154,46 @@ export default function systemReducer(state = initialState, { type, payload }) {
       profileInfoSideBar: {
         ...state.profileInfoSideBar,
         isFetching: true,
+      },
+    };
+  }
+  case PROFILES_INFO_SIDEBAR: {
+    return {
+      ...state,
+      profilesSidebar: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case POPLS_INFO_SIDEBAR: {
+    return {
+      ...state,
+      poplsSidebar: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case CONNECTIONS_INFO_SIDEBAR: {
+    return {
+      ...state,
+      connectionsSidebar: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case LATEST_CONNECTIONS: {
+    return {
+      ...state,
+      latestConnections: {
+        data: payload,
+        error: null,
+        isFetching: false,
       },
     };
   }

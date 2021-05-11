@@ -57,23 +57,37 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           payload: [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))],
         });
 
-        const popls = await Promise.all([...idsArray, id].map((el) => getPoplsDataById(el)));
-        const pops = await Promise.all([...idsArray, id].map((el) => requests.popsActionRequest(el)));
-        const topPoppedPopls = {};
-        popls
-          .reduce((acc, popls) => [...acc, ...popls.data], [])
-          .forEach((popl) => topPoppedPopls[popl.name] = []);
-
-        pops
-          .reduce((acc, pops) => [...acc, ...pops.data], [])
-          .forEach((pop) => {
-            const name = filterPops.slicePoplNameFromPop(pop[1]);
-            if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+        const popls = getState().poplsReducer.allPopls.data;
+        dispatch({
+          type: TOTAL_POPLS,
+          payload: popls,
+        });
+        Promise.all([...idsArray, id].map((el) => requests.popsActionRequest(el)))
+          .then((res) => {
+            dispatch({
+              type: POPS_COUNT_TOP,
+              payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            dispatch(isFetchingAction(false, "popsCountTop"));
           });
+        // const topPoppedPopls = {};
+        // popls
+        //   .reduce((acc, popls) => [...acc, ...popls.data], [])
+        //   .forEach((popl) => topPoppedPopls[popl.name] = []);
 
-        widgetsStats.topPoppedPopls = Object.keys(topPoppedPopls)
-          .map((key) => ({ [key]: topPoppedPopls[key] }))
-          .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
+        // pops
+        //   .reduce((acc, pops) => [...acc, ...pops.data], [])
+        //   .forEach((pop) => {
+        //     const name = filterPops.slicePoplNameFromPop(pop[1]);
+        //     if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+        //   });
+
+        // widgetsStats.topPoppedPopls = Object.keys(topPoppedPopls)
+        //   .map((key) => ({ [key]: topPoppedPopls[key] }))
+        //   .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
 
         result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
         widgetsStats.popsCount = result.length;
@@ -92,10 +106,6 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         dispatch({
           type: POPS_COUNT_TOP,
           payload: [...poplPops, ...qrCodePops, ...walletPops],
-        });
-        dispatch({
-          type: TOTAL_POPLS,
-          payload: null,
         });
         dispatch({
           type: GET_VIEWS_TOP,
@@ -192,6 +202,7 @@ export const getStatisticItem = (profiles, isSingle) => async (dispatch, getStat
   makeProfileSubscriberRequest();
   try {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
+    const popls = getState().poplsReducer.allPopls.data;
     dispatch(cleanActionName("topStatisticsData"));
 
     // FETCHING POPS
@@ -208,17 +219,21 @@ export const getStatisticItem = (profiles, isSingle) => async (dispatch, getStat
       });
 
     // FETCHING POPLS
-    Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
-      .then((res) => {
-        dispatch({
-          type: TOTAL_POPLS,
-          payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(isFetchingAction(false, "totalPopls"));
-      });
+    dispatch({
+      type: TOTAL_POPLS,
+      payload: popls,
+    });
+    // Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
+    //   .then((res) => {
+    //     dispatch({
+    //       type: TOTAL_POPLS,
+    //       payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     dispatch(isFetchingAction(false, "totalPopls"));
+    //   });
 
     Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)))
       .then((res) => {
