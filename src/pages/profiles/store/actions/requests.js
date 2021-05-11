@@ -124,8 +124,6 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
 };
 
 export const makeProfileSubscriberRequest = (userId) => {
-  console.log(userId);
-
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi" },
