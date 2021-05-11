@@ -124,16 +124,19 @@ export const deleteLinkRequest = (linkType, linkHash, profileId, linkId) => {
 };
 
 export const makeProfileSubscriberRequest = (userId) => {
+  console.log(userId);
+
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV" },
-    body: JSON.stringify({ duration: "weekly" }),
+    headers: { "Content-Type": "application/json", Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi" },
+    body: JSON.stringify({ duration: "monthly" }),
   };
+  console.log(userId);
 
-  fetch("https://api.revenuecat.com/v1/subscribers/306074/entitlements/pro/promotional", options)
+  fetch(`https://api.revenuecat.com/v1/subscribers/${userId}/entitlements/pro/promotional`, options)
     .then((response) => response.json())
     .then((response) => {
-      makeProfileProRequest("306074");
+      makeProfileProRequest(userId.toString());
     })
     .catch((err) => console.error(err));
 };

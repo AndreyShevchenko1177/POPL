@@ -64,6 +64,7 @@ export default function Main({ children, stripe }) {
       else dispatch(restricteModeAction(false));
     } else {
       const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+      console.log(subscription?.unitsRange[1]);
       if (subscription) {
         if (totalProfiles > subscription.unitsRange[1]) dispatch(restricteModeAction(true));
       }

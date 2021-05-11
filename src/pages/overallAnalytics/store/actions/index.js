@@ -43,14 +43,12 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
       const walletPops = [];
 
       if (poplName) {
-        let widgetsStats = {};
         let topViewedViews = [];
         let idsArray = [id];
         if (data) {
           idsArray = JSON.parse(removeCommas(data));
         }
         topViewedViews = await Promise.all([...idsArray, id].map((id) => requests.getAllThreeStats(id)));
-        widgetsStats.topViewedProfiles = [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))];
 
         dispatch({
           type: TOP_VIEWED_PROFILES,
@@ -73,28 +71,8 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
             console.log(err);
             dispatch(isFetchingAction(false, "popsCountTop"));
           });
-        // const topPoppedPopls = {};
-        // popls
-        //   .reduce((acc, popls) => [...acc, ...popls.data], [])
-        //   .forEach((popl) => topPoppedPopls[popl.name] = []);
-
-        // pops
-        //   .reduce((acc, pops) => [...acc, ...pops.data], [])
-        //   .forEach((pop) => {
-        //     const name = filterPops.slicePoplNameFromPop(pop[1]);
-        //     if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
-        //   });
-
-        // widgetsStats.topPoppedPopls = Object.keys(topPoppedPopls)
-        //   .map((key) => ({ [key]: topPoppedPopls[key] }))
-        //   .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
 
         result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
-        widgetsStats.popsCount = result.length;
-        dispatch({
-          type: GET_TOP_STATISTICS_SUCCESS,
-          payload: widgetsStats,
-        });
 
         result.forEach((pop) => {
           if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
@@ -139,7 +117,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           payload: result,
         });
       }
-    } else {
+    } else { // calling this on individual profile level
       const response = await requests.popsActionRequest(userId);
       if (typeof response === "string") {
         dispatch(
@@ -199,7 +177,6 @@ export const getStatisticItemsRequest = () => async (dispatch, getState) => {
 };
 
 export const getStatisticItem = (profiles, isSingle) => async (dispatch, getState) => {
-  makeProfileSubscriberRequest();
   try {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
     const popls = getState().poplsReducer.allPopls.data;

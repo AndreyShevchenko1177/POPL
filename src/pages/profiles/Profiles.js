@@ -25,8 +25,8 @@ const parentContainerStyle = {
   marginTop: 20,
   width: "100%",
   minWidth: "800px",
-  WebkitBoxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
-  boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+  WebkitBoxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
+  boxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
   outline: "none",
 };
 
@@ -245,6 +245,7 @@ export default function Profiles() {
       <Header
         rootLink="Profiles"
       />
+      <div style={{ width: "100%", height: 70 }}></div>
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
