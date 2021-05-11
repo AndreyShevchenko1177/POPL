@@ -94,7 +94,7 @@ export default makeStyles((theme) => ({
   disabledTextfield: {
     "& .MuiInputBase-root.Mui-disabled": {
       color: "#000000", // (default alpha is 0.38)
-      fontWeight: "200",
+      fontWeight: "600",
     },
   },
   disabledTextfieldBio: {
@@ -106,7 +106,7 @@ export default makeStyles((theme) => ({
   nameInput: {
     fontSize: 18,
     fontFamily: "DM Sans",
-    fontWeight: 200,
+    fontWeight: 600,
     // paddingRight: 20,
   },
   bioInput: {

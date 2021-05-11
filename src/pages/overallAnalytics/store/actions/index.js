@@ -124,7 +124,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           snackBarAction({
             message: "Download pops error",
             severity: "error",
-            duration: 3000,
+            duration: 6000,
             open: true,
           }),
         );
@@ -163,7 +163,7 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );

@@ -39,7 +39,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         snackBarAction({
           message: "Popl added successfully",
           severity: "success",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       );
@@ -49,7 +49,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         snackBarAction({
           message: addPopl.error,
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       );
@@ -63,7 +63,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         snackBarAction({
           message: "Popl added successfully",
           severity: "success",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       );
@@ -73,7 +73,7 @@ function PoplForm({ popl, setIsOpenForm, mid }) {
         snackBarAction({
           message: addPopl.error,
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       );

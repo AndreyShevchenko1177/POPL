@@ -89,7 +89,7 @@ function SignUp(props) {
       dispatch(snackBarAction({
         message: signUpResult.error.message,
         severity: "error",
-        duration: 5000,
+        duration: 6000,
         open: true,
       }));
     }

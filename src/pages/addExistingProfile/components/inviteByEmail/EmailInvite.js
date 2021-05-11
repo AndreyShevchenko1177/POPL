@@ -73,7 +73,7 @@ function EmailInvite() {
       dispatch(snackBarAction({
         message: "Invites sent successfully",
         severity: "success",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
     }

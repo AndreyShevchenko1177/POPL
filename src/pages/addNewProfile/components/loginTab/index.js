@@ -29,7 +29,7 @@ function LoginTab() {
         return dispatch(snackBarAction({
           message: errorMessage,
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }));
       }
@@ -43,7 +43,7 @@ function LoginTab() {
       dispatch(snackBarAction({
         message: "Profiles create successfully",
         severity: "success",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
     }
