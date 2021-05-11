@@ -89,4 +89,31 @@ export default makeStyles((theme) => ({
       fontWeight: "200",
     },
   },
+  chipButton: {
+    backgroundColor: "transparent !important",
+    position: "absolute",
+    paddingRight: "10px !important",
+    width: "12px",
+    height: "30px !important",
+    left: 135,
+    top: 30,
+    "&:focus": {
+      backgroundColor: "transparent !important",
+    },
+    "& .MuiSvgIcon-root": {
+      width: "20px",
+      height: "20px",
+    },
+  },
+  linksEditWrapper: {
+    position: "absolute",
+    backgroundColor: "#d8d5d5",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 135,
+    top: 115,
+    cursor: "pointer",
+  },
 }));

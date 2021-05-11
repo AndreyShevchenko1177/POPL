@@ -31,7 +31,7 @@ const selectConfig = [
   },
   {
     id: 3,
-    label: "last month",
+    label: "last 30 days",
     value: "lastMonth",
   },
 ];

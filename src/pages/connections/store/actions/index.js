@@ -100,7 +100,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     dispatch(snackBarAction({
       message: "Server error",
       severity: "error",
-      duration: 3000,
+      duration: 6000,
       open: true,
     }));
     dispatch({

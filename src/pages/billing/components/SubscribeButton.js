@@ -48,7 +48,7 @@ function SubscribeButton({
             snackBarAction({
               message: "Subscription error",
               severity: "error",
-              duration: 3000,
+              duration: 6000,
               open: true,
             }),
           ));
@@ -57,7 +57,7 @@ function SubscribeButton({
         snackBarAction({
           message: "Subscription error",
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       ));

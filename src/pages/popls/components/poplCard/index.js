@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  Checkbox, Button, TextField,
+  Checkbox, Button, TextField, Chip,
 } from "@material-ui/core";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
+import EditIcon from "@material-ui/icons/Edit";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
@@ -20,6 +21,7 @@ function PoplCard({
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const fileInputRef = useRef();
   const [values, setValues] = useState({});
 
   const changeIconSize = (event, size) => {
@@ -75,6 +77,23 @@ function PoplCard({
             src={editProfileIcon}
           />
         </div>
+        {editMode[customId] && <Chip
+          className={classes.chipButton}
+          onDelete={() => {
+            // setCompanyImage("");
+            // setFieldsState((prev) => ({ ...prev, file: null }));
+          }}
+        />}
+        {editMode[customId] && <div className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
+          <EditIcon style={{ width: 18, height: 18 }}/>
+        </div>}
+        <input
+          style={{ display: "none" }}
+          ref={fileInputRef}
+          type='file'
+          multiple={false}
+          onChange={() => { console.log("change"); }}
+        />
         <Checkbox
           color="primary"
           inputProps={{ "aria-label": "primary checkbox" }}

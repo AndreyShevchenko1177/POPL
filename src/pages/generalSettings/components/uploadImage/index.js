@@ -98,7 +98,7 @@ const DropZone = ({
       validation.fileType && dispatch(snackBarAction({
         message: "Invalid file type",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, fileType: false });
@@ -107,7 +107,7 @@ const DropZone = ({
       validation.quantity && dispatch(snackBarAction({
         message: "You can add only one file in one time",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, quantity: false });
@@ -116,7 +116,7 @@ const DropZone = ({
       validation.duplicated && dispatch(snackBarAction({
         message: "You already uploaded this file",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, duplicated: false });

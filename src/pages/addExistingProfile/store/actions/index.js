@@ -34,7 +34,7 @@ export const addChildProfileAction = (userId, childId) => async (dispatch) => {
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );
@@ -58,7 +58,7 @@ export const signInChildAction = (credo) => async (dispatch) => {
         snackBarAction({
           message: "Sign in fail",
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }),
       );
@@ -82,7 +82,7 @@ export const signInChildAction = (credo) => async (dispatch) => {
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );
@@ -139,7 +139,7 @@ export const inviteByEmailAction = (emails, userData, clear) => async (dispatch,
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );

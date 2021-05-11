@@ -41,7 +41,7 @@ function EmailInvite() {
         dispatch(snackBarAction({
           message: `such emails already exists - ${errorMessage.length > 2 ? `${errorMessage.slice(0, 2).join(", ")} and ${errorMessage.length - 2} more` : errorMessage.join(", ")}`,
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }));
         dispatch(removeFileAction(Object.keys(filesList)[0]));
@@ -82,7 +82,7 @@ function EmailInvite() {
       dispatch(snackBarAction({
         message: "Profiles create successfully",
         severity: "success",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
     }

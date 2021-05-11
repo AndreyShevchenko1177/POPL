@@ -45,7 +45,7 @@ const DropZone = ({
     dispatch(snackBarAction({
       message: "File uploaded",
       severity: "success",
-      duration: 3000,
+      duration: 6000,
       open: true,
     }));
     importCsv(e);
@@ -166,11 +166,11 @@ const DropZone = ({
       return dispatch(snackBarAction({
         message: "Csv file is empty",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
     }
-    header = header.map((el) => el.toLowerCase());
+    header = header.map((el) => el.trim().toLowerCase());
     let index = header.indexOf("email") !== -1
       ? header.indexOf("email")
       : header.indexOf("email address") !== -1
@@ -179,12 +179,12 @@ const DropZone = ({
           ? header.indexOf("e-mail") : -1;
 
     if (index >= 0) {
-      const result = emails.map((el) => el[index]).filter((el, i, array) => el && array.indexOf(el) === i);
+      const result = emails.map((el) => el[index].trim()).filter((el, i, array) => el && array.indexOf(el) === i);
       if (!result.length) {
         return dispatch(snackBarAction({
           message: "No emails was found",
           severity: "error",
-          duration: 3000,
+          duration: 6000,
           open: true,
         }));
       }
@@ -198,7 +198,7 @@ const DropZone = ({
     return dispatch(snackBarAction({
       message: "No \"Email\", \"Email Address\" or \"E-mail\" column was found",
       severity: "error",
-      duration: 3000,
+      duration: 6000,
       open: true,
     }));
   };
@@ -208,7 +208,7 @@ const DropZone = ({
       validation.fileType && dispatch(snackBarAction({
         message: "Invalid file type",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, fileType: false });
@@ -217,7 +217,7 @@ const DropZone = ({
       validation.quantity && dispatch(snackBarAction({
         message: "You can add only one file in one time",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, quantity: false });
@@ -226,7 +226,7 @@ const DropZone = ({
       validation.duplicated && dispatch(snackBarAction({
         message: "You already uploaded this file",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
       setValidation({ ...validation, duplicated: false });

@@ -67,7 +67,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );
@@ -98,7 +98,7 @@ export const addLinkAction = (value, title, profileData, iconId, userId) => asyn
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );

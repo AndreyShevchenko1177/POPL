@@ -26,7 +26,7 @@ function EditLinkModal({
       return dispatch(snackBarAction({
         message: `You successfully changed ${link}`,
         severity: "success",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }));
     }
