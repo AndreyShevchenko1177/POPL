@@ -18,7 +18,7 @@ import {
   LATEST_CONNECTIONS,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
-import { getPoplsDataById } from "../../pages/popls/store/actions/requests";
+import { getPoplsDataById, getPoplsFromProfiles } from "../../pages/popls/store/actions/requests";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { getCollectionData } from "../../config/firebase.query";
 import {
@@ -96,10 +96,10 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
       type: PROFILE_INFO_FOR_MAIN_PAGE,
       payload: profiles.length,
     });
-    Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
+    Promise.all(profiles.map((profile) => getPoplsFromProfiles(profile)))
       .then((res) => {
         const popls = res
-          .reduce((result, current) => [...result, ...current.data], [])
+          .reduce((result, current) => [...result, ...current], [])
           .map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) }));
         dispatch({
           type: GET_POPLS_SUCCESS,
