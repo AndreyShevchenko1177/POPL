@@ -9,7 +9,9 @@ import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
 import Loader from "../../../../components/Loader";
-import { getMothName, getMonth, getDay } from "../../../../utils/dates";
+import {
+  getMothName, getMonth, getDay, getYear,
+} from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
@@ -75,13 +77,13 @@ export default function NetworkActivity({
       newData = [...newData.splice(3, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
-          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
+          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${getYear(el)}`));
           return;
         }
         // result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(values)];
       });
-      chartOptions.data.labels = labels;
+      chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
       setChartData({
         data: { ...chartOptions.data },
         options: {
@@ -121,23 +123,26 @@ export default function NetworkActivity({
   }, [chartData]);
 
   useEffect(() => {
+    let linkTapsResult;
+    let viewResult;
+
     if (linkTaps) {
-      let result = linkTaps?.filter((link) => {
+      linkTapsResult = linkTaps?.filter((link) => {
         const linkDate = moment(link.event_at).format("x");
         return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
       });
-      setKpisData({ ...kpisData, linkTaps: result.length });
     }
-  }, [linkTaps]);
-
-  useEffect(() => {
     if (views) {
-      let result = views?.filter((view) => {
+      viewResult = views?.filter((view) => {
         const viewsDate = moment(view[2]).format("x");
         return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
       });
-      setKpisData({ ...kpisData, views: result.length });
     }
+    if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
+  }, [linkTaps, calendar]);
+
+  useEffect(() => {
+
   }, [views]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));

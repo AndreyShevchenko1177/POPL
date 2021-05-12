@@ -15,6 +15,10 @@ const selectConfig = [
     value: "none",
   },
   {
+    id: 5,
+    label: "all time",
+  },
+  {
     id: 1,
     label: "last 7 days",
     value: "lastSevenDays",

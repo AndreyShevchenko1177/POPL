@@ -8,7 +8,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy, generateAllData,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -108,6 +108,22 @@ function OverallAnalytics() {
   const selectOption = (event) => {
     setOption(event.target.value);
     switch (event.target.value) {
+    case "all time": {
+      const { data, maxDate, minDate } = generateAllData(popsData);
+      let minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+        maxDate,
+      )}, ${getYear(maxDate)}-`;
+      let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+        minDate,
+      )}, ${getYear(minDate)}`;
+      setChartData({ ...chartData, lineData: data });
+      return setCalendar({
+        ...calendar,
+        dateRange: [maxDate, minDate],
+        normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
+        visible: false,
+      });
+    }
     case "last 7 days": {
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(6, "d").toDate();
@@ -133,7 +149,7 @@ function OverallAnalytics() {
       )}, ${getYear(dateFrom)}`;
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
-    case "last month": {
+    case "last 30 days": {
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(1, "months").subtract(-1, "d").toDate();
       const dateFromRange = moment().subtract(1, "months").toDate();
