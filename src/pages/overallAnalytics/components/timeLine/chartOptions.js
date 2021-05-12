@@ -1,12 +1,20 @@
 const chartOptions = {
   options: {
     maintainAspectRatio: false,
+    spanGaps: true,
     scales: {
       xAxes: [
         {
           gridLines: {
             // offsetGridLines: true,
+
           },
+          ticks: {
+            autoskip: true,
+            minRotation: 60,
+            autoSkipPadding: 25,
+          },
+          distribution: "linear",
         },
       ],
     },

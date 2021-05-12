@@ -103,7 +103,7 @@ function ProfilePanel({
           startIcon={<EqualizerIcon />}
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           onClick={() => history.push("/analytics", {
-            id, name, business, social, personalMode, profileName: name, url,
+            id, name, business, social, personalMode, profileName: name, url, poplsCount: poplsConnection[id],
           })}
         >
           Analytics

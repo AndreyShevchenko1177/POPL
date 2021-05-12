@@ -67,7 +67,7 @@ function OverallAnalytics() {
       minD = currentDate2;
     }
     if (maxDateMilis < minDateMilis) {
-      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate) });
+      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate), dataType: "" });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -84,14 +84,14 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate), dataType: "" });
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
     console.log({
       dateFromRange, dateFrom, dateTo, maxD, minD,
     }, "generate data, component - overallanalytics");
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo), dataType: "" });
     return setCalendar({
       ...calendar,
       dateRange: [dateTo, dateFromRange],
@@ -116,7 +116,7 @@ function OverallAnalytics() {
       let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
         minDate,
       )}, ${getYear(minDate)}`;
-      setChartData({ ...chartData, lineData: data });
+      setChartData({ ...chartData, lineData: data, dataType: "allData" });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -224,7 +224,7 @@ function OverallAnalytics() {
     } else {
       setChartData(popsData);
     }
-  }, [popsData]);
+  }, [popsData, location]);
 
   return (
     <>
@@ -237,7 +237,7 @@ function OverallAnalytics() {
         path="/analytics"
       />
       <div className={classes.overallAnalyticsContainer}>
-        <TopStatistics
+        {/* <TopStatistics
           popsCount={popsCountTop.data?.length}
           linkTaps={linkTapsTop.data}
           totalProfiles={location.state?.poplName ? "" : profilesData?.length}
@@ -254,9 +254,10 @@ function OverallAnalytics() {
             totalPopls: totalPopls.isFetching,
             ctr: linkTapsTop.isFetching || viewsTop.isFetching,
           }}
-        />
+        /> */}
         <NetworkActivity
           data={chartData?.lineData}
+          dataType={chartData?.dataType}
           calendar={calendar}
           setCalendar={setCalendar}
           setDate={setDate}
