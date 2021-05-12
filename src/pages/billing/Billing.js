@@ -14,7 +14,7 @@ export const subscriptionConfig = [
     id: 1,
     title: "Basic",
     price: "50",
-    unitsRange: [1, 5],
+    unitsRange: [1, 12],
     profilesNumber: "1-5",
     priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
   },

@@ -76,7 +76,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     }
 
     // checking tier level not out of range. if not - checking all profiles to be pro and making pro that unpro
-    if (dashboardPlan && subscriptionConfig[dashboardPlan].unitsRange[0] > profiles.length) {
+    if (dashboardPlan) {
       const unProProfileIds = [];
       profiles.forEach((profile) => {
         if (profile.pro == "0") {
@@ -84,10 +84,14 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
         }
       });
 
-      if (subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length < unProProfileIds.length) {
-        Promise.all(unProProfileIds.slice(0, subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length).map((id) => makeProfileSubscriberRequest(id)));
-      } else {
-        Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+      if (unProProfileIds.length) {
+        if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
+          Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+        } else {
+          // we not in tier level - we need calculate how much profiles we could made pro to reach limit
+          const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan - 1].unitsRange[1]);
+          Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => makeProfileSubscriberRequest(id)));
+        }
       }
     }
 

@@ -52,10 +52,14 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
           }
         });
 
-        if (subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length < unProProfileIds.length) {
-          Promise.all(unProProfileIds.slice(0, subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length).map((id) => requests.makeProfileSubscriberRequest(id)));
-        } else {
-          Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
+        if (unProProfileIds.length) {
+          if (subscriptionConfig[dashboardPlan].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
+            Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
+          } else {
+            // we not in tier level - we need calculate how much profiles we could made pro to reach limit
+            const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan].unitsRange[1]);
+            Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => requests.makeProfileSubscriberRequest(id)));
+          }
         }
       }
     }
