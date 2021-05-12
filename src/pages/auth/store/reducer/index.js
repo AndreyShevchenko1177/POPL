@@ -69,7 +69,7 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       dashboardPlan: {
-        data: 3,
+        data: payload || 0,
         error: null,
       },
     };

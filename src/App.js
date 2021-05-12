@@ -72,7 +72,7 @@ function App(props) {
   }, [profileData]);
 
   useEffect(() => {
-    if (dashboardPlan) dispatch(getProfileInfoRequest(profileData.id));
+    if (dashboardPlan !== null) dispatch(getProfileInfoRequest(profileData.id));
   }, [dashboardPlan]);
 
   return (
