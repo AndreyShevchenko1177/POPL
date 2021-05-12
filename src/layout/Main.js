@@ -55,21 +55,26 @@ export default function Main({ children, stripe }) {
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
-    const allowedPaths = ["/settings", "/settings/general-settings", "/profiles", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
+    const allowedPaths = ["/settings", "/settings/billing", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
     if (dashboardPlan == 0 || dashboardPlan === "") {
       if (!allowedPaths.includes(location.pathname)) {
         if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
+        if (totalProfiles > 1 && location.pathname === "/profiles") return dispatch(restricteModeAction(true));
         dispatch(restricteModeAction(true));
-      } else if (totalProfiles > 1 && location.pathname === "/profiles") dispatch(restricteModeAction(true));
-      else dispatch(restricteModeAction(false));
+      }
     } else {
       const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
-      console.log(subscription?.unitsRange[1]);
       if (subscription) {
-        if (totalProfiles > subscription.unitsRange[1]) dispatch(restricteModeAction(true));
+        if (totalProfiles > subscription.unitsRange[1] && !allowedPaths.includes(location.pathname)) {
+          // console.log(totalProfiles, subscription?.unitsRange[1]);
+          return dispatch(restricteModeAction(true));
+        }
       }
+      dispatch(restricteModeAction(false));
     }
   }, [location, totalProfiles, dashboardPlan]);
+
+  console.log(isRestrictedMode);
 
   return (
     <div className={classes.root}>

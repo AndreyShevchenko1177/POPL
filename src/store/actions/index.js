@@ -48,6 +48,9 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     const dashboardPlan = getState().authReducer.dashboardPlan.data;
 
     dispatch(fetchingAction(true));
+    dispatch(fetchingAction(true, "connectionsSidebar"));
+    dispatch(fetchingAction(true, "profilesSidebar"));
+    dispatch(fetchingAction(true, "poplsSidebar"));
     dispatch({
       type: UPDATE_SIDE_BAR_DATA_STATUS,
     });
@@ -136,11 +139,8 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
     const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
 
     // calling pops for profile buttons pops count
-    console.log(profiles);
     const pops = await Promise.all(profiles.map(({ id }) => popsActionRequest(id)));
     pops.forEach((item) => profilePops[item.config.data.get("pid")] = item.data.length);
-
-    console.log(pops);
 
     connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
     dispatch({
