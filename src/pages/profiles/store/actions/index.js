@@ -2,7 +2,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
-import { Form } from "redux-form";
 import { snackBarAction, profileCountTierLevelAction, profilesInfoAction } from "../../../../store/actions";
 import { getId, removeCommas } from "../../../../utils";
 import {
@@ -22,28 +21,30 @@ import {
   IS_DATA_FETCHING,
 } from "../actionTypes";
 import * as requests from "./requests";
-import { setUserProRequest } from "../../../stripeResultPages/store/requests";
+import { subscriptionConfig } from "../../../billing/index";
 
 export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
-    let profiles = [];
-    if (!storeProfiles) {
-      console.log("action");
-      dispatch(isFetchingAction(true));
-      const myProfile = await requests.getProfileAction(userId);
-      const response = await requests.profileIdsRequest(userId);
-      profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
-      if (response.data && response.data !== "null") {
-        const idsArray = JSON.parse(removeCommas(response.data));
-        const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
-        profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
-          ...p,
-          customId: getId(12),
-          business: p.business,
-          social: p.social,
-        }));
+    if (storeProfiles) return; // calling this action only when we don't have profiles in store
 
+    const dashboardPlan = getState().authReducer.dashboardPlan.data;
+    let profiles = [];
+    dispatch(isFetchingAction(true));
+    const myProfile = await requests.getProfileAction(userId);
+    const response = await requests.profileIdsRequest(userId);
+    profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
+    if (response.data && response.data !== "null") {
+      const idsArray = JSON.parse(removeCommas(response.data));
+      const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
+      profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
+        ...p,
+        customId: getId(12),
+        business: p.business,
+        social: p.social,
+      }));
+
+      if (dashboardPlan && subscriptionConfig[dashboardPlan].unitsRange[0] > profiles.length) {
         const unProProfileIds = [];
         profiles.forEach((profile) => {
           if (profile.pro == "0") {
@@ -52,15 +53,14 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         });
 
         await Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
-        // Promise.all(unProProfileIds.map((id) => requests.makeProfileProRequest(id)));
       }
-      dispatch(profilesInfoAction(profiles));
-      dispatch(profileCountTierLevelAction(profiles.length));
-      return dispatch({
-        type: GET_DATA_PROFILES_SUCCESS,
-        payload: profiles,
-      });
     }
+    // dispatch(profilesInfoAction(profiles));
+    dispatch(profileCountTierLevelAction(profiles.length));
+    return dispatch({
+      type: GET_DATA_PROFILES_SUCCESS,
+      payload: profiles,
+    });
   } catch (error) {
     console.log(error);
     dispatch(

@@ -5,7 +5,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
-import { getPoplsAction } from "./store/actions";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
@@ -27,7 +26,7 @@ function PoplsItem() {
   );
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const editPoplFetching = useSelector(({ poplsReducer }) => poplsReducer.editPopl.isFetching);
-  const pops = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.allPops?.data?.allPops);
+  const pops = useSelector(({ poplsReducer }) => poplsReducer.allPops?.data);
   const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const isLoading = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
   const [dragablePopls, setPopls] = useState(null);
@@ -148,11 +147,6 @@ function PoplsItem() {
     }
   }, [checkboxes]);
 
-  useEffect(() => {
-    dispatch(getPoplsAction(profileData.id));
-    dispatch(getPopsAction());
-  }, []);
-
   useEffect(() => () => dispatch(cleanAction()), []); // cleaning analytics reducer
 
   useEffect(() => {
@@ -165,6 +159,7 @@ function PoplsItem() {
     }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   }, [popls, pops, location]);
+  console.log(pops);
 
   return (
     <>

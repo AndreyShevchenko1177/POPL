@@ -25,8 +25,8 @@ const parentContainerStyle = {
   marginTop: 20,
   width: "100%",
   minWidth: "800px",
-  WebkitBoxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
-  boxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
+  WebkitBoxShadow: "rgb(0 0 0 / 5%) 0px 8px 10px -1px, rgb(0 0 0 / 6%) 0px 1px 1px 0px, rgb(0 0 0 / 10%) 0px 3px 20px -4px",
+  boxShadow: "rgb(0 0 0 / 5%) 0px 8px 10px -1px, rgb(0 0 0 / 6%) 0px 1px 1px 0px, rgb(0 0 0 / 10%) 0px 3px 20px -4px",
   outline: "none",
 };
 
@@ -37,7 +37,9 @@ export default function Profiles() {
   const profilesData = useSelector(
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
-  const { profileConnection, poplsConnection, popsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
+  const profileConnections = useSelector(({ systemReducer }) => systemReducer.profileConnections.data);
+  const profilePopls = useSelector(({ systemReducer }) => systemReducer.profilePopls.data);
+  const profilePops = useSelector(({ systemReducer }) => systemReducer.profilePops.data);
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const deleteLinkData = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.data);
   const editLinkData = useSelector(({ profilesReducer }) => profilesReducer.editLink.data);
@@ -55,6 +57,7 @@ export default function Profiles() {
   const [wizard, setWizard] = useState({ open: false, data: [] });
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
+  const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/add-profile");
@@ -167,7 +170,7 @@ export default function Profiles() {
   };
 
   const sortHandler = (name, _, selectName) => {
-    if (!Object.keys(profileConnection).length) return;
+    if (!Object.keys(profileConnections).length) return;
     setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
     setProfiles((prevProfiles) => {
       const sortProfiles = [...prevProfiles].sort((a, b) => b[name] - a[name]);
@@ -179,9 +182,9 @@ export default function Profiles() {
   const resetSort = () => {
     setProfiles((prevProfile) => profilesData.map((prof) => ({
       ...prof,
-      connectionNumber: profileConnection[prof.id],
-      poplsNumber: poplsConnection[prof.id],
-      popsNumber: popsConnection[prof.id],
+      connectionNumber: profileConnections[prof.id],
+      poplsNumber: profilePopls[prof.id],
+      popsNumber: profilePops[prof.id],
       linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
     })));
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
@@ -199,19 +202,19 @@ export default function Profiles() {
   };
 
   useEffect(() => {
-    setProfiles((prevProfile) => prevProfile.map((prof) => ({
-      ...prof,
-      connectionNumber: profileConnection[prof.id],
-      poplsNumber: poplsConnection[prof.id],
-      popsNumber: popsConnection[prof.id],
-      linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
-    })));
-  }, [poplsConnection]);
-
-  useEffect(() => {
     if (!profilesData) return;
     setProfiles(profilesData);
   }, [profilesData]);
+
+  useEffect(() => {
+    setProfiles((prevProfile) => prevProfile.map((prof) => ({
+      ...prof,
+      connectionNumber: profileConnections[prof.id],
+      poplsNumber: profilePopls[prof.id],
+      popsNumber: profilePops[prof.id],
+      linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
+    })));
+  }, [profileConnections, profilePopls, profilePops]);
 
   useEffect(() => {
     const checkBoxObject = {};
@@ -239,6 +242,7 @@ export default function Profiles() {
     if (wizard.open) return dispatch(handleMainPageScrollAction(false));
     dispatch(handleMainPageScrollAction(true));
   }, [wizard]);
+  console.log(profiles);
 
   return (
     <>

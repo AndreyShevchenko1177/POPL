@@ -45,6 +45,8 @@ export default function Card({
   setProfileType,
   showAddLinkWiz,
   isFetching,
+  poplsNumber,
+  connectionNumber,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -359,6 +361,8 @@ export default function Card({
               personalMode={personalMode}
               section2={classes.section2}
               isFetching={isFetching}
+              connectionNumber={connectionNumber}
+              poplsNumber={poplsNumber}
             />
           </div>
         </div>

@@ -1,7 +1,9 @@
 import {
   PROFILE_DATA, ALERT,
-  PROFILE_INFO_FOR_SIDE_BAR,
   PROFILE_COUNT_TIER_LEVEL,
+  PROFILE_POPLS,
+  PROFILE_POPS,
+  PROFILE_CONNECTIONS,
   SUBSCRIPTION_INFO,
   FETCHING_ACTION,
   UPDATE_CONNECTIONS,
@@ -24,11 +26,19 @@ const initialState = {
     severity: "",
     open: false,
   },
-  profileInfoSideBar: {
-    result: {},
-    profileConnection: {},
-    poplsConnection: {},
-    popsConnection: {},
+  profilePopls: {
+    data: {},
+    error: null,
+    isFetching: false,
+  },
+  profilePops: {
+    data: {},
+    error: null,
+    isFetching: false,
+  },
+  profileConnections: {
+    data: {},
+    error: null,
     isFetching: false,
   },
   tierLevelInfo: {
@@ -78,11 +88,34 @@ export default function systemReducer(state = initialState, { type, payload }) {
       alert: payload,
     };
   }
-  case PROFILE_INFO_FOR_SIDE_BAR: {
+  case PROFILE_POPLS: {
     return {
       ...state,
-      profileInfoSideBar: payload,
-      isFetching: false,
+      profilePopls: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case PROFILE_POPS: {
+    return {
+      ...state,
+      profilePops: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
+    };
+  }
+  case PROFILE_CONNECTIONS: {
+    return {
+      ...state,
+      profileConnections: {
+        data: payload,
+        error: null,
+        isFetching: false,
+      },
     };
   }
   case PROFILE_COUNT_TIER_LEVEL: {

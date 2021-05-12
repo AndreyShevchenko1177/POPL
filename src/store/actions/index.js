@@ -2,10 +2,12 @@
 /* eslint-disable import/no-cycle */
 import {
   PROFILE_DATA, ALERT,
-  PROFILE_INFO_FOR_SIDE_BAR,
   PROFILE_COUNT_TIER_LEVEL,
   SUBSCRIPTION_INFO,
   FETCHING_ACTION,
+  PROFILE_POPLS,
+  PROFILE_POPS,
+  PROFILE_CONNECTIONS,
   UPDATE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
   HIDE_RESTRICTED_MODE,
@@ -17,16 +19,15 @@ import {
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
 } from "../actionTypes";
-import { profileIdsRequest, getProfileAction } from "../../pages/profiles/store/actions/requests";
-import { getPoplsDataById, getPoplsFromProfiles } from "../../pages/popls/store/actions/requests";
-import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
+import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../pages/profiles/store/actions/requests";
+import { getPoplsAction } from "../../pages/popls/store/actions";
+import { subscriptionConfig } from "../../pages/billing/index";
 import { getCollectionData } from "../../config/firebase.query";
+import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
+import { GET_POPS_FOR_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
 import {
   uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
 } from "../../utils";
-
-// saving popls in popls reducer
-import { GET_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
 
 // saving profiles in profiles reducer
 const GET_DATA_PROFILES_SUCCESS = "[PROFILE] GET DATA PROFILES SUCCESS";
@@ -44,6 +45,8 @@ export const snackBarAction = (payload) => ({
 // main action for getting profiles. called in app.js
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
   try {
+    const dashboardPlan = getState().authReducer.dashboardPlan.data;
+
     dispatch(fetchingAction(true));
     dispatch({
       type: UPDATE_SIDE_BAR_DATA_STATUS,
@@ -68,6 +71,19 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     } else {
       profiles = profilesData;
     }
+
+    // checking tier level not out of range. if not - checking all profiles to be pro and making pro that unpro
+    if (dashboardPlan && subscriptionConfig[dashboardPlan].unitsRange[0] > profiles.length) {
+      const unProProfileIds = [];
+      profiles.forEach((profile) => {
+        if (profile.pro == "0") {
+          unProProfileIds.push(profile.id);
+        }
+      });
+
+      await Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+    }
+
     dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: profiles,
@@ -88,37 +104,63 @@ export const profileCountTierLevelAction = (number) => ({
   payload: number,
 });
 
-export const profilesInfoAction = (profiles) => async (dispatch) => {
+export const getPoplsForProfilesButton = (popls) => {
+  const profilePopls = {};
+  popls.forEach((item) => {
+    if (profilePopls[item.profileId]) profilePopls[item.profileId] += 1;
+    else profilePopls[item.profileId] = 1;
+  });
+
+  return {
+    type: PROFILE_POPLS,
+    payload: profilePopls,
+  };
+};
+
+export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
   try {
-    let result = {};
-    result.totalProfiles = `${profiles.length}`;
+    const profileConnection = {};
+    const profilePops = {};
+
     dispatch({
       type: PROFILE_INFO_FOR_MAIN_PAGE,
       payload: profiles.length,
     });
-    Promise.all(profiles.map((profile) => getPoplsFromProfiles(profile)))
-      .then((res) => {
-        const popls = res
-          .reduce((result, current) => [...result, ...current], [])
-          .map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) }));
-        dispatch({
-          type: GET_POPLS_SUCCESS,
-          payload: popls,
-        });
-        dispatch({
-          type: POPLS_INFO_SIDEBAR,
-          payload: popls.length,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(fetchingAction(false, "poplsSidebar"));
-      });
+    try {
+      dispatch(getPoplsAction(profiles, POPLS_INFO_SIDEBAR));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchingAction(false, "poplsSidebar"));
+    }
 
     const connections = await getCollectionData("people", [...profiles.map((el) => el.id)]);
+
+    // calling pops for profile buttons pops count
+    console.log(profiles);
+    const pops = await Promise.all(profiles.map(({ id }) => popsActionRequest(id)));
+    pops.forEach((item) => profilePops[item.config.data.get("pid")] = item.data.length);
+
+    console.log(pops);
+
+    connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
     dispatch({
       type: CONNECTIONS_INFO_SIDEBAR,
       payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length,
+    });
+
+    dispatch({
+      type: PROFILE_POPS,
+      payload: profilePops,
+    });
+
+    dispatch({
+      type: GET_POPS_FOR_POPLS_SUCCESS,
+      payload: pops.reduce((acc, value) => ([...acc, ...value.data]), []),
+    });
+
+    dispatch({
+      type: PROFILE_CONNECTIONS,
+      payload: profileConnection,
     });
   } catch (error) {
     console.log(error);
