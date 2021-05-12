@@ -133,7 +133,7 @@ function OverallAnalytics() {
       )}, ${getYear(dateFrom)}`;
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
-    case "last month": {
+    case "last 30 days": {
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(1, "months").subtract(-1, "d").toDate();
       const dateFromRange = moment().subtract(1, "months").toDate();
