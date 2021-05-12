@@ -55,24 +55,27 @@ export default function Main({ children, stripe }) {
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
-    const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
-    if (dashboardPlan == 0 || dashboardPlan === "") {
-      if (!allowedPaths.includes(location.pathname)) {
-        console.log("1");
-        if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
-        if (totalProfiles > 1 && location.pathname === "/profiles") return dispatch(restricteModeAction(true));
-        return dispatch(restricteModeAction(true));
-      }
-      dispatch(restricteModeAction(false));
-    } else {
-      const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
-      if (!allowedPaths.includes(location.pathname)) {
-        if (totalProfiles > subscription.unitsRange[1]) {
+    if (dashboardPlan !== null) {
+      const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
+      if (dashboardPlan == 0 || dashboardPlan === "") {
+        if (!allowedPaths.includes(location.pathname)) {
+          console.log("1");
+          if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
+          if (totalProfiles > 1 && location.pathname === "/profiles") return dispatch(restricteModeAction(true));
           return dispatch(restricteModeAction(true));
         }
-        return dispatch(restricteModeAction(false));
+        dispatch(restricteModeAction(false));
+      } else {
+        const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+        console.log(subscription);
+        if (!allowedPaths.includes(location.pathname)) {
+          if (totalProfiles > subscription.unitsRange[1]) {
+            return dispatch(restricteModeAction(true));
+          }
+          return dispatch(restricteModeAction(false));
+        }
+        dispatch(restricteModeAction(false));
       }
-      dispatch(restricteModeAction(false));
     }
   }, [location, totalProfiles, dashboardPlan]);
 
