@@ -49,6 +49,26 @@ function App(props) {
       dispatch(getProfileInfoRequest(profileData.id));
       dispatch(getDashboardPlanAction(profileData.id));
     }
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-Platform": "ios",
+    //     Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
+    //   },
+    //   body: JSON.stringify({
+    //     product_id: "prod_JSxR7LsvIZrqXl",
+    //     price: 4.99,
+    //     currency: "USD",
+    //     is_restore: "false",
+    //     app_user_id: "306074",
+    //     fetch_token: "sub_JSxSU2qWRtIPWI",
+    //   }),
+    // };
+    // fetch("https://api.revenuecat.com/v1/receipts", options)
+    //   .then((response) => response.json())
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.error(err));
   }, [profileData]);
 
   return (
