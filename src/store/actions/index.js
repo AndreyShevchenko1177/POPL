@@ -84,7 +84,11 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
         }
       });
 
-      await Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+      if (subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length < unProProfileIds.length) {
+        Promise.all(unProProfileIds.slice(0, subscriptionConfig[dashboardPlan].unitsRange[1] - profiles.length).map((id) => makeProfileSubscriberRequest(id)));
+      } else {
+        Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+      }
     }
 
     dispatch({
@@ -95,6 +99,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       type: PROFILES_INFO_SIDEBAR,
       payload: profiles.length,
     });
+    dispatch(profileCountTierLevelAction(profiles.length)); // updating data for tier level sectin in sidebar
     return dispatch(profilesInfoAction(profiles));
   } catch (error) {
     console.log(error);

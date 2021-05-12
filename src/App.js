@@ -38,6 +38,7 @@ setAxios();
 
 function App(props) {
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -46,7 +47,6 @@ function App(props) {
       deleteCookies("sessionId");
     }
     if (profileData) {
-      dispatch(getProfileInfoRequest(profileData.id));
       dispatch(getDashboardPlanAction(profileData.id));
     }
     // const options = {
@@ -70,6 +70,10 @@ function App(props) {
     //   .then((response) => console.log(response))
     //   .catch((err) => console.error(err));
   }, [profileData]);
+
+  useEffect(() => {
+    if (dashboardPlan) dispatch(getProfileInfoRequest(profileData.id));
+  }, [dashboardPlan]);
 
   return (
     <Router>

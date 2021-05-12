@@ -231,7 +231,6 @@ export default function systemReducer(state = initialState, { type, payload }) {
     };
   }
   case HANDLE_MAIN_PAGE_SCROLL: {
-    console.log(payload);
     return {
       ...state,
       isMainPageScroll: payload,

@@ -242,7 +242,6 @@ export default function Profiles() {
     if (wizard.open) return dispatch(handleMainPageScrollAction(false));
     dispatch(handleMainPageScrollAction(true));
   }, [wizard]);
-  console.log(profiles);
 
   return (
     <>

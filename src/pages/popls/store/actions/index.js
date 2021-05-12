@@ -24,7 +24,6 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
     dispatch(isFetchingAction(true));
     const popls = await Promise.all(profiles.map((profile) => requests.getPoplsFromProfiles(profile)))
       .then((res) => res.reduce((result, current) => [...result, ...current], []));
-    console.log(popls);
     dispatch(getPoplsForProfilesButton(popls));
     dispatch({
       type: GET_POPLS_SUCCESS,

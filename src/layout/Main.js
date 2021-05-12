@@ -66,15 +66,12 @@ export default function Main({ children, stripe }) {
       const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
       if (subscription) {
         if (totalProfiles > subscription.unitsRange[1] && !allowedPaths.includes(location.pathname)) {
-          // console.log(totalProfiles, subscription?.unitsRange[1]);
           return dispatch(restricteModeAction(true));
         }
       }
       dispatch(restricteModeAction(false));
     }
   }, [location, totalProfiles, dashboardPlan]);
-
-  console.log(isRestrictedMode);
 
   return (
     <div className={classes.root}>
