@@ -63,8 +63,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         }
       }
     }
-    // dispatch(profilesInfoAction(profiles));
-    dispatch(profileCountTierLevelAction(profiles.length));
+
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: profiles,

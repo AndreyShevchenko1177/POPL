@@ -83,7 +83,6 @@ export default makeStyles((theme) => ({
   },
   bottomKpisTitleText: {
     fontSize: "14px !important",
-    marginLeft: 3,
   },
   bottomKpisItemValue: {
     fontSize: "1.5rem",

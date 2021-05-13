@@ -52,24 +52,6 @@ export const setCompanyAvatar = async (file) => {
   const fileRef = storageRef.child(`${file.name}`);
   await fileRef.put(file);
   return downloadFileFromFireBase(file.name);
-  // downloadFileFromFireBase(file[0].name, "images");
-};
-
-const downLoadFileFromUrl = (url, fileName) => {
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute(
-    "download",
-    `${fileName}`,
-  );
-  link.setAttribute(
-    "target",
-    "_blank",
-  );
-
-  document.body.appendChild(link);
-  link.click();
-  link.parentNode.removeChild(link);
 };
 
 const downloadFileFromFireBase = (fileName, folderName) => {
@@ -81,26 +63,12 @@ const downloadFileFromFireBase = (fileName, folderName) => {
   }
 };
 
-// const listAll = (folderName) => {
-//   const storageRef = firebase.storage().ref();
-
-//   // [START storage_list_all]
-//   // Create a reference under which you want to list
-//   let listRef = storageRef.child(folderName);
-
-//   // Find all the prefixes and items.
-//   listRef.listAll()
-//     .then((res) => {
-//       res.prefixes.forEach((folderRef) => {
-//         // All the prefixes under listRef.
-//         // You may call listAll() recursively on them.
-//       });
-//       res.items.forEach((itemRef) => {
-//         // All the items under listRef.
-//         console.log(itemRef);
-//       });
-//     }).catch((error) => {
-//       // Uh-oh, an error occurred!
-//     });
-//   // [END storage_list_all]
-// };
+export const deleteProfileRequest = (profileId, userId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "RemoveChild");
+  bodyFormData.append("sChild", profileId.toString());
+  bodyFormData.append("iID", userId.toString());
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};

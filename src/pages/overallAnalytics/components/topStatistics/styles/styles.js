@@ -40,6 +40,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     width: "100%",
     alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
     fontSize: "16px",

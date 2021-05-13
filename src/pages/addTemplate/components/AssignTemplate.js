@@ -5,7 +5,6 @@ import {
 } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { getProfilesDataAction } from "../../profiles/store/actions";
 import userIcon from "../../../assets/svg/user.svg";
 import useStyles from "../styles";
 
