@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, makeStyles, Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,10 +31,13 @@ function Header({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
 
   const handleRedirect = () => {
-    history.push(path);
-    rootLinkClick && rootLinkClick();
+    if (lastChild || firstChild) {
+      history.push(path);
+      rootLinkClick && rootLinkClick();
+    }
   };
 
   const firstChildRedirect = () => history.push(firstChildRedirectPath);

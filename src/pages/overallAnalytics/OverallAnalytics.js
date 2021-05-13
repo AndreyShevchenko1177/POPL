@@ -24,11 +24,9 @@ function OverallAnalytics() {
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
   const {
-    popsCountTop, totalPopls, topViewedProfiles, linkTapsTop, viewsTop,
+    popsCountTop, totalPopls, topViewedProfiles,
   } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-  const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
-  const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
@@ -101,8 +99,13 @@ function OverallAnalytics() {
   };
 
   const handleShowAllStat = () => {
-    dispatch(getStatisticItemsRequest(userId));
-    dispatch(getPopsAction());
+    // dispatch(getStatisticItemsRequest(userId));
+    setChartData({
+      dohnutDirectData: null,
+      dohnutPopsData: null,
+      lineData: null,
+    });
+    dispatch(cleanAction());
   };
 
   const selectOption = (event) => {
@@ -193,7 +196,7 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    if (profilesData && popls) {
+    if (profilesData) {
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         dispatch(getPopsAction(null, location.state?.poplName));
@@ -204,10 +207,13 @@ function OverallAnalytics() {
       } else {
         setWidgetLayerString({ layer: "Total", name: "Total" });
         dispatch(getStatisticItemsRequest(userId));
-        dispatch(getPopsAction(location.state?.id));
+
+        if (!popsData || !Object.values(popsData).length) {
+          dispatch(getPopsAction(location.state?.id));
+        }
       }
     }
-  }, [location, profilesData, popls]);
+  }, [location, profilesData]);
 
   useEffect(() => () => {
     dispatch(cleanAction());
@@ -222,7 +228,11 @@ function OverallAnalytics() {
     if (popsData && Object.values(popsData).length) {
       setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
     } else {
-      setChartData(popsData);
+      setChartData({
+        dohnutDirectData: null,
+        dohnutPopsData: null,
+        lineData: null,
+      });
     }
   }, [popsData, location]);
 

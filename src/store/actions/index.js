@@ -69,10 +69,6 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       profiles = profilesData;
     }
     dispatch({
-      type: GET_DATA_PROFILES_SUCCESS,
-      payload: profiles,
-    });
-    dispatch({
       type: PROFILES_INFO_SIDEBAR,
       payload: profiles.length,
     });
@@ -101,9 +97,14 @@ export const profilesInfoAction = (profiles) => async (dispatch) => {
         const popls = res
           .reduce((result, current) => [...result, ...current], [])
           .map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) }));
+
         dispatch({
           type: GET_POPLS_SUCCESS,
           payload: popls,
+        });
+        dispatch({
+          type: GET_DATA_PROFILES_SUCCESS,
+          payload: profiles,
         });
         dispatch({
           type: POPLS_INFO_SIDEBAR,

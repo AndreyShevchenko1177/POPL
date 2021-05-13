@@ -3,6 +3,6 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   overallAnalyticsContainer: {
     width: "100%",
-    padding: "120px 50px 20px 50px",
+    padding: "70px 50px 20px 50px",
   },
 }));

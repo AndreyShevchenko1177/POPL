@@ -115,6 +115,8 @@ export default function NetworkActivity({
           },
         },
       });
+    } else {
+      setChartData(undefined);
     }
   }, [data]);
 
@@ -146,7 +148,7 @@ export default function NetworkActivity({
       });
     }
     if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
-  }, [linkTaps, calendar]);
+  }, [linkTaps, calendar.dateRange, chartData]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
