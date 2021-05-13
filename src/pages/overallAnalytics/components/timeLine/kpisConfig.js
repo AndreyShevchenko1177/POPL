@@ -35,22 +35,22 @@ const initialState = [
     isTop: true,
     icon: <img style={{ width: "15px", height: "15px" }} alt='popl' src={popls} />,
   },
-  {
-    id: "popls",
-    title: "Popls",
-    value: "",
-    percentage: "6%",
-    isTop: true,
-    icon: <img alt='Total Popls'/>,
-  },
-  {
-    id: "profiles",
-    title: "Profiles",
-    value: "",
-    percentage: "6%",
-    isTop: true,
-    icon: <img alt='Total Profiless'/>,
-  },
+  // {
+  //   id: "popls",
+  //   title: "Popls",
+  //   value: "",
+  //   percentage: "6%",
+  //   isTop: true,
+  //   icon: <img alt='Total Popls'/>,
+  // },
+  // {
+  //   id: "profiles",
+  //   title: "Profiles",
+  //   value: "",
+  //   percentage: "6%",
+  //   isTop: true,
+  //   icon: <img alt='Total Profiless'/>,
+  // },
 ];
 
 export default initialState;

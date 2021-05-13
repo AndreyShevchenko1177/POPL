@@ -84,7 +84,6 @@ export default makeStyles((theme) => ({
     padding: 5,
   },
   tableCellName: {
-    display: "flex",
     alignItems: "center",
     padding: 5,
     textOverflow: "ellipsis",

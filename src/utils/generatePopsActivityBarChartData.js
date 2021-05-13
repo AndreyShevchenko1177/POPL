@@ -62,12 +62,15 @@ export const generateLineChartData = (popsData, minDate, maxDate) => {
   return { ...data, labels: Object.keys(result) };
 };
 
-export const generateDohnutChartData = (popsData, isPopsData) => {
-  // const result = dateGeneration(popsData, minDate, maxDate);
-  const result = {};
-  popsData.allPops.forEach((item) => {
-    result[item[2].split(" ")[0]] = 0;
-  });
+export const generateDohnutChartData = (popsData, isPopsData, minDate, maxDate, isAllData) => {
+  let result = {};
+  if (isAllData) {
+    popsData.allPops.forEach((item) => {
+      result[item[2].split(" ")[0]] = 0;
+    });
+  } else {
+    result = dateGeneration(popsData, minDate, maxDate);
+  }
   const data = {};
   const { allPops, ...newPopsData } = popsData;
 
@@ -110,7 +113,6 @@ export const generateAllData = (popsData) => {
     Object.keys(ownResult).forEach((item) => ownResult[item]);
     data[popKey] = ownResult;
   });
-  console.log(result);
   const momentDates = Object.keys(result).map((d) => moment(d));
   return { data: { ...data, labels: Object.keys(result) }, maxDate: moment.max(momentDates), minDate: moment.min(momentDates) };
 };

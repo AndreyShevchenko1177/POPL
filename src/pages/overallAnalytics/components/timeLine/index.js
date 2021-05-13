@@ -87,6 +87,7 @@ export default function NetworkActivity({
         }
         // result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(values)];
+        chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
       });
       chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
       setChartData({
@@ -206,14 +207,14 @@ export default function NetworkActivity({
               item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
               isFetched = linkTapsFetching || viewsFetching;
             }
-            if (item.id === "popls") {
-              item.value = location.state?.poplName ? "1" : location.state?.poplsCount ? location.state?.poplsCount : totalPopls.data?.length;
-              isFetched = totalPopls.isFetching;
-            }
-            if (item.id === "profiles") {
-              item.value = location.state?.poplName ? "" : location.state?.poplsCount ? "1" : profilesData?.length;
-              isFetched = profilesFetching;
-            }
+            // if (item.id === "popls") {
+            //   item.value = location.state?.poplName ? "1" : location.state?.poplsCount ? location.state?.poplsCount : totalPopls.data?.length;
+            //   isFetched = totalPopls.isFetching;
+            // }
+            // if (item.id === "profiles") {
+            //   item.value = location.state?.poplName ? "" : location.state?.poplsCount ? "1" : profilesData?.length;
+            //   isFetched = profilesFetching;
+            // }
             return <React.Fragment key={item.id}>
               <StatisticItem
                 count={1}

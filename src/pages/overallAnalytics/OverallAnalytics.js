@@ -33,6 +33,7 @@ function OverallAnalytics() {
     dohnutPopsData: null,
     lineData: null,
   });
+  const [saveSelected, setSaveSelected] = useState(false);
 
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
@@ -65,7 +66,9 @@ function OverallAnalytics() {
       minD = currentDate2;
     }
     if (maxDateMilis < minDateMilis) {
-      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate), dataType: "" });
+      setChartData({
+        ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate), dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+      });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -82,14 +85,18 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate), dataType: "" });
+    setChartData({
+      ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate), dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+    });
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
     console.log({
       dateFromRange, dateFrom, dateTo, maxD, minD,
     }, "generate data, component - overallanalytics");
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo), dataType: "" });
+    setChartData({
+      ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, dateFrom, dateTo), dohnutDirectData: generateDohnutChartData(popsData, false, dateFrom, dateTo),
+    });
     return setCalendar({
       ...calendar,
       dateRange: [dateTo, dateFromRange],
@@ -106,6 +113,7 @@ function OverallAnalytics() {
       lineData: null,
     });
     dispatch(cleanAction());
+    setSaveSelected(true);
   };
 
   const selectOption = (event) => {
@@ -119,7 +127,9 @@ function OverallAnalytics() {
       let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
         minDate,
       )}, ${getYear(minDate)}`;
-      setChartData({ ...chartData, lineData: data, dataType: "allData" });
+      setChartData({
+        ...chartData, lineData: data, dohnutPopsData: generateDohnutChartData(popsData, true, null, null, true), dohnutDirectData: generateDohnutChartData(popsData, false, null, null, true), dataType: "allData",
+      });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -226,6 +236,10 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
+      if (saveSelected) {
+        setSaveSelected(false);
+        return selectOption({ target: { value: options } });
+      }
       setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
     } else {
       setChartData({
