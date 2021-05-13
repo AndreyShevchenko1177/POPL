@@ -53,7 +53,7 @@ function App(props) {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
-    //     "X-Platform": "ios",
+    //     "X-Platform": "stripe",
     //     Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
     //   },
     //   body: JSON.stringify({
@@ -61,7 +61,7 @@ function App(props) {
     //     price: 4.99,
     //     currency: "USD",
     //     is_restore: "false",
-    //     app_user_id: "306074",
+    //     app_user_id: "307179",
     //     fetch_token: "sub_JSxSU2qWRtIPWI",
     //   }),
     // };
