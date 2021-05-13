@@ -8,7 +8,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy, generateAllData,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -24,11 +24,9 @@ function OverallAnalytics() {
     ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
   );
   const {
-    popsCountTop, totalPopls, topViewedProfiles, linkTapsTop, viewsTop,
+    popsCountTop, totalPopls, topViewedProfiles,
   } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-  const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
-  const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
@@ -67,7 +65,7 @@ function OverallAnalytics() {
       minD = currentDate2;
     }
     if (maxDateMilis < minDateMilis) {
-      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate) });
+      setChartData({ ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate), dataType: "" });
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -84,14 +82,14 @@ function OverallAnalytics() {
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate), dataType: "" });
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
     console.log({
       dateFromRange, dateFrom, dateTo, maxD, minD,
     }, "generate data, component - overallanalytics");
-    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo) });
+    setChartData({ ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo), dataType: "" });
     return setCalendar({
       ...calendar,
       dateRange: [dateTo, dateFromRange],
@@ -101,13 +99,34 @@ function OverallAnalytics() {
   };
 
   const handleShowAllStat = () => {
-    dispatch(getStatisticItemsRequest(userId));
-    dispatch(getPopsAction());
+    // dispatch(getStatisticItemsRequest(userId));
+    setChartData({
+      dohnutDirectData: null,
+      dohnutPopsData: null,
+      lineData: null,
+    });
+    dispatch(cleanAction());
   };
 
   const selectOption = (event) => {
     setOption(event.target.value);
     switch (event.target.value) {
+    case "all time": {
+      const { data, maxDate, minDate } = generateAllData(popsData);
+      let minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+        maxDate,
+      )}, ${getYear(maxDate)}-`;
+      let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+        minDate,
+      )}, ${getYear(minDate)}`;
+      setChartData({ ...chartData, lineData: data, dataType: "allData" });
+      return setCalendar({
+        ...calendar,
+        dateRange: [maxDate, minDate],
+        normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
+        visible: false,
+      });
+    }
     case "last 7 days": {
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(6, "d").toDate();
@@ -177,7 +196,7 @@ function OverallAnalytics() {
   };
 
   useEffect(() => {
-    if (profilesData && popls) {
+    if (profilesData) {
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         dispatch(getPopsAction(null, location.state?.poplName));
@@ -188,10 +207,13 @@ function OverallAnalytics() {
       } else {
         setWidgetLayerString({ layer: "Total", name: "Total" });
         dispatch(getStatisticItemsRequest(userId));
-        dispatch(getPopsAction(location.state?.id));
+
+        if (!popsData || !Object.values(popsData).length) {
+          dispatch(getPopsAction(location.state?.id));
+        }
       }
     }
-  }, [location, profilesData, popls]);
+  }, [location, profilesData]);
 
   useEffect(() => () => {
     dispatch(cleanAction());
@@ -206,9 +228,13 @@ function OverallAnalytics() {
     if (popsData && Object.values(popsData).length) {
       setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
     } else {
-      setChartData(popsData);
+      setChartData({
+        dohnutDirectData: null,
+        dohnutPopsData: null,
+        lineData: null,
+      });
     }
-  }, [popsData]);
+  }, [popsData, location]);
 
   return (
     <>
@@ -221,7 +247,7 @@ function OverallAnalytics() {
         path="/analytics"
       />
       <div className={classes.overallAnalyticsContainer}>
-        <TopStatistics
+        {/* <TopStatistics
           popsCount={popsCountTop.data?.length}
           linkTaps={linkTapsTop.data}
           totalProfiles={location.state?.poplName ? "" : profilesData?.length}
@@ -238,9 +264,10 @@ function OverallAnalytics() {
             totalPopls: totalPopls.isFetching,
             ctr: linkTapsTop.isFetching || viewsTop.isFetching,
           }}
-        />
+        /> */}
         <NetworkActivity
           data={chartData?.lineData}
+          dataType={chartData?.dataType}
           calendar={calendar}
           setCalendar={setCalendar}
           setDate={setDate}

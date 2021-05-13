@@ -91,3 +91,26 @@ export const generateDohnutChartData = (popsData, isPopsData) => {
   });
   return data;
 };
+
+export const generateAllData = (popsData) => {
+  const result = {};
+  popsData.allPops.forEach((item) => {
+    result[item[2].split(" ")[0]] = 0;
+  });
+  const data = {};
+
+  Object.keys(popsData).forEach((popKey) => {
+    let ownResult = { ...result };
+    popsData[popKey].forEach((item) => {
+      const date = item[2].split(" ")[0];
+      if (date in result) {
+        ownResult[date] = (ownResult[date] || 0) + 1;
+      }
+    });
+    Object.keys(ownResult).forEach((item) => ownResult[item]);
+    data[popKey] = ownResult;
+  });
+  console.log(result);
+  const momentDates = Object.keys(result).map((d) => moment(d));
+  return { data: { ...data, labels: Object.keys(result) }, maxDate: moment.max(momentDates), minDate: moment.min(momentDates) };
+};

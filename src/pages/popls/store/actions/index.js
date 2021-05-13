@@ -16,6 +16,7 @@ import {
 } from "../actionTypes";
 import { getId } from "../../../../utils";
 import { snackBarAction, getPoplsForProfilesButton } from "../../../../store/actions";
+import { GET_DATA_PROFILES_SUCCESS } from "../../../profiles/store/actionTypes";
 
 import * as requests from "./requests";
 
@@ -28,6 +29,10 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
     dispatch({
       type: GET_POPLS_SUCCESS,
       payload: popls.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
+    });
+    dispatch({
+      type: GET_DATA_PROFILES_SUCCESS,
+      payload: profiles,
     });
     dispatch({
       type: poplsInfoSideBarType,

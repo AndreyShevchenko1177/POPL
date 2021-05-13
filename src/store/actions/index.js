@@ -77,10 +77,6 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: GET_DATA_PROFILES_SUCCESS,
-      payload: profiles,
-    });
-    dispatch({
       type: PROFILES_INFO_SIDEBAR,
       payload: profiles.length,
     });

@@ -42,7 +42,6 @@ function PermanentDrawerLeft() {
     connectionsOpen: false,
     campaignsOpen: false,
   });
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
   const poplsSidebar = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.data);
   const poplsFetching = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.isFetching);
@@ -52,7 +51,6 @@ function PermanentDrawerLeft() {
   const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  console.log(profilesFetching);
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};

@@ -2,6 +2,7 @@
 /* eslint-disable guard-for-in */
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
@@ -9,18 +10,24 @@ import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
 import Loader from "../../../../components/Loader";
-import { getMothName, getMonth, getDay } from "../../../../utils/dates";
+import {
+  getMothName, getMonth, getDay, getYear,
+} from "../../../../utils/dates";
 import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 
 export default function NetworkActivity({
-  data, calendar, setCalendar, setDate, selectOption, options,
+  data, calendar, setCalendar, setDate, selectOption, options, dataType,
 }) {
   const classes = useStyles();
   const chartRef = useRef();
+  const location = useLocation();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
+  const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const { totalPopls } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
+  const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
   const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
@@ -75,13 +82,13 @@ export default function NetworkActivity({
       newData = [...newData.splice(3, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
-          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
+          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
           return;
         }
         // result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(values)];
       });
-      chartOptions.data.labels = labels;
+      chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
       setChartData({
         data: { ...chartOptions.data },
         options: {
@@ -108,6 +115,8 @@ export default function NetworkActivity({
           },
         },
       });
+    } else {
+      setChartData(undefined);
     }
   }, [data]);
 
@@ -121,24 +130,25 @@ export default function NetworkActivity({
   }, [chartData]);
 
   useEffect(() => {
+    let linkTapsResult;
+    let viewResult;
+    if (dataType === "allData") {
+      return setKpisData({ ...kpisData, views: views?.length, linkTaps: linkTaps?.length });
+    }
     if (linkTaps) {
-      let result = linkTaps?.filter((link) => {
+      linkTapsResult = linkTaps?.filter((link) => {
         const linkDate = moment(link.event_at).format("x");
         return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
       });
-      setKpisData({ ...kpisData, linkTaps: result.length });
     }
-  }, [linkTaps]);
-
-  useEffect(() => {
     if (views) {
-      let result = views?.filter((view) => {
+      viewResult = views?.filter((view) => {
         const viewsDate = moment(view[2]).format("x");
         return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
       });
-      setKpisData({ ...kpisData, views: result.length });
     }
-  }, [views]);
+    if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
+  }, [linkTaps, calendar.dateRange, chartData]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
@@ -196,7 +206,14 @@ export default function NetworkActivity({
               item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
               isFetched = linkTapsFetching || viewsFetching;
             }
-
+            if (item.id === "popls") {
+              item.value = location.state?.poplName ? "1" : location.state?.poplsCount ? location.state?.poplsCount : totalPopls.data?.length;
+              isFetched = totalPopls.isFetching;
+            }
+            if (item.id === "profiles") {
+              item.value = location.state?.poplName ? "" : location.state?.poplsCount ? "1" : profilesData?.length;
+              isFetched = profilesFetching;
+            }
             return <React.Fragment key={item.id}>
               <StatisticItem
                 count={1}

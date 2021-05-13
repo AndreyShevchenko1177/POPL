@@ -159,7 +159,6 @@ function PoplsItem() {
     }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   }, [popls, pops, location]);
-  console.log(pops);
 
   return (
     <>
