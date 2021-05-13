@@ -132,11 +132,32 @@ export const makeProfileSubscriberRequest = (userId) => {
   console.log(userId);
 
   fetch(`https://api.revenuecat.com/v1/subscribers/${userId}/entitlements/pro/promotional`, options)
-    .then((response) => response.json())
     .then((response) => {
-      makeProfileProRequest(userId.toString());
+      console.log(response);
+      if (response.status === 201) {
+        makeProfileProRequest(userId.toString());
+      }
+      if (response.status === 404) {
+        const options = {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "X-Platform": "ios",
+            "Content-Type": "application/json",
+            Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
+          },
+        };
+
+        fetch(`https://api.revenuecat.com/v1/subscribers/${userId}`, options)
+          .then((response) => {
+            if (response.status === 201) {
+              makeProfileSubscriberRequest(userId);
+            }
+          })
+          .catch((err) => console.log(err));
+      }
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 export const setProfileName = (userId, profileState, name) => {

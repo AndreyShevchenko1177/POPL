@@ -3,7 +3,6 @@
 import {
   GET_POPS_SUCCESS,
   GET_POPS_FAIL,
-  GET_TOP_STATISTICS_SUCCESS,
   IS_DATA_FETCHING, CLEAN,
   INDIVIDUAL_POPS_COUNT,
   DASHBOARD_POPS_DATA,
@@ -56,21 +55,11 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
         });
 
         const popls = getState().poplsReducer.allPopls.data;
+
         dispatch({
           type: TOTAL_POPLS,
           payload: popls,
         });
-        Promise.all([...idsArray, id].map((el) => requests.popsActionRequest(el)))
-          .then((res) => {
-            dispatch({
-              type: POPS_COUNT_TOP,
-              payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            dispatch(isFetchingAction(false, "popsCountTop"));
-          });
 
         result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
 
@@ -80,11 +69,12 @@ export const getPopsAction = (userId, poplName) => async (dispatch, getState) =>
           if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
         });
 
-        // settingTopStatistics
         dispatch({
           type: POPS_COUNT_TOP,
           payload: [...poplPops, ...qrCodePops, ...walletPops],
         });
+
+        // settingTopStatistics in null for that values we don't have to show on popl level
         dispatch({
           type: GET_VIEWS_TOP,
           payload: null,

@@ -10,7 +10,7 @@ import {
   CLEAR_ADD_POPL,
   CLEAR_DATA,
   IS_DATA_FETCHING,
-
+  GET_POPS_FOR_POPLS_SUCCESS,
 } from "../actionTypes";
 
 const initialState = {
@@ -26,6 +26,10 @@ const initialState = {
     data: null,
     error: null,
     isFetching: false,
+  },
+  allPops: {
+    data: null,
+    error: null,
   },
   isFetching: false,
 };
@@ -105,6 +109,15 @@ export default function poplsReducer(state = initialState, { type, payload, erro
       editPopl: {
         data: null,
         error: payload,
+      },
+    };
+  }
+  case GET_POPS_FOR_POPLS_SUCCESS: {
+    return {
+      ...state,
+      allPops: {
+        data: payload,
+        error: null,
       },
     };
   }

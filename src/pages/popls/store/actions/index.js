@@ -14,53 +14,30 @@ import {
   CLEAR_DATA,
   IS_DATA_FETCHING,
 } from "../actionTypes";
-import { getId, removeCommas } from "../../../../utils";
-import { snackBarAction } from "../../../../store/actions";
-import { profileIdsRequest } from "../../../profiles/store/actions/requests";
+import { getId } from "../../../../utils";
+import { snackBarAction, getPoplsForProfilesButton } from "../../../../store/actions";
+import { GET_DATA_PROFILES_SUCCESS } from "../../../profiles/store/actionTypes";
+
 import * as requests from "./requests";
 
-export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
+export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatch, getState) => {
   try {
-    const storeProfiles = getState().profilesReducer.dataProfiles.data;
-    const storePopls = getState().poplsReducer.allPopls.data;
-
-    if (!storePopls.length) {
-      dispatch(isFetchingAction(true));
-      let result;
-      if (!storeProfiles) {
-        const idsArray = [id];
-        let response = {
-          data: null,
-        };
-        if (!isSingle) {
-          response = await profileIdsRequest(id);
-        }
-
-        if (response.data) {
-          JSON.parse(removeCommas(response.data)).filter((el, index, array) => array.indexOf(el) === index).forEach((id) => idsArray.push(id));
-        }
-        result = await Promise.all(idsArray.map((id) => requests.addProfileNamesToPopls(id)))
-          .then((res) => res.reduce((result, current) => [...result, ...current], []));
-        if (typeof result === "string") {
-          dispatch(isFetchingAction(false));
-          return dispatch(
-            snackBarAction({
-              message: "Download popls error",
-              severity: "error",
-              duration: 3000,
-              open: true,
-            }),
-          );
-        }
-      } else {
-        result = await Promise.all(storeProfiles.map((profile) => requests.getPoplsFromProfiles(profile)))
-          .then((res) => res.reduce((result, current) => [...result, ...current], []));
-      }
-      return dispatch({
-        type: GET_POPLS_SUCCESS,
-        payload: result.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
-      });
-    }
+    dispatch(isFetchingAction(true));
+    const popls = await Promise.all(profiles.map((profile) => requests.getPoplsFromProfiles(profile)))
+      .then((res) => res.reduce((result, current) => [...result, ...current], []));
+    dispatch(getPoplsForProfilesButton(popls));
+    dispatch({
+      type: GET_POPLS_SUCCESS,
+      payload: popls.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
+    });
+    dispatch({
+      type: GET_DATA_PROFILES_SUCCESS,
+      payload: profiles,
+    });
+    dispatch({
+      type: poplsInfoSideBarType,
+      payload: popls.length,
+    });
   } catch (error) {
     dispatch({
       type: GET_POPLS_FAIL,
@@ -75,7 +52,8 @@ export const getPoplsAction = (id, isSingle) => async (dispatch, getState) => {
         open: true,
       }),
     );
-    return dispatch(isFetchingAction(false));
+    dispatch(isFetchingAction(false));
+    throw new Error();
   }
 };
 

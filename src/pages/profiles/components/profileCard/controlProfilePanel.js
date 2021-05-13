@@ -23,11 +23,13 @@ function ProfilePanel({
   personalMode,
   section2,
   name,
+  connectionNumber,
+  poplsNumber,
 }) {
   const classes = useStyles();
   const history = useHistory();
   const isFetching = useSelector(({ profilesReducer }) => profilesReducer.setProfilesSettings.isFetching);
-  const { profileConnection, poplsConnection } = useSelector(({ systemReducer }) => systemReducer.profileInfoSideBar);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -64,7 +66,7 @@ function ProfilePanel({
           color="primary"
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           classes={{ endIcon: isSafari ? classes.buttonStaisticsSafari : classes.buttonStaistics }}
-          endIcon={<div>{profileConnection[id] || 0}</div>}
+          endIcon={<div>{connectionNumber || 0}</div>}
           startIcon={
             <img
               className={classes.connectIcon}
@@ -86,7 +88,7 @@ function ProfilePanel({
           size="small"
           color="primary"
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
-          endIcon={<div>{poplsConnection[id] || 0}</div>}
+          endIcon={<div>{poplsNumber || 0}</div>}
           classes={{ endIcon: isSafari ? classes.buttonStaisticsSafariForPopls : classes.buttonStaistics }}
           startIcon={<img className='white' style={{ width: "15px", height: "15px" }} alt='popl' src={poplIcon} />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
@@ -103,7 +105,7 @@ function ProfilePanel({
           startIcon={<EqualizerIcon />}
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
           onClick={() => history.push("/analytics", {
-            id, name, business, social, personalMode, profileName: name, url, poplsCount: poplsConnection[id],
+            id, name, business, social, personalMode, profileName: name, url, poplsCount: poplsNumber,
           })}
         >
           Analytics

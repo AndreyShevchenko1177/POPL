@@ -88,7 +88,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
         con.names = names;
       });
     });
-    dispatch(updateConnectionsNumber(filteredConnections, idsObject));
+    // dispatch(updateConnectionsNumber(filteredConnections, idsObject));
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {

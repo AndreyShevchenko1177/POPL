@@ -63,11 +63,13 @@ export default makeStyles((theme) => ({
     width: "100%",
     minHeight: 80,
     paddingTop: 10,
+    alignItems: "center",
     justifyContent: "center",
   },
   bottomKpisItemContainer: {
     width: "25%",
     display: "flex",
+    alignItems: "center",
     justifyContent: "center",
     maxWidth: "200px",
   },
@@ -81,7 +83,6 @@ export default makeStyles((theme) => ({
   },
   bottomKpisTitleText: {
     fontSize: "14px !important",
-    marginLeft: 3,
   },
   bottomKpisItemValue: {
     fontSize: "1.5rem",

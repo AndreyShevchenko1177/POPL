@@ -90,7 +90,7 @@ export default makeStyles((theme) => ({
   },
   listText: {
     fontSize: "14px",
-    letterSpacing: "1.5px",
+    letterSpacing: 0,
     color: "#000000",
   },
   listTextNested: {
