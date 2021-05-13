@@ -44,6 +44,7 @@ export const snackBarAction = (payload) => ({
 
 // main action for getting profiles. called in app.js
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
+  console.log("PROFILES REQ");
   try {
     const dashboardPlan = getState().authReducer.dashboardPlan.data;
 
@@ -54,7 +55,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     dispatch({
       type: UPDATE_SIDE_BAR_DATA_STATUS,
     });
-    const profilesData = getState().profilesReducer.dataProfiles.data;
+    let profilesData; // = //getState().profilesReducer.dataProfiles.data;
     let profiles;
     if (!profilesData) {
       const myProfile = await getProfileAction(userId);
@@ -75,6 +76,15 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       profiles = profilesData;
     }
 
+    dispatch({
+      type: GET_DATA_PROFILES_SUCCESS,
+      payload: profiles,
+    });
+    dispatch({
+      type: PROFILES_INFO_SIDEBAR,
+      payload: profiles.length,
+    });
+
     // checking tier level not out of range. if not - checking all profiles to be pro and making pro that unpro
     if (dashboardPlan) {
       const unProProfileIds = [];
@@ -87,27 +97,21 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       if (unProProfileIds.length) {
         if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
           Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
-        } else {
-          // we not in tier level - we need calculate how much profiles we could made pro to reach limit
-          const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan - 1].unitsRange[1]);
-          Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => makeProfileSubscriberRequest(id)));
         }
+        // =====THIS WAS USED TO MAKE PRO AS MUCH PROFILES AS TIER LEVEL ALLOWS===
+        // else {
+        //   // we not in tier level - we need calculate how much profiles we could made pro to reach limit
+        //   const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan - 1].unitsRange[1]);
+        //   Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => makeProfileSubscriberRequest(id)));
+        // }
       }
     }
 
-    dispatch({
-      type: GET_DATA_PROFILES_SUCCESS,
-      payload: profiles,
-    });
-    dispatch({
-      type: PROFILES_INFO_SIDEBAR,
-      payload: profiles.length,
-    });
     dispatch(profileCountTierLevelAction(profiles.length)); // updating data for tier level sectin in sidebar
     return dispatch(profilesInfoAction(profiles));
   } catch (error) {
     console.log(error);
-    dispatch(fetchingAction(false, "profilesSidebar"));
+    // dispatch(fetchingAction(false, "profilesSidebar"));
   }
 };
 

@@ -19,10 +19,6 @@ function TeamMembers({ showConfirmModal }) {
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   useEffect(() => {
-    dispatch(getProfilesDataAction(userId));
-  }, []);
-
-  useEffect(() => {
     if (profiles) setProfilesList([...profiles]);
   }, [profiles]);
 

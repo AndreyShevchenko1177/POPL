@@ -6,14 +6,12 @@ import { getId, removeCommas } from "../../../../utils";
 import {
   GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
-  DELETE_PROFILE,
   IS_DATA_FETCHING,
   GET_COMPANY_INFO_FAIL,
   UPDATE_SIDE_BAR_DATA_STATUS,
 } from "../actionTypes";
 import * as requests from "./requests";
-import { snackBarAction } from "../../../../store/actions";
-import { getProfilesDataAction, clearStateAction as clearProfilesState } from "../../../profiles/store/actions";
+import { snackBarAction, getProfileInfoRequest } from "../../../../store/actions";
 
 export const updateUserProfile = ({
   name, color, websiteLink, file,
@@ -69,13 +67,7 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
   const userId = getState().authReducer.signIn.data.id;
   let result;
   try {
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "RemoveChild");
-    bodyFormData.append("sChild", profileId.toString());
-    bodyFormData.append("iID", userId.toString());
-    result = await axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
+    result = await requests.deleteProfileRequest(profileId, userId);
     if (Array.isArray(result.data) || !result.data) {
       dispatch(snackBarAction({
         message: "Profile was successfully deleted",
@@ -83,11 +75,10 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
         duration: 4000,
         open: true,
       }));
-      dispatch({
-        type: UPDATE_SIDE_BAR_DATA_STATUS,
-      });
-      dispatch(clearProfilesState("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
+      // dispatch({
+      //   type: UPDATE_SIDE_BAR_DATA_STATUS,
+      // });
+      return dispatch(getProfileInfoRequest(userId));
     }
   } catch (error) {
     console.log(error);

@@ -138,16 +138,16 @@ export default function systemReducer(state = initialState, { type, payload }) {
       isFetching: false,
     };
   }
-  case UPDATE_CONNECTIONS: {
-    return {
-      ...state,
-      profileInfoSideBar: {
-        ...payload,
-        isFetching: false,
-      },
-      isFetching: false,
-    };
-  }
+  // case UPDATE_CONNECTIONS: {
+  //   return {
+  //     ...state,
+  //     profileInfoSideBar: {
+  //       ...payload,
+  //       isFetching: false,
+  //     },
+  //     isFetching: false,
+  //   };
+  // }
   case SHOW_RESTRICTED_MODE: {
     return {
       ...state,
@@ -181,15 +181,15 @@ export default function systemReducer(state = initialState, { type, payload }) {
       profilesInfoMainPage: payload,
     };
   }
-  case UPDATE_SIDE_BAR_DATA_STATUS: {
-    return {
-      ...state,
-      profileInfoSideBar: {
-        ...state.profileInfoSideBar,
-        isFetching: true,
-      },
-    };
-  }
+  // case UPDATE_SIDE_BAR_DATA_STATUS: {
+  //   return {
+  //     ...state,
+  //     profileInfoSideBar: {
+  //       ...state.profileInfoSideBar,
+  //       isFetching: true,
+  //     },
+  //   };
+  // }
   case PROFILES_INFO_SIDEBAR: {
     return {
       ...state,

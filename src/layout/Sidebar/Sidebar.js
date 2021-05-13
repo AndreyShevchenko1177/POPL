@@ -52,6 +52,7 @@ function PermanentDrawerLeft() {
   const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  console.log(profilesFetching);
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -93,16 +94,16 @@ function PermanentDrawerLeft() {
     highlightList(name);
   }, [location]);
 
-  useEffect(() => {
-    if (userData?.id) {
-      getChildrenIdsRequest(userData.id)
-        .then((res) => {
-          if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(removeCommas(res.data)).length + 1));
-          else dispatch(profileCountTierLevelAction(1));
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData?.id) {
+  //     getChildrenIdsRequest(userData.id)
+  //       .then((res) => {
+  //         if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(removeCommas(res.data)).length + 1));
+  //         else dispatch(profileCountTierLevelAction(1));
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [userData]);
 
   useEffect(() => {
     if (localStorage.getItem("subscription")) {
