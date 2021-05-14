@@ -110,6 +110,8 @@ export default makeStyles((theme) => ({
   linkIcon: {
     margin: "0 5px 0 0px",
     cursor: "pointer",
+    minWidth: 25,
+    width: "20%",
   },
   iconLink: {
     width: 25,
@@ -120,6 +122,7 @@ export default makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     paddingRight: 5,
+    width: "80%",
   },
   linkLink: {
     textOverflow: "ellipsis",
