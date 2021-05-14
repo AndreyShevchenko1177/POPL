@@ -160,6 +160,30 @@ export const makeProfileSubscriberRequest = (userId) => {
     .catch((err) => console.log(err));
 };
 
+// DON'T REMOVE THIS. THIS CALL FOR REVENUECAT RECEIPTS FLOW, THAT WE DON'T USING STILL, BUT WILL USE IN FUTURE
+// export const revenuecatReceipts = async() => {
+// const options = {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//     "X-Platform": "stripe",
+//     Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
+//   },
+//   body: JSON.stringify({
+//     product_id: "prod_JSxR7LsvIZrqXl",
+//     price: 4.99,
+//     currency: "USD",
+//     is_restore: "false",
+//     app_user_id: "307179",
+//     fetch_token: "sub_JSxSU2qWRtIPWI",
+//   }),
+// };
+// fetch("https://api.revenuecat.com/v1/receipts", options)
+//   .then((response) => response.json())
+//   .then((response) => console.log(response))
+//   .catch((err) => console.error(err));
+// }
+
 export const setProfileName = (userId, profileState, name) => {
   console.log(typeof name);
   const bodyFormData = new FormData();
