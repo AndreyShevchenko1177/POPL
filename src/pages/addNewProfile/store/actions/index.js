@@ -1,6 +1,6 @@
 import * as requests from "./requests";
 import {
-  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING, UPDATE_SIDE_BAR_DATA_STATUS,
+  ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING,
 } from "../actionsType";
 import { clearStateAction } from "../../../profiles/store/actions";
 import { getProfileInfoRequest } from "../../../../store/actions";
@@ -20,9 +20,6 @@ export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dis
       dispatch(clearStateAction("dataProfiles"));
       dispatch(getProfileInfoRequest(userId));
       dispatch({
-        type: UPDATE_SIDE_BAR_DATA_STATUS,
-      });
-      dispatch({
         type: ADD_NEW_PROFILE_BY_EMAIL,
       });
       resultCallBack(true, errors);
@@ -31,9 +28,6 @@ export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dis
     resultCallBack();
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfileInfoRequest(userId));
-    dispatch({
-      type: UPDATE_SIDE_BAR_DATA_STATUS,
-    });
     return dispatch({
       type: ADD_NEW_PROFILE_BY_EMAIL,
     });
@@ -58,9 +52,6 @@ export const addNewProfileWithRandomEmailAction = (emailCount, resultCallBack) =
     }
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfileInfoRequest(userId));
-    dispatch({
-      type: UPDATE_SIDE_BAR_DATA_STATUS,
-    });
     dispatch({
       type: ADD_NEW_PROFILE_BY_RANDOM_EMAIL,
       payload: true,

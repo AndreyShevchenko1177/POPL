@@ -44,10 +44,10 @@ export const turnProfileRequest = (id, state) => {
   });
 };
 
-export const makeProfileProRequest = (id) => {
+export const makeProfileProRequest = (id, value) => {
   const data = {
     id: id.toString(),
-    value: "1",
+    value,
   };
   return axios({
     method: "post",
@@ -135,7 +135,7 @@ export const makeProfileSubscriberRequest = (userId) => {
     .then((response) => {
       console.log(response);
       if (response.status === 201) {
-        makeProfileProRequest(userId.toString());
+        makeProfileProRequest(userId.toString(), "1");
       }
       if (response.status === 404) {
         const options = {

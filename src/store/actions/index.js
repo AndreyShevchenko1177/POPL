@@ -8,11 +8,9 @@ import {
   PROFILE_POPLS,
   PROFILE_POPS,
   PROFILE_CONNECTIONS,
-  UPDATE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
   HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
-  UPDATE_SIDE_BAR_DATA_STATUS,
   HANDLE_MAIN_PAGE_SCROLL,
   PROFILES_INFO_SIDEBAR,
   POPLS_INFO_SIDEBAR,
@@ -29,9 +27,6 @@ import { isFetchingAction as isFetchingProfilesAction } from "../../pages/profil
 import {
   uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
 } from "../../utils";
-
-// saving profiles in profiles reducer
-const GET_DATA_PROFILES_SUCCESS = "[PROFILE] GET DATA PROFILES SUCCESS";
 
 export const getProfileData = (data) => ({
   type: PROFILE_DATA,
@@ -54,9 +49,6 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     dispatch(fetchingAction(true, "connectionsSidebar"));
     dispatch(fetchingAction(true, "profilesSidebar"));
     dispatch(fetchingAction(true, "poplsSidebar"));
-    dispatch({
-      type: UPDATE_SIDE_BAR_DATA_STATUS,
-    });
     dispatch(isFetchingProfilesAction(true));
     // ==================
 
@@ -205,24 +197,6 @@ export const getLatestConnectionsAction = () => async (dispatch, getState) => {
     console.log(error);
     dispatch(fetchingAction(false, "latestConnections"));
   }
-};
-
-export const updateConnectionsNumber = (connections, porfileConnections) => (dispatch, getState) => {
-  const prevState = getState().systemReducer.profileInfoSideBar;
-  const profilesCon = {};
-  Object.keys(porfileConnections).forEach((key) => profilesCon[key] = porfileConnections[key].length);
-  dispatch({
-    type: UPDATE_CONNECTIONS,
-    payload: {
-      ...prevState,
-      result: {
-        ...prevState.result,
-        connections: connections.length,
-        latestConnections: connections.sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))).slice(0, 10),
-      },
-      profileConnection: profilesCon,
-    },
-  });
 };
 
 export const getSubscriptionInfoAction = ({ subscriptionName, maxProfiles }) => ({

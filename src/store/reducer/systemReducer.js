@@ -6,11 +6,9 @@ import {
   PROFILE_CONNECTIONS,
   SUBSCRIPTION_INFO,
   FETCHING_ACTION,
-  UPDATE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
   HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
-  UPDATE_SIDE_BAR_DATA_STATUS,
   HANDLE_MAIN_PAGE_SCROLL,
   PROFILES_INFO_SIDEBAR,
   POPLS_INFO_SIDEBAR,
@@ -138,16 +136,6 @@ export default function systemReducer(state = initialState, { type, payload }) {
       isFetching: false,
     };
   }
-  // case UPDATE_CONNECTIONS: {
-  //   return {
-  //     ...state,
-  //     profileInfoSideBar: {
-  //       ...payload,
-  //       isFetching: false,
-  //     },
-  //     isFetching: false,
-  //   };
-  // }
   case SHOW_RESTRICTED_MODE: {
     return {
       ...state,
@@ -181,15 +169,6 @@ export default function systemReducer(state = initialState, { type, payload }) {
       profilesInfoMainPage: payload,
     };
   }
-  // case UPDATE_SIDE_BAR_DATA_STATUS: {
-  //   return {
-  //     ...state,
-  //     profileInfoSideBar: {
-  //       ...state.profileInfoSideBar,
-  //       isFetching: true,
-  //     },
-  //   };
-  // }
   case PROFILES_INFO_SIDEBAR: {
     return {
       ...state,

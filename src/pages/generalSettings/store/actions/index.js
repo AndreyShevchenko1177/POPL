@@ -1,17 +1,16 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
-import axios from "axios";
-import { getId, removeCommas } from "../../../../utils";
+import { getId } from "../../../../utils";
 import {
   GET_COMPANY_INFO_SUCCESS,
   CLEAR_STATE,
   IS_DATA_FETCHING,
   GET_COMPANY_INFO_FAIL,
-  UPDATE_SIDE_BAR_DATA_STATUS,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { snackBarAction, getProfileInfoRequest } from "../../../../store/actions";
+import { makeProfileProRequest } from "../../../profiles/store/actions/requests";
 
 export const updateUserProfile = ({
   name, color, websiteLink, file,
@@ -75,9 +74,8 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
         duration: 4000,
         open: true,
       }));
-      // dispatch({
-      //   type: UPDATE_SIDE_BAR_DATA_STATUS,
-      // });
+      // making profile  unpro when deleting from our children
+      makeProfileProRequest(profileId, "0");
       return dispatch(getProfileInfoRequest(userId));
     }
   } catch (error) {

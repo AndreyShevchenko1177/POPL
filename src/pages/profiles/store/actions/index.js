@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import axios from "axios";
-import { snackBarAction, profileCountTierLevelAction, profilesInfoAction } from "../../../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import { getId, removeCommas } from "../../../../utils";
 import {
   GET_DATA_PROFILES_SUCCESS,
