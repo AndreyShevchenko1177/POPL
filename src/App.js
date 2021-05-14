@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
@@ -49,26 +50,6 @@ function App(props) {
     if (profileData) {
       dispatch(getDashboardPlanAction(profileData.id));
     }
-    // const options = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "X-Platform": "stripe",
-    //     Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
-    //   },
-    //   body: JSON.stringify({
-    //     product_id: "prod_JSxR7LsvIZrqXl",
-    //     price: 4.99,
-    //     currency: "USD",
-    //     is_restore: "false",
-    //     app_user_id: "307179",
-    //     fetch_token: "sub_JSxSU2qWRtIPWI",
-    //   }),
-    // };
-    // fetch("https://api.revenuecat.com/v1/receipts", options)
-    //   .then((response) => response.json())
-    //   .then((response) => console.log(response))
-    //   .catch((err) => console.error(err));
   }, [profileData]);
 
   useEffect(() => {

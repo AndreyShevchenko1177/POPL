@@ -39,6 +39,7 @@ function SubscribeButton({
     fetch("/api", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        // console.log(result);
         setCookie("sessionId", JSON.stringify({
           id: result, pricingName: title, subscriptionId, unitsRange,
         }));
@@ -53,14 +54,17 @@ function SubscribeButton({
             }),
           ));
       })
-      .catch((error) => dispatch(
-        snackBarAction({
-          message: "Subscription error",
-          severity: "error",
-          duration: 6000,
-          open: true,
-        }),
-      ));
+      .catch((error) => {
+        console.log(error);
+        dispatch(
+          snackBarAction({
+            message: "Subscription error",
+            severity: "error",
+            duration: 6000,
+            open: true,
+          }),
+        );
+      });
   };
 
   return (

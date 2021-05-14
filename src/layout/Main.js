@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   restrictedViewRoot: {
-    position: "absolute",
+    position: "fixed",
     top: 0,
     right: 0,
     backdropFilter: "blur(10px)",
     "-webkit-backdrop-filter": "blur(10px)",
-    width: "100%",
+    width: "calc(100% - 300px)",
     height: "100vh",
     zIndex: 1000,
   },
@@ -125,7 +125,6 @@ export default function Main({ children, stripe }) {
               Subscribe now
               </Button>
             </div>}
-
         </>
       </main>
     </div>

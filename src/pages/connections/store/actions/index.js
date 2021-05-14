@@ -15,9 +15,9 @@ import {
 } from "../actionTypes";
 
 import {
-  removeCommas, uniqueObjectsInArray, formatDateConnections, filterPops,
+  removeCommas, uniqueObjectsInArray, formatDateConnections,
 } from "../../../../utils";
-import { snackBarAction, updateConnectionsNumber } from "../../../../store/actions";
+import { snackBarAction } from "../../../../store/actions";
 import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
 
 export const collectSelectedConnections = (id, isSingle) => async (dispatch, getState) => {
@@ -88,7 +88,6 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
         con.names = names;
       });
     });
-    // dispatch(updateConnectionsNumber(filteredConnections, idsObject));
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {
