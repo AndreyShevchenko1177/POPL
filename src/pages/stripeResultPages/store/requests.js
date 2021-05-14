@@ -46,11 +46,11 @@ export const setStripeCustomer = async (sessionId, userId, errorMessageCallback)
     withCredentials: true,
   });
 
-  if (!customer.id) return errorMessageCallback("Error by getting stripe customer id");
+  if (!customer?.data?.id) return errorMessageCallback("Error by getting stripe customer id");
 
   const setStripeCustomerData = new FormData();
   setStripeCustomerData.append("sAction", "SetStripeCustomer");
-  setStripeCustomerData.append("iID", customer.id);
+  setStripeCustomerData.append("iID", customer.data.id);
   setStripeCustomerData.append("sStripe", 1);
   setStripeCustomerData.append("ajax", 1);
 
