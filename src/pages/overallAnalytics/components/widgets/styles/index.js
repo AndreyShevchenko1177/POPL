@@ -93,6 +93,7 @@ export default makeStyles((theme) => ({
     borderBottom: "none",
   },
   tableCellNameLink: {
+    display: "flex",
     width: "35% !important",
   },
   tableCellValue: {
@@ -107,8 +108,10 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   linkIcon: {
-    margin: "0 5px 0 auto",
+    margin: "0 5px 0 0px",
     cursor: "pointer",
+    minWidth: 25,
+    width: "20%",
   },
   iconLink: {
     width: 25,
@@ -119,6 +122,7 @@ export default makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     paddingRight: 5,
+    width: "80%",
   },
   linkLink: {
     textOverflow: "ellipsis",
@@ -127,5 +131,13 @@ export default makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "underline",
     },
+  },
+  noDataText: {
+    position: "absolute",
+    fontSize: "18px",
+    color: "#6f829a",
+    top: "50%",
+    left: "calc(50% - 95px)",
+    fontWeight: "500",
   },
 }));

@@ -48,10 +48,12 @@ export const setStripeCustomer = async (sessionId, userId, errorMessageCallback)
 
   if (!customer?.data?.id) return errorMessageCallback("Error by getting stripe customer id");
 
+  console.log("CUSTOMER ID", customer.data.id);
+
   const setStripeCustomerData = new FormData();
   setStripeCustomerData.append("sAction", "SetStripeCustomer");
-  setStripeCustomerData.append("iID", customer.data.id);
-  setStripeCustomerData.append("sStripe", 1);
+  setStripeCustomerData.append("iID", userId);
+  setStripeCustomerData.append("sStripe", customer.data.id);
   setStripeCustomerData.append("ajax", 1);
 
   axios.post("", setStripeCustomerData, {

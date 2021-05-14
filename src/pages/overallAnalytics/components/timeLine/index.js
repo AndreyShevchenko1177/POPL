@@ -1,6 +1,8 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable guard-for-in */
-import React, { useEffect, useState, useRef } from "react";
+import React, {
+  useEffect, useState, useRef, memo,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Typography } from "@material-ui/core";
@@ -17,17 +19,13 @@ import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 
-export default function NetworkActivity({
+function NetworkActivity({
   data, calendar, setCalendar, setDate, selectOption, options, dataType,
 }) {
   const classes = useStyles();
   const chartRef = useRef();
-  const location = useLocation();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
-  const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-  const { totalPopls } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
-  const profilesFetching = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
   const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
@@ -236,3 +234,12 @@ export default function NetworkActivity({
     </div>
   );
 }
+
+const shallow = (prevProps, nextProps) => {
+  if (prevProps.data === nextProps.data) {
+    return true;
+  }
+  return false;
+};
+
+export default memo(NetworkActivity);

@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 import useStyles from "./styles";
 import Loader from "../../../../components/Loader";
 
-function PieChart({ data = {}, index }) {
+function PieChart({ data, index }) {
   const classes = useStyles();
   const chart = useRef();
   const handleClickLabel = (e, index) => {
@@ -54,23 +54,27 @@ function PieChart({ data = {}, index }) {
     }
   }, [data]);
   return data
-    ? <div className='chart-container'>
-      <div className='chart-wrapper'>
-        <Doughnut
-          ref={chart}
-          data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.indexOf(el) === i) }] }}
-          legend={{ display: false }}
-          options={{
-            legendCallback: (chart) => {
-              const html = renderLabels(chart);
-              return html;
-            },
-            responsive: true,
-          }}
-        />
+    ? (!data.datasets[0].data.every((val) => !val)
+      ? <div className='chart-container'>
+        <div className='chart-wrapper'>
+          <Doughnut
+            ref={chart}
+            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.indexOf(el) === i) }] }}
+            legend={{ display: false }}
+            options={{
+              legendCallback: (chart) => {
+                const html = renderLabels(chart);
+                return html;
+              },
+              responsive: true,
+            }}
+          />
+        </div>
+        <div id={`legend${index}`} />
       </div>
-      <div id={`legend${index}`} />
-    </div>
+      : <div className={classes.noDataText}>
+          No data for this period
+      </div>)
     : <Loader
       containerStyles={{
         width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",

@@ -44,10 +44,10 @@ export const turnProfileRequest = (id, state) => {
   });
 };
 
-export const makeProfileProRequest = (id) => {
+export const makeProfileProRequest = (id, value) => {
   const data = {
     id: id.toString(),
-    value: "1",
+    value,
   };
   return axios({
     method: "post",
@@ -135,7 +135,7 @@ export const makeProfileSubscriberRequest = (userId) => {
     .then((response) => {
       console.log(response);
       if (response.status === 201) {
-        makeProfileProRequest(userId.toString());
+        makeProfileProRequest(userId.toString(), "1");
       }
       if (response.status === 404) {
         const options = {
@@ -159,6 +159,30 @@ export const makeProfileSubscriberRequest = (userId) => {
     })
     .catch((err) => console.log(err));
 };
+
+// DON'T REMOVE THIS. THIS CALL FOR REVENUECAT RECEIPTS FLOW, THAT WE DON'T USING STILL, BUT WILL USE IN FUTURE
+// export const revenuecatReceipts = async() => {
+// const options = {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//     "X-Platform": "stripe",
+//     Authorization: "Bearer iasbLElmaZpZjsOcAXsBxoaKfvcGLGYV",
+//   },
+//   body: JSON.stringify({
+//     product_id: "prod_JSxR7LsvIZrqXl",
+//     price: 4.99,
+//     currency: "USD",
+//     is_restore: "false",
+//     app_user_id: "307179",
+//     fetch_token: "sub_JSxSU2qWRtIPWI",
+//   }),
+// };
+// fetch("https://api.revenuecat.com/v1/receipts", options)
+//   .then((response) => response.json())
+//   .then((response) => console.log(response))
+//   .catch((err) => console.error(err));
+// }
 
 export const setProfileName = (userId, profileState, name) => {
   console.log(typeof name);
