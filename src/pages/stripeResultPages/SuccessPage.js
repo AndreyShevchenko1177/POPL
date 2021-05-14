@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import successIcon from "../../assets/svg/success-icon.svg";
 import useStyles from "./styles/styles";
 import { deleteCookies, getCookie } from "../../utils/cookie";
-import { setUserProAction } from "./store/actions";
+import { setStripeCustomer } from "./store/requests";
+import { snackBarAction } from "../../store/actions";
 
 export const SuccessPage = () => {
   const classes = useStyles();
@@ -26,6 +27,14 @@ export const SuccessPage = () => {
     axios.post("", bodyFormData, {
       withCredentials: true,
     });
+
+    setStripeCustomer(params.sessionId, userData.id, (message) => dispatch(snackBarAction({
+      message,
+      severity: "error",
+      duration: 6000,
+      open: true,
+    })));
+
     return () => {
       clearTimeout(timer);
       deleteCookies("sessionId");

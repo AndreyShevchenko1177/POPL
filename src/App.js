@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
