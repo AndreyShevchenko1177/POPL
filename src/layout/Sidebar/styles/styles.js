@@ -33,13 +33,14 @@ export default makeStyles((theme) => ({
     },
   },
   brand: {
-    padding: "30px 0px 30px 0px",
+    display: "flex",
+    padding: "30px 0px 30px 50px",
     width: "100%",
     textAlign: "center",
     margin: 0,
     background: "transparent",
     "@media (max-height:900px)": {
-      padding: "30px 0px 30px 0px",
+      padding: "30px 0px 30px 50px",
     },
   },
   sideBarIcons: {

@@ -99,7 +99,7 @@ function BottomWidgets({
           .forEach((link) => {
             const component = (
               <>
-                <Tooltip PopperProps={{ disablePortal: true }} title={link.profileName} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
+
                 {link.id === 37
                   ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
                     <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
@@ -107,7 +107,9 @@ function BottomWidgets({
                   : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
                     <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
                   </a>
+
                 }
+                <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.value}</span></Tooltip>
               </>);
             linkTaps.push({
               name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
@@ -152,6 +154,8 @@ function BottomWidgets({
           }],
         };
       });
+    } else {
+      setPopsDataProportion(undefined);
     }
   }, [dohnutData.dohnutPopsData]);
 
@@ -184,6 +188,8 @@ function BottomWidgets({
           }],
         };
       });
+    } else {
+      setPopsDirectOnOff(undefined);
     }
   }, [dohnutData.dohnutDirectData]);
 

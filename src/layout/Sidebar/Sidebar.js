@@ -15,7 +15,7 @@ import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
 import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
-import { profileCountTierLevelAction, getSubscriptionInfoAction } from "../../store/actions";
+import { profileCountTierLevelAction, getSubscriptionInfoAction, fetchingAction } from "../../store/actions";
 import poplIcon from "../../assets/sidebar/poplIcon_grey.png";
 import poplIconWhite from "../../assets/sidebar/poplIcon_white.png";
 import profiles from "../../assets/sidebar/profiles.png";
@@ -64,6 +64,20 @@ function PermanentDrawerLeft() {
     setHighLight({ [name]: true });
   };
 
+  let timer = null;
+
+  const timeout = (time) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      ["poplsSidebar", "profilesSidebar", "connectionsSidebar"].forEach((name) => {
+        dispatch(fetchingAction(false, name));
+      });
+    }, time);
+  };
+
   useEffect(() => {
     let name = location.pathname.split("/")[1];
     if (location.pathname.includes("general-settings")) {
@@ -110,6 +124,10 @@ function PermanentDrawerLeft() {
     }
     dispatch(getCompanyInfoAction());
   }, []);
+
+  useEffect(() => {
+    timeout(5000);
+  }, [poplsFetching, profilesFetching, connectionsFetching]);
 
   return (
     <Drawer

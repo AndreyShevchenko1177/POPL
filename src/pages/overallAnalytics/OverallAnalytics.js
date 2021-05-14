@@ -8,7 +8,7 @@ import {
   getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, deepLinkCopy, generateAllData,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -241,7 +241,7 @@ function OverallAnalytics() {
         return selectOption({ target: { value: options } });
       }
       setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
-    } else {
+    } else if (chartData.lineData) {
       setChartData({
         dohnutDirectData: null,
         dohnutPopsData: null,

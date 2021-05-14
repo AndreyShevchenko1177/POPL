@@ -30,7 +30,7 @@ function TopList({ data, refPopped, isLinks }) {
           }, key) => (
             <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopped : null}>
               <div className={classes.tableCellRank }>{key + 1}</div>
-              <div className={clsx(classes.tableCellName, isLinks && classes.tableCellNameLink) }>{linkValue}</div>
+              <div className={clsx(classes.tableCellName, isLinks && classes.tableCellNameLink) }>{name}</div>
               <div className={clsx(classes.tableCellValue, isLinks && classes.tableCellValueLink)}>{isLinks
                 ? <>
                   <Tooltip
