@@ -194,8 +194,8 @@ function PermanentDrawerLeft() {
                     name='profile'
                     fill="#7d8286"
                   /> */}
-                  <img className='white' style={{ width: "100%" }} alt='popl' src={profilesWhite} />
-                  <img className='dark' style={{ width: "100%" }} alt='popl' src={profiles} />
+                  <img className='white' style={{ width: "100%", marginLeft: 3 }} alt='popl' src={profilesWhite} />
+                  <img className='dark' style={{ width: "100%", marginLeft: 3 }} alt='popl' src={profiles} />
                 </div>
               </ListItemIcon>
               <ListItemText
