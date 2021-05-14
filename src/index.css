@@ -60,6 +60,11 @@ p {
   display: flex;
 }
 
+.flex-row-center-horizontal {
+  display: flex;
+  justify-content: center;
+}
+
 /* paddings */
 .main-padding {
   padding: 24px 40px;
