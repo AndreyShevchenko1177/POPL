@@ -208,3 +208,13 @@ export const setProfileBio = (userId, profileState, bio) => {
     withCredentials: true,
   });
 };
+
+export const makeProfileNonPro = (userId) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "MakeProfileNotPro");
+  bodyFormData.append("iID", userId);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};

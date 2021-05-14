@@ -10,7 +10,7 @@ import {
 } from "../actionTypes";
 import * as requests from "./requests";
 import { snackBarAction, getProfileInfoRequest } from "../../../../store/actions";
-import { makeProfileProRequest } from "../../../profiles/store/actions/requests";
+import { makeProfileNonPro } from "../../../profiles/store/actions/requests";
 
 export const updateUserProfile = ({
   name, color, websiteLink, file,
@@ -75,7 +75,7 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
         open: true,
       }));
       // making profile  unpro when deleting from our children
-      makeProfileProRequest(profileId, "0");
+      makeProfileNonPro(profileId);
       return dispatch(getProfileInfoRequest(userId));
     }
   } catch (error) {
