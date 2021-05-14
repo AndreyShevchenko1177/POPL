@@ -34,7 +34,7 @@ export default makeStyles((theme) => ({
   },
   brand: {
     display: "flex",
-    padding: "30px 0px 30px 90px",
+    padding: "30px 0px 30px 50px",
     width: "100%",
     textAlign: "center",
     margin: 0,
