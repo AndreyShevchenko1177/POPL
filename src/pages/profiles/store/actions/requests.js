@@ -127,7 +127,7 @@ export const makeProfileSubscriberRequest = (userId) => {
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi" },
-    body: JSON.stringify({ duration: "monthly" }),
+    body: JSON.stringify({ duration: "lifetime" }),
   };
   console.log(userId);
 
