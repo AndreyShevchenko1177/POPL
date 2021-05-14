@@ -260,7 +260,7 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
   }
 };
 
-const isFetchingAction = (isFetching, name) => ({
+export const isFetchingAction = (isFetching, name) => ({
   type: IS_DATA_FETCHING,
   payload: name ? { isFetching, name } : isFetching,
 });

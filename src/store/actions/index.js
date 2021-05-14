@@ -25,6 +25,7 @@ import { subscriptionConfig } from "../../pages/billing/index";
 import { getCollectionData } from "../../config/firebase.query";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { GET_POPS_FOR_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
+import { isFetchingAction as isFetchingProfilesAction } from "../../pages/profiles/store/actions";
 import {
   uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
 } from "../../utils";
@@ -48,6 +49,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
   try {
     const dashboardPlan = getState().authReducer.dashboardPlan.data;
 
+    // setting all needed prrloaders
     dispatch(fetchingAction(true));
     dispatch(fetchingAction(true, "connectionsSidebar"));
     dispatch(fetchingAction(true, "profilesSidebar"));
@@ -55,6 +57,9 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     dispatch({
       type: UPDATE_SIDE_BAR_DATA_STATUS,
     });
+    dispatch(isFetchingProfilesAction(true));
+    // ==================
+
     let profilesData; // = //getState().profilesReducer.dataProfiles.data;
     let profiles;
     if (!profilesData) {
@@ -107,7 +112,8 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     return dispatch(profilesInfoAction(profiles));
   } catch (error) {
     console.log(error);
-    // dispatch(fetchingAction(false, "profilesSidebar"));
+    dispatch(fetchingAction(false, "profilesSidebar"));
+    dispatch(isFetchingProfilesAction(true));
   }
 };
 

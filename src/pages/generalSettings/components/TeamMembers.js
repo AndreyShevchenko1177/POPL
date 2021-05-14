@@ -5,17 +5,17 @@ import {
 } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import { getProfilesDataAction } from "../../profiles/store/actions";
 import userIcon from "../../../assets/svg/user.svg";
 import useStyles from "./styles";
+import Loader from "../../../components/Loader";
 
 function TeamMembers({ showConfirmModal }) {
   const [isShow, setIsShow] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [profilesList, setProfilesList] = useState([]);
   const classes = useStyles();
-  const dispatch = useDispatch();
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const isFetchingProfiles = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   useEffect(() => {
@@ -53,35 +53,42 @@ function TeamMembers({ showConfirmModal }) {
         View and manage team members
         </Button>
       </div>
-      {isShow && <Paper className={classes.teamMembersPopup}>
-        <CancelIcon className={classes.closeIcon} onClick={() => setIsShow(false)} />
-        <div className={classes.searchInputWrapper}>
-          <TextField
-            placeholder='Search'
-            variant='outlined'
-            value={searchValue}
-            onChange={handleChange}
-            fullWidth
-            size='small'
-            className={classes.searchInput}
-          />
-        </div>
-        <div className={classes.content}>
-          {profilesList.map(({
-            customId, name, image, id,
-          }) => (
-            <div key={customId} className={classes.memberWrapper}>
-              <Paper elevation={10} className={classes.memberItem}>
-                {userId !== id && <div className={classes.deleteIcon} onClick={() => deleteProfile(id)} >
-                  <HighlightOffIcon />
-                </div>}
-                <img alt='userIcon' className={classes.nameItemImage} src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} />
-                <p className={classes.nameItemName} > {name}</p>
-              </Paper>
-            </div>
-          ))}
-        </div>
-      </Paper>}
+      {isShow && (
+        <Paper className={classes.teamMembersPopup}>
+          <CancelIcon className={classes.closeIcon} onClick={() => setIsShow(false)} />
+          <div className={classes.searchInputWrapper}>
+            <TextField
+              placeholder='Search'
+              variant='outlined'
+              value={searchValue}
+              onChange={handleChange}
+              fullWidth
+              size='small'
+              className={classes.searchInput}
+            />
+          </div>
+          {isFetchingProfiles
+            ? <Loader containerStyles={{
+              position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+            }} />
+            : <>
+              <div className={classes.content}>
+                {profilesList.map(({
+                  customId, name, image, id,
+                }) => (
+                  <div key={customId} className={classes.memberWrapper}>
+                    <Paper elevation={10} className={classes.memberItem}>
+                      {userId !== id && <div className={classes.deleteIcon} onClick={() => deleteProfile(id)} >
+                        <HighlightOffIcon />
+                      </div>}
+                      <img alt='userIcon' className={classes.nameItemImage} src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} />
+                      <p className={classes.nameItemName} > {name}</p>
+                    </Paper>
+                  </div>
+                ))}
+              </div>
+            </>}
+        </Paper>)}
     </div>
   );
 }
