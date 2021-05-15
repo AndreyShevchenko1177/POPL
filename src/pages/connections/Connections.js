@@ -122,6 +122,8 @@ function Connections() {
   useEffect(() => {
     if (!connections) return;
     if (location.state?.id) {
+      // LOOK HERE. I'M NOT SURE IT'S CORRECT. I think we have to filter them by here too
+      setSortConnections(connections);
       return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name).toLowerCase())).includes(true)).slice(0, 19));
     }
     setConnections(connections.slice(0, 19));
@@ -130,6 +132,7 @@ function Connections() {
 
   useEffect(() => {
     if (!needHeight.offset) return;
+    console.log(sortConnections);
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
