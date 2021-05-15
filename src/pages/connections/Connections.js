@@ -28,12 +28,14 @@ function Connections() {
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connections);
   const [dragableConnections, setConnections] = useState(null);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
     offset: 0,
   });
   const [searchValue, setSearchValue] = useState("");
+  const [filterValue, setFilterValue] = useState("");
   const [openProfileSelect, setOpenProfileSelect] = useState({
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
@@ -64,6 +66,10 @@ function Connections() {
   const showAll = (event, name) => {
     history.push("/connections", { disabled: true });
     setSearchValue("");
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
     dispatch(showAllConnectionsAction());
   };
 
@@ -104,10 +110,13 @@ function Connections() {
 
   const handleChangeInputFilter = (event, val) => {
     if (!val) {
-      showAll();
-      return;
+      return showAll();
     }
-    setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes(val.toLowerCase())).includes(true)).slice(0, 19));
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
+    setFilterValue(val);
   };
 
   useEffect(() => {
@@ -123,8 +132,12 @@ function Connections() {
     if (!connections) return;
     if (location.state?.id) {
       // LOOK HERE. I'M NOT SURE IT'S CORRECT. I think we have to filter them by here too
-      setSortConnections(connections);
-      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase().includes((location.state.name).toLowerCase())).includes(true)).slice(0, 19));
+      if (filterValue) {
+        setSortConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(filterValue.toLowerCase())));
+      } else {
+        setSortConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())));
+      }
+      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())).slice(0, 19));
     }
     setConnections(connections.slice(0, 19));
     setSortConnections(connections);
@@ -132,7 +145,6 @@ function Connections() {
 
   useEffect(() => {
     if (!needHeight.offset) return;
-    console.log(sortConnections);
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
