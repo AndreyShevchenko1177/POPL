@@ -94,7 +94,7 @@ export default makeStyles((theme) => ({
   },
   tableCellNameLink: {
     display: "flex",
-    width: "35% !important",
+    width: "30% !important",
   },
   tableCellValue: {
     padding: 5,
@@ -104,7 +104,7 @@ export default makeStyles((theme) => ({
     width: "20%",
   },
   tableCellValueLink: {
-    width: "50% !important",
+    width: "55% !important",
     justifyContent: "space-between",
   },
   linkIcon: {

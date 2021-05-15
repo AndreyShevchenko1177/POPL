@@ -105,54 +105,6 @@ export const addPoplAction = (body) => async (dispatch) => {
   }
 };
 
-export const editPoplAction = (body) => async (dispatch) => {
-  try {
-    const updatePoplsFormData = new FormData();
-    updatePoplsFormData.append("sAction", "UpdatePopl");
-    updatePoplsFormData.append("sName", body.name);
-    updatePoplsFormData.append("sSlug", body.slug);
-    updatePoplsFormData.append("iMemberID", body.mid);
-    updatePoplsFormData.append("iID", body.id);
-    updatePoplsFormData.append("ajax", 1);
-
-    const response = await axios.post("", updatePoplsFormData, {
-      withCredentials: true,
-    });
-    if (
-      typeof response === "string"
-      || (response.data && response.data.error)
-    ) {
-      return dispatch({
-        type: EDIT_POPLS_FAIL,
-        payload:
-          response.data && response.data.error
-            ? response.data.error
-            : "Server error",
-      });
-    }
-
-    dispatch({
-      type: EDIT_POPLS_SUCCESS,
-      payload: "success",
-    });
-    dispatch(getPoplsAction());
-  } catch (error) {
-    dispatch({
-      type: EDIT_POPLS_FAIL,
-      payload: "Server error",
-    });
-
-    dispatch(
-      snackBarAction({
-        message: "Server error",
-        severity: "error",
-        duration: 3000,
-        open: true,
-      }),
-    );
-  }
-};
-
 export const updatePopl = (poplData) => async (dispatch) => {
   try {
     const bodyFormData = new FormData();

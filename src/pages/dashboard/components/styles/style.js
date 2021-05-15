@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    width: "200px",
+    width: 170,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
     cursor: "pointer",
@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     borderBottom: "0.5px solid grey",
     padding: 10,
-    height: 200,
+    height: 160,
   },
   userIcon: {
     width: "170px",
@@ -66,10 +66,10 @@ export default makeStyles((theme) => ({
     fontWeight: "500",
   },
   avatar: {
-    width: "130px",
-    height: "130px",
+    width: 100,
+    height: 100,
     borderRadius: "50%",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   connectionNameText: {
     fontWeight: "bold !important",

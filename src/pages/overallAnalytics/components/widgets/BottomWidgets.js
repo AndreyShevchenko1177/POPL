@@ -97,9 +97,10 @@ function BottomWidgets({
         links
           .sort((a, b) => b.clicks - a.clicks)
           .forEach((link) => {
+            console.log(link);
             const component = (
               <>
-                <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.value}</span></Tooltip>
+                <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
                 {link.id === 37
                   ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
                     <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />

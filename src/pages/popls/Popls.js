@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { getPopsAction, cleanAction } from "../overallAnalytics/store/actions";
+import { cleanAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";

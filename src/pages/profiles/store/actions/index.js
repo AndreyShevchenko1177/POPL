@@ -44,7 +44,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         social: p.social,
       }));
 
-      if (dashboardPlan && subscriptionConfig[dashboardPlan].unitsRange[0] > profiles.length) {
+      if (dashboardPlan) {
         const unProProfileIds = [];
         profiles.forEach((profile) => {
           if (profile.pro == "0") {
@@ -53,13 +53,15 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         });
 
         if (unProProfileIds.length) {
-          if (subscriptionConfig[dashboardPlan].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
+          if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
             Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
-          } else {
-            // we not in tier level - we need calculate how much profiles we could made pro to reach limit
-            const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan].unitsRange[1]);
-            Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => requests.makeProfileSubscriberRequest(id)));
           }
+          // =====THIS WAS USED TO MAKE PRO AS MUCH PROFILES AS TIER LEVEL ALLOWS===
+          // else {
+          //   // we not in tier level - we need calculate how much profiles we could made pro to reach limit
+          //   const allowedCount = unProProfileIds.length - (profiles.length - subscriptionConfig[dashboardPlan - 1].unitsRange[1]);
+          //   Promise.all(unProProfileIds.slice(0, allowedCount).map((id) => makeProfileSubscriberRequest(id)));
+          // }
         }
       }
     }
@@ -91,16 +93,20 @@ export const setLocalProfilesOrder = (profiles) => ({
   payload: profiles,
 });
 
-export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch) => {
+export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch, getState) => {
   try {
-    const result = await Promise.all(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId)));
+    const storedProfiles = getState().profilesReducer.dataProfiles.data;
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",
     });
+    const successLinks = result.filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success");
+
     dispatch(clearStateAction("dataProfiles"));
     return dispatch(getProfilesDataAction(userId));
   } catch (error) {
+    console.log(error);
     dispatch(
       snackBarAction({
         message: "Server error",

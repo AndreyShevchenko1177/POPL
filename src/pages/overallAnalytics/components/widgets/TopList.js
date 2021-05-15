@@ -41,7 +41,7 @@ function TopList({ data, refPopped, isLinks }) {
                       className={classes.linkLink}
                       href={icons[linkId].path + linkValue}
                     >
-                      {icons[linkId].text}
+                      {linkValue}
                     </a>
                   </Tooltip>
                   <div>{value}</div>
