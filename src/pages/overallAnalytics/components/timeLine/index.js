@@ -20,14 +20,14 @@ import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 
 function NetworkActivity({
-  data, calendar, setCalendar, setDate, selectOption, options, dataType,
+  data, calendar, setCalendar, setDate, selectOption, options, dataType, views, poplLevel, profileLevelId,
 }) {
   const classes = useStyles();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
-  const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
+  // const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
@@ -135,7 +135,10 @@ function NetworkActivity({
       return setKpisData({ ...kpisData, views: views?.length, linkTaps: linkTaps?.length });
     }
     if (linkTaps) {
-      linkTapsResult = linkTaps?.filter((link) => {
+      let linkTapsData = linkTaps;
+      // if individual profile level filtering linkTaps by profile id
+      if (profileLevelId) linkTapsData = linkTapsData.filter((linkTap) => linkTap.pid == profileLevelId);
+      linkTapsResult = linkTapsData?.filter((link) => {
         const linkDate = moment(link.event_at).format("x");
         return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
       });
@@ -192,17 +195,23 @@ function NetworkActivity({
             }
 
             if (item.id === "linkTaps") {
-              item.value = kpisData.linkTaps;
+              if (poplLevel) {
+                item.value = "";
+              } else item.value = kpisData.linkTaps;
               isFetched = linkTapsFetching;
             }
 
             if (item.id === "views") {
-              item.value = kpisData.views;
+              if (poplLevel) {
+                item.value = "";
+              } else item.value = kpisData.views;
               isFetched = viewsFetching;
             }
 
             if (item.id === "ctr") {
-              item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
+              if (poplLevel) {
+                item.value = "";
+              } else item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
               isFetched = linkTapsFetching || viewsFetching;
             }
             // if (item.id === "popls") {

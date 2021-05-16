@@ -1,5 +1,6 @@
 import {
   GET_POPS_SUCCESS,
+  GET_POPS_SUCCESS_NEW,
   GET_POPS_FAIL,
   GET_TOP_STATISTICS_SUCCESS,
   GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING,
@@ -11,13 +12,16 @@ import {
   GET_VIEWS_TOP,
   POPS_COUNT_TOP,
   TOTAL_POPLS,
-  TOP_VIEWED_PROFILES,
   TOP_POPPED_POPLS,
 
 } from "../actionTypes";
 
 const initialState = {
   allPops: {
+    data: null,
+    error: null,
+  },
+  allPopsNew: {
     data: null,
     error: null,
   },
@@ -57,11 +61,6 @@ const initialState = {
     error: null,
     isFetching: true,
   },
-  topViewedProfiles: {
-    data: null,
-    error: null,
-    isFetching: true,
-  },
   viewsBottom: {
     data: null,
     error: null,
@@ -79,6 +78,16 @@ export default function realTimeAnalytics(
     return {
       ...state,
       allPops: {
+        error: null,
+        data: payload,
+      },
+      isFetching: false,
+    };
+  }
+  case GET_POPS_SUCCESS_NEW: {
+    return {
+      ...state,
+      allPopsNew: {
         error: null,
         data: payload,
       },
@@ -232,16 +241,6 @@ export default function realTimeAnalytics(
     return {
       ...state,
       totalPopls: {
-        data: payload,
-        error: null,
-        isFetching: false,
-      },
-    };
-  }
-  case TOP_VIEWED_PROFILES: {
-    return {
-      ...state,
-      topViewedProfiles: {
         data: payload,
         error: null,
         isFetching: false,

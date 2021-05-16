@@ -9,7 +9,7 @@ import {
 import ConnectionCard from "./components/ConnectionCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
-import { getPopsAction } from "../overallAnalytics/store/actions";
+import { getPopsAction } from "./store/actions";
 import { getLatestConnectionsAction } from "../../store/actions";
 import { generateLineChartData } from "../../utils";
 import Loader from "../../components/Loader";
@@ -22,9 +22,10 @@ export default function Dashboard() {
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const latestConnections = useSelector(({ systemReducer }) => systemReducer.latestConnections.data);
   const latestConnectionsFetching = useSelector(({ systemReducer }) => systemReducer.latestConnections.isFetching);
-  const popsData = useSelector(
-    ({ realTimeAnalytics }) => realTimeAnalytics.dashboardPops,
+  const allPopsData = useSelector(
+    ({ dashboardReducer }) => dashboardReducer.allPops.data,
   );
+  const [popsData, setPopsData] = useState(null);
   const [chartData, setChartData] = useState();
 
   const handleOpen = () => {
@@ -32,11 +33,14 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (!popsData) dispatch(getPopsAction());
-  }, []);
+    setPopsData(allPopsData);
+  }, [allPopsData]);
 
   useEffect(() => {
-    if (profilesData) dispatch(getLatestConnectionsAction());
+    if (profilesData) {
+      dispatch(getLatestConnectionsAction());
+      dispatch(getPopsAction());
+    }
   }, [profilesData]);
 
   useEffect(() => {
