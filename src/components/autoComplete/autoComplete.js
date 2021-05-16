@@ -30,7 +30,7 @@ function AutoComplete({
   };
 
   const selectItem = (event, selectedValue, item) => {
-    startFilter(event, selectedValue);
+    startFilter(event, selectedValue, item);
     setValue(selectedValue);
     hideAutoComplete();
     if (pseudoname === "popl") {

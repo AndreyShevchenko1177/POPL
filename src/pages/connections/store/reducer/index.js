@@ -1,3 +1,4 @@
+import { formatDateConnections } from "../../../../utils";
 import {
   GET_CONNECTIONS_SUCCESS,
   GET_CONNECTIONS_FAIL,
@@ -6,6 +7,7 @@ import {
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
   SHOW_ALL_CONNECTIONS,
+  SHOW_CONNECTIONS_BY_PROFILE_ID,
   CLEAR_CONNECTIONS_DATA,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -51,6 +53,19 @@ export default function connectionsReducer(state = initialState, { type, payload
         data: {
           ...state.connections.data,
           allConnections: [...state.connections.data.connections],
+        },
+        error: null,
+      },
+      isFetching: false,
+    };
+  }
+  case SHOW_CONNECTIONS_BY_PROFILE_ID: {
+    return {
+      ...state,
+      connections: {
+        data: {
+          ...state.connections.data,
+          allConnections: state.connections.data.connectionsObject[payload].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))),
         },
         error: null,
       },

@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import {
-  collectSelectedConnections, clearConnectionData, showAllConnectionsAction,
+  collectSelectedConnections, clearConnectionData, showAllConnectionsAction, showConnectionByProfile,
 } from "./store/actions";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
@@ -27,8 +27,8 @@ function Connections() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
-  const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connections);
+  // const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const [dragableConnections, setConnections] = useState(null);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
@@ -58,9 +58,9 @@ function Connections() {
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
     if (!event.target.value) {
-      return setConnections(connections.slice(0, 19));
+      return setConnections(allConnections.slice(0, 19));
     }
-    setConnections(connections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
+    setConnections(allConnections.filter((prof) => prof.name.toLowerCase().includes(event.target.value.toLowerCase())).slice(0, 19));
   };
 
   const showAll = (event, name) => {
@@ -84,19 +84,19 @@ function Connections() {
     if (!(dragableConnections).length) return;
     setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
     setConnections(() => {
-      const sortProfiles = [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
+      const sortProfiles = [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
       return sortProfiles.slice(0, 19);
     });
     setNeedHeight({
       height: 0,
       offset: 0,
     });
-    setSortConnections((prevConnections) => [...connections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
+    setSortConnections((prevConnections) => [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
   const resetSort = () => {
-    setConnections(() => connections.slice(0, 19));
+    setConnections(() => allConnections.slice(0, 19));
     setNeedHeight({
       height: 0,
       offset: 0,
@@ -108,7 +108,7 @@ function Connections() {
     showAll();
   };
 
-  const handleChangeInputFilter = (event, val) => {
+  const handleChangeInputFilter = (event, val, item) => {
     if (!val) {
       return showAll();
     }
@@ -116,7 +116,7 @@ function Connections() {
       height: 0,
       offset: 0,
     });
-    setFilterValue(val);
+    dispatch(showConnectionByProfile(item.id));
   };
 
   useEffect(() => {
@@ -129,19 +129,16 @@ function Connections() {
   }, []);
 
   useEffect(() => {
-    if (!connections) return;
+    if (!allConnections) return;
     if (location.state?.id) {
+      dispatch(showConnectionByProfile(location.state?.id));
       // LOOK HERE. I'M NOT SURE IT'S CORRECT. I think we have to filter them by here too
-      if (filterValue) {
-        setSortConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(filterValue.toLowerCase())));
-      } else {
-        setSortConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())));
-      }
-      return setConnections(connections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())).slice(0, 19));
+      setSortConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())));
+      return setConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())).slice(0, 19));
     }
-    setConnections(connections.slice(0, 19));
-    setSortConnections(connections);
-  }, [connections, location.state?.id]);
+    setConnections(allConnections.slice(0, 19));
+    setSortConnections(allConnections);
+  }, [allConnections, location.state?.id]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
@@ -155,6 +152,7 @@ function Connections() {
         firstChild={location.state?.name}
         path="/connections"
       />
+      {console.log(allConnections, sortConnections)}
       <div
         className={`${
           dragableConnections?.length ? "relative" : ""
