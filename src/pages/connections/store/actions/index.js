@@ -10,6 +10,7 @@ import {
   GET_PROFILES_IDS_SUCCESS,
   GET_PROFILES_IDS_FAIL,
   SHOW_ALL_CONNECTIONS,
+  SHOW_CONNECTIONS_BY_PROFILE_ID,
   CLEAR_CONNECTIONS_DATA,
   IS_DATA_FETCHING,
 } from "../actionTypes";
@@ -91,7 +92,7 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {
-        allConnections: isSingle ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))) : filteredConnections, connections: filteredConnections,
+        connectionsObject: idsObject, allConnections: isSingle ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))) : filteredConnections, connections: filteredConnections,
       },
     });
   } catch (error) {
@@ -108,6 +109,11 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     });
   }
 };
+
+export const showConnectionByProfile = (profileId) => ({
+  type: SHOW_CONNECTIONS_BY_PROFILE_ID,
+  payload: profileId,
+});
 
 export const showAllConnectionsAction = () => (dispatch) => {
   dispatch(isFetchingAction(true));
