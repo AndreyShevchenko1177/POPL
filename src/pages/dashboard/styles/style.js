@@ -6,7 +6,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     overflowY: "auto",
     minHeight: 260,
-    alignItems: "center",
   },
   headingWrapper: {
     display: "flex",
@@ -16,7 +15,7 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
   },
   connections_container: {
-    padding: "20px 15px 20px 15px",
+    padding: "15px 10px 20px 10px",
   },
   chart_container: {
     padding: "10px",
@@ -32,8 +31,8 @@ export default makeStyles((theme) => ({
   buttonWrapper: {
     display: "flex",
     justifyContent: "flex-start",
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   addIcon: {
     "& > *:first-child": {

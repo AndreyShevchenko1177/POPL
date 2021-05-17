@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     borderBottom: "0.5px solid grey",
     padding: 10,
-    height: 160,
+    height: 150,
   },
   userIcon: {
     width: "170px",
@@ -54,7 +54,7 @@ export default makeStyles((theme) => ({
   },
   chartContainer: {
     position: "relative",
-    minHeight: "500px",
+    minHeight: "300px",
     width: "100%",
   },
   noDataText: {
@@ -66,8 +66,8 @@ export default makeStyles((theme) => ({
     fontWeight: "500",
   },
   avatar: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: "50%",
     marginBottom: 10,
   },
