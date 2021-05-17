@@ -14,21 +14,23 @@ export default makeStyles((theme) => ({
     minHeight: "100vh",
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
-    position: "absolute",
+    position: "fixed",
     zIndex: 1,
   },
   wizardContainer: {
     position: "absolute",
-    top: "85px",
-    left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     padding: "15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     zIndex: 50,
     outline: "none",
-    "@media (max-width:1400px)": {
-      left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
+    "@media (max-height:730px)": {
+      top: 70,
+      transform: "translate(-50%, 0)",
     },
   },
   closeIcon: {

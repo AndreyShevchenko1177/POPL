@@ -76,7 +76,7 @@ export const statusRequest = (id, state) => {
   return axios.post("", bodyFormData);
 };
 
-export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
+export const addLinkRequest = (value, title, { id, activeProfile }, iconId, icon) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
   bodyFormData.append("ajax", "1");
@@ -84,8 +84,8 @@ export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
   bodyFormData.append("aLinksIDs[]", iconId);
   bodyFormData.append("aTitles[]", title);
   bodyFormData.append("aValues[]", value);
-  bodyFormData.append("aIcons[]", "");
   bodyFormData.append("aProfiles[]", activeProfile);
+  if (icon) bodyFormData.append("aIcons[]", icon);
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });
