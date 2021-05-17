@@ -25,7 +25,7 @@ const initialState = {
   editPopl: {
     data: null,
     error: null,
-    isFetching: false,
+    isFetching: {},
   },
   allPops: {
     data: null,
@@ -85,21 +85,15 @@ export default function poplsReducer(state = initialState, { type, payload, erro
     };
   }
   case EDIT_POPLS_SUCCESS: {
-    const correctProperties = {
-      sNickName: "nickname",
-      sName: "name",
-      sSlug: "url",
-    };
-    const [property, value] = payload.item;
     return {
       ...state,
       allPopls: {
-        data: state.allPopls.data.map((el) => (el.id === payload.id ? ({ ...el, [correctProperties[property]]: value }) : el)),
+        data: state.allPopls.data.map((el) => (el.id === payload.id ? ({ ...el, nickname: payload.nickname, photo: payload.photo }) : el)),
         error: payload,
       },
       editPopl: {
         ...state.editPopl,
-        isFetching: { [payload.id]: false },
+        isFetching: {},
       },
     };
   }

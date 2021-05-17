@@ -17,6 +17,7 @@ import {
 import { getId } from "../../../../utils";
 import { snackBarAction, getPoplsForProfilesButton } from "../../../../store/actions";
 import { GET_DATA_PROFILES_SUCCESS } from "../../../profiles/store/actionTypes";
+import { setCompanyAvatar } from "../../../generalSettings/store/actions/requests";
 
 import * as requests from "./requests";
 
@@ -105,21 +106,25 @@ export const addPoplAction = (body) => async (dispatch) => {
   }
 };
 
-export const updatePopl = (poplData) => async (dispatch) => {
+export const updatePopl = (memberId, id, photo, nickname, fetchedParam) => async (dispatch) => {
   try {
-    const bodyFormData = new FormData();
     dispatch({
       type: EDIT_POPLS_REQUEST,
-      payload: { [poplData.iID]: true },
+      payload: { [id]: { [fetchedParam]: true } },
     });
-    Object.keys(poplData).forEach((item) => bodyFormData.append(item, poplData[item]));
-    const result = await axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
+    let uploadedFile;
+    console.log(photo);
+    if (photo && typeof photo !== "string") {
+      uploadedFile = getId(12);
+      await setCompanyAvatar(new File([photo], `${uploadedFile}`, { type: photo.type }));
+    }
 
+    await requests.updatePoplRequest(memberId, id, uploadedFile || photo, nickname);
     dispatch({
       type: EDIT_POPLS_SUCCESS,
-      payload: { id: poplData.iID, item: Object.entries(poplData)[0] },
+      payload: {
+        id, photo: uploadedFile || photo, nickname,
+      },
     });
   } catch (error) {
     console.log(error);

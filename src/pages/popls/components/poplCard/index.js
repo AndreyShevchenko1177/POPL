@@ -22,7 +22,10 @@ function PoplCard({
   const history = useHistory();
   const dispatch = useDispatch();
   const fileInputRef = useRef();
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    nickname: popl.nickname || popl.name,
+    photo: popl.photo,
+  });
 
   const changeIconSize = (event, size) => {
     event.currentTarget.style.transform = `scale(${size})`;
@@ -37,28 +40,21 @@ function PoplCard({
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
-  const updateTextValueByKey = (event) => {
+  const updateTextValueByKey = (event, fetchedParam) => {
     if (values[event.target.name] === popl.nickname) return console.log("the same name");
     if (event.key === "Enter") {
-      return dispatch(updatePopl({
-        [event.target.name]: values[event.target.name],
-        iMemberID: memberId,
-        iID: id,
-        sAction: "UpdatePopl",
-        ajax: 1,
-      }));
+      return dispatch(updatePopl(memberId, id, popl.photo, values.nickname, fetchedParam));
     }
   };
 
-  const updateTextValue = (event) => {
+  const updateTextValue = (event, fetchedParam) => {
     if (values[event.target.name] === popl.nickname) return console.log("the same name");
-    dispatch(updatePopl({
-      [event.target.name]: values[event.target.name],
-      iMemberID: memberId,
-      iID: id,
-      sAction: "UpdatePopl",
-      ajax: 1,
-    }));
+    dispatch(updatePopl(memberId, id, popl.photo, values.nickname, fetchedParam));
+  };
+
+  const onPhotoAdded = (event) => {
+    event.persist();
+    return dispatch(updatePopl(memberId, id, event.target.files[0], values.nickname, "photo"));
   };
 
   return (
@@ -80,8 +76,7 @@ function PoplCard({
         {editMode[customId] && <Chip
           className={classes.chipButton}
           onDelete={() => {
-            // setCompanyImage("");
-            // setFieldsState((prev) => ({ ...prev, file: null }));
+            dispatch(updatePopl(memberId, id, "", values.nickname, "photo"));
           }}
         />}
         {editMode[customId] && <div className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
@@ -92,7 +87,7 @@ function PoplCard({
           ref={fileInputRef}
           type='file'
           multiple={false}
-          onChange={() => { console.log("change"); }}
+          onChange={onPhotoAdded}
         />
         <Checkbox
           color="primary"
@@ -103,7 +98,10 @@ function PoplCard({
           classes={{ root: "custom-checkbox-root" }}
           checked={checkboxes[customId]?.checked || false}
         />
-        <img className={classes.avatar} alt="logo" src={userIcon} />
+        {isFetching[id]?.photo
+          ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+          : <img className={classes.avatar} alt="logo" src={popl.photo ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${popl.photo}?alt=media` : userIcon} />
+        }
       </div>
       <div className={classes.contenContainer}>
         <div className={classes.cardTable}>
@@ -113,21 +111,22 @@ function PoplCard({
           </div>
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Nickname:</div>
-            {!editMode[customId] ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{popl.nickname}</div>
-
-              : isFetching[id] ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+            {!editMode[customId]
+              ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{popl.nickname || popl.name}</div>
+              : isFetching[id]?.nickname
+                ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                 : <TextField
                   classes={{ root: classes.disabledTextfield }}
                   onChange={changeTextValue}
-                  onBlur={updateTextValue}
-                  onKeyDown={updateTextValueByKey}
+                  onBlur={(event) => updateTextValue(event, "nickname")}
+                  onKeyDown={(event) => updateTextValueByKey(event, "nickname")}
                   disabled={!editMode[customId]}
                   onFocus={(event) => setValues((prev) => ({ ...prev, [event.target.name]: popl.nickname }))}
-                  name='sNickName'
+                  name='nickname'
                   placeholder={"Enter nickname"}
                   InputProps={{ disableUnderline: !editMode[customId], className: classes.nameInput }}
                   size='small'
-                  value={values.sNickName === undefined ? popl.nickname : values.sNickName}
+                  value={values.nickname}
                 /> }
           </div>
           <div className={classes.tableRow}>
