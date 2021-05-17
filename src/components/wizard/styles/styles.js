@@ -22,20 +22,17 @@ export default makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    // minWidth: 400,
-    // maxWidth: 1138,
     minHeight: 500,
     width: 800,
-    // left: "calc(50% - 360px)", // half of container width plus half of sidebar width to show in center of viewport
     padding: "15px 15px 25px 15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     zIndex: 50,
     outline: "none",
-    "@media (max-height:760px)": {
-      // left: "calc(50% - 570px)",
-      // left: "calc(50% - 325px)", // half of container width plus half of sidebar width to show in center of viewport
+    "@media (max-height:800px)": {
+      top: 80,
+      transform: "translate(-50%, 0)",
     },
   },
   closeIcon: {

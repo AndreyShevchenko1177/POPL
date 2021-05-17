@@ -16,7 +16,7 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
   },
   connections_container: {
-    padding: "20px 15px 20px 15px",
+    padding: "20px 10px 20px 10px",
   },
   chart_container: {
     padding: "10px",
