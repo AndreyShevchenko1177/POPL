@@ -117,6 +117,7 @@ function OverallAnalytics() {
     // dispatch(cleanAction());
     setPopsData(null);
     setSaveSelected(true);
+    console.log(213);
   };
 
   const selectOption = (event) => {
@@ -308,6 +309,8 @@ function OverallAnalytics() {
           profileLevelId={location.state?.id}
           options={options}
           selectOption={selectOption}
+          profilesData={profilesData}
+          handleShowAllStat={handleShowAllStat}
         />
       </div>
       <BottomWidgets

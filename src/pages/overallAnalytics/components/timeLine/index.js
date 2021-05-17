@@ -3,9 +3,11 @@
 import React, {
   useEffect, useState, useRef, memo,
 } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import { Typography, Button } from "@material-ui/core";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
 import useStyles from "./styles/styles";
@@ -18,11 +20,28 @@ import {
 import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
+import CustomSelect from "../../../../components/customSelect";
+import { filterConfig } from "./filterConfig";
+import { isSafari } from "../../../../constants";
 
 function NetworkActivity({
-  data, calendar, setCalendar, setDate, selectOption, options, dataType, views, poplLevel, profileLevelId,
+  data,
+  calendar,
+  setCalendar,
+  setDate,
+  selectOption,
+  options,
+  dataType,
+  views,
+  poplLevel,
+  profileLevelId,
+  profilesData,
+  handleShowAllStat,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
@@ -34,6 +53,26 @@ function NetworkActivity({
     views: 0,
     ctr: 0,
   });
+  const [openProfileSelect, setOpenProfileSelect] = useState({
+    filter: { open: false, component: "" },
+  });
+
+  const handleChangeInputFilter = (event, val, item) => {
+    console.log(val, item);
+  };
+
+  const clearFilterInput = (name) => {
+    // showAll();
+    history.push("/analytics");
+    handleShowAllStat();
+  };
+
+  const filter = (value, name) => {
+    if (openProfileSelect[name].component === "select" && isSafari) {
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    }
+    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+  };
 
   const handleClickLabel = (e, index) => {
     const ctx = chartRef.current.chartInstance;
@@ -161,6 +200,35 @@ function NetworkActivity({
           <Typography variant="h5" classes={{ h5: classes.text }}>
             Pops Over Time
           </Typography>
+        </div>
+        <div className={classes.filterContainer}>
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant='contained'
+              color='primary'
+              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+              onClick={() => filter(true, "filter")}
+              endIcon={<KeyboardArrowDownIcon />}
+              name='filter'
+            >
+            Filter
+            </Button>
+            <CustomSelect
+              selectName='filter'
+              config={filterConfig}
+              autoComleteData={profilesData}
+              isOpen={openProfileSelect.filter.open}
+              events={{ handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput }}
+            />
+          </div>
+          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.filterText}>
+            <span style={{ whiteSpace: "nowrap" }}>
+              <i>{location.state?.profilesData?.name || location.state?.name}</i>
+            </span>
+            <CloseIcon style={{
+              cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+            }} onClick={clearFilterInput}/>
+          </div>}
         </div>
         <div style={{ position: "relative" }}>
           <DatePicker selectOption={selectOption} options={options} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>

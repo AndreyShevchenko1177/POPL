@@ -40,6 +40,8 @@ function AutoComplete({
           ...popl, disabled: false,
         },
       });
+    } if (pseudoname === "analytics") {
+      return history.push("/analytics", item);
     }
     const connection = data.find((el) => el.id === item.id);
     history.push("/connections", { ...connection });
