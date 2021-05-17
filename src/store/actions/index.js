@@ -9,7 +9,6 @@ import {
   PROFILE_POPS,
   PROFILE_CONNECTIONS,
   SHOW_RESTRICTED_MODE,
-  HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
   HANDLE_MAIN_PAGE_SCROLL,
   PROFILES_INFO_SIDEBAR,
@@ -215,10 +214,6 @@ export const restricteModeAction = (isRestricted) => ({
 export const fetchingAction = (isFetching, name) => ({
   type: FETCHING_ACTION,
   payload: name ? { isFetching, name } : isFetching,
-});
-
-export const hideRestrictedModeAction = () => ({
-  type: HIDE_RESTRICTED_MODE,
 });
 
 export const handleMainPageScrollAction = (isScroll) => (dispatch) => dispatch({

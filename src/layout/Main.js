@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
-import { restricteModeAction, hideRestrictedModeAction } from "../store/actions";
+import { restricteModeAction } from "../store/actions";
 import { subscriptionConfig } from "../pages/billing/index";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ export default function Main({ children, stripe }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isRestrictedMode, isHiderestrictedMode, isMainPageScroll } = useSelector(({ systemReducer }) => systemReducer);
+  const { isRestrictedMode, isMainPageScroll } = useSelector(({ systemReducer }) => systemReducer);
   const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
@@ -59,7 +59,6 @@ export default function Main({ children, stripe }) {
       const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/profiles/add-profile", "/profiles/new-profile", "/profiles/add-profile/new"];
       if (dashboardPlan == 0 || dashboardPlan === "") {
         if (!allowedPaths.includes(location.pathname)) {
-          console.log("1");
           if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
           if (totalProfiles > 1 && location.pathname === "/profiles") return dispatch(restricteModeAction(true));
           return dispatch(restricteModeAction(true));
@@ -89,14 +88,14 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: (isRestrictedMode && !isHiderestrictedMode) || !isMainPageScroll ? "hidden" : "auto",
+          overflow: isRestrictedMode || !isMainPageScroll ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
         id='main'
       >
         <>
           {children}
-          {isRestrictedMode && !isHiderestrictedMode
+          {isRestrictedMode
             && <div
               style={location.pathname === "/" ? { height: "calc(100vh - 110px)", top: 110 } : {}}
               className={classes.restrictedViewRoot}
@@ -104,18 +103,6 @@ export default function Main({ children, stripe }) {
               <div className={classes.restrictedViewOpacity}>
 
               </div>
-              <HighlightOffIcon
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  dispatch(hideRestrictedModeAction());
-                  dispatch(restricteModeAction(false));
-                }}
-              />
               <Button
                 className={classes.upgradePlanButton}
                 variant="contained"
