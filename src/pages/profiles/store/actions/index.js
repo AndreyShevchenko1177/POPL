@@ -103,7 +103,7 @@ export const addLinkAction = (value, title, profileData, iconId, userId, icon) =
       uploadedFile = getId(12);
       await uploadImage(new File([icon], `${uploadedFile}`, { type: icon.type }));
     }
-    console.log(icon, uploadedFile);
+
     const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile)));
     dispatch({
       type: ADD_LINK_SUCCESS,
