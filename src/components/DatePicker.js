@@ -68,6 +68,7 @@ function CDatePicker({
   };
 
   const clickCalendar = () => {
+    console.log("click open");
     setCalendar({ ...calendar, visible: !calendar.visible });
   };
 

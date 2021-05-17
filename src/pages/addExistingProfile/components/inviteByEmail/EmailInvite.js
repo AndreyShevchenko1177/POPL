@@ -24,7 +24,8 @@ function EmailInvite() {
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const classes = useStyles();
   const dispatch = useDispatch();
-  const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  // const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const regexp = /@\w+([\.-]?\w+)/;
 
   const handleChange = (event) => {
     if (event.target.value.split(",").length > 1) {

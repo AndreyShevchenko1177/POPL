@@ -22,6 +22,7 @@ import {
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
+import { uploadImage } from "../../../../config/firebase.query";
 
 export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
@@ -93,10 +94,17 @@ export const setLocalProfilesOrder = (profiles) => ({
   payload: profiles,
 });
 
-export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch, getState) => {
+export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
   try {
     const storedProfiles = getState().profilesReducer.dataProfiles.data;
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId)));
+
+    let uploadedFile;
+    if (icon && typeof icon !== "string") {
+      uploadedFile = getId(12);
+      await uploadImage(new File([icon], `${uploadedFile}`, { type: icon.type }));
+    }
+
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",

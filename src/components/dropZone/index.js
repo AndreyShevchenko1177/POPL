@@ -34,6 +34,7 @@ const DropZone = ({
   });
   const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const regexp = /@\w+([\.-]?\w+)/;
 
   const handleDeleteFile = (key) => {
     const result = { ...files };
@@ -179,7 +180,7 @@ const DropZone = ({
           ? header.indexOf("e-mail") : -1;
 
     if (index >= 0) {
-      const result = emails.map((el) => el[index].trim()).filter((el, i, array) => el && array.indexOf(el) === i);
+      const result = emails.map((el) => el[index].trim()).filter((el, i, array) => el && array.indexOf(el) === i && regexp.test(el));
       if (!result.length) {
         return dispatch(snackBarAction({
           message: "No emails was found",

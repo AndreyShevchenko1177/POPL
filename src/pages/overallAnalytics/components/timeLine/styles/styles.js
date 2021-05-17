@@ -6,7 +6,6 @@ export default makeStyles((theme) => ({
   },
   "network-container__header": {
     display: "flex",
-    justifyContent: "space-between",
     padding: "10px 15px",
     boxShadow: theme.custom.mainBoxShadow,
     borderBottom: "1px solid #a5a4a4",
@@ -108,5 +107,35 @@ export default makeStyles((theme) => ({
   lineChartContainer: {
     display: "flex",
     flexDirection: "column",
+  },
+  filterContainer: {
+    width: "100%",
+    flexDirection: "column",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    marginRight: 20,
+  },
+  buttonWrapper: {
+    position: "relative",
+    "-webkit-box-shadow": theme.custom.mainBoxShadow,
+    boxShadow: theme.custom.mainBoxShadow,
+    borderRadius: theme.custom.mainBorderRadius,
+  },
+  addIcon: {
+    "& > *:first-child": {
+      fontSize: 32,
+    },
+  },
+  actionButton: {
+    height: "40px",
+    minWidth: "100px",
+    fontSize: "14px",
+    borderRadius: theme.custom.mainBorderRadius,
+  },
+  filterText: {
+    display: "flex",
+    marginRight: 40,
+    paddingTop: 5,
   },
 }));

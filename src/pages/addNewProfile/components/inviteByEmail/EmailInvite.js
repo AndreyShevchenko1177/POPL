@@ -22,7 +22,8 @@ function EmailInvite() {
   const isAddProfileSuccess = useSelector(({ newProfileReducer }) => newProfileReducer.addProfileByEmailSuccess);
   const classes = useStyles();
   const dispatch = useDispatch();
-  const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  // const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const regexp = /@\w+([\.-]?\w+)/;
 
   const handleChange = (event) => {
     if (event.target.value.split(",").length > 1) {
