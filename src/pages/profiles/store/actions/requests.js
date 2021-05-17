@@ -209,6 +209,18 @@ export const setProfileBio = (userId, profileState, bio) => {
   });
 };
 
+export const setProfilePhoto = (userId, profileState, photo) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetPhoto");
+  bodyFormData.append("iProfile", profileState);
+  bodyFormData.append("sPhoto", photo);
+  bodyFormData.append("iID", userId);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
 export const makeProfileNonPro = (userId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "MakeProfileNotPro");

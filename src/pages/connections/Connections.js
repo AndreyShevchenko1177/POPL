@@ -6,6 +6,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper, Typography } from "@material-ui/core";
 import { check } from "prettier";
+import clsx from "clsx";
 import Header from "../../components/Header";
 import {
   collectSelectedConnections, clearConnectionData, showAllConnectionsAction, showConnectionByProfile,
@@ -245,12 +246,13 @@ function Connections() {
                     >
                       {(provided) => (
                         <Paper
+                          elevation={checkboxes[connection.customId] ? 20 : 0}
                           tabIndex={1}
-                          className={classes.connectContainer}
+                          className={clsx(classes.connectContainer, !checkboxes[connection.customId] && classes.connectContainerShadow)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          elevation={3}
+                          // elevation={3}
                         >
                           {connection.noPopl || "noPopl" in connection
                             ? <NotConnectedCard

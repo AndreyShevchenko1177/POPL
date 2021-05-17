@@ -19,6 +19,7 @@ import {
   SET_PROFILE_NAME,
   SET_PROFILE_BIO,
   IS_DATA_FETCHING,
+  SET_PROFILE_PHOTO,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
@@ -271,6 +272,23 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
     });
   } catch (error) {
     dispatch(isFetchingAction(false, "setProfileBio"));
+  }
+};
+
+export const setProfileImageAction = (profileId, profileState, photo) => async (dispatch) => {
+  try {
+    let uploadedFile;
+    if (photo && typeof photo !== "string") {
+      uploadedFile = getId(12);
+      await uploadImage(new File([photo], `${uploadedFile}`, { type: photo.type }));
+    }
+    await requests.setProfilePhoto(profileId, profileState, uploadedFile || photo);
+    dispatch({
+      type: SET_PROFILE_PHOTO,
+      payload: { profileId, profileState, photo: uploadedFile || photo },
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 
