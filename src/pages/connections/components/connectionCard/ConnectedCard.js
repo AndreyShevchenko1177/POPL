@@ -13,7 +13,7 @@ import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
 export function ConnectedCard({
-  name, url, image, time, names, ...rest
+  name, url, image, time, names, checked, handleChangeCheckbox, ...rest
 }) {
   const classes = useStyles();
   const location = useLocation();
@@ -61,7 +61,9 @@ export function ConnectedCard({
             color="primary"
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}
-            checked={location.state?.connectionCardId === rest.id}
+            name={rest.customId.toString()}
+            checked={checked}
+            onChange={handleChangeCheckbox}
           />
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>

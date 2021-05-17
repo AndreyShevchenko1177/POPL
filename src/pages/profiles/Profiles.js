@@ -41,8 +41,6 @@ export default function Profiles() {
   const profilePopls = useSelector(({ systemReducer }) => systemReducer.profilePopls.data);
   const profilePops = useSelector(({ systemReducer }) => systemReducer.profilePops.data);
   const isLoading = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
-  const deleteLinkData = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.data);
-  const editLinkData = useSelector(({ profilesReducer }) => profilesReducer.editLink.data);
   const [searchValue, setSearchValue] = useState("");
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
@@ -57,7 +55,6 @@ export default function Profiles() {
   const [wizard, setWizard] = useState({ open: false, data: [] });
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
-  const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
 
   function handleOpenNewProfilePage() {
     history.push("/profiles/add-profile");

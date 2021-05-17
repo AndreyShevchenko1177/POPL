@@ -1,10 +1,11 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-lone-blocks */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper, Typography } from "@material-ui/core";
+import { check } from "prettier";
 import Header from "../../components/Header";
 import {
   collectSelectedConnections, clearConnectionData, showAllConnectionsAction, showConnectionByProfile,
@@ -35,7 +36,6 @@ function Connections() {
     offset: 0,
   });
   const [searchValue, setSearchValue] = useState("");
-  const [filterValue, setFilterValue] = useState("");
   const [openProfileSelect, setOpenProfileSelect] = useState({
     action: { open: false, component: "" },
     sort: { open: false, component: "" },
@@ -44,7 +44,9 @@ function Connections() {
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [filteringConfig, setFilterConfig] = useState(filterConfig);
   const [sortConnections, setSortConnections] = useState();
-  const [showFilterModal, setShowFilterModal] = useState({ open: false, value: "" });
+  const [checkboxes, setCheckBoxes] = useState({});
+  const [selectAllCheckbox, setSelectAllCheckbox] = useState(false);
+
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -53,6 +55,24 @@ function Connections() {
     items.splice(result.destination.index, 0, reorderedItem);
 
     setConnections(items);
+  };
+
+  const handleChangeCheckbox = (event) => {
+    event.persist();
+    const { name, checked } = event.target;
+    setCheckBoxes({ ...checkboxes, [name]: checked });
+  };
+
+  const handleSelectAllCheckboxes = (event) => {
+    event.persist();
+    const { checked } = event.target;
+    console.log(checked);
+    setSelectAllCheckbox(checked);
+    setCheckBoxes((prev) => {
+      const result = {};
+      Object.keys(prev).forEach((key) => result[key] = checked);
+      return result;
+    });
   };
 
   const handleSearch = (event) => {
@@ -131,17 +151,35 @@ function Connections() {
   useEffect(() => {
     if (!allConnections) return;
     if (location.state?.id) {
+      const filteredConnections = allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase()));
+      // setting initial checkboxes state for rendered connections
+      setCheckBoxes(() => {
+        const result = {};
+        filteredConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+        return result;
+      });
       dispatch(showConnectionByProfile(location.state?.id));
-      // LOOK HERE. I'M NOT SURE IT'S CORRECT. I think we have to filter them by here too
-      setSortConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())));
-      return setConnections(allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase())).slice(0, 19));
+      setSortConnections(filteredConnections);
+      return setConnections(filteredConnections.slice(0, 19));
     }
+    // setting initial checkboxes state for rendered connections for non individual profile level
+    setCheckBoxes(() => {
+      const result = {};
+      allConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+      return result;
+    });
     setConnections(allConnections.slice(0, 19));
     setSortConnections(allConnections);
   }, [allConnections, location.state?.id]);
 
   useEffect(() => {
     if (!needHeight.offset) return;
+    // initializing new checkboxes state by scrolling
+    setCheckBoxes((prev) => {
+      const result = {};
+      sortConnections.slice(needHeight.offset, (needHeight.offset + 19)).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+      return { ...prev, ...result };
+    });
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
@@ -152,7 +190,6 @@ function Connections() {
         firstChild={location.state?.name}
         path="/connections"
       />
-      {console.log(allConnections, sortConnections)}
       <div
         className={`${
           dragableConnections?.length ? "relative" : ""
@@ -170,8 +207,10 @@ function Connections() {
             setFilters={showAll}
             isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
             searchValue={searchValue}
+            checked={selectAllCheckbox}
             handleSearch={handleSearch}
             showCRM
+            handleCheck={handleSelectAllCheckboxes}
             arrowHandler={arrowHandler}
             selectObject={{
               openProfileSelect,
@@ -216,10 +255,14 @@ function Connections() {
                           {connection.noPopl || "noPopl" in connection
                             ? <NotConnectedCard
                               key={connection.customId}
+                              checked={checkboxes[connection.customId] || false}
+                              handleChangeCheckbox={handleChangeCheckbox}
                               {...connection}
                             />
                             : <ConnectedCard
                               key={connection.customId}
+                              checked={checkboxes[connection.customId] || false}
+                              handleChangeCheckbox={handleChangeCheckbox}
                               {...connection}
                             />
                           }
