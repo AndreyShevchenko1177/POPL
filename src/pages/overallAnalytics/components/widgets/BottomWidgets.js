@@ -3,11 +3,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tooltip } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 import WidgetsContainer from "./WidgetsContainer";
 import TopList from "./TopList";
 import PieChart from "./PieChart";
 import useStyles from "./styles";
-import { getProfilesDataAction } from "../../../profiles/store/actions";
 import labels, {
   backgroundColor, chartOptions, dohnutLabels, dohnutBackgroundColor,
 } from "./chartConfig";
@@ -16,10 +16,9 @@ import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLo
 import { filterPops } from "../../../../utils";
 
 function BottomWidgets({
-  views, userId, dohnutData, widgetLayerString, totalPopls, totalPops,
+  views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar,
 }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const refProfiles = useRef(null);
   const refPopls = useRef(null);
   const [viewedProfiles, setViewedProfiles] = useState(null);
@@ -36,31 +35,16 @@ function BottomWidgets({
   };
 
   useEffect(() => {
-    if (totalPopls && totalPops) {
-      if (location.state?.poplName) {
-        let topPoppedPopls = {};
-        totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
-
-        totalPops.forEach((pop) => {
-          const name = filterPops.slicePoplNameFromPop(pop[1]);
-          if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
-        });
-
-        const sortedPoppedPopls = Object.keys(topPoppedPopls)
-          .map((key) => ({ [key]: topPoppedPopls[key] }))
-          .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-        const result = [];
-        sortedPoppedPopls.forEach((item) => {
-          result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
-        });
-        return setTopPoppedPopls(result);
-      }
+    if (totalPopls && totalPops && calendar) {
       const topPoppedPopls = {};
       totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
 
       totalPops.forEach((pop) => {
+        const popDate = moment(pop[2]).format("x");
         const name = filterPops.slicePoplNameFromPop(pop[1]);
-        if (name && name in topPoppedPopls) topPoppedPopls[name].push(pop);
+        if (name && name in topPoppedPopls) {
+          if ((popDate > moment(calendar.dateRange[0]).format("x")) && (popDate < moment(calendar.dateRange[1]).format("x"))) topPoppedPopls[name].push(pop);
+        }
       });
       const sortedPoppedPopls = Object.keys(topPoppedPopls)
         .map((key) => ({ [key]: topPoppedPopls[key] }))
@@ -72,64 +56,67 @@ function BottomWidgets({
       });
       setTopPoppedPopls(result);
     }
-  }, [totalPopls, totalPops, location]);
+  }, [totalPopls, totalPops, location, calendar]);
 
   useEffect(() => {
-    if (views) {
-      if (profilesData) {
-        const result = [];
-        const linkTaps = [];
-        let links = [];
-        if (location.state?.id) {
-          if (location.state?.personalMode?.text === "Personal") {
-            links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName }))];
-          } else {
-            links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName }))];
-          }
+    if (profilesData) {
+      const result = [];
+      const linkTaps = [];
+      let links = [];
+      if (location.state?.id) {
+        if (location.state?.personalMode?.text === "Personal") {
+          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName }))];
         } else {
-          profilesData.forEach((profile) => {
-            links = profile.activeProfile === "1"
-              ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name }))]
-              : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name }))];
-          });
+          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName }))];
         }
-
-        links
-          .sort((a, b) => b.clicks - a.clicks)
-          .forEach((link) => {
-            console.log(link);
-            const component = (
-              <>
-                <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
-                {link.id === 37
-                  ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
-                    <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                  </div>
-                  : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
-                    <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                  </a>
-
-                }
-
-              </>);
-            linkTaps.push({
-              name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
-            });
-          });
-
-        views.forEach((item) => {
-          const targetProfile = profilesData.find((profile) => profile.id === item.id);
-          if (targetProfile) result.push({ name: targetProfile.name, value: item.data?.views });
+      } else {
+        profilesData.forEach((profile) => {
+          links = profile.activeProfile === "1"
+            ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name }))]
+            : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name }))];
         });
-        setLinkTapsData(linkTaps);
+      }
+
+      links
+        .sort((a, b) => b.clicks - a.clicks)
+        .forEach((link) => {
+          const component = (
+            <>
+              <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
+              {link.id === 37
+                ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
+                  <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                </div>
+                : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
+                  <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                </a>
+
+              }
+
+            </>);
+          linkTaps.push({
+            name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
+          });
+        });
+
+      if (views && calendar) {
+        calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+
+        profilesData.forEach((profile) => {
+          let profilesNumber = 0;
+          views.forEach((view) => {
+            const viewsDate = moment(view[2]).format("x");
+            if (view[0] == profile.id) {
+              if ((viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"))) profilesNumber += 1;
+            }
+          });
+          result.push({ name: profile.name, value: profilesNumber });
+        });
         setViewedProfiles(result);
-      } else dispatch(getProfilesDataAction(userId));
-    } else {
-      setViewedProfiles(null);
-      setTopPoppedPopls(null);
-      setLinkTapsData(null);
+      }
+      setLinkTapsData(linkTaps);
     }
-  }, [views, profilesData]);
+  }, [views, profilesData, calendar]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;
@@ -206,7 +193,7 @@ function BottomWidgets({
       </div>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer layerString="Total" heading='Top viewed Profiles'>
-          <TopList data={viewedProfiles} refPopped={refProfiles}/>
+          <TopList data={viewedProfiles?.sort((a, b) => b.value - a.value)} refPopped={refProfiles}/>
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top popped Popls'>
           <TopList data={topPoppedPopls} refPopped={refPopls}/>

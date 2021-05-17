@@ -2,6 +2,7 @@
 /* eslint-disable no-return-assign */
 import {
   GET_POPS_SUCCESS,
+  GET_POPS_SUCCESS_NEW,
   GET_POPS_FAIL,
   IS_DATA_FETCHING, CLEAN,
   INDIVIDUAL_POPS_COUNT,
@@ -11,234 +12,45 @@ import {
   GET_VIEWS_BOTTOM,
   GET_LINKS_TOP,
   GET_VIEWS_TOP,
-  TOP_VIEWED_PROFILES,
   TOTAL_POPLS,
   POPS_COUNT_TOP,
 } from "../actionTypes";
 
-import { removeCommas, getId, filterPops } from "../../../../utils";
+import { removeCommas, filterPops } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
-import { getPoplsDataById } from "../../../popls/store/actions/requests";
-import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
+import { profileIdsRequest } from "../../../profiles/store/actions/requests";
 import * as requests from "./requests";
 
-export const getPopsAction = (userId, poplName) => async (dispatch, getState) => {
-  try {
-    const { id } = getState().authReducer.signIn.data;
-    let result;
-    if (!userId) {
-      const { data } = await profileIdsRequest(id);
-      let response;
-      if (data) {
-        const ids = JSON.parse(removeCommas(data));
-        response = await Promise.all([...ids, id].map((id) => requests.popsActionRequest(id)));
-      } else {
-        response = await Promise.all([id].map((id) => requests.popsActionRequest(id)));
-      }
+export const mainAnalyticsAction = () => async (dispatch, getState) => {
+  const profilesData = getState().profilesReducer.dataProfiles.data;
 
-      result = response.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []);
+  const userIdsArray = profilesData.map(({ id }) => id);
+
+  // get all views for all profiles
+  dispatch(getViewsByDate(userIdsArray));
+
+  // get all links taps for all profiles
+  dispatch(getLinkTapsAction(userIdsArray));
+
+  // get all pops for all profiles
+  Promise.all(userIdsArray.map((id) => requests.popsActionRequest(id)))
+    .then((res) => {
       const poplPops = [];
       const qrCodePops = [];
       const walletPops = [];
-
-      if (poplName) {
-        let topViewedViews = [];
-        let idsArray = [id];
-        if (data) {
-          idsArray = JSON.parse(removeCommas(data));
-        }
-        topViewedViews = await Promise.all([...idsArray, id].map((id) => requests.getAllThreeStats(id)));
-
-        dispatch({
-          type: TOP_VIEWED_PROFILES,
-          payload: [...topViewedViews.sort((a, b) => Number(b.data.views) - Number(a.data.views))],
-        });
-
-        const popls = getState().poplsReducer.allPopls.data;
-
-        dispatch({
-          type: TOTAL_POPLS,
-          payload: popls,
-        });
-
-        result = result.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === poplName);
-
-        result.forEach((pop) => {
-          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
-        });
-
-        dispatch({
-          type: POPS_COUNT_TOP,
-          payload: [...poplPops, ...qrCodePops, ...walletPops],
-        });
-
-        // settingTopStatistics in null for that values we don't have to show on popl level
-        dispatch({
-          type: GET_VIEWS_TOP,
-          payload: null,
-        });
-        dispatch({
-          type: GET_LINKS_TOP,
-          payload: null,
-        });
-        dispatch({
-          type: GET_LINK_TAPS_BOTTOM,
-          payload: null,
-        });
-        dispatch({
-          type: GET_VIEWS_BOTTOM,
-          payload: null,
-        });
-      } else {
-        result.forEach((pop) => {
-          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
-        });
-      }
-      result = {
-        poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
-      };
-      if (!poplName) {
-        dispatch({
-          type: DASHBOARD_POPS_DATA,
-          payload: result,
-        });
-      }
-    } else { // calling this on individual profile level
-      const response = await requests.popsActionRequest(userId);
-      if (typeof response === "string") {
-        dispatch(
-          snackBarAction({
-            message: "Download pops error",
-            severity: "error",
-            duration: 6000,
-            open: true,
-          }),
-        );
-        return dispatch({
-          type: GET_POPS_FAIL,
-          payload: "error",
-        });
-      }
-
-      const poplPops = [];
-      const qrCodePops = [];
-      const walletPops = [];
-      response.data.forEach((pop) => {
+      res.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []).forEach((pop) => {
         if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
         if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
         if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
       });
-      // const totalPops = [...poplPops, ...qrCodePops, ...walletPops];
-      result = {
-        poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
-      };
-    }
-
-    return dispatch({
-      type: GET_POPS_SUCCESS,
-      payload: result,
-    });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: GET_POPS_FAIL,
-      payload: error,
-    });
-
-    dispatch(
-      snackBarAction({
-        message: "Server error",
-        severity: "error",
-        duration: 6000,
-        open: true,
-      }),
-    );
-  }
-};
-
-export const getStatisticItemsRequest = () => async (dispatch, getState) => {
-  dispatch(cleanActionName("topStatisticsData"));
-  const storeProfiles = getState().profilesReducer.dataProfiles.data;
-  return dispatch(getStatisticItem(storeProfiles));
-};
-
-export const getStatisticItem = (profiles, isSingle) => async (dispatch, getState) => {
-  try {
-    const storeProfiles = getState().profilesReducer.dataProfiles.data;
-    const popls = getState().poplsReducer.allPopls.data;
-    dispatch(cleanActionName("topStatisticsData"));
-
-    // FETCHING POPS
-    Promise.all(profiles.map((el) => requests.popsActionRequest(el.id)))
-      .then((res) => {
-        dispatch({
-          type: POPS_COUNT_TOP,
-          payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(isFetchingAction(false, "popsCountTop"));
+      return dispatch({
+        type: GET_POPS_SUCCESS_NEW,
+        payload: {
+          poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+        },
       });
-
-    // FETCHING POPLS
-    dispatch({
-      type: TOTAL_POPLS,
-      payload: popls,
-    });
-    // Promise.all(profiles.map((el) => getPoplsDataById(el.id)))
-    //   .then((res) => {
-    //     dispatch({
-    //       type: TOTAL_POPLS,
-    //       payload: res.reduce((acc, value) => ([...acc, ...value.data]), []),
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     dispatch(isFetchingAction(false, "totalPopls"));
-    //   });
-
-    Promise.all(profiles.map((el) => requests.getAllThreeStats(el.id)))
-      .then((res) => {
-        dispatch({
-          type: GET_VIEWS_TOP,
-          payload: res.reduce((a, b) => a + b.data.views, 0),
-        });
-
-        if (isSingle) {
-          // if individual profile level
-          Promise.all(storeProfiles.map((el) => requests.getAllThreeStats(el.id)))
-            .then((res) => {
-              dispatch({
-                type: TOP_VIEWED_PROFILES,
-                payload: [...res.sort((a, b) => Number(b.data.views) - Number(a.data.views))],
-              });
-            });
-        } else {
-          dispatch({
-            type: TOP_VIEWED_PROFILES,
-            payload: [...res.sort((a, b) => Number(b.data.views) - Number(a.data.views))],
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(isFetchingAction(false, "topViewedProfiles"));
-      });
-
-    dispatch(getLinkTapsAction(profiles.map((el) => el.id)));
-    dispatch(getViewsByDate(profiles.map((el) => el.id)));
-    dispatch({
-      type: GET_LINKS_TOP,
-      payload: `${profiles.map((pr) => [...pr.business, ...pr.social].reduce((sum, { clicks }) => sum += Number(clicks), 0)).reduce((sum, value) => sum += value, 0)}`,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    })
+    .catch((err) => console.log(err));
 };
 
 export const individualPopsCountAction = (number) => ({

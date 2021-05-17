@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-import TopStatistics from "./components/topStatistics";
 import NetworkActivity from "./components/timeLine";
 import {
-  getPopsAction, cleanAction, getStatisticItem, getStatisticItemsRequest,
+  cleanAction, mainAnalyticsAction,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData,
+  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData, filterPops,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -19,13 +18,15 @@ function OverallAnalytics() {
   const location = useLocation();
   const classes = useStyles();
   const [options, setOption] = useState("");
+  const [popsData, setPopsData] = useState(null);
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
-  const popsData = useSelector(
-    ({ realTimeAnalytics }) => realTimeAnalytics.allPops.data,
+  const allPopsData = useSelector(
+    ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data,
   );
   const {
-    popsCountTop, totalPopls, topViewedProfiles,
+    allPopsNew, viewsBottom,
   } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
+  const totalPopls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState({
@@ -33,6 +34,7 @@ function OverallAnalytics() {
     dohnutPopsData: null,
     lineData: null,
   });
+  const [viewsKpis, setViewsKpis] = useState(null);
   const [saveSelected, setSaveSelected] = useState(false);
 
   const minTimestamp = new Date().getTime() - (86400000 * 13);
@@ -112,7 +114,8 @@ function OverallAnalytics() {
       dohnutPopsData: null,
       lineData: null,
     });
-    dispatch(cleanAction());
+    // dispatch(cleanAction());
+    setPopsData(null);
     setSaveSelected(true);
   };
 
@@ -207,23 +210,46 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (profilesData) {
+      dispatch(mainAnalyticsAction());
+    }
+  }, [profilesData]);
+
+  // SETTING ALL POPS
+  useEffect(() => {
+    if (allPopsData) {
+      // setting pops for popl level
       if (location.state?.poplName) {
         setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
-        dispatch(getPopsAction(null, location.state?.poplName));
-      } else if (location.state?.id) {
-        setWidgetLayerString({ layer: "Profile", name: location.state.name });
-        dispatch(getStatisticItem([location.state], "single"));
-        dispatch(getPopsAction(location.state?.id));
-      } else {
-        setWidgetLayerString({ layer: "Total", name: "Total" });
-        dispatch(getStatisticItemsRequest(userId));
-
-        if (!popsData || !Object.values(popsData).length) {
-          dispatch(getPopsAction(location.state?.id));
-        }
+        const poplPops = [];
+        const qrCodePops = [];
+        const walletPops = [];
+        const filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
+        filteredPops.forEach((pop) => {
+          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+        });
+        return setPopsData({
+          poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+        });
       }
+      // setting popps for individual profile level
+      if (location.state?.id) {
+        console.log(location.state.id);
+        setWidgetLayerString({ layer: "Profile", name: location.state.name });
+        return setPopsData({
+          poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
+          qrCodePops: allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id),
+          walletPops: allPopsData.walletPops.filter((pop) => pop[0] == location.state.id),
+          allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
+        });
+      }
+      setWidgetLayerString({ layer: "Total", name: "Total" });
+      setPopsData(allPopsData);
     }
-  }, [location, profilesData]);
+  }, [allPopsData, location]);
+
+  // console.log(popsData, chartData);
 
   useEffect(() => () => {
     dispatch(cleanAction());
@@ -250,6 +276,16 @@ function OverallAnalytics() {
     }
   }, [popsData, location]);
 
+  // filtering views by profile id for individual profile level
+  useEffect(() => {
+    if (viewsBottom.data) {
+      if (location.state?.id) {
+        return setViewsKpis(viewsBottom.data.filter((view) => view[0] == location.state.id));
+      }
+      setViewsKpis(viewsBottom.data);
+    }
+  }, [location, viewsBottom.data]);
+
   return (
     <>
       <Header
@@ -261,40 +297,26 @@ function OverallAnalytics() {
         path="/analytics"
       />
       <div className={classes.overallAnalyticsContainer}>
-        {/* <TopStatistics
-          popsCount={popsCountTop.data?.length}
-          linkTaps={linkTapsTop.data}
-          totalProfiles={location.state?.poplName ? "" : profilesData?.length}
-          ctr={linkTapsTop.data && viewsTop.data
-            ? `${((linkTapsTop.data / viewsTop.data) * 100).toFixed(1)}`
-            : ""}
-          totalPopls={location.state?.poplName ? "" : totalPopls.data?.length}
-          views={viewsTop.data}
-          isFetched={{
-            linkTaps: linkTapsTop.isFetching,
-            views: viewsTop.isFetching,
-            popsCount: popsCountTop.isFetching,
-            totalProfiles: profilesFetching,
-            totalPopls: totalPopls.isFetching,
-            ctr: linkTapsTop.isFetching || viewsTop.isFetching,
-          }}
-        /> */}
         <NetworkActivity
           data={chartData?.lineData}
           dataType={chartData?.dataType}
           calendar={calendar}
           setCalendar={setCalendar}
           setDate={setDate}
+          views={viewsKpis}
+          poplLevel={!!location.state?.poplName}
+          profileLevelId={location.state?.id}
           options={options}
           selectOption={selectOption}
         />
       </div>
       <BottomWidgets
-        totalPopls={totalPopls.data}
-        totalPops={popsCountTop.data}
+        totalPopls={totalPopls}
+        totalPops={allPopsNew.data?.allPops}
         userId={userId}
         widgetLayerString={widgetLayerString}
-        views={topViewedProfiles.data}
+        views={viewsBottom?.data}
+        calendar={calendar}
         dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData }}
       />
     </>
