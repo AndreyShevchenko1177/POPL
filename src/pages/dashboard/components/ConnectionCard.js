@@ -25,12 +25,12 @@ export default function ConnectionCard({
 
           </div>
           <div className={classes.header_body}>
-            <div>
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.connectionNameText }}><span style={{ fontWeight: "normal" }}> connected with </span></Typography>
-            </div>
-            <div>
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.connectionNameText }}>{parentProfileName}</Typography>
-            </div>
+            <Typography
+              variant="subtitle1"
+              classes={{ subtitle1: classes.connectionNameText }}
+            >
+              <span style={{ fontWeight: "normal" }}> connected with </span>{parentProfileName}
+            </Typography>
           </div>
         </div>
       </div>
