@@ -163,7 +163,13 @@ function NetworkActivity({
           </Typography>
         </div>
         <div style={{ position: "relative" }}>
-          <DatePicker selectOption={selectOption} options={options} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
+          <DatePicker
+            selectOption={selectOption}
+            options={options}
+            calendar={calendar}
+            setCalendar={setCalendar}
+            setDate={setDate}
+          />
         </div>
       </div>
       <div className={classes["network-container__charts"]}>

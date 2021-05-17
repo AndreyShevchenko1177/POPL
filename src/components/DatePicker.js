@@ -77,6 +77,7 @@ function CDatePicker({
 
   return (
     <Fragment>
+      {console.log("date picker")}
       <div
         className="datepicker"
         onClick={clickCalendar}
