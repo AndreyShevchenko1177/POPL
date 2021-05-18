@@ -1,7 +1,6 @@
 /* eslint-disable no-return-assign */
 import React, { useEffect, useState, useRef } from "react";
 import { Tooltip } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 import WidgetsContainer from "./WidgetsContainer";
@@ -9,14 +8,14 @@ import TopList from "./TopList";
 import PieChart from "./PieChart";
 import useStyles from "./styles";
 import labels, {
-  backgroundColor, chartOptions, dohnutLabels, dohnutBackgroundColor,
+  backgroundColor, chartOptions, dohnutLabels, dohnutBackgroundColor, dohnutPoplByProfileBackgroundColor,
 } from "./chartConfig";
 import icons from "../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLoadAction";
 import { filterPops } from "../../../../utils";
 
 function BottomWidgets({
-  views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar,
+  views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar, profilesData,
 }) {
   const classes = useStyles();
   const refProfiles = useRef(null);
@@ -25,8 +24,8 @@ function BottomWidgets({
   const [topPoppedPopls, setTopPoppedPopls] = useState(null);
   const [popsDataProportion, setPopsDataProportion] = useState(null);
   const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
+  const [popsByProfile, setPopsByProfile] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
-  const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const location = useLocation();
 
   const handleDownloadFile = (linkId, path, value) => {
@@ -181,6 +180,43 @@ function BottomWidgets({
     }
   }, [dohnutData.dohnutDirectData]);
 
+  useEffect(() => {
+    const { dohnutPopsByProfileData } = dohnutData;
+    if (dohnutPopsByProfileData) {
+      delete dohnutPopsByProfileData.labels;
+      const datasetsPopsByProfileDataProportion = [];
+      const chartLabelsPopsByProfileDataProportion = [];
+      const chartBackGroundColorsPopsByProfileDataProportion = [];
+
+      setPopsByProfile(() => {
+        if (location.state?.id) {
+          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
+            chartLabelsPopsByProfileDataProportion.push(location.state?.name);
+            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
+            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
+          });
+        } else {
+          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
+            chartLabelsPopsByProfileDataProportion.push(name);
+            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
+            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
+          });
+        }
+
+        return {
+          labels: chartLabelsPopsByProfileDataProportion,
+          datasets: [{
+            data: datasetsPopsByProfileDataProportion,
+            backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
+            ...chartOptions,
+          }],
+        };
+      });
+    } else {
+      setPopsByProfile(undefined);
+    }
+  }, [dohnutData.dohnutPopsByProfileData]);
+
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
@@ -190,7 +226,11 @@ function BottomWidgets({
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
           <PieChart data={popsDirectOnOff} index={2}/>
         </WidgetsContainer>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
+          <PieChart data={popsByProfile} index={3}/>
+        </WidgetsContainer>
       </div>
+
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer layerString="Total" heading='Top viewed Profiles'>
           <TopList data={viewedProfiles?.sort((a, b) => b.value - a.value)} refPopped={refProfiles}/>

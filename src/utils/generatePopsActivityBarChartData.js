@@ -116,3 +116,32 @@ export const generateAllData = (popsData) => {
   const momentDates = Object.keys(result).map((d) => moment(d));
   return { data: { ...data, labels: Object.keys(result) }, maxDate: moment.max(momentDates), minDate: moment.min(momentDates) };
 };
+
+export const generateDohnutPopsByProfileData = (profileData, popsData, minDate, maxDate, isAllData) => {
+  let result = {};
+  const data = {};
+  if (isAllData) {
+    popsData.allPops.forEach((item) => {
+      result[item[2].split(" ")[0]] = 0;
+    });
+  } else {
+    result = dateGeneration(popsData, minDate, maxDate);
+  }
+  const { allPops } = popsData;
+  profileData.forEach(({ id, name }) => {
+    let ownResult = { ...result };
+    let correctResult = {};
+    Object.values(allPops).forEach((item) => {
+      const date = item[2].split(" ")[0];
+      const profileId = item[0];
+      if (date in result) {
+        if (id == profileId) {
+          ownResult[date] = (ownResult[date] || 0) + 1;
+        }
+      }
+    });
+    Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+    data[name] = correctResult;
+  });
+  return data;
+};

@@ -26,4 +26,16 @@ export const dohnutBackgroundColor = {
   directOff: "rgba(213, 229, 106, 1)",
 };
 
+export const dohnutPoplByProfileBackgroundColor = [
+  "rgb(137, 107, 228)",
+  "rgb(107, 228, 178)",
+  "rgb(159, 215, 69)",
+  "rgb(215, 190, 69)",
+  "rgb(226, 107, 228)",
+  "rgb(228, 107, 163)",
+  "rgb(228, 107, 107)",
+  "rgb(107, 228, 178)",
+
+];
+
 export default labels;

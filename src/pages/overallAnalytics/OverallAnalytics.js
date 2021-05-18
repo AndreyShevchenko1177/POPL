@@ -7,7 +7,7 @@ import {
   cleanAction, mainAnalyticsAction,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData, filterPops,
+  generateLineChartData, generateDohnutPopsByProfileData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData, filterPops,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -33,6 +33,7 @@ function OverallAnalytics() {
     dohnutDirectData: null,
     dohnutPopsData: null,
     lineData: null,
+    dohnutPopsByProfileData: null,
   });
   const [viewsKpis, setViewsKpis] = useState(null);
   const [saveSelected, setSaveSelected] = useState(false);
@@ -69,7 +70,13 @@ function OverallAnalytics() {
     }
     if (maxDateMilis < minDateMilis) {
       setChartData({
-        ...chartData, lineData: generateLineChartData(popsData, maxDate, minDate), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate), dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+        ...chartData,
+        lineData: generateLineChartData(popsData, maxDate, minDate),
+        dataType: "",
+        dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate),
+        dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate),
+
       });
       return setCalendar({
         ...calendar,
@@ -88,7 +95,12 @@ function OverallAnalytics() {
       visible: false,
     });
     setChartData({
-      ...chartData, lineData: generateLineChartData(popsData, minDate, maxDate), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate), dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+      ...chartData,
+      lineData: generateLineChartData(popsData, minDate, maxDate),
+      dataType: "",
+      dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate),
+      dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
+      dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate),
     });
   };
 
@@ -97,7 +109,13 @@ function OverallAnalytics() {
       dateFromRange, dateFrom, dateTo, maxD, minD,
     }, "generate data, component - overallanalytics");
     setChartData({
-      ...chartData, lineData: generateLineChartData(popsData, dateFrom, dateTo), dataType: "", dohnutPopsData: generateDohnutChartData(popsData, true, dateFrom, dateTo), dohnutDirectData: generateDohnutChartData(popsData, false, dateFrom, dateTo),
+      ...chartData,
+      lineData: generateLineChartData(popsData, dateFrom, dateTo),
+      dataType: "",
+      dohnutPopsData: generateDohnutChartData(popsData, true, dateFrom, dateTo),
+      dohnutDirectData: generateDohnutChartData(popsData, false, dateFrom, dateTo),
+      dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, dateFrom, dateTo),
+
     });
     return setCalendar({
       ...calendar,
@@ -113,6 +131,7 @@ function OverallAnalytics() {
       dohnutDirectData: null,
       dohnutPopsData: null,
       lineData: null,
+      dohnutPopsByProfileData: null,
     });
     // dispatch(cleanAction());
     setPopsData(null);
@@ -132,7 +151,12 @@ function OverallAnalytics() {
         minDate,
       )}, ${getYear(minDate)}`;
       setChartData({
-        ...chartData, lineData: data, dohnutPopsData: generateDohnutChartData(popsData, true, null, null, true), dohnutDirectData: generateDohnutChartData(popsData, false, null, null, true), dataType: "allData",
+        ...chartData,
+        lineData: data,
+        dohnutPopsData: generateDohnutChartData(popsData, true, null, null, true),
+        dohnutDirectData: generateDohnutChartData(popsData, false, null, null, true),
+        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, null, null, true),
+        dataType: "allData",
       });
       return setCalendar({
         ...calendar,
@@ -258,6 +282,7 @@ function OverallAnalytics() {
       dohnutDirectData: null,
       dohnutPopsData: null,
       lineData: null,
+      dohnutPopsByProfileData: null,
     });
   }, []);
 
@@ -267,12 +292,18 @@ function OverallAnalytics() {
         setSaveSelected(false);
         return selectOption({ target: { value: options } });
       }
-      setChartData({ lineData: generateLineChartData(popsData), dohnutPopsData: generateDohnutChartData(popsData, true), dohnutDirectData: generateDohnutChartData(popsData) });
+      setChartData({
+        lineData: generateLineChartData(popsData),
+        dohnutPopsData: generateDohnutChartData(popsData, true),
+        dohnutDirectData: generateDohnutChartData(popsData),
+        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData),
+      });
     } else if (chartData.lineData) {
       setChartData({
         dohnutDirectData: null,
         dohnutPopsData: null,
         lineData: null,
+        dohnutPopsByProfileData: null,
       });
     }
   }, [popsData, location]);
@@ -320,7 +351,8 @@ function OverallAnalytics() {
         widgetLayerString={widgetLayerString}
         views={viewsBottom?.data}
         calendar={calendar}
-        dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData }}
+        dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData, dohnutPopsByProfileData: chartData?.dohnutPopsByProfileData }}
+        profilesData={profilesData}
       />
     </>
   );
