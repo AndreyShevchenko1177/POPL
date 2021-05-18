@@ -16,8 +16,8 @@ function EditLinkModal({
   const ref = useRef();
 
   const blurHandler = (event) => {
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    setEditLinkModal((v) => ({ ...v, open: false }));
+    // if (event.currentTarget.contains(event.relatedTarget)) return;
+    // setEditLinkModal((v) => ({ ...v, open: false }));
   };
 
   const successCb = (link) => {
@@ -66,7 +66,7 @@ function EditLinkModal({
 
   return (
     <>
-      <div className={classes.opacityBackground}></div>
+      <div className={classes.opacityBackground} onClick={(v) => setEditLinkModal((v) => ({ ...v, open: false }))}></div>
       <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
         <HighlightOffIcon onClick={() => setEditLinkModal((v) => ({ ...v, open: false }))} className={classes.closeIcon} />
         <div>

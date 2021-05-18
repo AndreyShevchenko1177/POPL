@@ -19,7 +19,7 @@ export default makeStyles((theme) => ({
   },
   wizardContainer: {
     position: "absolute",
-    top: "50%",
+    top: "calc(50% - 35px)",
     left: "50%",
     transform: "translate(-50%, -50%)",
     minHeight: 500,
@@ -28,12 +28,12 @@ export default makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
-    zIndex: 50,
+    zIndex: 1050,
     outline: "none",
-    "@media (max-height:800px)": {
-      top: 80,
-      transform: "translate(-50%, 0)",
-    },
+    // "@media (max-height:800px)": {
+    //   top: 80,
+    //   transform: "translate(-50%, 0)",
+    // },
   },
   closeIcon: {
     position: "absolute",

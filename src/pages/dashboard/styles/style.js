@@ -2,10 +2,17 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
-    position: "relative",
     display: "flex",
+    alignItems: "center",
     overflowY: "auto",
     minHeight: 260,
+  },
+  latestConnectionsWrapper: {
+    position: "absolute",
+    bottom: 17,
+    "@media (max-height:800px)": {
+      position: "static",
+    },
   },
   headingWrapper: {
     display: "flex",

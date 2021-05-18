@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-cycle */
 import axios from "axios";
 
@@ -120,9 +121,12 @@ export const updatePopl = (memberId, id, photo, nickname, fetchedParam) => async
     }
 
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
-    const fileName = result
-      .split("?")[0]
-      .split("poplPhotos%")[1];
+    let fileName;
+    if (result) {
+      fileName = result
+        .split("?")[0]
+        .split("poplPhotos%")[1];
+    }
     console.log(fileName, result);
     await requests.updatePoplRequest(memberId, id, fileName || photo, nickname);
     dispatch({
