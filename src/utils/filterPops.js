@@ -4,8 +4,15 @@ export const filterPops = {
     return result && result.length === 14 ? result : null;
   },
   filterPoplPops: (popValue) => {
-    const values = ["r", "k", "b", "h", "xl"];
-    return values.includes(popValue[0]);
+    // console.log(popValue[0]);
+    const values = ["r", "k", "b", "h"];
+    if (values.includes(popValue[0])) return true;
+    // for pops that have popl. popl name has length of 14 characters
+    if (popValue.length > 14) {
+      return filterPops.slicePoplNameFromPop(popValue) === "xl";
+    }
+    // if no popl popValue should be equal "xl"
+    return popValue === "xl";
   },
   filterQrCodePops: (popValue) => {
     const values = ["q", "a"];

@@ -33,12 +33,12 @@ function PieChart({ data, index }) {
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div id="legend-${i}-item" class="legend-item" >
+              <div style="display: flex; width: 100px" id="legend-${i}-item" class="legend-item" >
                 <span style="background-color:
                   ${data.datasets[0].backgroundColor[i]}; margin-right: 10px; border-radius: 50%;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
-                ${data.labels[i] && `<span class="label">${data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )

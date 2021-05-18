@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
@@ -282,13 +283,17 @@ export const setProfileImageAction = (profileId, profileState, photo) => async (
     let result;
     if (photo && typeof photo !== "string") {
       uploadedFile = getId(12);
-      result = await uploadImage(new File([photo], `${uploadedFile}`, { type: photo.type }), "photos");
+      result = await uploadImage(new File([photo], `${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
     }
 
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
-    const fileName = result
-      .split("?")[0]
-      .split("photos%")[1];
+    let fileName;
+    if (result) {
+      fileName = result
+        .split("?")[0]
+        .split("photos%")[1];
+    }
+
     await requests.setProfilePhoto(profileId, profileState, fileName || photo);
     dispatch({
       type: SET_PROFILE_PHOTO,

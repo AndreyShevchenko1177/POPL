@@ -259,7 +259,7 @@ export default function profilesReducer(
       setProfilePhoto: {
         data: true,
         error: null,
-        isFetching: false,
+        isFetching: true,
       },
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {

@@ -54,7 +54,7 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
       }),
     );
     dispatch(isFetchingAction(false));
-    throw new Error();
+    // throw new Error();
   }
 };
 

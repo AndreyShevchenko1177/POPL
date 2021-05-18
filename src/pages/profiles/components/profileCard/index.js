@@ -14,9 +14,9 @@ import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
-import { imagesExtensions, isSafari } from "../../../../constants";
+import { isSafari } from "../../../../constants";
 import {
-  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion, setProfileImageAction,
+  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion, setProfileImageAction, isFetchingAction,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
@@ -59,7 +59,6 @@ export default function Card({
     text: "Personal",
   });
   const [showEditIcon, setShowEditIcon] = useState(false);
-  const extension = image.split(".");
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
@@ -152,6 +151,7 @@ export default function Card({
 
   useEffect(() => {
     setValues({ ...values, image });
+    dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image]);
 
   return (
@@ -185,18 +185,16 @@ export default function Card({
                 : <Avatar
                   bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
                   src={
-                    imagesExtensions.includes(extension[extension.length - 1])
-                      ? `${process.env.REACT_APP_BASE_IMAGE_URL}${values.image}`
+                    values.image
+                      ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL}${values.image.slice(0, 2) === "2F" ? "" : "2F"}${values.image}?alt=media`
                       : generalSettingsData && generalSettingsData[3]
-                        ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL}${values.image}?alt=media`
-                        : generalSettingsData && generalSettingsData[3]
-                          ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
-                          : {
-                            name: "userIcon",
-                            fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
-                            width: 80,
-                            height: 80,
-                          }
+                        ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
+                        : {
+                          name: "userIcon",
+                          fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
+                          width: 80,
+                          height: 80,
+                        }
                   }
                   name={name}
                   styles={{

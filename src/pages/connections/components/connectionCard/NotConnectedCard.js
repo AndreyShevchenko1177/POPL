@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Checkbox, Typography,
+  Checkbox, Tooltip, Typography,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles/styles";
@@ -10,7 +10,7 @@ import { dateFormat } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
 export function NotConnectedCard({
-  name, url, image, time, note, number, email, isChecked, handleChangeCheckbox, ...rest
+  name, url, image, time, note, number, email, isChecked, handleChangeCheckbox, bio, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -52,6 +52,11 @@ export function NotConnectedCard({
         </div>
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
+          <div className='full-w'>
+            <Tooltip title={bio || rest.location || ""} placement="top">
+              <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.location}</Typography>
+            </Tooltip>
+          </div>
           <div className={classes.cardTable}>
             <div className={classes.tableRow}>
               <div className={classes.tableCell}>Email:</div>

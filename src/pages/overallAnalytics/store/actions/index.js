@@ -38,6 +38,7 @@ export const mainAnalyticsAction = () => async (dispatch, getState) => {
       const poplPops = [];
       const qrCodePops = [];
       const walletPops = [];
+
       res.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []).forEach((pop) => {
         if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
         if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
