@@ -76,7 +76,7 @@ export const statusRequest = (id, state) => {
   return axios.post("", bodyFormData);
 };
 
-export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
+export const addLinkRequest = (value, title, { id, activeProfile }, iconId, icon) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinksValuesDashboard");
   bodyFormData.append("ajax", "1");
@@ -84,8 +84,8 @@ export const addLinkRequest = (value, title, { id, activeProfile }, iconId) => {
   bodyFormData.append("aLinksIDs[]", iconId);
   bodyFormData.append("aTitles[]", title);
   bodyFormData.append("aValues[]", value);
-  bodyFormData.append("aIcons[]", "");
   bodyFormData.append("aProfiles[]", activeProfile);
+  if (icon) bodyFormData.append("aIcons[]", icon);
   return axios.post("", bodyFormData, {
     withCredentials: true,
   });
@@ -203,6 +203,18 @@ export const setProfileBio = (userId, profileState, bio) => {
   bodyFormData.append("iProfile", profileState);
   bodyFormData.append("iID", userId);
   bodyFormData.append("iBio", bio);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
+export const setProfilePhoto = (userId, profileState, photo) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetPhoto");
+  bodyFormData.append("iProfile", profileState);
+  bodyFormData.append("sPhoto", photo);
+  bodyFormData.append("iID", userId);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,

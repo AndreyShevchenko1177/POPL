@@ -11,8 +11,8 @@ function CustomWizard({
   const ref = useRef();
 
   const blurHandler = (event) => {
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    setIsOpen((v) => ({ ...v, open: false }));
+    // if (event.currentTarget.contains(event.relatedTarget)) return;
+    // setIsOpen((v) => ({ ...v, open: false }));
   };
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function CustomWizard({
 
   return (
     <>
-      <div className={classes.opacityBackground}></div>
+      <div className={classes.opacityBackground} onClick={() => setIsOpen((v) => ({ ...v, open: false }))}></div>
       <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
         <HighlightOffIcon onClick={() => setIsOpen((v) => ({ ...v, open: false }))} className={classes.closeIcon} />
         <div>

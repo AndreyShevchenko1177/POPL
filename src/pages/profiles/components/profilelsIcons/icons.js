@@ -57,7 +57,7 @@ const icons = {
     icon: Facebook,
     text: "Facebook",
     placeholder: "Facebook profile link",
-    path: "http://",
+    path: "",
   },
   7: {
     icon: Linkedin,

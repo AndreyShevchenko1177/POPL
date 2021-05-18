@@ -113,7 +113,6 @@ export const updatePopl = (memberId, id, photo, nickname, fetchedParam) => async
       payload: { [id]: { [fetchedParam]: true } },
     });
     let uploadedFile;
-    console.log(photo);
     if (photo && typeof photo !== "string") {
       uploadedFile = getId(12);
       await setCompanyAvatar(new File([photo], `${uploadedFile}`, { type: photo.type }));

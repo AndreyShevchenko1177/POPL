@@ -7,7 +7,6 @@ import {
   SUBSCRIPTION_INFO,
   FETCHING_ACTION,
   SHOW_RESTRICTED_MODE,
-  HIDE_RESTRICTED_MODE,
   PROFILE_INFO_FOR_MAIN_PAGE,
   HANDLE_MAIN_PAGE_SCROLL,
   PROFILES_INFO_SIDEBAR,
@@ -66,7 +65,6 @@ const initialState = {
   },
   profilesInfoMainPage: null,
   isRestrictedMode: false,
-  isHiderestrictedMode: false,
   isFetching: false,
   isMainPageScroll: true,
 };
@@ -155,12 +153,6 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isFetching: payload,
-    };
-  }
-  case HIDE_RESTRICTED_MODE: {
-    return {
-      ...state,
-      isHiderestrictedMode: true,
     };
   }
   case PROFILE_INFO_FOR_MAIN_PAGE: {

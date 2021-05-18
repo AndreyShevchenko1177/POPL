@@ -16,7 +16,7 @@ import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import { imagesExtensions, isSafari } from "../../../../constants";
 import {
-  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion,
+  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion, setProfileImageAction,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
@@ -224,7 +224,10 @@ export default function Card({
                 ref={fileInputRef}
                 type='file'
                 multiple={false}
-                onChange={() => { console.log("change"); }}
+                onChange={(event) => {
+                  event.persist();
+                  return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0]));
+                }}
               />
             </div>
             <div className='full-w target-element'>

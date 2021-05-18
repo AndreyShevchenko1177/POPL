@@ -13,6 +13,7 @@ import {
   IS_DATA_FETCHING,
   SET_PROFILE_NAME,
   SET_PROFILE_BIO,
+  SET_PROFILE_PHOTO,
 } from "../actionTypes";
 
 const initialState = {
@@ -42,6 +43,11 @@ const initialState = {
     isFetching: false,
   },
   setProfileBio: {
+    data: null,
+    error: null,
+    isFetching: false,
+  },
+  setProfilePhoto: {
     data: null,
     error: null,
     isFetching: false,
@@ -240,6 +246,24 @@ export default function profilesReducer(
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {
           if (profile.id == payload.profileId) return { ...profile, name: payload.name };
+          return profile;
+        }),
+        error: null,
+      },
+      isFetching: false,
+    };
+  }
+  case SET_PROFILE_PHOTO: {
+    return {
+      ...state,
+      setProfilePhoto: {
+        data: true,
+        error: null,
+        isFetching: false,
+      },
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (profile.id == payload.profileId) return { ...profile, image: payload.photo };
           return profile;
         }),
         error: null,

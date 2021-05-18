@@ -19,9 +19,11 @@ import {
   SET_PROFILE_NAME,
   SET_PROFILE_BIO,
   IS_DATA_FETCHING,
+  SET_PROFILE_PHOTO,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
+import { uploadImage } from "../../../../config/firebase.query";
 
 export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
@@ -93,10 +95,17 @@ export const setLocalProfilesOrder = (profiles) => ({
   payload: profiles,
 });
 
-export const addLinkAction = (value, title, profileData, iconId, userId) => async (dispatch, getState) => {
+export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
   try {
     const storedProfiles = getState().profilesReducer.dataProfiles.data;
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId)));
+
+    let uploadedFile;
+    if (icon && typeof icon !== "string") {
+      uploadedFile = getId(12);
+      await uploadImage(new File([icon], `${uploadedFile}`, { type: icon.type }));
+    }
+
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",
@@ -263,6 +272,23 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
     });
   } catch (error) {
     dispatch(isFetchingAction(false, "setProfileBio"));
+  }
+};
+
+export const setProfileImageAction = (profileId, profileState, photo) => async (dispatch) => {
+  try {
+    let uploadedFile;
+    if (photo && typeof photo !== "string") {
+      uploadedFile = getId(12);
+      await uploadImage(new File([photo], `${uploadedFile}`, { type: photo.type }));
+    }
+    await requests.setProfilePhoto(profileId, profileState, uploadedFile || photo);
+    dispatch({
+      type: SET_PROFILE_PHOTO,
+      payload: { profileId, profileState, photo: uploadedFile || photo },
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

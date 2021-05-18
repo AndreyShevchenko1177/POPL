@@ -238,7 +238,12 @@ export default function Profiles() {
   useEffect(() => {
     if (wizard.open) return dispatch(handleMainPageScrollAction(false));
     dispatch(handleMainPageScrollAction(true));
-  }, [wizard]);
+  }, [wizard.open]);
+
+  useEffect(() => {
+    if (editLinkModal.open) return dispatch(handleMainPageScrollAction(false));
+    dispatch(handleMainPageScrollAction(true));
+  }, [editLinkModal.open]);
 
   return (
     <>

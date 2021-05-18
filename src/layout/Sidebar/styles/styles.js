@@ -13,6 +13,7 @@ export default makeStyles((theme) => ({
   },
   logo: {
     width: 80,
+    height: 40,
   },
   nested: {
     padding: "2px 0 2px 110px",

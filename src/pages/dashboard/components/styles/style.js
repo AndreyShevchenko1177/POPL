@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    width: 125,
+    width: 170,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
     cursor: "pointer",
@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     borderBottom: "0.5px solid grey",
     padding: 10,
-    height: 140,
+    height: 150,
   },
   userIcon: {
     width: "170px",
@@ -35,17 +35,10 @@ export default makeStyles((theme) => ({
   },
   header_body: {
     display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
     padding: "10px",
-    height: 65,
+    height: 40,
     width: "100%",
-    "& > div": {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-    },
   },
   footer: {
     padding: "20px 10px",
@@ -61,7 +54,7 @@ export default makeStyles((theme) => ({
   },
   chartContainer: {
     position: "relative",
-    minHeight: "400px",
+    minHeight: "300px",
     width: "100%",
   },
   noDataText: {
@@ -73,8 +66,8 @@ export default makeStyles((theme) => ({
     fontWeight: "500",
   },
   avatar: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     borderRadius: "50%",
     marginBottom: 10,
   },

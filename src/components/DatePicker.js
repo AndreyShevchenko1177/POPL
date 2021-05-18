@@ -68,6 +68,7 @@ function CDatePicker({
   };
 
   const clickCalendar = () => {
+    console.log("click open");
     setCalendar({ ...calendar, visible: !calendar.visible });
   };
 
@@ -77,6 +78,7 @@ function CDatePicker({
 
   return (
     <Fragment>
+      {console.log("date picker")}
       <div
         className="datepicker"
         onClick={clickCalendar}

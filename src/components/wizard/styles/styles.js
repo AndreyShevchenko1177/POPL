@@ -85,6 +85,7 @@ export default makeStyles((theme) => ({
     width: "100%",
   },
   secondPageLink: {
+    position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -93,11 +94,17 @@ export default makeStyles((theme) => ({
     width: 150,
     height: 150,
     boxShadow: theme.custom.iconBoxShadow,
-    borderRadius: theme.custom.mainBorderRadius,
+    borderRadius: 30,
     textAlign: "center",
   },
   secondScreenLinkImage: {
     width: "100%",
+  },
+  secondScreenCustomImage: {
+    objectFit: "cover",
+    width: "100%",
+    height: "100%",
+    borderRadius: "30px",
   },
   linkText: {
     textAlign: "center",
@@ -189,5 +196,49 @@ export default makeStyles((theme) => ({
   },
   categoryTitle: {
     fontSize: 20,
+  },
+  editIconWrapper: {
+    position: "absolute",
+    bottom: "-10px",
+    right: "-30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    width: 45,
+    height: 45,
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.10)",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.18)",
+    },
+  },
+  chipButton: {
+    position: "absolute",
+    top: "-10px",
+    right: "-30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    width: 45,
+    height: 45,
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.10)",
+    "& > span": {
+      display: "none",
+    },
+    "& > svg": {
+      margin: 0,
+      width: 25,
+      height: 25,
+    },
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.18)",
+    },
+  },
+  editIcon: {
+    width: 25,
+    height: 25,
   },
 }));

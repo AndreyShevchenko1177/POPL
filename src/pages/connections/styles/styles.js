@@ -45,8 +45,10 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,
-    boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
+  },
+  connectContainerShadow: {
+    boxShadow: theme.custom.mainBoxShadow,
   },
   filtersContainer: {
     display: "flex",
