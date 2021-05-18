@@ -23,7 +23,7 @@ function PoplCard({
   const dispatch = useDispatch();
   const fileInputRef = useRef();
   const [values, setValues] = useState({
-    nickname: popl.nickname || popl.name,
+    nickname: popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, ""),
     photo: popl.photo,
   });
 
@@ -112,7 +112,12 @@ function PoplCard({
           <div className={classes.tableRow}>
             <div className={classes.tableCell}>Nickname:</div>
             {!editMode[customId]
-              ? <div onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })} className={classes.tableCell}>{popl.nickname || popl.name}</div>
+              ? <div
+                onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })}
+                className={classes.tableCell}
+              >
+                {popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, "")}
+              </div>
               : isFetching[id]?.nickname
                 ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                 : <TextField
