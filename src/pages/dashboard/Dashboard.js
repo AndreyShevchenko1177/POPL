@@ -73,20 +73,22 @@ export default function Dashboard() {
         </Typography>
         <Chart data={chartData} />
       </Paper>
-      <div className={classes.latestPoplsContainer}>
-        <Typography variant="h5">Latest connections</Typography>
-      </div>
-      <div className={classes.container}>
-        {latestConnections && !latestConnectionsFetching
-          ? latestConnections.map((connection, index) => (
-            <div key={index} className={classes.connections_container}>
-              <ConnectionCard {...connection} />
-            </div>
-          ))
-          : <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
-        }
-        {latestConnections?.length > 0 && !latestConnectionsFetching && <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>}
-        {latestConnections?.length === 0 && !latestConnectionsFetching && <div><b>You haven't any connections</b></div>}
+      <div className={classes.latestConnectionsWrapper}>
+        <div className={classes.latestPoplsContainer}>
+          <Typography variant="h5">Latest connections</Typography>
+        </div>
+        <div className={classes.container}>
+          {latestConnections && !latestConnectionsFetching
+            ? latestConnections.map((connection, index) => (
+              <div key={index} className={classes.connections_container}>
+                <ConnectionCard {...connection} />
+              </div>
+            ))
+            : <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
+          }
+          {latestConnections?.length > 0 && !latestConnectionsFetching && <Tooltip title='Show more'><ArrowForwardIosIcon onClick={() => history.push("/connections")} className={classes.showMoreIcon} /></Tooltip>}
+          {latestConnections?.length === 0 && !latestConnectionsFetching && <div><b>You haven't any connections</b></div>}
+        </div>
       </div>
     </div>
   );

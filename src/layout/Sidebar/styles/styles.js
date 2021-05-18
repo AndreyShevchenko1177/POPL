@@ -116,7 +116,7 @@ export default makeStyles((theme) => ({
     bottom: "50px",
     width: "100%",
     padding: "20px 20px 0 45px",
-    "@media (max-height:800px)": {
+    "@media (max-height:750px)": {
       paddingTop: "5px",
       position: "static",
     },

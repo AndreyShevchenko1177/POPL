@@ -54,8 +54,26 @@ export default makeStyles((theme) => ({
   },
   chartContainer: {
     position: "relative",
-    minHeight: "300px",
+    height: 300,
     width: "100%",
+    "@media (min-height:850px)": {
+      height: 350,
+    },
+    "@media (min-height:900px)": {
+      height: 400,
+    },
+    "@media (min-height:950px)": {
+      height: 450,
+    },
+    "@media (min-height:1000px)": {
+      height: 500,
+    },
+    "@media (min-height:1050px)": {
+      height: 550,
+    },
+    "@media (min-height:1100px)": {
+      height: 600,
+    },
   },
   noDataText: {
     position: "absolute",
