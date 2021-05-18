@@ -19,19 +19,19 @@ export default makeStyles((theme) => ({
   },
   wizardContainer: {
     position: "absolute",
-    top: "50%",
+    top: "calc(50% - 35px)",
     left: "50%",
     transform: "translate(-50%, -50%)",
     padding: "15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
-    zIndex: 50,
+    zIndex: 1050,
     outline: "none",
-    "@media (max-height:730px)": {
-      top: 70,
-      transform: "translate(-50%, 0)",
-    },
+    // "@media (max-height:730px)": {
+    //   top: 70,
+    //   transform: "translate(-50%, 0)",
+    // },
   },
   closeIcon: {
     position: "absolute",
