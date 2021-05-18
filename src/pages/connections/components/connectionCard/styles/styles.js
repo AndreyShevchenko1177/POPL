@@ -33,7 +33,6 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
   },
   viewProfileButtonContainer: {
-    paddingTop: 8,
     fontSize: 12,
   },
   viewProfileButton: {
@@ -43,7 +42,7 @@ export default makeStyles((theme) => ({
   },
   cardTable: {
     display: "flex",
-    minHeight: 65,
+    minHeight: 50,
     justifyContent: "flex-end",
     flexDirection: "column",
     // paddingTop: 10,
@@ -183,5 +182,10 @@ export default makeStyles((theme) => ({
         borderRadius: theme.custom.mainBorderRadius,
       },
     },
+  },
+  conBio: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
 }));

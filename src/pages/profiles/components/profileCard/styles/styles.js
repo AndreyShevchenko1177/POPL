@@ -122,6 +122,8 @@ export default makeStyles((theme) => ({
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
+    width: 129,
+    height: 80,
   },
   chipButton: {
     backgroundColor: "transparent !important",

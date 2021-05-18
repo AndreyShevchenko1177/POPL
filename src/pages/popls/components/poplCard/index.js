@@ -100,7 +100,7 @@ function PoplCard({
         />
         {isFetching[id]?.photo
           ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
-          : <img className={classes.avatar} alt="logo" src={popl.photo ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${popl.photo}?alt=media` : userIcon} />
+          : <img className={classes.avatar} alt="logo" src={popl.photo ? `${process.env.REACT_APP_BASE_FIREBASE_POPL_PHOTOS_URL}${popl.photo}?alt=media` : userIcon} />
         }
       </div>
       <div className={classes.contenContainer}>

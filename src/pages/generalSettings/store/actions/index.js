@@ -44,7 +44,7 @@ export const getCompanyInfoAction = () => async (dispatch, getState) => {
     let result = companyInfo;
     if (!companyInfo) {
       dispatch(isFetchingAction(true));
-      const userId = getState().authReducer.signIn.data.id;
+      const userId = getState().authReducer.signIn.data?.id;
       const { data } = await requests.getCompanyInfo(userId);
       result = data;
     }

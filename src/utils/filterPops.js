@@ -4,7 +4,7 @@ export const filterPops = {
     return result && result.length === 14 ? result : null;
   },
   filterPoplPops: (popValue) => {
-    const values = ["r", "k", "b", "h"];
+    const values = ["r", "k", "b", "h", "xl"];
     return values.includes(popValue[0]);
   },
   filterQrCodePops: (popValue) => {

@@ -17,7 +17,7 @@ import {
 import { getId } from "../../../../utils";
 import { snackBarAction, getPoplsForProfilesButton } from "../../../../store/actions";
 import { GET_DATA_PROFILES_SUCCESS } from "../../../profiles/store/actionTypes";
-import { setCompanyAvatar } from "../../../generalSettings/store/actions/requests";
+import { uploadImage } from "../../../../config/firebase.query";
 
 import * as requests from "./requests";
 
@@ -113,16 +113,22 @@ export const updatePopl = (memberId, id, photo, nickname, fetchedParam) => async
       payload: { [id]: { [fetchedParam]: true } },
     });
     let uploadedFile;
+    let result;
     if (photo && typeof photo !== "string") {
       uploadedFile = getId(12);
-      await setCompanyAvatar(new File([photo], `${uploadedFile}`, { type: photo.type }));
+      result = await uploadImage(new File([photo], `${uploadedFile}`, { type: photo.type }), "poplPhotos");
     }
 
-    await requests.updatePoplRequest(memberId, id, uploadedFile || photo, nickname);
+    // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
+    const fileName = result
+      .split("?")[0]
+      .split("poplPhotos%")[1];
+    console.log(fileName, result);
+    await requests.updatePoplRequest(memberId, id, fileName || photo, nickname);
     dispatch({
       type: EDIT_POPLS_SUCCESS,
       payload: {
-        id, photo: uploadedFile || photo, nickname,
+        id, photo: fileName || photo, nickname,
       },
     });
   } catch (error) {

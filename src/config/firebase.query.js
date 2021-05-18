@@ -33,15 +33,15 @@ export const getCollectionData = async (collection, docIdArray) => {
 const downloadFileFromFireBase = (fileName, folderName) => {
   try {
     const storageRef = firebase.storage().ref();
-    return storageRef.child(`${fileName}`).getDownloadURL();
+    return storageRef.child(`${folderName}/${fileName}`).getDownloadURL();
   } catch (error) {
     return error;
   }
 };
 
-export const uploadImage = async (file) => {
+export const uploadImage = async (file, folderName) => {
   const storageRef = firebase.storage().ref();
-  const fileRef = storageRef.child(`${file.name}`);
+  const fileRef = storageRef.child(`${folderName}/${file.name}`);
   await fileRef.put(file);
-  return downloadFileFromFireBase(file.name);
+  return downloadFileFromFireBase(file.name, folderName);
 };

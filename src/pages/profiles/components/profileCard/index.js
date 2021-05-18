@@ -61,7 +61,7 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const extension = image.split(".");
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  const { setProfileName, setProfileBio } = useSelector(({ profilesReducer }) => profilesReducer);
+  const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
     bio,
@@ -75,6 +75,7 @@ export default function Card({
     name: false,
     bio: false,
   });
+  const [currentEditedProfile, setCurrentEditedProfile] = useState(0);
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
@@ -149,6 +150,10 @@ export default function Card({
     return setValues({ ...values, bio });
   }, [bio, bioBusiness]);
 
+  useEffect(() => {
+    setValues({ ...values, image });
+  }, [image]);
+
   return (
     <>
       {!isDotsRemove && <DragDots position="center" />}
@@ -173,28 +178,34 @@ export default function Card({
               />
             </div>
             <div className={clsx(classes.section1_avatar)}>
-              <Avatar
-                bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
-                src={
-                  imagesExtensions.includes(extension[extension.length - 1])
-                    ? `${process.env.REACT_APP_BASE_IMAGE_URL}${values.image}`
-                    : generalSettingsData && generalSettingsData[3]
-                      ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
-                      : {
-                        name: "userIcon",
-                        fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
-                        width: 80,
-                        height: 80,
-                      }
-                }
-                name={name}
-                styles={{
-                  image: {
-                    width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover",
-                  },
-                  container: { marginLeft: "49px" },
-                }}
-              />
+              {setProfilePhoto.isFetching && currentEditedProfile === id
+                ? <Loader containerStyles={{
+                  marginLeft: 50, width: 80, display: "flex", justifyContent: "center",
+                }} styles={{ width: 20, height: 20 }} />
+                : <Avatar
+                  bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
+                  src={
+                    imagesExtensions.includes(extension[extension.length - 1])
+                      ? `${process.env.REACT_APP_BASE_IMAGE_URL}${values.image}`
+                      : generalSettingsData && generalSettingsData[3]
+                        ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL}${values.image}?alt=media`
+                        : generalSettingsData && generalSettingsData[3]
+                          ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
+                          : {
+                            name: "userIcon",
+                            fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
+                            width: 80,
+                            height: 80,
+                          }
+                  }
+                  name={name}
+                  styles={{
+                    image: {
+                      width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover",
+                    },
+                    container: { marginLeft: "49px" },
+                  }}
+                />}
               <div className={clsx(classes.checkboxWrapper, {
                 "mt-10": isSafari,
               })}>
@@ -212,8 +223,8 @@ export default function Card({
                 className={classes.chipButton}
                 size='medium'
                 onDelete={() => {
-                  // setCompanyImage("");
-                  // setFieldsState((prev) => ({ ...prev, file: null }));
+                  setCurrentEditedProfile(id);
+                  dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, ""));
                 }}
               />}
               {showEditIcon && <div style={{ top: 64, right: "-7px" }} className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
@@ -226,19 +237,21 @@ export default function Card({
                 multiple={false}
                 onChange={(event) => {
                   event.persist();
+                  setCurrentEditedProfile(id);
                   return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0]));
                 }}
               />
             </div>
             <div className='full-w target-element'>
               <div className={clsx(classes.section1_title)}>
-                {setProfileName.isFetching
+                {setProfileName.isFetching && currentEditedProfile === id
                   ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                   : <TextField
                     style={{ width: settextFieldWidth(values.name.length), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
                     onBlur={() => {
+                      setCurrentEditedProfile(id);
                       dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
                       // if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
                       // setEditState({ ...editState, name: false });
@@ -267,7 +280,7 @@ export default function Card({
               </div>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
-                  {setProfileBio.isFetching
+                  {setProfileBio.isFetching && currentEditedProfile === id
                     ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
                     : <TextField
                       style={{ width: settextFieldWidth(values.bio.length, "bio"), transition: "width 0.075s linear" }}
@@ -276,6 +289,7 @@ export default function Card({
                       onFocus={() => setEditState({ ...editState, bio: true })}
                       disabled={!showEditIcon}
                       onBlur={(event) => {
+                        setCurrentEditedProfile(id);
                         dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
                         // if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
                         // setEditState({ ...editState, bio: false });

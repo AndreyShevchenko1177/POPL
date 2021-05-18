@@ -53,6 +53,8 @@ export default function Main({ children, stripe }) {
   const { isRestrictedMode, isMainPageScroll } = useSelector(({ systemReducer }) => systemReducer);
   const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
+  // for development mode
+  const userId = useSelector(({ authReducer }) => authReducer.signIn.data?.id);
 
   useEffect(() => {
     if (dashboardPlan !== null) {
@@ -88,14 +90,14 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: isRestrictedMode || !isMainPageScroll ? "hidden" : "auto",
+          overflow: (isRestrictedMode && userId !== "243104") || !isMainPageScroll ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
         id='main'
       >
         <>
           {children}
-          {isRestrictedMode
+          {isRestrictedMode && userId !== "243104" // userId checkout used just for development
             && <div
               style={location.pathname === "/" ? { height: "calc(100vh - 110px)", top: 110 } : {}}
               className={classes.restrictedViewRoot}

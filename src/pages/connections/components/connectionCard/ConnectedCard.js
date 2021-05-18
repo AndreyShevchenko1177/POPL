@@ -13,7 +13,7 @@ import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
 export function ConnectedCard({
-  name, url, image, time, names, checked, handleChangeCheckbox, ...rest
+  name, url, image, time, names, checked, handleChangeCheckbox, bio, ...rest
 }) {
   const classes = useStyles();
   const location = useLocation();
@@ -69,6 +69,9 @@ export function ConnectedCard({
         </div>
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
+          <div className='full-w'>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.location}</Typography>
+          </div>
           <div className={classes.cardTable}>
             <div className={classes.tableRow}>
               {/* <div className={classes.tableCell}>Last Connected:</div> */}
