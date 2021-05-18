@@ -35,7 +35,7 @@ function BottomWidgets({
   };
 
   useEffect(() => {
-    if (totalPopls && totalPops && calendar) {
+    if (totalPopls && totalPops && calendar.dateRange) {
       const topPoppedPopls = {};
       totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
 
@@ -56,7 +56,7 @@ function BottomWidgets({
       });
       setTopPoppedPopls(result);
     }
-  }, [totalPopls, totalPops, location, calendar]);
+  }, [totalPopls, totalPops, location, calendar.dateRange]);
 
   useEffect(() => {
     if (profilesData) {
@@ -99,7 +99,7 @@ function BottomWidgets({
           });
         });
 
-      if (views && calendar) {
+      if (views && calendar.dateRange) {
         calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
         profilesData.forEach((profile) => {
@@ -116,7 +116,7 @@ function BottomWidgets({
       }
       setLinkTapsData(linkTaps);
     }
-  }, [views, profilesData, calendar]);
+  }, [views, profilesData, calendar.dateRange]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;

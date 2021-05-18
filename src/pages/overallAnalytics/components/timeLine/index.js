@@ -163,7 +163,7 @@ function NetworkActivity({
           </Typography>
         </div>
         <div style={{ position: "relative" }}>
-          <DatePicker selectOption={selectOption} options={options} calendar={calendar} setCalendar={setCalendar} setDate={setDate}/>
+          <DatePicker selectOption={selectOption} options={options} calendar={calendar} setCalendar={setCalendar} setDate={setDate} />
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
@@ -214,14 +214,6 @@ function NetworkActivity({
               } else item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
               isFetched = linkTapsFetching || viewsFetching;
             }
-            // if (item.id === "popls") {
-            //   item.value = location.state?.poplName ? "1" : location.state?.poplsCount ? location.state?.poplsCount : totalPopls.data?.length;
-            //   isFetched = totalPopls.isFetching;
-            // }
-            // if (item.id === "profiles") {
-            //   item.value = location.state?.poplName ? "" : location.state?.poplsCount ? "1" : profilesData?.length;
-            //   isFetched = profilesFetching;
-            // }
             return <React.Fragment key={item.id}>
               <StatisticItem
                 count={1}
@@ -235,7 +227,6 @@ function NetworkActivity({
                   percentageFontSize: 20,
                 }}
               />
-              {/* <div className={classes.bottomKpisDivider}></div> */}
             </React.Fragment>;
           })}
         </div>
