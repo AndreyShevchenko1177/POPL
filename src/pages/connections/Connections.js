@@ -61,6 +61,7 @@ function Connections() {
   const handleChangeCheckbox = (event) => {
     event.persist();
     const { name, checked } = event.target;
+    console.log(name, checked);
     setCheckBoxes({ ...checkboxes, [name]: checked });
   };
 
@@ -167,6 +168,7 @@ function Connections() {
     setCheckBoxes(() => {
       const result = {};
       allConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+      console.log(result);
       return result;
     });
     setConnections(allConnections.slice(0, 19));
@@ -183,6 +185,7 @@ function Connections() {
     });
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
+  console.log(checkboxes);
 
   return (
     <>
@@ -257,13 +260,13 @@ function Connections() {
                           {connection.noPopl || "noPopl" in connection
                             ? <NotConnectedCard
                               key={connection.customId}
-                              checked={checkboxes[connection.customId] || false}
+                              isChecked={checkboxes[connection.customId]}
                               handleChangeCheckbox={handleChangeCheckbox}
                               {...connection}
                             />
                             : <ConnectedCard
                               key={connection.customId}
-                              checked={checkboxes[connection.customId] || false}
+                              checked={checkboxes[connection.customId]}
                               handleChangeCheckbox={handleChangeCheckbox}
                               {...connection}
                             />

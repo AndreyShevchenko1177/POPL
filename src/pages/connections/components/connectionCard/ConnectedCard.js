@@ -62,7 +62,7 @@ export function ConnectedCard({
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}
             name={rest.customId.toString()}
-            checked={checked}
+            checked={checked || false}
             onChange={handleChangeCheckbox}
           />
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />

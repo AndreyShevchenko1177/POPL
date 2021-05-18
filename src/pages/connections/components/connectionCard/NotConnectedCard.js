@@ -10,7 +10,7 @@ import { dateFormat } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
 export function NotConnectedCard({
-  name, url, image, time, note, number, email, checked, handleChangeCheckbox, ...rest
+  name, url, image, time, note, number, email, isChecked, handleChangeCheckbox, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -34,6 +34,7 @@ export function NotConnectedCard({
       onClick: handleDeleteConnection,
     },
   ];
+
   return (
     <>
       <DragDots position="center" />
@@ -44,7 +45,7 @@ export function NotConnectedCard({
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}
             name={rest.customId.toString()}
-            checked={checked}
+            checked={isChecked || false}
             onChange={handleChangeCheckbox}
           />
           <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
