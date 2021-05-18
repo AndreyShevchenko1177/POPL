@@ -10,6 +10,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
 import DoneIcon from "@material-ui/icons/Done";
 import { Done } from "@material-ui/icons";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles/styles";
 import SocialPoplsIcons from "../profilelsIcons";
@@ -70,14 +72,20 @@ export default function Card({
     name: false,
     bio: false,
   });
-  const [preventBlur, setPreventBlur] = useState({
-    name: false,
-    bio: false,
+  const [links, setLinks] = useState({
+    links: [],
+    localLinks: [],
+    count: 0,
+  });
+  const [showLinksBtn, setShowLinksBtn] = useState({
+    next: false,
+    back: false,
   });
   const [currentEditedProfile, setCurrentEditedProfile] = useState(0);
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
+  const viewPortWidth = window.innerWidth;
 
   const handleValuesChange = (event) => {
     event.persist();
@@ -115,6 +123,59 @@ export default function Card({
     event.currentTarget.style.transform = `scale(${size})`;
     event.currentTarget.style.transition = "transform 0.25s";
   };
+
+  const next = () => {
+    if (links.localLinks.length - links.links.length > 0) {
+      setShowLinksBtn({ ...showLinksBtn, back: true });
+      if (viewPortWidth < 1600) {
+        setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 10), count: links.count + 10 });
+      } else {
+        setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 15), count: links.count + 15 });
+      }
+    }
+  };
+
+  const back = () => {
+    if (links.localLinks.length - links.links.length > 0) {
+      setShowLinksBtn({ ...showLinksBtn, back: true });
+      if (viewPortWidth < 1600) {
+        setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 10).reverse(), count: links.count - 10 });
+      } else {
+        setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 15).reverse(), count: links.count - 15 });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (viewPortWidth < 1600) {
+      if (links.links.length <= 10 && (links.localLinks.length - links.count) < 10) {
+        return setShowLinksBtn({ ...showLinksBtn, next: false });
+      }
+      return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+    }
+    if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
+      return setShowLinksBtn({ ...showLinksBtn, next: false });
+    }
+    return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+  }, [links]);
+
+  useEffect(() => {
+    let localLinks;
+    if (personalMode.direct) {
+      localLinks = business;
+    } else {
+      localLinks = social;
+    }
+    if (localLinks.length > 15) {
+      if (viewPortWidth < 1600) {
+        setLinks({ links: [...localLinks].slice(0, 10), localLinks, count: 0 });
+      } else {
+        setLinks({ links: [...localLinks].slice(0, 15), localLinks, count: 0 });
+      }
+      return setShowLinksBtn({ back: false, next: true });
+    }
+    setLinks({ links: localLinks, localLinks, count: 0 });
+  }, [personalMode.direct]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -323,14 +384,15 @@ export default function Card({
             "h-55": isSafari,
           }, "target-element")}>
             <div className={clsx(classes.section4)}>
+              {showLinksBtn.back && <div onClick={back} className={classes.linkClicksWrapper}>
+                <ArrowBackIosIcon/>
+              </div>}
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
                 profileId={id}
                 profileName={name}
-                data={personalMode.direct
-                  ? business
-                  : social
-                }
+                data={links.links}
+
                 style={classes.linkImage}
                 showEditIcon={showEditIcon}
                 setShowEditIcon={setShowEditIcon}
@@ -346,6 +408,9 @@ export default function Card({
                   />
                 </div>
                 <span>Add link</span>
+              </div>}
+              {showLinksBtn.next && <div onClick={next} className={classes.linkClicksWrapper}>
+                <ArrowForwardIosIcon/>
               </div>}
             </div>
             <div className={clsx(classes.section6)}>

@@ -22,6 +22,7 @@ import AddExistingProfile from "./pages/addExistingProfile";
 import AddNewProfile from "./pages/addNewProfile";
 import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
+import Notifications from "./pages/notifications";
 import PopBranding from "./pages/popBranding";
 import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
@@ -108,6 +109,9 @@ function App(props) {
         </PrivateRoute>
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />
+        </PrivateRoute>
+        <PrivateRoute path="/notifications" exact isLoggedIn={profileData?.id}>
+          <Notifications />
         </PrivateRoute>
         <PrivateRoute
           path="/campaings/pop-branding"

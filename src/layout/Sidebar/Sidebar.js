@@ -297,37 +297,6 @@ function PermanentDrawerLeft() {
                 }),
               }}>{poplsSidebar}</Typography>}
           </ListItem>
-          <Link to="/campaigns">
-            <ListItem
-              divider={false}
-              className={clsx(classes.ulList, {
-                [classes.ulListHighLight]: highlight.campaigns,
-              })}
-              button
-              onClick={() => {
-                handleCollapseClick("campaignsOpen");
-                highlightList("campaigns");
-              }}
-            >
-              <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
-                  <SvgMaker
-                    name='campaigns'
-                    fill="#666666"
-                  />
-                </div>
-              </ListItemIcon>
-              <ListItemText
-                disableTypography
-                classes={{
-                  root: clsx(classes.listText, {
-                    [classes.listTextHighLight]: highlight.campaigns,
-                  }),
-                }}
-                primary="Campaigns"
-              />
-            </ListItem>
-          </Link>
           <ListItem
             divider={false}
             className={clsx(classes.ulList, {
@@ -359,6 +328,69 @@ function PermanentDrawerLeft() {
               primary="Analytics"
             />
           </ListItem>
+          <Link to="/campaigns">
+            <ListItem
+              divider={false}
+              className={clsx(classes.ulList, {
+                [classes.ulListHighLight]: highlight.campaigns,
+              })}
+              button
+              onClick={() => {
+                handleCollapseClick("campaignsOpen");
+                highlightList("campaigns");
+              }}
+            >
+              <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
+                  <SvgMaker
+                    name='campaigns'
+                    fill="#666666"
+                  />
+                </div>
+              </ListItemIcon>
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listText, {
+                    [classes.listTextHighLight]: highlight.campaigns,
+                  }),
+                }}
+                primary="Campaigns"
+              />
+            </ListItem>
+          </Link>
+          <Link to="/notifications">
+            <ListItem
+              divider={false}
+              className={clsx(classes.ulList, {
+                [classes.ulListHighLight]: highlight.notifications,
+              })}
+              button
+              onClick={() => {
+                highlightList("notifications");
+              }}
+            >
+              <ListItemIcon classes={{ root: classes.listItemIcon }}>
+                <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
+                  <SvgMaker
+                    name='notification'
+                    fill="#666666"
+                  />
+                  {/* <img className='white' style={{ width: "100%" }} alt='popl' src={notificationWhite} />
+                  <img className='dark' style={{ width: "100%" }} alt='popl' src={notification} /> */}
+                </div>
+              </ListItemIcon>
+              <ListItemText
+                disableTypography
+                classes={{
+                  root: clsx(classes.listText, {
+                    [classes.listTextHighLight]: highlight.notifications,
+                  }),
+                }}
+                primary="Notifications"
+              />
+            </ListItem>
+          </Link>
           <Link to="/settings">
             <ListItem
               button
