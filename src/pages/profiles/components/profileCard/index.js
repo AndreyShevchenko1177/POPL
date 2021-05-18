@@ -224,7 +224,7 @@ export default function Card({
                 size='medium'
                 onDelete={() => {
                   setCurrentEditedProfile(id);
-                  dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, ""));
+                  // dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, ""));
                 }}
               />}
               {showEditIcon && <div style={{ top: 64, right: "-7px" }} className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
@@ -238,7 +238,7 @@ export default function Card({
                 onChange={(event) => {
                   event.persist();
                   setCurrentEditedProfile(id);
-                  return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0]));
+                  // return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0]));
                 }}
               />
             </div>
