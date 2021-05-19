@@ -35,7 +35,6 @@ class Calendar extends Component {
       visible,
       onDateClick,
     } = this.props;
-    console.log(dateRange);
     let invalid = false;
     if (!dateRange && dateRange.length === 0) {
       console.error("Prop \"dateRange\" is Required");

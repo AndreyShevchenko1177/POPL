@@ -79,7 +79,6 @@ function BottomWidgets({
       setViewedProfiles(result);
     }
   }, [views, profilesData, calendar.dateRange]);
-  console.log(location.state);
 
   useEffect(() => {
     if (profilesData && calendar.dateRange && linksTaps) {
@@ -111,7 +110,6 @@ function BottomWidgets({
             : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
         });
       }
-      console.log(links);
       links
         .sort((a, b) => b.clicks - a.clicks)
         .forEach((link) => {

@@ -286,7 +286,7 @@ function PermanentDrawerLeft() {
                   [classes.listTextHighLight]: highlight.popls,
                 }),
               }}
-              primary="Popls"
+              primary="Products"
             />
             {poplsFetching ? <Loader styles={{
               width: 20, height: 20,

@@ -9,7 +9,6 @@ export const getCollectionData = async (collection, docIdArray) => {
   try {
     await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
-      console.log("in promise");
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           try {

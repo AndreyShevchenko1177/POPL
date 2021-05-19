@@ -7,7 +7,6 @@ function SubscriptionCard({
   title, price, priceId, stripe, profilesNumber, quantity, unitsRange, subscriptionId, currentPlan,
 }) {
   const classes = useStyles();
-  console.log(currentPlan);
 
   return (
     <div className={classes.container}>

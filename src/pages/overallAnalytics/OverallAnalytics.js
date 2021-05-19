@@ -105,9 +105,9 @@ function OverallAnalytics() {
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
-    console.log({
-      dateFromRange, dateFrom, dateTo, maxD, minD,
-    }, "generate data, component - overallanalytics");
+    // console.log({
+    //   dateFromRange, dateFrom, dateTo, maxD, minD,
+    // }, "generate data, component - overallanalytics");
     setChartData({
       ...chartData,
       lineData: generateLineChartData(popsData, dateFrom, dateTo),
@@ -136,8 +136,9 @@ function OverallAnalytics() {
     // dispatch(cleanAction());
     setPopsData(null);
     setSaveSelected(true);
-    console.log(213);
   };
+
+  console.log("rendere");
 
   const selectOption = (event) => {
     setOption(event.target.value);
@@ -260,7 +261,6 @@ function OverallAnalytics() {
       }
       // setting popps for individual profile level
       if (location.state?.id) {
-        console.log(location.state.id);
         setWidgetLayerString({ layer: "Profile", name: location.state.name });
         return setPopsData({
           poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
