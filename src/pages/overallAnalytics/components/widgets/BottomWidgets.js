@@ -79,15 +79,15 @@ function BottomWidgets({
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops by profile'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops by profile'>
           {/* <PieChart data={popsByProfile} index={3}/> */}
           <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops proportion'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops proportion'>
           {/* <PieChart data={popsDataProportion} index={1}/> */}
           <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} />
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Direct on/off proportion'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Direct on/off proportion'>
           {/* <PieChart data={popsDirectOnOff} index={2}/> */}
           <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} />
         </WidgetsContainer>

@@ -140,4 +140,7 @@ export default makeStyles((theme) => ({
     left: "calc(50% - 95px)",
     fontWeight: "500",
   },
+  chart: {
+    overflow: "hidden",
+  },
 }));

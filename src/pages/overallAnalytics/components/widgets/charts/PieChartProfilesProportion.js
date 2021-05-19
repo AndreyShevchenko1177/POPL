@@ -86,15 +86,13 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
       const chartBackGroundColorsPopsByProfileDataProportion = [];
       setData(() => {
         if (location.state?.id) {
-          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(location.state?.name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
-            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
-          });
+          chartLabelsPopsByProfileDataProportion.push(location.state?.name);
+          chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
+          datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
             chartLabelsPopsByProfileDataProportion.push(name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
+            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
         }
