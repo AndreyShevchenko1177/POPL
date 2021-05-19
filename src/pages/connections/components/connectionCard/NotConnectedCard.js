@@ -10,7 +10,7 @@ import { dateFormat } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
 export function NotConnectedCard({
-  name, url, image, time, note, number, email, isChecked, handleChangeCheckbox, bio, ...rest
+  name, url, image, time, note, number, email, isChecked, setCheckbox, bio, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -19,6 +19,8 @@ export function NotConnectedCard({
     setIsOpenPopup(false);
     console.log(`delete ${name} connection`);
   };
+
+  const handleChangeCheckbox = () => setCheckbox((prev) => ({ ...prev, [rest.customId]: !isChecked }));
 
   const popupConfig = [
     {
