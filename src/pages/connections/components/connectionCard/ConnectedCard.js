@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState, useEffect, useRef, memo,
+} from "react";
 import {
   Checkbox, Typography, Button, Paper, Tooltip,
 } from "@material-ui/core";
@@ -12,9 +14,9 @@ import DragDots from "../../../../components/dragDots";
 import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
 
-export function ConnectedCard({
-  name, url, image, time, names, checked, handleChangeCheckbox, bio, ...rest
-}) {
+export const ConnectedCard = memo(({
+  name, url, image, time, names, checked, setCheckbox, bio, ...rest
+}) => {
   const classes = useStyles();
   const location = useLocation();
   const refConnection = useRef(null);
@@ -24,6 +26,8 @@ export function ConnectedCard({
     setIsOpenPopup(false);
     console.log(`delete ${name} connection`);
   };
+
+  const handleChangeCheckbox = () => setCheckbox((prev) => ({ ...prev, [rest.customId]: !checked }));
 
   const popupConfig = [
     {
@@ -51,6 +55,8 @@ export function ConnectedCard({
       window.scrollTo({ top: getScrollYValue() });
     }
   }, []);
+
+  console.log("render");
 
   return (
     <>
@@ -122,4 +128,4 @@ export function ConnectedCard({
       </div>
     </>
   );
-}
+});
