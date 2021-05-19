@@ -28,18 +28,7 @@ function BottomWidgets({
   const refPopls = useRef(null);
   const [viewedProfiles, setViewedProfiles] = useState(null);
   const [topPoppedPopls, setTopPoppedPopls] = useState(null);
-  const [popsDataProportion, setPopsDataProportion] = useState(null);
-  const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
-  const [popsByProfile, setPopsByProfile] = useState(null);
-  const [linkTapsData, setLinkTapsData] = useState(null);
-  const [colors, setColors] = useState([]);
   const location = useLocation();
-  const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
-
-  const handleDownloadFile = (linkId, path, value) => {
-    if (linkId !== 37) return;
-    downLoadFile(path, value);
-  };
 
   useEffect(() => {
     if (totalPopls && totalPops && calendar.dateRange) {
@@ -87,178 +76,18 @@ function BottomWidgets({
 
   console.log("bottom render");
 
-  // useEffect(() => {
-  //   if (profilesData && calendar.dateRange && linksTaps) {
-  //     // sorting calendar dates, cause sometimes more recent date is in the beggining of array
-  //     calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
-
-  //     const result = [];
-  //     let links = [];
-  //     // searching in linkTapsData taps by hash and returning number of such taps according to date in calendar range
-  //     const calculateTapsByLinkHash = (hash) => {
-  //       const result = linksTaps.filter((tap) => {
-  //         const linkDate = moment(tap.event_at).format("x");
-  //         return tap.hash === hash // checking does hash equal
-  //           && (linkDate > moment(calendar.dateRange[0]).format("x")) // checking link tap date not predates date range
-  //           && (linkDate < moment(calendar.dateRange[1]).format("x")); // checking link tap date not postdates date range
-  //       });
-  //       return result.length;
-  //     };
-  //     if (location.state?.id) { // checking does we going from specific profile
-  //       if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
-  //         links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-  //       } else {
-  //         links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-  //       }
-  //     } else {
-  //       profilesData.forEach((profile) => {
-  //         links = profile.activeProfile === "1"
-  //           ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))]
-  //           : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-  //       });
-  //     }
-  //     links
-  //       .sort((a, b) => b.clicks - a.clicks)
-  //       .forEach((link) => {
-  //         const component = (
-  //           <>
-  //             <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
-  //             {link.id === 37
-  //               ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
-  //                 <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-  //               </div>
-  //               : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
-  //                 <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-  //               </a>
-
-  //             }
-
-  //           </>);
-  //         result.push({
-  //           name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
-  //         });
-  //       });
-  //     setLinkTapsData(result);
-  //   }
-  // }, [linksTaps, profilesData, calendar.dateRange, location]);
-
-  // useEffect(() => {
-  //   const { dohnutPopsData } = dohnutData;
-  //   if (dohnutPopsData) {
-  //     delete dohnutPopsData.labels;
-  //     delete dohnutPopsData.allPops;
-  //     const datasetsPopsDataProportion = [];
-  //     const chartLabelsPopsDataProportion = [];
-  //     const chartBackGroundColorsPopsDataProportion = [];
-
-  //     setPopsDataProportion(() => {
-  //       Object.keys(dohnutPopsData).forEach((popName) => {
-  //         chartLabelsPopsDataProportion.push(labels[popName]);
-  //         chartBackGroundColorsPopsDataProportion.push(backgroundColor[popName]);
-  //         datasetsPopsDataProportion.push(Object.values(dohnutPopsData[popName]).reduce((sum, cur) => sum += cur, 0));
-  //       });
-  //       return {
-  //         labels: chartLabelsPopsDataProportion,
-  //         datasets: [{
-  //           data: datasetsPopsDataProportion,
-  //           backgroundColor: chartBackGroundColorsPopsDataProportion,
-  //           ...chartOptions,
-  //         }],
-  //       };
-  //     });
-  //   } else {
-  //     setPopsDataProportion(undefined);
-  //   }
-  // }, [dohnutData.dohnutPopsData]);
-
-  // useEffect(() => {
-  //   const { dohnutDirectData } = dohnutData;
-  //   if (dohnutDirectData) {
-  //     const datasetDirectProportion = [];
-  //     const chartLabelsDirectOnOff = [];
-  //     const chartBackGroundColorsDirectOnOff = [];
-  //     setPopsDirectOnOff(() => {
-  //       let allData = {
-  //         directOn: 0,
-  //         directOff: 0,
-  //       };
-  //       Object.keys(dohnutDirectData).forEach((popName) => {
-  //         Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
-  //         // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
-  //       });
-  //       Object.keys({ ...allData }).forEach((item) => {
-  //         chartLabelsDirectOnOff.push(dohnutLabels[item]);
-  //         chartBackGroundColorsDirectOnOff.push(dohnutBackgroundColor[item]);
-  //         datasetDirectProportion.push(allData[item]);
-  //       });
-  //       return {
-  //         labels: [...chartLabelsDirectOnOff],
-  //         datasets: [{
-  //           data: [...datasetDirectProportion],
-  //           backgroundColor: [...chartBackGroundColorsDirectOnOff],
-  //           ...chartOptions,
-  //         }],
-  //       };
-  //     });
-  //   } else {
-  //     setPopsDirectOnOff(undefined);
-  //   }
-  // }, [dohnutData.dohnutDirectData]);
-
-  // useEffect(() => {
-  //   const { dohnutPopsByProfileData } = dohnutData;
-  //   if (dohnutPopsByProfileData) {
-  //     let bc = [];
-  //     if (colors.length) {
-  //       bc = colors;
-  //     } else {
-  //       Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
-  //       setColors(bc);
-  //     }
-  //     delete dohnutPopsByProfileData.labels;
-  //     const datasetsPopsByProfileDataProportion = [];
-  //     const chartLabelsPopsByProfileDataProportion = [];
-  //     const chartBackGroundColorsPopsByProfileDataProportion = [];
-  //     setPopsByProfile(() => {
-  //       if (location.state?.id) {
-  //         Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-  //           chartLabelsPopsByProfileDataProportion.push(location.state?.name);
-  //           chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
-  //           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
-  //         });
-  //       } else {
-  //         Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-  //           chartLabelsPopsByProfileDataProportion.push(name);
-  //           chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
-  //           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
-  //         });
-  //       }
-  //       return {
-  //         labels: chartLabelsPopsByProfileDataProportion,
-  //         datasets: [{
-  //           data: datasetsPopsByProfileDataProportion,
-  //           backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
-  //           ...chartOptions,
-  //         }],
-  //       };
-  //     });
-  //   } else {
-  //     setPopsByProfile(undefined);
-  //   }
-  // }, [dohnutData.dohnutPopsByProfileData]);
-
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops by profile'>
           {/* <PieChart data={popsByProfile} index={3}/> */}
           <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops proportion'>
           {/* <PieChart data={popsDataProportion} index={1}/> */}
           <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} />
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Direct on/off proportion'>
           {/* <PieChart data={popsDirectOnOff} index={2}/> */}
           <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} />
         </WidgetsContainer>
@@ -274,7 +103,7 @@ function BottomWidgets({
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top tapped Links'>
           {/* <TopList data={linkTapsData} isLinks={true} /> */}
-          {/* <TopListLinkTaps profilesData={profilesData} dateRange={calendar.dateRange} refPopped={refPopls} /> */}
+          <TopListLinkTaps profilesData={profilesData} dateRange={calendar.dateRange} refPopped={refPopls} />
         </WidgetsContainer>
       </div>
     </div>

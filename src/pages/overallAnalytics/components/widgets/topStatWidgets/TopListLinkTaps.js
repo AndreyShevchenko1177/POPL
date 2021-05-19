@@ -41,14 +41,15 @@ function TopListLinkTaps({
       const result = [];
       let links = [];
       // searching in linkTapsData taps by hash and returning number of such taps according to date in calendar range
-      const calculateTapsByLinkHash = (hash) => 0;
-      // const result = linksTaps.filter((tap) => {
-      //   const linkDate = moment(tap.event_at).format("x");
-      //   return tap.hash === hash // checking does hash equal
-      //     && (linkDate > moment(dateRange[0]).format("x")) // checking link tap date not predates date range
-      //     && (linkDate < moment(dateRange[1]).format("x")); // checking link tap date not postdates date range
-      // });
-      // 0;
+      const calculateTapsByLinkHash = (hash) => {
+        const result = linksTaps.filter((tap) => {
+          const linkDate = moment(tap.event_at).format("x");
+          return tap.hash === hash // checking does hash equal
+          && (linkDate > moment(dateRange[0]).format("x")) // checking link tap date not predates date range
+          && (linkDate < moment(dateRange[1]).format("x")); // checking link tap date not postdates date range
+        });
+        return result.length;
+      };
       if (location.state?.id) { // checking does we going from specific profile
         if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
           links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
