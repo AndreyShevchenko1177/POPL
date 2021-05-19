@@ -70,8 +70,8 @@ export function ConnectedCard({
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
           <div className='full-w'>
-            <Tooltip title={bio || rest.location || ""} placement="top">
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.location}</Typography>
+            <Tooltip title={bio || ""} placement="top">
+              <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio}</Typography>
             </Tooltip>
           </div>
           <div className={classes.cardTable}>
@@ -81,7 +81,7 @@ export function ConnectedCard({
             </div>
             <div className={classes.tableRow}>
               {/* <div className={classes.tableCell}>URL:</div> */}
-              <div className={classes.tableCell}><a href={url} target='blank'>{url && url.split("https://")[1]}</a></div>
+              <div className={classes.tableCell}><a href={url} target='blank'>{rest.location}</a></div>
             </div>
           </div>
           <div className={classes.viewProfileButtonContainer}>

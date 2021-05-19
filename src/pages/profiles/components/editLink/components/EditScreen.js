@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import clsx from "clsx";
+import { useDispatch } from "react-redux";
 import {
-  TextField, Button, Typography, IconButton,
+  TextField, Button, Typography, IconButton, Chip,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import RemoveIcon from "@material-ui/icons/Remove";
 import useStyles from "../styles/styles";
 import Popup from "../../../../../components/popup";
+import { snackBarAction } from "../../../../../store/actions";
 
 function EditScreen({
   currentIcon,
@@ -24,13 +27,37 @@ function EditScreen({
   deleteAllLinksAction,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState({ title: "", value: "" });
   const [isValid, setIsValid] = useState({ title: true, value: true });
-  const [isOpenPopup, setIsOpenPopup] = useState(true);
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [src, setSrc] = useState("");
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleOpenPopup = () => setIsOpenPopup(!isOpenPopup);
 
-  console.log(deleteBtnTitle);
+  const onIconAdded = (event) => {
+    event.persist();
+    // Check if the file is an image.
+    const file = event.target?.files[0];
+    if (file?.type.indexOf("image") === -1) {
+      return dispatch(snackBarAction({
+        message: "Invalid file type",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+    console.log(event.target?.files[0]);
+    setFile(event.target?.files[0]);
+    const reader = new FileReader();
+    reader.addEventListener("load", (evt) => {
+      setSrc(evt.target.result);
+    });
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  };
 
   const popupConfig = [
     {
@@ -50,6 +77,8 @@ function EditScreen({
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
 
+  console.log(file);
+
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
       <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
@@ -67,9 +96,21 @@ function EditScreen({
           >
             <RemoveIcon className={classes.removeIcon} />
           </IconButton>
-          <img className={classes.secondScreenLinkImage} src={icon
+          {!file
+            ? <div className={classes.editIconWrapper} onClick={() => fileInputRef.current?.click()}>
+              <EditIcon className={classes.editIcon}/>
+            </div>
+            : <Chip
+              className={classes.chipButton}
+              size='medium'
+              onDelete={() => {
+                setSrc("");
+                setFile(null);
+              }}
+            />}
+          <img className={classes.secondScreenLinkImage} src={src || (icon
             ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-            : currentIcon.icon} alt={id} />
+            : currentIcon.icon)} alt={id} />
         </div>
         {!isDeleteTab && <div className={classes.linkInputsWrapper}>
           <div className={classes.labelContainer}>
@@ -114,7 +155,7 @@ function EditScreen({
             fullWidth
             style={{ whiteSpace: "nowrap" }}
             className={classes.editLink}
-            onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title)}
+            onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file)}
           >
             {profileBtnTitle}
           </Button>
@@ -126,12 +167,19 @@ function EditScreen({
             fullWidth
             className={classes.editLink}
             style={{ whiteSpace: "nowrap" }}
-            onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title)}
+            onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file)}
           >
             {allProfilesBtnTitle}
           </Button>
         </div>
       </div>
+      <input
+        style={{ display: "none" }}
+        ref={fileInputRef}
+        type='file'
+        multiple={false}
+        onChange={onIconAdded}
+      />
     </div>
   );
 }

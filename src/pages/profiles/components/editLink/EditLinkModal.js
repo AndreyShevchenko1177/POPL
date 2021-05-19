@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -13,13 +13,6 @@ function EditLinkModal({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const ref = useRef();
-
-  const blurHandler = (event) => {
-    // if (event.currentTarget.contains(event.relatedTarget)) return;
-    // setEditLinkModal((v) => ({ ...v, open: false }));
-  };
-
   const successCb = (link) => {
     setEditLinkModal((v) => ({ ...v, open: false }));
     if (link) {
@@ -32,19 +25,20 @@ function EditLinkModal({
     }
   };
 
-  const editLink = (hash, value, title) => {
+  const editLink = (hash, value, title, file) => {
     const [pId, type] = Object.entries(profileType)[0];
     const links = [{
       profileId: pId, linkType: type, linkHash: hash, linkValue: value, linkTitle: title, linkId: data.id,
     }];
-    dispatch(editLinkAction(successCb, links));
+    console.log(file);
+    dispatch(editLinkAction(successCb, links, file));
   };
 
-  const editAllLinks = (hash, id, title, value, editValue, editTitle) => {
+  const editAllLinks = (hash, id, title, value, editValue, editTitle, file) => {
     const needToEdit = allLinks.filter((link) => link.id === id && link.title === title && link.value === value);
     dispatch(editLinkAction(successCb, needToEdit.map((el) => ({
       ...el, linkHash: el.hash, linkTitle: editTitle, linkValue: editValue,
-    }))));
+    })), file));
   };
 
   const deleteLink = (hash) => {
@@ -60,14 +54,10 @@ function EditLinkModal({
     dispatch(deleteLinkAction(() => setEditLinkModal((v) => ({ ...v, open: false })), needToDelete.map((el) => ({ ...el, linkHash: el.hash }))));
   };
 
-  useEffect(() => {
-    ref.current?.focus();
-  }, [isOpen]);
-
   return (
     <>
       <div className={classes.opacityBackground} onClick={(v) => setEditLinkModal((v) => ({ ...v, open: false }))}></div>
-      <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
+      <div className={classes.wizardContainer}>
         <HighlightOffIcon onClick={() => setEditLinkModal((v) => ({ ...v, open: false }))} className={classes.closeIcon} />
         <div>
           <div className={classes.root}>

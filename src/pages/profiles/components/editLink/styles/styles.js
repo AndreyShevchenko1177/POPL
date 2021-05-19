@@ -76,11 +76,12 @@ export default makeStyles((theme) => ({
     position: "relative",
     width: 200,
     "@media (max-width:1400px)": {
-      width: 160,
+      width: 200,
     },
   },
   secondScreenLinkImage: {
-    width: "100%",
+    width: 200,
+    height: 200,
   },
   linkText: {
     textAlign: "center",
@@ -199,8 +200,10 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: 45,
+    height: 45,
     top: "-20px",
-    right: "-40px",
+    right: "-30px",
     backgroundColor: "rgba(0, 0, 0, 0.04)",
     "&:hover": {
       backgroundColor: "rgba(0, 0, 0, 0.12)",
@@ -233,5 +236,49 @@ export default makeStyles((theme) => ({
         borderRadius: theme.custom.mainBorderRadius,
       },
     },
+  },
+  editIconWrapper: {
+    position: "absolute",
+    bottom: "-10px",
+    right: "-30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    width: 45,
+    height: 45,
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.10)",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.18)",
+    },
+  },
+  chipButton: {
+    position: "absolute",
+    bottom: "-10px",
+    right: "-30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    width: 45,
+    height: 45,
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.10)",
+    "& > span": {
+      display: "none",
+    },
+    "& > svg": {
+      margin: 0,
+      width: 25,
+      height: 25,
+    },
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.18)",
+    },
+  },
+  editIcon: {
+    width: 25,
+    height: 25,
   },
 }));

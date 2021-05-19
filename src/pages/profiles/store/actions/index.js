@@ -103,10 +103,10 @@ export const addLinkAction = (value, title, profileData, iconId, userId, icon) =
     let uploadedFile;
     if (icon && typeof icon !== "string") {
       uploadedFile = getId(12);
-      await uploadImage(new File([icon], `${uploadedFile}`, { type: icon.type }));
+      await uploadImage(new File([icon], `icon-${uploadedFile}`, { type: icon.type }));
     }
 
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile)));
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, `icon-${uploadedFile}`)));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",
@@ -193,10 +193,18 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
   }
 };
 
-export const editLinkAction = (success, linksArray) => async (dispatch, getState) => {
+export const editLinkAction = (success, linksArray, file) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
-    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item)));
+
+    // if file - uploading file
+    let uploadedFile;
+    if (file && typeof icon !== "string") {
+      uploadedFile = getId(12);
+      await uploadImage(new File([file], `icon-${uploadedFile}`, { type: file.type }));
+    }
+
+    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, `icon-${uploadedFile}`)));
     if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
       success();
       dispatch(clearStateAction("dataProfiles"));

@@ -93,10 +93,7 @@ export const addLinkRequest = (value, title, { id, activeProfile }, iconId, icon
 
 export const editLinkRequest = ({
   linkType, linkId, linkHash, linkValue, linkTitle, profileId,
-}) => {
-  console.log({
-    linkType, linkId, linkHash, linkValue, linkTitle, profileId,
-  });
+}, icon) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinkValueDashboard");
   bodyFormData.append("iProfileNum", linkType);
@@ -105,6 +102,7 @@ export const editLinkRequest = ({
   bodyFormData.append("sValue", linkValue);
   bodyFormData.append("sLinkTitle", linkTitle);
   bodyFormData.append("iID", profileId);
+  if (icon) bodyFormData.append("aIcons[]", icon);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,

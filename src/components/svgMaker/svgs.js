@@ -606,7 +606,7 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     <g>
     </g>
   </svg>,
-  notification: ({ fill }) => <svg id="Capa_1" enable-background="new 0 0 512 512" height="18" viewBox="0 0 512 512" width="18" xmlns="http://www.w3.org/2000/svg"><g>
+  notification: ({ fill }) => <svg id="Capa_1" enableBackground="new 0 0 512 512" height="18" viewBox="0 0 512 512" width="18" xmlns="http://www.w3.org/2000/svg"><g>
     <g>
       <path fill={fill} d="M256,0c-37.554,0-68.11,30.556-68.11,68.11v20.55h35.229V68.11c0-18.131,14.755-32.881,32.881-32.881
 			c18.131,0,32.887,14.749,32.887,32.881v20.55h35.229V68.11C324.116,30.556,293.555,0,256,0z"/>

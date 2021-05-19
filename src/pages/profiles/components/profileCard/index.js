@@ -320,7 +320,9 @@ export default function Card({
                     disabled={!showEditIcon}
                     onChange={handleValuesChange}
                     onDoubleClick={editIconHandler}
-                    onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name)))}
+                    onKeyDown={(event) => updateFieldRequest(event, () => {
+                      if (event.key === "Enter") dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                    })}
                     placeholder={showEditIcon ? "Enter your name" : ""}
                     InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
                     value={values.name}
