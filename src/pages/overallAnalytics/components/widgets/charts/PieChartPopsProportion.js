@@ -6,7 +6,7 @@ import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
 import labels, { backgroundColor, chartOptions } from "../chartConfig";
 
-function PieChartPopsDataProportion({ dohnutPopsData, index }) {
+const PieChartPopsDataProportion = memo(({ dohnutPopsData, index }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -121,6 +121,6 @@ function PieChartPopsDataProportion({ dohnutPopsData, index }) {
         width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
       }}
     />;
-}
+});
 
 export default PieChartPopsDataProportion;

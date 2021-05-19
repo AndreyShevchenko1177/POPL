@@ -85,6 +85,8 @@ function BottomWidgets({
     }
   }, [views, profilesData, calendar.dateRange]);
 
+  console.log("bottom render");
+
   // useEffect(() => {
   //   if (profilesData && calendar.dateRange && linksTaps) {
   //     // sorting calendar dates, cause sometimes more recent date is in the beggining of array
@@ -140,125 +142,125 @@ function BottomWidgets({
   //   }
   // }, [linksTaps, profilesData, calendar.dateRange, location]);
 
-  useEffect(() => {
-    const { dohnutPopsData } = dohnutData;
-    if (dohnutPopsData) {
-      delete dohnutPopsData.labels;
-      delete dohnutPopsData.allPops;
-      const datasetsPopsDataProportion = [];
-      const chartLabelsPopsDataProportion = [];
-      const chartBackGroundColorsPopsDataProportion = [];
+  // useEffect(() => {
+  //   const { dohnutPopsData } = dohnutData;
+  //   if (dohnutPopsData) {
+  //     delete dohnutPopsData.labels;
+  //     delete dohnutPopsData.allPops;
+  //     const datasetsPopsDataProportion = [];
+  //     const chartLabelsPopsDataProportion = [];
+  //     const chartBackGroundColorsPopsDataProportion = [];
 
-      setPopsDataProportion(() => {
-        Object.keys(dohnutPopsData).forEach((popName) => {
-          chartLabelsPopsDataProportion.push(labels[popName]);
-          chartBackGroundColorsPopsDataProportion.push(backgroundColor[popName]);
-          datasetsPopsDataProportion.push(Object.values(dohnutPopsData[popName]).reduce((sum, cur) => sum += cur, 0));
-        });
-        return {
-          labels: chartLabelsPopsDataProportion,
-          datasets: [{
-            data: datasetsPopsDataProportion,
-            backgroundColor: chartBackGroundColorsPopsDataProportion,
-            ...chartOptions,
-          }],
-        };
-      });
-    } else {
-      setPopsDataProportion(undefined);
-    }
-  }, [dohnutData.dohnutPopsData]);
+  //     setPopsDataProportion(() => {
+  //       Object.keys(dohnutPopsData).forEach((popName) => {
+  //         chartLabelsPopsDataProportion.push(labels[popName]);
+  //         chartBackGroundColorsPopsDataProportion.push(backgroundColor[popName]);
+  //         datasetsPopsDataProportion.push(Object.values(dohnutPopsData[popName]).reduce((sum, cur) => sum += cur, 0));
+  //       });
+  //       return {
+  //         labels: chartLabelsPopsDataProportion,
+  //         datasets: [{
+  //           data: datasetsPopsDataProportion,
+  //           backgroundColor: chartBackGroundColorsPopsDataProportion,
+  //           ...chartOptions,
+  //         }],
+  //       };
+  //     });
+  //   } else {
+  //     setPopsDataProportion(undefined);
+  //   }
+  // }, [dohnutData.dohnutPopsData]);
 
-  useEffect(() => {
-    const { dohnutDirectData } = dohnutData;
-    if (dohnutDirectData) {
-      const datasetDirectProportion = [];
-      const chartLabelsDirectOnOff = [];
-      const chartBackGroundColorsDirectOnOff = [];
-      setPopsDirectOnOff(() => {
-        let allData = {
-          directOn: 0,
-          directOff: 0,
-        };
-        Object.keys(dohnutDirectData).forEach((popName) => {
-          Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
-          // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
-        });
-        Object.keys({ ...allData }).forEach((item) => {
-          chartLabelsDirectOnOff.push(dohnutLabels[item]);
-          chartBackGroundColorsDirectOnOff.push(dohnutBackgroundColor[item]);
-          datasetDirectProportion.push(allData[item]);
-        });
-        return {
-          labels: [...chartLabelsDirectOnOff],
-          datasets: [{
-            data: [...datasetDirectProportion],
-            backgroundColor: [...chartBackGroundColorsDirectOnOff],
-            ...chartOptions,
-          }],
-        };
-      });
-    } else {
-      setPopsDirectOnOff(undefined);
-    }
-  }, [dohnutData.dohnutDirectData]);
+  // useEffect(() => {
+  //   const { dohnutDirectData } = dohnutData;
+  //   if (dohnutDirectData) {
+  //     const datasetDirectProportion = [];
+  //     const chartLabelsDirectOnOff = [];
+  //     const chartBackGroundColorsDirectOnOff = [];
+  //     setPopsDirectOnOff(() => {
+  //       let allData = {
+  //         directOn: 0,
+  //         directOff: 0,
+  //       };
+  //       Object.keys(dohnutDirectData).forEach((popName) => {
+  //         Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
+  //         // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
+  //       });
+  //       Object.keys({ ...allData }).forEach((item) => {
+  //         chartLabelsDirectOnOff.push(dohnutLabels[item]);
+  //         chartBackGroundColorsDirectOnOff.push(dohnutBackgroundColor[item]);
+  //         datasetDirectProportion.push(allData[item]);
+  //       });
+  //       return {
+  //         labels: [...chartLabelsDirectOnOff],
+  //         datasets: [{
+  //           data: [...datasetDirectProportion],
+  //           backgroundColor: [...chartBackGroundColorsDirectOnOff],
+  //           ...chartOptions,
+  //         }],
+  //       };
+  //     });
+  //   } else {
+  //     setPopsDirectOnOff(undefined);
+  //   }
+  // }, [dohnutData.dohnutDirectData]);
 
-  useEffect(() => {
-    const { dohnutPopsByProfileData } = dohnutData;
-    if (dohnutPopsByProfileData) {
-      let bc = [];
-      if (colors.length) {
-        bc = colors;
-      } else {
-        Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
-        setColors(bc);
-      }
-      delete dohnutPopsByProfileData.labels;
-      const datasetsPopsByProfileDataProportion = [];
-      const chartLabelsPopsByProfileDataProportion = [];
-      const chartBackGroundColorsPopsByProfileDataProportion = [];
-      setPopsByProfile(() => {
-        if (location.state?.id) {
-          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(location.state?.name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
-            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
-          });
-        } else {
-          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
-            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
-          });
-        }
-        return {
-          labels: chartLabelsPopsByProfileDataProportion,
-          datasets: [{
-            data: datasetsPopsByProfileDataProportion,
-            backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
-            ...chartOptions,
-          }],
-        };
-      });
-    } else {
-      setPopsByProfile(undefined);
-    }
-  }, [dohnutData.dohnutPopsByProfileData]);
+  // useEffect(() => {
+  //   const { dohnutPopsByProfileData } = dohnutData;
+  //   if (dohnutPopsByProfileData) {
+  //     let bc = [];
+  //     if (colors.length) {
+  //       bc = colors;
+  //     } else {
+  //       Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
+  //       setColors(bc);
+  //     }
+  //     delete dohnutPopsByProfileData.labels;
+  //     const datasetsPopsByProfileDataProportion = [];
+  //     const chartLabelsPopsByProfileDataProportion = [];
+  //     const chartBackGroundColorsPopsByProfileDataProportion = [];
+  //     setPopsByProfile(() => {
+  //       if (location.state?.id) {
+  //         Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
+  //           chartLabelsPopsByProfileDataProportion.push(location.state?.name);
+  //           chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
+  //           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
+  //         });
+  //       } else {
+  //         Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
+  //           chartLabelsPopsByProfileDataProportion.push(name);
+  //           chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
+  //           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
+  //         });
+  //       }
+  //       return {
+  //         labels: chartLabelsPopsByProfileDataProportion,
+  //         datasets: [{
+  //           data: datasetsPopsByProfileDataProportion,
+  //           backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
+  //           ...chartOptions,
+  //         }],
+  //       };
+  //     });
+  //   } else {
+  //     setPopsByProfile(undefined);
+  //   }
+  // }, [dohnutData.dohnutPopsByProfileData]);
 
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
-          <PieChart data={popsByProfile} index={3}/>
-          {/* <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} /> */}
+          {/* <PieChart data={popsByProfile} index={3}/> */}
+          <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
-          <PieChart data={popsDataProportion} index={1}/>
-          {/* <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} /> */}
+          {/* <PieChart data={popsDataProportion} index={1}/> */}
+          <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} />
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
-          <PieChart data={popsDirectOnOff} index={2}/>
-          {/* <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} /> */}
+          {/* <PieChart data={popsDirectOnOff} index={2}/> */}
+          <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} />
         </WidgetsContainer>
 
       </div>

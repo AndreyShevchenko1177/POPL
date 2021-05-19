@@ -6,7 +6,7 @@ import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
 import labels, { chartOptions, dohnutBackgroundColor, dohnutLabels } from "../chartConfig";
 
-function PieChartDirectOnOff({ dohnutDirectData, index }) {
+const PieChartDirectOnOff = memo(({ dohnutDirectData, index }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -126,6 +126,6 @@ function PieChartDirectOnOff({ dohnutDirectData, index }) {
         width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
       }}
     />;
-}
+});
 
 export default PieChartDirectOnOff;

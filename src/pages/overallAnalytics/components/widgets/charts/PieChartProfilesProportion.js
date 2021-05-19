@@ -1,4 +1,6 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef, useEffect, useState, memo,
+} from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
@@ -6,7 +8,7 @@ import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
 import { getRandomColor } from "../../../../../utils";
 
-function PieChartProfilesProportion({ dohnutPopsByProfileData, index }) {
+const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -137,6 +139,6 @@ function PieChartProfilesProportion({ dohnutPopsByProfileData, index }) {
         width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
       }}
     />;
-}
+});
 
 export default PieChartProfilesProportion;
