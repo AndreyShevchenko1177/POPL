@@ -10,6 +10,7 @@ import { Typography, Button } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
+import clsx from "clsx";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
 import chartOptions from "./chartOptions";
@@ -202,7 +203,7 @@ function NetworkActivity({
           </Typography>
         </div>
         <div className={classes.filterContainer}>
-          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.filterText}>
+          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
             <span style={{ whiteSpace: "nowrap" }}>
               <i>{location.state?.profilesData?.name || location.state?.name}</i>
             </span>

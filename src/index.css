@@ -159,21 +159,35 @@ p {
 }
 
 #legend1 {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 #legend2 {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 #legend3 {
+  position: absolute;
+  left: 65%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
+  overflow-y: auto;
 }
 
 #lineChart {
@@ -185,6 +199,7 @@ p {
 }
 
 .chart-container {
+  position: relative;
   display: flex;
   height: 100%;
 }
@@ -229,4 +244,9 @@ input[type="number"] {
   background-image: url("./assets/circle_grow.gif");
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+/* for filter button on overall analytics */
+.overallanalytics-page {
+  margin-right: 15px !important;
 }

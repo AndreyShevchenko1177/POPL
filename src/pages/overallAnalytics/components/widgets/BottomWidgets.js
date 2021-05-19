@@ -79,6 +79,7 @@ function BottomWidgets({
       setViewedProfiles(result);
     }
   }, [views, profilesData, calendar.dateRange]);
+  console.log(location.state);
 
   useEffect(() => {
     if (profilesData && calendar.dateRange && linksTaps) {
@@ -99,9 +100,9 @@ function BottomWidgets({
       };
       if (location.state?.id) { // checking does we going from specific profile
         if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
-          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName, clicks: calculateTapsByLinkHash(link.hash) }))];
+          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
         } else {
-          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName, clicks: calculateTapsByLinkHash(link.hash) }))];
+          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
         }
       } else {
         profilesData.forEach((profile) => {
@@ -110,6 +111,7 @@ function BottomWidgets({
             : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
         });
       }
+      console.log(links);
       links
         .sort((a, b) => b.clicks - a.clicks)
         .forEach((link) => {
@@ -133,7 +135,7 @@ function BottomWidgets({
         });
       setLinkTapsData(result);
     }
-  }, [linksTaps, profilesData, calendar.dateRange]);
+  }, [linksTaps, profilesData, calendar.dateRange, location]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;

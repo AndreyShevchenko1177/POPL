@@ -102,7 +102,7 @@ export const editLinkRequest = ({
   bodyFormData.append("sValue", linkValue);
   bodyFormData.append("sLinkTitle", linkTitle);
   bodyFormData.append("iID", profileId);
-  if (icon) bodyFormData.append("aIcons[]", icon);
+  if (icon) bodyFormData.append("sIcon", icon);
 
   return axios.post("", bodyFormData, {
     withCredentials: true,
