@@ -284,7 +284,7 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
   }
 };
 
-export const setProfileImageAction = (profileId, profileState, photo) => async (dispatch) => {
+export const setProfileImageAction = (profileId, profileState, photo, clearEditedProfileCallback) => async (dispatch) => {
   try {
     dispatch(isFetchingAction(true, "setProfilePhoto"));
     let uploadedFile;
@@ -294,12 +294,14 @@ export const setProfileImageAction = (profileId, profileState, photo) => async (
       result = await uploadImage(new File([photo], `${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
     }
 
+    console.log(profileId);
+
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
     let fileName;
     if (result) {
       fileName = result
         .split("?")[0]
-        .split("photos%")[1];
+        .split("photos%2F")[1];
     }
 
     await requests.setProfilePhoto(profileId, profileState, fileName || photo);
@@ -307,9 +309,11 @@ export const setProfileImageAction = (profileId, profileState, photo) => async (
       type: SET_PROFILE_PHOTO,
       payload: { profileId, profileState, photo: fileName || photo },
     });
+    clearEditedProfileCallback(0);
   } catch (error) {
     console.log(error);
     dispatch(isFetchingAction(false, "setProfilePhoto"));
+    clearEditedProfileCallback(0);
   }
 };
 

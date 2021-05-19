@@ -215,6 +215,8 @@ export default function Card({
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image]);
 
+  console.log(currentEditedProfile);
+
   return (
     <>
       {!isDotsRemove && <DragDots position="center" />}
@@ -247,7 +249,7 @@ export default function Card({
                   bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
                   src={
                     values.image
-                      ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL}${values.image.slice(0, 2) === "2F" ? "" : "2F"}${values.image}?alt=media`
+                      ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + values.image}?alt=media`
                       : generalSettingsData && generalSettingsData[3]
                         ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
                         : {
@@ -283,7 +285,7 @@ export default function Card({
                 size='medium'
                 onDelete={() => {
                   setCurrentEditedProfile(id);
-                  // dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, ""));
+                  dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, "", setCurrentEditedProfile));
                 }}
               />}
               {showEditIcon && <div style={{ top: 64, right: "-7px" }} className={classes.linksEditWrapper} onClick={() => fileInputRef.current?.click()}>
@@ -297,7 +299,7 @@ export default function Card({
                 onChange={(event) => {
                   event.persist();
                   setCurrentEditedProfile(id);
-                  // return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0]));
+                  return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0], setCurrentEditedProfile));
                 }}
               />
             </div>
