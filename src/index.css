@@ -170,6 +170,12 @@ p {
   justify-content: center;
 }
 
+#legend3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #lineChart {
   position: absolute;
   display: flex;
@@ -195,7 +201,13 @@ p {
 .legend-item {
   padding-bottom: 10px;
   cursor: pointer;
+  position: relative;
 }
+
+.legend-item:hover > div {
+  display: block !important;
+}
+
 .disable-legend {
   text-decoration: line-through;
 }

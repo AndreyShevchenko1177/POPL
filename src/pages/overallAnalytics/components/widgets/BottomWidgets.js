@@ -13,7 +13,7 @@ import labels, {
 } from "./chartConfig";
 import icons from "../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLoadAction";
-import { filterPops } from "../../../../utils";
+import { filterPops, getRandomColor } from "../../../../utils";
 
 function BottomWidgets({
   views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar, profilesData,
@@ -27,6 +27,7 @@ function BottomWidgets({
   const [popsDirectOnOff, setPopsDirectOnOff] = useState(null);
   const [popsByProfile, setPopsByProfile] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
+  const [colors, setColors] = useState([]);
   const location = useLocation();
   const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
 
@@ -200,11 +201,17 @@ function BottomWidgets({
   useEffect(() => {
     const { dohnutPopsByProfileData } = dohnutData;
     if (dohnutPopsByProfileData) {
+      let bc = [];
+      if (colors.length) {
+        bc = colors;
+      } else {
+        Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
+        setColors(bc);
+      }
       delete dohnutPopsByProfileData.labels;
       const datasetsPopsByProfileDataProportion = [];
       const chartLabelsPopsByProfileDataProportion = [];
       const chartBackGroundColorsPopsByProfileDataProportion = [];
-
       setPopsByProfile(() => {
         if (location.state?.id) {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
@@ -215,11 +222,10 @@ function BottomWidgets({
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
             chartLabelsPopsByProfileDataProportion.push(name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
+            chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
         }
-
         return {
           labels: chartLabelsPopsByProfileDataProportion,
           datasets: [{
@@ -237,15 +243,16 @@ function BottomWidgets({
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
+        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
+          <PieChart data={popsByProfile} index={3}/>
+        </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
           <PieChart data={popsDataProportion} index={1}/>
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
           <PieChart data={popsDirectOnOff} index={2}/>
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
-          <PieChart data={popsByProfile} index={3}/>
-        </WidgetsContainer>
+
       </div>
 
       <div className={classes.twoWidgetsWrapper}>

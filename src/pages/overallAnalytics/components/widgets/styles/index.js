@@ -36,7 +36,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    // borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
     paddingBottom: 10,
     marginBottom: 10,
   },

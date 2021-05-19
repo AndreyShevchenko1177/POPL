@@ -33,12 +33,15 @@ function PieChart({ data, index }) {
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 100px" id="legend-${i}-item" class="legend-item" >
-                <span style="background-color:
-                  ${data.datasets[0].backgroundColor[i]}; margin-right: 10px; border-radius: 50%;">
+              <div style="display: flex; width: 105px" id="legend-${i}-item" class="legend-item">
+                <div style='display: none; position: absolute; top: ${i === data.datasets[0].data.length - 1 || i === data.datasets[0].data.length - 2 ? "0px" : "40px"} ; left: -115px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
+                  <span>${data.labels[i]} </span>
+                </div>
+                <p style="background-color:
+                  ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                </span>
-                ${data.labels[i] && `<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+                </p>
+                ${data.labels[i] && `<span style="margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )
@@ -47,19 +50,24 @@ function PieChart({ data, index }) {
 
   useEffect(() => {
     if (chart.current?.chartInstance) {
+      const labelsArrayLength = data.labels.filter((el, i, arr) => arr.indexOf(el) === i).length;
+      if (labelsArrayLength > 10) {
+        document.querySelector(`#legend${index}`).style.paddingTop = `${100 + 20 * (labelsArrayLength + 1 - 10)}px`;
+      }
       document.querySelector(`#legend${index}`).innerHTML = chart.current?.chartInstance?.generateLegend();
-      document.querySelectorAll(`#legend${index} div`).forEach((item, index) => {
+      document.querySelectorAll(`#legend${index} > div`).forEach((item, index) => {
         item.addEventListener("click", (e) => handleClickLabel(e, index));
       });
     }
   }, [data]);
+
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
         <div className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.indexOf(el) === i) }] }}
+            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.length / 2 > i) }] }}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {

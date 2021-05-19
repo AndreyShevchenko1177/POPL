@@ -202,6 +202,14 @@ function NetworkActivity({
           </Typography>
         </div>
         <div className={classes.filterContainer}>
+          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.filterText}>
+            <span style={{ whiteSpace: "nowrap" }}>
+              <i>{location.state?.profilesData?.name || location.state?.name}</i>
+            </span>
+            <CloseIcon style={{
+              cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+            }} onClick={clearFilterInput}/>
+          </div>}
           <div className={classes.buttonWrapper}>
             <Button
               variant='contained'
@@ -221,14 +229,7 @@ function NetworkActivity({
               events={{ handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput }}
             />
           </div>
-          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.filterText}>
-            <span style={{ whiteSpace: "nowrap" }}>
-              <i>{location.state?.profilesData?.name || location.state?.name}</i>
-            </span>
-            <CloseIcon style={{
-              cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-            }} onClick={clearFilterInput}/>
-          </div>}
+
         </div>
         <div style={{ position: "relative" }}>
           <DatePicker

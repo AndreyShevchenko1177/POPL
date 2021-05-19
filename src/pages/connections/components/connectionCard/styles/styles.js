@@ -87,7 +87,7 @@ export default makeStyles((theme) => ({
   },
   connectedWithText: {
     padding: "0 10px",
-    borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    // borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
   },
   connectedWithNames: {
     width: "100%",
