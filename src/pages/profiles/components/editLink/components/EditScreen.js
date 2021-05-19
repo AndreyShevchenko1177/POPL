@@ -28,7 +28,7 @@ function EditScreen({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState({ title: "", value: "" });
+  const [inputValue, setInputValue] = useState({ title: null, value: null });
   const [isValid, setIsValid] = useState({ title: true, value: true });
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [src, setSrc] = useState("");
@@ -119,7 +119,7 @@ function EditScreen({
           <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
             <TextField
               fullWidth
-              value={inputValue.title || title}
+              value={inputValue.title === "" ? inputValue.title : inputValue.title || title}
               name='title'
               placeholder='Link Title'
               onChange={handleSetLinkUrl}
@@ -135,7 +135,7 @@ function EditScreen({
 
             <TextField
               fullWidth
-              value={inputValue.value || value}
+              value={inputValue.value === "" ? inputValue.value : inputValue.value || value}
               name='value'
               placeholder={currentIcon.placeholder}
               onChange={handleSetLinkUrl}

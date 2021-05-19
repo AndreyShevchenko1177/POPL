@@ -7,7 +7,7 @@ function WidgetsContainer({ children, heading, layerString }) {
   const classes = useStyles();
 
   return (
-    <Paper elevation={3} className={classes.widgetRoot}>
+    <Paper elevation={4} className={classes.widgetRoot}>
       <div className={classes.widgetHeadingContainer}>
         <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
         <div className={classes.layerStringContainer}>

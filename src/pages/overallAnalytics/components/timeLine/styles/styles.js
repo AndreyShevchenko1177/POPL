@@ -110,10 +110,9 @@ export default makeStyles((theme) => ({
   },
   filterContainer: {
     width: "100%",
-    flexDirection: "column",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    alignItems: "center",
     marginRight: 20,
   },
   buttonWrapper: {
@@ -135,7 +134,8 @@ export default makeStyles((theme) => ({
   },
   filterText: {
     display: "flex",
-    marginRight: 40,
+    alignItems: "center",
+    marginRight: 5,
     paddingTop: 5,
   },
 }));
