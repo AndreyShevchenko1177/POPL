@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tooltip } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
+import { useSelector } from "react-redux";
 import WidgetsContainer from "./WidgetsContainer";
 import TopList from "./TopList";
 import PieChart from "./PieChart";
@@ -27,6 +28,7 @@ function BottomWidgets({
   const [popsByProfile, setPopsByProfile] = useState(null);
   const [linkTapsData, setLinkTapsData] = useState(null);
   const location = useLocation();
+  const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
 
   const handleDownloadFile = (linkId, path, value) => {
     if (linkId !== 37) return;
@@ -58,24 +60,55 @@ function BottomWidgets({
   }, [totalPopls, totalPops, location, calendar.dateRange]);
 
   useEffect(() => {
-    if (profilesData) {
+    if (profilesData && views && calendar.dateRange) {
       const result = [];
-      const linkTaps = [];
+      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
+      calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+
+      profilesData.forEach((profile) => {
+        let profilesNumber = 0;
+        views.forEach((view) => {
+          const viewsDate = moment(view[2]).format("x");
+          if (view[0] == profile.id) {
+            if ((viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"))) profilesNumber += 1;
+          }
+        });
+        result.push({ name: profile.name, value: profilesNumber });
+      });
+      setViewedProfiles(result);
+    }
+  }, [views, profilesData, calendar.dateRange]);
+
+  useEffect(() => {
+    if (profilesData && calendar.dateRange && linksTaps) {
+      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
+      calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+
+      const result = [];
       let links = [];
-      if (location.state?.id) {
-        if (location.state?.personalMode?.text === "Personal") {
-          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName }))];
+      // searching in linkTapsData taps by hash and returning number of such taps according to date in calendar range
+      const calculateTapsByLinkHash = (hash) => {
+        const result = linksTaps.filter((tap) => {
+          const linkDate = moment(tap.event_at).format("x");
+          return tap.hash === hash // checking does hash equal
+            && (linkDate > moment(calendar.dateRange[0]).format("x")) // checking link tap date not predates date range
+            && (linkDate < moment(calendar.dateRange[1]).format("x")); // checking link tap date not postdates date range
+        });
+        return result.length;
+      };
+      if (location.state?.id) { // checking does we going from specific profile
+        if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
+          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.profileName, clicks: calculateTapsByLinkHash(link.hash) }))];
         } else {
-          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName }))];
+          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.profileName, clicks: calculateTapsByLinkHash(link.hash) }))];
         }
       } else {
         profilesData.forEach((profile) => {
           links = profile.activeProfile === "1"
-            ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name }))]
-            : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name }))];
+            ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))]
+            : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
         });
       }
-
       links
         .sort((a, b) => b.clicks - a.clicks)
         .forEach((link) => {
@@ -93,29 +126,13 @@ function BottomWidgets({
               }
 
             </>);
-          linkTaps.push({
+          result.push({
             name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
           });
         });
-
-      if (views && calendar.dateRange) {
-        calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
-
-        profilesData.forEach((profile) => {
-          let profilesNumber = 0;
-          views.forEach((view) => {
-            const viewsDate = moment(view[2]).format("x");
-            if (view[0] == profile.id) {
-              if ((viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"))) profilesNumber += 1;
-            }
-          });
-          result.push({ name: profile.name, value: profilesNumber });
-        });
-        setViewedProfiles(result);
-      }
-      setLinkTapsData(linkTaps);
+      setLinkTapsData(result);
     }
-  }, [views, profilesData, calendar.dateRange]);
+  }, [linksTaps, profilesData, calendar.dateRange]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;
