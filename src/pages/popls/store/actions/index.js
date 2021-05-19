@@ -127,7 +127,6 @@ export const updatePopl = (memberId, id, photo, nickname, fetchedParam) => async
         .split("?")[0]
         .split("poplPhotos%")[1];
     }
-    console.log(fileName, result);
     await requests.updatePoplRequest(memberId, id, fileName || photo, nickname);
     dispatch({
       type: EDIT_POPLS_SUCCESS,

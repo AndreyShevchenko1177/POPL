@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   container: {
     display: "flex",
+    position: "relative",
     alignItems: "center",
     overflowY: "auto",
     minHeight: 260,

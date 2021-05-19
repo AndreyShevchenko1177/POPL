@@ -56,8 +56,6 @@ export const ConnectedCard = memo(({
     }
   }, []);
 
-  console.log("render");
-
   return (
     <>
       <DragDots position="center" />

@@ -30,7 +30,6 @@ function EditLinkModal({
     const links = [{
       profileId: pId, linkType: type, linkHash: hash, linkValue: value, linkTitle: title, linkId: data.id,
     }];
-    console.log(file);
     dispatch(editLinkAction(successCb, links, file));
   };
 

@@ -49,7 +49,6 @@ function EditScreen({
         open: true,
       }));
     }
-    console.log(event.target?.files[0]);
     setFile(event.target?.files[0]);
     const reader = new FileReader();
     reader.addEventListener("load", (evt) => {
@@ -76,8 +75,6 @@ function EditScreen({
     event.persist();
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
-
-  console.log(file);
 
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>

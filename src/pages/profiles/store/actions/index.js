@@ -249,18 +249,15 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
     bodyFormData.append("iID", userId);
     await axios.post("", bodyFormData);
     dispatch(setLocalProfilesOrder(profiles));
-    console.log(child, userId);
   } catch (error) {
     console.log(error);
   }
 };
 
 export const setProfileNameAcion = (profileId, profileState, name) => async (dispatch) => {
-  console.log(profileId, profileState, name);
   try {
     dispatch(isFetchingAction(true, "setProfileName"));
     const result = await requests.setProfileName(profileId, profileState, name);
-    console.log(result);
     dispatch({
       type: SET_PROFILE_NAME,
       payload: { profileId, name },
@@ -274,7 +271,6 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
   try {
     dispatch(isFetchingAction(true, "setProfileBio"));
     const result = await requests.setProfileBio(profileId, profileState, bio);
-    console.log(result);
     dispatch({
       type: SET_PROFILE_BIO,
       payload: { profileId, bio, profileState },
@@ -293,8 +289,6 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
       uploadedFile = getId(12);
       result = await uploadImage(new File([photo], `${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
     }
-
-    console.log(profileId);
 
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
     let fileName;

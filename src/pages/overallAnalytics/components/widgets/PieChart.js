@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import useStyles from "./styles";
 import Loader from "../../../../components/Loader";

@@ -127,7 +127,6 @@ export const makeProfileSubscriberRequest = (userId) => {
     headers: { "Content-Type": "application/json", Authorization: "Bearer sk_MLaAGzmHomNgUdmNWfvlxoqvdMIXi" },
     body: JSON.stringify({ duration: "lifetime" }),
   };
-  console.log(userId);
 
   fetch(`https://api.revenuecat.com/v1/subscribers/${userId}/entitlements/pro/promotional`, options)
     .then((response) => {

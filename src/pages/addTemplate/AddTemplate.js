@@ -30,7 +30,6 @@ function AddTemplate() {
   const handleChange = (event) => {
     event.persist();
     const { value, name } = event.target;
-    console.log(name, value);
     setValues({ ...values, [name]: value });
   };
 
