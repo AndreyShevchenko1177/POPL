@@ -14,6 +14,11 @@ import labels, {
 import icons from "../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../profiles/components/profilelsIcons/downLoadAction";
 import { filterPops, getRandomColor } from "../../../../utils";
+// charts
+import PieChartProfilesProportion from "./charts/PieChartProfilesProportion";
+import PieChartPopsDataProportion from "./charts/PieChartPopsProportion";
+import PieChartDirectOnOff from "./charts/PieChartDirectOnOff";
+import TopListLinkTaps from "./topStatWidgets/TopListLinkTaps";
 
 function BottomWidgets({
   views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar, profilesData,
@@ -80,60 +85,60 @@ function BottomWidgets({
     }
   }, [views, profilesData, calendar.dateRange]);
 
-  useEffect(() => {
-    if (profilesData && calendar.dateRange && linksTaps) {
-      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
-      calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+  // useEffect(() => {
+  //   if (profilesData && calendar.dateRange && linksTaps) {
+  //     // sorting calendar dates, cause sometimes more recent date is in the beggining of array
+  //     calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
-      const result = [];
-      let links = [];
-      // searching in linkTapsData taps by hash and returning number of such taps according to date in calendar range
-      const calculateTapsByLinkHash = (hash) => {
-        const result = linksTaps.filter((tap) => {
-          const linkDate = moment(tap.event_at).format("x");
-          return tap.hash === hash // checking does hash equal
-            && (linkDate > moment(calendar.dateRange[0]).format("x")) // checking link tap date not predates date range
-            && (linkDate < moment(calendar.dateRange[1]).format("x")); // checking link tap date not postdates date range
-        });
-        return result.length;
-      };
-      if (location.state?.id) { // checking does we going from specific profile
-        if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
-          links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-        } else {
-          links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-        }
-      } else {
-        profilesData.forEach((profile) => {
-          links = profile.activeProfile === "1"
-            ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))]
-            : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
-        });
-      }
-      links
-        .sort((a, b) => b.clicks - a.clicks)
-        .forEach((link) => {
-          const component = (
-            <>
-              <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
-              {link.id === 37
-                ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
-                  <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                </div>
-                : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
-                  <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
-                </a>
+  //     const result = [];
+  //     let links = [];
+  //     // searching in linkTapsData taps by hash and returning number of such taps according to date in calendar range
+  //     const calculateTapsByLinkHash = (hash) => {
+  //       const result = linksTaps.filter((tap) => {
+  //         const linkDate = moment(tap.event_at).format("x");
+  //         return tap.hash === hash // checking does hash equal
+  //           && (linkDate > moment(calendar.dateRange[0]).format("x")) // checking link tap date not predates date range
+  //           && (linkDate < moment(calendar.dateRange[1]).format("x")); // checking link tap date not postdates date range
+  //       });
+  //       return result.length;
+  //     };
+  //     if (location.state?.id) { // checking does we going from specific profile
+  //       if (location.state?.personalMode?.text === "Personal") { // checking mode of profile - Personal or Business
+  //         links = [...location.state.social.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
+  //       } else {
+  //         links = [...location.state.business.map((link) => ({ ...link, profileName: location.state.name, clicks: calculateTapsByLinkHash(link.hash) }))];
+  //       }
+  //     } else {
+  //       profilesData.forEach((profile) => {
+  //         links = profile.activeProfile === "1"
+  //           ? [...links, ...profile.social.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))]
+  //           : [...links, ...profile.business.map((link) => ({ ...link, profileName: profile.name, clicks: calculateTapsByLinkHash(link.hash) }))];
+  //       });
+  //     }
+  //     links
+  //       .sort((a, b) => b.clicks - a.clicks)
+  //       .forEach((link) => {
+  //         const component = (
+  //           <>
+  //             <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
+  //             {link.id === 37
+  //               ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
+  //                 <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+  //               </div>
+  //               : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
+  //                 <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+  //               </a>
 
-              }
+  //             }
 
-            </>);
-          result.push({
-            name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
-          });
-        });
-      setLinkTapsData(result);
-    }
-  }, [linksTaps, profilesData, calendar.dateRange, location]);
+  //           </>);
+  //         result.push({
+  //           name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
+  //         });
+  //       });
+  //     setLinkTapsData(result);
+  //   }
+  // }, [linksTaps, profilesData, calendar.dateRange, location]);
 
   useEffect(() => {
     const { dohnutPopsData } = dohnutData;
@@ -245,12 +250,15 @@ function BottomWidgets({
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
           <PieChart data={popsByProfile} index={3}/>
+          {/* <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} /> */}
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
           <PieChart data={popsDataProportion} index={1}/>
+          {/* <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} /> */}
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
           <PieChart data={popsDirectOnOff} index={2}/>
+          {/* <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} /> */}
         </WidgetsContainer>
 
       </div>
@@ -263,7 +271,8 @@ function BottomWidgets({
           <TopList data={topPoppedPopls} refPopped={refPopls}/>
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top tapped Links'>
-          <TopList data={linkTapsData} isLinks={true} />
+          {/* <TopList data={linkTapsData} isLinks={true} /> */}
+          {/* <TopListLinkTaps profilesData={profilesData} dateRange={calendar.dateRange} refPopped={refPopls} /> */}
         </WidgetsContainer>
       </div>
     </div>
