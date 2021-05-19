@@ -1,9 +1,12 @@
 import React from "react";
+import clsx from "clsx";
 import { Paper, Typography } from "@material-ui/core";
 import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles";
 
-function WidgetsContainer({ children, heading, layerString }) {
+function WidgetsContainer({
+  children, heading, layerString, isChart,
+}) {
   const classes = useStyles();
 
   return (
@@ -22,7 +25,7 @@ function WidgetsContainer({ children, heading, layerString }) {
           />
         </div>
       </div>
-      <div className={classes.widgetChildContainer}>
+      <div className={clsx(classes.widgetChildContainer, { [classes.chart]: isChart })}>
         {children}
       </div>
     </Paper>

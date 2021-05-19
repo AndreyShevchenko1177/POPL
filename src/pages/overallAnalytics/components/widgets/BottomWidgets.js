@@ -203,28 +203,19 @@ function BottomWidgets({
   useEffect(() => {
     const { dohnutPopsByProfileData } = dohnutData;
     if (dohnutPopsByProfileData) {
-      let bc = [];
-      if (colors.length) {
-        bc = colors;
-      } else {
-        Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
-        setColors(bc);
-      }
       delete dohnutPopsByProfileData.labels;
       const datasetsPopsByProfileDataProportion = [];
       const chartLabelsPopsByProfileDataProportion = [];
       const chartBackGroundColorsPopsByProfileDataProportion = [];
       setPopsByProfile(() => {
         if (location.state?.id) {
-          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(location.state?.name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
-            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
-          });
+          chartLabelsPopsByProfileDataProportion.push(location.state?.name);
+          chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
+          datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
             chartLabelsPopsByProfileDataProportion.push(name);
-            chartBackGroundColorsPopsByProfileDataProportion.push(bc[index]);
+            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
         }
@@ -245,13 +236,13 @@ function BottomWidgets({
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops by profile'>
           <PieChart data={popsByProfile} index={3}/>
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Pops proportion'>
           <PieChart data={popsDataProportion} index={1}/>
         </WidgetsContainer>
-        <WidgetsContainer layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
+        <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Direct on/off proportion'>
           <PieChart data={popsDirectOnOff} index={2}/>
         </WidgetsContainer>
 

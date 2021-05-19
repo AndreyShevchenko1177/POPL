@@ -51,7 +51,7 @@ function PieChart({ data, index }) {
   useEffect(() => {
     if (chart.current?.chartInstance) {
       const labelsArrayLength = data.labels.filter((el, i, arr) => arr.indexOf(el) === i).length;
-      if (labelsArrayLength > 10) {
+      if (labelsArrayLength >= 9) {
         document.querySelector(`#legend${index}`).style.paddingTop = `${100 + 20 * (labelsArrayLength + 1 - 10)}px`;
       }
       document.querySelector(`#legend${index}`).innerHTML = chart.current?.chartInstance?.generateLegend();
@@ -64,6 +64,7 @@ function PieChart({ data, index }) {
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
+        {console.log(data)}
         <div className='chart-wrapper'>
           <Doughnut
             ref={chart}
