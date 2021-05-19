@@ -384,7 +384,9 @@ export default function Card({
             "h-55": isSafari,
           }, "target-element")}>
             <div className={clsx(classes.section4)}>
-              {showLinksBtn.back && <div onClick={back} style={{ position: "absolute", left: "-35px", top: 25 }} className={classes.linkClicksWrapper}>
+              {showLinksBtn.back && <div onClick={back} style={{
+                position: "absolute", left: "-35px", top: 25, cursor: "pointer",
+              }} className={classes.linkClicksWrapper}>
                 <ArrowBackIosIcon/>
               </div>}
               <SocialPoplsIcons
@@ -409,7 +411,9 @@ export default function Card({
                 </div>
                 <span>Add link</span>
               </div>}
-              {showLinksBtn.next && <div onClick={next} style={{ position: "absolute", right: "-35px", top: 25 }} className={classes.linkClicksWrapper}>
+              {showLinksBtn.next && <div onClick={next} style={{
+                position: "absolute", right: "-35px", top: 25, cursor: "pointer",
+              }} className={classes.linkClicksWrapper}>
                 <ArrowForwardIosIcon/>
               </div>}
             </div>
