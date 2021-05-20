@@ -27,8 +27,6 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
     }
   }, [data]);
 
-  console.log(data);
-
   useEffect(() => {
     if (profilesData && viewsBottom && dateRange) {
       setTimeout(() => {

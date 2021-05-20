@@ -99,14 +99,13 @@ export const setLocalProfilesOrder = (profiles) => ({
 export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
   try {
     const storedProfiles = getState().profilesReducer.dataProfiles.data;
-
     let uploadedFile;
     if (icon && typeof icon !== "string") {
       uploadedFile = getId(12);
       await uploadImage(new File([icon], `icon-${uploadedFile}`, { type: icon.type }));
     }
 
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, `icon-${uploadedFile}`)));
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile ? `icon-${uploadedFile}` : "")));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",

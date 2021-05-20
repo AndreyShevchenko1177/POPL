@@ -40,10 +40,11 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
 
   const renderLabels = (chart) => {
     const { data } = chart;
+    console.log(data.labels);
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 105px" id="legend-${i}-item" class="legend-item">
+              <div style="display: flex; width: 145px" id="legend-${i}-item" class="legend-item">
                 <div style='display: none; position: absolute; top: 0px ; left: -${data.labels[i]?.length * 10}px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
                   <span>${data.labels[i]} </span>
                 </div>
@@ -113,10 +114,19 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
-        <div className='chart-wrapper'>
+        <div style={{ position: "absolute", left: "-40px" }} className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.length / 2 > i) }] }}
+            data={{
+              ...data,
+              labels: data.labels,
+              // .filter((el, i, arr) => arr.indexOf(el) === i),
+              datasets: [{
+                ...data.datasets[0],
+                data: data.datasets[0].data,
+                // .filter((el, i, arr) => arr.length / 2 > i),
+              }],
+            }}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {
