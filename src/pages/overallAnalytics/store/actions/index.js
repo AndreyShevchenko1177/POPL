@@ -30,7 +30,7 @@ export const mainAnalyticsAction = () => async (dispatch, getState) => {
   dispatch(getViewsByDate(userIdsArray));
 
   // get all links taps for all profiles
-  // dispatch(getLinkTapsAction(userIdsArray));
+  dispatch(getLinkTapsAction(userIdsArray));
   dispatch(isFetchingAction(false, "linkTapsBottom"));
 
   // get all pops for all profiles

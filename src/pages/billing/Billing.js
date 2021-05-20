@@ -7,7 +7,7 @@ import stripeConfig from "./stripeConfig";
 import SubscriptionCard from "./components/SubscriptionCard";
 import { profileIdsRequest } from "../profiles/store/actions/requests";
 
-const stripe = window.Stripe(stripeConfig.stripePk);
+const stripe = window.Stripe && window.Stripe(stripeConfig.stripePk);
 
 export const subscriptionConfig = [
   {

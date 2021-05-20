@@ -19,14 +19,14 @@ import PieChartProfilesProportion from "./charts/PieChartProfilesProportion";
 import PieChartPopsDataProportion from "./charts/PieChartPopsProportion";
 import PieChartDirectOnOff from "./charts/PieChartDirectOnOff";
 import TopListLinkTaps from "./topStatWidgets/TopListLinkTaps";
+import TopListViewedProfiles from "./topStatWidgets/TopListViewedViews";
 
 function BottomWidgets({
-  views, dohnutData, widgetLayerString, totalPopls, totalPops, calendar, profilesData,
+  dohnutPopsData, dohnutDirectData, dohnutPopsByProfileData, widgetLayerString, totalPopls, totalPops, calendar, profilesData,
 }) {
   const classes = useStyles();
   const refProfiles = useRef(null);
   const refPopls = useRef(null);
-  const [viewedProfiles, setViewedProfiles] = useState(null);
   const [topPoppedPopls, setTopPoppedPopls] = useState(null);
   const location = useLocation();
 
@@ -54,25 +54,25 @@ function BottomWidgets({
     }
   }, [totalPopls, totalPops, location, calendar.dateRange]);
 
-  useEffect(() => {
-    if (profilesData && views && calendar.dateRange) {
-      const result = [];
-      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
-      calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+  // useEffect(() => {
+  //   if (profilesData && views && calendar.dateRange) {
+  //     const result = [];
+  //     // sorting calendar dates, cause sometimes more recent date is in the beggining of array
+  //     calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
-      profilesData.forEach((profile) => {
-        let profilesNumber = 0;
-        views.forEach((view) => {
-          const viewsDate = moment(view[2]).format("x");
-          if (view[0] == profile.id) {
-            if ((viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"))) profilesNumber += 1;
-          }
-        });
-        result.push({ name: profile.name, value: profilesNumber });
-      });
-      setViewedProfiles(result);
-    }
-  }, [views, profilesData, calendar.dateRange]);
+  //     profilesData.forEach((profile) => {
+  //       let profilesNumber = 0;
+  //       views.forEach((view) => {
+  //         const viewsDate = moment(view[2]).format("x");
+  //         if (view[0] == profile.id) {
+  //           if ((viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"))) profilesNumber += 1;
+  //         }
+  //       });
+  //       result.push({ name: profile.name, value: profilesNumber });
+  //     });
+  //     setViewedProfiles(result);
+  //   }
+  // }, [views, profilesData, calendar.dateRange]);
 
   console.log("bottom render");
 
@@ -81,22 +81,23 @@ function BottomWidgets({
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops by profile'>
           {/* <PieChart data={popsByProfile} index={3}/> */}
-          <PieChartProfilesProportion dohnutPopsByProfileData={dohnutData.dohnutPopsByProfileData} index={3} />
+          <PieChartProfilesProportion dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
         <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Pops proportion'>
           {/* <PieChart data={popsDataProportion} index={1}/> */}
-          <PieChartPopsDataProportion dohnutPopsData={dohnutData.dohnutPopsData} index={1} />
+          <PieChartPopsDataProportion dohnutPopsData={dohnutPopsData} index={1} />
         </WidgetsContainer>
         <WidgetsContainer isChart layerString={widgetLayerString.layer !== "Total" ? `${widgetLayerString.name}` : ""} heading='Direct on/off proportion'>
           {/* <PieChart data={popsDirectOnOff} index={2}/> */}
-          <PieChartDirectOnOff dohnutDirectData={dohnutData.dohnutDirectData} index={2} />
+          <PieChartDirectOnOff dohnutDirectData={dohnutDirectData} index={2} />
         </WidgetsContainer>
 
       </div>
 
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer layerString="Total" heading='Top viewed Profiles'>
-          <TopList data={viewedProfiles?.sort((a, b) => b.value - a.value)} refPopped={refProfiles}/>
+          {/* <TopList data={viewedProfiles?.sort((a, b) => b.value - a.value)} refPopped={refProfiles}/> */}
+          <TopListViewedProfiles profilesData={profilesData} dateRange={calendar.dateRange} refPopped={refProfiles} />
         </WidgetsContainer>
         <WidgetsContainer layerString={widgetLayerString.layer === "Profile" ? `${widgetLayerString.layer} > ${widgetLayerString.name}` : "Total"} heading='Top popped Popls'>
           <TopList data={topPoppedPopls} refPopped={refPopls}/>

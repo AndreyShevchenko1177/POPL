@@ -309,14 +309,14 @@ function OverallAnalytics() {
   }, [popsData, location]);
 
   // filtering views by profile id for individual profile level
-  useEffect(() => {
-    if (viewsBottom.data) {
-      if (location.state?.id) {
-        return setViewsKpis(viewsBottom.data.filter((view) => view[0] == location.state.id));
-      }
-      setViewsKpis(viewsBottom.data);
-    }
-  }, [location, viewsBottom.data]);
+  // useEffect(() => {
+  //   if (viewsBottom.data) {
+  //     if (location.state?.id) {
+  //       return setViewsKpis(viewsBottom.data.filter((view) => view[0] == location.state.id));
+  //     }
+  //     setViewsKpis(viewsBottom.data);
+  //   }
+  // }, [location, viewsBottom.data]);
 
   return (
     <>
@@ -349,9 +349,11 @@ function OverallAnalytics() {
         totalPops={allPopsNew.data?.allPops}
         userId={userId}
         widgetLayerString={widgetLayerString}
-        views={viewsBottom?.data}
         calendar={calendar}
-        dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData, dohnutPopsByProfileData: chartData?.dohnutPopsByProfileData }}
+        dohnutPopsData={chartData?.dohnutPopsData}
+        dohnutDirectData={chartData?.dohnutDirectData}
+        dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
+        // dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData, dohnutPopsByProfileData: chartData?.dohnutPopsByProfileData }}
         profilesData={profilesData}
       />
     </>
