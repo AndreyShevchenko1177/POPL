@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
   },
   latestConnectionsWrapper: {
     position: "absolute",
-    width: "100%",
+    width: "calc(100% - 40px)",
     overflow: "hidden",
     bottom: 17,
     "@media (max-height:800px)": {
