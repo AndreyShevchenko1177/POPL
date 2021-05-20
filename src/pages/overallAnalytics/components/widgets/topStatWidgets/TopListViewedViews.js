@@ -27,6 +27,8 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
     }
   }, [data]);
 
+  console.log(data);
+
   useEffect(() => {
     if (profilesData && viewsBottom && dateRange) {
       setTimeout(() => {
@@ -45,7 +47,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
           result.push({ name: profile.name, value: profilesNumber });
         });
         setData(result);
-      }, 6000);
+      }, 5000);
     }
   }, [viewsBottom, profilesData, dateRange]);
 

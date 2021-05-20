@@ -32,6 +32,7 @@ function OverallAnalytics() {
   });
   const [viewsKpis, setViewsKpis] = useState(null);
   const [saveSelected, setSaveSelected] = useState(false);
+  const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
 
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
@@ -238,31 +239,33 @@ function OverallAnalytics() {
   // SETTING ALL POPS
   useEffect(() => {
     if (allPopsData) {
-      // setting pops for popl level
-      if (location.state?.poplName) {
-        const poplPops = [];
-        const qrCodePops = [];
-        const walletPops = [];
-        const filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
-        filteredPops.forEach((pop) => {
-          if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-          if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-          if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
-        });
-        return setPopsData({
-          poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
-        });
-      }
-      // setting popps for individual profile level
-      if (location.state?.id) {
-        return setPopsData({
-          poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
-          qrCodePops: allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id),
-          walletPops: allPopsData.walletPops.filter((pop) => pop[0] == location.state.id),
-          allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
-        });
-      }
-      setPopsData(allPopsData);
+      setTimeout(() => {
+        // setting pops for popl level
+        if (location.state?.poplName) {
+          const poplPops = [];
+          const qrCodePops = [];
+          const walletPops = [];
+          const filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
+          filteredPops.forEach((pop) => {
+            if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+            if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+            if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+          });
+          return setPopsData({
+            poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+          });
+        }
+        // setting popps for individual profile level
+        if (location.state?.id) {
+          return setPopsData({
+            poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
+            qrCodePops: allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id),
+            walletPops: allPopsData.walletPops.filter((pop) => pop[0] == location.state.id),
+            allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
+          });
+        }
+        setPopsData(allPopsData);
+      }, 0);
     }
   }, [allPopsData, location]);
 
@@ -299,6 +302,15 @@ function OverallAnalytics() {
       });
     }
   }, [popsData, location]);
+
+  useEffect(() => {
+    if (viewsBottom) {
+      if (location.state?.id) {
+        return setViewsKpis(viewsBottom.filter((view) => view[0] == location.state.id));
+      }
+      setViewsKpis(viewsBottom);
+    }
+  }, [location, viewsBottom]);
 
   return (
     <>

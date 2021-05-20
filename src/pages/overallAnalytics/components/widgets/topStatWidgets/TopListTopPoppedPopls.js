@@ -33,7 +33,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
 
   useEffect(() => {
     if (totalPopls && totalPops && dateRange) {
-      setTimeout(() => {
+      const foo = async (res, rej) => {
         const topPoppedPopls = {};
         totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
 
@@ -53,7 +53,29 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
           result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
         });
         setData(result);
-      }, 6000);
+      };
+      foo();
+      // setTimeout(() => {
+      //   const topPoppedPopls = {};
+      //   totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
+
+      //   totalPops.forEach((pop) => {
+      //     const popDate = moment(pop[2]).format("x");
+      //     const name = filterPops.slicePoplNameFromPop(pop[1]);
+      //     if (name && name in topPoppedPopls) {
+      //       if ((popDate > moment(dateRange[0]).format("x")) && (popDate < moment(dateRange[1]).format("x"))) topPoppedPopls[name].push(pop);
+      //     }
+      //   });
+      //   const sortedPoppedPopls = Object.keys(topPoppedPopls)
+      //     .map((key) => ({ [key]: topPoppedPopls[key] }))
+      //     .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
+
+      //   const result = [];
+      //   sortedPoppedPopls.forEach((item) => {
+      //     result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
+      //   });
+      //   setData(result);
+      // }, 2000);
     }
   }, [totalPopls, totalPops, location, dateRange]);
 
