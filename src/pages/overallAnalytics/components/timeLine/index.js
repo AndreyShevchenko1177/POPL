@@ -190,7 +190,7 @@ function NetworkActivity({
       });
     }
     if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
-  }, [linkTaps, calendar.dateRange]);
+  }, [linkTaps, views, calendar.dateRange, location]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
