@@ -105,7 +105,7 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index }) => {
         <div className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.length / 2 > i) }] }}
+            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i) }}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {

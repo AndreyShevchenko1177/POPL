@@ -29,21 +29,23 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
 
   useEffect(() => {
     if (profilesData && viewsBottom && dateRange) {
-      const result = [];
-      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
-      dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+      setTimeout(() => {
+        const result = [];
+        // sorting calendar dates, cause sometimes more recent date is in the beggining of array
+        dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
-      profilesData.forEach((profile) => {
-        let profilesNumber = 0;
-        viewsBottom.forEach((view) => {
-          const viewsDate = moment(view[2]).format("x");
-          if (view[0] == profile.id) {
-            if ((viewsDate > moment(dateRange[0]).format("x")) && (viewsDate < moment(dateRange[1]).format("x"))) profilesNumber += 1;
-          }
+        profilesData.forEach((profile) => {
+          let profilesNumber = 0;
+          viewsBottom.forEach((view) => {
+            const viewsDate = moment(view[2]).format("x");
+            if (view[0] == profile.id) {
+              if ((viewsDate > moment(dateRange[0]).format("x")) && (viewsDate < moment(dateRange[1]).format("x"))) profilesNumber += 1;
+            }
+          });
+          result.push({ name: profile.name, value: profilesNumber });
         });
-        result.push({ name: profile.name, value: profilesNumber });
-      });
-      setData(result);
+        setData(result);
+      }, 6000);
     }
   }, [viewsBottom, profilesData, dateRange]);
 
