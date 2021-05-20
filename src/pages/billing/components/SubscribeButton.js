@@ -73,7 +73,7 @@ function SubscribeButton({
         className={classes.subscriptionButton}
         onClick={handleSubscribe}
       >
-        Free 14 day trial in stripe
+        Free 1 month trial in stripe
       </Button>
     </>
   );

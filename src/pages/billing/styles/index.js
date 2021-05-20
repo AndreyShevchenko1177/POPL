@@ -22,7 +22,6 @@ export default makeStyles((theme) => ({
   cardsContainer: {
     display: "flex",
     justifyContent: "center",
-    width: "100%",
     width: 1200,
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
