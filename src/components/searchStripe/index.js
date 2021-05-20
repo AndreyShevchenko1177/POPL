@@ -8,7 +8,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import CloseIcon from "@material-ui/icons/Close";
-import Papa from "papaparse";
 import { useSelector } from "react-redux";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
@@ -60,12 +59,11 @@ function SearchStripe({
       });
       return res(stringValue);
     }).then((result) => {
-      let encodedUri = encodeURI(result);
+      const svData = new Blob([`${keys.sort((a, b) => a.localeCompare(b)).join(";")}\r\n${result}`], { type: "text/csv" });
+      let csvUrl = URL.createObjectURL(svData);
       let link = document.createElement("a");
-      link.setAttribute("href", `data:text/csv;charset=utf-8,${keys.sort((a, b) => a.localeCompare(b)).join(";")}\r\n${encodedUri}`);
-      link.setAttribute("download", "my_data.csv");
-      document.body.appendChild(link);
-
+      link.download = "my_data.csv";
+      link.href = csvUrl;
       link.click();
     });
   };
