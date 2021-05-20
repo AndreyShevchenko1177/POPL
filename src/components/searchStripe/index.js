@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -7,6 +8,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import CloseIcon from "@material-ui/icons/Close";
+import Papa from "papaparse";
+import { useSelector } from "react-redux";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
 import Filters from "../filters";
@@ -35,7 +38,37 @@ function SearchStripe({
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  const exportToCrm = () => {
+    const permittedNames = ["name", "email", "bio", "url", "time", "image", "views"];
+    let arr = allConnections.map((item) => {
+      let newItem = {};
+      Object.keys(item).forEach((el) => (permittedNames.includes(el) ? newItem[el] = item[el] : null));
+      return newItem;
+    });
+    const keys = permittedNames;
+    let values = [];
+    let stringValue = "";
+    new Promise((res) => {
+      arr.forEach((el, index) => {
+        Object.keys(el).forEach((value) => {
+          values.push({ value: el[value], key: value });
+        });
+        stringValue += `${values.sort((a, b) => a.key.localeCompare(b.key)).map(({ value }) => value).join(";")}\r\n`;
 
+        values = [];
+      });
+      return res(stringValue);
+    }).then((result) => {
+      let encodedUri = encodeURI(result);
+      let link = document.createElement("a");
+      link.setAttribute("href", `data:text/csv;charset=utf-8,${keys.sort((a, b) => a.localeCompare(b)).join(";")}\r\n${encodedUri}`);
+      link.setAttribute("download", "my_data.csv");
+      document.body.appendChild(link);
+
+      link.click();
+    });
+  };
   return (
     <div className={classes.searchContainer}>
       <div className={classes.checkbox}>
@@ -169,7 +202,7 @@ function SearchStripe({
           variant="contained"
           color="primary"
           classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          onClick={() => console.log("export to crm")}
+          onClick={exportToCrm}
         >
           Export to CRM
         </Button>
