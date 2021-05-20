@@ -23,12 +23,7 @@ function OverallAnalytics() {
   const allPopsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data,
   );
-  const {
-    allPopsNew, viewsBottom,
-  } = useSelector(({ realTimeAnalytics }) => realTimeAnalytics);
-  const totalPopls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-  const [widgetLayerString, setWidgetLayerString] = useState({ layer: "Total", name: "Total" });
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
     dohnutPopsData: null,
@@ -245,7 +240,6 @@ function OverallAnalytics() {
     if (allPopsData) {
       // setting pops for popl level
       if (location.state?.poplName) {
-        setWidgetLayerString({ layer: "Popl", name: location.state.poplName });
         const poplPops = [];
         const qrCodePops = [];
         const walletPops = [];
@@ -261,7 +255,6 @@ function OverallAnalytics() {
       }
       // setting popps for individual profile level
       if (location.state?.id) {
-        setWidgetLayerString({ layer: "Profile", name: location.state.name });
         return setPopsData({
           poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
           qrCodePops: allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id),
@@ -269,7 +262,6 @@ function OverallAnalytics() {
           allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
         });
       }
-      setWidgetLayerString({ layer: "Total", name: "Total" });
       setPopsData(allPopsData);
     }
   }, [allPopsData, location]);
@@ -308,16 +300,6 @@ function OverallAnalytics() {
     }
   }, [popsData, location]);
 
-  // filtering views by profile id for individual profile level
-  // useEffect(() => {
-  //   if (viewsBottom.data) {
-  //     if (location.state?.id) {
-  //       return setViewsKpis(viewsBottom.data.filter((view) => view[0] == location.state.id));
-  //     }
-  //     setViewsKpis(viewsBottom.data);
-  //   }
-  // }, [location, viewsBottom.data]);
-
   return (
     <>
       <Header
@@ -345,15 +327,11 @@ function OverallAnalytics() {
         />
       </div>
       <BottomWidgets
-        totalPopls={totalPopls}
-        totalPops={allPopsNew.data?.allPops}
         userId={userId}
-        widgetLayerString={widgetLayerString}
         calendar={calendar}
         dohnutPopsData={chartData?.dohnutPopsData}
         dohnutDirectData={chartData?.dohnutDirectData}
         dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
-        // dohnutData={{ dohnutPopsData: chartData?.dohnutPopsData, dohnutDirectData: chartData?.dohnutDirectData, dohnutPopsByProfileData: chartData?.dohnutPopsByProfileData }}
         profilesData={profilesData}
       />
     </>

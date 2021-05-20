@@ -5,7 +5,6 @@ import {
   GET_POPS_SUCCESS_NEW,
   GET_POPS_FAIL,
   IS_DATA_FETCHING, CLEAN,
-  INDIVIDUAL_POPS_COUNT,
   DASHBOARD_POPS_DATA,
   CLEAN_BY_NAME,
   GET_LINK_TAPS_BOTTOM,
@@ -54,11 +53,6 @@ export const mainAnalyticsAction = () => async (dispatch, getState) => {
     })
     .catch((err) => console.log(err));
 };
-
-export const individualPopsCountAction = (number) => ({
-  type: INDIVIDUAL_POPS_COUNT,
-  payload: number,
-});
 
 export const getLinkTapsAction = (profileId) => async (dispatch) => {
   try {

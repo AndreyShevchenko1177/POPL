@@ -7,45 +7,53 @@ import { useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
 import icons from "../../../../profiles/components/profilelsIcons/icons";
+import { filterPops } from "../../../../../utils";
 
-function TopListViewedProfiles({ profilesData, dateRange }) {
+function TopListPoppedPopls({ profilesData, dateRange }) {
   const classes = useStyles();
   const location = useLocation();
   const [data, setData] = useState(null);
-  const refProfiles = useRef(null);
+  const refPopls = useRef(null);
 
-  const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
+  const totalPopls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const totalPops = useSelector(
+    ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data?.allPops,
+  );
 
   const getScrollValue = (v) => () => v; // with closure
 
   useEffect(() => {
-    if (refProfiles?.current) {
+    if (refPopls?.current) {
       const main = document.querySelector("#main");
       const getScrollYValue = getScrollValue((window.scrollY));
-      refProfiles?.current?.scrollIntoView(false);
+      refPopls?.current?.scrollIntoView(false);
       main.scrollTo({ top: getScrollYValue() });
     }
   }, [data]);
 
   useEffect(() => {
-    if (profilesData && viewsBottom && dateRange) {
-      const result = [];
-      // sorting calendar dates, cause sometimes more recent date is in the beggining of array
-      dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
+    if (totalPopls && totalPops && dateRange) {
+      const topPoppedPopls = {};
+      totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
 
-      profilesData.forEach((profile) => {
-        let profilesNumber = 0;
-        viewsBottom.forEach((view) => {
-          const viewsDate = moment(view[2]).format("x");
-          if (view[0] == profile.id) {
-            if ((viewsDate > moment(dateRange[0]).format("x")) && (viewsDate < moment(dateRange[1]).format("x"))) profilesNumber += 1;
-          }
-        });
-        result.push({ name: profile.name, value: profilesNumber });
+      totalPops.forEach((pop) => {
+        const popDate = moment(pop[2]).format("x");
+        const name = filterPops.slicePoplNameFromPop(pop[1]);
+        if (name && name in topPoppedPopls) {
+          if ((popDate > moment(dateRange[0]).format("x")) && (popDate < moment(dateRange[1]).format("x"))) topPoppedPopls[name].push(pop);
+        }
+      });
+      const sortedPoppedPopls = Object.keys(topPoppedPopls)
+        .map((key) => ({ [key]: topPoppedPopls[key] }))
+        .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
+
+      const result = [];
+      sortedPoppedPopls.forEach((item) => {
+        result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
       });
       setData(result);
     }
-  }, [viewsBottom, profilesData, dateRange]);
+  }, [totalPopls, totalPops, location, dateRange]);
 
   return (
     <>
@@ -56,7 +64,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
             .map(({
               name, value, linkId, linkValue,
             }, key) => (
-              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refProfiles : null}>
+              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopls : null}>
                 <div className={classes.tableCellRank }>{key + 1}</div>
                 <div className={clsx(classes.tableCellName) }>{name}</div>
                 <div className={clsx(classes.tableCellValue)}>
@@ -73,4 +81,4 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
   );
 }
 
-export default TopListViewedProfiles;
+export default TopListPoppedPopls;

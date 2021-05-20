@@ -10,14 +10,12 @@ import icons from "../../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../../profiles/components/profilelsIcons/downLoadAction";
 
 function TopListLinkTaps({
-  profilesData, dateRange, refPopped,
+  profilesData, dateRange,
 }) {
   const classes = useStyles();
   const location = useLocation();
   const [data, setData] = useState();
   const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
-
-  const getScrollValue = (v) => () => v; // with closure
 
   const handleDownloadFile = (linkId, path, value) => {
     if (linkId !== 37) return;
@@ -25,16 +23,10 @@ function TopListLinkTaps({
   };
 
   useEffect(() => {
-    if (refPopped?.current) {
-      const main = document.querySelector("#main");
-      const getScrollYValue = getScrollValue((window.scrollY));
-      refPopped?.current?.scrollIntoView(false);
-      main.scrollTo({ top: getScrollYValue() });
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (profilesData && dateRange && linksTaps) {
+      // new Promise((res, rej) => {
+
+      // })
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
@@ -95,7 +87,7 @@ function TopListLinkTaps({
           {data.map(({
             name, value, linkId, linkValue,
           }, key) => (
-            <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refPopped : null}>
+            <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} >
               <div className={classes.tableCellRank }>{key + 1}</div>
               <div className={clsx(classes.tableCellName, classes.tableCellNameLink) }>{name}</div>
               <div className={clsx(classes.tableCellValue, classes.tableCellValueLink)}>
