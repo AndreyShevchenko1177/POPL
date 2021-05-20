@@ -2,10 +2,10 @@ import {
   GET_POPS_SUCCESS,
   GET_POPS_SUCCESS_NEW,
   GET_POPS_FAIL,
-  GET_TOP_STATISTICS_SUCCESS,
-  GET_TOP_STATISTICS_FAIL, IS_DATA_FETCHING,
-  DASHBOARD_POPS_DATA, CLEAN,
-  INDIVIDUAL_POPS_COUNT, CLEAN_BY_NAME,
+  IS_DATA_FETCHING,
+  DASHBOARD_POPS_DATA,
+  CLEAN,
+  CLEAN_BY_NAME,
   GET_VIEWS_BOTTOM,
   GET_LINK_TAPS_BOTTOM,
   GET_LINKS_TOP,
@@ -26,11 +26,6 @@ const initialState = {
     error: null,
   },
   dashboardPops: null,
-  topStatisticsData: {
-    data: null,
-    error: null,
-    isFetched: true,
-  },
   linkTapsTop: {
     data: null,
     error: null,
@@ -100,44 +95,6 @@ export default function realTimeAnalytics(
       allPops: {
         data: [],
         error: payload,
-      },
-      isFetching: false,
-    };
-  }
-  case GET_TOP_STATISTICS_SUCCESS: {
-    return {
-      ...state,
-      topStatisticsData: {
-        error: null,
-        data: payload,
-        isFetched: false,
-      },
-      isFetching: false,
-    };
-  }
-  case GET_TOP_STATISTICS_FAIL: {
-    return {
-      ...state,
-      topStatisticsData: {
-        data: null,
-        error: payload,
-        isFetched: false,
-      },
-      isFetching: false,
-    };
-  }
-  case INDIVIDUAL_POPS_COUNT: {
-    return {
-      ...state,
-      topStatisticsData: {
-        data: {
-          totalProfiles: null,
-          linkTaps: null,
-          totalPopls: null,
-          popsCount: payload,
-        },
-        error: null,
-        isFetched: false,
       },
       isFetching: false,
     };
