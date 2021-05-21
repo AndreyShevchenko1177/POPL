@@ -38,8 +38,56 @@ function SearchStripe({
   const history = useHistory();
   const location = useLocation();
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+
+  const getNotFoundProperty = (el) => {
+    let elem = el;
+    if (!("url" in el)) {
+      elem = { ...elem, url: "" };
+    }
+    if (!("number" in el)) {
+      elem = { ...elem, number: "" };
+    }
+    if (!("bio" in el)) {
+      elem = { ...elem, bio: "" };
+    }
+    if (!("name" in el)) {
+      elem = { ...elem, name: "" };
+    }
+    if (!("email" in el)) {
+      elem = { ...elem, email: "" };
+    }
+    if (!("time" in el)) {
+      elem = { ...elem, number: "" };
+    }
+    if (!("image" in el)) {
+      elem = { ...elem, image: "" };
+    }
+    if (!("views" in el)) {
+      elem = { ...elem, views: "" };
+    }
+    if (!("bioBusiness" in el)) {
+      elem = { ...elem, bioBusiness: "" };
+    }
+    if (!("location" in el)) {
+      elem = { ...elem, location: "" };
+    }
+    if (!("long" in el)) {
+      elem = { ...elem, long: "" };
+    }
+    if (!("lat" in el)) {
+      elem = { ...elem, lat: "" };
+    }
+    if (!("note" in el)) {
+      elem = { ...elem, note: "" };
+    }
+    return elem;
+  };
+
   const exportToCrm = () => {
-    const permittedNames = ["name", "email", "bio", "url", "time", "image", "views"];
+    const permittedNames = ["name", "email", "number", "bioBusiness", "bio", "url", "time", "location", "lat", "long", "note", "image", "views"];
+    const phantomNamesObject = {
+      name: 1, email: 2, number: 3, bio: 5, url: 6, time: 7, image: 12, views: 13, bioBusiness: 4, location: 8, lat: 9, long: 10, note: 11,
+    };
     let arr = allConnections.map((item) => {
       let newItem = {};
       Object.keys(item).forEach((el) => (permittedNames.includes(el) ? newItem[el] = item[el] : null));
@@ -50,16 +98,17 @@ function SearchStripe({
     let stringValue = "";
     new Promise((res) => {
       arr.forEach((el, index) => {
-        Object.keys(el).forEach((value) => {
-          values.push({ value: el[value], key: value });
+        const elem = getNotFoundProperty(el);
+        Object.keys(elem).forEach((value) => {
+          values.push({ value: String(elem[value]).replace(";", ""), sortNumber: phantomNamesObject[value] });
         });
-        stringValue += `${values.sort((a, b) => a.key.localeCompare(b.key)).map(({ value }) => value).join(";")}\r\n`;
+        stringValue += `${values.sort((a, b) => a.sortNumber - b.sortNumber).map(({ value }) => value).join(";")}\r\n`;
 
         values = [];
       });
       return res(stringValue);
     }).then((result) => {
-      const svData = new Blob([`${keys.sort((a, b) => a.localeCompare(b)).join(";")}\r\n${result}`], { type: "text/csv" });
+      const svData = new Blob([`${keys.join(";")}\r\n${result}`], { type: "text/csv" });
       let csvUrl = URL.createObjectURL(svData);
       let link = document.createElement("a");
       link.download = "my_data.csv";
