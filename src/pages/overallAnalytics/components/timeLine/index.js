@@ -178,17 +178,27 @@ function NetworkActivity({
       let linkTapsData = linkTaps;
       // if individual profile level filtering linkTaps by profile id
       if (profileLevelId) linkTapsData = linkTapsData.filter((linkTap) => linkTap.pid == profileLevelId);
-      linkTapsResult = linkTapsData?.filter((link) => {
-        const linkDate = moment(link.event_at).format("x");
-        return (linkDate > moment(calendar.dateRange[0]).format("x")) && (linkDate < moment(calendar.dateRange[1]).format("x"));
-      });
+
+      if (moment(calendar.dateRange[0]).format("x") === moment(calendar.dateRange[1]).format("x")) {
+        linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+      } else {
+        linkTapsResult = linkTapsData.filter((link) => {
+          const linkDate = moment(link.event_at).format("x");
+          return (linkDate >= moment(calendar.dateRange[0]).format("x")) && (linkDate <= moment(calendar.dateRange[1]).format("x"));
+        });
+      }
     }
     if (views) {
-      viewResult = views?.filter((view) => {
-        const viewsDate = moment(view[2]).format("x");
-        return (viewsDate > moment(calendar.dateRange[0]).format("x")) && (viewsDate < moment(calendar.dateRange[1]).format("x"));
-      });
+      if (moment(calendar.dateRange[0]).format("x") === moment(calendar.dateRange[1]).format("x")) {
+        viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+      } else {
+        viewResult = views.filter((view) => {
+          const viewsDate = moment(view[2]).format("x");
+          return (viewsDate >= moment(calendar.dateRange[0]).format("x")) && (viewsDate <= moment(calendar.dateRange[1]).format("x"));
+        });
+      }
     }
+    console.log(viewResult, linkTapsResult);
     if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
   }, [linkTaps, views, calendar.dateRange, location]);
 

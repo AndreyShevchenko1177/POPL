@@ -247,7 +247,7 @@ function Connections() {
                           {...provided.dragHandleProps}
                           // elevation={3}
                         >
-                          {connection.noPopl || "noPopl" in connection
+                          {"noPopl" in connection
                             ? <NotConnectedCard
                               key={connection.customId}
                               isChecked={checkboxes[connection.customId]}

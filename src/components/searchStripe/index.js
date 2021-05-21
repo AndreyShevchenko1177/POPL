@@ -8,7 +8,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import CloseIcon from "@material-ui/icons/Close";
-import { useSelector } from "react-redux";
 import useStyles from "./styles/styles";
 import CustomSelect from "../customSelect";
 import Filters from "../filters";
@@ -37,36 +36,7 @@ function SearchStripe({
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
-  const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  const exportToCrm = () => {
-    const permittedNames = ["name", "email", "bio", "url", "time", "image", "views"];
-    let arr = allConnections.map((item) => {
-      let newItem = {};
-      Object.keys(item).forEach((el) => (permittedNames.includes(el) ? newItem[el] = item[el] : null));
-      return newItem;
-    });
-    const keys = permittedNames;
-    let values = [];
-    let stringValue = "";
-    new Promise((res) => {
-      arr.forEach((el, index) => {
-        Object.keys(el).forEach((value) => {
-          values.push({ value: el[value], key: value });
-        });
-        stringValue += `${values.sort((a, b) => a.key.localeCompare(b.key)).map(({ value }) => value).join(";")}\r\n`;
 
-        values = [];
-      });
-      return res(stringValue);
-    }).then((result) => {
-      const svData = new Blob([`${keys.sort((a, b) => a.localeCompare(b)).join(";")}\r\n${result}`], { type: "text/csv" });
-      let csvUrl = URL.createObjectURL(svData);
-      let link = document.createElement("a");
-      link.download = "my_data.csv";
-      link.href = csvUrl;
-      link.click();
-    });
-  };
   return (
     <div className={classes.searchContainer}>
       <div className={classes.checkbox}>
@@ -200,7 +170,7 @@ function SearchStripe({
           variant="contained"
           color="primary"
           classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          onClick={exportToCrm}
+          onClick={() => history.push("/connections/export-to-crm")}
         >
           Export to CRM
         </Button>
