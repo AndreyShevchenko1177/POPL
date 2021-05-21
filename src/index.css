@@ -67,7 +67,7 @@ p {
 
 /* paddings */
 .main-padding {
-  padding: 24px 40px;
+  padding: 70px 40px 24px 40px;
 }
 
 /* cursor */
@@ -180,7 +180,7 @@ p {
 
 #legend3 {
   position: absolute;
-  left: 55%;
+  left: 48%;
   top: 50%;
   transform: translateY(-50%);
   display: flex;

@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     flexGrow: 1,
     justifyContent: "center",
-    minWidth: 610,
+    // minWidth: 610,
     paddingBottom: 30,
   },
   widgetRoot: {

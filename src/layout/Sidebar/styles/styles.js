@@ -72,7 +72,9 @@ export default makeStyles((theme) => ({
       "-webkit-box-shadow": "6px 0px 3px -5px #d7d7d7 inset",
       "-moz-box-shadow": "6px 0px 3px -5px #d7d7d7  inset",
       borderLeft: "3px solid #dadada",
-      background: "#9b9595",
+      backgroundColor: "#9b9595",
+      background: "linear-gradient(to right, rgba(255,255,255,0) 50%,rgba(255,255,255,1) 100%)",
+      borderRadius: "0 5px 5px 0",
       borderImage:
         "linear-gradient(to left top,#a1a1a1 50%, #dadada 100%) 1 100%",
       "border-image-slice": 1,
@@ -89,6 +91,8 @@ export default makeStyles((theme) => ({
   },
   ulListHighLight: {
     backgroundColor: "#e0dede",
+    background: "linear-gradient(to right, rgba(255,255,255,0) 70%,rgba(255,255,255,1) 100%)",
+    borderRadius: "0 5px 5px 0",
   },
   listText: {
     fontSize: "14px",

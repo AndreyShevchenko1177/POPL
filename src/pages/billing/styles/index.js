@@ -22,9 +22,7 @@ export default makeStyles((theme) => ({
   cardsContainer: {
     display: "flex",
     justifyContent: "center",
-    width: "100%",
-    maxWidth: 1000,
-    minWidth: 950,
+    width: 1200,
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,

@@ -31,6 +31,7 @@ import AddProfile from "./pages/addProfile";
 import Templates from "./pages/templates";
 import AddTemplate from "./pages/addTemplate";
 import MyTemplates from "./pages/myTemplates";
+import ExportToCrm from "./pages/exportToCrm";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 import { getProfileInfoRequest } from "./store/actions";
@@ -153,6 +154,9 @@ function App(props) {
         </PrivateRoute>
         <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
           <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute path="/connections/export-to-crm" exact isLoggedIn={profileData?.id}>
+          <ExportToCrm />
         </PrivateRoute>
         <Route path="*">
           <div>Not found</div>

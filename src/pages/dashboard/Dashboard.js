@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Paper, Typography, Button, Tooltip,
 } from "@material-ui/core";
+import clsx from "clsx";
 import ConnectionCard from "./components/ConnectionCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
@@ -52,7 +53,7 @@ export default function Dashboard() {
   }, [popsData]);
 
   return (
-    <div className="main-padding">
+    <div className={clsx("main-padding", classes.root)}>
       <div className={classes.headingWrapper}>
         <Typography variant="h3">Welcome {userData.name}</Typography>
         <div className={classes.buttonWrapper}>

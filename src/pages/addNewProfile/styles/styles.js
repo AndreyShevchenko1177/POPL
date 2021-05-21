@@ -5,6 +5,6 @@ export default makeStyles((theme) => ({
     padding: "24px 40px",
   },
   pageWrapper: {
-    paddingTop: "80px",
+    paddingTop: "70px",
   },
 }));

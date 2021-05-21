@@ -241,13 +241,13 @@ function Connections() {
                         <Paper
                           elevation={checkboxes[connection.customId] ? 20 : 0}
                           tabIndex={1}
-                          className={clsx(classes.connectContainer, !checkboxes[connection.customId] && classes.connectContainerShadow)}
+                          className={clsx(classes.connectContainer, !checkboxes[connection.customId] && classes.connectContainerShadow, (connection.noPopl || "noPopl" in connection) && classes.viaconnectBackground)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           // elevation={3}
                         >
-                          {connection.noPopl || "noPopl" in connection
+                          {"noPopl" in connection
                             ? <NotConnectedCard
                               key={connection.customId}
                               isChecked={checkboxes[connection.customId]}

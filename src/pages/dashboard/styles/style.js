@@ -1,15 +1,20 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
+  root: {
+    paddingTop: "15px !important",
+  },
   container: {
     display: "flex",
-    position: "relative",
+    width: "100%",
     alignItems: "center",
     overflowY: "auto",
     minHeight: 260,
   },
   latestConnectionsWrapper: {
     position: "absolute",
+    width: "calc(100% - 40px)",
+    overflow: "hidden",
     bottom: 17,
     "@media (max-height:800px)": {
       position: "static",
