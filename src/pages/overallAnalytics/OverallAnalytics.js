@@ -322,30 +322,33 @@ function OverallAnalytics() {
         firstChildRedirectPath={location.state?.id ? "/profiles" : "/popls"}
         path="/analytics"
       />
-      <div className={classes.overallAnalyticsContainer}>
-        <NetworkActivity
-          data={chartData?.lineData}
-          dataType={chartData?.dataType}
+      <div className={classes.contentRoot}>
+        <div className={classes.overallAnalyticsContainer}>
+          <NetworkActivity
+            data={chartData?.lineData}
+            dataType={chartData?.dataType}
+            calendar={calendar}
+            setCalendar={setCalendar}
+            setDate={setDate}
+            views={viewsKpis}
+            poplLevel={!!location.state?.poplName}
+            profileLevelId={location.state?.id}
+            options={options}
+            selectOption={selectOption}
+            profilesData={profilesData}
+            handleShowAllStat={handleShowAllStat}
+          />
+        </div>
+        <BottomWidgets
+          userId={userId}
           calendar={calendar}
-          setCalendar={setCalendar}
-          setDate={setDate}
-          views={viewsKpis}
-          poplLevel={!!location.state?.poplName}
-          profileLevelId={location.state?.id}
-          options={options}
-          selectOption={selectOption}
+          dohnutPopsData={chartData?.dohnutPopsData}
+          dohnutDirectData={chartData?.dohnutDirectData}
+          dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
           profilesData={profilesData}
-          handleShowAllStat={handleShowAllStat}
         />
       </div>
-      <BottomWidgets
-        userId={userId}
-        calendar={calendar}
-        dohnutPopsData={chartData?.dohnutPopsData}
-        dohnutDirectData={chartData?.dohnutDirectData}
-        dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
-        profilesData={profilesData}
-      />
+
     </>
   );
 }

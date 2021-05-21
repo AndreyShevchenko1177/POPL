@@ -43,7 +43,7 @@ function Header({
   const firstChildRedirect = () => history.push(firstChildRedirectPath);
 
   return (
-    <Paper className={classes.root}>
+    <Paper elevation={0} className={classes.root}>
       <Typography
         onClick={handleRedirect}
         className={lastChild && classes.rootLink}

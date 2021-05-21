@@ -250,7 +250,6 @@ export default function Profiles() {
       <Header
         rootLink="Profiles"
       />
-      <div style={{ width: "100%", height: 70 }}></div>
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}

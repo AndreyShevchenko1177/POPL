@@ -205,7 +205,7 @@ function SearchStripe({
           Export to CRM
         </Button>
       </div>}
-      <Paper component="form" className={classes.root} elevation={3}>
+      <Paper component="form" className={classes.root} elevation={0}>
         <InputBase
           fullWidth
           onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}

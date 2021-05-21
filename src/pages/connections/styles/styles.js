@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   connectionsPageContainer: {
-    paddingTop: "100px",
     overflow: "auto",
     height: "100vh",
     outline: "none",
@@ -55,5 +54,8 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-end",
     paddingBottom: 20,
     outline: "none",
+  },
+  viaconnectBackground: {
+    backgroundColor: "#f3f5f3",
   },
 }));
