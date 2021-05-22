@@ -114,7 +114,6 @@ function NetworkActivity({
 
   useEffect(() => {
     if (data) {
-      const result = {};
       const labels = [];
       let newData = Object.keys(data).map((el) => data[el]);
       newData = [...newData.splice(3, 1), ...newData];
@@ -123,7 +122,6 @@ function NetworkActivity({
           values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
           return;
         }
-        // result[key] = Object.values(data[key]);
         chartOptions.data.datasets[i].data = [...Object.values(values)];
         chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
       });
@@ -135,7 +133,7 @@ function NetworkActivity({
           legendCallback: (chart) => renderLegend(chart),
           scales: {
             ...chartOptions.scales,
-            xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: result.length === 1 }],
+            xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: chartOptions.data.datasets[0].data.length === 2 }],
             yAxes: [{
               afterTickToLabelConversion(q) {
                 for (let tick in q.ticks) {
