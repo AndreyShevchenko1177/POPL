@@ -1,7 +1,7 @@
 import React, {
   useRef, useState, useEffect,
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Chip } from "@material-ui/core";
 import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import CreateIcon from "@material-ui/icons/Create";
@@ -11,6 +11,7 @@ import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Preview from "./components/Preview";
 import SvgMaker from "../../../../components/svgMaker";
+import { restrictEdit } from "../../../../utils";
 
 const DropZone = ({
   quantity, multiple, setFieldsState, image,
@@ -31,6 +32,7 @@ const DropZone = ({
     duplicated: false,
   });
   const [companyImage, setCompanyImage] = useState("");
+  const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   const handleDeleteFile = (key) => {
     const result = { ...files };
@@ -69,6 +71,14 @@ const DropZone = ({
   };
 
   const openFileDialog = () => {
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     fileInputRef.current?.click();
   };
 

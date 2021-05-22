@@ -31,8 +31,6 @@ export default function SocialPoplsIcons({
         title, value, id, clicks, icon, hash,
       }, key) => (
         <div key={key} className={classes.linkClicksWrapper}>
-          {console.log(icon)}
-
           {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
             <EditIcon style={{ width: 15, height: 15 }}/>
           </div>}

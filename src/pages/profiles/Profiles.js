@@ -18,6 +18,7 @@ import CustomWizard from "../../components/wizard";
 import EditLinkModal from "./components/editLink";
 import { snackBarAction, handleMainPageScrollAction } from "../../store/actions";
 import { isSafari } from "../../constants";
+import { restrictEdit } from "../../utils";
 
 const parentContainerStyle = {
   display: "flex",
@@ -116,6 +117,15 @@ export default function Profiles() {
   };
 
   const arrowHandler = (value, name) => {
+    console.log(userData.id, name);
+    if (name === "action" && restrictEdit(userData.id)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     if (openProfileSelect[name].component === "select" && isSafari) {
       return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
     }

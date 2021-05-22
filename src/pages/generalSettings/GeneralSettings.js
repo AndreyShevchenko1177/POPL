@@ -9,6 +9,8 @@ import Loader from "../../components/Loader";
 import UpladImage from "./components/uploadImage";
 import useStyles from "./styles";
 import ConfirmModal from "../../components/ConfirmModal";
+import { restrictEdit } from "../../utils";
+import { snackBarAction } from "../../store/actions";
 
 function GeneralSettings() {
   const classes = useStyles();
@@ -20,11 +22,20 @@ function GeneralSettings() {
   });
   const dispatch = useDispatch();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const { isFetching } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
   const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
 
   const handleChangeField = (event) => {
     event.persist();
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     const { name, value } = event.target;
     setFieldsState({ ...fieldsState, [name]: value });
   };
