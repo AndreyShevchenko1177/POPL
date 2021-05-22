@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   Checkbox, Button, TextField, Chip,
@@ -11,9 +11,10 @@ import userIcon from "../../../../assets/images/poplIcon.png";
 import DragDots from "../../../../components/dragDots";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { updatePopl } from "../../store/actions";
-import { dateFormat } from "../../../../utils";
+import { dateFormat, restrictEdit } from "../../../../utils";
 import Loader from "../../../../components/Loader";
 import { cleanAction } from "../../../overallAnalytics/store/actions";
+import { snackBarAction } from "../../../../store/actions";
 
 function PoplCard({
   popl, poplsCheck, customId, checkboxes, editMode, setEditMode, id, memberId, isFetching = {},
@@ -26,6 +27,7 @@ function PoplCard({
     nickname: popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, ""),
     photo: popl.photo,
   });
+  const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   const changeIconSize = (event, size) => {
     event.currentTarget.style.transform = `scale(${size})`;
@@ -33,6 +35,14 @@ function PoplCard({
   };
 
   const changeMode = () => {
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     setEditMode({ ...editMode, [customId]: !editMode[customId] });
   };
 

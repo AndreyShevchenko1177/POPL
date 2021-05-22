@@ -18,10 +18,9 @@ export default makeStyles((theme) => ({
     zIndex: 1,
   },
   wizardContainer: {
-    position: "absolute",
-    top: "calc(50% - 35px)",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: "fixed",
+    top: "calc(50% - 280px)",
+    left: "calc(50% - 100px)",
     padding: "15px",
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,

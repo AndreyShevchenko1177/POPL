@@ -24,7 +24,8 @@ import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
-import { defineDarkColor } from "../../../../utils";
+import { defineDarkColor, restrictEdit } from "../../../../utils";
+import { snackBarAction } from "../../../../store/actions";
 
 export default function Card({
   isDotsRemove,
@@ -61,6 +62,7 @@ export default function Card({
     text: "Personal",
   });
   const [showEditIcon, setShowEditIcon] = useState(false);
+  const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
@@ -108,6 +110,14 @@ export default function Card({
   };
 
   const handleSwitchChanger = (event, name) => {
+    if (parentProfilefId == id && restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     if (name === "dir2") {
       return dispatch(setProfileStatusAction([id], personalMode.direct ? "1" : "2", "single"));
     }
@@ -115,6 +125,14 @@ export default function Card({
   };
 
   const editIconHandler = () => {
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     setProfileType((pt) => ({ ...pt, [id]: activeProfile }));
     setShowEditIcon(!showEditIcon);
   };
@@ -214,8 +232,6 @@ export default function Card({
     setValues({ ...values, image });
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image]);
-
-  console.log(currentEditedProfile);
 
   return (
     <>

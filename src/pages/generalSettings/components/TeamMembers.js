@@ -8,15 +8,19 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import userIcon from "../../../assets/svg/user.svg";
 import useStyles from "./styles";
 import Loader from "../../../components/Loader";
+import { restrictEdit } from "../../../utils";
+import { snackBarAction } from "../../../store/actions";
 
 function TeamMembers({ showConfirmModal }) {
   const [isShow, setIsShow] = useState(false);
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [profilesList, setProfilesList] = useState([]);
   const classes = useStyles();
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const isFetchingProfiles = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   useEffect(() => {
     if (profiles) setProfilesList([...profiles]);
@@ -30,6 +34,14 @@ function TeamMembers({ showConfirmModal }) {
   };
 
   const deleteProfile = (id) => {
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     showConfirmModal(id);
   };
 

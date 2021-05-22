@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     overflowY: "auto",
     minHeight: 260,
+    position: "relative",
   },
   latestConnectionsWrapper: {
     position: "absolute",
