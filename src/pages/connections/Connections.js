@@ -162,9 +162,12 @@ function Connections() {
       allConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
       return result;
     });
+    console.log(allConnections.filter((item) => "noPopl" in item));
     setConnections(allConnections.slice(0, 19));
     setSortConnections(allConnections);
   }, [allConnections, location.state?.id]);
+
+  console.log(dragableConnections.filter((item) => "noPopl" in item));
 
   useEffect(() => {
     if (!needHeight.offset) return;
