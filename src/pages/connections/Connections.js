@@ -167,7 +167,7 @@ function Connections() {
     setSortConnections(allConnections);
   }, [allConnections, location.state?.id]);
 
-  console.log(dragableConnections.filter((item) => "noPopl" in item));
+  console.log(dragableConnections?.filter((item) => "noPopl" in item));
 
   useEffect(() => {
     if (!needHeight.offset) return;
