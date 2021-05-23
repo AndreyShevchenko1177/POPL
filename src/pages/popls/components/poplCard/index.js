@@ -123,7 +123,18 @@ function PoplCard({
             <div className={classes.tableCell}>Nickname:</div>
             {!editMode[customId]
               ? <div
-                onDoubleClick={() => setEditMode({ ...editMode, [customId]: !editMode[customId] })}
+                onDoubleClick={() => {
+                  if (restrictEdit(parentProfilefId)) {
+                    return dispatch(snackBarAction({
+                      message: "Can not edit demo account",
+                      severity: "error",
+                      duration: 6000,
+                      open: true,
+                    }));
+                  }
+                  setEditMode({ ...editMode, [customId]: !editMode[customId] });
+                }
+                }
                 className={classes.tableCell}
               >
                 {popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, "")}

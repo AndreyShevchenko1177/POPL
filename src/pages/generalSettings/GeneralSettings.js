@@ -40,7 +40,17 @@ function GeneralSettings() {
     setFieldsState({ ...fieldsState, [name]: value });
   };
 
-  const handleSave = () => dispatch(updateUserProfile(fieldsState));
+  const handleSave = () => {
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
+    dispatch(updateUserProfile(fieldsState));
+  };
 
   const onConfirmModal = (id) => {
     setConfirmModal({ open: !conFirmModal.open, data: id });
