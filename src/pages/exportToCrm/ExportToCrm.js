@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Papa from "papaparse";
 import useStyle from "./styles/styles";
 import ChoiceCard from "./components/ExportToCrmCard";
 import Header from "../../components/Header";
@@ -66,22 +67,25 @@ function ChoicePage() {
       Object.keys(item).forEach((el) => (permittedNames.includes(el) ? newItem[el] = item[el] : null));
       return newItem;
     });
-    const keys = permittedNames;
+    const data = [];
     let values = [];
-    let stringValue = "";
     new Promise((res) => {
       arr.forEach((el, index) => {
         const elem = getNotFoundProperty(el);
         Object.keys(elem).forEach((value) => {
           values.push({ value: String(elem[value]).replace(";", ""), sortNumber: phantomNamesObject[value] });
         });
-        stringValue += `${values.sort((a, b) => a.sortNumber - b.sortNumber).map(({ value }) => value).join(";")}\r\n`;
 
+        data.push(values.sort((a, b) => a.sortNumber - b.sortNumber).map(({ value }) => value));
         values = [];
       });
-      return res(stringValue);
+      let csv = Papa.unparse({
+        fields: permittedNames,
+        data,
+      });
+      return res(csv);
     }).then((result) => {
-      const svData = new Blob([`${keys.join(";")}\r\n${result}`], { type: "text/csv" });
+      const svData = new Blob([result], { type: "text/csv" });
       let csvUrl = URL.createObjectURL(svData);
       let link = document.createElement("a");
       link.download = "my_data.csv";
