@@ -196,7 +196,6 @@ function NetworkActivity({
         });
       }
     }
-    console.log(viewResult, linkTapsResult);
     if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
   }, [linkTaps, views, calendar.dateRange, location]);
 

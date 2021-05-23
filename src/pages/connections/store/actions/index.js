@@ -46,17 +46,19 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     }
 
     let allConnections = await getCollectionData("people", idsArray);
+    // console.log(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []).filter((item) => "noPopl" in item));
+
     // removing duplicated connections from array
     const filteredConnections = uniqueObjectsInArray(allConnections
       .reduce((acc, item) => ([...acc, ...item.data]), []) // in allConnections we have array with profile id's. in each profile id placed array of connections related to this certain profile and we gathering it in one array
       .sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time))), // sorting by date. we have to set target date(in our case most recent) in the end of array not to delete it by removing duplicates
-    (item) => item.id);
+    (item) => item.id || item.email);
     const idsObject = {}; // object with connections by profile id's without duplicated connections
 
     allConnections.forEach(({ data, docId }) => idsObject[docId] = uniqueObjectsInArray(data
       .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) }))
       .sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time))), // sorting by date. we have to set target date(in our case most recent) in the end of array not to delete it by removing duplicates
-    (item) => item.id)); // removing duplicated connections for each certain profile connections array
+    (item) => item.id || item.email)); // removing duplicated connections for each certain profile connections array
 
     // adding object with connected with names in each connection. one connection could be in different profiles and we need to find relations between all connections and all profiles
     filteredConnections.forEach((con) => {
@@ -89,10 +91,19 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
         con.names = names;
       });
     });
+
+    // console.log(filteredConnections.filter((item, i) => {
+    //   if ("noPopl" in item) console.log(i);
+    //   return "noPopl" in item;
+    // }));
     dispatch({
       type: GET_CONNECTIONS_SUCCESS,
       payload: {
-        connectionsObject: idsObject, allConnections: isSingle ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))) : filteredConnections, connections: filteredConnections,
+        connectionsObject: idsObject,
+        allConnections: isSingle
+          ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time)))
+          : filteredConnections,
+        connections: filteredConnections,
       },
     });
   } catch (error) {
