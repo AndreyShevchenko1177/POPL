@@ -148,7 +148,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     justifyContent: "space-between",
     width: "100%",
-    minWidth: "700px",
+    // minWidth: "700px",
     height: "85px",
     padding: "0 30px 0 79px",
   },
@@ -180,13 +180,49 @@ export default makeStyles((theme) => ({
     fontSize: 18,
   },
   section4: {
-    maxWidth: "400px",
+    maxWidth: 550,
     overflow: "auto",
     paddingLeft: 7,
     position: "relative",
     display: "flex",
     paddingRight: "10px",
     alignItems: "center",
+    "@media (max-width:1450px)": {
+      maxWidth: 400,
+    },
+    "@media (max-width:1250px)": {
+      maxWidth: 295,
+    },
+  },
+  addLinkIcon: {
+    position: "absolute !important",
+    left: "650px",
+    top: 10,
+    cursor: "pointer",
+    "@media (max-width:1450px)": {
+      left: 490,
+    },
+    "@media (max-width:1250px)": {
+      left: 390,
+    },
+  },
+  linksBackBtn: {
+    position: "absolute !important",
+    top: 22,
+    left: 35,
+    cursor: "pointer",
+  },
+  linksNextBtn: {
+    position: "absolute !important",
+    top: 22,
+    left: 700,
+    cursor: "pointer",
+    "@media (max-width:1450px)": {
+      left: 535,
+    },
+    "@media (max-width:1250px)": {
+      left: 430,
+    },
   },
   section4_sub_wrapper: {
     display: "flex",

@@ -152,6 +152,8 @@ export default function Card({
     event.currentTarget.style.transition = "transform 0.25s";
   };
 
+  console.log(showLinksBtn);
+
   const next = () => {
     linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft + 400;
 
@@ -187,12 +189,13 @@ export default function Card({
   };
 
   useEffect(() => {
-    if (viewPortWidth < 1600) {
-      if (links.links.length <= 8 && (links.localLinks.length - links.count) < 8) {
-        return setShowLinksBtn({ ...showLinksBtn, next: false });
-      }
-      return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+    // for initial next button displaying depends on screen width
+    const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
+    console.log(appropriateLinksCount);
+    if (links.links.length <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
+      return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
+    return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
     // if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
     //   return setShowLinksBtn({ ...showLinksBtn, next: false });
     // }
@@ -443,9 +446,7 @@ export default function Card({
                 handleOnDragEnd={handleOnDragEnd}
               />
             </div>
-            {showEditIcon && <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper} style={{
-              position: "absolute", left: "500px", top: 10, cursor: "pointer",
-            }}>
+            {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
               <div className={classes.iconItem}>
                 <img
                   alt='add-icon'
@@ -455,14 +456,10 @@ export default function Card({
               </div>
               <span>Add link</span>
             </div>}
-            {showLinksBtn.back && <div onClick={back} style={{
-              position: "absolute", left: "35px", top: 20, cursor: "pointer",
-            }} className={classes.linkClicksWrapper}>
+            {showLinksBtn.back && <div onClick={back} className={clsx(classes.linkClicksWrapper, classes.linksBackBtn)}>
               <ArrowBackIosIcon/>
             </div>}
-            {showLinksBtn.next && <div onClick={next} style={{
-              position: "absolute", left: "575px", top: 20, cursor: "pointer",
-            }} className={classes.linkClicksWrapper}>
+            {showLinksBtn.next && <div onClick={next} className={clsx(classes.linkClicksWrapper, classes.linksNextBtn)}>
               <ArrowForwardIosIcon/>
             </div>}
             <div className={clsx(classes.section6)}>
