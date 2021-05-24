@@ -3,13 +3,16 @@ import clsx from "clsx";
 import {
   Checkbox, makeStyles, Button,
 } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "./autoComplete";
+import { restrictEdit } from "../utils";
+import { snackBarAction } from "../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   actionContainer: {
     position: "absolute",
-    top: 80,
-    left: 72,
+    top: 56,
+    left: 64,
     minWidth: 150,
     minHeight: 200,
     backgroundColor: "#ffffff",
@@ -17,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
     zIndex: 10,
-    "@media (min-width:1000px)": {
-      left: 87,
-    },
   },
   sortContainer: {
     position: "absolute",
@@ -96,7 +96,8 @@ function CustomSelect({
 }) {
   const classes = useStyles();
   const ref = useRef();
-  const [valueComplete, setValue] = useState("");
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const dispatch = useDispatch();
 
   const onBlurHandler = (event) => {
     if (event.currentTarget.contains(event.relatedTarget)) return;
@@ -133,7 +134,18 @@ function CustomSelect({
               } if (type === "button") {
                 return (
                   <div key={id} className={clsx(classes.itemContainer, { [classes.activeItemContainer]: active })}>
-                    <Button className={classes[`${selectName}Btn`]} name={name} color="primary" onClick={() => events.btnHandler(name, checkProfiles, selectName)}>
+                    <Button className={classes[`${selectName}Btn`]} name={name} color="primary" onClick={() => {
+                      // temporary for restricted edit mode
+                      if (id !== 7 && restrictEdit(userData.id)) {
+                        return dispatch(snackBarAction({
+                          message: "Can not edit demo account",
+                          severity: "error",
+                          duration: 6000,
+                          open: true,
+                        }));
+                      }
+                      events.btnHandler(name, checkProfiles, selectName);
+                    }}>
                       {label}
                     </Button>
                   </div>

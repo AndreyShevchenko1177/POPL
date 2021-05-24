@@ -1,6 +1,7 @@
 /* eslint-disable no-continue */
 import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
+import { restrictEdit } from "../../../../utils";
 import {
   ADD_CHILD_PROFILE_SUCCESS,
   ADD_CHILD_PROFILE_FAIL,
@@ -15,8 +16,17 @@ import {
   CLEAR_STATE,
 } from "../actionTypes";
 
-export const addChildProfileAction = (userId, childId) => async (dispatch) => {
+export const addChildProfileAction = (userId, childId) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "addChild");
     bodyFormData.append("iID", userId);
@@ -45,8 +55,17 @@ export const addChildProfileAction = (userId, childId) => async (dispatch) => {
   }
 };
 
-export const signInChildAction = (credo) => async (dispatch) => {
+export const signInChildAction = (credo) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     const bodyFormData = new FormData();
     bodyFormData.append("sEmail", credo.email);
     bodyFormData.append("sPassword", credo.password);
@@ -58,7 +77,7 @@ export const signInChildAction = (credo) => async (dispatch) => {
         snackBarAction({
           message: "Sign in fail",
           severity: "error",
-          duration: 6000,
+          duration: 12000,
           open: true,
         }),
       );
@@ -112,6 +131,15 @@ const getIdFromEmail = async (email) => {
 
 export const inviteByEmailAction = (emails, userData, clear) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     dispatch(isFetchingAction(true));
     clear();
     const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);

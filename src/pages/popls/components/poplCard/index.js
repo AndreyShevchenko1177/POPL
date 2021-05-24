@@ -35,6 +35,10 @@ function PoplCard({
   };
 
   const changeMode = () => {
+    setEditMode({ ...editMode, [customId]: !editMode[customId] });
+  };
+
+  const changeTextValue = (event) => {
     if (restrictEdit(parentProfilefId)) {
       return dispatch(snackBarAction({
         message: "Can not edit demo account",
@@ -43,10 +47,6 @@ function PoplCard({
         open: true,
       }));
     }
-    setEditMode({ ...editMode, [customId]: !editMode[customId] });
-  };
-
-  const changeTextValue = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
@@ -64,6 +64,14 @@ function PoplCard({
 
   const onPhotoAdded = (event) => {
     event.persist();
+    if (restrictEdit(parentProfilefId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     return dispatch(updatePopl(memberId, id, event.target.files[0], values.nickname, "photo"));
   };
 
@@ -124,14 +132,6 @@ function PoplCard({
             {!editMode[customId]
               ? <div
                 onDoubleClick={() => {
-                  if (restrictEdit(parentProfilefId)) {
-                    return dispatch(snackBarAction({
-                      message: "Can not edit demo account",
-                      severity: "error",
-                      duration: 6000,
-                      open: true,
-                    }));
-                  }
                   setEditMode({ ...editMode, [customId]: !editMode[customId] });
                 }
                 }

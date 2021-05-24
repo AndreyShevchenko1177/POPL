@@ -3,12 +3,23 @@ import {
   ADD_NEW_PROFILE_BY_EMAIL, ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING,
 } from "../actionsType";
 import { clearStateAction } from "../../../profiles/store/actions";
-import { getProfileInfoRequest } from "../../../../store/actions";
+import { getProfileInfoRequest, snackBarAction } from "../../../../store/actions";
+import { restrictEdit } from "../../../../utils";
 
 export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     const errors = [];
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
+
     dispatch(fetchData(true));
     const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email, userId)));
     result.filter(({ data }) => typeof data === "string" || !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
@@ -38,9 +49,17 @@ export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dis
 
 export const addNewProfileWithRandomEmailAction = (emailCount, resultCallBack) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     const result = [];
     const errors = [];
-    const userId = getState().authReducer.signIn.data.id;
     dispatch(fetchData(true));
     for (const count of new Array(emailCount).fill()) {
       result.push(await requests.addNewProfileWithRandomEmailRequest(userId));

@@ -88,9 +88,17 @@ export default function Card({
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
   const viewPortWidth = window.innerWidth;
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
 
   const handleValuesChange = (event) => {
-    event.persist();
+    if (restrictEdit(userData.id)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -125,14 +133,6 @@ export default function Card({
   };
 
   const editIconHandler = () => {
-    if (restrictEdit(parentProfilefId)) {
-      return dispatch(snackBarAction({
-        message: "Can not edit demo account",
-        severity: "error",
-        duration: 6000,
-        open: true,
-      }));
-    }
     setProfileType((pt) => ({ ...pt, [id]: activeProfile }));
     setShowEditIcon(!showEditIcon);
   };
@@ -313,7 +313,14 @@ export default function Card({
                 type='file'
                 multiple={false}
                 onChange={(event) => {
-                  event.persist();
+                  if (restrictEdit(parentProfilefId)) {
+                    return dispatch(snackBarAction({
+                      message: "Can not edit demo account",
+                      severity: "error",
+                      duration: 6000,
+                      open: true,
+                    }));
+                  }
                   setCurrentEditedProfile(id);
                   return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0], setCurrentEditedProfile));
                 }}
