@@ -46,7 +46,6 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     }
 
     let allConnections = await getCollectionData("people", idsArray);
-    // console.log(allConnections.reduce((acc, item) => ([...acc, ...item.data]), []).filter((item) => "noPopl" in item));
 
     // removing duplicated connections from array
     const filteredConnections = uniqueObjectsInArray(allConnections

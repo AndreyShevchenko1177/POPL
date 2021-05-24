@@ -29,8 +29,8 @@ function Connections() {
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
-  // const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  const connectionsObject = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connectionsObject);
   const [dragableConnections, setConnections] = useState(null);
   const [needHeight, setNeedHeight] = useState({
     height: 0,
@@ -145,7 +145,9 @@ function Connections() {
   useEffect(() => {
     if (!allConnections) return;
     if (location.state?.id) {
-      const filteredConnections = allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase()));
+      // !!!!!
+      // const filteredConnections = allConnections.filter((item) => Object.values(item.names).map((el) => el.name.toLowerCase()).includes(location.state.name.toLowerCase()));
+      const filteredConnections = connectionsObject[location.state.id];
       // setting initial checkboxes state for rendered connections
       setCheckBoxes(() => {
         const result = {};
