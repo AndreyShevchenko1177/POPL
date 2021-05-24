@@ -149,6 +149,7 @@ export default makeStyles((theme) => ({
     justifyContent: "space-between",
     width: "100%",
     // minWidth: "700px",
+    alignItems: "center",
     height: "85px",
     padding: "0 30px 0 79px",
   },
@@ -196,15 +197,9 @@ export default makeStyles((theme) => ({
   },
   addLinkIcon: {
     position: "absolute !important",
-    left: "650px",
-    top: 10,
+    right: "-68px",
+    top: 1,
     cursor: "pointer",
-    "@media (max-width:1450px)": {
-      left: 490,
-    },
-    "@media (max-width:1250px)": {
-      left: 390,
-    },
   },
   linksBackBtn: {
     position: "absolute !important",
@@ -214,15 +209,8 @@ export default makeStyles((theme) => ({
   },
   linksNextBtn: {
     position: "absolute !important",
-    top: 22,
-    left: 700,
+    top: 10,
     cursor: "pointer",
-    "@media (max-width:1450px)": {
-      left: 535,
-    },
-    "@media (max-width:1250px)": {
-      left: 430,
-    },
   },
   section4_sub_wrapper: {
     display: "flex",

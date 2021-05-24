@@ -428,40 +428,42 @@ export default function Card({
             "mt-25": isSafari,
             "h-55": isSafari,
           }, "target-element")}>
-            <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
-              <SocialPoplsIcons
-                handleClick={handleClickPoplItem}
-                profileId={id}
-                profileName={name}
-                data={links.links}
-                // data={personalMode.direct
-                //   ? business
-                //   : social
-                // }
-                style={classes.linkImage}
-                showEditIcon={showEditIcon}
-                setShowEditIcon={setShowEditIcon}
-                showEditModal={showEditModal}
-                name={name}
-                handleOnDragEnd={handleOnDragEnd}
-              />
-            </div>
-            {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
-              <div className={classes.iconItem}>
-                <img
-                  alt='add-icon'
-                  className={classes.linkImage}
-                  src={addLinkIcon}
+            <div className='relative'>
+              <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
+                <SocialPoplsIcons
+                  handleClick={handleClickPoplItem}
+                  profileId={id}
+                  profileName={name}
+                  data={links.links}
+                  // data={personalMode.direct
+                  //   ? business
+                  //   : social
+                  // }
+                  style={classes.linkImage}
+                  showEditIcon={showEditIcon}
+                  setShowEditIcon={setShowEditIcon}
+                  showEditModal={showEditModal}
+                  name={name}
+                  handleOnDragEnd={handleOnDragEnd}
                 />
               </div>
-              <span>Add link</span>
-            </div>}
-            {showLinksBtn.back && <div onClick={back} className={clsx(classes.linkClicksWrapper, classes.linksBackBtn)}>
-              <ArrowBackIosIcon/>
-            </div>}
-            {showLinksBtn.next && <div onClick={next} className={clsx(classes.linkClicksWrapper, classes.linksNextBtn)}>
-              <ArrowForwardIosIcon/>
-            </div>}
+              {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
+                <div className={classes.iconItem}>
+                  <img
+                    alt='add-icon'
+                    className={classes.linkImage}
+                    src={addLinkIcon}
+                  />
+                </div>
+                <span>Add link</span>
+              </div>}
+              {showLinksBtn.back && <div onClick={back} className={clsx(classes.linkClicksWrapper, classes.linksBackBtn)}>
+                <ArrowBackIosIcon/>
+              </div>}
+              {showLinksBtn.next && <div onClick={next} style={{ right: showEditIcon ? "-115px" : "-60px" }} className={clsx(classes.linkClicksWrapper, classes.linksNextBtn)}>
+                <ArrowForwardIosIcon/>
+              </div>}
+            </div>
             <div className={clsx(classes.section6)}>
               <Button
                 variant="text"
