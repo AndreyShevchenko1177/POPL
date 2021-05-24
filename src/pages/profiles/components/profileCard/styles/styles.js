@@ -150,7 +150,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     // minWidth: "700px",
     alignItems: "center",
-    height: "85px",
+    height: "65px",
     padding: "0 30px 0 79px",
   },
   section2: {
@@ -172,7 +172,7 @@ export default makeStyles((theme) => ({
     // display: "flex",
     minHeight: 58,
     position: "relative",
-    padding: "5px 5px 0px 0px",
+    padding: "0px 5px 0px 0px",
   },
   section3_text: {
     color: "#666666",

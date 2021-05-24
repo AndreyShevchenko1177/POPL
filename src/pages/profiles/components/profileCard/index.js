@@ -152,32 +152,12 @@ export default function Card({
     event.currentTarget.style.transition = "transform 0.25s";
   };
 
-  console.log(showLinksBtn);
-
   const next = () => {
     linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft + 400;
-
-    // if (links.localLinks.length - links.links.length > 0) {
-    //   setShowLinksBtn({ ...showLinksBtn, back: true });
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 10), count: links.count + 10 });
-    //   } else {
-    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 15), count: links.count + 15 });
-    //   }
-    // }
   };
 
   const back = () => {
     linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft - 400;
-
-    // if (links.localLinks.length - links.links.length > 0) {
-    //   setShowLinksBtn({ ...showLinksBtn, back: true });
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 10).reverse(), count: links.count - 10 });
-    //   } else {
-    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 15).reverse(), count: links.count - 15 });
-    //   }
-    // }
   };
 
   const linksScrollHandler = (event) => {
@@ -191,15 +171,10 @@ export default function Card({
   useEffect(() => {
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
-    console.log(appropriateLinksCount);
     if (links.links.length <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
       return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
     return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
-    // if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
-    //   return setShowLinksBtn({ ...showLinksBtn, next: false });
-    // }
-    // return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
   }, [links]);
 
   useEffect(() => {
@@ -209,14 +184,6 @@ export default function Card({
     } else {
       localLinks = social;
     }
-    // if (localLinks.length > 15) {
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ links: [...localLinks].slice(0, 10), localLinks, count: 0 });
-    //   } else {
-    //     setLinks({ links: [...localLinks].slice(0, 15), localLinks, count: 0 });
-    //   }
-    //   return setShowLinksBtn({ back: false, next: true });
-    // }
     setLinks({ links: localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })), localLinks, count: 0 });
   }, [personalMode.direct]);
 
@@ -355,9 +322,6 @@ export default function Card({
                     onBlur={() => {
                       setCurrentEditedProfile(id);
                       dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                      // if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
-                      // setEditState({ ...editState, name: false });
-                      // setValues({ ...values, name });
                     }}
                     onFocus={() => setEditState({ ...editState, name: true })}
                     disabled={!showEditIcon}
@@ -371,17 +335,8 @@ export default function Card({
                     value={values.name}
                     size='small'
                   />}
-                {/* {editState.name && <div className={classes.checkMarkWrapper}>
-                  <DoneIcon
-                    onMouseDown={() => setPreventBlur({ ...preventBlur, name: true })}
-                    className={classes.comfirmCheckmark}
-                    onClick={() => {
-                      setEditState({ ...editState, name: false });
-                      dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                    }}
-                  />
-                </div>} */}
               </div>
+              <span style={{ color: "#909090" }}>{url}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
@@ -395,9 +350,6 @@ export default function Card({
                       onBlur={(event) => {
                         setCurrentEditedProfile(id);
                         dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                        // if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
-                        // setEditState({ ...editState, bio: false });
-                        // setValues({ ...values, bio: personalMode.direct ? bioBusiness : bio });
                       }}
                       multiline
                       rowsMax={2}
@@ -409,17 +361,6 @@ export default function Card({
                       value={values.bio}
                       size='small'
                     />}
-                  {/* {editState.bio && <div className={classes.checkMarkWrapper}>
-                    <DoneIcon
-                      onMouseDown={() => setPreventBlur({ ...preventBlur, bio: true })}
-                      style={{ bottom: "5px" }}
-                      className={classes.comfirmCheckmark}
-                      onClick={() => {
-                        setEditState({ ...editState, bio: false });
-                        dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                      }}
-                    />
-                  </div>} */}
                 </div>
               </div>
             </div>
@@ -435,10 +376,6 @@ export default function Card({
                   profileId={id}
                   profileName={name}
                   data={links.links}
-                  // data={personalMode.direct
-                  //   ? business
-                  //   : social
-                  // }
                   style={classes.linkImage}
                   showEditIcon={showEditIcon}
                   setShowEditIcon={setShowEditIcon}
