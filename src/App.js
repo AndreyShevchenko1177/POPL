@@ -14,6 +14,7 @@ import PoplsItem from "./pages/popls";
 import Connections from "./pages/connections";
 import ClipApp from "./pages/clipApp";
 import SignUp from "./pages/auth/sign-up";
+import ForgotPassword from "./pages/forgotPassword";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
@@ -69,6 +70,11 @@ function App(props) {
         <Route path="/sign-in" exact>
           <Auth>
             <Login />
+          </Auth>
+        </Route>
+        <Route path="/forgot-password" exact>
+          <Auth>
+            <ForgotPassword />
           </Auth>
         </Route>
         <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>

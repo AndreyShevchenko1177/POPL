@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import authReducer from "../../pages/auth/store/reducer";
+import forgotPasswordReducer from "../../pages/forgotPassword/store/reducer";
 import profilesReducer from "../../pages/profiles/store/reducer";
 import systemReducer from "./systemReducer";
 import poplsReducer from "../../pages/popls/store/reducer";
@@ -16,6 +17,7 @@ import { LOGOUT } from "../../pages/auth/store/actionTypes";
 const appReducer = combineReducers({
   form: formReducer,
   authReducer,
+  forgotPasswordReducer,
   profilesReducer,
   systemReducer,
   poplsReducer,
