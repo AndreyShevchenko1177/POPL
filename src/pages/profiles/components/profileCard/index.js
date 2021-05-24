@@ -1,3 +1,4 @@
+/* eslint-disable operator-assignment */
 import React, {
   useEffect, useState, useRef,
 } from "react";
@@ -24,7 +25,7 @@ import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
-import { defineDarkColor, restrictEdit } from "../../../../utils";
+import { defineDarkColor, restrictEdit, getId } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 
 export default function Card({
@@ -87,6 +88,7 @@ export default function Card({
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
+  const linkContainerRef = useRef(null);
   const viewPortWidth = window.innerWidth;
 
   const handleValuesChange = (event) => {
@@ -94,6 +96,14 @@ export default function Card({
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
   };
+
+  function handleOnDragEnd(result, data) {
+    if (!result.destination) return;
+    const items = [...data];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setLinks({ ...links, links: items });
+  }
 
   const settextFieldWidth = (length, bio) => {
     if (length < 10) return bio ? "130px" : "110px";
@@ -143,38 +153,50 @@ export default function Card({
   };
 
   const next = () => {
-    if (links.localLinks.length - links.links.length > 0) {
-      setShowLinksBtn({ ...showLinksBtn, back: true });
-      if (viewPortWidth < 1600) {
-        setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 10), count: links.count + 10 });
-      } else {
-        setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 15), count: links.count + 15 });
-      }
-    }
+    linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft + 400;
+
+    // if (links.localLinks.length - links.links.length > 0) {
+    //   setShowLinksBtn({ ...showLinksBtn, back: true });
+    //   if (viewPortWidth < 1600) {
+    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 10), count: links.count + 10 });
+    //   } else {
+    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 15), count: links.count + 15 });
+    //   }
+    // }
   };
 
   const back = () => {
-    if (links.localLinks.length - links.links.length > 0) {
+    linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft - 400;
+
+    // if (links.localLinks.length - links.links.length > 0) {
+    //   setShowLinksBtn({ ...showLinksBtn, back: true });
+    //   if (viewPortWidth < 1600) {
+    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 10).reverse(), count: links.count - 10 });
+    //   } else {
+    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 15).reverse(), count: links.count - 15 });
+    //   }
+    // }
+  };
+
+  const linksScrollHandler = (event) => {
+    if (event.target.scrollLeft > 0) {
       setShowLinksBtn({ ...showLinksBtn, back: true });
-      if (viewPortWidth < 1600) {
-        setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 10).reverse(), count: links.count - 10 });
-      } else {
-        setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 15).reverse(), count: links.count - 15 });
-      }
+    } else {
+      setShowLinksBtn({ ...showLinksBtn, back: false });
     }
   };
 
   useEffect(() => {
     if (viewPortWidth < 1600) {
-      if (links.links.length <= 10 && (links.localLinks.length - links.count) < 10) {
+      if (links.links.length <= 8 && (links.localLinks.length - links.count) < 8) {
         return setShowLinksBtn({ ...showLinksBtn, next: false });
       }
       return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
     }
-    if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
-      return setShowLinksBtn({ ...showLinksBtn, next: false });
-    }
-    return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+    // if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
+    //   return setShowLinksBtn({ ...showLinksBtn, next: false });
+    // }
+    // return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
   }, [links]);
 
   useEffect(() => {
@@ -184,15 +206,15 @@ export default function Card({
     } else {
       localLinks = social;
     }
-    if (localLinks.length > 15) {
-      if (viewPortWidth < 1600) {
-        setLinks({ links: [...localLinks].slice(0, 10), localLinks, count: 0 });
-      } else {
-        setLinks({ links: [...localLinks].slice(0, 15), localLinks, count: 0 });
-      }
-      return setShowLinksBtn({ back: false, next: true });
-    }
-    setLinks({ links: localLinks, localLinks, count: 0 });
+    // if (localLinks.length > 15) {
+    //   if (viewPortWidth < 1600) {
+    //     setLinks({ links: [...localLinks].slice(0, 10), localLinks, count: 0 });
+    //   } else {
+    //     setLinks({ links: [...localLinks].slice(0, 15), localLinks, count: 0 });
+    //   }
+    //   return setShowLinksBtn({ back: false, next: true });
+    // }
+    setLinks({ links: localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })), localLinks, count: 0 });
   }, [personalMode.direct]);
 
   useEffect(() => {
@@ -403,40 +425,46 @@ export default function Card({
             "mt-25": isSafari,
             "h-55": isSafari,
           }, "target-element")}>
-            <div className={clsx(classes.section4)}>
-              {showLinksBtn.back && <div onClick={back} style={{
-                position: "absolute", left: "-35px", top: 25, cursor: "pointer",
-              }} className={classes.linkClicksWrapper}>
-                <ArrowBackIosIcon/>
-              </div>}
+            <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
               <SocialPoplsIcons
                 handleClick={handleClickPoplItem}
                 profileId={id}
                 profileName={name}
                 data={links.links}
-
+                // data={personalMode.direct
+                //   ? business
+                //   : social
+                // }
                 style={classes.linkImage}
                 showEditIcon={showEditIcon}
                 setShowEditIcon={setShowEditIcon}
                 showEditModal={showEditModal}
                 name={name}
+                handleOnDragEnd={handleOnDragEnd}
               />
-              {showEditIcon && <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper}>
-                <div className={classes.iconItem}>
-                  <img
-                    alt='add-icon'
-                    className={classes.linkImage}
-                    src={addLinkIcon}
-                  />
-                </div>
-                <span>Add link</span>
-              </div>}
-              {showLinksBtn.next && <div onClick={next} style={{
-                position: "absolute", right: "-35px", top: 25, cursor: "pointer",
-              }} className={classes.linkClicksWrapper}>
-                <ArrowForwardIosIcon/>
-              </div>}
             </div>
+            {showEditIcon && <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper} style={{
+              position: "absolute", left: "500px", top: 10, cursor: "pointer",
+            }}>
+              <div className={classes.iconItem}>
+                <img
+                  alt='add-icon'
+                  className={classes.linkImage}
+                  src={addLinkIcon}
+                />
+              </div>
+              <span>Add link</span>
+            </div>}
+            {showLinksBtn.back && <div onClick={back} style={{
+              position: "absolute", left: "35px", top: 20, cursor: "pointer",
+            }} className={classes.linkClicksWrapper}>
+              <ArrowBackIosIcon/>
+            </div>}
+            {showLinksBtn.next && <div onClick={next} style={{
+              position: "absolute", left: "575px", top: 20, cursor: "pointer",
+            }} className={classes.linkClicksWrapper}>
+              <ArrowForwardIosIcon/>
+            </div>}
             <div className={clsx(classes.section6)}>
               <Button
                 variant="text"

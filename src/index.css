@@ -250,3 +250,17 @@ input[type="number"] {
 .overallanalytics-page {
   margin-right: 15px !important;
 }
+
+.linksContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.linksContainer::-webkit-scrollbar-track {
+  background: #cecece;
+  border-radius: 5px;
+}
+
+.linksContainer::-webkit-scrollbar-thumb {
+  background: #747474;
+  border-radius: 5px;
+}

@@ -180,6 +180,9 @@ export default makeStyles((theme) => ({
     fontSize: 18,
   },
   section4: {
+    maxWidth: "400px",
+    overflow: "auto",
+    paddingLeft: 7,
     position: "relative",
     display: "flex",
     paddingRight: "10px",

@@ -1,4 +1,5 @@
 import React from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import EditIcon from "@material-ui/icons/Edit";
 import icons from "./icons";
 import useStyles from "../profileCard/styles/styles";
@@ -6,7 +7,7 @@ import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name,
+  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, handleOnDragEnd,
 }) {
   const classes = useStyles();
 
@@ -24,30 +25,58 @@ export default function SocialPoplsIcons({
     setShowEditIcon(false);
     showEditModal(title, value, id, clicks, currentIcon, name, hash, icon);
   };
-
   return (
     <>
-      {data.map(({
-        title, value, id, clicks, icon, hash,
-      }, key) => (
-        <div key={key} className={classes.linkClicksWrapper}>
-          {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
-            <EditIcon style={{ width: 15, height: 15 }}/>
-          </div>}
-          <div
-            onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
-            className={classes.iconItem}
-          >
-            <img
-              className={style}
-              src={icon
-                ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-                : icons[id]?.icon} alt={title}
-            />
-          </div>
-          {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
-        </div>
-      ))}
+      <DragDropContext onDragEnd={(result) => handleOnDragEnd(result, data)}>
+        <Droppable droppableId="list" direction="horizontal">
+          {(provided) => (
+            <div
+              className="flex"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {data.map(({
+                title, value, id, clicks, icon, hash, customId,
+              }, key) => (
+                <Draggable
+                  key={customId}
+                  draggableId={`${customId}`}
+                  index={key}
+                >
+                  {(provided) => (
+                    <div
+                      draggable="true"
+                      // className={classes.container}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <div key={key} className={classes.linkClicksWrapper}>
+                        {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
+                          <EditIcon style={{ width: 15, height: 15 }}/>
+                        </div>}
+                        <div
+                          onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
+                          className={classes.iconItem}
+                        >
+                          <img
+                            className={style}
+                            src={icon
+                              ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+                              : icons[id]?.icon} alt={title}
+                          />
+                        </div>
+                        {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
+                      </div>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   );
 }
