@@ -252,7 +252,7 @@ input[type="number"] {
 }
 
 .linksContainer::-webkit-scrollbar {
-  height: 8px;
+  height: 0px;
 }
 
 .linksContainer::-webkit-scrollbar-track {

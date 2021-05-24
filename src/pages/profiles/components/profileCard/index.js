@@ -154,28 +154,10 @@ export default function Card({
 
   const next = () => {
     linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft + 400;
-
-    // if (links.localLinks.length - links.links.length > 0) {
-    //   setShowLinksBtn({ ...showLinksBtn, back: true });
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 10), count: links.count + 10 });
-    //   } else {
-    //     setLinks({ ...links, links: [...links.localLinks].slice(links.links.length, links.links.length + 15), count: links.count + 15 });
-    //   }
-    // }
   };
 
   const back = () => {
     linkContainerRef.current.scrollLeft = linkContainerRef.current.scrollLeft - 400;
-
-    // if (links.localLinks.length - links.links.length > 0) {
-    //   setShowLinksBtn({ ...showLinksBtn, back: true });
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 10).reverse(), count: links.count - 10 });
-    //   } else {
-    //     setLinks({ ...links, links: [...links.localLinks].reverse().slice(links.links.length, links.links.length + 15).reverse(), count: links.count - 15 });
-    //   }
-    // }
   };
 
   const linksScrollHandler = (event) => {
@@ -187,16 +169,12 @@ export default function Card({
   };
 
   useEffect(() => {
-    if (viewPortWidth < 1600) {
-      if (links.links.length <= 8 && (links.localLinks.length - links.count) < 8) {
-        return setShowLinksBtn({ ...showLinksBtn, next: false });
-      }
-      return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+    // for initial next button displaying depends on screen width
+    const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
+    if (links.links.length <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
+      return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
-    // if (links.links.length <= 15 && (links.localLinks.length - links.count) < 15) {
-    //   return setShowLinksBtn({ ...showLinksBtn, next: false });
-    // }
-    // return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
+    return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
   }, [links]);
 
   useEffect(() => {
@@ -206,14 +184,6 @@ export default function Card({
     } else {
       localLinks = social;
     }
-    // if (localLinks.length > 15) {
-    //   if (viewPortWidth < 1600) {
-    //     setLinks({ links: [...localLinks].slice(0, 10), localLinks, count: 0 });
-    //   } else {
-    //     setLinks({ links: [...localLinks].slice(0, 15), localLinks, count: 0 });
-    //   }
-    //   return setShowLinksBtn({ back: false, next: true });
-    // }
     setLinks({ links: localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })), localLinks, count: 0 });
   }, [personalMode.direct]);
 
@@ -352,9 +322,6 @@ export default function Card({
                     onBlur={() => {
                       setCurrentEditedProfile(id);
                       dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                      // if (preventBlur.name) return setPreventBlur({ ...preventBlur, name: false });
-                      // setEditState({ ...editState, name: false });
-                      // setValues({ ...values, name });
                     }}
                     onFocus={() => setEditState({ ...editState, name: true })}
                     disabled={!showEditIcon}
@@ -368,17 +335,8 @@ export default function Card({
                     value={values.name}
                     size='small'
                   />}
-                {/* {editState.name && <div className={classes.checkMarkWrapper}>
-                  <DoneIcon
-                    onMouseDown={() => setPreventBlur({ ...preventBlur, name: true })}
-                    className={classes.comfirmCheckmark}
-                    onClick={() => {
-                      setEditState({ ...editState, name: false });
-                      dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                    }}
-                  />
-                </div>} */}
               </div>
+              <span style={{ color: "#909090" }}>{url}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
@@ -392,9 +350,6 @@ export default function Card({
                       onBlur={(event) => {
                         setCurrentEditedProfile(id);
                         dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                        // if (preventBlur.bio) return setPreventBlur({ ...preventBlur, bio: false });
-                        // setEditState({ ...editState, bio: false });
-                        // setValues({ ...values, bio: personalMode.direct ? bioBusiness : bio });
                       }}
                       multiline
                       rowsMax={2}
@@ -406,17 +361,6 @@ export default function Card({
                       value={values.bio}
                       size='small'
                     />}
-                  {/* {editState.bio && <div className={classes.checkMarkWrapper}>
-                    <DoneIcon
-                      onMouseDown={() => setPreventBlur({ ...preventBlur, bio: true })}
-                      style={{ bottom: "5px" }}
-                      className={classes.comfirmCheckmark}
-                      onClick={() => {
-                        setEditState({ ...editState, bio: false });
-                        dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                      }}
-                    />
-                  </div>} */}
                 </div>
               </div>
             </div>
@@ -425,46 +369,38 @@ export default function Card({
             "mt-25": isSafari,
             "h-55": isSafari,
           }, "target-element")}>
-            <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
-              <SocialPoplsIcons
-                handleClick={handleClickPoplItem}
-                profileId={id}
-                profileName={name}
-                data={links.links}
-                // data={personalMode.direct
-                //   ? business
-                //   : social
-                // }
-                style={classes.linkImage}
-                showEditIcon={showEditIcon}
-                setShowEditIcon={setShowEditIcon}
-                showEditModal={showEditModal}
-                name={name}
-                handleOnDragEnd={handleOnDragEnd}
-              />
-            </div>
-            {showEditIcon && <div onClick={showAddLinkWiz} className={classes.linkClicksWrapper} style={{
-              position: "absolute", left: "500px", top: 10, cursor: "pointer",
-            }}>
-              <div className={classes.iconItem}>
-                <img
-                  alt='add-icon'
-                  className={classes.linkImage}
-                  src={addLinkIcon}
+            <div className='relative'>
+              <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
+                <SocialPoplsIcons
+                  handleClick={handleClickPoplItem}
+                  profileId={id}
+                  profileName={name}
+                  data={links.links}
+                  style={classes.linkImage}
+                  showEditIcon={showEditIcon}
+                  setShowEditIcon={setShowEditIcon}
+                  showEditModal={showEditModal}
+                  name={name}
+                  handleOnDragEnd={handleOnDragEnd}
                 />
               </div>
-              <span>Add link</span>
-            </div>}
-            {showLinksBtn.back && <div onClick={back} style={{
-              position: "absolute", left: "35px", top: 20, cursor: "pointer",
-            }} className={classes.linkClicksWrapper}>
-              <ArrowBackIosIcon/>
-            </div>}
-            {showLinksBtn.next && <div onClick={next} style={{
-              position: "absolute", left: "575px", top: 20, cursor: "pointer",
-            }} className={classes.linkClicksWrapper}>
-              <ArrowForwardIosIcon/>
-            </div>}
+              {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
+                <div className={classes.iconItem}>
+                  <img
+                    alt='add-icon'
+                    className={classes.linkImage}
+                    src={addLinkIcon}
+                  />
+                </div>
+                <span>Add link</span>
+              </div>}
+              {showLinksBtn.back && <div onClick={back} className={clsx(classes.linkClicksWrapper, classes.linksBackBtn)}>
+                <ArrowBackIosIcon/>
+              </div>}
+              {showLinksBtn.next && <div onClick={next} style={{ right: showEditIcon ? "-115px" : "-60px" }} className={clsx(classes.linkClicksWrapper, classes.linksNextBtn)}>
+                <ArrowForwardIosIcon/>
+              </div>}
+            </div>
             <div className={clsx(classes.section6)}>
               <Button
                 variant="text"
