@@ -203,8 +203,8 @@ export default makeStyles((theme) => ({
   },
   linksBackBtn: {
     position: "absolute !important",
-    top: 22,
-    left: 35,
+    top: 10,
+    left: "-45px",
     cursor: "pointer",
   },
   linksNextBtn: {
