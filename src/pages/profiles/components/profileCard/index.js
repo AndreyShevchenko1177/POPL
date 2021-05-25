@@ -35,6 +35,7 @@ export default function Card({
   checkboxes,
   customId,
   name,
+  email,
   url,
   image,
   business,
@@ -343,7 +344,7 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              <span style={{ color: "#909090" }}>{url}</span>
+              <span style={{ color: "#909090" }}>{email}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
