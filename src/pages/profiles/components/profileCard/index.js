@@ -35,6 +35,7 @@ export default function Card({
   checkboxes,
   customId,
   name,
+  email,
   url,
   image,
   business,
@@ -68,7 +69,7 @@ export default function Card({
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
-    bio,
+    bio: bio.replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -343,7 +344,7 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              <span style={{ color: "#909090" }}>{url}</span>
+              <span style={{ color: "#909090" }}>{email}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
