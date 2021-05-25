@@ -69,7 +69,7 @@ export default function Card({
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
-    bio,
+    bio: bio.replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
