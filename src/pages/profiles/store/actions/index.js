@@ -4,7 +4,7 @@
 /* eslint-disable no-return-assign */
 import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
-import { getId, removeCommas } from "../../../../utils";
+import { getId, removeCommas, restrictEdit } from "../../../../utils";
 import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
@@ -99,7 +99,18 @@ export const setLocalProfilesOrder = (profiles) => ({
 
 export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
     const storedProfiles = getState().profilesReducer.dataProfiles.data;
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+
     let uploadedFile;
     if (icon && typeof icon !== "string") {
       uploadedFile = getId(12);
@@ -154,6 +165,16 @@ export const setDirectAction = (profileIds, state, isSingle) => async (dispatch)
 
 export const turnProfileAction = (profileIds, state) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     dispatch(isFetchingAction(true, "setProfilesSettings"));
     const result = await Promise.allSettled(profileIds.map((el) => requests.turnProfileRequest(el, state)));
     dispatch({
@@ -197,6 +218,15 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
   try {
     const userId = getState().authReducer.signIn.data.id;
 
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+
     // if file - uploading file
     let uploadedFile;
     if (file && typeof icon !== "string") {
@@ -218,6 +248,16 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
 export const deleteLinkAction = (success, linksArray) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+
     const result = await Promise.all(linksArray.map(({
       linkType, linkHash, profileId, linkId,
     }) => requests.deleteLinkRequest(linkType, linkHash, profileId, linkId)));
@@ -242,6 +282,15 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
 
 export const changeProfileOrder = (child, profiles) => async (dispatch, getState) => {
   const userId = getState().authReducer.signIn.data.id;
+
+  if (restrictEdit(userId)) {
+    return dispatch(snackBarAction({
+      message: "Can not edit demo account",
+      severity: "error",
+      duration: 12000,
+      open: true,
+    }));
+  }
   try {
     const bodyFormData = new FormData();
     bodyFormData.append("sAction", "ReorderChild");
@@ -254,8 +303,17 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
   }
 };
 
-export const setProfileNameAcion = (profileId, profileState, name) => async (dispatch) => {
+export const setProfileNameAcion = (profileId, profileState, name) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     dispatch(isFetchingAction(true, "setProfileName"));
     const result = await requests.setProfileName(profileId, profileState, name);
     dispatch({
@@ -267,8 +325,17 @@ export const setProfileNameAcion = (profileId, profileState, name) => async (dis
   }
 };
 
-export const setProfileBioAcion = (profileId, profileState, bio) => async (dispatch) => {
+export const setProfileBioAcion = (profileId, profileState, bio) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     dispatch(isFetchingAction(true, "setProfileBio"));
     const result = await requests.setProfileBio(profileId, profileState, bio);
     dispatch({
@@ -280,8 +347,17 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
   }
 };
 
-export const setProfileImageAction = (profileId, profileState, photo, clearEditedProfileCallback) => async (dispatch) => {
+export const setProfileImageAction = (profileId, profileState, photo, clearEditedProfileCallback) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     dispatch(isFetchingAction(true, "setProfilePhoto"));
     let uploadedFile;
     let result;

@@ -12,7 +12,6 @@ const initialState = {
 };
 
 const forgotPasswordReducer = (state = initialState, { type, payload }) => {
-  console.log(type);
   switch (type) {
   case SEND_CODE: {
     return {

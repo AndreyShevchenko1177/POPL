@@ -11,7 +11,7 @@ const config = {
   measurementId: "G-38RXN89B96",
 };
 firebase.initializeApp(config);
-firebase.firestore().enablePersistence();
 export const db = firebase.firestore();
+db.enablePersistence({ synchronizeTabs: true });
 
 export default firebase;

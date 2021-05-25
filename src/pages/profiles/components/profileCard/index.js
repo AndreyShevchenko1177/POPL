@@ -41,6 +41,7 @@ export default function Card({
   checkboxes,
   customId,
   name,
+  email,
   url,
   image,
   business,
@@ -75,7 +76,7 @@ export default function Card({
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
-    bio,
+    bio: bio.replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -97,9 +98,17 @@ export default function Card({
   const fileInputRef = useRef(null);
   const linkContainerRef = useRef(null);
   const viewPortWidth = window.innerWidth;
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
 
   const handleValuesChange = (event) => {
-    event.persist();
+    if (restrictEdit(userData.id)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 6000,
+        open: true,
+      }));
+    }
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -143,14 +152,6 @@ export default function Card({
   };
 
   const editIconHandler = () => {
-    if (restrictEdit(parentProfilefId)) {
-      return dispatch(snackBarAction({
-        message: "Can not edit demo account",
-        severity: "error",
-        duration: 6000,
-        open: true,
-      }));
-    }
     setProfileType((pt) => ({ ...pt, [id]: activeProfile }));
     setShowEditIcon(!showEditIcon);
   };
@@ -313,7 +314,14 @@ export default function Card({
                 type='file'
                 multiple={false}
                 onChange={(event) => {
-                  event.persist();
+                  if (restrictEdit(parentProfilefId)) {
+                    return dispatch(snackBarAction({
+                      message: "Can not edit demo account",
+                      severity: "error",
+                      duration: 6000,
+                      open: true,
+                    }));
+                  }
                   setCurrentEditedProfile(id);
                   return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0], setCurrentEditedProfile));
                 }}
@@ -344,7 +352,7 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              <span style={{ color: "#909090" }}>{url}</span>
+              <span style={{ color: "#909090" }}>{email}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id

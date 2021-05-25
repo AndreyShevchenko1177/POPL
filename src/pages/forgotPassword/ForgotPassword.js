@@ -66,7 +66,7 @@ function ForgotPassword() {
                 align="center"
                 style={{ marginBottom: 20 }}
               >
-                <Typography variant="h3">Forgot Password</Typography>
+                <Typography variant="h3">{result ? "Enter confirmation code and new password" : "Forgot Password"}</Typography>
               </Grid>
               {!result ? <Grid
                 item
