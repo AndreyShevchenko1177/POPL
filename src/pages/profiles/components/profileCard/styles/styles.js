@@ -268,16 +268,10 @@ export default makeStyles((theme) => ({
     width: 40,
     height: 40,
     cursor: "pointer",
-    // borderRadius: "20%",
-    // backgroundColor: "rgb(170 170 170 / 50%)",
-    // boxShadow: theme.custom.iconBoxShadow,
-    // "-webkit-box-shadow": theme.custom.iconBoxShadow,
   },
   linkImage: {
     width: 30,
     height: 30,
-    // boxShadow: theme.custom.iconBoxShadow,
-    // "-webkit-box-shadow": theme.custom.iconBoxShadow,
   },
   clicksText: {
     paddingTop: 10,

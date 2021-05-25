@@ -8,9 +8,16 @@ import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
+import icons from "../../../profiles/components/profilelsIcons/icons";
+
+const iconsConfig = {
+  twitter: 5,
+  linkedin: 7,
+  facebook: 6,
+};
 
 export function NotConnectedCard({
-  name, url, image, time, note, number, email, isChecked, setCheckbox, bio, ...rest
+  name, url, image, time, note, number, email, isChecked, setCheckbox, bio, fullContact, ...rest
 }) {
   const classes = useStyles();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -21,6 +28,15 @@ export function NotConnectedCard({
   };
 
   const handleChangeCheckbox = () => setCheckbox((prev) => ({ ...prev, [rest.customId]: !isChecked }));
+
+  const linkRedirect = (path) => {
+    try {
+      console.log(path);
+      return window.open(path);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const popupConfig = [
     {
@@ -50,35 +66,51 @@ export function NotConnectedCard({
             checked={isChecked || false}
             onChange={handleChangeCheckbox}
           />
-          <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
+          <img className={classes.avatar} alt="logo" src={fullContact?.avatar ? fullContact.avatar : userIcon} style={ image ? { objectFit: "cover" } : {}} />
         </div>
         <div className={classes.contenContainer}>
-          <Typography variant="h5">{name}</Typography>
+          <div className={classes.nameIconsContainer}>
+            <Typography variant="h5">{name}</Typography>
+            <div className={classes.iconswrapper}>
+              {
+                Object.keys(iconsConfig).map((key) => {
+                  if (fullContact[key]) {
+                    return (
+                      <img
+                        key={iconsConfig[key]}
+                        onClick={() => linkRedirect(fullContact[key])}
+                        className={classes.linkImage}
+                        src={icons[iconsConfig[key]]?.icon} alt={"title"}
+                      />
+                    );
+                  }
+                  return null;
+                })
+              }
+            </div>
+          </div>
+          <div className='full-w'>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{fullContact?.title}</Typography>
+          </div>
           <div className='full-w'>
             <Tooltip title={bio || ""} placement="top">
               <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio}</Typography>
             </Tooltip>
           </div>
-          <div className={classes.cardTable}>
-            <div className={classes.tableRow}>
-              <div className={classes.tableCell}>Email:</div>
-              <div className={classes.tableCell}>{email}</div>
-            </div>
-            <div className={classes.tableRow}>
-              <div className={classes.tableCell}>Phone:</div>
-              <div className={classes.tableCell}>{number}</div>
-            </div>
-            <div className={classes.tableRow}>
-              <div className={classes.tableCell}>Created:</div>
-              <div className={classes.tableCell}>{dateFormat(time)}</div>
-            </div>
+          <div className='full-w'>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{fullContact?.organization}</Typography>
+          </div>
+          <div className='full-w'>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{dateFormat(time)}</Typography>
           </div>
         </div>
         <div className={classes.notConnectedViaConnectContainer}>
           <Typography variant='h6'>VIA CONNECT</Typography>
           <div className={classes.noteWrapper}>
             <span className={classes.noteTitle}>Note: </span>
-            <span className={classes.noteText}>{note}</span>
+            <Tooltip PopperProps={{ disablePortal: true }} title={note} placement="left-start">
+              <span className={classes.noteText}>{note}</span>
+            </Tooltip>
           </div>
         </div>
       </div>
