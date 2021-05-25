@@ -1,10 +1,10 @@
 /* eslint-disable no-return-assign */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function validation(keys, params, value) {
   const errors = {};
   keys.map((key) => {
-    const notRequiredFields = !params[key].required && value[key];
+    const notRequiredFields = params[key].required || value[key];
     if (notRequiredFields && params[key].minLength > value[key].length) {
       errors[key] = params[key].errors.minLength;
     }
@@ -75,6 +75,14 @@ export function ValidationProvider({ children, config, callCbAlways }) {
     }
     return cb(value, error);
   };
+
+  useEffect(() => {
+    const configKeys = Object.keys(config);
+    const defaultValues = {};
+    configKeys.forEach((key) => (defaultValues[key] = config[key].value));
+    setValue(defaultValues);
+  }, [config]);
+
   return (
     <React.Fragment>
       {children(

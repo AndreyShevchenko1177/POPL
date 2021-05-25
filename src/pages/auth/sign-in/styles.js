@@ -158,6 +158,8 @@ export default makeStyles((theme) => ({
   },
   donHaveAccButton: {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     width: "60%",
     minWidth: 230,

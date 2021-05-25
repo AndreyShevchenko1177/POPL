@@ -173,6 +173,13 @@ function Login(props) {
                     >
                       Don't have a profile? Join here
                     </Typography>
+                    <Typography
+                      variant='subtitle1'
+                      classes={{ subtitle1: classes.haveAccountLink }}
+                      onClick={() => history.push("/forgot-password")}
+                    >
+                     Forgot password?
+                    </Typography>
                     {/* <Button
                       variant="contained"
                       fullWidth

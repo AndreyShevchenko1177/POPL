@@ -148,8 +148,9 @@ export default makeStyles((theme) => ({
     position: "relative",
     justifyContent: "space-between",
     width: "100%",
-    minWidth: "700px",
-    height: "85px",
+    // minWidth: "700px",
+    alignItems: "center",
+    height: "65px",
     padding: "0 30px 0 79px",
   },
   section2: {
@@ -171,7 +172,7 @@ export default makeStyles((theme) => ({
     // display: "flex",
     minHeight: 58,
     position: "relative",
-    padding: "5px 5px 0px 0px",
+    padding: "0px 5px 0px 0px",
   },
   section3_text: {
     color: "#666666",
@@ -180,10 +181,36 @@ export default makeStyles((theme) => ({
     fontSize: 18,
   },
   section4: {
+    maxWidth: 550,
+    overflow: "auto",
+    paddingLeft: 7,
     position: "relative",
     display: "flex",
     paddingRight: "10px",
     alignItems: "center",
+    "@media (max-width:1450px)": {
+      maxWidth: 400,
+    },
+    "@media (max-width:1250px)": {
+      maxWidth: 295,
+    },
+  },
+  addLinkIcon: {
+    position: "absolute !important",
+    right: "-68px",
+    top: 1,
+    cursor: "pointer",
+  },
+  linksBackBtn: {
+    position: "absolute !important",
+    top: 10,
+    left: "-45px",
+    cursor: "pointer",
+  },
+  linksNextBtn: {
+    position: "absolute !important",
+    top: 10,
+    cursor: "pointer",
   },
   section4_sub_wrapper: {
     display: "flex",
