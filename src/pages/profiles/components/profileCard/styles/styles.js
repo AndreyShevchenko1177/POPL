@@ -150,7 +150,6 @@ export default makeStyles((theme) => ({
     width: "100%",
     // minWidth: "700px",
     alignItems: "center",
-    height: "65px",
     padding: "0 30px 0 79px",
   },
   section2: {
@@ -184,6 +183,7 @@ export default makeStyles((theme) => ({
     maxWidth: 550,
     overflow: "auto",
     paddingLeft: 7,
+    height: 75,
     position: "relative",
     display: "flex",
     paddingRight: "10px",
@@ -192,24 +192,24 @@ export default makeStyles((theme) => ({
       maxWidth: 400,
     },
     "@media (max-width:1250px)": {
-      maxWidth: 295,
+      maxWidth: 302,
     },
   },
   addLinkIcon: {
     position: "absolute !important",
     right: "-68px",
-    top: 1,
+    top: 10,
     cursor: "pointer",
   },
   linksBackBtn: {
     position: "absolute !important",
-    top: 10,
+    top: 20,
     left: "-45px",
     cursor: "pointer",
   },
   linksNextBtn: {
     position: "absolute !important",
-    top: 10,
+    top: 20,
     cursor: "pointer",
   },
   section4_sub_wrapper: {
@@ -293,7 +293,7 @@ export default makeStyles((theme) => ({
   section6: {
     display: "flex",
     position: "absolute",
-    bottom: 5,
+    bottom: 10,
     right: 0,
     justifyContent: "flex-end",
     width: "150px",
