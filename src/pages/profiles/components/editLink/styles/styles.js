@@ -126,8 +126,11 @@ export default makeStyles((theme) => ({
     color: "#ff0000",
   },
   btnContainer: {
-    width: "50%",
+    // width: "50%",
     "& div:first-child": {
+      marginBottom: 15,
+    },
+    "& div:nth-child(2)": {
       marginBottom: 15,
     },
   },
