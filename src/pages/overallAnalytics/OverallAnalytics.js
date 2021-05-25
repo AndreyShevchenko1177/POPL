@@ -134,10 +134,9 @@ function OverallAnalytics() {
     setSaveSelected(true);
   };
 
-  console.log("rendere");
-
   const selectOption = (event) => {
     setOption(event.target.value);
+    setCalendar({ ...calendar, visible: false });
     switch (event.target.value) {
     case "all time": {
       const { data, maxDate, minDate } = generateAllData(popsData);
