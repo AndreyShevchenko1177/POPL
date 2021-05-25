@@ -22,6 +22,7 @@ export default makeStyles((theme) => ({
     top: "calc(50% - 280px)",
     left: "calc(50% - 100px)",
     padding: "15px",
+    height: 630,
     backgroundColor: "#ffffff",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
