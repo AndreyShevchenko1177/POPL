@@ -12,6 +12,7 @@ import {
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import BottomWidgets from "./components/widgets";
+import { isSafari } from "../../constants";
 
 function OverallAnalytics() {
   const dispatch = useDispatch();
@@ -140,12 +141,24 @@ function OverallAnalytics() {
     switch (event.target.value) {
     case "all time": {
       const { data, maxDate, minDate } = generateAllData(popsData);
-      let minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
-        maxDate,
-      )}, ${getYear(maxDate)}-`;
-      let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
-        minDate,
-      )}, ${getYear(minDate)}`;
+      let minD;
+      let maxD;
+      if (isSafari) {
+        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+          maxDate,
+        )}, ${getYear(maxDate)}-`;
+        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+          minDate,
+        )}, ${getYear(minDate)}`;
+      } else {
+        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+          maxDate,
+        )}, ${getYear(maxDate)}-`;
+        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+          minDate,
+        )}, ${getYear(minDate)}`;
+      }
+
       setChartData({
         ...chartData,
         lineData: data,
