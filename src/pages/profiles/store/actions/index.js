@@ -387,19 +387,24 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
   }
 };
 
-export const setLinkOrderAction = (linksIds, hashes, profileId, links) => async (dispatch) => {
+export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileState) => async (dispatch, getState) => {
   const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "AjaxUpdateLinksSorting");
+  bodyFormData.append("sAction", "UpdateLinksSortingDashboard");
   bodyFormData.append("aPositions", JSON.stringify(linksIds));
   bodyFormData.append("aHashes", JSON.stringify(hashes));
-  bodyFormData.append("iProfileNum", profileId);
+  bodyFormData.append("sID", profileId);
+  bodyFormData.append("iProfileNum", profileState);
   try {
-    const result = await axios.post("", bodyFormData);
+    const userId = getState().authReducer.signIn.data.id;
+
+    const result = await requests.changeLinksOrderRequest(linksIds, hashes, profileId, profileState);
     console.log(result);
-    dispatch({
-      type: SET_LINK_ORDER,
-      payload: links,
-    });
+    // dispatch({
+    //   type: SET_LINK_ORDER,
+    //   payload: links,
+    // });
+    dispatch(clearStateAction("dataProfiles"));
+    return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     console.log(error);
   }
@@ -407,9 +412,10 @@ export const setLinkOrderAction = (linksIds, hashes, profileId, links) => async 
 
 export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getState) => {
   try {
+    console.log(data);
     const userId = getState().authReducer.signIn.data.id;
-    const result = await Promise.all(Object.keys(data).map((item) => requests.makeLinkFirstOrderRequest(data[item].id, data[item].hashes, item)));
-    console.log(result);
+    // const result = await Promise.all(Object.keys(data).map((item) => requests.changeLinksOrderRequest(data[item].id, data[item].hashes, item, data[item].profileState)));
+    // console.log(result);
     success();
     // dispatch(clearStateAction("dataProfiles"));
     // return dispatch(getProfilesDataAction(userId)); // when request will work correctly

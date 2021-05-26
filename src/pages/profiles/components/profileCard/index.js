@@ -114,12 +114,13 @@ export default function Card({
   };
 
   function handleOnDragEnd(result, data) {
+    console.log(result, data);
     if (!result.destination) return;
     const items = [...data];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setLinks({ ...links, links: items });
-    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items));
+    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
   }
 
   const settextFieldWidth = (length, bio) => {
