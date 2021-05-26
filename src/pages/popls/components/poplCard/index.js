@@ -141,7 +141,7 @@ function PoplCard({
       <div className={classes.contenContainer}>
         <div className={classes.cardTable}>
           <div className={classes.tableRow}>
-            <div className={classes.tableCell}>Profile Owner:</div>
+            <div className={classes.tableCell}>Account Owner:</div>
             <div className={classes.tableCell}>{popl.profileOwner}</div>
           </div>
           <div className={classes.tableRow}>

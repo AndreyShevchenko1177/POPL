@@ -69,7 +69,7 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
     result = await requests.deleteProfileRequest(profileId, userId);
     if (Array.isArray(result.data) || !result.data) {
       dispatch(snackBarAction({
-        message: "Profile was successfully deleted",
+        message: "Account was successfully deleted",
         severity: "success",
         duration: 4000,
         open: true,

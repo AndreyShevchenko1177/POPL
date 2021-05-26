@@ -11,10 +11,10 @@ function AddExistingProfile() {
     <>
       <div>
         <Header
-          rootLink="Profiles"
-          firstChild="Add Profile"
+          rootLink="Accounts"
+          firstChild="Add Account"
           firstChildRedirectPath="/profiles/add-profile"
-          lastChild="Existing Profile"
+          lastChild="Existing Account"
           path="/profiles"
         />
       </div>
