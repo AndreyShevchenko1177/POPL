@@ -74,7 +74,7 @@ export function NotConnectedCard({
             <div className={classes.iconswrapper}>
               {
                 Object.keys(iconsConfig).map((key) => {
-                  if (fullContact[key]) {
+                  if (fullContact && fullContact[key]) {
                     return (
                       <img
                         key={iconsConfig[key]}
@@ -108,7 +108,7 @@ export function NotConnectedCard({
           <Typography variant='h6'>VIA CONNECT</Typography>
           <div className={classes.noteWrapper}>
             <span className={classes.noteTitle}>Note: </span>
-            <Tooltip PopperProps={{ disablePortal: true }} title={note} placement="left-start">
+            <Tooltip PopperProps={{ disablePortal: true }} title={note || ""} placement="left-start">
               <span className={classes.noteText}>{note}</span>
             </Tooltip>
           </div>
