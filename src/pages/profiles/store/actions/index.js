@@ -388,12 +388,6 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
 };
 
 export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileState) => async (dispatch, getState) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "UpdateLinksSortingDashboard");
-  bodyFormData.append("aPositions", JSON.stringify(linksIds));
-  bodyFormData.append("aHashes", JSON.stringify(hashes));
-  bodyFormData.append("sID", profileId);
-  bodyFormData.append("iProfileNum", profileState);
   try {
     const userId = getState().authReducer.signIn.data.id;
 
@@ -403,8 +397,8 @@ export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileSt
     //   type: SET_LINK_ORDER,
     //   payload: links,
     // });
-    dispatch(clearStateAction("dataProfiles"));
-    return dispatch(getProfilesDataAction(userId));
+    // dispatch(clearStateAction("dataProfiles"));
+    // return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     console.log(error);
   }
