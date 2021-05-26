@@ -176,7 +176,7 @@ function PermanentDrawerLeft() {
               />
             </ListItem>
           </Link>
-          <Link to="/profiles">
+          <Link to="/accounts">
             <ListItem
               divider={false}
               className={clsx(classes.ulList, {

@@ -77,25 +77,25 @@ function App(props) {
             <ForgotPassword />
           </Auth>
         </Route>
-        <PrivateRoute path="/profiles" exact isLoggedIn={profileData?.id}>
+        <PrivateRoute path="/accounts" exact isLoggedIn={profileData?.id}>
           <Profiles />
         </PrivateRoute>
         <PrivateRoute
-          path="/profiles/new-profile"
+          path="/accounts/new-account"
           exact
           isLoggedIn={profileData?.id}
         >
           <AddExistingProfile />
         </PrivateRoute>
         <PrivateRoute
-          path="/profiles/add-profile/new"
+          path="/accounts/add-account/new"
           exact
           isLoggedIn={profileData?.id}
         >
           <AddNewProfile />
         </PrivateRoute>
         <PrivateRoute
-          path="/profiles/add-profile"
+          path="/accounts/add-account"
           exact
           isLoggedIn={profileData?.id}
         >

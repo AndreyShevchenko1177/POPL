@@ -25,7 +25,7 @@ export default makeStyles((theme) => ({
   },
   confirmBtnWrapper: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   confirmBtn: {
     width: "40%",

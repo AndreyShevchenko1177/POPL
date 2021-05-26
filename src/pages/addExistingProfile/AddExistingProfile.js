@@ -13,9 +13,9 @@ function AddExistingProfile() {
         <Header
           rootLink="Accounts"
           firstChild="Add Account"
-          firstChildRedirectPath="/profiles/add-profile"
+          firstChildRedirectPath="/accounts/add-account"
           lastChild="Existing Account"
-          path="/profiles"
+          path="/accounts"
         />
       </div>
       <div className={classes.container}>
