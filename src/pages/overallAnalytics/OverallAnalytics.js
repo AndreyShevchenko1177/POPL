@@ -330,7 +330,7 @@ function OverallAnalytics() {
         rootLink="Analytics"
         rootLinkClick={handleShowAllStat}
         lastChild={location.state?.name || location.state?.poplName}
-        firstChild={location.state?.id ? "Profiles" : location.state?.name ? "Popls" : ""}
+        firstChild={location.state?.id ? "Accounts" : location.state?.name ? "Popls" : ""}
         firstChildRedirectPath={location.state?.id ? "/profiles" : "/popls"}
         path="/analytics"
       />

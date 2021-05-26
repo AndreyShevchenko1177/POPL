@@ -29,14 +29,14 @@ export const selectConfig = [
   },
   {
     id: 5,
-    label: "Turn Profile on",
+    label: "Turn Account on",
     name: "turnProfileOn",
     type: "button",
     checked: false,
   },
   {
     id: 6,
-    label: "Turn Profile off",
+    label: "Turn Account off",
     name: "turnProfileOff",
     type: "button",
     checked: false,
