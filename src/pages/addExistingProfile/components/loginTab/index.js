@@ -46,7 +46,7 @@ function LoginTab() {
       dispatch(clearStateAction("addChildProfile"));
       dispatch(clearStateAction("childSignIn"));
       dispatch(clearProfilesState("dataProfiles"));
-      history.push("/profiles");
+      history.push("/accounts");
     }
   }, [addChildProfile]);
 

@@ -58,7 +58,7 @@ export default function Profiles() {
   const [profileType, setProfileType] = useState({}); // person or business;
 
   function handleOpenNewProfilePage() {
-    history.push("/profiles/add-profile");
+    history.push("/accounts/add-account");
   }
 
   function handleOnDragEnd(result) {

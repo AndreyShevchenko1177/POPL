@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, TextField, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import Recipients from "./components/Recipients";
-import TimeOfDelivery from "./components/TimeOfDelivery";
 import useStyles from "./styles";
 
 function Notifications() {
@@ -64,7 +63,7 @@ function Notifications() {
         <div className={classes.fieldWrapper}>
           <Typography>Message <span>*</span></Typography>
           <TextField
-            placeholder='Title (Any/English)'
+            placeholder='Message (Any/English)'
             name="message"
             value={values.message}
             onChange={handleChange}
@@ -79,18 +78,7 @@ function Notifications() {
           <Recipients recipients={values.recipients} setValues={setValues} />
         </div>
         <div className={classes.fieldWrapper}>
-          <TimeOfDelivery />
-        </div>
-        <div className={classes.fieldWrapper}>
           <div className={classes.confirmBtnWrapper}>
-            <Button
-              className={classes.confirmBtn}
-              variant='contained'
-              color="primary"
-              // onClick={}
-            >
-              Preview
-            </Button>
             <Button
               className={classes.confirmBtn}
               variant='contained'

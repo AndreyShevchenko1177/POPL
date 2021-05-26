@@ -11,9 +11,9 @@ function AddNewProfile() {
       <Header
         rootLink="Account"
         firstChild="Add Account"
-        firstChildRedirectPath="/profiles/add-profile"
+        firstChildRedirectPath="/accounts/add-account"
         lastChild="New Account"
-        path="/profiles"
+        path="/accounts"
       />
       <div className={classes.container}>
         <div className={classes.pageWrapper}>
