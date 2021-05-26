@@ -7,7 +7,7 @@ import {
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import EditIcon from "@material-ui/icons/Edit";
 import useStyles from "./styles/styles";
-import poplIcon from "../../../../assets/images/poplIcon.png";
+import poplIcon from "../../../../assets/popls/popl.png";
 import DragDots from "../../../../components/dragDots";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { updatePopl } from "../../store/actions";
