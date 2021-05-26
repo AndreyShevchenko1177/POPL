@@ -254,7 +254,7 @@ export default function Profiles() {
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
-          {editLinkModal.open && <EditLinkModal allLinks={profiles.reduce((s, {
+          {editLinkModal.open && <EditLinkModal profiles={profiles} allLinks={profiles.reduce((s, {
             business, social, activeProfile, id,
           }) => [...s, ...business.map((el) => ({
             ...el, linkType: activeProfile, profileId: id, linkId: el.id, linkValue: el.value, linkTitle: el.title,

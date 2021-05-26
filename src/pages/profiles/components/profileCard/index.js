@@ -19,7 +19,13 @@ import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import { isSafari } from "../../../../constants";
 import {
-  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion, setProfileImageAction, isFetchingAction,
+  setDirectAction,
+  setProfileStatusAction,
+  setProfileBioAcion,
+  setProfileNameAcion,
+  setProfileImageAction,
+  setLinkOrderAction,
+  isFetchingAction,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
@@ -66,6 +72,7 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
@@ -107,11 +114,13 @@ export default function Card({
   };
 
   function handleOnDragEnd(result, data) {
+    console.log(result, data);
     if (!result.destination) return;
     const items = [...data];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setLinks({ ...links, links: items });
+    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
   }
 
   const settextFieldWidth = (length, bio) => {
@@ -383,7 +392,7 @@ export default function Card({
                   handleClick={handleClickPoplItem}
                   profileId={id}
                   profileName={name}
-                  data={links.links}
+                  data={changeLinksOrdering || links.links}
                   style={classes.linkImage}
                   showEditIcon={showEditIcon}
                   setShowEditIcon={setShowEditIcon}

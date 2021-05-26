@@ -25,6 +25,7 @@ function EditScreen({
   deleteBtnTitle,
   deleteAction,
   deleteAllLinksAction,
+  setLinkOrdering,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -167,6 +168,18 @@ function EditScreen({
             onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file)}
           >
             {allProfilesBtnTitle}
+          </Button>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            className={classes.editLink}
+            style={{ whiteSpace: "nowrap" }}
+            onClick={() => setLinkOrdering(id)}
+          >
+            Make link first for all profiles
           </Button>
         </div>
       </div>

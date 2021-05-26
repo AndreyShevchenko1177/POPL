@@ -4,11 +4,11 @@ import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
 import useStyles from "./styles/styles";
-import { deleteLinkAction, editLinkAction } from "../../store/actions";
+import { deleteLinkAction, editLinkAction, makeLinkFirstOrderACtion } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 
 function EditLinkModal({
-  isOpen, setEditLinkModal, data, profileType, allLinks,
+  isOpen, setEditLinkModal, data, profileType, allLinks, profiles,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -53,6 +53,24 @@ function EditLinkModal({
     dispatch(deleteLinkAction(() => setEditLinkModal((v) => ({ ...v, open: false })), needToDelete.map((el) => ({ ...el, linkHash: el.hash }))));
   };
 
+  const setLinkOrdering = (linkId) => {
+    const profilesObject = {};
+    profiles.forEach(({ id, business, social }) => (
+      profilesObject[id] = {
+        hashes: [...business, ...social].map(({ hash }) => hash),
+        id: [
+          ...[...business, ...social]
+            .filter(({ id }) => id == linkId)
+            .map(({ id }) => id),
+          ...[...business, ...social]
+            .filter(({ id }) => id != linkId)
+            .map(({ id }) => id),
+        ],
+
+      }));
+    dispatch(makeLinkFirstOrderACtion(() => setEditLinkModal((v) => ({ ...v, open: false })), profilesObject));
+  };
+
   return (
     <>
       <div className={classes.opacityBackground} onClick={(v) => setEditLinkModal((v) => ({ ...v, open: false }))}></div>
@@ -74,6 +92,7 @@ function EditLinkModal({
               deleteAction={deleteLink}
               deleteAllLinksAction={deleteAllLinks}
               allProfileBtnEvent={editAllLinks}
+              setLinkOrdering={setLinkOrdering}
             />
           </div>
         </div>

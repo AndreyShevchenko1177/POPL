@@ -26,11 +26,23 @@ export default makeStyles((theme) => ({
   },
   contenContainer: {
     position: "relative",
-    padding: "20px",
     width: "50%",
+    height: 170,
+    padding: 20,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+  },
+  nameIconsContainer: {
+    display: "flex",
+    width: "100%",
+  },
+  iconswrapper: {
+    padding: "0px 20px",
+  },
+  linkImage: {
+    width: 20,
+    height: 20,
+    cursor: "pointer",
   },
   viewProfileButtonContainer: {
     fontSize: 12,
@@ -144,7 +156,7 @@ export default makeStyles((theme) => ({
     right: 10,
   },
   notConnectedViaConnectContainer: {
-    height: "100%",
+    height: 170,
     width: 300,
     margin: "0 10px 0 auto",
     paddingTop: 20,

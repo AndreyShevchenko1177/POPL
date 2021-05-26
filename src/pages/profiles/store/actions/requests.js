@@ -227,3 +227,13 @@ export const makeProfileNonPro = (userId) => {
     withCredentials: true,
   });
 };
+
+export const changeLinksOrderRequest = (linksIds, hashes, profileId, profileState) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "UpdateLinksSortingDashboard");
+  bodyFormData.append("aPositions", JSON.stringify(linksIds));
+  bodyFormData.append("aHashes", JSON.stringify(hashes));
+  bodyFormData.append("sID", profileId.toString());
+  bodyFormData.append("iProfileNum", profileState);
+  return axios.post("", bodyFormData);
+};
