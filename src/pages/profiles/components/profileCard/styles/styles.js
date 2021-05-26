@@ -357,4 +357,7 @@ export default makeStyles((theme) => ({
   buttonStaisticsSafariForPopls: {
     marginLeft: 55,
   },
+  safariLinks: {
+    margin: "0px 15px 35px 0px",
+  },
 }));

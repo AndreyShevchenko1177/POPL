@@ -120,6 +120,10 @@ function NetworkActivity({
       newData = [...newData.splice(3, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
+          if (isSafari) {
+            const safariValues = values.map((el) => el.split("-").join("/"));
+            return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+          }
           values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
           return;
         }
