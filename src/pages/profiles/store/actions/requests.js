@@ -228,7 +228,9 @@ export const makeProfileNonPro = (userId) => {
   });
 };
 
-export const changeLinksOrderRequest = (linksIds, hashes, profileId, profileState) => {
+export const changeLinksOrderRequest = ({
+  linksIds, hashes, profileId, profileState,
+}) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinksSortingDashboard");
   linksIds.forEach((id) => bodyFormData.append("aPositions[]", id));

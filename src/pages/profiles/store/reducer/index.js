@@ -57,7 +57,7 @@ const initialState = {
     isFetching: false,
   },
   setLinkOrder: {
-    data: null,
+    data: {},
   },
   isFetching: false,
 };
@@ -279,7 +279,7 @@ export default function profilesReducer(
     return {
       ...state,
       setLinkOrder: {
-        data: payload,
+        data: { ...state.setLinkOrder.data, ...payload },
       },
     };
   }

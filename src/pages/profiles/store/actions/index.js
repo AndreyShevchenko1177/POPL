@@ -389,16 +389,13 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
 
 export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileState) => async (dispatch, getState) => {
   try {
-    const userId = getState().authReducer.signIn.data.id;
-
-    const result = await requests.changeLinksOrderRequest(linksIds, hashes, profileId, profileState);
-    console.log(result);
-    // dispatch({
-    //   type: SET_LINK_ORDER,
-    //   payload: links,
-    // });
-    // dispatch(clearStateAction("dataProfiles"));
-    // return dispatch(getProfilesDataAction(userId));
+    const result = await requests.changeLinksOrderRequest({
+      linksIds, hashes, profileId, profileState,
+    });
+    return dispatch({
+      type: SET_LINK_ORDER,
+      payload: { [profileId]: links },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -406,13 +403,12 @@ export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileSt
 
 export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getState) => {
   try {
-    console.log(data);
     const userId = getState().authReducer.signIn.data.id;
-    // const result = await Promise.all(Object.keys(data).map((item) => requests.changeLinksOrderRequest(data[item].id, data[item].hashes, item, data[item].profileState)));
-    // console.log(result);
+    const result = await Promise.all(data.map((item) => requests.changeLinksOrderRequest(item)));
+    console.log(result);
     success();
-    // dispatch(clearStateAction("dataProfiles"));
-    // return dispatch(getProfilesDataAction(userId)); // when request will work correctly
+    dispatch(clearStateAction("dataProfiles"));
+    return dispatch(getProfilesDataAction(userId)); // when request will work correctly
   } catch (error) {
     console.log(error);
   }
