@@ -7,7 +7,7 @@ let theme = createMuiTheme({
       main: "#212121",
     },
     secondary: {
-      main: "#fff",
+      main: "#e0e0e0",
     },
     specifyText: {
       main: "#6f829a",

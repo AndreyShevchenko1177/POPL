@@ -4,11 +4,11 @@ import { Tabs, Tab, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import EditScreen from "./components/EditScreen";
 import useStyles from "./styles/styles";
-import { deleteLinkAction, editLinkAction } from "../../store/actions";
+import { deleteLinkAction, editLinkAction, makeLinkFirstOrderACtion } from "../../store/actions";
 import { snackBarAction } from "../../../../store/actions";
 
 function EditLinkModal({
-  isOpen, setEditLinkModal, data, profileType, allLinks,
+  isOpen, setEditLinkModal, data, profileType, allLinks, profiles,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -53,6 +53,51 @@ function EditLinkModal({
     dispatch(deleteLinkAction(() => setEditLinkModal((v) => ({ ...v, open: false })), needToDelete.map((el) => ({ ...el, linkHash: el.hash }))));
   };
 
+  const setLinkOrdering = (linkId) => {
+    const profilesObject = {};
+    profiles.forEach(({ id, business, social }) => {
+      const bus = business.filter(({ id }) => id == linkId);
+      const soc = social.filter(({ id }) => id == linkId);
+      profilesObject[id] = {
+        hashes: {
+          business: (bus.length ? [...bus, ...business.filter(({ id }) => id != linkId)] : []).map(({ hash }) => hash),
+          social: (soc.length ? [...soc, ...social.filter(({ id }) => id != linkId)] : []).map(({ hash }) => hash),
+        },
+        id: {
+          business: (bus.length ? [...bus, ...business.filter(({ id }) => id != linkId)] : [])
+            .map(({ id }) => id),
+          social: (soc.length ? [...soc, ...social.filter(({ id }) => id != linkId)] : [])
+            .map(({ id }) => id),
+        },
+        profileState: {
+          business: bus.length ? 2 : 0,
+          social: soc.length ? 1 : 0,
+        },
+      };
+    });
+    const newData = Object.keys(profilesObject).reduce((sum, cur) => {
+      const state = Object.values(profilesObject[cur].profileState).map((el) => el);
+      if (state.includes(1)) {
+        sum = [...sum, {
+          linksIds: profilesObject[cur].id.social,
+          hashes: profilesObject[cur].hashes.social,
+          profileId: cur,
+          profileState: profilesObject[cur].profileState.social,
+        }];
+      }
+      if (state.includes(2)) {
+        sum = [...sum, {
+          linksIds: profilesObject[cur].id.business,
+          hashes: profilesObject[cur].hashes.business,
+          profileId: cur,
+          profileState: profilesObject[cur].profileState.business,
+        }];
+      }
+      return sum;
+    }, []);
+    dispatch(makeLinkFirstOrderACtion(() => setEditLinkModal((v) => ({ ...v, open: false })), newData));
+  };
+
   return (
     <>
       <div className={classes.opacityBackground} onClick={(v) => setEditLinkModal((v) => ({ ...v, open: false }))}></div>
@@ -74,6 +119,7 @@ function EditLinkModal({
               deleteAction={deleteLink}
               deleteAllLinksAction={deleteAllLinks}
               allProfileBtnEvent={editAllLinks}
+              setLinkOrdering={setLinkOrdering}
             />
           </div>
         </div>

@@ -7,7 +7,7 @@ import {
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import EditIcon from "@material-ui/icons/Edit";
 import useStyles from "./styles/styles";
-import userIcon from "../../../../assets/images/poplIcon.png";
+import poplIcon from "../../../../assets/popls/popl.png";
 import DragDots from "../../../../components/dragDots";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { updatePopl } from "../../store/actions";
@@ -15,6 +15,8 @@ import { dateFormat, restrictEdit } from "../../../../utils";
 import Loader from "../../../../components/Loader";
 import { cleanAction } from "../../../overallAnalytics/store/actions";
 import { snackBarAction } from "../../../../store/actions";
+import bandIcon from "../../../../assets/popls/band.png";
+import keyChainIcon from "../../../../assets/popls/keychain.png";
 
 function PoplCard({
   popl, poplsCheck, customId, checkboxes, editMode, setEditMode, id, memberId, isFetching = {},
@@ -27,6 +29,7 @@ function PoplCard({
     nickname: popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, ""),
     photo: popl.photo,
   });
+  const [defaultIcon, setDefaultIcon] = useState(null);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   const changeIconSize = (event, size) => {
@@ -75,6 +78,12 @@ function PoplCard({
     return dispatch(updatePopl(memberId, id, event.target.files[0], values.nickname, "photo"));
   };
 
+  useEffect(() => {
+    if (popl.nickname.includes("band")) return setDefaultIcon(bandIcon);
+    if (popl.nickname.includes("keychain")) return setDefaultIcon(keyChainIcon);
+    return setDefaultIcon(poplIcon);
+  }, [popl]);
+
   return (
     <>
       <DragDots position="center" />
@@ -118,13 +127,21 @@ function PoplCard({
         />
         {isFetching[id]?.photo
           ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
-          : <img className={classes.avatar} alt="logo" src={popl.photo ? `${process.env.REACT_APP_BASE_FIREBASE_POPL_PHOTOS_URL}${popl.photo}?alt=media` : userIcon} />
+          : <img
+            className={classes.avatar}
+            alt="logo"
+            src={
+              popl.photo
+                ? `${process.env.REACT_APP_BASE_FIREBASE_POPL_PHOTOS_URL}${popl.photo}?alt=media`
+                : defaultIcon
+            }
+          />
         }
       </div>
       <div className={classes.contenContainer}>
         <div className={classes.cardTable}>
           <div className={classes.tableRow}>
-            <div className={classes.tableCell}>Profile Owner:</div>
+            <div className={classes.tableCell}>Account Owner:</div>
             <div className={classes.tableCell}>{popl.profileOwner}</div>
           </div>
           <div className={classes.tableRow}>

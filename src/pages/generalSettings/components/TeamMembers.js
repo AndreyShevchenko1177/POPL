@@ -93,7 +93,7 @@ function TeamMembers({ showConfirmModal }) {
                       {userId !== id && <div className={classes.deleteIcon} onClick={() => deleteProfile(id)} >
                         <HighlightOffIcon />
                       </div>}
-                      <img alt='userIcon' className={classes.nameItemImage} src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} />
+                      <img alt='userIcon' className={classes.nameItemImage} src={image ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media` : userIcon} />
                       <p className={classes.nameItemName} > {name}</p>
                     </Paper>
                   </div>

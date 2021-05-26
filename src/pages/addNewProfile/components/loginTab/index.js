@@ -41,7 +41,7 @@ function LoginTab() {
       setValue("");
       dispatch(clearAction("addProfileByRandomEmailSuccess"));
       dispatch(snackBarAction({
-        message: "Profiles create successfully",
+        message: "Accounts created successfully",
         severity: "success",
         duration: 6000,
         open: true,

@@ -19,7 +19,13 @@ import SocialPoplsIcons from "../profilelsIcons";
 import DragDots from "../../../../components/dragDots";
 import { isSafari } from "../../../../constants";
 import {
-  setDirectAction, setProfileStatusAction, setProfileBioAcion, setProfileNameAcion, setProfileImageAction, isFetchingAction,
+  setDirectAction,
+  setProfileStatusAction,
+  setProfileBioAcion,
+  setProfileNameAcion,
+  setProfileImageAction,
+  setLinkOrderAction,
+  isFetchingAction,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
@@ -35,6 +41,7 @@ export default function Card({
   checkboxes,
   customId,
   name,
+  email,
   url,
   image,
   business,
@@ -65,10 +72,11 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
-    bio,
+    bio, // .replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -111,6 +119,7 @@ export default function Card({
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setLinks({ ...links, links: items });
+    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
   }
 
   const settextFieldWidth = (length, bio) => {
@@ -184,7 +193,7 @@ export default function Card({
     } else {
       localLinks = social;
     }
-    setLinks({ links: localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })), localLinks, count: 0 });
+    setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
   }, [personalMode.direct]);
 
   useEffect(() => {
@@ -343,7 +352,7 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              <span style={{ color: "#909090" }}>{url}</span>
+              <span style={{ color: "#909090" }}>{email}</span>
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id

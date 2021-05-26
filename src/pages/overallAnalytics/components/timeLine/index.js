@@ -116,9 +116,14 @@ function NetworkActivity({
     if (data) {
       const labels = [];
       let newData = Object.keys(data).map((el) => data[el]);
+      // to set color for total popls line. it takes from specific array index
       newData = [...newData.splice(3, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
+          if (isSafari) {
+            const safariValues = values.map((el) => el.split("-").join("/"));
+            return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+          }
           values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
           return;
         }
@@ -261,7 +266,7 @@ function NetworkActivity({
                 ? <Line
                   ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")}
                   options={chartData?.options}
-                  data={chartData?.data && { datasets: chartData.data.datasets.map((el) => ({ ...el, data: el.data.filter((item, i) => i) })), labels: chartData.data.labels.filter((item, i) => i) }}
+                  data={ chartData?.data }
                 />
                 : <div className={classes.noDataText}>
                   No data for this period

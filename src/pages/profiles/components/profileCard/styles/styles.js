@@ -150,7 +150,6 @@ export default makeStyles((theme) => ({
     width: "100%",
     // minWidth: "700px",
     alignItems: "center",
-    height: "65px",
     padding: "0 30px 0 79px",
   },
   section2: {
@@ -184,6 +183,7 @@ export default makeStyles((theme) => ({
     maxWidth: 550,
     overflow: "auto",
     paddingLeft: 7,
+    height: 75,
     position: "relative",
     display: "flex",
     paddingRight: "10px",
@@ -192,24 +192,24 @@ export default makeStyles((theme) => ({
       maxWidth: 400,
     },
     "@media (max-width:1250px)": {
-      maxWidth: 295,
+      maxWidth: 302,
     },
   },
   addLinkIcon: {
     position: "absolute !important",
     right: "-68px",
-    top: 1,
+    top: 10,
     cursor: "pointer",
   },
   linksBackBtn: {
     position: "absolute !important",
-    top: 10,
+    top: 20,
     left: "-45px",
     cursor: "pointer",
   },
   linksNextBtn: {
     position: "absolute !important",
-    top: 10,
+    top: 20,
     cursor: "pointer",
   },
   section4_sub_wrapper: {
@@ -268,16 +268,10 @@ export default makeStyles((theme) => ({
     width: 40,
     height: 40,
     cursor: "pointer",
-    // borderRadius: "20%",
-    // backgroundColor: "rgb(170 170 170 / 50%)",
-    // boxShadow: theme.custom.iconBoxShadow,
-    // "-webkit-box-shadow": theme.custom.iconBoxShadow,
   },
   linkImage: {
     width: 30,
     height: 30,
-    // boxShadow: theme.custom.iconBoxShadow,
-    // "-webkit-box-shadow": theme.custom.iconBoxShadow,
   },
   clicksText: {
     paddingTop: 10,
@@ -299,7 +293,7 @@ export default makeStyles((theme) => ({
   section6: {
     display: "flex",
     position: "absolute",
-    bottom: 5,
+    bottom: 10,
     right: 0,
     justifyContent: "flex-end",
     width: "150px",
@@ -362,5 +356,8 @@ export default makeStyles((theme) => ({
   },
   buttonStaisticsSafariForPopls: {
     marginLeft: 55,
+  },
+  safariLinks: {
+    margin: "0px 15px 35px 0px",
   },
 }));

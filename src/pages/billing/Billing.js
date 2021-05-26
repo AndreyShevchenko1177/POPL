@@ -89,7 +89,7 @@ function Billing() {
           </div>
         </div>
         <div className={classes.footer}>
-          <Typography variant="h3">More than 100 Profiles?</Typography>
+          <Typography variant="h3">More than 100 Accounts?</Typography>
           <a href="mailto:jason@popl.co">
             <Button className={classes.contactSalesButton}>Contact Sales</Button>
           </a>

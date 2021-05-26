@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 import moment from "moment";
+import { isSafari } from "../constants";
 import {
   getYear, getMonth, getDay, normalizeDate,
 } from "./dates";
@@ -10,39 +11,35 @@ const dateGeneration = (popsData, minDate, maxDate) => {
   if (!Object.values(popsData)?.length) return;
   if (minDate) {
     const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate))}-${normalizeDate(getDay(maxDate))}`.split("-");
-    const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate))}-${normalizeDate(getDay(minDate))}`.split("-");
+    const [_mindY, _mindM, _mindD] = `${getYear(maxDate)}-${normalizeDate(getMonth(minDate))}-${normalizeDate(getDay(minDate))}`.split("-");
     let a = moment([_maxdY, _maxdM, _maxdD]);
     let b = moment([_mindY, _mindM, _mindD]);
-    calendarRange = _maxdM === "02" && Number(_maxdD) === 31 ? Math.abs(a.diff(b, "days")) - 1 : Math.abs(a.diff(b, "days"));
+    calendarRange = Math.abs(a.diff(b, "days"));
     currentDate = new Date(maxDate);
   } else {
     currentDate = new Date();
   }
 
   const result = {};
-  // let date = currentDate.setHours(0, 0, 0, 0);
-  // console.log(calendarRange, currentDate);
+
   // initing result object dates
   if (typeof calendarRange === "undefined") {
     for (let i = 13; i > 0; i--) {
       const date = new Date().setDate(currentDate.getDate() - i);
       // const normalFormat = new Date(date);
-      const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
+      const key = `${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}-${getYear(date)}`;
       result[key] = 0;
     }
   }
+
   if (calendarRange > 0) {
     for (let i = calendarRange; i > 0; i--) {
-      // console.log(new Date(currentDate), new Date(new Date(currentDate).setDate(currentDate.getDate() - i)));
       const date = new Date(currentDate).setDate(currentDate.getDate() - i);
-      const key = `${getYear(date)}-${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}`;
+      const key = `${normalizeDate(getMonth(date) + 1)}-${normalizeDate(getDay(date))}-${getYear(date)}`;
       result[key] = 0;
     }
   }
-  // console.log("RESULT", result);
-  result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}`] = 0;
-  result[`${getYear(currentDate)}-${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate) + 1)}`] = 0;
-  console.log("RESULT", result);
+  result[`${normalizeDate(getMonth(currentDate) + 1)}-${normalizeDate(getDay(currentDate))}-${getYear(currentDate)}`] = 0;
   return result;
 };
 
@@ -52,7 +49,7 @@ export const generateLineChartData = (popsData, minDate, maxDate) => {
   Object.keys(popsData).forEach((popKey) => {
     let ownResult = { ...result };
     popsData[popKey].forEach((item) => {
-      const date = item[2].split(" ")[0];
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`;
       if (date in result) {
         ownResult[date] = (ownResult[date] || 0) + 1;
       }
@@ -66,7 +63,8 @@ export const generateDohnutChartData = (popsData, isPopsData, minDate, maxDate, 
   let result = {};
   if (isAllData) {
     popsData.allPops.forEach((item) => {
-      result[item[2].split(" ")[0]] = 0;
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      result[date] = 0;
     });
   } else {
     result = dateGeneration(popsData, minDate, maxDate);
@@ -78,7 +76,7 @@ export const generateDohnutChartData = (popsData, isPopsData, minDate, maxDate, 
     let ownResult = { ...result };
     let correctResult = {};
     popsData[popKey].forEach((item) => {
-      const date = item[2].split(" ")[0];
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
       const direct = item[3];
       if (date in result) {
         if (isPopsData) return ownResult[date] = (ownResult[date] || 0) + 1;
@@ -98,14 +96,15 @@ export const generateDohnutChartData = (popsData, isPopsData, minDate, maxDate, 
 export const generateAllData = (popsData) => {
   const result = {};
   popsData.allPops.forEach((item) => {
-    result[item[2].split(" ")[0]] = 0;
+    const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+    result[date] = 0;
   });
   const data = {};
 
   Object.keys(popsData).forEach((popKey) => {
     let ownResult = { ...result };
     popsData[popKey].forEach((item) => {
-      const date = item[2].split(" ")[0];
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`;
       if (date in result) {
         ownResult[date] = (ownResult[date] || 0) + 1;
       }
@@ -113,6 +112,11 @@ export const generateAllData = (popsData) => {
     Object.keys(ownResult).forEach((item) => ownResult[item]);
     data[popKey] = ownResult;
   });
+  if (isSafari) {
+    const safariDates = Object.keys(result).map((el) => el.split("-").join("/")).map((el) => new Date(el).getTime()).sort((a, b) => b - a);
+    console.log(safariDates);
+    return { data: { ...data, labels: Object.keys(result) }, maxDate: safariDates[0], minDate: safariDates[safariDates.length - 1] };
+  }
   const momentDates = Object.keys(result).map((d) => moment(d));
   return { data: { ...data, labels: Object.keys(result) }, maxDate: moment.max(momentDates), minDate: moment.min(momentDates) };
 };
@@ -122,7 +126,8 @@ export const generateDohnutPopsByProfileData = (profileData, popsData, minDate, 
   const data = {};
   if (isAllData) {
     popsData.allPops.forEach((item) => {
-      result[item[2].split(" ")[0]] = 0;
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      result[date] = 0;
     });
   } else {
     result = dateGeneration(popsData, minDate, maxDate);
@@ -132,7 +137,7 @@ export const generateDohnutPopsByProfileData = (profileData, popsData, minDate, 
     let ownResult = { ...result };
     let correctResult = {};
     Object.values(allPops).forEach((item) => {
-      const date = item[2].split(" ")[0];
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
       const profileId = item[0];
       if (date in result) {
         if (id == profileId) {

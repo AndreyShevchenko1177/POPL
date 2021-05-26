@@ -249,12 +249,12 @@ export default function Profiles() {
   return (
     <>
       <Header
-        rootLink="Profiles"
+        rootLink="Accounts"
       />
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
-          {editLinkModal.open && <EditLinkModal allLinks={profiles.reduce((s, {
+          {editLinkModal.open && <EditLinkModal profiles={profiles} allLinks={profiles.reduce((s, {
             business, social, activeProfile, id,
           }) => [...s, ...business.map((el) => ({
             ...el, linkType: activeProfile, profileId: id, linkId: el.id, linkValue: el.value, linkTitle: el.title,
@@ -265,7 +265,7 @@ export default function Profiles() {
             showAll={false}
             isShowSortBtn
             handleOpen={handleOpenNewProfilePage}
-            btn_title="Add Profile"
+            btn_title="Add Account"
             handleCheck={handleCheck}
             searchValue={searchValue}
             handleSearch={handleSearch}

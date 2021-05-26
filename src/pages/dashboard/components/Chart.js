@@ -5,6 +5,7 @@ import { Bar, Line } from "react-chartjs-2";
 import chartOptions from "./chartOptions";
 import Loader from "../../../components/Loader";
 import useStyles from "./styles/style";
+import { isSafari } from "../../../constants";
 import { getDay, getMonth, getMothName } from "../../../utils/dates";
 
 export default function Chart({ data }) {
@@ -57,6 +58,10 @@ export default function Chart({ data }) {
       newData = [...newData.splice(3, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
+          if (isSafari) {
+            const safariValues = values.map((el) => el.split("-").join("/"));
+            return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
+          }
           values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)}`));
           return;
         }

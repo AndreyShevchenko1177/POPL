@@ -206,7 +206,7 @@ function PermanentDrawerLeft() {
                   }),
                 }}
                 style={{ position: "relative" }}
-                primary="Profiles"
+                primary="Accounts"
               />
               {profilesFetching ? <Loader styles={{
                 width: 20, height: 20,

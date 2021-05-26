@@ -1,7 +1,9 @@
 import React from "react";
+import clsx from "clsx";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import EditIcon from "@material-ui/icons/Edit";
 import icons from "./icons";
+import { isSafari } from "../../../../constants";
 import useStyles from "../profileCard/styles/styles";
 import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
@@ -51,7 +53,7 @@ export default function SocialPoplsIcons({
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div key={key} className={classes.linkClicksWrapper}>
+                      <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
                         {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
                           <EditIcon style={{ width: 15, height: 15 }}/>
                         </div>}

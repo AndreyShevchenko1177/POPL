@@ -13,9 +13,9 @@ function ChoicePage() {
   return (
     <>
       <Header
-        rootLink="Profiles"
+        rootLink="Accounts"
         path='/profiles'
-        lastChild="Add Profile"
+        lastChild="Add Account"
       />
       <div className={classes.choiceContainer}>
         <div className={classes.choiceWrapper}>
@@ -28,15 +28,15 @@ function ChoicePage() {
             <div onClick={() => history.push("/profiles/new-profile")}>
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
-                title='Existing Profile'
-                description='Add profiles from existing Popl profiles'
+                title='Existing Account'
+                description='Add accounts from existing Popl accounts'
               />
             </div>
             <div onClick={() => history.push("/profiles/add-profile/new")}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
-                title='New Profile'
-                description='Create new Popl profiles to add'
+                title='New Acocunt'
+                description='Create new Popl accounts to add'
               />
             </div>
           </div>

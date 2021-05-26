@@ -13,7 +13,7 @@ function SubscriptionCard({
       {currentPlan && <div className={classes.currentPlan}>Current Plan</div>}
       <Typography className={classes.title} variant='body2'>{title}</Typography>
       <div className={classes.priceDescriptionContainer}>
-        <Typography variant='body2'>{profilesNumber} Profiles</Typography>
+        <Typography variant='body2'>{profilesNumber} Accounts</Typography>
         <span>${price} month</span>
       </div>
       <div className={classes.buttonContainer}>

@@ -14,6 +14,7 @@ import {
   SET_PROFILE_NAME,
   SET_PROFILE_BIO,
   SET_PROFILE_PHOTO,
+  SET_LINK_ORDER,
 } from "../actionTypes";
 
 const initialState = {
@@ -54,6 +55,9 @@ const initialState = {
   },
   setProfilesSettings: {
     isFetching: false,
+  },
+  setLinkOrder: {
+    data: {},
   },
   isFetching: false,
 };
@@ -269,6 +273,14 @@ export default function profilesReducer(
         error: null,
       },
       isFetching: false,
+    };
+  }
+  case SET_LINK_ORDER: {
+    return {
+      ...state,
+      setLinkOrder: {
+        data: { ...state.setLinkOrder.data, ...payload },
+      },
     };
   }
   case CLEAR_STATE: {

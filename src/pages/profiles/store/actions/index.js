@@ -21,6 +21,7 @@ import {
   SET_PROFILE_BIO,
   IS_DATA_FETCHING,
   SET_PROFILE_PHOTO,
+  SET_LINK_ORDER,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
@@ -233,7 +234,7 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
       await uploadImage(new File([file], `icon-${uploadedFile}`, { type: file.type }));
     }
 
-    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, `icon-${uploadedFile}`)));
+    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, uploadedFile ? `icon-${uploadedFile}` : "")));
     if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
       success();
       dispatch(clearStateAction("dataProfiles"));
@@ -383,6 +384,33 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
     console.log(error);
     dispatch(isFetchingAction(false, "setProfilePhoto"));
     clearEditedProfileCallback(0);
+  }
+};
+
+export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileState) => async (dispatch, getState) => {
+  try {
+    const result = await requests.changeLinksOrderRequest({
+      linksIds, hashes, profileId, profileState,
+    });
+    return dispatch({
+      type: SET_LINK_ORDER,
+      payload: { [profileId]: links },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getState) => {
+  try {
+    const userId = getState().authReducer.signIn.data.id;
+    const result = await Promise.all(data.map((item) => requests.changeLinksOrderRequest(item)));
+    console.log(result);
+    success();
+    dispatch(clearStateAction("dataProfiles"));
+    return dispatch(getProfilesDataAction(userId)); // when request will work correctly
+  } catch (error) {
+    console.log(error);
   }
 };
 
