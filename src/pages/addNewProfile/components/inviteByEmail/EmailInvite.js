@@ -81,7 +81,7 @@ function EmailInvite() {
       // setIsOpenDropZone(false);
       dispatch(clearAction("addProfileByEmailSuccess"));
       dispatch(snackBarAction({
-        message: "Profiles create successfully",
+        message: "Account created successfully",
         severity: "success",
         duration: 6000,
         open: true,

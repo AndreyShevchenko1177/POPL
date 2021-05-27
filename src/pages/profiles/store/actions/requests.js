@@ -228,11 +228,13 @@ export const makeProfileNonPro = (userId) => {
   });
 };
 
-export const changeLinksOrderRequest = (linksIds, hashes, profileId, profileState) => {
+export const changeLinksOrderRequest = ({
+  linksIds, hashes, profileId, profileState,
+}) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "UpdateLinksSortingDashboard");
-  bodyFormData.append("aPositions", JSON.stringify(linksIds));
-  bodyFormData.append("aHashes", JSON.stringify(hashes));
+  linksIds.forEach((id) => bodyFormData.append("aPositions[]", id));
+  hashes.forEach((hash) => bodyFormData.append("aHashes[]", hash));
   bodyFormData.append("sID", profileId.toString());
   bodyFormData.append("iProfileNum", profileState);
   return axios.post("", bodyFormData);

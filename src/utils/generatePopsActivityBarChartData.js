@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 import moment from "moment";
+import { isSafari } from "../constants";
 import {
   getYear, getMonth, getDay, normalizeDate,
 } from "./dates";
@@ -103,7 +104,7 @@ export const generateAllData = (popsData) => {
   Object.keys(popsData).forEach((popKey) => {
     let ownResult = { ...result };
     popsData[popKey].forEach((item) => {
-      const date = item[2].split(" ")[0];
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`;
       if (date in result) {
         ownResult[date] = (ownResult[date] || 0) + 1;
       }
@@ -111,6 +112,11 @@ export const generateAllData = (popsData) => {
     Object.keys(ownResult).forEach((item) => ownResult[item]);
     data[popKey] = ownResult;
   });
+  if (isSafari) {
+    const safariDates = Object.keys(result).map((el) => el.split("-").join("/")).map((el) => new Date(el).getTime()).sort((a, b) => b - a);
+    console.log(safariDates);
+    return { data: { ...data, labels: Object.keys(result) }, maxDate: safariDates[0], minDate: safariDates[safariDates.length - 1] };
+  }
   const momentDates = Object.keys(result).map((d) => moment(d));
   return { data: { ...data, labels: Object.keys(result) }, maxDate: moment.max(momentDates), minDate: moment.min(momentDates) };
 };

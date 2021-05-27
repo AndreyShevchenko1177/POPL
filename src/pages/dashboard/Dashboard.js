@@ -30,7 +30,7 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState();
 
   const handleOpen = () => {
-    history.push("/profiles/add-profile");
+    history.push("/accounts/add-account");
   };
 
   useEffect(() => {

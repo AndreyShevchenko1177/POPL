@@ -176,7 +176,7 @@ function PermanentDrawerLeft() {
               />
             </ListItem>
           </Link>
-          <Link to="/profiles">
+          <Link to="/accounts">
             <ListItem
               divider={false}
               className={clsx(classes.ulList, {
@@ -206,7 +206,7 @@ function PermanentDrawerLeft() {
                   }),
                 }}
                 style={{ position: "relative" }}
-                primary="Profiles"
+                primary="Accounts"
               />
               {profilesFetching ? <Loader styles={{
                 width: 20, height: 20,

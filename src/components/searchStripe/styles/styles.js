@@ -36,7 +36,7 @@ export default makeStyles((theme) => ({
   },
   button: {
     height: 40,
-    minWidth: 140,
+    minWidth: 160,
     fontSize: "14px",
   },
   searchInput: {

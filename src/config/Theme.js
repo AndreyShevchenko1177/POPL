@@ -7,7 +7,7 @@ let theme = createMuiTheme({
       main: "#212121",
     },
     secondary: {
-      main: "#fff",
+      main: "#e0e0e0",
     },
     specifyText: {
       main: "#6f829a",
@@ -118,7 +118,7 @@ let theme = createMuiTheme({
         fontSize: "20px !important",
       },
       body2: {
-        fontWeight: "700",
+        fontWeight: "200",
         fontFamily: "DM Sans",
         fontSize: "20px !important",
       },

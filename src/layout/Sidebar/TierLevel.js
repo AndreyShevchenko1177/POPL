@@ -54,7 +54,7 @@ function TierLevel({ count }) {
                 ></div>
               </div>
               <div className={classes.tierValue}>
-                <span>{count || ""} profiles of {currentPlan.unitsRange[1]} profiles used</span>
+                <span>{count || ""} accounts of {currentPlan.unitsRange[1]} accounts used</span>
               </div>
             </>}
             <div className={classes.tierLevelButtonWrapper}>

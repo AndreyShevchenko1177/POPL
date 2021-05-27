@@ -14,7 +14,7 @@ function TemplateCard({
     <Paper elevation={10} className={classes.contentSideContainer}>
       <Typography>{cardTitle}</Typography>
       <div className={classes.itemWrapper}>
-        <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Profile Image</Typography>
+        <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Account Image</Typography>
         <UploadImage setFieldsState={(value) => setImage(value)} />
       </div>
       <div className={classes.itemWrapper}>

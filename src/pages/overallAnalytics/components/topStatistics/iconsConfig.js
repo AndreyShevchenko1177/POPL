@@ -38,7 +38,7 @@ const initialState = [
   },
   {
     id: "totalProfiles",
-    title: "Total Profiles",
+    title: "Total Accounts",
     value: " ",
     percentage: "5%",
     isTop: false,

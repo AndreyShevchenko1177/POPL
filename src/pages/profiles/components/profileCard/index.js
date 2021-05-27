@@ -76,7 +76,7 @@ export default function Card({
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url,
-    bio: bio.replace(/[\n\r]/g, ""),
+    bio, // .replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -114,7 +114,6 @@ export default function Card({
   };
 
   function handleOnDragEnd(result, data) {
-    console.log(result, data);
     if (!result.destination) return;
     const items = [...data];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -194,7 +193,7 @@ export default function Card({
     } else {
       localLinks = social;
     }
-    setLinks({ links: localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })), localLinks, count: 0 });
+    setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
   }, [personalMode.direct]);
 
   useEffect(() => {
@@ -392,7 +391,7 @@ export default function Card({
                   handleClick={handleClickPoplItem}
                   profileId={id}
                   profileName={name}
-                  data={changeLinksOrdering || links.links}
+                  data={links.links}
                   style={classes.linkImage}
                   showEditIcon={showEditIcon}
                   setShowEditIcon={setShowEditIcon}

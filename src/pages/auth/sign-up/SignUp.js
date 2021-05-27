@@ -127,10 +127,10 @@ function SignUp(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  <Typography variant="h3">Set up your Profile!</Typography>
+                  <Typography variant="h3">Set up your Account!</Typography>
                   <br />
                   <Typography variant="body1">
-                    Enter your information below to set up your Profile
+                    Enter your information below to set up your Account
                   </Typography>
                 </Grid>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>

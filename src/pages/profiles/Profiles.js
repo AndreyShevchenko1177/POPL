@@ -58,7 +58,7 @@ export default function Profiles() {
   const [profileType, setProfileType] = useState({}); // person or business;
 
   function handleOpenNewProfilePage() {
-    history.push("/profiles/add-profile");
+    history.push("/accounts/add-account");
   }
 
   function handleOnDragEnd(result) {
@@ -249,7 +249,7 @@ export default function Profiles() {
   return (
     <>
       <Header
-        rootLink="Profiles"
+        rootLink="Accounts"
       />
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
@@ -265,7 +265,7 @@ export default function Profiles() {
             showAll={false}
             isShowSortBtn
             handleOpen={handleOpenNewProfilePage}
-            btn_title="Add Profile"
+            btn_title="Add Account"
             handleCheck={handleCheck}
             searchValue={searchValue}
             handleSearch={handleSearch}

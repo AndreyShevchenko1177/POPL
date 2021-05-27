@@ -9,11 +9,11 @@ function AddNewProfile() {
   return (
     <>
       <Header
-        rootLink="Profiles"
-        firstChild="Add Profile"
-        firstChildRedirectPath="/profiles/add-profile"
-        lastChild="New Profile"
-        path="/profiles"
+        rootLink="Account"
+        firstChild="Add Account"
+        firstChildRedirectPath="/accounts/add-account"
+        lastChild="New Account"
+        path="/accounts"
       />
       <div className={classes.container}>
         <div className={classes.pageWrapper}>

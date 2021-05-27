@@ -73,9 +73,10 @@ export default makeStyles((theme) => ({
     padding: 10,
   },
   nameItemImage: {
-    width: 70,
+    width: 40,
+    objectFit: "cover",
     height: 40,
-    borderRadius: 7,
+    borderRadius: "50%",
     marginRight: 10,
   },
   nameItemName: {

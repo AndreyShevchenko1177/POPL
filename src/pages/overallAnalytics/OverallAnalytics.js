@@ -12,6 +12,7 @@ import {
 import Header from "../../components/Header";
 import useStyles from "./styles";
 import BottomWidgets from "./components/widgets";
+import { isSafari } from "../../constants";
 
 function OverallAnalytics() {
   const dispatch = useDispatch();
@@ -140,12 +141,24 @@ function OverallAnalytics() {
     switch (event.target.value) {
     case "all time": {
       const { data, maxDate, minDate } = generateAllData(popsData);
-      let minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
-        maxDate,
-      )}, ${getYear(maxDate)}-`;
-      let maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
-        minDate,
-      )}, ${getYear(minDate)}`;
+      let minD;
+      let maxD;
+      if (isSafari) {
+        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+          maxDate,
+        )}, ${getYear(maxDate)}-`;
+        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+          minDate,
+        )}, ${getYear(minDate)}`;
+      } else {
+        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+          maxDate,
+        )}, ${getYear(maxDate)}-`;
+        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+          minDate,
+        )}, ${getYear(minDate)}`;
+      }
+
       setChartData({
         ...chartData,
         lineData: data,
@@ -317,8 +330,8 @@ function OverallAnalytics() {
         rootLink="Analytics"
         rootLinkClick={handleShowAllStat}
         lastChild={location.state?.name || location.state?.poplName}
-        firstChild={location.state?.id ? "Profiles" : location.state?.name ? "Popls" : ""}
-        firstChildRedirectPath={location.state?.id ? "/profiles" : "/popls"}
+        firstChild={location.state?.id ? "Accounts" : location.state?.name ? "Popls" : ""}
+        firstChildRedirectPath={location.state?.id ? "/accounts" : "/popls"}
         path="/analytics"
       />
       <div className={classes.contentRoot}>
