@@ -62,7 +62,7 @@ function NotificationModal({ closeModal }) {
                 setTime(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${new Date(value.value).getHours()}:${new Date(value.value).getMinutes()}`);
                 handleDateChange(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${value.value ? normalizeDate(new Date(value.value).getHours()) : new Date().getHours()}:${value.value ? normalizeDate(new Date(value.value).getMinutes()) : new Date().getMinutes()}`);
               }}
-              renderInput={(params) => <TextField {...params} label="Choose time or strategy" variant="outlined" />}
+              renderInput={(params) => <TextField {...params} label="Choose time" variant="outlined" />}
             />
           </div>
           <div className={classes.bottomButtons}>
