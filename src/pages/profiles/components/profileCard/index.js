@@ -75,8 +75,8 @@ export default function Card({
   const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name: name || url,
-    bio, // .replace(/[\n\r]/g, ""),
+    name: name || url || "",
+    bio: bio || "", // .replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -332,7 +332,7 @@ export default function Card({
                 {setProfileName.isFetching && currentEditedProfile === id
                   ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                   : <TextField
-                    style={{ width: settextFieldWidth(values.name.length), transition: "width 0.075s linear" }}
+                    style={{ width: settextFieldWidth(values?.name?.length || 0), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
                     onBlur={() => {
@@ -358,7 +358,7 @@ export default function Card({
                   {setProfileBio.isFetching && currentEditedProfile === id
                     ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
                     : <TextField
-                      style={{ width: settextFieldWidth(values.bio.length, "bio"), transition: "width 0.075s linear" }}
+                      style={{ width: settextFieldWidth(values?.bio?.length, "bio"), transition: "width 0.075s linear" }}
                       classes={{ root: classes.disabledTextfieldBio }}
                       name='bio'
                       onFocus={() => setEditState({ ...editState, bio: true })}

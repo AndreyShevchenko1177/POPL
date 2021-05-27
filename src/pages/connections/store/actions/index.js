@@ -64,7 +64,11 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
       const names = {};
       allConnections.forEach(({ data, docId }) => {
         data.forEach((el) => {
-          if (el.id === con.id && !("noPopl" in el)) {
+          if (!("noPopl" in el)) {
+            if (el.id === con.id) {
+              names[docId] = { ...profileName[docId], connected: el.time };
+            }
+          } else if (el.email === con.email) {
             names[docId] = { ...profileName[docId], connected: el.time };
           }
         });
@@ -82,7 +86,11 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
         const names = {};
         allConnections.forEach(({ data, docId }) => {
           data.forEach((el) => {
-            if (el.id === con.id && !("noPopl" in el)) {
+            if (!("noPopl" in el)) {
+              if (el.id === con.id) {
+                names[docId] = { ...profileName[docId], connected: el.time };
+              }
+            } else if (el.email === con.email) {
               names[docId] = { ...profileName[docId], connected: el.time };
             }
           });
