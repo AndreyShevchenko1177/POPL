@@ -3,6 +3,7 @@ import { Button, TextField, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import Recipients from "./components/Recipients";
 import useStyles from "./styles";
+import NotificationModal from "./components/NotificationModal";
 
 function Notifications() {
   const classes = useStyles();
@@ -26,6 +27,7 @@ function Notifications() {
         rootLink="Notifications"
         path="/notifications"
       />
+      <NotificationModal/>
       <div className={classes.root}>
         <div className={classes.fieldWrapper}>
           <Typography>Send As</Typography>
