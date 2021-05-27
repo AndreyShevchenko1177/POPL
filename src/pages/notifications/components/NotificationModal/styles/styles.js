@@ -63,10 +63,12 @@ export default makeStyles((theme) => ({
   calendarContainer: {
     "& > div:first-child": {
       width: "25%",
+      minWidth: 180,
       marginRight: 5,
     },
     "& > div:last-child": {
       width: "calc(75% - 5px)",
+      maxWidth: 460,
     },
     "& > div > div": {
       width: "100%",

@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import Recipients from "./components/Recipients";
 import useStyles from "./styles";
 import NotificationModal from "./components/NotificationModal";
+import Preview from "./components/Preview";
 
 function Notifications() {
   const classes = useStyles();
@@ -20,8 +21,6 @@ function Notifications() {
     setValues({ ...values, [name]: value });
   };
 
-  console.log(values.recipients);
-
   return (
     <>
       <Header
@@ -29,68 +28,73 @@ function Notifications() {
         path="/notifications"
       />
       <div className={classes.root}>
-        <div className={classes.fieldWrapper}>
-          <Typography>Send As</Typography>
-          <div className={classes.sendAsBtnWrapper}>
-            <Button
-              className={classes.sendAsBtn}
-              variant='contained'
-              color={values.sendAs === 1 ? "primary" : "secondary"}
-              onClick={() => setValues({ ...values, sendAs: 1 })}
-            >
+        <div className={classes.rootFieldsWrapper}>
+          <div className={classes.rootFields}>
+            <div className={classes.fieldWrapper}>
+              <Typography>Send As</Typography>
+              <div className={classes.sendAsBtnWrapper}>
+                <Button
+                  className={classes.sendAsBtn}
+                  variant='contained'
+                  color={values.sendAs === 1 ? "primary" : "secondary"}
+                  onClick={() => setValues({ ...values, sendAs: 1 })}
+                >
               Push Notification
-            </Button>
-            <Button
-              className={classes.sendAsBtn}
-              variant='contained'
-              color={values.sendAs === 2 ? "primary" : "secondary"}
-              onClick={() => setValues({ ...values, sendAs: 2 })}
-            >
+                </Button>
+                <Button
+                  className={classes.sendAsBtn}
+                  variant='contained'
+                  color={values.sendAs === 2 ? "primary" : "secondary"}
+                  onClick={() => setValues({ ...values, sendAs: 2 })}
+                >
               Email
-            </Button>
+                </Button>
+              </div>
+            </div>
+            <div className={classes.fieldWrapper}>
+              <Typography>Title</Typography>
+              <TextField
+                placeholder='Title'
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+                fullWidth
+                variant='outlined'
+                size="small"
+              />
+            </div>
+            <div className={classes.fieldWrapper}>
+              <Typography>Message <span>*</span></Typography>
+              <TextField
+                placeholder='Message'
+                name="message"
+                value={values.message}
+                onChange={handleChange}
+                multiline
+                rows={4}
+                fullWidth
+                variant='outlined'
+                size="small"
+              />
+            </div>
+            <div className={classes.fieldWrapper}>
+              <Recipients recipients={values.recipients} setValues={setValues} />
+            </div>
+            <div className={classes.fieldWrapper}>
+              <div className={classes.confirmBtnWrapper}>
+                <Button
+                  className={classes.confirmBtn}
+                  variant='contained'
+                  color="primary"
+                  onClick={() => setIsShowModal(true)}
+                >
+                  Schedule/Send now
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className={classes.fieldWrapper}>
-          <Typography>Title</Typography>
-          <TextField
-            placeholder='Title (Any/English)'
-            name="title"
-            value={values.title}
-            onChange={handleChange}
-            fullWidth
-            variant='outlined'
-            size="small"
-          />
-        </div>
-        <div className={classes.fieldWrapper}>
-          <Typography>Message <span>*</span></Typography>
-          <TextField
-            placeholder='Message (Any/English)'
-            name="message"
-            value={values.message}
-            onChange={handleChange}
-            multiline
-            rows={4}
-            fullWidth
-            variant='outlined'
-            size="small"
-          />
-        </div>
-        <div className={classes.fieldWrapper}>
-          <Recipients recipients={values.recipients} setValues={setValues} />
-        </div>
-        <div className={classes.fieldWrapper}>
-          <div className={classes.confirmBtnWrapper}>
-            <Button
-              className={classes.confirmBtn}
-              variant='contained'
-              color="primary"
-              onClick={() => setIsShowModal(true)}
-            >
-              Schedule/Send now
-            </Button>
-          </div>
-        </div>
+        <Preview message={values.message} />
       </div>
       {isShowModal && <>
         <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
