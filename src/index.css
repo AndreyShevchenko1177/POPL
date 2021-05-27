@@ -126,6 +126,10 @@ p {
   outline: none;
 }
 
+.c-pointer {
+  cursor: pointer;
+}
+
 .datepicker {
   position: relative;
   border: 1px solid #000000;

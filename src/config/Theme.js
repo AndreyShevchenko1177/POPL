@@ -118,7 +118,7 @@ let theme = createMuiTheme({
         fontSize: "20px !important",
       },
       body2: {
-        fontWeight: "700",
+        fontWeight: "200",
         fontFamily: "DM Sans",
         fontSize: "20px !important",
       },

@@ -2,14 +2,14 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    position: "absolute",
-    minWidth: "675px",
-    top: "70%",
-    left: "50%",
+    width: "675px",
+    height: 405,
     backgroundColor: "#fff",
+    borderRadius: 4,
   },
   mainContainer: {
-    padding: "20px 15px 0px 15px",
+    padding: "20px 15px 20px 15px",
+    height: "100%",
   },
   headerContainer: {
     display: "flex",
@@ -25,6 +25,11 @@ export default makeStyles((theme) => ({
     "& h5": {
       paddingBottom: 15,
     },
+  },
+  timeContainer: {
+    fontSize: "15px",
+    fontWeight: "700",
+    padding: "10px 0 0 0",
   },
   strategy: {
     display: "flex",
@@ -43,9 +48,16 @@ export default makeStyles((theme) => ({
       height: "45px",
     },
   },
-  strategyItems: {
-    "& > div": {
-      paddingTop: 10,
+  bottomButtons: {
+    position: "absolute",
+    bottom: 15,
+    right: 15,
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "auto",
+    padding: "10px 0 0 0",
+    "& > button": {
+      marginLeft: 10,
     },
   },
   calendarContainer: {
@@ -58,7 +70,6 @@ export default makeStyles((theme) => ({
     },
     "& > div > div": {
       width: "100%",
-      //   height: 40,
       paddingLeft: 0,
     },
   },

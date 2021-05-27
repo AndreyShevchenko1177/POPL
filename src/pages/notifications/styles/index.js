@@ -30,4 +30,23 @@ export default makeStyles((theme) => ({
   confirmBtn: {
     width: "40%",
   },
+  opacityBackground: {
+    top: "-24px",
+    left: "-40px",
+    width: "calc(100% + 80px)",
+    height: "calc(100% + 48px)",
+    minHeight: "100vh",
+    backgroundColor: theme.custom.modalOpacityBackground,
+    opacity: theme.custom.modalOpacity,
+    position: "fixed",
+    zIndex: 1,
+  },
+  wizardContainer: {
+    position: "fixed",
+    top: "calc(50%)",
+    left: "calc(50% - 200px)",
+    transform: "translateY(-50%)",
+    zIndex: 1050,
+    outline: "none",
+  },
 }));

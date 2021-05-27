@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Button,
   FormControl, InputLabel, MenuItem, Select, Typography,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -7,12 +8,13 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import SendIcon from "@material-ui/icons/Send";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import clsx from "clsx";
 import useStyles from "./styles/styles";
 import Strategy from "./Strategy";
 
-function NotificationModal() {
+function NotificationModal({ closeModal }) {
   const classes = useStyles();
-  const [activeTab, setActiveTab] = useState({ value: 0, isShedule: true });
+  const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
   const [selectedDate, handleDateChange] = useState(new Date());
   const [time, setTime] = useState("");
 
@@ -24,8 +26,8 @@ function NotificationModal() {
     switch (index) {
     case 0: {
       return (
-        <div>
-          <p style={{ fontSize: "15px", fontWeight: "700", paddingBottom: 5 }}>Choose send time</p>
+        <div className={classes.timeContainer}>
+          <p>Choose send time</p>
           {console.log(new Date(`${new Date(selectedDate).getMonth() + 1}-${new Date(selectedDate).getDate()}-${new Date(selectedDate).getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}`))}
           <div className={classes.calendarContainer}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -38,6 +40,7 @@ function NotificationModal() {
                 InputAdornmentProps={{ position: "start" }}
                 onChange={(date) => handleDateChange(date)}
                 size='small'
+                style={{ fontWeight: "normal" }}
               />
             </MuiPickersUtilsProvider>
             <FormControl variant="outlined" className={classes.formControl} size='small'>
@@ -58,13 +61,46 @@ function NotificationModal() {
               </Select>
             </FormControl>
           </div>
+          <div className={classes.bottomButtons}>
+            <Button
+              className={classes.confirmBtn}
+              variant='contained'
+              color="primary"
+              onClick={closeModal}
+            >
+              Cancel
+            </Button>
+            <Button
+              className={classes.confirmBtn}
+              variant='contained'
+              color="primary"
+              // onClick={}
+            >
+              Schedule
+            </Button>
+          </div>
         </div>
       );
     }
     case 1: {
       return (
-        <div>
-          <p style={{ fontSize: "15px", fontWeight: "700" }}>Send Now</p>
+        <div className={clsx(classes.bottomButtons, classes.absoluteBtn)}>
+          <Button
+            className={classes.confirmBtn}
+            variant='contained'
+            color="primary"
+            onClick={closeModal}
+          >
+            Cancel
+          </Button>
+          <Button
+            className={classes.confirmBtn}
+            variant='contained'
+            color="primary"
+            // onClick={}
+          >
+            Send now
+          </Button>
         </div>
       );
     }
@@ -77,7 +113,9 @@ function NotificationModal() {
       <div className={classes.mainContainer}>
         <div className={classes.headerContainer}>
           <Typography variant='body1'>Ready to Send?</Typography>
-          <CloseIcon/>
+          <div className='c-pointer' onClick={closeModal}>
+            <CloseIcon />
+          </div>
         </div>
         <div className={classes.strategyContainer}>
           <Typography variant='h5'>Sending Strategy</Typography>

@@ -13,6 +13,7 @@ function Notifications() {
     sendAs: 1, // for send as using two options - 1 and 2. 1 - Push notifications checked, 2 - email
     recipients: [],
   });
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,7 +28,6 @@ function Notifications() {
         rootLink="Notifications"
         path="/notifications"
       />
-      <NotificationModal/>
       <div className={classes.root}>
         <div className={classes.fieldWrapper}>
           <Typography>Send As</Typography>
@@ -85,13 +85,19 @@ function Notifications() {
               className={classes.confirmBtn}
               variant='contained'
               color="primary"
-              // onClick={() => setValues({ ...values, sendAs: 2 })}
+              onClick={() => setIsShowModal(true)}
             >
               Schedule/Send now
             </Button>
           </div>
         </div>
       </div>
+      {isShowModal && <>
+        <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
+        <div className={classes.wizardContainer} tabIndex={1}>
+          <NotificationModal closeModal={() => setIsShowModal(false)} />
+        </div>
+      </>}
     </>
   );
 }
