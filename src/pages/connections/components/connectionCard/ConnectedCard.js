@@ -7,7 +7,6 @@ import {
 import utf8 from "utf8";
 import { useLocation } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/svg/user.svg";
 import DragDots from "../../../../components/dragDots";
@@ -89,17 +88,7 @@ export const ConnectedCard = memo(({
             </div>
           </div>
           <div className={classes.viewProfileButtonContainer}>
-            <Button
-              variant="text"
-              size="small"
-              color="primary"
-              classes={{ root: classes.viewProfileButton }}
-              style={{ fontSize: 15 }}
-              // startIcon={<ArrowDropDownIcon />}
-              onClick={() => url && window.open(`${url}`)}
-            >
-                  View Profile
-            </Button>
+            <a className={classes.viewProfileButton} href={url} target='blank'>View Profile</a>
           </div>
         </div>
         <div className={classes.connectedWithViewWrapper}>
