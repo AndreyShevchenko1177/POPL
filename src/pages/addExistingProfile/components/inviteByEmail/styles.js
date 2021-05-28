@@ -54,7 +54,7 @@ export default makeStyles((theme) => ({
     borderBottom: "1px solid #b2afaf",
   },
   newProfileHeaderContainer: {
-    paddingLeft: "50px",
+    paddingLeft: "12px",
   },
   emailBtn: {
     padding: "10px 30px",

@@ -6,7 +6,7 @@ import InviteHeader from "./inviteByEmail/InviteHeader";
 
 export default function TabContainer() {
   const classes = useStyles();
-  const [headerValue, setHeaderValue] = useState("Invite to existing Popl Account's Emails");
+  const [headerValue, setHeaderValue] = useState("Send email invites to existing Popl accounts");
 
   return (
     <>
