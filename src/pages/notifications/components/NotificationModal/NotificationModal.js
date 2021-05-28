@@ -129,14 +129,14 @@ function NotificationModal({ closeModal }) {
               icon={<QueryBuilderIcon/>}
               description='Choose a future date and time to send'
               activeTab={activeTab.isShedule}
-              onClick={(name) => setActiveTab({ value: 0, isShedule: !activeTab.isShedule })}
+              onClick={(name) => setActiveTab({ value: 0, isShedule: true })}
             />
             <Strategy
               title='Send Now'
               icon={<SendIcon/>}
               description='Start sending ypur campaign immediately'
               activeTab={!activeTab.isShedule}
-              onClick={(name) => setActiveTab({ value: 1, isShedule: !activeTab.isShedule })}
+              onClick={(name) => setActiveTab({ value: 1, isShedule: false })}
             />
           </div>
         </div>
