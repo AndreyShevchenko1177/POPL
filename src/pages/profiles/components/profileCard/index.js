@@ -75,7 +75,9 @@ export default function Card({
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
-  const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
+  const {
+    setProfileName, setProfileBio, setProfilePhoto, profileLinks,
+  } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url || "",
     bio: bio || "", // .replace(/[\n\r]/g, ""),
@@ -397,7 +399,7 @@ export default function Card({
                   handleClick={handleClickPoplItem}
                   profileId={id}
                   profileName={name}
-                  data={links.links}
+                  data={profileLinks[customId][personalMode.direct ? "2" : "1"]}
                   style={classes.linkImage}
                   showEditIcon={showEditIcon}
                   setShowEditIcon={setShowEditIcon}
