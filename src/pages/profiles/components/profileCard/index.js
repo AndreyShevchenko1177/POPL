@@ -58,6 +58,8 @@ export default function Card({
   isFetching,
   poplsNumber,
   connectionNumber,
+  num,
+  changeLinksOrder,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -112,15 +114,6 @@ export default function Card({
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
   };
-
-  function handleOnDragEnd(result, data) {
-    if (!result.destination) return;
-    const items = [...data];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setLinks({ ...links, links: items });
-    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
-  }
 
   const settextFieldWidth = (length, bio) => {
     if (length < 10) return bio ? "130px" : "110px";
@@ -195,6 +188,19 @@ export default function Card({
     }
     setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
   }, [personalMode.direct]);
+
+  useEffect(() => {
+    if (changeLinksOrder.index) {
+      if (!changeLinksOrder.result.destination) return;
+      const ID = changeLinksOrder.result.destination.droppableId.slice(9);
+      if (customId !== ID) return;
+      const items = [...links.links];
+      const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
+      items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
+      setLinks({ ...links, links: items });
+      dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
+    }
+  }, [changeLinksOrder.index]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -397,7 +403,8 @@ export default function Card({
                   setShowEditIcon={setShowEditIcon}
                   showEditModal={showEditModal}
                   name={name}
-                  handleOnDragEnd={handleOnDragEnd}
+                  num={num}
+                  customId={customId}
                 />
               </div>
               {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >

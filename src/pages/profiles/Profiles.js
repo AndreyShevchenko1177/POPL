@@ -18,7 +18,6 @@ import CustomWizard from "../../components/wizard";
 import EditLinkModal from "./components/editLink";
 import { snackBarAction, handleMainPageScrollAction } from "../../store/actions";
 import { isSafari } from "../../constants";
-import { restrictEdit } from "../../utils";
 
 const parentContainerStyle = {
   display: "flex",
@@ -56,6 +55,7 @@ export default function Profiles() {
   const [wizard, setWizard] = useState({ open: false, data: [] });
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
+  const [changeLinksOrder, setChangeLinksOrder] = useState({});
 
   function handleOpenNewProfilePage() {
     history.push("/accounts/add-account");
@@ -63,12 +63,15 @@ export default function Profiles() {
 
   function handleOnDragEnd(result) {
     if (!result.destination) return;
-
-    const items = [...profiles];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
-    setProfiles(items);
+    if (result.type === "PROFILES") {
+      const items = [...profiles];
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
+      dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
+      setProfiles(items);
+    } else {
+      setChangeLinksOrder({ index: (changeLinksOrder.index || 0) + 1, result });
+    }
   }
 
   function handleClickPoplItem(event, id, buttonName, customId) {
@@ -288,12 +291,13 @@ export default function Profiles() {
           {isLoading ? (
             <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
           ) : profiles?.length ? (
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="list">
-                {(provided) => (
+            <DragDropContext
+              onDragEnd={handleOnDragEnd}
+            >
+              <Droppable droppableId="droppable" type="PROFILES">
+                {(provided, snapshot) => (
                   <div
                     className="full-w pb-50"
-                    {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
                     {profiles.map((el, index) => (
@@ -312,6 +316,8 @@ export default function Profiles() {
                             profilesCheck={profilesCheck}
                             checkboxes={checkboxes}
                             setProfileType={setProfileType}
+                            num={index}
+                            changeLinksOrder={changeLinksOrder}
                           />
                         </div>
                         : <Draggable
@@ -337,6 +343,8 @@ export default function Profiles() {
                                 checkboxes={checkboxes}
                                 setProfileType={setProfileType}
                                 isFetching={isLoading}
+                                num={index}
+                                changeLinksOrder={changeLinksOrder}
                               />
                             </div>
                           )}
