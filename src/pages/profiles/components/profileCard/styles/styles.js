@@ -79,7 +79,7 @@ export default makeStyles((theme) => ({
     right: 10,
   },
   section1_title: {
-    height: 31,
+    height: 29,
     display: "flex",
     justifyContent: "flex-start",
   },
@@ -120,6 +120,7 @@ export default makeStyles((theme) => ({
     fontFamily: "DM Sans",
     fontWeight: 200,
     color: "#000000",
+    padding: 0,
   },
   section1_avatar: {
     position: "relative",
@@ -175,7 +176,7 @@ export default makeStyles((theme) => ({
   },
   section3: {
     // display: "flex",
-    minHeight: 58,
+    minHeight: 49,
     position: "relative",
     padding: "0px 5px 0px 0px",
   },
