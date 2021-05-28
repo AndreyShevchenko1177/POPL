@@ -1,4 +1,7 @@
-import firebase, { db } from "./firebase.config";
+import firebase from "./firebase.config";
+
+let db = firebase.firestore();
+db.enablePersistence({ synchronizeTabs: true }).catch((err) => console.log(err));
 
 const getData = async (db, collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get("server");
@@ -7,8 +10,7 @@ const getData = async (db, collection, docId) => {
 
 export const getCollectionData = async (collection, docIdArray) => {
   try {
-    const result = await firebase.auth().signInAnonymously();
-    console.log(result);
+    await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
@@ -16,7 +18,9 @@ export const getCollectionData = async (collection, docIdArray) => {
             const data = await Promise.all((docIdArray.map((docId) => getData(db, collection, docId))));
             resolve(data);
           } catch (error) {
-            reject(error);
+            console.log(error.toString());
+            window.location.reload();
+            // reject(error);
           }
         } else {
           console.log("user is signed out");
@@ -26,7 +30,7 @@ export const getCollectionData = async (collection, docIdArray) => {
       });
     });
   } catch (error) {
-    console.log.apply(error);
+    console.log(error);
   }
 };
 

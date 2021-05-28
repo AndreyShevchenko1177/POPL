@@ -121,5 +121,50 @@ export default makeStyles((theme) => ({
   },
   recipientItemName: {
     fontWeight: "bold",
+    position: "relative",
+  },
+  // preview styles
+  rootPreview: {
+    width: "50%",
+    display: "flex",
+    justifyContent: "center",
+    padding: "20px 20px",
+  },
+  imageWrapper: {
+    position: "relative",
+  },
+  smartphoneImage: {
+    width: 380,
+    height: 550,
+  },
+  notificationCard: {
+    position: "absolute",
+    top: "40%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: 300,
+    height: 80,
+  },
+  notificationTitleWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  notificationTitle: {
+    display: "flex",
+  },
+  notificationTitleIcon: {
+    width: 18,
+    height: 18,
+    marginRight: 5,
+  },
+  notificationMessageWrapper: {
+    display: "flex",
+    padding: 10,
+  },
+  notificationMessage: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
 }));

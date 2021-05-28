@@ -3,7 +3,20 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     paddingTop: 70,
+    display: "flex",
+    width: "100%",
+    minWidth: 920,
+    maxWidth: 1300,
     margin: "0 auto",
+  },
+  rootFieldsWrapper: {
+    width: "50%",
+    display: "flex",
+    justifyContent: "center",
+    padding: "0 20px",
+  },
+  rootFields: {
+    // margin: "0 auto",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

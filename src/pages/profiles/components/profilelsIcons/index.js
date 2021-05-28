@@ -9,7 +9,7 @@ import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, handleOnDragEnd,
+  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, num, customId,
 }) {
   const classes = useStyles();
 
@@ -22,63 +22,57 @@ export default function SocialPoplsIcons({
       console.log(error);
     }
   };
-
   const handleClickEditIcon = (title, value, id, clicks, currentIcon, name, hash, icon) => {
     setShowEditIcon(false);
     showEditModal(title, value, id, clicks, currentIcon, name, hash, icon);
   };
   return (
-    <>
-      <DragDropContext onDragEnd={(result) => handleOnDragEnd(result, data)}>
-        <Droppable droppableId="list" direction="horizontal">
-          {(provided) => (
-            <div
-              className="flex"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
+    <Droppable droppableId={`droppable${customId}`} direction="horizontal" type={`${num}`}>
+      {(provided) => (
+        <div
+          className="flex"
+          ref={provided.innerRef}
+        >
+          {data.map(({
+            title, value, id, clicks, icon, hash, customId,
+          }, key) => (
+            <Draggable
+              key={`${num}${key}`}
+              draggableId={`${num}${key}`}
+              index={key}
             >
-              {data.map(({
-                title, value, id, clicks, icon, hash, customId,
-              }, key) => (
-                <Draggable
-                  key={customId}
-                  draggableId={`${customId}`}
-                  index={key}
+              {(provided) => (
+                <div
+                  draggable="true"
+                  // className={classes.container}
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
                 >
-                  {(provided) => (
+                  <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
+                    {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
+                      <EditIcon style={{ width: 15, height: 15 }}/>
+                    </div>}
                     <div
-                      draggable="true"
-                      // className={classes.container}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
+                      onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
+                      className={classes.iconItem}
                     >
-                      <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
-                        {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
-                          <EditIcon style={{ width: 15, height: 15 }}/>
-                        </div>}
-                        <div
-                          onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
-                          className={classes.iconItem}
-                        >
-                          <img
-                            className={style}
-                            src={icon
-                              ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-                              : icons[id]?.icon} alt={title}
-                          />
-                        </div>
-                        {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
-                      </div>
+                      <img
+                        className={style}
+                        src={icon
+                          ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+                          : icons[id]?.icon} alt={title}
+                      />
                     </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </>
+                    {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
+                  </div>
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 }

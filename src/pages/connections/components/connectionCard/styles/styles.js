@@ -45,11 +45,13 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   viewProfileButtonContainer: {
-    fontSize: 12,
+    paddingTop: 10,
   },
   viewProfileButton: {
+    fontSize: 14,
     "&:hover": {
-      backgroundColor: "rgba(33, 33, 33, 0.12)",
+      // backgroundColor: "rgba(33, 33, 33, 0.12)",
+      textDecoration: "underline",
     },
   },
   cardTable: {
@@ -168,9 +170,6 @@ export default makeStyles((theme) => ({
   },
   noteTitle: {
     fontSize: "16px",
-  },
-  noteText: {
-    fontSize: "14px",
   },
   popupWrapper: {
     position: "absolute",

@@ -58,6 +58,8 @@ export default function Card({
   isFetching,
   poplsNumber,
   connectionNumber,
+  num,
+  changeLinksOrder,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -75,8 +77,8 @@ export default function Card({
   const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name: name || url,
-    bio, // .replace(/[\n\r]/g, ""),
+    name: name || url || "",
+    bio: bio || "", // .replace(/[\n\r]/g, ""),
     image,
   });
   const [editState, setEditState] = useState({
@@ -112,15 +114,6 @@ export default function Card({
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
   };
-
-  function handleOnDragEnd(result, data) {
-    if (!result.destination) return;
-    const items = [...data];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setLinks({ ...links, links: items });
-    dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
-  }
 
   const settextFieldWidth = (length, bio) => {
     if (length < 10) return bio ? "130px" : "110px";
@@ -195,6 +188,19 @@ export default function Card({
     }
     setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
   }, [personalMode.direct]);
+
+  useEffect(() => {
+    if (changeLinksOrder.index) {
+      if (!changeLinksOrder.result.destination) return;
+      const ID = changeLinksOrder.result.destination.droppableId.slice(9);
+      if (customId !== ID) return;
+      const items = [...links.links];
+      const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
+      items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
+      setLinks({ ...links, links: items });
+      dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
+    }
+  }, [changeLinksOrder.index]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -332,7 +338,7 @@ export default function Card({
                 {setProfileName.isFetching && currentEditedProfile === id
                   ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
                   : <TextField
-                    style={{ width: settextFieldWidth(values.name.length), transition: "width 0.075s linear" }}
+                    style={{ width: settextFieldWidth(values?.name?.length || 0), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
                     onBlur={() => {
@@ -358,7 +364,7 @@ export default function Card({
                   {setProfileBio.isFetching && currentEditedProfile === id
                     ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
                     : <TextField
-                      style={{ width: settextFieldWidth(values.bio.length, "bio"), transition: "width 0.075s linear" }}
+                      style={{ width: settextFieldWidth(values?.bio?.length, "bio"), transition: "width 0.075s linear" }}
                       classes={{ root: classes.disabledTextfieldBio }}
                       name='bio'
                       onFocus={() => setEditState({ ...editState, bio: true })}
@@ -397,7 +403,8 @@ export default function Card({
                   setShowEditIcon={setShowEditIcon}
                   showEditModal={showEditModal}
                   name={name}
-                  handleOnDragEnd={handleOnDragEnd}
+                  num={num}
+                  customId={customId}
                 />
               </div>
               {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >

@@ -163,7 +163,7 @@ function PoplsItem() {
   return (
     <>
       <Header
-        rootLink="Popls"
+        rootLink="Devices"
         firstChild={location.state?.profilesData?.name}
         path="/popls"
       />

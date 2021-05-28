@@ -17,31 +17,31 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   restrictedViewRoot: {
-    // position: "fixed",
-    // top: 0,
-    // right: 0,
-    // backdropFilter: "blur(10px)",
-    // "-webkit-backdrop-filter": "blur(10px)",
-    // width: "calc(100% - 300px)",
-    // height: "100vh",
-    // zIndex: 1000,
+    position: "fixed",
+    top: 0,
+    right: 0,
+    backdropFilter: "blur(10px)",
+    "-webkit-backdrop-filter": "blur(10px)",
+    width: "calc(100% - 300px)",
+    height: "100vh",
+    zIndex: 1000,
   },
   restrictedViewOpacity: {
-    // width: "100%",
-    // height: "100%",
-    // backgroundColor: theme.custom.modalOpacityBackground,
-    // opacity: theme.custom.modalOpacity,
-    // display: "flex",
-    // justifyContent: "center",
-    // alignItems: "center",
+    width: "100%",
+    height: "100%",
+    backgroundColor: theme.custom.modalOpacityBackground,
+    opacity: theme.custom.modalOpacity,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   upgradePlanButton: {
-    // position: "absolute",
-    // top: "50%",
-    // left: "50%",
-    // transform: "translate(-50%,-50%)",
-    // "-webkit-transform": "translate(-50%,-50%)",
-    // zIndex: 2000,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    "-webkit-transform": "translate(-50%,-50%)",
+    zIndex: 2000,
   },
 }));
 
@@ -90,14 +90,14 @@ export default function Main({ children, stripe }) {
           position: "relative",
           height: "100vh",
           backgroundColor: "#ffffff",
-          overflow: (isRestrictedMode && userId !== "243104") || !isMainPageScroll ? "hidden" : "auto",
+          overflow: (isRestrictedMode && (userId !== "243104" && userId !== "293299")) || !isMainPageScroll ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}
         id='main'
       >
         <>
           {children}
-          {isRestrictedMode && userId !== "243104" // userId checkout used just for development
+          {isRestrictedMode && (userId !== "243104" && userId !== "293299") // userId checkout used just for development
             && <div
               style={location.pathname === "/" ? { height: "calc(100vh - 110px)", top: 110 } : {}}
               className={classes.restrictedViewRoot}

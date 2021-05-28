@@ -60,6 +60,16 @@ function SearchStripe({
           events={{ checkHandler: selectObject.selectCheck, hideSelectHandler: selectObject.setOpenProfileSelect, btnHandler: selectObject.selectBtn }}
         />}
       </div>
+      {showCRM && <div className={classes.buttonWrapper}>
+        <Button
+          variant="contained"
+          color="primary"
+          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+          onClick={() => history.push("/connections/export-to-crm")}
+        >
+          Export to CRM
+        </Button>
+      </div>}
       <div>
         {showAll
         && <div className='relative'>
@@ -163,16 +173,6 @@ function SearchStripe({
           name='action'
         >
           {"Templates"}
-        </Button>
-      </div>}
-      {showCRM && <div className={classes.buttonWrapper}>
-        <Button
-          variant="contained"
-          color="primary"
-          classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-          onClick={() => history.push("/connections/export-to-crm")}
-        >
-          Export to CRM
         </Button>
       </div>}
       <Paper component="form" className={classes.root} elevation={0}>
