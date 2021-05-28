@@ -80,10 +80,12 @@ export default function Card({
     name: name || url || "",
     bio: bio || "", // .replace(/[\n\r]/g, ""),
     image,
+    email,
   });
   const [editState, setEditState] = useState({
     name: false,
     bio: false,
+    email: false,
   });
   const [links, setLinks] = useState({
     links: [],
@@ -350,7 +352,10 @@ export default function Card({
                     onChange={handleValuesChange}
                     onDoubleClick={editIconHandler}
                     onKeyDown={(event) => updateFieldRequest(event, () => {
-                      if (event.key === "Enter") dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                      if (event.key === "Enter") {
+                        setCurrentEditedProfile(id);
+                        dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                      }
                     })}
                     placeholder={showEditIcon ? "Enter your name" : ""}
                     InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
@@ -358,7 +363,31 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              <span style={{ color: "#909090" }}>{email}</span>
+              <div className={clsx(classes.section1_title)}>
+                {setProfileName.isFetching && currentEditedProfile === id
+                  ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+                  : <TextField
+                    style={{ width: settextFieldWidth(values?.email?.length || 0), transition: "width 0.075s linear" }}
+                    classes={{ root: classes.disabledTextfieldBio }}
+                    name='email'
+                    onBlur={() => {
+                      setCurrentEditedProfile(id);
+                      // dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.email));
+                    }}
+                    onFocus={() => setEditState({ ...editState, email: true })}
+                    disabled={!showEditIcon}
+                    onChange={handleValuesChange}
+                    onDoubleClick={editIconHandler}
+                    onKeyDown={(event) => updateFieldRequest(event, () => {
+                      // if (event.key === "Enter") dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                    })}
+                    placeholder={showEditIcon ? "Enter your email" : ""}
+                    InputProps={{ disableUnderline: !showEditIcon, className: classes.emailInput }}
+                    value={values.email}
+                    size='small'
+                  />}
+              </div>
+              {/* <span style={{ color: "#909090" }}>{email}</span> */}
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
@@ -377,7 +406,12 @@ export default function Card({
                       rowsMax={2}
                       onChange={handleValuesChange}
                       onDoubleClick={editIconHandler}
-                      onKeyDown={(event) => updateFieldRequest(event, () => dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio)))}
+                      onKeyDown={(event) => updateFieldRequest(event, () => {
+                        if (event.key === "Enter") {
+                          setCurrentEditedProfile(id);
+                          dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
+                        }
+                      })}
                       placeholder={showEditIcon ? "Enter your bio" : ""}
                       InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
                       value={values.bio}

@@ -110,10 +110,16 @@ export default makeStyles((theme) => ({
     // paddingRight: 20,
   },
   bioInput: {
-    ontSize: 17,
+    ontSize: 14,
     fontFamily: "DM Sans",
     fontWeight: 200,
-    // paddingRight: 20,
+    color: "#909090",
+  },
+  emailInput: {
+    ontSize: 14,
+    fontFamily: "DM Sans",
+    fontWeight: 200,
+    color: "#000000",
   },
   section1_avatar: {
     position: "relative",
