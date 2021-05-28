@@ -1,4 +1,7 @@
-import firebase, { db } from "./firebase.config";
+import firebase from "./firebase.config";
+
+let db = firebase.firestore();
+db.enablePersistence({ synchronizeTabs: true });
 
 const getData = async (db, collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get("server");
@@ -7,7 +10,7 @@ const getData = async (db, collection, docId) => {
 
 export const getCollectionData = async (collection, docIdArray) => {
   try {
-    const result = await firebase.auth().signInAnonymously();
+    await firebase.auth().signInAnonymously();
     return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
@@ -15,6 +18,10 @@ export const getCollectionData = async (collection, docIdArray) => {
             const data = await Promise.all((docIdArray.map((docId) => getData(db, collection, docId))));
             resolve(data);
           } catch (error) {
+            console.log(error, error.includes("client is offline"), error?.message.includes("client is offline"));
+            db = firebase.firestore();
+            db.enablePersistence({ synchronizeTabs: true });
+            getCollectionData(collection, docIdArray);
             reject(error);
           }
         } else {
@@ -25,7 +32,7 @@ export const getCollectionData = async (collection, docIdArray) => {
       });
     });
   } catch (error) {
-    console.log.apply(error);
+    console.log(error);
   }
 };
 
