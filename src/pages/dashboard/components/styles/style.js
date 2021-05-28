@@ -35,9 +35,11 @@ export default makeStyles((theme) => ({
   },
   header_body: {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     padding: "10px",
-    height: 40,
+    height: 60,
     width: "100%",
   },
   footer: {

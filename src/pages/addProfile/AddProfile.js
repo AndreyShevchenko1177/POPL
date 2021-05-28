@@ -21,7 +21,7 @@ function ChoicePage() {
         <div className={classes.choiceWrapper}>
           <div className={classes.choiceHeader}>
             <span>
-              What type of profiles do you want to add?
+              What type of accounts do you want to add?
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>

@@ -1,7 +1,7 @@
 import firebase from "./firebase.config";
 
 let db = firebase.firestore();
-db.enablePersistence({ synchronizeTabs: true });
+db.enablePersistence({ synchronizeTabs: true }).catch((err) => console.log(err));
 
 const getData = async (db, collection, docId) => {
   const data = await db.collection(collection).doc(docId.toString()).get("server");
@@ -18,11 +18,9 @@ export const getCollectionData = async (collection, docIdArray) => {
             const data = await Promise.all((docIdArray.map((docId) => getData(db, collection, docId))));
             resolve(data);
           } catch (error) {
-            console.log(error, error.includes("client is offline"), error?.message.includes("client is offline"));
-            db = firebase.firestore();
-            db.enablePersistence({ synchronizeTabs: true });
-            getCollectionData(collection, docIdArray);
-            reject(error);
+            console.log(error.toString());
+            window.location.reload();
+            // reject(error);
           }
         } else {
           console.log("user is signed out");

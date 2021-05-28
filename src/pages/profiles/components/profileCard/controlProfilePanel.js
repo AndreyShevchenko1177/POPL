@@ -93,7 +93,7 @@ function ProfilePanel({
           startIcon={<img className='white' style={{ width: "15px", height: "15px" }} alt='popl' src={poplIcon} />}
           onClick={(event) => handleClickPoplItem(event, "popl")}
         >
-          Popls
+          Devices
         </Button>
       </Grid>
       <Grid item xs={12}>
