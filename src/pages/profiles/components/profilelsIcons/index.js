@@ -7,9 +7,10 @@ import { isSafari } from "../../../../constants";
 import useStyles from "../profileCard/styles/styles";
 import { downLoadFile } from "./downLoadAction";
 import { downloadContacts } from "./downLoadContacts";
+import Loader from "../../../../components/Loader";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, num, customId,
+  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, num, customId, isLinksDragging,
 }) {
   const classes = useStyles();
 
@@ -32,44 +33,47 @@ export default function SocialPoplsIcons({
         <div
           className="flex"
           ref={provided.innerRef}
+          style={isLinksDragging ? { width: "100%" } : {}}
         >
-          {data.map(({
-            title, value, id, clicks, icon, hash, customId,
-          }, key) => (
-            <Draggable
-              key={`${num}${key}`}
-              draggableId={`${num}${key}`}
-              index={key}
-            >
-              {(provided) => (
-                <div
-                  draggable="true"
-                  // className={classes.container}
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
-                    {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
-                      <EditIcon style={{ width: 15, height: 15 }}/>
-                    </div>}
-                    <div
-                      onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
-                      className={classes.iconItem}
-                    >
-                      <img
-                        className={style}
-                        src={icon
-                          ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-                          : icons[id]?.icon} alt={title}
-                      />
+          {isLinksDragging
+            ? <Loader containerStyles={{ margin: "0 auto" }} styles={{ width: 20, height: 20 }} />
+            : data.map(({
+              title, value, id, clicks, icon, hash, customId,
+            }, key) => (
+              <Draggable
+                key={`${num}${key}`}
+                draggableId={`${num}${key}`}
+                index={key}
+              >
+                {(provided) => (
+                  <div
+                    draggable="true"
+                    // className={classes.container}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
+                      {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
+                        <EditIcon style={{ width: 15, height: 15 }}/>
+                      </div>}
+                      <div
+                        onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
+                        className={classes.iconItem}
+                      >
+                        <img
+                          className={style}
+                          src={icon
+                            ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+                            : icons[id]?.icon} alt={title}
+                        />
+                      </div>
+                      {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
                     </div>
-                    {/* <span className={classes.clicksText}>{`${clicks}`}</span> */}
                   </div>
-                </div>
-              )}
-            </Draggable>
-          ))}
+                )}
+              </Draggable>
+            ))}
           {provided.placeholder}
         </div>
       )}

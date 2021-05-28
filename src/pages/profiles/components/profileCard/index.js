@@ -60,6 +60,7 @@ export default function Card({
   connectionNumber,
   num,
   changeLinksOrder,
+  isLinksDragging,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -391,7 +392,7 @@ export default function Card({
             "mt-25": isSafari,
             "h-55": isSafari,
           }, "target-element")}>
-            <div className='relative'>
+            <div className='relative' style={isLinksDragging ? { width: "100%" } : {}}>
               <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
                 <SocialPoplsIcons
                   handleClick={handleClickPoplItem}
@@ -405,6 +406,7 @@ export default function Card({
                   name={name}
                   num={num}
                   customId={customId}
+                  isLinksDragging={isLinksDragging}
                 />
               </div>
               {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >

@@ -56,6 +56,7 @@ export default function Profiles() {
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
   const [changeLinksOrder, setChangeLinksOrder] = useState({});
+  const [isLinksDragging, setIsLinksDragging] = useState(false);
 
   function handleOpenNewProfilePage() {
     history.push("/accounts/add-account");
@@ -70,6 +71,8 @@ export default function Profiles() {
       dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
       setProfiles(items);
     } else {
+      setIsLinksDragging(true);
+      setTimeout(() => setIsLinksDragging(false), 500);
       setChangeLinksOrder({ index: (changeLinksOrder.index || 0) + 1, result });
     }
   }
@@ -318,6 +321,7 @@ export default function Profiles() {
                             setProfileType={setProfileType}
                             num={index}
                             changeLinksOrder={changeLinksOrder}
+                            isLinksDragging={isLinksDragging}
                           />
                         </div>
                         : <Draggable
@@ -345,6 +349,7 @@ export default function Profiles() {
                                 isFetching={isLoading}
                                 num={index}
                                 changeLinksOrder={changeLinksOrder}
+                                isLinksDragging={isLinksDragging}
                               />
                             </div>
                           )}
