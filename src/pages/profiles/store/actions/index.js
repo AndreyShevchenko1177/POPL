@@ -415,9 +415,9 @@ export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getS
   }
 };
 
-export const setProfilesLinksObject = (data) => ({
+export const setProfilesLinksObject = (data, profileId) => ({
   type: SET_LINKS_OBJECT,
-  payload: data,
+  payload: { data, profileId },
 });
 
 export const isFetchingAction = (isFetching, name) => ({

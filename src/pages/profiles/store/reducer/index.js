@@ -295,7 +295,20 @@ export default function profilesReducer(
   case SET_LINKS_OBJECT: {
     return {
       ...state,
-      profileLinks: payload,
+      profileLinks: payload.data,
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (payload.profileId === profile.customId) {
+            return {
+              ...profile,
+              social: payload.data[profile.customId]["1"],
+              business: payload.data[profile.customId]["2"],
+            };
+          }
+          return profile;
+        }),
+        error: null,
+      },
     };
   }
   case CLEAR_STATE: {
