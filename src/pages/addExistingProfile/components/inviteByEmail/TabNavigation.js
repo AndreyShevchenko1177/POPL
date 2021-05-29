@@ -35,11 +35,14 @@ function a11yProps(index) {
   };
 }
 
-function TabNavigation() {
+function TabNavigation({ setHeaderValue }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => setValue(newValue);
+  const handleChange = (event, newValue) => {
+    setHeaderValue(!newValue ? "Send email invites to existing Popl accounts" : "login to existing popl account");
+    setValue(newValue);
+  };
 
   return (
     <div className={classes.root}>

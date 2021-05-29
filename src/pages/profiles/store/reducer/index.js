@@ -15,6 +15,7 @@ import {
   SET_PROFILE_BIO,
   SET_PROFILE_PHOTO,
   SET_LINK_ORDER,
+  SET_LINKS_OBJECT,
 } from "../actionTypes";
 
 const initialState = {
@@ -59,6 +60,7 @@ const initialState = {
   setLinkOrder: {
     data: {},
   },
+  profileLinks: null,
   isFetching: false,
 };
 
@@ -68,7 +70,13 @@ export default function profilesReducer(
 ) {
   switch (type) {
   case GET_DATA_PROFILES_SUCCESS: {
+    const profileLinks = {};
     const profiles = payload.map((profile) => {
+      // setting links for all profiles
+      profileLinks[profile.customId] = {
+        1: profile.social,
+        2: profile.business,
+      };
       if (!profile.name) {
         return {
           ...profile,
@@ -84,6 +92,7 @@ export default function profilesReducer(
         error: null,
       },
       isFetching: false,
+      profileLinks,
     };
   }
   case GET_DATA_PROFILES_FAIL: {
@@ -280,6 +289,25 @@ export default function profilesReducer(
       ...state,
       setLinkOrder: {
         data: { ...state.setLinkOrder.data, ...payload },
+      },
+    };
+  }
+  case SET_LINKS_OBJECT: {
+    return {
+      ...state,
+      profileLinks: payload.data,
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (payload.profileId === profile.customId) {
+            return {
+              ...profile,
+              social: payload.data[profile.customId]["1"],
+              business: payload.data[profile.customId]["2"],
+            };
+          }
+          return profile;
+        }),
+        error: null,
       },
     };
   }
