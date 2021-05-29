@@ -22,6 +22,7 @@ import {
   IS_DATA_FETCHING,
   SET_PROFILE_PHOTO,
   SET_LINK_ORDER,
+  SET_LINKS_OBJECT,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
@@ -413,6 +414,11 @@ export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getS
     console.log(error);
   }
 };
+
+export const setProfilesLinksObject = (data, profileId) => ({
+  type: SET_LINKS_OBJECT,
+  payload: { data, profileId },
+});
 
 export const isFetchingAction = (isFetching, name) => ({
   type: IS_DATA_FETCHING,

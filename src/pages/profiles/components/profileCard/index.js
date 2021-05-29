@@ -75,7 +75,9 @@ export default function Card({
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
-  const { setProfileName, setProfileBio, setProfilePhoto } = useSelector(({ profilesReducer }) => profilesReducer);
+  const {
+    setProfileName, setProfileBio, setProfilePhoto, profileLinks,
+  } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url || "",
     bio: bio || "", // .replace(/[\n\r]/g, ""),
@@ -175,34 +177,32 @@ export default function Card({
   useEffect(() => {
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
-    if (links.links.length <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
+    const linksCount = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]?.length) || 0;
+    console.log(linksCount);
+    if (linksCount <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
       return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
     return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
-  }, [links]);
+  }, [profileLinks, personalMode]);
 
-  useEffect(() => {
-    let localLinks;
-    if (personalMode.direct) {
-      localLinks = business;
-    } else {
-      localLinks = social;
-    }
-    setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
-  }, [personalMode.direct]);
+  // useEffect(() => {
+  //   let localLinks = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]) || [];
 
-  useEffect(() => {
-    if (changeLinksOrder.index) {
-      if (!changeLinksOrder.result.destination) return;
-      const ID = changeLinksOrder.result.destination.droppableId.slice(9);
-      if (customId !== ID) return;
-      const items = [...links.links];
-      const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
-      items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
-      setLinks({ ...links, links: items });
-      dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
-    }
-  }, [changeLinksOrder.index]);
+  //   setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
+  // }, [profileLinks]);
+
+  // useEffect(() => {
+  //   if (changeLinksOrder.index) {
+  //     if (!changeLinksOrder.result.destination) return;
+  //     const ID = changeLinksOrder.result.destination.droppableId.slice(9);
+  //     if (customId !== ID) return;
+  //     const items = [...links.links];
+  //     const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
+  //     items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
+  //     setLinks({ ...links, links: items });
+  //     dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
+  //   }
+  // }, [changeLinksOrder.index]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -431,7 +431,7 @@ export default function Card({
                   handleClick={handleClickPoplItem}
                   profileId={id}
                   profileName={name}
-                  data={links.links}
+                  data={(profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]) || []}
                   style={classes.linkImage}
                   showEditIcon={showEditIcon}
                   setShowEditIcon={setShowEditIcon}
