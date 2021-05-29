@@ -178,7 +178,6 @@ export default function Card({
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
     const linksCount = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]?.length) || 0;
-    console.log(linksCount);
     if (linksCount <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
       return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
