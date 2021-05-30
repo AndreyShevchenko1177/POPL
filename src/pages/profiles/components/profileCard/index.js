@@ -80,9 +80,11 @@ export default function Card({
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url || "",
-    bio: bio || "", // .replace(/[\n\r]/g, ""),
+    bio: bio?.split("\r")
+      .map((item) => item.trim()).join("\r")
+      .replace(/\r(?=\r)/g, "") || "", // .replace(/[\n\r]/g, ""),
     image,
-    email,
+    email: email || "",
   });
   const [editState, setEditState] = useState({
     name: false,
