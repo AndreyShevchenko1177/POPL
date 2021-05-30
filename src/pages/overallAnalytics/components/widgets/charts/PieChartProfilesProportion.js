@@ -7,6 +7,7 @@ import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
 import { getRandomColor } from "../../../../../utils";
+import { isSafari } from "../../../../../constants";
 
 const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => {
   const classes = useStyles();
@@ -40,11 +41,10 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
 
   const renderLabels = (chart) => {
     const { data } = chart;
-    console.log(data.labels);
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 145px" id="legend-${i}-item" class="legend-item">
+              <div style="display: flex; width: 145px; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
                 <div style='display: none; position: absolute; top: 0px ; left: -${data.labels[i]?.length * 10}px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
                   <span>${data.labels[i]} </span>
                 </div>
@@ -52,7 +52,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
                   ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
-                ${data.labels[i] && `<span style="margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )
@@ -119,12 +119,12 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
             ref={chart}
             data={{
               ...data,
-              labels: data.labels,
-              // .filter((el, i, arr) => arr.indexOf(el) === i),
+              labels: data.labels
+                .filter((el, i, arr) => arr.indexOf(el) === i && el !== "null" && el !== "undefined"),
               datasets: [{
                 ...data.datasets[0],
-                data: data.datasets[0].data,
-                // .filter((el, i, arr) => arr.length / 2 > i),
+                data: data.datasets[0].data
+                  .filter((el, i, arr) => arr.length / 2 > i),
               }],
             }}
             legend={{ display: false }}
