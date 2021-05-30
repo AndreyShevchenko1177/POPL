@@ -184,6 +184,7 @@ p {
 
 #legend3 {
   position: absolute;
+  padding-top: 10px;
   left: 48%;
   top: 50%;
   transform: translateY(-50%);
