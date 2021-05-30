@@ -92,7 +92,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(name);
+            chartLabelsPopsByProfileDataProportion.push(name === "null" ? "no name" : name);
             chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
@@ -117,16 +117,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
         <div style={{ position: "absolute", left: "-40px" }} className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={{
-              ...data,
-              labels: data.labels
-                .filter((el, i, arr) => arr.indexOf(el) === i && el !== "null" && el !== "undefined"),
-              datasets: [{
-                ...data.datasets[0],
-                data: data.datasets[0].data
-                  .filter((el, i, arr) => arr.length / 2 > i),
-              }],
-            }}
+            data={data}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {
