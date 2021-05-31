@@ -20,7 +20,12 @@ function Preview({ message, title }) {
             <div>now</div>
           </div>
           <div className={classes.notificationMessageWrapper}>
-            <Typography variant='subtitle1' classes={{ subtitle1: classes.notificationMessageTitle }}>{title || <span className={classes.contentPlaceholder}><i>Notification title</i></span>}</Typography>
+            <Typography
+              variant='subtitle1'
+              classes={{ subtitle1: classes.notificationMessageTitle }}
+            >
+              {title || <span className={classes.contentPlaceholder}><i>Title</i></span>}
+            </Typography>
             <div className={classes.notificationMessage}>{message || <span className={classes.contentPlaceholder}><i>Message...</i></span>}</div>
           </div>
         </Paper>

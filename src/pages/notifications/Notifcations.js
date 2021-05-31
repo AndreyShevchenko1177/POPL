@@ -55,9 +55,9 @@ function Notifications() {
               </div>
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Title</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Title" : "Subject"}</Typography>
               <TextField
-                placeholder='Title'
+                placeholder={values.sendAs === 1 ? "Title" : "Subject"}
                 name="title"
                 value={values.title}
                 onChange={handleChange}

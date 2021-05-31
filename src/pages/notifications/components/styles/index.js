@@ -182,7 +182,7 @@ export default makeStyles((theme) => ({
     width: "80%",
     minWidth: 380,
     height: 550,
-    backgroundColor: "#262626",
+    backgroundColor: "#ffffff",
     borderRadius: 4,
     padding: 20,
   },
@@ -192,13 +192,13 @@ export default makeStyles((theme) => ({
     marginBottom: 10,
   },
   emailTitles: {
-    color: "#a5a5a5",
+    color: "#000000",
     fontSize: 16,
     paddingRight: 10,
   },
   emailText: {
     width: "100%",
-    color: "#ffffff",
+    color: "#000000",
     fontSize: 16,
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -206,7 +206,7 @@ export default makeStyles((theme) => ({
   },
   emailMessage: {
     paddingTop: 20,
-    color: "#ffffff",
+    color: "#000000",
     wordBreak: "break-word",
     height: "100%",
     overflow: "hidden",
