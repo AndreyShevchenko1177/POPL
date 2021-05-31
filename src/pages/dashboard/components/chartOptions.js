@@ -64,4 +64,12 @@ const chartOptions = {
   },
 };
 
+export const colors = [
+  "rgba(0, 0, 0, 1)",
+  "rgba(62, 116, 226, 1)",
+  "rgba(107, 187, 228, 1)",
+  "rgba(213, 229, 106, 1)",
+
+];
+
 export default chartOptions;

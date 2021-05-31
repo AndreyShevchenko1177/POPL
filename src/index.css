@@ -269,3 +269,7 @@ input[type="number"] {
   background: #747474;
   border-radius: 5px;
 }
+
+.disabled {
+  color: #bcbcbc;
+}
