@@ -39,6 +39,13 @@ function ProfilesList({
     setIsShow(false);
   };
 
+  const handleSelectAll = () => {
+    const result = {};
+    Object.keys(checked).forEach((key) => result[key] = true);
+    setIsChecked(result);
+    setCheckedProfiles(profilesList);
+  };
+
   useEffect(() => {
     if (profiles) {
       const result = {};
@@ -62,7 +69,6 @@ function ProfilesList({
           onChange={handleChange}
           fullWidth
           size='small'
-          // className={classes.searchInput}
         />
       </div>
       {isFetchingProfiles
@@ -91,6 +97,14 @@ function ProfilesList({
           </div>
         </>}
       {!isFetchingProfiles && <div className={classes.profilesListBtnWrapper}>
+        <Button
+          className={classes.profilesListBtn}
+          variant='contained'
+          color="primary"
+          onClick={handleSelectAll}
+        >
+          Select all
+        </Button>
         <Button
           className={classes.profilesListBtn}
           variant='contained'

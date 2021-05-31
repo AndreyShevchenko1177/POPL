@@ -86,11 +86,9 @@ export default makeStyles((theme) => ({
   },
   profilesListBtnWrapper: {
     display: "flex",
+    justifyContent: "space-between",
     padding: "10px 20px",
     width: "100%",
-  },
-  profilesListBtn: {
-    marginLeft: "auto",
   },
   recipientsContentWrapper: {
     width: "100%",
@@ -143,7 +141,9 @@ export default makeStyles((theme) => ({
     left: "50%",
     transform: "translateX(-50%)",
     width: 300,
-    height: 80,
+    overflow: "hidden",
+    minHeight: 80,
+    maxHeight: 285,
   },
   notificationTitleWrapper: {
     display: "flex",
@@ -160,11 +160,55 @@ export default makeStyles((theme) => ({
   },
   notificationMessageWrapper: {
     display: "flex",
-    padding: 10,
+    flexDirection: "column",
+    padding: "0 10px 10px 10px",
   },
   notificationMessage: {
-    overflow: "hidden",
+    wordBreak: "break-word",
+  },
+  notificationMessageTitle: {
+    minHeight: 25,
+    fontSize: "14 !important",
+    fontWeight: "bold",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+  },
+  contentPlaceholder: {
+    fontSize: 14,
+    fontWeight: "normal",
+    color: "grey",
+  },
+  emailRoot: {
+    width: "80%",
+    minWidth: 380,
+    height: 550,
+    backgroundColor: "#262626",
+    borderRadius: 4,
+    padding: 20,
+  },
+  emailFieldsWrapper: {
+    display: "flex",
+    borderBottom: "1px solid #383838",
+    marginBottom: 10,
+  },
+  emailTitles: {
+    color: "#a5a5a5",
+    fontSize: 16,
+    paddingRight: 10,
+  },
+  emailText: {
+    width: "100%",
+    color: "#ffffff",
+    fontSize: 16,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  emailMessage: {
+    paddingTop: 20,
+    color: "#ffffff",
+    wordBreak: "break-word",
+    height: "100%",
+    overflow: "hidden",
   },
 }));

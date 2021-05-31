@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, TextField, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
 import Recipients from "./components/Recipients";
 import useStyles from "./styles";
 import NotificationModal from "./components/NotificationModal";
 import Preview from "./components/Preview";
+import PreviewEmail from "./components/PreviewEmail";
 
 function Notifications() {
   const classes = useStyles();
@@ -15,6 +17,7 @@ function Notifications() {
     recipients: [],
   });
   const [isShowModal, setIsShowModal] = useState(false);
+  const userData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +34,7 @@ function Notifications() {
         <div className={classes.rootFieldsWrapper}>
           <div className={classes.rootFields}>
             <div className={classes.fieldWrapper}>
-              <Typography>Send As</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Send As</Typography>
               <div className={classes.sendAsBtnWrapper}>
                 <Button
                   className={classes.sendAsBtn}
@@ -39,7 +42,7 @@ function Notifications() {
                   color={values.sendAs === 1 ? "primary" : "secondary"}
                   onClick={() => setValues({ ...values, sendAs: 1 })}
                 >
-              Push Notification
+                  Push Notification
                 </Button>
                 <Button
                   className={classes.sendAsBtn}
@@ -47,12 +50,12 @@ function Notifications() {
                   color={values.sendAs === 2 ? "primary" : "secondary"}
                   onClick={() => setValues({ ...values, sendAs: 2 })}
                 >
-              Email
+                  Email
                 </Button>
               </div>
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography>Title</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Title</Typography>
               <TextField
                 placeholder='Title'
                 name="title"
@@ -64,14 +67,14 @@ function Notifications() {
               />
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography>Message <span>*</span></Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Message <span>*</span></Typography>
               <TextField
                 placeholder='Message'
                 name="message"
                 value={values.message}
                 onChange={handleChange}
                 multiline
-                rows={4}
+                rows={values.sendAs === 1 ? 4 : 8}
                 fullWidth
                 variant='outlined'
                 size="small"
@@ -94,7 +97,10 @@ function Notifications() {
             </div>
           </div>
         </div>
-        <Preview message={values.message} />
+        {values.sendAs === 1
+          ? <Preview message={values.message} title={values.title} />
+          : <PreviewEmail message={values.message} title={values.title} userEmail={userData && userData[0]?.email} />
+        }
       </div>
       {isShowModal && <>
         <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
