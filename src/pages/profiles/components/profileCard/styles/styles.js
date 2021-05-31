@@ -263,6 +263,7 @@ export default makeStyles((theme) => ({
     top: -7,
     right: -7,
     cursor: "pointer",
+    zIndex: 10000,
   },
   iconItem: {
     display: "flex",
@@ -277,6 +278,7 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
   },
   linkImage: {
+    transform: "scale(1, 1)",
     width: 30,
     height: 30,
   },
@@ -371,5 +373,25 @@ export default makeStyles((theme) => ({
     height: 40,
     fontSize: 14,
     overflow: "hidden",
+  },
+  start_wiggle: {
+    animation: "0.12s linear 0s infinite alternate none running $myfirst",
+    "-webkitAnimation": "0.12s linear 0s infinite alternate none running $myfirst",
+  },
+  "@keyframes myfirst": {
+    "0%": {
+      transform: "scale(1, 1) rotate(3.5deg)",
+    },
+    "100%": {
+      transform: "scale(1, 1) rotate(-3.5deg)",
+    },
+  },
+  "@webkitKeyframes myfirst": {
+    "0%": {
+      webkitTransform: "scale(1, 1) rotate(3.5deg)",
+    },
+    "100%": {
+      webkitTransform: "scale(1, 1) rotate(-3.5deg)",
+    },
   },
 }));

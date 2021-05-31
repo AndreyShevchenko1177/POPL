@@ -62,7 +62,7 @@ export default function SocialPoplsIcons({
                         className={classes.iconItem}
                       >
                         <img
-                          className={style}
+                          className={clsx(style, { [classes.start_wiggle]: showEditIcon })}
                           src={icon
                             ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
                             : icons[id]?.icon} alt={title}
