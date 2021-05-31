@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import smartphoneImage from "../../../assets/images/smartphone.png";
 import appleIcon from "../../../assets/images/apple.png";
 
-function Preview({ message }) {
+function Preview({ message, title }) {
   const classes = useStyles();
 
   return (
@@ -20,7 +20,8 @@ function Preview({ message }) {
             <div>now</div>
           </div>
           <div className={classes.notificationMessageWrapper}>
-            <Typography variant='subtitle1' classes={{ subtitle1: classes.notificationMessage }}>{message || "Default message"}</Typography>
+            <Typography variant='subtitle1' classes={{ subtitle1: classes.notificationMessageTitle }}>{title || <span className={classes.contentPlaceholder}><i>Notification title</i></span>}</Typography>
+            <div className={classes.notificationMessage}>{message || <span className={classes.contentPlaceholder}><i>Message...</i></span>}</div>
           </div>
         </Paper>
       </div>

@@ -62,4 +62,8 @@ export default makeStyles((theme) => ({
     zIndex: 1050,
     outline: "none",
   },
+  formLabels: {
+    fontSize: "18px !important",
+    fontWeight: "bold",
+  },
 }));

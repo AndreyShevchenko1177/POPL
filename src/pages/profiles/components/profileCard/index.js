@@ -59,7 +59,6 @@ export default function Card({
   poplsNumber,
   connectionNumber,
   num,
-  changeLinksOrder,
   isLinksDragging,
 }) {
   const classes = useStyles();
