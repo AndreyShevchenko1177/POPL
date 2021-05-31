@@ -59,7 +59,6 @@ export default function Card({
   poplsNumber,
   connectionNumber,
   num,
-  changeLinksOrder,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -74,7 +73,6 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const {
     setProfileName, setProfileBio, setProfilePhoto, profileLinks,
   } = useSelector(({ profilesReducer }) => profilesReducer);
@@ -89,11 +87,7 @@ export default function Card({
     bio: false,
     email: false,
   });
-  const [links, setLinks] = useState({
-    links: [],
-    localLinks: [],
-    count: 0,
-  });
+
   const [showLinksBtn, setShowLinksBtn] = useState({
     next: false,
     back: false,
@@ -178,30 +172,11 @@ export default function Card({
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
     const linksCount = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]?.length) || 0;
-    if (linksCount <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
+    if (linksCount <= appropriateLinksCount) {
       return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
     return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
   }, [profileLinks, personalMode]);
-
-  // useEffect(() => {
-  //   let localLinks = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]) || [];
-
-  //   setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
-  // }, [profileLinks]);
-
-  // useEffect(() => {
-  //   if (changeLinksOrder.index) {
-  //     if (!changeLinksOrder.result.destination) return;
-  //     const ID = changeLinksOrder.result.destination.droppableId.slice(9);
-  //     if (customId !== ID) return;
-  //     const items = [...links.links];
-  //     const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
-  //     items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
-  //     setLinks({ ...links, links: items });
-  //     dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
-  //   }
-  // }, [changeLinksOrder.index]);
 
   useEffect(() => {
     if (activeProfile === "2") {
