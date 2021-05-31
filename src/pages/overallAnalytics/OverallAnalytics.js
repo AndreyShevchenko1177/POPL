@@ -42,7 +42,7 @@ function OverallAnalytics() {
   )}, ${getYear(new Date())}`;
   const [calendar, setCalendar] = useState({
     visible: false,
-    dateRange: [new Date(currentDate1), new Date(currentDate2)],
+    dateRange: [new Date(currentDate1.slice(0, currentDate1.length - 1)), new Date(currentDate2)],
     normalData: [currentDate1, currentDate2],
   });
 

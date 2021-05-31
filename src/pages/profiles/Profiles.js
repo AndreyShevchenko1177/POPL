@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import clsx from "clsx";
 import {
-  setDirectAction, setProfileStatusAction, turnProfileAction, changeProfileOrder,
+  setDirectAction, setProfileStatusAction, turnProfileAction, changeProfileOrder, setProfilesLinksObject, setLinkOrderAction,
 } from "./store/actions";
 import Header from "../../components/Header";
 import ProfileCard from "./components/profileCard";
@@ -71,9 +71,29 @@ export default function Profiles() {
       dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
       setProfiles(items);
     } else {
-      setIsLinksDragging(true);
-      setTimeout(() => setIsLinksDragging(false), 500);
-      setChangeLinksOrder({ index: (changeLinksOrder.index || 0) + 1, result });
+      const linksObject = {};
+      const profileId = result.source.droppableId.slice(9);
+      profiles.forEach((profile) => {
+        if (profile.customId === profileId) {
+          const items = profile.activeProfile === "1" ? [...profile.social] : [...profile.business];
+          console.log([...items]);
+          const [reorderedItem] = items.splice(result.source.index, 1);
+          items.splice(result.destination.index, 0, reorderedItem);
+          console.log([...items]);
+          linksObject[profile.customId] = {
+            1: profile.activeProfile === "1" ? [...items] : profile.social,
+            2: profile.activeProfile === "2" ? [...items] : profile.business,
+          };
+          dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), profile.id, items, profile.activeProfile));
+        } else {
+          linksObject[profile.customId] = {
+            1: profile.social,
+            2: profile.business,
+          };
+        }
+      });
+      dispatch(setProfilesLinksObject(linksObject, profileId));
+      // setChangeLinksOrder({ index: (changeLinksOrder.index || 0) + 1, result });
     }
   }
 
