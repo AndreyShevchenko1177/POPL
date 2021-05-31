@@ -119,7 +119,7 @@ export default makeStyles((theme) => ({
     ontSize: 14,
     fontFamily: "DM Sans",
     fontWeight: 200,
-    color: "#000000",
+    color: "#5f5f5f !important",
     padding: 0,
   },
   section1_avatar: {

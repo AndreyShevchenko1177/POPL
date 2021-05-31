@@ -81,7 +81,7 @@ export default function Card({
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const {
-    setProfileName, setProfileBio, setProfilePhoto, profileLinks,
+    setProfileName, setProfileBio, setProfilePhoto, profileLinks, setProfileEmail,
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url || "",
@@ -349,8 +349,8 @@ export default function Card({
                   />}
               </div>
               <div className={clsx(classes.section1_title)}>
-                {setProfileName.isFetching && currentEditedProfile === id
-                  ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
+                {setProfileEmail.isFetching && currentEditedProfile === id
+                  ? <Loader containerStyles={{ marginLeft: 50, display: "flex", alignItems: "center" }} styles={{ width: 20, height: 20 }} />
                   : <TextField
                     style={{ width: settextFieldWidth(values?.email?.length || 0), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfieldBio }}
