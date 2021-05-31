@@ -421,6 +421,17 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
 
 export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileState) => async (dispatch, getState) => {
   try {
+    const userId = getState().authReducer.signIn.data.id;
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+
     const result = await requests.changeLinksOrderRequest({
       linksIds, hashes, profileId, profileState,
     });
@@ -436,6 +447,15 @@ export const setLinkOrderAction = (linksIds, hashes, profileId, links, profileSt
 export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
+
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
     const result = await Promise.all(data.map((item) => requests.changeLinksOrderRequest(item)));
     console.log(result);
     success();
