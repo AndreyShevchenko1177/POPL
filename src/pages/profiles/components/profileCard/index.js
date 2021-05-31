@@ -4,7 +4,7 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Paper, Button, TextField, Chip,
+  Paper, Button, TextField, Chip, Tooltip,
 } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import EditIcon from "@material-ui/icons/Edit";
@@ -24,15 +24,21 @@ import {
   setProfileBioAcion,
   setProfileNameAcion,
   setProfileImageAction,
-  setLinkOrderAction,
+  setProfileEmailAcion,
   isFetchingAction,
 } from "../../store/actions";
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
-import { defineDarkColor, restrictEdit, getId } from "../../../../utils";
+import { defineDarkColor, restrictEdit } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
+
+function removeBioExtraBreakLines(bio) {
+  return bio.split("\r")
+    .map((item) => item.trim()).join("\r")
+    .replace(/\r(?=\r)/g, "");
+}
 
 export default function Card({
   isDotsRemove,
@@ -74,15 +80,12 @@ export default function Card({
   const [showEditIcon, setShowEditIcon] = useState(false);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  const changeLinksOrdering = useSelector(({ profilesReducer }) => profilesReducer.setLinkOrder.data);
   const {
     setProfileName, setProfileBio, setProfilePhoto, profileLinks,
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
     name: name || url || "",
-    bio: bio?.split("\r")
-      .map((item) => item.trim()).join("\r")
-      .replace(/\r(?=\r)/g, "") || "", // .replace(/[\n\r]/g, ""),
+    bio: "", // .replace(/[\n\r]/g, ""),
     image,
     email: email || "",
   });
@@ -90,11 +93,6 @@ export default function Card({
     name: false,
     bio: false,
     email: false,
-  });
-  const [links, setLinks] = useState({
-    links: [],
-    localLinks: [],
-    count: 0,
   });
   const [showLinksBtn, setShowLinksBtn] = useState({
     next: false,
@@ -180,30 +178,11 @@ export default function Card({
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
     const linksCount = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]?.length) || 0;
-    if (linksCount <= appropriateLinksCount && (links.localLinks.length - links.count) < appropriateLinksCount) {
+    if (linksCount <= appropriateLinksCount) {
       return setShowLinksBtn({ ...showLinksBtn, next: false });
     }
     return setShowLinksBtn({ ...showLinksBtn, next: true, back: false });
   }, [profileLinks, personalMode]);
-
-  // useEffect(() => {
-  //   let localLinks = (profileLinks && profileLinks[customId] && profileLinks[customId][personalMode.direct ? "2" : "1"]) || [];
-
-  //   setLinks({ links: !changeLinksOrdering[id] ? localLinks.map((el) => ({ ...el, customId: getId(12, "1234567890") })) : changeLinksOrdering[id], localLinks, count: 0 });
-  // }, [profileLinks]);
-
-  // useEffect(() => {
-  //   if (changeLinksOrder.index) {
-  //     if (!changeLinksOrder.result.destination) return;
-  //     const ID = changeLinksOrder.result.destination.droppableId.slice(9);
-  //     if (customId !== ID) return;
-  //     const items = [...links.links];
-  //     const [reorderedItem] = items.splice(changeLinksOrder.result.source.index, 1);
-  //     items.splice(changeLinksOrder.result.destination.index, 0, reorderedItem);
-  //     setLinks({ ...links, links: items });
-  //     dispatch(setLinkOrderAction(items.map(({ id }) => id), items.map(({ hash }) => hash), id, items, personalMode.direct ? 2 : 1));
-  //   }
-  // }, [changeLinksOrder.index]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -234,14 +213,19 @@ export default function Card({
   }, [name]);
 
   useEffect(() => {
-    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness });
-    return setValues({ ...values, bio });
+    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "" });
+    return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
   }, [bio, bioBusiness]);
 
   useEffect(() => {
     setValues({ ...values, image });
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image]);
+
+  useEffect(() => {
+    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "" });
+    return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
+  }, []);
 
   return (
     <>
@@ -373,14 +357,17 @@ export default function Card({
                     name='email'
                     onBlur={() => {
                       setCurrentEditedProfile(id);
-                      // dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.email));
+                      dispatch(setProfileEmailAcion(id, values.email));
                     }}
                     onFocus={() => setEditState({ ...editState, email: true })}
                     disabled={!showEditIcon}
                     onChange={handleValuesChange}
                     onDoubleClick={editIconHandler}
                     onKeyDown={(event) => updateFieldRequest(event, () => {
-                      // if (event.key === "Enter") dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                      if (event.key === "Enter") {
+                        setCurrentEditedProfile(id);
+                        dispatch(setProfileEmailAcion(id, values.email));
+                      }
                     })}
                     placeholder={showEditIcon ? "Enter your email" : ""}
                     InputProps={{ disableUnderline: !showEditIcon, className: classes.emailInput }}
@@ -388,36 +375,37 @@ export default function Card({
                     size='small'
                   />}
               </div>
-              {/* <span style={{ color: "#909090" }}>{email}</span> */}
               <div className={classes.section3}>
                 <div className={classes.bioFieldWrapper}>
                   {setProfileBio.isFetching && currentEditedProfile === id
                     ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
-                    : <TextField
-                      style={{ width: settextFieldWidth(values?.bio?.length, "bio"), transition: "width 0.075s linear" }}
-                      classes={{ root: classes.disabledTextfieldBio }}
-                      name='bio'
-                      onFocus={() => setEditState({ ...editState, bio: true })}
-                      disabled={!showEditIcon}
-                      onBlur={(event) => {
-                        setCurrentEditedProfile(id);
-                        dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                      }}
-                      multiline
-                      rowsMax={2}
-                      onChange={handleValuesChange}
-                      onDoubleClick={editIconHandler}
-                      onKeyDown={(event) => updateFieldRequest(event, () => {
-                        if (event.key === "Enter") {
+                    : showEditIcon
+                      ? <TextField
+                        style={{ width: settextFieldWidth(values?.bio?.length, "bio"), transition: "width 0.075s linear" }}
+                        classes={{ root: classes.disabledTextfieldBio }}
+                        name='bio'
+                        onFocus={() => setEditState({ ...editState, bio: true })}
+                        disabled={!showEditIcon}
+                        onBlur={(event) => {
                           setCurrentEditedProfile(id);
                           dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                        }
-                      })}
-                      placeholder={showEditIcon ? "Enter your bio" : ""}
-                      InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
-                      value={values.bio}
-                      size='small'
-                    />}
+                        }}
+                        multiline
+                        rowsMax={2}
+                        onChange={handleValuesChange}
+                        onKeyDown={(event) => updateFieldRequest(event, () => {
+                          if (event.key === "Enter") {
+                            setCurrentEditedProfile(id);
+                            dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
+                          }
+                        })}
+                        placeholder={showEditIcon ? "Enter your bio" : ""}
+                        InputProps={{ disableUnderline: !showEditIcon, className: classes.bioInput }}
+                        value={values.bio}
+                        size='small'
+                      />
+                      : <Tooltip title={values?.bio || ""} placement="top"><div onDoubleClick={editIconHandler} className={classes.bioNotEditMode}>{values.bio}</div></Tooltip>
+                  }
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ import {
   SET_PROFILE_PHOTO,
   SET_LINK_ORDER,
   SET_LINKS_OBJECT,
+  SET_PROFILE_EMAIL,
 } from "../actionTypes";
 
 const initialState = {
@@ -50,6 +51,11 @@ const initialState = {
     isFetching: false,
   },
   setProfilePhoto: {
+    data: null,
+    error: null,
+    isFetching: false,
+  },
+  setProfileEmail: {
     data: null,
     error: null,
     isFetching: false,
@@ -241,6 +247,24 @@ export default function profilesReducer(
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {
           if (profile.id == payload.profileId) return { ...profile, [payload.profileState == "1" ? "bio" : "bioBusiness"]: payload.bio };
+          return profile;
+        }),
+        error: null,
+      },
+      isFetching: false,
+    };
+  }
+  case SET_PROFILE_EMAIL: {
+    return {
+      ...state,
+      setProfileEmail: {
+        data: true,
+        error: null,
+        isFetching: false,
+      },
+      dataProfiles: {
+        data: state.dataProfiles.data.map((profile) => {
+          if (profile.id == payload.profileId) return { ...profile, email: payload.email };
           return profile;
         }),
         error: null,

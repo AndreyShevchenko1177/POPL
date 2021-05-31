@@ -206,6 +206,17 @@ export const setProfileBio = (userId, profileState, bio) => {
   });
 };
 
+export const setProfileEmail = (userId, email) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetEmail");
+  bodyFormData.append("iID", userId);
+  bodyFormData.append("sEmail", email);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
+};
+
 export const setProfilePhoto = (userId, profileState, photo) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "SetPhoto");

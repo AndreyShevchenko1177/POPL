@@ -23,6 +23,7 @@ import {
   SET_PROFILE_PHOTO,
   SET_LINK_ORDER,
   SET_LINKS_OBJECT,
+  SET_PROFILE_EMAIL,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
@@ -345,6 +346,36 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
     });
   } catch (error) {
     dispatch(isFetchingAction(false, "setProfileBio"));
+  }
+};
+
+export const setProfileEmailAcion = (profileId, email) => async (dispatch, getState) => {
+  try {
+    const userId = getState().authReducer.signIn.data.id;
+    if (restrictEdit(userId)) {
+      return dispatch(snackBarAction({
+        message: "Can not edit demo account",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+    dispatch(isFetchingAction(true, "setProfileEmail"));
+    const result = await requests.setProfileEmail(profileId, email);
+    if (result.data?.error === "Email already exist") {
+      return dispatch(snackBarAction({
+        message: "Email alredy exist",
+        severity: "error",
+        duration: 12000,
+        open: true,
+      }));
+    }
+    dispatch({
+      type: SET_PROFILE_EMAIL,
+      payload: { profileId, email },
+    });
+  } catch (error) {
+    dispatch(isFetchingAction(false, "setProfileEmail"));
   }
 };
 

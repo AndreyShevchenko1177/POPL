@@ -110,7 +110,7 @@ export default makeStyles((theme) => ({
     // paddingRight: 20,
   },
   bioInput: {
-    ontSize: 14,
+    fontSize: 14,
     fontFamily: "DM Sans",
     fontWeight: 200,
     color: "#909090",
@@ -366,5 +366,10 @@ export default makeStyles((theme) => ({
   },
   safariLinks: {
     margin: "0px 15px 35px 0px",
+  },
+  bioNotEditMode: {
+    height: 40,
+    fontSize: 14,
+    overflow: "hidden",
   },
 }));
