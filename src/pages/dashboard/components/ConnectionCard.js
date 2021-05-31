@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import userIcon from "../../../assets/svg/user.svg";
+import userIcon from "../../../assets/images/popl_white.png";
 import useStyles from "./styles/style";
 
 export default function ConnectionCard({

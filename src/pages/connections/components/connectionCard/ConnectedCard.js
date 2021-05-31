@@ -2,13 +2,13 @@ import React, {
   useState, useEffect, useRef, memo,
 } from "react";
 import {
-  Checkbox, Typography, Button, Paper, Tooltip,
+  Checkbox, Typography, Paper, Tooltip,
 } from "@material-ui/core";
 import utf8 from "utf8";
 import { useLocation } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles/styles";
-import userIcon from "../../../../assets/svg/user.svg";
+import userIcon from "../../../../assets/images/popl_white.png";
 import DragDots from "../../../../components/dragDots";
 import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";

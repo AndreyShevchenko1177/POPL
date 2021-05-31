@@ -14,8 +14,7 @@ import {
 import useStyles from "./styles/styles";
 import TierLevel from "./TierLevel";
 import SvgMaker from "../../components/svgMaker/SvgMaker";
-import { getChildrenIdsRequest } from "../../pages/profiles/store/actions/requests";
-import { profileCountTierLevelAction, getSubscriptionInfoAction, fetchingAction } from "../../store/actions";
+import { getSubscriptionInfoAction, fetchingAction } from "../../store/actions";
 import poplIcon from "../../assets/sidebar/poplIcon_grey.png";
 import poplIconWhite from "../../assets/sidebar/poplIcon_white.png";
 import profiles from "../../assets/sidebar/profiles.png";
