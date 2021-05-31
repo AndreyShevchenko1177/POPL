@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Button,
   TextField, Typography,
@@ -14,15 +15,21 @@ import useStyles from "./styles/styles";
 import Strategy from "./Strategy";
 import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
+import { sendNotificationAction } from "../../store/actions";
 
-function NotificationModal({ closeModal }) {
+function NotificationModal({ closeModal, data }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
   const [selectedDate, handleDateChange] = useState(new Date());
   const [time, setTime] = useState("");
 
   const handleChange = (event) => {
     setTime(event.target.value);
+  };
+
+  const sendNotification = () => {
+    dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }));
   };
 
   const getActiveStrategyItems = (index) => {
@@ -101,7 +108,7 @@ function NotificationModal({ closeModal }) {
             className={classes.confirmBtn}
             variant='contained'
             color="primary"
-            // onClick={}
+            onClick={sendNotification}
           >
             Send now
           </Button>

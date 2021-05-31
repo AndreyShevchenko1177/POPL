@@ -105,7 +105,7 @@ function Notifications() {
       {isShowModal && <>
         <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
         <div className={classes.wizardContainer} tabIndex={1}>
-          <NotificationModal closeModal={() => setIsShowModal(false)} />
+          <NotificationModal closeModal={() => setIsShowModal(false)} data={values}/>
         </div>
       </>}
     </>
