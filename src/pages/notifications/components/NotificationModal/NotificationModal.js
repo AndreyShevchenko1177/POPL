@@ -15,7 +15,7 @@ import useStyles from "./styles/styles";
 import Strategy from "./Strategy";
 import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
-import { sendNotificationAction } from "../../store/actions";
+import { sendNotificationAction, sendShedulerNotificationAction } from "../../store/actions";
 
 function NotificationModal({ closeModal, data }) {
   const classes = useStyles();
@@ -29,7 +29,11 @@ function NotificationModal({ closeModal, data }) {
   };
 
   const sendNotification = () => {
-    dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }));
+    dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }, closeModal));
+  };
+
+  const sendNotificationByTime = () => {
+    dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }), closeModal);
   };
 
   const getActiveStrategyItems = (index) => {
@@ -85,7 +89,7 @@ function NotificationModal({ closeModal, data }) {
               className={classes.confirmBtn}
               variant='contained'
               color="primary"
-              // onClick={}
+              onClick={sendNotificationByTime}
             >
               Schedule
             </Button>

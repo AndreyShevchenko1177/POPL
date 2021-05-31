@@ -380,18 +380,18 @@ export default makeStyles((theme) => ({
   },
   "@keyframes myfirst": {
     "0%": {
-      transform: "scale(1, 1) rotate(3.5deg)",
+      transform: "scale(1, 1) rotate(5deg)",
     },
     "100%": {
-      transform: "scale(1, 1) rotate(-3.5deg)",
+      transform: "scale(1, 1) rotate(-5deg)",
     },
   },
   "@webkitKeyframes myfirst": {
     "0%": {
-      webkitTransform: "scale(1, 1) rotate(3.5deg)",
+      webkitTransform: "scale(1, 1) rotate(5deg)",
     },
     "100%": {
-      webkitTransform: "scale(1, 1) rotate(-3.5deg)",
+      webkitTransform: "scale(1, 1) rotate(-5deg)",
     },
   },
 }));

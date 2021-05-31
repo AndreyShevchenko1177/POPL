@@ -59,10 +59,10 @@ export default function SocialPoplsIcons({
                       </div>}
                       <div
                         onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
-                        className={classes.iconItem}
+                        className={clsx(classes.iconItem, { [classes.start_wiggle]: showEditIcon })}
                       >
                         <img
-                          className={clsx(style, { [classes.start_wiggle]: showEditIcon })}
+                          className={style}
                           src={icon
                             ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
                             : icons[id]?.icon} alt={title}
