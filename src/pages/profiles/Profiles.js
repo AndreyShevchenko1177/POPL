@@ -57,6 +57,7 @@ export default function Profiles() {
   const [profileType, setProfileType] = useState({}); // person or business;
   const [changeLinksOrder, setChangeLinksOrder] = useState({});
   const [isLinksDragging, setIsLinksDragging] = useState(false);
+  const [currentEditedProfile, setCurrentEditedProfile] = useState(0); // for handling what profile card currently editing
 
   function handleOpenNewProfilePage() {
     history.push("/accounts/add-account");
@@ -342,6 +343,8 @@ export default function Profiles() {
                             num={index}
                             changeLinksOrder={changeLinksOrder}
                             isLinksDragging={isLinksDragging}
+                            currentEditedProfile={currentEditedProfile}
+                            setCurrentEditedProfile={setCurrentEditedProfile}
                           />
                         </div>
                         : <Draggable
@@ -370,6 +373,8 @@ export default function Profiles() {
                                 num={index}
                                 changeLinksOrder={changeLinksOrder}
                                 isLinksDragging={isLinksDragging}
+                                currentEditedProfile={currentEditedProfile}
+                                setCurrentEditedProfile={setCurrentEditedProfile}
                               />
                             </div>
                           )}

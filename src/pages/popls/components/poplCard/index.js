@@ -154,7 +154,7 @@ function PoplCard({
                 }
                 className={classes.tableCell}
               >
-                {popl.nickname.replace(/[\\]/g, "") || popl.name.replace(/[\\]/g, "")}
+                {popl.nickname?.replace(/[\\]/g, "") || popl.name?.replace(/[\\]/g, "")}
               </div>
               : isFetching[id]?.nickname
                 ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />

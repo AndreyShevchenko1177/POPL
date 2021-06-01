@@ -363,6 +363,7 @@ export const setProfileEmailAcion = (profileId, email) => async (dispatch, getSt
     dispatch(isFetchingAction(true, "setProfileEmail"));
     const result = await requests.setProfileEmail(profileId, email);
     if (result.data?.error === "Email already exist") {
+      dispatch(isFetchingAction(false, "setProfileEmail"));
       return dispatch(snackBarAction({
         message: "Email alredy exist",
         severity: "error",

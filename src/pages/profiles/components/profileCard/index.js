@@ -66,6 +66,8 @@ export default function Card({
   connectionNumber,
   num,
   isLinksDragging,
+  currentEditedProfile,
+  setCurrentEditedProfile,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -84,8 +86,8 @@ export default function Card({
     setProfileName, setProfileBio, setProfilePhoto, profileLinks, setProfileEmail,
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name: name || url || "",
-    bio: "", // .replace(/[\n\r]/g, ""),
+    name: name?.replace(/[\\]/g, "") || url?.replace(/[\\]/g, "") || "",
+    bio: "",
     image,
     email: email || "",
   });
@@ -98,7 +100,6 @@ export default function Card({
     next: false,
     back: false,
   });
-  const [currentEditedProfile, setCurrentEditedProfile] = useState(0);
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
@@ -329,6 +330,7 @@ export default function Card({
                     classes={{ root: classes.disabledTextfield }}
                     name='name'
                     onBlur={() => {
+                      if ((name && values.name === name) || (!name && url && values.name === url)) return;
                       setCurrentEditedProfile(id);
                       dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
                     }}
@@ -338,6 +340,7 @@ export default function Card({
                     onDoubleClick={editIconHandler}
                     onKeyDown={(event) => updateFieldRequest(event, () => {
                       if (event.key === "Enter") {
+                        if ((name && values.name === name) || (!name && url && values.name === url)) return;
                         setCurrentEditedProfile(id);
                         dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
                       }
@@ -356,6 +359,7 @@ export default function Card({
                     classes={{ root: classes.disabledTextfieldBio }}
                     name='email'
                     onBlur={() => {
+                      if (email === values.email) return;
                       setCurrentEditedProfile(id);
                       dispatch(setProfileEmailAcion(id, values.email));
                     }}
@@ -365,6 +369,7 @@ export default function Card({
                     onDoubleClick={editIconHandler}
                     onKeyDown={(event) => updateFieldRequest(event, () => {
                       if (event.key === "Enter") {
+                        if (email === values.email) return;
                         setCurrentEditedProfile(id);
                         dispatch(setProfileEmailAcion(id, values.email));
                       }

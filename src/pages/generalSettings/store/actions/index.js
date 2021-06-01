@@ -20,13 +20,11 @@ export const updateUserProfile = ({
     if (name || name === "") await requests.setCompanyName(name);
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
-    console.log(file);
     let uploadedFile; // here should be firebase upload function
     if (file && typeof file !== "string") {
       uploadedFile = getId(12);
       await requests.setCompanyAvatar(new File([file], `${uploadedFile}`, { type: file.type }));
     }
-    console.log(file);
     if (typeof uploadedFile === "string") {
       await requests.setCompanyImage(uploadedFile);
     } else requests.setCompanyImage(file || "");
@@ -51,7 +49,10 @@ export const getCompanyInfoAction = () => async (dispatch, getState) => {
 
     dispatch({
       type: GET_COMPANY_INFO_SUCCESS,
-      payload: result,
+      payload: result.map((item, i) => {
+        if (i === 0) item = item.replace(/[\\]/g, "");
+        return item;
+      }),
     });
   } catch (error) {
     console.log(error);
