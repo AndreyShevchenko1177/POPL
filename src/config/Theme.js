@@ -30,7 +30,8 @@ let theme = createMuiTheme({
   custom: {
     drawerWidth: 300,
     mainBoxShadow: "0px 8px 10px -1px rgb(0 0 0 / 5%), 0px 1px 1px 0px rgb(0 0 0 / 6%),0px 3px 20px -4px rgb(0 0 0 / 10%)",
-    iconBoxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
+    iconBoxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+    // iconBoxShadow: "0px 8px 10px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 3px 20px -4px rgb(0 0 0 / 12%)",
     mainBorderRadius: 10,
     modalOpacityBackground: "#808080",
     modalOpacity: "0.45",

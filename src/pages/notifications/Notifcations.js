@@ -10,6 +10,12 @@ import PreviewEmail from "./components/PreviewEmail";
 
 function Notifications() {
   const classes = useStyles();
+  const defaultValues = {
+    title: "",
+    message: "",
+    sendAs: 1, // for send as using two options - 1 and 2. 1 - Push notifications checked, 2 - email
+    recipients: [],
+  };
   const [values, setValues] = useState({
     title: "",
     message: "",
@@ -22,6 +28,11 @@ function Notifications() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
+  };
+
+  const closeModal = () => {
+    setValues(defaultValues);
+    setIsShowModal(false);
   };
 
   return (
@@ -55,7 +66,7 @@ function Notifications() {
               </div>
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Title" : "Subject"}</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Title " : "Subject "}<span>*</span></Typography>
               <TextField
                 placeholder={values.sendAs === 1 ? "Title" : "Subject"}
                 name="title"
@@ -90,6 +101,7 @@ function Notifications() {
                   variant='contained'
                   color="primary"
                   onClick={() => setIsShowModal(true)}
+                  disabled={!values.recipients.length || !values.message || !values.title}
                 >
                   Schedule/Send now
                 </Button>
@@ -105,7 +117,7 @@ function Notifications() {
       {isShowModal && <>
         <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
         <div className={classes.wizardContainer} tabIndex={1}>
-          <NotificationModal closeModal={() => setIsShowModal(false)} data={values}/>
+          <NotificationModal closeModal={closeModal} data={values}/>
         </div>
       </>}
     </>

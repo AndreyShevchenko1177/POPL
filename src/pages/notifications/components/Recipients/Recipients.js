@@ -29,7 +29,7 @@ function Recipients({ setValues, recipients }) {
         </Button>
       </div>
       <div className={classes.recipientsList}>
-        <Typography>Recipients</Typography>
+        <Typography>Recipients *</Typography>
         <div className={classes.recipientsContentWrapper}>
           {recipients.map(({ name, image, customId }) => (
             <div key={customId} className={classes.recipientItem}>

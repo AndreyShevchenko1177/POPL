@@ -17,7 +17,7 @@ import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
 import { sendNotificationAction, sendShedulerNotificationAction } from "../../store/actions";
 
-function NotificationModal({ closeModal, data }) {
+function NotificationModal({ closeModal, data, clearFields }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });

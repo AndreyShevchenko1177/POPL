@@ -433,6 +433,12 @@ function PermanentDrawerLeft() {
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />
         <div className={classes.settingsContainer}>
+          <div style={{
+            width: 20, height: 20, display: "flex", alignItems: "center", marginRight: 15,
+          }} className={classes.sideBarIcons}>
+            <img className='dark' style={{ width: "100%" }} alt='popl' src={settings} />
+          </div>
+
           <span className={classes.settingsText} onClick={() => history.push("/settings")}>
             Settings
           </span>

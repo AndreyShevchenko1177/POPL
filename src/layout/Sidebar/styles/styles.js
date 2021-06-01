@@ -221,6 +221,7 @@ export default makeStyles((theme) => ({
   },
   settingsContainer: {
     padding: "20px 20px 10px 0px",
+    display: "flex",
 
     // "&:hover": {
     //   borderBottom: "1px solid #9b9595",

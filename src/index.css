@@ -270,6 +270,9 @@ input[type="number"] {
   border-radius: 5px;
 }
 
-.disabled {
-  color: #bcbcbc;
+.disable {
+  color: #bcbcbc !important;
+}
+.disable-bg {
+  background-color: #bcbcbc !important;
 }

@@ -92,8 +92,12 @@ function NetworkActivity({
     }
     if (e.currentTarget.lastElementChild.classList.contains("disable-legend")) {
       e.currentTarget.lastElementChild.classList.remove("disable-legend");
+      [...e.currentTarget.children[0].children].forEach((el) => el.classList.remove("disable-bg"));
+      e.currentTarget.children[1].classList.remove("disable");
     } else {
       e.currentTarget.lastElementChild.classList.add("disable-legend");
+      [...e.currentTarget.children[0].children].forEach((el) => el.classList.add("disable-bg"));
+      e.currentTarget.children[1].classList.add("disable");
     }
     ctx.update();
   };
@@ -101,13 +105,13 @@ function NetworkActivity({
   const renderLegend = (chart) => {
     const { data } = chart;
     return data.datasets.map(({ label, borderColor, data }, i) => `
-    <div class="legendItem" style="display: flex; align-items: center; height: 30px; max-width: 250px; cursor: ${!data.reduce((sum, cur) => sum += cur, 0) ? "default" : "pointer"}; margin-right: 30px">
+    <div class="legendItem" style="display: flex; align-items: center; height: 30px; max-width: 250px; cursor: pointer; margin-right: 30px">
       <div style="position: relative; width: 75px; height: 30px; margin-right: 10px">
-        <div style="position: absolute; width: 16px; height: 16px; background-color: ${!data.reduce((sum, cur) => sum += cur, 0) ? "#bcbcbc" : borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+        <div style="position: absolute; width: 16px; height: 16px; background-color: ${borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
       </div>
-        <hr style="width: 75px; position: absolute; top: 50%; background-color: ${!data.reduce((sum, cur) => sum += cur, 0) ? "#bcbcbc" : borderColor}; transform: translateY(-50%); height: 4px; border: none; margin: 0; border-radius: 5px">
+        <hr style="width: 75px; position: absolute; top: 50%; background-color: ${borderColor}; transform: translateY(-50%); height: 4px; border: none; margin: 0; border-radius: 5px">
       </div>
-    ${label && `<span class="label ${!data.reduce((sum, cur) => sum += cur, 0) ? "disabled" : ""}" style="line-height: 30px;">${label} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
+    ${label && `<span class="label" style="line-height: 30px;">${label} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
     </div>
     `).join("");
   };
@@ -129,7 +133,7 @@ function NetworkActivity({
         }
         chartOptions.data.datasets[i].data = [...Object.values(values)];
         chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
-        chartOptions.data.datasets[i].borderColor = [...Object.values(values)].every((el) => !el) ? "rgba(0, 0, 0, 0)" : colors[i];
+        // chartOptions.data.datasets[i].borderColor = [...Object.values(values)].every((el) => !el) ? "rgba(0, 0, 0, 0)" : colors[i];
       });
       chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
       setChartData({
