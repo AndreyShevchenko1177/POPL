@@ -17,6 +17,9 @@ function PreviewEmail({ message, title, userEmail }) {
           <div className={classes.emailText}>{userEmail || <span className={classes.contentPlaceholder}><i>Sender email</i></span>}</div>
         </div>
         <div className={classes.emailMessage}>{message}</div>
+        <div className={classes.emailPreviewFooter}>
+          <span>Sent via Popl Enterprise</span>
+        </div>
       </Paper>
     </div>
   );

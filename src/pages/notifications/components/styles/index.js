@@ -208,7 +208,14 @@ export default makeStyles((theme) => ({
     paddingTop: 20,
     color: "#000000",
     wordBreak: "break-word",
-    height: "100%",
+    height: 343,
     overflow: "hidden",
+  },
+  emailPreviewFooter: {
+    fontSize: 16,
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: 20,
+    color: "grey",
   },
 }));
