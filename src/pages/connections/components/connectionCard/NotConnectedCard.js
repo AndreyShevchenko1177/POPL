@@ -4,7 +4,7 @@ import {
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./styles/styles";
-import userIcon from "../../../../assets/images/popl_white_via_connect.png";
+import userIcon from "../../../../assets/images/popl_white.png";
 import DragDots from "../../../../components/dragDots";
 import { dateFormat, formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
