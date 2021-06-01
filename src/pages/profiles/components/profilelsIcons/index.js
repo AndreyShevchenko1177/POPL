@@ -39,7 +39,7 @@ export default function SocialPoplsIcons({
             ? <Loader containerStyles={{ margin: "0 auto" }} styles={{ width: 20, height: 20 }} />
             : data.map(({
               title, value, id, clicks, icon, hash, customId,
-            }, key) => (
+            }, key, a) => (
               <Draggable
                 key={`${num}${key}`}
                 draggableId={`${num}${key}`}
@@ -48,11 +48,13 @@ export default function SocialPoplsIcons({
                 {(provided) => (
                   <div
                     draggable="true"
+                    className='relative'
                     // className={classes.container}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
+                    { key ? <div className={clsx(classes.greyIcon, { [classes.leftBorderRad]: key === 1, [classes.rigthBorderRad]: key === a.length - 1 })}></div> : null}
                     <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
                       {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
                         <EditIcon style={{ width: 15, height: 15 }}/>

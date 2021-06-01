@@ -394,4 +394,22 @@ export default makeStyles((theme) => ({
       webkitTransform: "scale(1, 1) rotate(-5deg)",
     },
   },
+  greyIcon: {
+    position: "absolute",
+    backgroundColor: "#a2a2a2",
+    width: 50,
+    height: 49,
+    left: -7,
+    top: -4,
+    zIndex: 1000,
+    opacity: 0.4,
+  },
+  leftBorderRad: {
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
+  },
+  rigthBorderRad: {
+    borderTopRightRadius: 7,
+    borderBottomRightRadius: 7,
+  },
 }));

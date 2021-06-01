@@ -390,37 +390,6 @@ function PermanentDrawerLeft() {
               />
             </ListItem>
           </Link>
-          <Link to="/settings">
-            <ListItem
-              button
-              className={clsx(classes.ulList, {
-                [classes.ulListHighLight]: highlight.settings,
-              })}
-              onClick={() => highlightList("settings")}
-            >
-              <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div style={{
-                  width: 20, height: 20, display: "flex", alignItems: "center",
-                }} className={classes.sideBarIcons}>
-                  {/* <SvgMaker
-                    name='settings'
-                    fill="#7d8286"
-                  /> */}
-                  <img className='white' style={{ width: "100%" }} alt='popl' src={settingsWhite} />
-                  <img className='dark' style={{ width: "100%" }} alt='popl' src={settings} />
-                </div>
-              </ListItemIcon>
-              <ListItemText
-                disableTypography
-                classes={{
-                  root: clsx(classes.listText, {
-                    [classes.listTextHighLight]: highlight.settings,
-                  }),
-                }}
-                primary="Settings"
-              />
-            </ListItem>
-          </Link>
           {profileInfo && <Link to="/settings/general-settings">
             <ListItem
               button
@@ -434,8 +403,10 @@ function PermanentDrawerLeft() {
                 <div style={{
                   width: 40, height: 40, display: "flex", alignItems: "center",
                 }} className={classes.sideBarIcons}>
-                  {profileInfo[3] && <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />}
-                  {profileInfo[1] && !profileInfo[3] && <div className={classes.profileCircle} style={{ backgroundColor: profileInfo[1] }}></div>}
+                  {profileInfo[3] ? <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />
+                    : !profileInfo[3] && <div className={classes.profileCircle}>
+                      <SvgMaker name="uploadCloud" fill="#999a9b" width={25} height={25} />
+                    </div>}
                 </div>
               </ListItemIcon>
               <ListItemText
@@ -446,7 +417,7 @@ function PermanentDrawerLeft() {
                     [classes.listTextHighLight]: highlight.profileInfo,
                   }),
                 }}
-                primary={profileInfo[0]}
+                primary={profileInfo[0] || "Your name"}
               />
             </ListItem>
           </Link>}
@@ -457,6 +428,11 @@ function PermanentDrawerLeft() {
       </div> */}
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />
+        <div className={classes.settingsContainer} onClick={() => history.push("/settings")}>
+          <p className={classes.settingsText}>
+            Settings
+          </p>
+        </div>
       </div>
     </Drawer>
   );

@@ -204,8 +204,25 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
   },
   profileCircle: {
-    width: 40,
-    height: 40,
+    display: "flex",
+    alignItems: "center",
     borderRadius: "50%",
+    justifyContent: "center",
+    width: "40px",
+    height: "40px",
+    cursor: "pointer",
+  },
+  settingsContainer: {
+    padding: "20px 20px 10px 0px",
+    cursor: "pointer",
+    "&:hover": {
+      borderBottom: "1px solid #9b9595",
+      padding: "20px 20px 9px 0px",
+    },
+  },
+  settingsText: {
+    color: "#000000",
+    fontSize: 14,
+    letterSpacing: 0,
   },
 }));
