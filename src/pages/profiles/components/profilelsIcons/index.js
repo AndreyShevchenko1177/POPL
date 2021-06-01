@@ -10,7 +10,7 @@ import { downloadContacts } from "./downLoadContacts";
 import Loader from "../../../../components/Loader";
 
 export default function SocialPoplsIcons({
-  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, num, customId, isLinksDragging,
+  style, data, handleClick, profileId, profileName, showEditIcon, setShowEditIcon, showEditModal, name, num, customId, isLinksDragging, isDirect,
 }) {
   const classes = useStyles();
 
@@ -54,7 +54,7 @@ export default function SocialPoplsIcons({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    { key ? <div className={clsx(classes.greyIcon, { [classes.leftBorderRad]: key === 1, [classes.rigthBorderRad]: key === a.length - 1 })}></div> : null}
+                    { key ? !isDirect && <div className={clsx(classes.greyIcon, { [classes.leftBorderRad]: key === 1, [classes.rigthBorderRad]: key === a.length - 1 })}></div> : null}
                     <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
                       {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
                         <EditIcon style={{ width: 15, height: 15 }}/>

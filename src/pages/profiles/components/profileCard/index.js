@@ -429,6 +429,7 @@ export default function Card({
                   num={num}
                   customId={customId}
                   isLinksDragging={isLinksDragging}
+                  isDirect={directOn.direct}
                 />
               </div>
               {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
