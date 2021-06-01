@@ -393,7 +393,7 @@ function PermanentDrawerLeft() {
           {profileInfo && <Link to="/settings/general-settings">
             <ListItem
               button
-              className={clsx(classes.ulList, {
+              className={clsx(classes.ulList, classes.ulListProfileInfo, {
                 [classes.ulListHighLight]: highlight.profileInfo,
               })}
               onClick={() => highlightList("profileInfo")}
@@ -405,7 +405,11 @@ function PermanentDrawerLeft() {
                 }} className={classes.sideBarIcons}>
                   {profileInfo[3] ? <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />
                     : !profileInfo[3] && <div className={classes.profileCircle}>
-                      <SvgMaker name="uploadCloud" fill="#999a9b" width={25} height={25} />
+                      <div className={classes.logoIconWrapper}>
+                        <SvgMaker name="uploadCloud" fill="#999a9b" width={20} height={20} />
+                        <span>Upload</span>
+                      </div>
+
                     </div>}
                 </div>
               </ListItemIcon>
@@ -428,10 +432,10 @@ function PermanentDrawerLeft() {
       </div> */}
       <div className={classes.sideBarHelpCenterContainer}>
         <TierLevel {...tierLevelInfo} />
-        <div className={classes.settingsContainer} onClick={() => history.push("/settings")}>
-          <p className={classes.settingsText}>
+        <div className={classes.settingsContainer}>
+          <span className={classes.settingsText} onClick={() => history.push("/settings")}>
             Settings
-          </p>
+          </span>
         </div>
       </div>
     </Drawer>

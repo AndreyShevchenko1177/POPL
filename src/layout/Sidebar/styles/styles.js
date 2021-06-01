@@ -89,6 +89,13 @@ export default makeStyles((theme) => ({
       },
     },
   },
+  ulListProfileInfo: {
+    "&:hover": {
+      "& > div div svg path ": {
+        fill: "#999a9b",
+      },
+    },
+  },
   ulListHighLight: {
     backgroundColor: "#e0dede",
     background: "linear-gradient(to right, rgba(255,255,255,0) 70%,rgba(255,255,255,1) 100%)",
@@ -214,15 +221,35 @@ export default makeStyles((theme) => ({
   },
   settingsContainer: {
     padding: "20px 20px 10px 0px",
-    cursor: "pointer",
-    "&:hover": {
-      borderBottom: "1px solid #9b9595",
-      padding: "20px 20px 9px 0px",
-    },
+
+    // "&:hover": {
+    //   borderBottom: "1px solid #9b9595",
+    //   padding: "20px 20px 9px 0px",
+    // },
   },
   settingsText: {
     color: "#000000",
     fontSize: 14,
     letterSpacing: 0,
+    cursor: "pointer",
+    "&:hover": {
+      // borderBottom: "1px solid #9b9595",
+      // padding: "20px 20px 9px 0px",
+      textDecoration: "underline",
+    },
+  },
+  logoIconWrapper: {
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    backgroundColor: "#f3f4f5",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    "& > span": {
+      fontSize: 8,
+      color: "#999a9b",
+    },
   },
 }));
