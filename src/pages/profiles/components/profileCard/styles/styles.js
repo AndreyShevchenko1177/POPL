@@ -402,7 +402,7 @@ export default makeStyles((theme) => ({
     left: -7,
     top: -4,
     zIndex: 1000,
-    opacity: 0.4,
+    opacity: 0.3,
   },
   leftBorderRad: {
     borderTopLeftRadius: 7,
