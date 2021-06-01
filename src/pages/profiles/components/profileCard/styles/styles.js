@@ -412,4 +412,7 @@ export default makeStyles((theme) => ({
     borderTopRightRadius: 7,
     borderBottomRightRadius: 7,
   },
+  op_3: {
+    opacity: 0.3,
+  },
 }));

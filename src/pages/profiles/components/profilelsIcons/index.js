@@ -54,14 +54,14 @@ export default function SocialPoplsIcons({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    { key ? isDirect && <div className={clsx(classes.greyIcon, { [classes.leftBorderRad]: key === 1, [classes.rigthBorderRad]: key === a.length - 1 })}></div> : null}
+                    {/* { key ? isDirect && <div className={clsx(classes.greyIcon, { [classes.leftBorderRad]: key === 1, [classes.rigthBorderRad]: key === a.length - 1 })}></div> : null} */}
                     <div key={key} className={clsx(classes.linkClicksWrapper, { [classes.safariLinks]: isSafari })}>
                       {showEditIcon && <div className={classes.linksEditWrapper} onClick={() => handleClickEditIcon(title, value, id, clicks, icons[id], name, hash, icon)}>
                         <EditIcon style={{ width: 15, height: 15 }}/>
                       </div>}
                       <div
                         onClick={(event) => handleClick(event, () => linkRedirect(id === 22 ? icons[id].path + profileId : icons[id].path + value, id, value))}
-                        className={clsx(classes.iconItem, { [classes.start_wiggle]: showEditIcon })}
+                        className={clsx(classes.iconItem, { [classes.start_wiggle]: showEditIcon, [classes.op_3]: key !== 0 && isDirect })}
                       >
                         <img
                           className={style}
