@@ -66,7 +66,14 @@ export function NotConnectedCard({
             checked={isChecked || false}
             onChange={handleChangeCheckbox}
           />
-          <img className={classes.avatar} alt="logo" src={fullContact?.avatar ? fullContact.avatar : userIcon} style={ image ? { objectFit: "cover" } : {}} />
+          <img
+            className={classes.avatar}
+            alt="logo"
+            src={fullContact?.avatar ? fullContact.avatar : userIcon} style={ image
+              ? { objectFit: "cover" }
+              : { boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)" }
+            }
+          />
         </div>
         <div className={classes.contenContainer}>
           <div className={classes.nameIconsContainer}>

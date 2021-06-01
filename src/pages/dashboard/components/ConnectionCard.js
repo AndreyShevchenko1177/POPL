@@ -17,9 +17,18 @@ export default function ConnectionCard({
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.header_icon}>
-            {/* {image */}
-            <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
-            <div className='full-w flex-row-center-horizontal'>
+            <img
+              className={classes.avatar}
+              alt="logo"
+              src={image
+                ? process.env.REACT_APP_BASE_IMAGE_URL + image
+                : userIcon}
+              style={ image
+                ? { objectFit: "cover" }
+                : { boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)" }
+              }
+            />
+            <div style={{ minHeight: 24 }} className='full-w flex-row-center-horizontal'>
               <Typography variant="subtitle1" classes={{ subtitle1: classes.connectionNameText }}>{name}</Typography>
             </div>
 

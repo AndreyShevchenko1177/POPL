@@ -68,7 +68,15 @@ export const ConnectedCard = memo(({
             checked={checked || false}
             onChange={handleChangeCheckbox}
           />
-          <img className={classes.avatar} alt="logo" src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon} style={ image ? { objectFit: "cover" } : {}} />
+          <img
+            className={classes.avatar}
+            alt="logo"
+            src={image ? process.env.REACT_APP_BASE_IMAGE_URL + image : userIcon}
+            style={ image
+              ? { objectFit: "cover" }
+              : { boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)" }
+            }
+          />
         </div>
         <div className={classes.contenContainer}>
           <Typography variant="h5">{name}</Typography>
