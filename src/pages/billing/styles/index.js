@@ -82,4 +82,26 @@ export default makeStyles((theme) => ({
       backgroundColor: "#1791f4",
     },
   },
+  justProWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  justProHeading: {
+    fontSize: "18px !important",
+  },
+  makeJustProButton: {
+    height: 40,
+    width: 150,
+    marginTop: 10,
+    backgroundColor: "#1791f4",
+    borderRadius: 4,
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#1791f4",
+    },
+  },
 }));

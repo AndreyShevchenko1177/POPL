@@ -93,7 +93,10 @@ function Billing() {
           <a href="mailto:jason@popl.co">
             <Button className={classes.contactSalesButton}>Contact Sales</Button>
           </a>
-
+          <div className={classes.justProWrapper}>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.justProHeading }}>Just want Popl Pro for your team?</Typography>
+            <Button className={classes.makeJustProButton}>Try 2 Months Free</Button>
+          </div>
         </div>
       </div>
     </>
