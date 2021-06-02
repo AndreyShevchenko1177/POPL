@@ -29,7 +29,7 @@ export const signInAction = (credo) => async (dispatch) => {
 
     return dispatch({
       type: SIGN_IN_SUCCESS,
-      payload: data,
+      payload: { ...data, name: data.name.replace(/[\\]/g, "") },
     });
   } catch (error) {
     dispatch({

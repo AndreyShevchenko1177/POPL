@@ -10,8 +10,9 @@ export default makeStyles((theme) => ({
   cardsContainerWrapper: {
     position: "relative",
     display: "flex",
+    flexDirection: "column",
     width: "100%",
-    justifyContent: "center",
+    alignItems: "center",
   },
   titleWrapper: {
     display: "flex",
@@ -23,17 +24,18 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
+    maxWidth: 1200,
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    borderRadius: theme.custom.mainBorderRadius,
-    "@media (max-width: 1560px)": {
+    borderRadius: `${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px 0 0`,
+    "@media (max-width: 1340px)": {
       flexDirection: "column",
       minWidth: 240,
       maxWidth: 600,
     },
   },
   cardItemContainer: {
-    width: "20%",
+    width: "25%",
     minHeight: 350,
     "&:nth-child(2)": {
       // borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -43,10 +45,7 @@ export default makeStyles((theme) => ({
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
     },
-    "&:nth-child(4)": {
-      borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    },
-    "@media (max-width: 1560px)": {
+    "@media (max-width: 1340px)": {
       flexDirection: "column",
       width: "100%",
       border: "none",
@@ -57,17 +56,30 @@ export default makeStyles((theme) => ({
         borderLeft: "none",
       },
       "&:nth-child(3)": {
-        borderTop: "none",
+        borderTop: `1px solid ${theme.custom.mainBorderGreyColor}`,
         borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
         borderRight: "none",
         borderLeft: "none",
       },
-      "&:nth-child(4)": {
-        borderTop: "none",
-        borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
-        borderRight: "none",
-        borderLeft: "none",
-      },
+    },
+  },
+  contactUsSection: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    maxWidth: 1200,
+    width: "100%",
+    height: 200,
+    borderRadius: `0 0 ${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px`,
+    borderTop: "none",
+    borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    "@media (max-width: 1340px)": {
+      minWidth: 240,
+      maxWidth: 600,
+      minHeight: 350,
     },
   },
   footer: {
@@ -77,6 +89,23 @@ export default makeStyles((theme) => ({
     padding: "50px 0 20px 0",
     "& > h3": {
       fontWeight: "200 !important",
+    },
+    "& > span": {
+      paddingTop: 10,
+      fontSize: 16,
+    },
+  },
+  contactSalesButton: {
+    height: 50,
+    width: 200,
+    marginTop: 10,
+    backgroundColor: "#1791f4",
+    borderRadius: 4,
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#1791f4",
     },
   },
   justProWrapper: {
@@ -89,8 +118,8 @@ export default makeStyles((theme) => ({
     fontSize: "18px !important",
   },
   makeJustProButton: {
-    height: 50,
-    width: 200,
+    height: 40,
+    width: 150,
     marginTop: 10,
     backgroundColor: "#1791f4",
     borderRadius: 4,
@@ -100,5 +129,8 @@ export default makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#1791f4",
     },
+  },
+  contactUsTitle: {
+    padding: "30px 0",
   },
 }));

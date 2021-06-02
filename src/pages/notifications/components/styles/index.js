@@ -213,9 +213,6 @@ export default makeStyles((theme) => ({
   },
   emailPreviewFooter: {
     fontSize: 16,
-    display: "flex",
-    justifyContent: "center",
-    paddingTop: 20,
     color: "grey",
   },
 }));

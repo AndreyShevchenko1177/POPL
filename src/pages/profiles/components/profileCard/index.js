@@ -86,7 +86,7 @@ export default function Card({
     setProfileName, setProfileBio, setProfilePhoto, profileLinks, setProfileEmail,
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name: name?.replace(/[\\]/g, "") || url?.replace(/[\\]/g, "") || "",
+    name: name || url || "",
     bio: "",
     image,
     email: email || "",

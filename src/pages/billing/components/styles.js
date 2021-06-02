@@ -10,7 +10,6 @@ export default makeStyles((theme) => ({
   },
   title: {
     paddingBottom: 20,
-    minHeight: 48,
   },
   priceDescriptionContainer: {
     display: "flex",

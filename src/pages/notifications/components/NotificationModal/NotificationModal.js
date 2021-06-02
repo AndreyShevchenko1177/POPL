@@ -28,8 +28,11 @@ function NotificationModal({ closeModal, data, clearFields }) {
     setTime(event.target.value);
   };
 
+  console.log(data);
+
   const sendNotification = () => {
     if (data.sendAs === 2) {
+      data.message = `${data.message}\n\nSent via Popl Enterprise`;
       return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
     }
 

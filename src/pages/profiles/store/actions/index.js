@@ -45,6 +45,8 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
       profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
         ...p,
+        name: p.name?.replace(/[\\]/g, "") || "",
+        url: p.url?.replace(/[\\]/g, "") || "",
         customId: getId(12),
         business: p.business,
         social: p.social,
