@@ -1,6 +1,7 @@
 import React, {
   useRef, useEffect, useState, memo,
 } from "react";
+import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
@@ -14,6 +15,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   const chart = useRef();
   const [data, setData] = useState(null);
   const [colors, setColors] = useState([]);
+  const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
 
   const location = useLocation();
 
@@ -117,7 +119,13 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
         <div style={{ position: "absolute", left: "-40px" }} className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={data}
+            data={{
+              ...data,
+              datasets: [{
+                ...data.datasets[0],
+                data: data.datasets[0].data.filter((el, i) => i <= profiles?.length),
+              }],
+            }}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {

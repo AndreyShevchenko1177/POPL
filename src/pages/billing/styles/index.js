@@ -22,17 +22,18 @@ export default makeStyles((theme) => ({
   cardsContainer: {
     display: "flex",
     justifyContent: "center",
-    width: 1200,
+    width: "100%",
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
-    "@media (max-width: 1250px)": {
+    "@media (max-width: 1560px)": {
       flexDirection: "column",
       minWidth: 240,
+      maxWidth: 600,
     },
   },
   cardItemContainer: {
-    width: "25%",
+    width: "20%",
     minHeight: 350,
     "&:nth-child(2)": {
       // borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -42,7 +43,10 @@ export default makeStyles((theme) => ({
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
     },
-    "@media (max-width: 1250px)": {
+    "&:nth-child(4)": {
+      borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    },
+    "@media (max-width: 1560px)": {
       flexDirection: "column",
       width: "100%",
       border: "none",
@@ -53,7 +57,13 @@ export default makeStyles((theme) => ({
         borderLeft: "none",
       },
       "&:nth-child(3)": {
-        borderTop: `1px solid ${theme.custom.mainBorderGreyColor}`,
+        borderTop: "none",
+        borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
+        borderRight: "none",
+        borderLeft: "none",
+      },
+      "&:nth-child(4)": {
+        borderTop: "none",
         borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
         borderRight: "none",
         borderLeft: "none",
@@ -69,19 +79,6 @@ export default makeStyles((theme) => ({
       fontWeight: "200 !important",
     },
   },
-  contactSalesButton: {
-    height: 50,
-    width: 200,
-    marginTop: 10,
-    backgroundColor: "#1791f4",
-    borderRadius: 4,
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "#ffffff",
-    "&:hover": {
-      backgroundColor: "#1791f4",
-    },
-  },
   justProWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -92,8 +89,8 @@ export default makeStyles((theme) => ({
     fontSize: "18px !important",
   },
   makeJustProButton: {
-    height: 40,
-    width: 150,
+    height: 50,
+    width: 200,
     marginTop: 10,
     backgroundColor: "#1791f4",
     borderRadius: 4,

@@ -386,14 +386,14 @@ export default makeStyles((theme) => ({
       transform: "scale(1, 1) rotate(-5deg)",
     },
   },
-  "@webkitKeyframes myfirst": {
-    "0%": {
-      webkitTransform: "scale(1, 1) rotate(5deg)",
-    },
-    "100%": {
-      webkitTransform: "scale(1, 1) rotate(-5deg)",
-    },
-  },
+  // "@-webkit-keyframes myfirst": {
+  //   "0%": {
+  //     webkitTransform: "scale(1, 1) rotate(5deg)",
+  //   },
+  //   "100%": {
+  //     webkitTransform: "scale(1, 1) rotate(-5deg)",
+  //   },
+  // },
   greyIcon: {
     position: "absolute",
     backgroundColor: "#a2a2a2",
