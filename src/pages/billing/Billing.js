@@ -42,6 +42,14 @@ export const subscriptionConfig = [
     priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
     profilesNumber: "51-100",
   },
+  {
+    id: 5,
+    title: "Enterprise",
+    price: "1000",
+    unitsRange: [51, 100],
+    priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
+    profilesNumber: "51-100",
+  },
 ];
 
 function Billing() {
@@ -83,20 +91,15 @@ function Billing() {
                   unitsRange={unitsRange}
                   subscriptionId={id}
                   currentPlan={dashboardPlan == id}
+                  id={id}
                 />
               </div>
             ))}
           </div>
         </div>
         <div className={classes.footer}>
-          <Typography variant="h3">More than 100 Accounts?</Typography>
-          <a href="mailto:jason@popl.co">
-            <Button className={classes.contactSalesButton}>Contact Sales</Button>
-          </a>
-          <div className={classes.justProWrapper}>
-            <Typography variant="subtitle1" classes={{ subtitle1: classes.justProHeading }}>Just want Popl Pro for your team?</Typography>
-            <Button className={classes.makeJustProButton}>Try 2 Months Free</Button>
-          </div>
+          <Typography variant="h3">Just want Popl Pro for your team?</Typography>
+          <Button className={classes.makeJustProButton}>Try 2 Months Free</Button>
         </div>
       </div>
     </>
