@@ -123,7 +123,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     alignSelf: "center",
     position: "absolute",
-    height: "130px",
+    height: "180px",
     bottom: "50px",
     width: "100%",
     padding: "20px 20px 0 45px",
