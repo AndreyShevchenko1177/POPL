@@ -59,6 +59,7 @@ const useStyles = (after, before, input, disabled) => makeStyles((theme) => ({
       backgroundColor: "#646464",
     },
     "& + $track": {
+      border: "1px solid #646464",
       backgroundColor: disabled ? "#3b3b3b !important" : "#ffffff !important",
       "&:before": {
         opacity: 1,
