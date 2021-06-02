@@ -15,7 +15,7 @@ import useStyles from "./styles/styles";
 import Strategy from "./Strategy";
 import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
-import { sendNotificationAction, sendShedulerNotificationAction } from "../../store/actions";
+import { sendNotificationAction, sendShedulerNotificationAction, sendEmailAction } from "../../store/actions";
 
 function NotificationModal({ closeModal, data, clearFields }) {
   const classes = useStyles();
@@ -29,10 +29,18 @@ function NotificationModal({ closeModal, data, clearFields }) {
   };
 
   const sendNotification = () => {
+    if (data.sendAs === 2) {
+      return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
+    }
+
     dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }, closeModal));
   };
 
   const sendNotificationByTime = () => {
+    if (data.sendAs === 2) {
+      console.log("send email by time");
+      // return dispatch(sendEmailAction({ ...data, users: data.recipients }));
+    }
     dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }), closeModal);
   };
 

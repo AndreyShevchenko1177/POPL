@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, TextField, Typography } from "@material-ui/core";
 import Header from "../../components/Header";
@@ -34,6 +34,10 @@ function Notifications() {
     setValues(defaultValues);
     setIsShowModal(false);
   };
+
+  useEffect(() => {
+    setValues({ ...defaultValues, sendAs: values.sendAs });
+  }, [values.sendAs]);
 
   return (
     <>
