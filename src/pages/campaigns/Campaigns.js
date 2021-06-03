@@ -4,27 +4,8 @@ import { useSelector } from "react-redux";
 
 const Campaigns = () => {
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  // const [data, setData] = useState();
-  const data = {
-    nodes: [{ id: "Con1" }, { id: "Con2" }, { id: "Con3" }, { id: "Con4" }, { id: "Con5" }, { id: "Con6" }, { id: "Con7" }, { id: "Con8" }, { id: "Con10" }, { id: "Con9" }],
-    links: [
-      { source: "Con1", target: "Con9" },
-      { source: "Con2", target: "Con1" },
-      { source: "Con3", target: "Con7" },
-      { source: "Con4", target: "Con3" },
-      { source: "Con5", target: "Con6" },
-      { source: "Con6", target: "Con5" },
-      { source: "Con7", target: "Con8" },
-      { source: "Con8", target: "Con2" },
-      { source: "Con10", target: "Con9" },
-      { source: "Con9", target: "Con10" },
-      { source: "Con7", target: "Con1" },
-      { source: "Con8", target: "Con4" },
-      { source: "Con10", target: "Con1" },
-      { source: "Con9", target: "Con5" },
-      { source: "Con9", target: "Con9" },
-    ],
-  };
+  const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const [data, setData] = useState();
 
   // the graph configuration, just override the ones you need
   const myConfig = {
@@ -37,6 +18,12 @@ const Campaigns = () => {
     link: {
       highlightColor: "lightblue",
     },
+    // focusedNodeId: "nodeIdToTriggerZoomAnimation",
+  };
+
+  const onZoomChange = function (previousZoom, newZoom) {
+    console.log(previousZoom, newZoom);
+    window.alert(`Graph is now zoomed at ${newZoom} from ${previousZoom}`);
   };
 
   const onClickNode = function (nodeId) {
@@ -47,15 +34,46 @@ const Campaigns = () => {
     window.alert(`Clicked link between ${source} and ${target}`);
   };
 
+  useEffect(() => {
+    if (connections && profiles) {
+      const data = [...connections.slice(0, 10), ...connections.slice(600, 610), ...connections.slice(700, 710)];
+      // console.log(data);
+      const connectionNodes = {};
+      const result = {
+        nodes: profiles.map((profile) => ({
+          id: profile.id.toString(), size: 300, color: "red",
+        })),
+        links: [],
+      };
+
+      // profiles.forEach((profile) => profileNodes[profile.id] = []);
+      data.forEach((con) => {
+        connectionNodes[con.customId] = [];
+        result.nodes.push({ id: con.customId });
+        Object.keys(con.names).forEach((key) => {
+          connectionNodes[con.customId].push(key);
+          result.links.push({ source: con.customId, target: key });
+        });
+      });
+      setData(result);
+      // console.log(result, connectionNodes);
+    }
+  }, [connections, profiles]);
+
   return data
-    ? <div style={{ width: "100%", heigth: 500, marginTop: 100 }}>
-      <Graph
-        id="graph-id" // id is mandatory
-        data={data}
-        config={myConfig}
-        onClickNode={onClickNode}
-        onClickLink={onClickLink}
-      />
+    ? <div style={{ width: "100%", heigth: "70vh", marginTop: 100 }}>
+      {data
+        ? <Graph
+          width={800}
+          height={800}
+          id="graph-id" // id is mandatory
+          data={data}
+          config={myConfig}
+          onClickNode={onClickNode}
+          onClickLink={onClickLink}
+          onZoomChange={onZoomChange}
+        />
+        : null}
     </div>
     : null;
 };
