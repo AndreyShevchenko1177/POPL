@@ -29,3 +29,15 @@ export const sendEmailRequest = (data) => {
   bodyFormData.append("sContent", data.message);
   return axios.post("", bodyFormData);
 };
+
+export const sendShedulerEmailRequest = (data) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SendEmail");
+  bodyFormData.append("sToEmail", data.email);
+  bodyFormData.append("sTime", data.time);
+  bodyFormData.append("sToName", `${data.toName}`);
+  bodyFormData.append("sFromName", `${data.fromName} via Popl Enterprise`);
+  bodyFormData.append("sSubject", data.title);
+  bodyFormData.append("sContent", data.message);
+  return axios.post("", bodyFormData);
+};
