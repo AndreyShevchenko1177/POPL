@@ -32,7 +32,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
 
   const sendNotification = () => {
     if (data.sendAs === 2) {
-      data.message = `${data.message}\n\nSent via Popl Enterprise`;
+      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
       return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
     }
 
