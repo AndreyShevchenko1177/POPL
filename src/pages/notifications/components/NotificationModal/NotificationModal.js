@@ -15,7 +15,9 @@ import useStyles from "./styles/styles";
 import Strategy from "./Strategy";
 import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
-import { sendNotificationAction, sendShedulerNotificationAction, sendEmailAction } from "../../store/actions";
+import {
+  sendNotificationAction, sendShedulerNotificationAction, sendEmailAction, sendShedulerEmailAction,
+} from "../../store/actions";
 
 function NotificationModal({ closeModal, data, clearFields }) {
   const classes = useStyles();
@@ -28,8 +30,6 @@ function NotificationModal({ closeModal, data, clearFields }) {
     setTime(event.target.value);
   };
 
-  console.log(data);
-
   const sendNotification = () => {
     if (data.sendAs === 2) {
       data.message = `${data.message}\n\nSent via Popl Enterprise`;
@@ -41,8 +41,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
 
   const sendNotificationByTime = () => {
     if (data.sendAs === 2) {
-      console.log("send email by time");
-      // return dispatch(sendEmailAction({ ...data, users: data.recipients }));
+      return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
     }
     dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }), closeModal);
   };
@@ -53,7 +52,6 @@ function NotificationModal({ closeModal, data, clearFields }) {
       return (
         <div className={classes.timeContainer}>
           <p>Choose send time</p>
-          {/* {console.log(new Date(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}`))} */}
           <div className={classes.calendarContainer}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -68,12 +66,19 @@ function NotificationModal({ closeModal, data, clearFields }) {
                 }}
                 size='small'
                 style={{ fontWeight: "normal" }}
+                minDate={new Date()}
               />
             </MuiPickersUtilsProvider>
             <Autocomplete
               id="combo-box-demo"
               size='small'
               options={getDayTime(15)}
+              getOptionDisabled={(option) => {
+                const timeMilliseconds = new Date(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${option.value ? normalizeDate(new Date(option.value).getHours()) : new Date().getHours()}:${option.value ? normalizeDate(new Date(option.value).getMinutes()) : new Date().getMinutes()}`).getTime();
+                const dateNowMilliseconds = new Date().getTime();
+                if (dateNowMilliseconds > timeMilliseconds) return true;
+                return false;
+              }}
               getOptionSelected={(option, value) => option.title === value.title}
               getOptionLabel={(option) => option.title}
               style={{ display: "inline-flex" }}

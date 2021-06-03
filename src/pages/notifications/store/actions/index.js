@@ -52,3 +52,22 @@ export const sendEmailAction = ({ users, ...data }, success) => async (dispatch,
     console.log(error);
   }
 };
+
+export const sendShedulerEmailAction = ({ users, ...data }, success) => async (dispatch, getState) => {
+  try {
+    const user = getState().profilesReducer.dataProfiles.data[0];
+    const result = await Promise.all(users.map((el) => requests.sendShedulerEmailRequest({
+      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, time: data.time,
+    })));
+    console.log(result);
+    success();
+    dispatch(snackBarAction({
+      message: "Successfully send email",
+      severity: "success",
+      duration: 12000,
+      open: true,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
+};
