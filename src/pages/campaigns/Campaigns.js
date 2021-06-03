@@ -48,13 +48,15 @@ const Campaigns = () => {
   };
 
   return data
-    ? <Graph
-      id="graph-id" // id is mandatory
-      data={data}
-      config={myConfig}
-      onClickNode={onClickNode}
-      onClickLink={onClickLink}
-    />
+    ? <div style={{ width: "100%", heigth: 500, marginTop: 100 }}>
+      <Graph
+        id="graph-id" // id is mandatory
+        data={data}
+        config={myConfig}
+        onClickNode={onClickNode}
+        onClickLink={onClickLink}
+      />
+    </div>
     : null;
 };
 
