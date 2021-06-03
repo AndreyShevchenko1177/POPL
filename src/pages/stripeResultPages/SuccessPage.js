@@ -17,16 +17,17 @@ export const SuccessPage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => history.push("/settings/billing"), 5000);
-    // dispatch(setUserProAction(userData.id));
-    const { pricingName, unitsRange, subscriptionId } = JSON.parse(getCookie("sessionId"));
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "SetDashboardPlan");
-    bodyFormData.append("ajax", 1);
-    bodyFormData.append("iID", userData.id);
-    bodyFormData.append("iPlan", subscriptionId);
-    axios.post("", bodyFormData, {
-      withCredentials: true,
-    });
+    const { subscriptionId } = JSON.parse(getCookie("sessionId"));
+    if (subscriptionId) {
+      const bodyFormData = new FormData();
+      bodyFormData.append("sAction", "SetDashboardPlan");
+      bodyFormData.append("ajax", 1);
+      bodyFormData.append("iID", userData.id);
+      bodyFormData.append("iPlan", subscriptionId);
+      axios.post("", bodyFormData, {
+        withCredentials: true,
+      });
+    }
 
     setStripeCustomer(params.sessionId, userData.id, (message) => dispatch(snackBarAction({
       message,

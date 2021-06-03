@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
   },
   priceDescriptionContainer: {
     display: "flex",
-    minHeight: 150,
+    minHeight: 125,
     flexDirection: "column",
     paddingTop: 10,
     "& span": {
@@ -22,7 +22,7 @@ export default makeStyles((theme) => ({
     },
   },
   buttonContainer: {
-    padding: "0 0 30px 0",
+    padding: 0,
     width: "100%",
   },
   labelsContainer: {
@@ -68,5 +68,13 @@ export default makeStyles((theme) => ({
     top: "-5px",
     left: "50%",
     transform: "translateX(-50%)",
+  },
+  makeJustProButton: {
+    height: 40,
+    width: 170,
+    marginTop: 10,
+    borderRadius: 4,
+    fontSize: "16px",
+    fontWeight: "bold",
   },
 }));

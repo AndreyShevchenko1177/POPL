@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
 import SubscriptionCard from "./components/SubscriptionCard";
+import TwoWeeksFreeButton from "./components/TwoWeeksFreeButton";
 import { profileIdsRequest } from "../profiles/store/actions/requests";
 
 const stripe = window.Stripe && window.Stripe(stripeConfig.stripePk);
@@ -44,17 +45,17 @@ export const subscriptionConfig = [
   },
 ];
 
+const twoWeeksFreePriceId = "price_1IyL7TJqkGKmOFO6hexjtWnF";
+
 function Billing() {
   const classes = useStyles();
   const [quantity, setQuantity] = useState(null);
-  const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   useEffect(() => {
-    profileIdsRequest(userId)
-      .then((res) => (res.data ? setQuantity(JSON.parse(res.data).length + 1) : setQuantity(1)))
-      .catch((err) => setQuantity(null));
-  }, [userId]);
+    if (profiles) setQuantity(profiles.length);
+  }, [profiles]);
 
   return (
     <>
@@ -96,8 +97,8 @@ function Billing() {
         </div>
         <div className={classes.footer}>
           <Typography variant="h3">Just want Popl Pro for your team?</Typography>
-          <Button color='primary' variant='contained' className={classes.makeJustProButton}>Try 2 Weeks Free</Button>
-          <span>Does not include any dashboard functionality</span>
+          <TwoWeeksFreeButton stripe={stripe} priceId={twoWeeksFreePriceId} quantity={quantity} />
+          <span>Does not include dashboard functionality</span>
         </div>
       </div>
     </>

@@ -31,7 +31,7 @@ function Notifications() {
   };
 
   const closeModal = () => {
-    setValues(defaultValues);
+    setValues({ ...defaultValues, sendAs: values.sendAs });
     setIsShowModal(false);
   };
 
