@@ -41,6 +41,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
 
   const sendNotificationByTime = () => {
     if (data.sendAs === 2) {
+      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
       return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
     }
     dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }), closeModal);
