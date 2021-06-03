@@ -96,7 +96,7 @@ function Billing() {
         </div>
         <div className={classes.footer}>
           <Typography variant="h3">Just want Popl Pro for your team?</Typography>
-          <Button className={classes.makeJustProButton}>Try 2 Weeks Free</Button>
+          <Button color='primary' variant='contained' className={classes.makeJustProButton}>Try 2 Weeks Free</Button>
           <span>Does not include any dashboard functionality</span>
         </div>
       </div>

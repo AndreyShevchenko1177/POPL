@@ -420,7 +420,7 @@ export default function Card({
             "h-55": isSafari,
           }, "target-element")}>
             <div className='relative' style={isLinksDragging ? { width: "100%" } : {}}>
-              <div className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
+              <div style={isSafari ? { height: 90 } : {}} className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
                 <SocialPoplsIcons
                   handleClick={handleClickPoplItem}
                   profileId={id}
@@ -437,7 +437,7 @@ export default function Card({
                   isDirect={directOn.direct}
                 />
               </div>
-              {showEditIcon && <div onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
+              {showEditIcon && <div style={isSafari ? { top: 6 } : {}} onClick={showAddLinkWiz} className={clsx(classes.linkClicksWrapper, classes.addLinkIcon)} >
                 <div className={classes.iconItem}>
                   <img
                     alt='add-icon'

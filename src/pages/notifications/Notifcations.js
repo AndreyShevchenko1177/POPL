@@ -115,7 +115,7 @@ function Notifications() {
         </div>
         {values.sendAs === 1
           ? <Preview message={values.message} title={values.title} />
-          : <PreviewEmail message={values.message} title={values.title} userEmail={userData && userData[0]?.email} />
+          : <PreviewEmail message={values.message} title={values.title} userName={userData && userData[0]?.name?.split(" ")[0]} />
         }
       </div>
       {isShowModal && <>

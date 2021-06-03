@@ -172,6 +172,7 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+    overflow: "hidden",
   },
   contentPlaceholder: {
     fontSize: 14,

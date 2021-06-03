@@ -19,7 +19,6 @@ export default function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const latestConnections = useSelector(({ systemReducer }) => systemReducer.latestConnections.data);
   const latestConnectionsFetching = useSelector(({ systemReducer }) => systemReducer.latestConnections.isFetching);
@@ -55,7 +54,7 @@ export default function Dashboard() {
   return (
     <div className={clsx("main-padding", classes.root)}>
       <div className={classes.headingWrapper}>
-        <Typography variant="h3">Welcome {userData.name}</Typography>
+        <Typography variant="h3">Welcome {profilesData[0]?.name}</Typography>
         <div className={classes.buttonWrapper}>
           <Button
             variant="contained"

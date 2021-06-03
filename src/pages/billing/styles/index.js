@@ -70,7 +70,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     maxWidth: 1200,
     width: "100%",
-    height: 200,
+    height: 150,
     borderRadius: `0 0 ${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px`,
     borderTop: "none",
     borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -79,7 +79,7 @@ export default makeStyles((theme) => ({
     "@media (max-width: 1340px)": {
       minWidth: 240,
       maxWidth: 600,
-      minHeight: 350,
+      minHeight: 150,
     },
   },
   footer: {
@@ -119,18 +119,14 @@ export default makeStyles((theme) => ({
   },
   makeJustProButton: {
     height: 40,
-    width: 150,
+    width: 170,
     marginTop: 10,
-    backgroundColor: "#1791f4",
+    // backgroundColor: "#1791f4",
     borderRadius: 4,
     fontSize: "16px",
     fontWeight: "bold",
-    color: "#ffffff",
-    "&:hover": {
-      backgroundColor: "#1791f4",
-    },
   },
   contactUsTitle: {
-    padding: "30px 0",
+    padding: "10px 0",
   },
 }));

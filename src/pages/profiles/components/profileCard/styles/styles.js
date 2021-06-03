@@ -273,8 +273,8 @@ export default makeStyles((theme) => ({
     padding: 15,
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.iconBoxShadow,
-    width: 40,
-    height: 40,
+    width: 37,
+    height: 37,
     cursor: "pointer",
   },
   linkImage: {
