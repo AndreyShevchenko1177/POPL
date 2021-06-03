@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   container: {
-    padding: "100px 40px 0 40px",
+    padding: "70px 40px 0 40px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -36,7 +36,7 @@ export default makeStyles((theme) => ({
   },
   cardItemContainer: {
     width: "25%",
-    minHeight: 350,
+    minHeight: 325,
     "&:nth-child(2)": {
       // borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -70,7 +70,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     maxWidth: 1200,
     width: "100%",
-    height: 150,
+    height: 130,
     borderRadius: `0 0 ${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px`,
     borderTop: "none",
     borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
@@ -86,7 +86,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "50px 0 20px 0",
+    padding: "30px 0 20px 0",
     "& > h3": {
       fontWeight: "200 !important",
     },
@@ -117,16 +117,7 @@ export default makeStyles((theme) => ({
   justProHeading: {
     fontSize: "18px !important",
   },
-  makeJustProButton: {
-    height: 40,
-    width: 170,
-    marginTop: 10,
-    // backgroundColor: "#1791f4",
-    borderRadius: 4,
-    fontSize: "16px",
-    fontWeight: "bold",
-  },
   contactUsTitle: {
-    padding: "10px 0",
+    padding: 0,
   },
 }));

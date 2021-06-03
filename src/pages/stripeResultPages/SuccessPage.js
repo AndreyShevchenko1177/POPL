@@ -17,7 +17,7 @@ export const SuccessPage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => history.push("/settings/billing"), 5000);
-    const { pricingName, unitsRange, subscriptionId } = JSON.parse(getCookie("sessionId"));
+    const { subscriptionId } = JSON.parse(getCookie("sessionId"));
     if (subscriptionId) {
       const bodyFormData = new FormData();
       bodyFormData.append("sAction", "SetDashboardPlan");
