@@ -54,7 +54,7 @@ export default function Dashboard() {
   return (
     <div className={clsx("main-padding", classes.root)}>
       <div className={classes.headingWrapper}>
-        <Typography variant="h3">Welcome {profilesData[0]?.name}</Typography>
+        <Typography variant="h3">Welcome {profilesData && profilesData[0]?.name}</Typography>
         <div className={classes.buttonWrapper}>
           <Button
             variant="contained"
