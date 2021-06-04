@@ -111,6 +111,13 @@ var FORCE = (function (nsp) {
     });
   };
 
+  const zoom = () => {
+    let svg = d3.select("#mainGraph")
+      .call(d3.zoom().on("zoom", () => {
+        svg.attr("transform", d3.event.transform);
+      }));
+  };
+
   nsp.width = width;
   nsp.height = height;
   nsp.enterNode = enterNode;
@@ -124,6 +131,7 @@ var FORCE = (function (nsp) {
   nsp.dragEnded = dragEnded;
   nsp.drag = drag;
   nsp.tick = tick;
+  nsp.zoom = zoom;
 
   return nsp;
 }(FORCE || {}));
@@ -145,6 +153,7 @@ class App extends React.Component {
       FORCE.initForce(data.nodes, data.links);
       FORCE.tick(this);
       FORCE.drag();
+      FORCE.zoom();
     }
   }
 
@@ -171,7 +180,7 @@ class App extends React.Component {
       />));
     return (
       <div className="graph__container">
-        <svg className="graph" width={FORCE.width} height={FORCE.height}>
+        <svg id='mainGraph' className="graph" width={FORCE.width} height={FORCE.height}>
           <g>
             {links}
           </g>
