@@ -21,6 +21,7 @@ import { signInAction } from "../store/actions";
 import { ValidationProvider } from "../../../utils";
 import useStyles from "./styles";
 import AnimationComponent from "./AnimationComponent";
+import logo from "../../../assets/popl-enterprise.png";
 
 function Login(props) {
   const classes = useStyles();
@@ -50,7 +51,7 @@ function Login(props) {
     <div className={classes.root}>
       <div className={classes.loginContainer}>
         <div className={classes.topIconContainer}>
-          <img alt='logo' className={classes.logo} src="/assests/logo/popl_logo_black.png" />
+          <img alt='logo' className={classes.logo} src={logo} />
         </div>
         <Paper elevation={0} className={classes.loginFormWrapper}>
           <ValidationProvider config={signInConfig}>

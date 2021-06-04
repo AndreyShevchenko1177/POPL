@@ -49,7 +49,7 @@ const BottomWidgets = memo(({
         </WidgetsContainer>
         <WidgetsContainer
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
-          heading='Top popped Popls'>
+          heading='Most Active Devices'>
           <TopListPoppedPopls profilesData={profilesData} dateRange={calendar.dateRange} />
         </WidgetsContainer>
         {/* <WidgetsContainer

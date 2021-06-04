@@ -7,6 +7,7 @@ export default makeStyles((theme) => ({
   linksContainer: {
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
+    marginTop: 10,
   },
   linkIcon: {
     paddingRight: "16px",

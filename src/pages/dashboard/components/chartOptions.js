@@ -30,7 +30,7 @@ const chartOptions = {
       {
         data: [],
         pointRadius: 3,
-        label: "Popl",
+        label: "Device",
         lineTension: 0.1,
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
