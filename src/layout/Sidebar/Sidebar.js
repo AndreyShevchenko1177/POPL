@@ -421,7 +421,7 @@ function PermanentDrawerLeft() {
                     [classes.listTextHighLight]: highlight.profileInfo,
                   }),
                 }}
-                primary={profileInfo[0] || "Your name"}
+                primary={profileInfo[0] || "Your Company name"}
               />
             </ListItem>
           </Link>}

@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
     left: "33px",
   },
   logo: {
-    width: 70,
+    width: 150,
     height: "auto",
   },
   animationContainer: {

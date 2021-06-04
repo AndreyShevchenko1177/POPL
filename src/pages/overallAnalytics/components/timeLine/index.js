@@ -6,7 +6,7 @@ import React, {
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Paper } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
