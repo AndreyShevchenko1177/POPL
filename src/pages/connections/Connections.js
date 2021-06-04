@@ -179,6 +179,8 @@ function Connections() {
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
+  console.log(dragableConnections);
+
   return (
     <>
       <Header

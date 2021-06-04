@@ -87,13 +87,12 @@ export const ConnectedCard = memo(({
           </div>
           <div className={classes.cardTable}>
             <div className={classes.tableRow}>
-              {/* <div className={classes.tableCell}>Last Connected:</div> */}
-              <div className={classes.tableCell}>{formatDateConnections(time)}</div>
-            </div>
-            <div className={classes.tableRow}>
               {/* <div className={classes.tableCell}>URL:</div> */}
               <div className={classes.tableCell}><a href={url} target='blank'>{rest.location}</a></div>
             </div>
+          </div>
+          <div className={classes.dateContainer}>
+            {formatDateConnections(time)}
           </div>
           <div className={classes.viewProfileButtonContainer}>
             <a className={classes.viewProfileButton} href={url} target='blank'>View Profile</a>

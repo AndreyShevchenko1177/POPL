@@ -5,6 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: "160px",
+    minWidth: 160,
     height: "170px",
     marginLeft: "10px",
     padding: "20px 0",
@@ -26,7 +27,7 @@ export default makeStyles((theme) => ({
   },
   contenContainer: {
     position: "relative",
-    width: "50%",
+    width: "100%",
     height: 170,
     padding: 20,
     display: "flex",
@@ -40,12 +41,21 @@ export default makeStyles((theme) => ({
     padding: "0px 20px",
   },
   linkImage: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     cursor: "pointer",
+    marginRight: 10,
   },
   viewProfileButtonContainer: {
-    paddingTop: 10,
+    position: "absolute",
+    bottom: "15px",
+    right: "30px",
+  },
+  dateContainer: {
+    position: "absolute",
+    top: "23px",
+    right: "30px",
+    height: 30,
   },
   viewProfileButton: {
     fontSize: 14,
@@ -91,7 +101,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: 300,
-    margin: "0 20px 0 auto",
+    margin: "0 0 0 auto",
     padding: "10px 0",
   },
   connectedWithInfo: {
