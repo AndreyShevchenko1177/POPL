@@ -28,6 +28,7 @@ export default makeStyles((theme) => ({
   contenContainer: {
     position: "relative",
     width: "100%",
+    maxWidth: "calc(100% - 420px)",
     height: 170,
     padding: 20,
     display: "flex",
