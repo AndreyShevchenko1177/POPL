@@ -121,7 +121,7 @@ function NetworkActivity({
       const labels = [];
       let newData = Object.keys(data).map((el) => data[el]);
       // to set color for total popls line. it takes from specific array index
-      newData = [...newData.splice(3, 1), ...newData];
+      newData = [...newData.splice(2, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
           if (isSafari) {

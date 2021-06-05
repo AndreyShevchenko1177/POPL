@@ -45,7 +45,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData(generateLineChartData(popsData));
+      setChartData(generateLineChartData({
+        poplPops: popsData.poplPops,
+        qrCodePops: [...popsData.qrCodePops, ...popsData.walletPops],
+        allPops: popsData.allPops,
+      }));
     } else {
       setChartData(popsData);
     }
