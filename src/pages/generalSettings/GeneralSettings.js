@@ -1,5 +1,6 @@
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
 import SettingsField from "./components/SettingsField";
@@ -21,8 +22,11 @@ function GeneralSettings() {
     file: null,
   });
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const { isFetching } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
   const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
 
@@ -69,6 +73,8 @@ function GeneralSettings() {
     dispatch(getCompanyInfoAction());
   }, []);
 
+  console.log(location.state?.firstLogin);
+
   useEffect(() => {
     if (companyInfo) {
       let result = {};
@@ -98,6 +104,16 @@ function GeneralSettings() {
       {isFetching
         ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }}/>
         : <div className={classes.container}>
+          {location.state?.firstLogin && (
+            <div className={classes.onboardContainer}>
+              <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
+                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}
+              </Typography>
+              <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
+                Set up your team
+              </Typography>
+            </div>
+          )}
           <UpladImage image={companyInfo && companyInfo[3]} setFieldsState={setFieldsState} />
           <SettingsField
             title="Name"
@@ -123,14 +139,23 @@ function GeneralSettings() {
             handleChange={handleChangeField}
           />
           <div className={classes.buttonContainer}>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={handleSave}
-              style={{ width: 200 }}
-            >
-            Save
-            </Button>
+            {!location.state?.firstLogin
+              ? <Button
+                variant='contained'
+                color='primary'
+                onClick={handleSave}
+                style={{ width: 200 }}
+              >
+                Save
+              </Button>
+              : <Button
+                variant='contained'
+                color='primary'
+                onClick={() => history.push("/accounts/add-account")}
+                style={{ width: 200 }}
+              >
+                Continue
+              </Button>}
           </div>
         </div>}
     </>
