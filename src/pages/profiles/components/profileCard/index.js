@@ -175,6 +175,8 @@ export default function Card({
     }
   };
 
+  const AddLineBreak = ({ text }) => <span>{text}</span>;
+
   useEffect(() => {
     // for initial next button displaying depends on screen width
     const appropriateLinksCount = viewPortWidth > 1450 ? 11 : 8;
@@ -227,6 +229,8 @@ export default function Card({
     if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "" });
     return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
   }, []);
+
+  console.log(values.bio?.includes("\r"));
 
   return (
     <>
@@ -409,7 +413,19 @@ export default function Card({
                         value={values.bio}
                         size='small'
                       />
-                      : <Tooltip title={values?.bio || ""} placement="top"><div onDoubleClick={editIconHandler} className={classes.bioNotEditMode}>{values.bio}</div></Tooltip>
+                      : <Tooltip title={values?.bio || ""} placement="top">
+                        <div onDoubleClick={editIconHandler} className={classes.bioNotEditMode}>
+                          {values.bio?.split("\r").length > 1
+                            ? values.bio.split("\r").map((el) => (
+                              <>
+                                <AddLineBreak text={el} />
+                                <br/>
+                              </>
+                            ))
+                            : values.bio
+                          }
+                        </div>
+                      </Tooltip>
                   }
                 </div>
               </div>
