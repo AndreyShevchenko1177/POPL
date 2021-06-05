@@ -5,7 +5,7 @@ import {
   SIGN_IN_FAIL,
   SIGN_UP_FAIL,
   GET_DASHBOARD_PLAN_SUCCESS,
-  GET_DASHBOARD_PLAN_FAIL,
+  IS_SIGN_ACTION,
   CLEAN_STATE,
   LOGOUT,
 } from "../actionTypes";
@@ -65,7 +65,6 @@ export const signUpAction = (credo) => async (dispatch) => {
       });
     }
 
-    console.log(data.success);
     dispatch({
       type: SIGN_UP_SUCCESS,
       payload: data.success,
@@ -75,7 +74,6 @@ export const signUpAction = (credo) => async (dispatch) => {
       type: SIGN_UP_FAIL,
       payload: error,
     });
-    console.log("fail");
     dispatch(
       snackBarAction({
         message: "Server error",
@@ -98,6 +96,11 @@ export const getDashboardPlanAction = (id) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const setIsSignAction = (isSign) => ({
+  type: IS_SIGN_ACTION,
+  payload: isSign,
+});
 
 export const logoutAction = () => ({
   type: LOGOUT,

@@ -59,7 +59,7 @@ export default function Chart({ data }) {
       const result = {};
       const labels = [];
       let newData = Object.keys(data).map((el) => data[el]);
-      newData = [...newData.splice(3, 1), ...newData];
+      newData = [...newData.splice(2, 1), ...newData];
       newData.forEach((values, i) => {
         if (Array.isArray(values)) {
           if (isSafari) {

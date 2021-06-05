@@ -3,6 +3,7 @@ import {
   Checkbox, Paper, Tooltip, Typography,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import clsx from "clsx";
 import useStyles from "./styles/styles";
 import userIcon from "../../../../assets/images/popl_white.png";
 import DragDots from "../../../../components/dragDots";
@@ -14,6 +15,7 @@ const iconsConfig = {
   twitter: 5,
   linkedin: 7,
   facebook: 6,
+  website: 24,
 };
 
 export function NotConnectedCard({
@@ -31,7 +33,9 @@ export function NotConnectedCard({
 
   const linkRedirect = (path) => {
     try {
-      console.log(path);
+      if (path === 25) return window.open(`https://maps.google.com/?q=${rest.lat},${rest.long}`);
+      if (path === 8) return window.open(`sms:${number}`);
+      if (path === 9) return window.open(`mailto:${email}`);
       return window.open(path);
     } catch (error) {
       console.log(error);
@@ -52,6 +56,8 @@ export function NotConnectedCard({
       onClick: handleDeleteConnection,
     },
   ];
+
+  console.log(number);
 
   return (
     <>
@@ -79,21 +85,38 @@ export function NotConnectedCard({
           <div className={classes.nameIconsContainer}>
             <Typography variant="h5">{name}</Typography>
             <div className={classes.iconswrapper}>
-              {
-                Object.keys(iconsConfig).map((key) => {
-                  if (fullContact && fullContact[key]) {
-                    return (
-                      <img
-                        key={iconsConfig[key]}
-                        onClick={() => linkRedirect(fullContact[key])}
-                        className={classes.linkImage}
-                        src={icons[iconsConfig[key]]?.icon} alt={"title"}
-                      />
-                    );
-                  }
-                  return null;
-                })
-              }
+              <>
+                {
+                  Object.keys(iconsConfig).map((key) => {
+                    if (fullContact && fullContact[key]) {
+                      return (
+                        <img
+                          key={iconsConfig[key]}
+                          onClick={() => linkRedirect(fullContact[key])}
+                          className={classes.linkImage}
+                          src={icons[iconsConfig[key]]?.icon} alt={"title"}
+                        />
+                      );
+                    }
+                    return null;
+                  })
+                }
+                {number && <img
+                  onClick={() => linkRedirect(8)}
+                  className={classes.linkImage}
+                  src={icons[8]?.icon} alt={"number"}
+                />}
+                {email && <img
+                  onClick={() => linkRedirect(9)}
+                  className={classes.linkImage}
+                  src={icons[9]?.icon} alt={"mail"}
+                />}
+                {rest.long && rest.lat && <img
+                  onClick={() => linkRedirect(25)}
+                  className={classes.linkImage}
+                  src={icons[25]?.icon} alt={"location"}
+                />}
+              </>
             </div>
           </div>
           <div className='full-w'>
@@ -107,7 +130,7 @@ export function NotConnectedCard({
           <div className='full-w'>
             <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{fullContact?.organization}</Typography>
           </div>
-          <div className='full-w'>
+          <div className={clsx(classes.dateContainer)}>
             <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{dateFormat(time)}</Typography>
           </div>
           <div className='full-w'>

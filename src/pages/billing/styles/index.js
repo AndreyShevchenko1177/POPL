@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: `${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px 0 0`,
-    "@media (max-width: 1340px)": {
+    "@media (max-width: 1350px)": {
       flexDirection: "column",
       minWidth: 240,
       maxWidth: 600,
@@ -45,7 +45,7 @@ export default makeStyles((theme) => ({
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
     },
-    "@media (max-width: 1340px)": {
+    "@media (max-width: 1350px)": {
       flexDirection: "column",
       width: "100%",
       border: "none",
@@ -76,7 +76,7 @@ export default makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    "@media (max-width: 1340px)": {
+    "@media (max-width: 1350px)": {
       minWidth: 240,
       maxWidth: 600,
       minHeight: 150,
@@ -119,5 +119,6 @@ export default makeStyles((theme) => ({
   },
   contactUsTitle: {
     padding: 0,
+    fontWeight: "bold !important",
   },
 }));

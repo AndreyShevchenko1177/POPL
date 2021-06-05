@@ -1,19 +1,26 @@
+/* eslint-disable no-underscore-dangle */
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducer";
-import { SIGN_IN_SUCCESS } from "../pages/auth/store/actionTypes";
+import { SIGN_IN_SUCCESS, IS_SIGN_ACTION } from "../pages/auth/store/actionTypes";
 
 const middleware = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
-  /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware))
+  /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)),
 );
 
 if (localStorage.profileData) {
+  const payload = { ...JSON.parse(localStorage.profileData) };
   store.dispatch({
     type: SIGN_IN_SUCCESS,
-    payload: JSON.parse(localStorage.profileData),
+    payload,
+  });
+  // set isSign false to indicate that payload form localstorage not after sign in action
+  store.dispatch({
+    type: IS_SIGN_ACTION,
+    payload: false,
   });
 }
 

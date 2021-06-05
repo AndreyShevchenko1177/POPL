@@ -37,7 +37,7 @@ export default makeStyles((theme) => ({
     },
   },
   choiceCardContainer: {
-    minWidth: 360,
+    minWidth: 375,
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
   },

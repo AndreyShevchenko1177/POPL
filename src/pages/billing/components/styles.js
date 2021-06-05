@@ -7,18 +7,23 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     padding: "40px 40px",
     width: "100%",
+    "@media (max-width: 1450px)": {
+      padding: "25px 25px",
+    },
   },
   title: {
-    paddingBottom: 20,
+    fontWeight: "bold",
+    paddingBottom: 10,
   },
   priceDescriptionContainer: {
     display: "flex",
-    minHeight: 125,
+    minHeight: 85,
     flexDirection: "column",
     paddingTop: 10,
     "& span": {
-      fontSize: "16px",
-      padding: "10px 0",
+      fontSize: "20px",
+      fontWeight: "bold",
+      // padding: "10px 0",
     },
   },
   buttonContainer: {
@@ -28,13 +33,22 @@ export default makeStyles((theme) => ({
   labelsContainer: {
     display: "flex",
     flexDirection: "column",
+    paddingTop: 20,
   },
   labelsItem: {
     display: "flex",
-    alignItems: "center",
+    // alignItems: "center",
     paddingBottom: 10,
-    "&:first-child": {
-      fontWeight: "bold",
+    "& > div:first-child": {
+      margin: "0px 10px 0 0",
+      display: "flex",
+      justifyContent: "center",
+    },
+  },
+  labelsItemsText: {
+    fontSize: "16px !important",
+    "@media (max-width: 1550px)": {
+      fontSize: "14px !important",
     },
   },
   labelIcon: {

@@ -12,6 +12,7 @@ import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "./store/actions";
 import { getLatestConnectionsAction } from "../../store/actions";
+import { setIsSignAction } from "../auth/store/actions";
 import { generateLineChartData } from "../../utils";
 import Loader from "../../components/Loader";
 
@@ -20,6 +21,8 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
+  const isSign = useSelector(({ authReducer }) => authReducer.isSign); // if true it means user signed in, not page refresh
   const latestConnections = useSelector(({ systemReducer }) => systemReducer.latestConnections.data);
   const latestConnectionsFetching = useSelector(({ systemReducer }) => systemReducer.latestConnections.isFetching);
   const allPopsData = useSelector(
@@ -44,8 +47,19 @@ export default function Dashboard() {
   }, [profilesData]);
 
   useEffect(() => {
+    if (dashboardPlan === 0 && isSign && profilesData?.length === 1) {
+      dispatch(setIsSignAction(false));
+      history.push("/settings/general-settings", { firstLogin: true });
+    }
+  }, [dashboardPlan, profilesData]);
+
+  useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData(generateLineChartData(popsData));
+      setChartData(generateLineChartData({
+        poplPops: popsData.poplPops,
+        qrCodePops: [...popsData.qrCodePops, ...popsData.walletPops],
+        allPops: popsData.allPops,
+      }));
     } else {
       setChartData(popsData);
     }

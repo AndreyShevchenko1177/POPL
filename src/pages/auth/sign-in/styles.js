@@ -15,6 +15,10 @@ export default makeStyles((theme) => ({
     width: 150,
     height: "auto",
   },
+  animationLogo: {
+    width: 230,
+    height: 42,
+  },
   animationContainer: {
     display: "none",
     overflow: "hidden",

@@ -3,6 +3,7 @@ import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import useStyles from "./styles";
 import { isSafari as safari } from "../../../constants";
+import poplLogo from "../../../assets/popl-enterprise.png";
 
 function AnimationComponent() {
   const classes = useStyles();
@@ -13,7 +14,7 @@ function AnimationComponent() {
     })}>
       <div className={classes.textContainer}>
 
-        <Typography className={classes.animationContainerHeading} variant='h2'>Popl Enterprise</Typography>
+        <img className={classes.animationLogo} alt='logo' src={poplLogo} />
       </div>
       {!isSafari && <>
         <div className={classes.bottomAnimationWrapper}>
