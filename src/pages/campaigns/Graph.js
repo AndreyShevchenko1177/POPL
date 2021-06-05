@@ -22,8 +22,9 @@ var FORCE = (function (nsp) {
       .force("charge", d3.forceManyBody().strength(-200))
       .force("link", d3.forceLink(links)
         .id((d, i) => d.id)
-        .distance(20)
+        .distance(35)
         .strength(1))
+      .force("many", d3.forceManyBody().distanceMin(5).distanceMax(10))
       .force("center", d3.forceCenter().x(nsp.width / 2).y(nsp.height / 2))
       .force("collide", d3.forceCollide([5]).iterations([5]));
   };
@@ -34,7 +35,7 @@ var FORCE = (function (nsp) {
         if (typeof d.id === "string") {
           return 25;
         }
-        return 10;
+        return 5;
       })
       .style("fill", (d) => {
         if (typeof d.id === "string") {
@@ -42,7 +43,7 @@ var FORCE = (function (nsp) {
         } return "green";
       })
       .style("stroke", "bisque")
-      .style("stroke-width", "1px");
+      .style("stroke-width", "0px");
 
     selection.select("text")
       .style("fill", "honeydew")
