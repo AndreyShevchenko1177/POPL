@@ -264,19 +264,22 @@ function OverallAnalytics() {
             if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
           });
           return setPopsData({
-            poplPops, qrCodePops, walletPops, allPops: [...poplPops, ...qrCodePops, ...walletPops],
+            poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
           });
         }
         // setting popps for individual profile level
         if (location.state?.id) {
           return setPopsData({
             poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
-            qrCodePops: allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id),
-            walletPops: allPopsData.walletPops.filter((pop) => pop[0] == location.state.id),
+            qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
             allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
           });
         }
-        setPopsData(allPopsData);
+        setPopsData({
+          poplPops: allPopsData.poplPops,
+          qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
+          allPops: allPopsData.allPops,
+        });
       }, 0);
     }
   }, [allPopsData, location]);
