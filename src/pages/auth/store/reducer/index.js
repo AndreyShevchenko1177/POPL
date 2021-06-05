@@ -7,6 +7,7 @@ import {
   GET_DASHBOARD_PLAN_FAIL,
   LOGOUT,
   CLEAN_STATE,
+  IS_SIGN_ACTION,
 } from "../actionTypes";
 import { deleteCookies, existingCookies } from "../../../../utils/cookie";
 
@@ -23,6 +24,7 @@ const initialState = {
     data: null,
     error: null,
   },
+  isSign: true, // isSign key used for indicating that this action called after sign in not after page reload
 };
 
 export default function authReducer(state = initialState, { type, payload }) {
@@ -81,6 +83,12 @@ export default function authReducer(state = initialState, { type, payload }) {
         data: null,
         error: payload,
       },
+    };
+  }
+  case IS_SIGN_ACTION: {
+    return {
+      ...state,
+      isSign: payload,
     };
   }
   case LOGOUT: {

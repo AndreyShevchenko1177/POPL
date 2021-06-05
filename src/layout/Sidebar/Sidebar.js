@@ -24,11 +24,10 @@ import connectionsWhite from "../../assets/sidebar/connections_white.png";
 import analytics from "../../assets/sidebar/analytics.png";
 import analyticsWhite from "../../assets/sidebar/analytics_white.png";
 import settings from "../../assets/sidebar/settings.png";
-import settingsWhite from "../../assets/sidebar/settings_white.png";
+import poplLogo from "../../assets/popl-enterprise.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 import { cleanAction } from "../../pages/overallAnalytics/store/actions";
-import { removeCommas } from "../../utils";
 
 function PermanentDrawerLeft() {
   const classes = useStyles();
@@ -105,17 +104,6 @@ function PermanentDrawerLeft() {
     highlightList(name);
   }, [location]);
 
-  // useEffect(() => {
-  //   if (userData?.id) {
-  //     getChildrenIdsRequest(userData.id)
-  //       .then((res) => {
-  //         if (res.data && res.data !== "null") dispatch(profileCountTierLevelAction(JSON.parse(removeCommas(res.data)).length + 1));
-  //         else dispatch(profileCountTierLevelAction(1));
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }, [userData]);
-
   useEffect(() => {
     if (localStorage.getItem("subscription")) {
       const result = JSON.parse(localStorage.getItem("subscription"));
@@ -141,7 +129,7 @@ function PermanentDrawerLeft() {
       <div className={classes.brand}>
         <img
           className={classes.logo}
-          src="/assests/logo/popl_logo_black.png"
+          src={poplLogo}
           alt="logo 5"
         />
       </div>

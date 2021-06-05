@@ -12,8 +12,8 @@ export default makeStyles((theme) => ({
     overflowY: "auto",
   },
   logo: {
-    width: 80,
-    height: 40,
+    width: 150,
+    height: 28,
   },
   nested: {
     padding: "2px 0 2px 110px",

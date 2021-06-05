@@ -99,7 +99,7 @@ export default function Main({ children, stripe }) {
           {children}
           {isRestrictedMode && (userId !== "243104" && userId !== "293299") // userId checkout used just for development
             && <div
-              style={location.pathname === "/" ? { height: "calc(100vh - 110px)", top: 110 } : {}}
+              style={location.pathname === "/" ? { height: "calc(100vh - 90px)", top: 90 } : {}}
               className={classes.restrictedViewRoot}
             >
               <div className={classes.restrictedViewOpacity}>
