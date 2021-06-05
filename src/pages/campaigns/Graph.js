@@ -15,6 +15,7 @@ import * as d3 from "d3";
 var FORCE = (function (nsp) {
   let width = 1080;
   let height = 800;
+  let zoomTrans = { x: 0, y: 0, scale: 1 };
   let color = d3.scaleOrdinal(d3.schemeCategory10);
   let initForce = (nodes, links) => {
     nsp.force = d3.forceSimulation(nodes)
@@ -41,7 +42,7 @@ var FORCE = (function (nsp) {
         } return "green";
       })
       .style("stroke", "bisque")
-      .style("stroke-width", "3px");
+      .style("stroke-width", "1px");
 
     selection.select("text")
       .style("fill", "honeydew")
@@ -62,7 +63,7 @@ var FORCE = (function (nsp) {
 
   let enterLink = (selection) => {
     selection
-      .attr("stroke-width", 3)
+      .attr("stroke-width", 1)
       .attr("stroke", "bisque");
   };
 
@@ -112,10 +113,19 @@ var FORCE = (function (nsp) {
   };
 
   const zoom = () => {
-    let svg = d3.select("#mainGraph")
-      .call(d3.zoom().on("zoom", () => {
-        svg.attr("transform", d3.event.transform);
-      }));
+    let svg = d3.select("#mainGraph");
+    let g = d3.select("#mainGraph").selectAll(".child");
+    let zoom = d3.zoom()
+      .scaleExtent([0.25, 2.25])
+      .on("zoom", () => {
+        zoomTrans.x = d3.event.transform.x;
+        zoomTrans.y = d3.event.transform.y;
+        zoomTrans.scale = d3.event.transform.k;
+        g.attr("transform", d3.event.transform);
+      });
+
+    svg.call(zoom)
+      .on("dblclick.zoom", null);
   };
 
   nsp.width = width;
@@ -181,10 +191,10 @@ class App extends React.Component {
     return (
       <div className="graph__container">
         <svg id='mainGraph' className="graph" width={FORCE.width} height={FORCE.height}>
-          <g>
+          <g className='child'>
             {links}
           </g>
-          <g>
+          <g className='child'>
             {nodes}
           </g>
         </svg>
