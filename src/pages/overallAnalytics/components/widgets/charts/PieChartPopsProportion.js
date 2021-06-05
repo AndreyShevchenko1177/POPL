@@ -10,7 +10,6 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
-
   const handleClickLabel = (e, index) => {
     const ctx = chart.current.chartInstance;
     const meta = [];
@@ -100,7 +99,7 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index }) => {
         <div className='chart-wrapper'>
           <Doughnut
             ref={chart}
-            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.length / 2 > i) }] }}
+            data={{ ...data, labels: data.labels.filter((el, i, arr) => arr.indexOf(el) === i), datasets: [{ ...data.datasets[0], data: data.datasets[0].data.filter((el, i, arr) => arr.length / 2 >= i) }] }}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {

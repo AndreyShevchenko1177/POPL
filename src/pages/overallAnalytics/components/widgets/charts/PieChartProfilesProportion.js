@@ -123,7 +123,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
               ...data,
               datasets: [{
                 ...data.datasets[0],
-                data: data.datasets[0].data.filter((el, i) => i <= profiles?.length),
+                data: data.datasets[0].data.filter((el, i) => i < profiles?.length),
               }],
             }}
             legend={{ display: false }}
