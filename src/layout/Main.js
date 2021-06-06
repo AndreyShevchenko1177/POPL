@@ -35,13 +35,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  upgradePlanButton: {
+  buttonsWrapper: {
     position: "absolute",
+    display: "flex",
+    flexDirection: "column",
     top: "50%",
     left: "50%",
     transform: "translate(-50%,-50%)",
     "-webkit-transform": "translate(-50%,-50%)",
     zIndex: 2000,
+  },
+  addAccountsBtn: {
+    marginBottom: 10,
   },
 }));
 
@@ -105,14 +110,23 @@ export default function Main({ children, stripe }) {
               <div className={classes.restrictedViewOpacity}>
 
               </div>
-              <Button
-                className={classes.upgradePlanButton}
-                variant="contained"
-                color="primary"
-                onClick={() => history.push("/settings/billing")}
-              >
-              Subscribe now
-              </Button>
+              <div className={classes.buttonsWrapper}>
+                <Button
+                  className={classes.addAccountsBtn}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => history.push("/accounts/add-account")}
+                >
+                Add accounts
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => history.push("/settings/billing")}
+                >
+                Subscribe now
+                </Button>
+              </div>
             </div>}
         </>
       </main>

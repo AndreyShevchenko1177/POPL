@@ -15,9 +15,10 @@ export default makeStyles((theme) => ({
     },
   },
   leftContentWrapper: {
+    position: "relative",
+    width: "calc(100% - 325px)",
     display: "flex",
     alignItems: "center",
-    width: "calc(100% - 100px)",
   },
   avatar: {
     width: "80px",
@@ -26,11 +27,9 @@ export default makeStyles((theme) => ({
     margin: "0 auto",
   },
   contenContainer: {
-    position: "relative",
-    width: "100%",
-    maxWidth: "calc(100% - 420px)",
+    width: "calc(100% - 160px)",
     height: 170,
-    padding: 20,
+    padding: "20px 30px 20px 20px",
     display: "flex",
     flexDirection: "column",
   },
@@ -139,11 +138,11 @@ export default makeStyles((theme) => ({
     overflow: "hidden",
   },
   showMoreWrapper: {
+    width: 325,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginLeft: "auto",
-    width: "100px",
     height: "100%",
   },
   showMoreContainer: {

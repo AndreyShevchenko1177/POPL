@@ -1,47 +1,11 @@
 import { useEffect, useState } from "react";
-import { Graph } from "react-d3-graph";
 import { useSelector } from "react-redux";
-import App from "./Graph";
+import Graph from "./Graph";
 
 const Campaigns = () => {
   const connections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const [data, setData] = useState();
-
-  // the graph configuration, just override the ones you need
-  const myConfig = {
-    nodeHighlightBehavior: true,
-    node: {
-      color: "lightgreen",
-      size: 220,
-      highlightStrokeColor: "blue",
-      renderLabel: false,
-    },
-    link: {
-      highlightColor: "lightblue",
-    },
-    initialZoom: 0.3,
-    height: 800,
-    // panAndZoom: true,
-    // focusedNodeId: "nodeIdToTriggerZoomAnimation",
-    d3: {
-      linkLength: 50,
-      // disableLinkForce: true,
-    },
-  };
-
-  const onZoomChange = function (previousZoom, newZoom) {
-    // console.log(previousZoom, newZoom);
-    // window.alert(`Graph is now zoomed at ${newZoom} from ${previousZoom}`);
-  };
-
-  const onClickNode = function (nodeId) {
-    // window.alert(`Clicked node ${nodeId}`);
-  };
-
-  const onClickLink = function (source, target) {
-    // window.alert(`Clicked link between ${source} and ${target}`);
-  };
 
   useEffect(() => {
     if (connections && profiles) {
@@ -69,23 +33,11 @@ const Campaigns = () => {
     }
   }, [connections, profiles]);
 
-  return (<>{data && <App data={data} />}</>);
-  // return null;
-
-//   return data
-//     ? <div style={{ width: "100%", heigth: "70vh", marginTop: 100 }}>
-//       {data
-//         ? <Graph
-//           id="graph-id" // id is mandatory
-//           data={data}
-//           config={myConfig}
-//           onClickNode={onClickNode}
-//           onClickLink={onClickLink}
-//           onZoomChange={onZoomChange}
-//         />
-//         : null}
-//     </div>
-//     : null;
+  return (
+    <>
+      {data && <Graph data={data} />}
+    </>
+  );
 };
 
 export default Campaigns;

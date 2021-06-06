@@ -230,8 +230,6 @@ export default function Card({
     return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
   }, []);
 
-  console.log(values.bio?.includes("\r"));
-
   return (
     <>
       {!isDotsRemove && <DragDots position="center" />}
@@ -416,11 +414,11 @@ export default function Card({
                       : <Tooltip title={values?.bio || ""} placement="top">
                         <div onDoubleClick={editIconHandler} className={classes.bioNotEditMode}>
                           {values.bio?.split("\r").length > 1
-                            ? values.bio.split("\r").map((el) => (
-                              <>
+                            ? values.bio.split("\r").map((el, i) => (
+                              <div key={i}>
                                 <AddLineBreak text={el} />
                                 <br/>
-                              </>
+                              </div>
                             ))
                             : values.bio
                           }

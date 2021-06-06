@@ -87,7 +87,6 @@ export const ConnectedCard = memo(({
           </div>
           <div className={classes.cardTable}>
             <div className={classes.tableRow}>
-              {/* <div className={classes.tableCell}>URL:</div> */}
               <div className={classes.tableCell}><a href={url} target='blank'>{rest.location}</a></div>
             </div>
           </div>
@@ -98,6 +97,8 @@ export const ConnectedCard = memo(({
             <a className={classes.viewProfileButton} href={url} target='blank'>View Profile</a>
           </div>
         </div>
+      </div>
+      <div className={classes.showMoreWrapper}>
         <div className={classes.connectedWithViewWrapper}>
           <Paper className={classes.connectedWithInfo}>
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
@@ -113,8 +114,6 @@ export const ConnectedCard = memo(({
             </div>
           </Paper>
         </div>
-      </div>
-      <div className={classes.showMoreWrapper}>
         <div className={classes.showMoreContainer}>
           <MoreVertIcon className={classes.showMoreIcon} onClick={() => setIsOpenPopup(!isOpenPopup)} />
           <Popup config={popupConfig} isOpen={isOpenPopup} handleClose={() => setIsOpenPopup(false)} />

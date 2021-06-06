@@ -139,6 +139,8 @@ export function NotConnectedCard({
             </Tooltip>
           </div>
         </div>
+      </div>
+      <div className={classes.showMoreWrapper}>
         <div className={classes.connectedWithViewWrapper}>
           <Paper style={{ backgroundColor: "#f3f5f3" }} className={classes.connectedWithInfo}>
             <Typography className={classes.connectedWithText} variant='h5'>Connected with:</Typography>
@@ -154,17 +156,6 @@ export function NotConnectedCard({
             </div>
           </Paper>
         </div>
-        {/* <div className={classes.notConnectedViaConnectContainer}>
-          <Typography variant='h6'>VIA CONNECT</Typography>
-          <div className={classes.noteWrapper}>
-            <span className={classes.noteTitle}>Note: </span>
-            <Tooltip PopperProps={{ disablePortal: true }} title={note || ""} placement="left-start">
-              <span className={classes.noteText}>{note}</span>
-            </Tooltip>
-          </div>
-        </div> */}
-      </div>
-      <div className={classes.showMoreWrapper}>
         <div className={classes.showMoreContainer}>
           <MoreVertIcon className={classes.showMoreIcon} onClick={() => setIsOpenPopup(!isOpenPopup)} />
           <Popup config={popupConfig} isOpen={isOpenPopup} handleClose={() => setIsOpenPopup(false)} />
