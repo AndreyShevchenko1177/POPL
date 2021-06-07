@@ -21,44 +21,26 @@ class Graph extends React.Component {
   componentDidMount() {
     if (this.props.data) {
       const { data } = this.props;
-      console.log(data);
-      FORCE.initForce(data.nodes, data.links);
-      FORCE.tick(this);
-      FORCE.drag();
-      FORCE.zoom();
+      FORCE(data.nodes, data.links);
+      // FORCE.tick(this);
+      // FORCE.drag();
+      // FORCE.zoom();
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
       const { data } = this.props;
-      FORCE.initForce(data.nodes, data.links);
-      FORCE.tick(this);
-      FORCE.drag();
+      FORCE(data.nodes, data.links);
+      // FORCE.tick(this);
+      // FORCE.drag();
     }
   }
 
   render() {
-    let links = this.props.data.links.map((link) => (
-      <Link
-        key={link.id}
-        data={link}
-      />));
-    let nodes = this.props.data.nodes.map((node) => (
-      <Node
-        data={node}
-        name={node.name}
-        key={node.id}
-      />));
     return (
       <div style={{ padding: 20 }} className="graph__container">
-        <svg id='mainGraph' className="graph" width={FORCE.width} height={FORCE.height}>
-          <g className='child'>
-            {links}
-          </g>
-          <g className='child'>
-            {nodes}
-          </g>
+        <svg id='mainGraph' className="graph" width={1500} height={900}>
         </svg>
       </div>
     );
