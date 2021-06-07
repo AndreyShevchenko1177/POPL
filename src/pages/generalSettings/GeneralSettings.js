@@ -107,11 +107,11 @@ function GeneralSettings() {
           {location.state?.firstLogin && (
             <div className={classes.onboardContainer}>
               <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
-                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}
+                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}! Set up your team
               </Typography>
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
+              {/* <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
                 Set up your team
-              </Typography>
+              </Typography> */}
             </div>
           )}
           <UpladImage image={companyInfo && companyInfo[3]} setFieldsState={setFieldsState} />
@@ -129,7 +129,7 @@ function GeneralSettings() {
             value={fieldsState.websiteLink}
             handleChange={handleChangeField}
           />
-          <TeamMembers showConfirmModal={onConfirmModal}/>
+          {!location.state?.firstLogin && <TeamMembers showConfirmModal={onConfirmModal}/>}
           <SettingsField
             title="Primary Color"
             setFieldsState={setFieldsState}
@@ -151,7 +151,10 @@ function GeneralSettings() {
               : <Button
                 variant='contained'
                 color='primary'
-                onClick={() => history.push("/accounts/add-account")}
+                onClick={() => {
+                  handleSave();
+                  history.push("/accounts/add-account");
+                }}
                 style={{ width: 200 }}
               >
                 Continue

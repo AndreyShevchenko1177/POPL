@@ -36,9 +36,12 @@ export default makeStyles((theme) => ({
   nameIconsContainer: {
     display: "flex",
     width: "100%",
+    alignItems: "center",
   },
   iconswrapper: {
     padding: "0px 20px",
+    display: "flex",
+    alignItems: "center",
   },
   linkImage: {
     width: 30,
@@ -64,9 +67,30 @@ export default makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+  bioWrapper: {
+    width: "57%",
+    "@media (max-width: 1900px)": {
+      width: "58%",
+    },
+    "@media (max-width: 1750px)": {
+      width: "59%",
+    },
+    "@media (max-width: 1700px)": {
+      width: "60%",
+    },
+    "@media (max-width: 1600px)": {
+      width: "61%",
+    },
+    "@media (max-width: 1500px)": {
+      width: "62%",
+    },
+    "@media (max-width: 1450px)": {
+      width: "64%",
+    },
+  },
   cardTable: {
     display: "flex",
-    minHeight: 50,
+    // minHeight: 50,
     justifyContent: "flex-end",
     flexDirection: "column",
     // paddingTop: 10,
@@ -205,8 +229,35 @@ export default makeStyles((theme) => ({
     },
   },
   conBio: {
+    maxHeight: 50,
+    overflow: "hidden",
+    // whiteSpace: "nowrap",
+    // textOverflow: "ellipsis",
+  },
+  proLogo: {
+    width: 35,
+    height: 35,
+    position: "absolute",
+    top: 20,
+    left: 20,
+    borderRadius: "50%",
+    boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+  },
+  conNameWrapper: {
+    maxWidth: "60%",
+    display: "flex",
+    alignItems: "center",
+  },
+  conName: {
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+  },
+  verifiedLogo: {
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    borderRadius: "50%",
+    boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
   },
 }));

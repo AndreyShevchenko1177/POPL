@@ -12,6 +12,8 @@ import userIcon from "../../../../assets/images/popl_white.png";
 import DragDots from "../../../../components/dragDots";
 import { formatDateConnections } from "../../../../utils/dates";
 import Popup from "../../../../components/popup";
+import proIcon from "../../../../assets/images/pro_icon.png";
+import verifiedIcon from "../../../../assets/images/verified.png";
 
 export const ConnectedCard = memo(({
   name, url, image, time, names, checked, setCheckbox, bio, ...rest
@@ -77,19 +79,31 @@ export const ConnectedCard = memo(({
               : { boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)" }
             }
           />
+          {rest.pro && <img
+            alt='pro-log'
+            className={classes.proLogo}
+            src={proIcon}
+          />}
         </div>
         <div className={classes.contenContainer}>
-          <Typography variant="h5">{name}</Typography>
-          <div className='full-w'>
+          <div className={classes.conNameWrapper}>
+            <Typography variant="h5" classes={{ h5: classes.conName }}>{name}</Typography>
+            {!!rest.v && <img
+              alt='pro-log'
+              className={classes.verifiedLogo}
+              src={verifiedIcon}
+            />}
+          </div>
+          {bio && <div className={classes.bioWrapper}>
             <Tooltip title={bio || ""} placement="top">
               <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio}</Typography>
             </Tooltip>
-          </div>
-          <div className={classes.cardTable}>
+          </div>}
+          {rest.location && <div className={classes.cardTable}>
             <div className={classes.tableRow}>
               <div className={classes.tableCell}><a href={url} target='blank'>{rest.location}</a></div>
             </div>
-          </div>
+          </div>}
           <div className={classes.dateContainer}>
             {formatDateConnections(time)}
           </div>

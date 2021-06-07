@@ -9,8 +9,6 @@ import {
 import Checkbox from "@material-ui/core/Checkbox";
 import EditIcon from "@material-ui/icons/Edit";
 import clsx from "clsx";
-import DoneIcon from "@material-ui/icons/Done";
-import { Done } from "@material-ui/icons";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Avatar from "../../../../components/popl/Avatar";
@@ -30,6 +28,8 @@ import {
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
+import proIcon from "../../../../assets/images/pro_icon.png";
+import verifiedIcon from "../../../../assets/images/verified.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { defineDarkColor, restrictEdit } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
@@ -67,6 +67,8 @@ export default function Card({
   num,
   currentEditedProfile,
   setCurrentEditedProfile,
+  pro,
+  verified,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -215,8 +217,25 @@ export default function Card({
   }, [name]);
 
   useEffect(() => {
-    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "" });
-    return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
+    if (activeProfile === "2") {
+      // if some bio doesn't exists trying to show another one. if neither exists - setting empty string
+      return setValues({
+        ...values,
+        bio: bioBusiness
+          ? removeBioExtraBreakLines(bioBusiness)
+          : bio
+            ? removeBioExtraBreakLines(bio)
+            : "",
+      });
+    }
+    return setValues({
+      ...values,
+      bio: bio
+        ? removeBioExtraBreakLines(bio)
+        : bioBusiness
+          ? removeBioExtraBreakLines(bioBusiness)
+          : "",
+    });
   }, [bio, bioBusiness]);
 
   useEffect(() => {
@@ -240,6 +259,11 @@ export default function Card({
         <div className={classes.mainContent}>
           {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
+            {pro === "1" && <img
+              alt='pro-log'
+              className={classes.proLogo}
+              src={proIcon}
+            />}
             <div
               className={classes.section1_editIcon}
               onClick={editIconHandler}
@@ -326,31 +350,37 @@ export default function Card({
               <div className={clsx(classes.section1_title)}>
                 {setProfileName.isFetching && currentEditedProfile === id
                   ? <Loader containerStyles={{ marginLeft: 50 }} styles={{ width: 20, height: 20 }} />
-                  : <TextField
-                    style={{ width: settextFieldWidth(values?.name?.length || 0), transition: "width 0.075s linear" }}
-                    classes={{ root: classes.disabledTextfield }}
-                    name='name'
-                    onBlur={() => {
-                      if ((name && values.name === name) || (!name && url && values.name === url)) return;
-                      setCurrentEditedProfile(id);
-                      dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                    }}
-                    onFocus={() => setEditState({ ...editState, name: true })}
-                    disabled={!showEditIcon}
-                    onChange={handleValuesChange}
-                    onDoubleClick={editIconHandler}
-                    onKeyDown={(event) => updateFieldRequest(event, () => {
-                      if (event.key === "Enter") {
+                  : showEditIcon
+                    ? <TextField
+                      style={{ width: settextFieldWidth(values?.name?.length || 0), transition: "width 0.075s linear" }}
+                      name='name'
+                      onBlur={() => {
                         if ((name && values.name === name) || (!name && url && values.name === url)) return;
                         setCurrentEditedProfile(id);
                         dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                      }
-                    })}
-                    placeholder={showEditIcon ? "Enter your name" : ""}
-                    InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
-                    value={values.name}
-                    size='small'
-                  />}
+                      }}
+                      onFocus={() => setEditState({ ...editState, name: true })}
+                      onChange={handleValuesChange}
+                      onDoubleClick={editIconHandler}
+                      onKeyDown={(event) => updateFieldRequest(event, () => {
+                        if (event.key === "Enter") {
+                          if ((name && values.name === name) || (!name && url && values.name === url)) return;
+                          setCurrentEditedProfile(id);
+                          dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                        }
+                      })}
+                      placeholder={showEditIcon ? "Enter your name" : ""}
+                      InputProps={{ disableUnderline: !showEditIcon, className: classes.nameInput }}
+                      value={values.name}
+                      size='small'
+                    />
+                    : <div className={classes.disabledTextfield}>{values.name}</div>
+                }
+                {verified === "1" && <img
+                  alt='pro-log'
+                  className={classes.verifiedLogo}
+                  src={verifiedIcon}
+                />}
               </div>
               <div className={clsx(classes.section1_title)}>
                 {setProfileEmail.isFetching && currentEditedProfile === id

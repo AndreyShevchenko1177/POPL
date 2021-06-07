@@ -122,14 +122,14 @@ export function NotConnectedCard({
           <div className='full-w'>
             <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{fullContact?.title}</Typography>
           </div>
-          <div className='full-w'>
+          {bio && <div className={classes.bioWrapper}>
             <Tooltip title={bio || ""} placement="top">
               <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio}</Typography>
             </Tooltip>
-          </div>
-          <div className='full-w'>
+          </div>}
+          {fullContact?.organization && <div style={{ height: 25 }} className={classes.bioWrapper}>
             <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{fullContact?.organization}</Typography>
-          </div>
+          </div>}
           <div className={clsx(classes.dateContainer)}>
             <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{dateFormat(time)}</Typography>
           </div>
