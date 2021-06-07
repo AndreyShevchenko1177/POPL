@@ -190,7 +190,6 @@ export const setProfileOrderRequest = (userId, child) => {
 };
 
 export const setProfileName = (userId, profileState, name) => {
-  console.log(typeof name);
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "SetName");
   bodyFormData.append("iProfile", profileState);

@@ -69,6 +69,8 @@ export default function Card({
   setCurrentEditedProfile,
   pro,
   verified,
+  nameBusiness,
+  imageBusiness,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -87,9 +89,9 @@ export default function Card({
     setProfileName, setProfileBio, setProfilePhoto, profileLinks, setProfileEmail,
   } = useSelector(({ profilesReducer }) => profilesReducer);
   const [values, setValues] = useState({
-    name: name || url || "",
+    name: "",
     bio: "",
-    image,
+    image: "",
     email: email || "",
   });
   const [editState, setEditState] = useState({
@@ -191,10 +193,28 @@ export default function Card({
   useEffect(() => {
     if (activeProfile === "2") {
       setPersonalMode({ direct: true, text: "Business" });
-      setValues({ ...values, bio: bioBusiness || bio });
+      setValues({
+        ...values,
+        bio: bioBusiness
+          ? removeBioExtraBreakLines(bioBusiness)
+          : bio
+            ? removeBioExtraBreakLines(bio)
+            : "",
+        name: nameBusiness || name || url || "",
+        image: imageBusiness,
+      });
     } else {
       setPersonalMode({ direct: false, text: "Personal" });
-      setValues({ ...values, bio: bio || "" });
+      setValues({
+        ...values,
+        bio: bio
+          ? removeBioExtraBreakLines(bio)
+          : bioBusiness
+            ? removeBioExtraBreakLines(bioBusiness)
+            : "",
+        name: name || nameBusiness || url || "",
+        image,
+      });
     }
   }, [activeProfile]);
 
@@ -213,8 +233,11 @@ export default function Card({
   }, [showEditIcon]);
 
   useEffect(() => {
-    setValues({ ...values, name });
-  }, [name]);
+    if (activeProfile === "2") {
+      return setValues({ ...values, name: nameBusiness || name || url || "" });
+    }
+    setValues({ ...values, name: name || nameBusiness || url || "" });
+  }, [name, nameBusiness]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -239,13 +262,36 @@ export default function Card({
   }, [bio, bioBusiness]);
 
   useEffect(() => {
-    setValues({ ...values, image });
+    if (activeProfile === "2") {
+      setValues({ ...values, image: imageBusiness });
+    } else setValues({ ...values, image });
+
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image]);
 
   useEffect(() => {
-    if (activeProfile === "2") return setValues({ ...values, bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "" });
-    return setValues({ ...values, bio: bio ? removeBioExtraBreakLines(bio) : "" });
+    if (activeProfile === "2") {
+      return setValues({
+        ...values,
+        bio: bioBusiness
+          ? removeBioExtraBreakLines(bioBusiness)
+          : bio
+            ? removeBioExtraBreakLines(bio)
+            : "",
+        name: nameBusiness || name || url || "",
+        image: imageBusiness,
+      });
+    }
+    return setValues({
+      ...values,
+      bio: bio
+        ? removeBioExtraBreakLines(bio)
+        : bioBusiness
+          ? removeBioExtraBreakLines(bioBusiness)
+          : "",
+      name: name || nameBusiness || url || "",
+      image,
+    });
   }, []);
 
   return (
@@ -361,7 +407,6 @@ export default function Card({
                       }}
                       onFocus={() => setEditState({ ...editState, name: true })}
                       onChange={handleValuesChange}
-                      onDoubleClick={editIconHandler}
                       onKeyDown={(event) => updateFieldRequest(event, () => {
                         if (event.key === "Enter") {
                           if ((name && values.name === name) || (!name && url && values.name === url)) return;
@@ -374,7 +419,7 @@ export default function Card({
                       value={values.name}
                       size='small'
                     />
-                    : <div className={classes.disabledTextfield}>{values.name}</div>
+                    : <div onDoubleClick={editIconHandler} className={classes.disabledTextfield}>{values.name}</div>
                 }
                 {verified === "1" && <img
                   alt='pro-log'

@@ -282,7 +282,8 @@ export default function profilesReducer(
       },
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {
-          if (profile.id == payload.profileId) return { ...profile, name: payload.name };
+          console.log(payload.profileState);
+          if (profile.id == payload.profileId) return { ...profile, [payload.profileState == "2" ? "nameBusiness" : "name"]: payload.name };
           return profile;
         }),
         error: null,
@@ -300,7 +301,7 @@ export default function profilesReducer(
       },
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {
-          if (profile.id == payload.profileId) return { ...profile, image: payload.photo };
+          if (profile.id == payload.profileId) return { ...profile, [payload.profileState == "2" ? "imageBusiness" : "image"]: payload.photo };
           return profile;
         }),
         error: null,

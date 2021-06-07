@@ -415,13 +415,14 @@ export default makeStyles((theme) => ({
     opacity: 0.3,
   },
   proLogo: {
-    width: 35,
-    height: 35,
+    width: 25,
+    height: 25,
     position: "absolute",
-    top: 20,
-    left: 20,
+    top: 12,
+    left: 71,
     borderRadius: "50%",
     boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+    zIndex: 1,
   },
   verifiedLogo: {
     width: 25,

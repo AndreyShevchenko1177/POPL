@@ -316,7 +316,7 @@ export const setProfileNameAcion = (profileId, profileState, name) => async (dis
     const result = await requests.setProfileName(profileId, profileState, name);
     dispatch({
       type: SET_PROFILE_NAME,
-      payload: { profileId, name },
+      payload: { profileId, name, profileState },
     });
   } catch (error) {
     dispatch(isFetchingAction(false, "setProfileName"));
