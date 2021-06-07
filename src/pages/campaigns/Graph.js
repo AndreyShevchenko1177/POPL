@@ -15,32 +15,40 @@ import Link from "./components/Link";
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { simulation: null };
+    this.width = window.innerWidth - 340;
+    this.height = window.innerHeight - 40;
   }
 
   componentDidMount() {
     if (this.props.data) {
       const { data } = this.props;
-      FORCE(data.nodes, data.links);
+      this.setState({ simulation: FORCE(data.nodes, data.links) });
       // FORCE.tick(this);
       // FORCE.drag();
       // FORCE.zoom();
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
-      const { data } = this.props;
-      FORCE(data.nodes, data.links);
-      // FORCE.tick(this);
-      // FORCE.drag();
-    }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.nodes !== this.state.nodes || prevState.links !== this.state.links) {
+  //     const { data } = this.props;
+  //     FORCE(data.nodes, data.links);
+  //     // FORCE.tick(this);
+  //     // FORCE.drag();
+  //   }
+  // }
+
+  componentWillUnmount() {
+    this.state.simulation();
   }
 
   render() {
     return (
       <div style={{ padding: 20 }} className="graph__container">
-        <svg id='mainGraph' className="graph" width={1500} height={900}>
+        <svg id='mainGraph' className="graph" width={this.width} height={this.height}>
+          <g id="links" className='child'></g>
+          <g id="nodes" className='child'></g>
         </svg>
       </div>
     );
