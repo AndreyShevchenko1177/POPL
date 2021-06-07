@@ -65,7 +65,6 @@ export default function Card({
   poplsNumber,
   connectionNumber,
   num,
-  isLinksDragging,
   currentEditedProfile,
   setCurrentEditedProfile,
 }) {
@@ -433,7 +432,7 @@ export default function Card({
             "mt-25": isSafari,
             "h-55": isSafari,
           }, "target-element")}>
-            <div className='relative' style={isLinksDragging ? { width: "100%" } : {}}>
+            <div className='relative'>
               <div style={isSafari ? { height: 90 } : {}} className={clsx(classes.section4, "linksContainer")} ref={linkContainerRef} onScroll={linksScrollHandler}>
                 <SocialPoplsIcons
                   handleClick={handleClickPoplItem}
@@ -447,7 +446,6 @@ export default function Card({
                   name={name}
                   num={num}
                   customId={customId}
-                  isLinksDragging={isLinksDragging}
                   isDirect={directOn.direct}
                 />
               </div>

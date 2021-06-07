@@ -96,11 +96,6 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   }
 };
 
-export const setLocalProfilesOrder = (profiles) => ({
-  type: SET_LOCAL_PROFILES_ORDER,
-  payload: profiles,
-});
-
 export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
@@ -296,12 +291,11 @@ export const changeProfileOrder = (child, profiles) => async (dispatch, getState
     }));
   }
   try {
-    const bodyFormData = new FormData();
-    bodyFormData.append("sAction", "ReorderChild");
-    bodyFormData.append("sChild", JSON.stringify(child));
-    bodyFormData.append("iID", userId);
-    await axios.post("", bodyFormData);
-    dispatch(setLocalProfilesOrder(profiles));
+    await requests.setProfileOrderRequest(userId, child);
+    dispatch({
+      type: SET_LOCAL_PROFILES_ORDER,
+      payload: profiles,
+    });
   } catch (error) {
     console.log(error);
   }

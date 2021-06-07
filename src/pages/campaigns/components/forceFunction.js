@@ -5,23 +5,22 @@ function initGraph(nsp) {
   let width = window.innerWidth - 340;
   let height = window.innerHeight - 40;
   let zoomTrans = { x: 0, y: 0, scale: 1 };
-  let svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-  let color = d3.scaleOrdinal(d3.schemeCategory10);
   let initForce = (nodes, links) => {
     nsp.force = d3.forceSimulation(nodes)
-      .force("charge", d3.forceManyBody().strength(-100))
+      .force("charge", d3.forceManyBody().strength(-50))
       .force("link", d3.forceLink(links)
         .id((d, i) => d.id)
         .distance(35)
         .strength(1))
-      .force("many", d3.forceManyBody().distanceMin(5).distanceMax(10))
+      .force("many", d3.forceManyBody().distanceMin(10).distanceMax(15))
       .force("center", d3.forceCenter().x(nsp.width / 2).y(nsp.height / 2))
-      .force("collision", d3.forceCollide().radius((d) => d.radius + 5));
+      .force("collision", d3.forceCollide().radius((d) => d.radius + 10));
   };
 
+  let node = d3.select("#mainGraph").selectAll("child");
+
   let enterNode = (selection) => {
+    console.log(node);
     let circle = selection.select("circle")
       .attr("r", (d) => {
         if (typeof d.id === "string") {
@@ -68,23 +67,6 @@ function initGraph(nsp) {
       .attr("y2", (d) => d.target.y);
   };
 
-  // let node = d3.select("#mainGraph").selectAll(".node");
-  // node.append("image")
-  //   .attr("xlink:href", (d, i) => {
-  //     console.log("HELLO");
-  //     if (i < 10) console.log(d.id);
-  //     if (typeof d.id === "string") {
-  //       let rnd = Math.floor(Math.random() * 64 + 1);
-  //       let imagePath = `http://www.bigbiz.com/bigbiz/icons/ultimate/Comic/Comic${rnd.toString()}.gif`;
-  //       console.Log(imagePath);
-  //       return imagePath;
-  //     }
-  //   })
-  //   .attr("x", -8)
-  //   .attr("y", -8)
-  //   .attr("width", 16)
-  //   .attr("height", 16);
-
   let updateGraph = (selection) => {
     selection.selectAll(".node")
       .call(updateNode);
@@ -93,7 +75,7 @@ function initGraph(nsp) {
   };
 
   let dragStarted = (d) => {
-  // if (!d3.event.active) nsp.force.alphaTarget(0.3).restart();
+    if (!d3.event.active) nsp.force.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
   };
@@ -101,15 +83,24 @@ function initGraph(nsp) {
   let dragging = (d) => {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
+    fix_nodes(d);
   };
 
   let dragEnded = (d) => {
+    if (!d3.event.active) nsp.force.alphaTarget(0);
     d.fx = d3.event.x;
     d.fy = d3.event.y;
-  // if (!d3.event.active) nsp.force.alphaTarget(0);
-  // d.fx = null;
-  // d.fy = null;
   };
+
+  // Preventing other nodes from moving while dragging one node
+  function fix_nodes(this_node) {
+    d3.selectAll("g.node").each((d) => {
+      if (this_node != d) {
+        d.fx = d.x;
+        d.fy = d.y;
+      }
+    });
+  }
 
   let drag = () => d3.selectAll("g.node")
     .call(d3.drag()

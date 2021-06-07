@@ -181,6 +181,14 @@ export const makeProfileSubscriberRequest = (userId) => {
 //   .catch((err) => console.error(err));
 // }
 
+export const setProfileOrderRequest = (userId, child) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "ReorderChild");
+  bodyFormData.append("sChild", JSON.stringify(child));
+  bodyFormData.append("iID", userId);
+  return axios.post("", bodyFormData);
+};
+
 export const setProfileName = (userId, profileState, name) => {
   console.log(typeof name);
   const bodyFormData = new FormData();

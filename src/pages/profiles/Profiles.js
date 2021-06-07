@@ -55,8 +55,6 @@ export default function Profiles() {
   const [wizard, setWizard] = useState({ open: false, data: [] });
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
-  const [changeLinksOrder, setChangeLinksOrder] = useState({});
-  const [isLinksDragging, setIsLinksDragging] = useState(false);
   const [currentEditedProfile, setCurrentEditedProfile] = useState(0); // for handling what profile card currently editing
 
   function handleOpenNewProfilePage() {
@@ -69,7 +67,8 @@ export default function Profiles() {
       const items = [...profiles];
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
-      dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id)), items);
+
+      dispatch(changeProfileOrder(items.map(({ id }) => Number(id)).filter((id) => id != userData.id), items));
       setProfiles(items);
     } else {
       const linksObject = {};
@@ -94,7 +93,6 @@ export default function Profiles() {
         }
       });
       dispatch(setProfilesLinksObject(linksObject, profileId));
-      // setChangeLinksOrder({ index: (changeLinksOrder.index || 0) + 1, result });
     }
   }
 
@@ -341,8 +339,6 @@ export default function Profiles() {
                             checkboxes={checkboxes}
                             setProfileType={setProfileType}
                             num={index}
-                            changeLinksOrder={changeLinksOrder}
-                            isLinksDragging={isLinksDragging}
                             currentEditedProfile={currentEditedProfile}
                             setCurrentEditedProfile={setCurrentEditedProfile}
                           />
@@ -371,8 +367,6 @@ export default function Profiles() {
                                 setProfileType={setProfileType}
                                 isFetching={isLoading}
                                 num={index}
-                                changeLinksOrder={changeLinksOrder}
-                                isLinksDragging={isLinksDragging}
                                 currentEditedProfile={currentEditedProfile}
                                 setCurrentEditedProfile={setCurrentEditedProfile}
                               />
