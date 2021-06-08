@@ -53,7 +53,7 @@ function TabNavigation() {
           aria-label="simple tabs example"
         >
           <Tab
-            label="Existing Emails"
+            label="Emails"
             {...a11yProps(0)}
             className={value === 0 ? classes.activeTab : classes.tab1}
           />

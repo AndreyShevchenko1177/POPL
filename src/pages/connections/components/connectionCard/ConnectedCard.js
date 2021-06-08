@@ -94,7 +94,7 @@ export const ConnectedCard = memo(({
               src={verifiedIcon}
             />}
           </div>
-          {bio || rest.bioBusiness && <div className={classes.bioWrapper}>
+          {(bio || rest.bioBusiness) && <div className={classes.bioWrapper}>
             <Tooltip title={bio || ""} placement="top">
               <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.bioBusiness}</Typography>
             </Tooltip>

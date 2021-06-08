@@ -8,7 +8,7 @@ export const sendNotificationAction = ({ users, ...data }, success) => async (di
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully send notification",
+      message: "Successfully sent notification",
       severity: "success",
       duration: 12000,
       open: true,
@@ -24,7 +24,7 @@ export const sendShedulerNotificationAction = ({ users, ...data }, success) => a
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully send notification",
+      message: "Successfully sent notification",
       severity: "success",
       duration: 12000,
       open: true,
@@ -43,7 +43,7 @@ export const sendEmailAction = ({ users, ...data }, success) => async (dispatch,
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully send email",
+      message: "Successfully sent email",
       severity: "success",
       duration: 12000,
       open: true,
@@ -62,7 +62,7 @@ export const sendShedulerEmailAction = ({ users, ...data }, success) => async (d
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully send email",
+      message: "Successfully sent email",
       severity: "success",
       duration: 12000,
       open: true,

@@ -5,11 +5,8 @@ export default makeStyles((theme) => ({
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    padding: "40px 40px",
+    padding: "20px 20px",
     width: "100%",
-    "@media (max-width: 1450px)": {
-      padding: "25px 25px",
-    },
   },
   title: {
     fontWeight: "bold",
@@ -46,10 +43,7 @@ export default makeStyles((theme) => ({
     },
   },
   labelsItemsText: {
-    fontSize: "16px !important",
-    "@media (max-width: 1550px)": {
-      fontSize: "14px !important",
-    },
+    fontSize: "14px !important",
   },
   labelIcon: {
     width: 15,

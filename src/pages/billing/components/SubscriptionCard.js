@@ -26,7 +26,7 @@ function SubscriptionCard({
               name='successCheckMark'
               width={20}
               height={20}
-              fill="#666666"
+              fill="#32BA7C"
             />
           </div>
           <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>{profilesNumber} Accounts</Typography>
@@ -37,10 +37,21 @@ function SubscriptionCard({
               name='successCheckMark'
               width={20}
               height={20}
-              fill="#666666"
+              fill="#32BA7C"
             />
           </div>
           <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Popl Pro for all accounts</Typography>
+        </div>
+        <div className={classes.labelsItem}>
+          <div>
+            <SvgMaker
+              name='successCheckMark'
+              width={20}
+              height={20}
+              fill={["Basic", "Growth"].includes(title) ? "#f54e42" : "#32BA7C"}
+            />
+          </div>
+          <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Free custom Popls for your team*</Typography>
         </div>
       </div>
     </div>

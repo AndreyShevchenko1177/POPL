@@ -36,7 +36,7 @@ function TierLevel({ count }) {
 
   return (
     <>
-      {currentPlan && <div style={currentPlan.id != 0 ? {} : { alignItems: "center" }} className={classes.tierContainer}>
+      {currentPlan && <div className={classes.tierContainer}>
         {currentPlan.id != 0
           ? <>
             <div className={classes.tierHeader}>
