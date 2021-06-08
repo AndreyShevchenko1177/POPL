@@ -7,14 +7,14 @@ function initGraph(nodes, links) {
   let nodeChild = d3.select("#mainGraph #nodes");
   let linksChild = d3.select("#mainGraph #links");
   let simulation = d3.forceSimulation(nodes)
-    .force("charge", d3.forceManyBody().strength(-200))
+    .force("charge", d3.forceManyBody().strength(-50))
     .force("link", d3.forceLink(links)
       .id((d, i) => d.id)
-      .distance(100)
+      .distance(35)
       .strength(1))
-    .force("many", d3.forceManyBody().distanceMin(50).distanceMax(50))
+    .force("many", d3.forceManyBody().distanceMin(10).distanceMax(15))
     .force("center", d3.forceCenter().x(width / 2).y(height / 2))
-    .force("collision", d3.forceCollide().radius((d) => d.radius + 50))
+    .force("collision", d3.forceCollide().radius((d) => d.radius + 10))
     .force("radial", d3.forceRadial(Math.min(width, height) / 2 - 10)
       .strength((d) => (d.isConnected ? 0 : 2)));
   const link = linksChild
@@ -30,7 +30,8 @@ function initGraph(nodes, links) {
     .enter().append("g")
     .attr("class", "node");
     // .call(simulation.drag);
-  let defs = node.append("defs").attr("id", "imgdefs");
+  let defs = node.filter((d) => typeof d.id === "string").append("defs").attr("id", "imgdefs");
+  // console.log(node.filter);
 
   let nodePattern = defs.append("pattern")
     .attr("id", (d) => d.id)
@@ -47,7 +48,7 @@ function initGraph(nodes, links) {
         }
         return "";
       }
-      return "https://www.clker.com/cliparts/z/l/v/A/K/R/green-circle-md.png";
+      // return "https://www.clker.com/cliparts/z/l/v/A/K/R/green-circle-md.png";
     })
     .attr("x", (d) => (typeof d.id === "string" ? -25 : 5))
     .attr("y", (d) => (typeof d.id === "string" ? -25 : 5))
@@ -57,7 +58,7 @@ function initGraph(nodes, links) {
   // .attr("width", 75);
 
   node.append("circle")
-    .attr("r", (d) => (typeof d.id === "string" ? 25 : 15))
+    .attr("r", (d) => (typeof d.id === "string" ? 25 : 5))
     .attr("cy", 0)
     .attr("cx", 0)
     .attr("fill", (d) => {
@@ -67,7 +68,7 @@ function initGraph(nodes, links) {
         }
         return d.color;
       }
-      return `url(#${d.id})`;
+      return "green";
     });
 
   node.append("text")
@@ -100,8 +101,8 @@ function initGraph(nodes, links) {
       });
 
     svg.call(zoom)
-      .on("dblclick.zoom", null)
-      .call(zoom.transform, d3.zoomIdentity.translate((width / 2) - 100, height / 2 - 100).scale(0.3));
+      .on("dblclick.zoom", null);
+    // .call(zoom.transform, d3.zoomIdentity.translate((width / 2) - 100, height / 2 - 100).scale(0.3));
   };
   zoom();
   function dragstarted(d) {
