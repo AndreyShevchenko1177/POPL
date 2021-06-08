@@ -29,10 +29,9 @@ function SettingsField({
             : <div className={classes.colorInputContainer}>
               <div
                 onClick={openColorPicker}
-                style={{ backgroundColor: value, border: value ? "none" : "1px solid #bababa" }}
+                style={{ backgroundColor: value, border: "1px solid #7d8286" }}
                 className={classes.colorElement}
               >
-                {!value && "Click to choose a color"}
                 <input
                   name={name}
                   onChange={handleChange}

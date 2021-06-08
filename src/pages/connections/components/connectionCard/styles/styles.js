@@ -29,7 +29,7 @@ export default makeStyles((theme) => ({
   contenContainer: {
     width: "calc(100% - 160px)",
     height: 170,
-    padding: "20px 30px 20px 20px",
+    padding: "42px 30px 20px 20px",
     display: "flex",
     flexDirection: "column",
   },

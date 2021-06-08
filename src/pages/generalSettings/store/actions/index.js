@@ -51,6 +51,7 @@ export const getCompanyInfoAction = () => async (dispatch, getState) => {
       type: GET_COMPANY_INFO_SUCCESS,
       payload: result.map((item, i) => {
         if (i === 0) item = item.replace(/[\\]/g, "");
+        if (i === 1 && !item) item = "#ffffff";
         return item;
       }),
     });

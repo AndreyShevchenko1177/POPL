@@ -60,6 +60,7 @@ export default function Main({ children, stripe }) {
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
   // for development mode
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data?.id);
+  const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   useEffect(() => {
     if (dashboardPlan !== null) {
@@ -94,7 +95,7 @@ export default function Main({ children, stripe }) {
           flexGrow: 1,
           position: "relative",
           height: "100vh",
-          backgroundColor: "#ffffff",
+          backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}1a` : "#ffffff",
           overflow: (isRestrictedMode && (userId !== "243104" && userId !== "293299")) || !isMainPageScroll ? "hidden" : "auto",
           maxWidth: "calc(100vw - 300px)",
         }}

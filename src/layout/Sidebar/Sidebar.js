@@ -49,6 +49,7 @@ function PermanentDrawerLeft() {
   const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const [fadeColor, setFadeColor] = useState("rgba(255,255,255,1) 100%");
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -124,6 +125,7 @@ function PermanentDrawerLeft() {
         paper: classes.drawerPaper,
       }}
       anchor="left"
+      style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}1a` : "#ffffff" }}
     >
       <div className={classes.toolbar} />
       <div className={classes.brand}>
@@ -138,6 +140,7 @@ function PermanentDrawerLeft() {
           <Link to="/">
             <ListItem
               divider={false}
+              // style={{ background: `linear-gradient(to right, rgba(255,255,255,0) 70%,${fadeColor})` }}
               className={clsx(classes.ulList, {
                 [classes.ulListHighLight]: highlight.main,
               })}

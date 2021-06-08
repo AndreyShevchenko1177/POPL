@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
     width: theme.custom.drawerWidth,
     minHeight: 700,
     overflowY: "auto",
+    backgroundColor: "transparent",
   },
   logo: {
     width: 150,
