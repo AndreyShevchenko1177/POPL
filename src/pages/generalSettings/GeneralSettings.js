@@ -29,6 +29,7 @@ function GeneralSettings() {
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const { isFetching } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
   const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
+  const { isSign } = useSelector(({ authReducer }) => authReducer);
 
   const handleChangeField = (event) => {
     event.persist();
@@ -91,19 +92,15 @@ function GeneralSettings() {
     }
   }, [location.state?.firstLogin]);
 
-  useEffect(() => {
-    let timer;
+  useEffect(() => () => {
     if (location.state?.firstLogin) {
-      timer = setTimeout(() => removeConfettiAnimation(), 3500);
-    }
-    return () => {
-      console.log(timer);
       removeConfettiAnimation();
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
+    }
   }, []);
+
+  useEffect(() => {
+    if (!isSign) history.push("/settings/general-settings");
+  }, [isSign]);
 
   return (
     <>
