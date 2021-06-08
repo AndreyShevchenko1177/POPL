@@ -97,7 +97,7 @@ export default function Main({ children, stripe }) {
           height: "100vh",
           backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}14` : "#ffffff",
           overflow: (isRestrictedMode && (userId !== "243104" && userId !== "293299")) || !isMainPageScroll ? "hidden" : "auto",
-          maxWidth: "calc(100vw - 300px)",
+          maxWidth: "calc(100vw - 270px)",
         }}
         id='main'
       >

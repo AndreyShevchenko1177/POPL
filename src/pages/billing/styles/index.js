@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   container: {
     position: "relative",
-    padding: "70px 40px 0 40px",
+    padding: "70px 20px 0 20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: `${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px 0 0`,
-    "@media (max-width: 1540px)": {
+    "@media (max-width: 1385px)": {
       flexDirection: "column",
       minWidth: 240,
       maxWidth: 600,
@@ -47,7 +47,7 @@ export default makeStyles((theme) => ({
       borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
       borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
     },
-    "@media (max-width: 1540px)": {
+    "@media (max-width: 1385px)": {
       flexDirection: "column",
       width: "100%",
       border: "none",
@@ -78,7 +78,7 @@ export default makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    "@media (max-width: 1540px)": {
+    "@media (max-width: 1385px)": {
       minWidth: 240,
       maxWidth: 600,
       minHeight: 150,

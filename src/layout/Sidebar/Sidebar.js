@@ -205,6 +205,7 @@ function PermanentDrawerLeft() {
                   root: clsx(classes.listText, {
                     [classes.listTextHighLight]: highlight.profiles,
                   }),
+                  subtitle1: classes.fontSize13,
                 }}>{profilesSidebar}</Typography> }
             </ListItem>
           </Link>
@@ -246,6 +247,7 @@ function PermanentDrawerLeft() {
                 root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.connections,
                 }),
+                subtitle1: classes.fontSize13,
               }}>{connectionsSidebar}</Typography>}
           </ListItem>
           <ListItem
@@ -285,6 +287,7 @@ function PermanentDrawerLeft() {
                 root: clsx(classes.listText, {
                   [classes.listTextHighLight]: highlight.popls,
                 }),
+                subtitle1: classes.fontSize13,
               }}>{poplsSidebar}</Typography>}
           </ListItem>
           <ListItem
@@ -388,7 +391,7 @@ function PermanentDrawerLeft() {
                 [classes.ulListHighLight]: highlight.profileInfo,
               })}
               onClick={() => highlightList("profileInfo")}
-              style={{ paddingLeft: 33 }}
+              style={{ paddingLeft: 28 }}
             >
               <ListItemIcon classes={{ root: classes.listItemIcon }}>
                 <div style={{

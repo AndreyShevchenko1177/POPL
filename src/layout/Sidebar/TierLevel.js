@@ -42,7 +42,7 @@ function TierLevel({ count }) {
             <div className={classes.tierHeader}>
               <div className={classes.tierIcon}>
                 {/* <SvgMaker fill="#000000" width={30} height={30} name='users'/> */}
-                <img style={{ width: 25, height: 25 }} alt='popl' src={tierIcon} />
+                <img style={{ width: 22, height: 22 }} alt='popl' src={tierIcon} />
               </div>
               <span>{currentPlan.title}</span>
             </div>

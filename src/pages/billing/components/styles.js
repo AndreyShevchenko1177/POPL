@@ -37,13 +37,13 @@ export default makeStyles((theme) => ({
     // alignItems: "center",
     paddingBottom: 10,
     "& > div:first-child": {
-      margin: "0px 10px 0 0",
+      margin: "0px 5px 0 0",
       display: "flex",
       justifyContent: "center",
     },
   },
   labelsItemsText: {
-    fontSize: "14px !important",
+    fontSize: "13px !important",
   },
   labelIcon: {
     width: 15,

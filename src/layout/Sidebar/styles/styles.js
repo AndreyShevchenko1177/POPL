@@ -36,13 +36,13 @@ export default makeStyles((theme) => ({
   },
   brand: {
     display: "flex",
-    padding: "30px 0px 30px 50px",
+    padding: "30px 0px 30px 45px",
     width: "100%",
     textAlign: "center",
     margin: 0,
     background: "transparent",
     "@media (max-height:900px)": {
-      padding: "30px 0px 30px 50px",
+      padding: "30px 0px 30px 45px",
     },
   },
   sideBarIcons: {
@@ -51,8 +51,8 @@ export default makeStyles((theme) => ({
   },
   ulMenu: { paddingTop: "0px" },
   ulList: {
-    paddingLeft: "45px",
-    height: "55px",
+    paddingLeft: "40px",
+    height: "50px",
     background: "transparent",
     borderLeft: "3px solid transparent",
     color: "#f9f9f9",
@@ -103,7 +103,7 @@ export default makeStyles((theme) => ({
     borderRadius: "0 5px 5px 0",
   },
   listText: {
-    fontSize: "14px",
+    fontSize: "13px",
     letterSpacing: 0,
     color: "#000000",
   },
@@ -127,7 +127,7 @@ export default makeStyles((theme) => ({
     height: "180px",
     bottom: "50px",
     width: "100%",
-    padding: "20px 20px 0 45px",
+    padding: "20px 20px 0 40px",
     "@media (max-height:750px)": {
       paddingTop: "5px",
       position: "static",
@@ -144,13 +144,13 @@ export default makeStyles((theme) => ({
     paddingBottom: 10,
     "& > span": {
       color: "#000000",
-      fontSize: "14px",
+      fontSize: "13px",
       letterSpacing: "1.5px",
     },
   },
   tierIcon: {
     width: 30,
-    height: 30,
+    height: 25,
     marginRight: 10,
   },
   networkContainerBarItem: {
@@ -170,12 +170,15 @@ export default makeStyles((theme) => ({
     padding: "10px 0",
     "& > span": {
       color: "#000000",
-      fontSize: "14px",
+      fontSize: "13px",
     },
+  },
+  fontSize13: {
+    fontSize: "13px !important",
   },
   tierLevelButtonWrapper: {
     position: "relative",
-    width: "60%",
+    width: "65%",
     height: 36,
   },
   tierButton: {
