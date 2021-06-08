@@ -191,6 +191,7 @@ export default function Card({
   }, [profileLinks, personalMode]);
 
   useEffect(() => {
+    // changing here values depending on business/presonal values.
     if (activeProfile === "2") {
       setPersonalMode({ direct: true, text: "Business" });
       setValues({
@@ -201,7 +202,7 @@ export default function Card({
             ? removeBioExtraBreakLines(bio)
             : "",
         name: nameBusiness || name || url || "",
-        image: imageBusiness,
+        image: imageBusiness || image || "",
       });
     } else {
       setPersonalMode({ direct: false, text: "Personal" });
@@ -213,7 +214,7 @@ export default function Card({
             ? removeBioExtraBreakLines(bioBusiness)
             : "",
         name: name || nameBusiness || url || "",
-        image,
+        image: image || imageBusiness || "",
       });
     }
   }, [activeProfile]);
@@ -263,11 +264,11 @@ export default function Card({
 
   useEffect(() => {
     if (activeProfile === "2") {
-      setValues({ ...values, image: imageBusiness });
-    } else setValues({ ...values, image });
+      setValues({ ...values, image: imageBusiness || image || "" });
+    } else setValues({ ...values, image: image || imageBusiness || "" });
 
     dispatch(isFetchingAction(false, "setProfilePhoto"));
-  }, [image]);
+  }, [image, imageBusiness]);
 
   useEffect(() => {
     if (activeProfile === "2") {
@@ -279,7 +280,7 @@ export default function Card({
             ? removeBioExtraBreakLines(bio)
             : "",
         name: nameBusiness || name || url || "",
-        image: imageBusiness,
+        image: imageBusiness || image || "",
       });
     }
     return setValues({
@@ -290,7 +291,7 @@ export default function Card({
           ? removeBioExtraBreakLines(bioBusiness)
           : "",
       name: name || nameBusiness || url || "",
-      image,
+      image: image || imageBusiness || "",
     });
   }, []);
 
@@ -305,7 +306,7 @@ export default function Card({
         <div className={classes.mainContent}>
           {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
           <div className={clsx(classes.section1, "target-element")}>
-            {pro === "1" && <img
+            {pro == "1" && <img
               alt='pro-log'
               className={classes.proLogo}
               src={proIcon}

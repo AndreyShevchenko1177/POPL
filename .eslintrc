@@ -54,6 +54,7 @@
     "import/extensions": "off",
     "no-param-reassign": "off",
     "no-await-in-loop": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "eqeqeq": "off"
   }
 }

@@ -79,7 +79,7 @@ export const ConnectedCard = memo(({
               : { boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)" }
             }
           />
-          {rest.pro && <img
+          {rest.pro == "1" && <img
             alt='pro-log'
             className={classes.proLogo}
             src={proIcon}
@@ -88,15 +88,15 @@ export const ConnectedCard = memo(({
         <div className={classes.contenContainer}>
           <div className={classes.conNameWrapper}>
             <Typography variant="h5" classes={{ h5: classes.conName }}>{name}</Typography>
-            {!!rest.v && <img
+            {rest.v == "1" && <img
               alt='pro-log'
               className={classes.verifiedLogo}
               src={verifiedIcon}
             />}
           </div>
-          {bio && <div className={classes.bioWrapper}>
+          {bio || rest.bioBusiness && <div className={classes.bioWrapper}>
             <Tooltip title={bio || ""} placement="top">
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio}</Typography>
+              <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.bioBusiness}</Typography>
             </Tooltip>
           </div>}
           {rest.location && <div className={classes.cardTable}>
