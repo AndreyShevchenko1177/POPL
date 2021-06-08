@@ -97,10 +97,7 @@ function GeneralSettings() {
       removeConfettiAnimation();
     }
   }, []);
-
-  useEffect(() => {
-    if (!isSign) history.push("/settings/general-settings");
-  }, [isSign]);
+  console.log(isSign);
 
   return (
     <>
