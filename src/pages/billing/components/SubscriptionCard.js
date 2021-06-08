@@ -50,7 +50,7 @@ function SubscriptionCard({
               height={20}
             />
           </div>
-          <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Free custom Popls for your team*</Typography>
+          <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Free Custom Popls for your team</Typography>
         </div>
       </div>
     </div>

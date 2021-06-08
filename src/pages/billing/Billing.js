@@ -100,7 +100,6 @@ function Billing() {
           <TwoWeeksFreeButton stripe={stripe} priceId={twoWeeksFreePriceId} quantity={quantity} />
           <span>Does not include dashboard functionality</span>
         </div>
-        <span className={classes.bottomText}>Free custom Popls for your team*</span>
       </div>
     </>
   );
