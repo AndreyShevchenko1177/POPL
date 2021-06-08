@@ -94,7 +94,7 @@ function GeneralSettings() {
   useEffect(() => {
     let timer;
     if (location.state?.firstLogin) {
-      timer = setTimeout(() => removeConfettiAnimation(), 4000);
+      timer = setTimeout(() => removeConfettiAnimation(), 3500);
     }
     return () => {
       console.log(timer);

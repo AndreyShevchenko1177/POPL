@@ -1,5 +1,5 @@
 export const createConfettiAnimation = () => {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     let randomRotation = Math.floor(Math.random() * 360);
     let randomScale = Math.random() * 1;
     let randomWidth = Math.floor(Math.random() * Math.max(document.documentElement.clientWidth, window.innerWidth || 0));
