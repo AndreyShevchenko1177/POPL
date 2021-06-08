@@ -11,3 +11,4 @@ export * from "./defineDarkColor";
 export * from "./deepLinkCopy";
 export * from "./colorRandomaiser";
 export * from "./restrictEditing";
+export * from "./confetti";

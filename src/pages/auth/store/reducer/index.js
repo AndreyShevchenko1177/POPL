@@ -17,7 +17,7 @@ const initialState = {
     error: null,
   },
   signUp: {
-    data: false,
+    data: null,
     error: null,
   },
   dashboardPlan: {

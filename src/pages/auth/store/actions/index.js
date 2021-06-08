@@ -67,7 +67,10 @@ export const signUpAction = (credo) => async (dispatch) => {
 
     dispatch({
       type: SIGN_UP_SUCCESS,
-      payload: data.success,
+      payload: {
+        username: credo.email,
+        password: credo.password,
+      },
     });
   } catch (error) {
     dispatch({

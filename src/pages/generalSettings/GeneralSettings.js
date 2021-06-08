@@ -10,7 +10,7 @@ import Loader from "../../components/Loader";
 import UpladImage from "./components/uploadImage";
 import useStyles from "./styles";
 import ConfirmModal from "../../components/ConfirmModal";
-import { restrictEdit } from "../../utils";
+import { restrictEdit, createConfettiAnimation, removeConfettiAnimation } from "../../utils";
 import { snackBarAction } from "../../store/actions";
 
 function GeneralSettings() {
@@ -84,6 +84,26 @@ function GeneralSettings() {
       setFieldsState(result);
     }
   }, [companyInfo]);
+
+  useEffect(() => {
+    if (location.state?.firstLogin) {
+      createConfettiAnimation();
+    }
+  }, [location.state?.firstLogin]);
+
+  useEffect(() => {
+    let timer;
+    if (location.state?.firstLogin) {
+      timer = setTimeout(() => removeConfettiAnimation(), 4000);
+    }
+    return () => {
+      console.log(timer);
+      removeConfettiAnimation();
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, []);
 
   return (
     <>

@@ -19,7 +19,7 @@ import Mail from "@material-ui/icons/Mail";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import clsx from "clsx";
 import { signUpConfig } from "../validationConfig";
-import { signUpAction, cleanAction } from "../store/actions";
+import { signUpAction, cleanAction, signInAction } from "../store/actions";
 import { snackBarAction } from "../../../store/actions";
 import { ValidationProvider } from "../../../utils";
 
@@ -67,6 +67,7 @@ function SignUp(props) {
     confirmPassword: false,
   });
   const signUpResult = useSelector(({ authReducer }) => authReducer.signUp);
+  const signInresult = useSelector(({ authReducer }) => authReducer.signIn);
 
   function handleClickShowPassword(name) {
     setShowPassword({ ...showPassword, [name]: !showPassword[name] });
@@ -84,7 +85,9 @@ function SignUp(props) {
   };
 
   useEffect(() => {
-    if (signUpResult.data) history.push("/sign-in");
+    if (signUpResult.data) {
+      dispatch(signInAction(signUpResult.data));
+    }
     if (signUpResult.error !== null) {
       dispatch(snackBarAction({
         message: signUpResult.error.message,
@@ -94,6 +97,10 @@ function SignUp(props) {
       }));
     }
   }, [signUpResult]);
+
+  useEffect(() => {
+    if (signInresult.data) history.push("/");
+  }, [signInresult]);
 
   useEffect(() => () => dispatch(cleanAction("signUp")), []);
 
