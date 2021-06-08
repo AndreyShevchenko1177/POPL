@@ -125,7 +125,7 @@ function PermanentDrawerLeft() {
         paper: classes.drawerPaper,
       }}
       anchor="left"
-      style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}1a` : "#ffffff" }}
+      style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}14` : "#ffffff" }}
     >
       <div className={classes.toolbar} />
       <div className={classes.brand}>

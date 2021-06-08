@@ -46,7 +46,7 @@ function Header({
         style={{
           padding: "10px 20px",
           width: "100%",
-          backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}1a` : "#ffffff",
+          backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}14` : "#ffffff",
           display: "flex",
           alignItems: "center",
           height: 70,

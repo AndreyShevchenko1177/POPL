@@ -45,10 +45,9 @@ function SubscriptionCard({
         <div className={classes.labelsItem}>
           <div>
             <SvgMaker
-              name='successCheckMark'
+              name= {["Basic"].includes(title) ? "cancelIcon" : "successCheckMark"}
               width={20}
               height={20}
-              fill={["Basic", "Growth"].includes(title) ? "#f54e42" : "#32BA7C"}
             />
           </div>
           <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Free custom Popls for your team*</Typography>
