@@ -22,6 +22,7 @@ import { signUpConfig } from "../validationConfig";
 import { signUpAction, cleanAction, signInAction } from "../store/actions";
 import { snackBarAction } from "../../../store/actions";
 import { ValidationProvider } from "../../../utils";
+import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+  createProfileButtonContainer: {
+    position: "relative",
+  },
 }));
 
 function SignUp(props) {
@@ -68,6 +72,7 @@ function SignUp(props) {
   });
   const signUpResult = useSelector(({ authReducer }) => authReducer.signUp);
   const signInresult = useSelector(({ authReducer }) => authReducer.signIn);
+  const isFetching = useSelector(({ authReducer }) => authReducer.isFetching);
 
   function handleClickShowPassword(name) {
     setShowPassword({ ...showPassword, [name]: !showPassword[name] });
@@ -285,11 +290,20 @@ function SignUp(props) {
                   md={12}
                   sm={12}
                   xs={12}
+                  className={classes.createProfileButtonContainer}
                 >
+                  {isFetching && <Loader
+                    containerStyles={{
+                      position: "absolute",
+                      top: 47,
+                      left: "50%",
+                    }}
+                    size={20}
+                  />}
                   <Button
                     variant="contained"
                     fullWidth
-                    // disabled={!Object.keys(value).length}
+                    disabled={isFetching}
                     color="primary"
                     onClick={() => events.submit(signUp)}
                     className={classes.loginBtn}
@@ -311,7 +325,7 @@ function SignUp(props) {
                     classes={{ subtitle1: classes.haveAccountLink }}
                     onClick={() => history.push("/sign-in")}
                   >
-                      Already have a profile? Sign in
+                    Already have a profile? Sign in
                   </Typography>
                   {/* <Button
                     variant="contained"

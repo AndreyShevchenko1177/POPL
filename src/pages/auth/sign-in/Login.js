@@ -22,6 +22,7 @@ import { ValidationProvider } from "../../../utils";
 import useStyles from "./styles";
 import AnimationComponent from "./AnimationComponent";
 import logo from "../../../assets/popl-enterprise.png";
+import Loader from "../../../components/Loader";
 
 function Login(props) {
   const classes = useStyles();
@@ -29,6 +30,7 @@ function Login(props) {
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const result = useSelector(({ authReducer }) => authReducer.signIn);
+  const isFetching = useSelector(({ authReducer }) => authReducer.isFetching);
 
   function handleClickShowPassword() {
     setShowPassword(!showPassword);
@@ -154,16 +156,23 @@ function Login(props) {
                 </Grid>
                 <div className={classes.buttonsWrapper}>
                   <div className={classes.submitButton}>
+                    {isFetching && <Loader
+                      containerStyles={{
+                        position: "absolute",
+                        top: 40,
+                      }}
+                      size={20}
+                    />}
                     <Button
                       variant="contained"
                       fullWidth
-                      // disabled={!Object.keys(value).length}
+                      disabled={isFetching}
                       color="primary"
                       type="submit"
                       className={classes.loginBtn}
                       onClick={() => events.submit(signIn)}
                     >
-                    Submit
+                      Submit
                     </Button>
                   </div>
                   <div className={classes.donHaveAccButton}>
@@ -179,7 +188,7 @@ function Login(props) {
                       classes={{ subtitle1: classes.haveAccountLink }}
                       onClick={() => history.push("/forgot-password")}
                     >
-                     Forgot password?
+                      Forgot password?
                     </Typography>
                     {/* <Button
                       variant="contained"

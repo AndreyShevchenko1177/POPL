@@ -161,6 +161,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "80%",
+    position: "relative",
   },
   donHaveAccButton: {
     display: "flex",

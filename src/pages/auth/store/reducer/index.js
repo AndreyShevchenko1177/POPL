@@ -8,6 +8,7 @@ import {
   LOGOUT,
   CLEAN_STATE,
   IS_SIGN_ACTION,
+  IS_FETCHING,
 } from "../actionTypes";
 import { deleteCookies, existingCookies } from "../../../../utils/cookie";
 
@@ -24,6 +25,7 @@ const initialState = {
     data: null,
     error: null,
   },
+  isFetching: false,
   isSign: true, // isSign key used for indicating that this action called after sign in not after page reload
 };
 
@@ -38,6 +40,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         data,
         error: null,
       },
+      isFetching: false,
     };
   }
   case SIGN_IN_FAIL: {
@@ -47,6 +50,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         data: null,
         error: payload,
       },
+      isFetching: false,
     };
   }
   case SIGN_UP_SUCCESS: {
@@ -65,6 +69,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         data: null,
         error: payload,
       },
+      isFetching: false,
     };
   }
   case GET_DASHBOARD_PLAN_SUCCESS: {
@@ -100,6 +105,12 @@ export default function authReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       [payload]: initialState[payload],
+    };
+  }
+  case IS_FETCHING: {
+    return {
+      ...state,
+      isFetching: payload,
     };
   }
   default:

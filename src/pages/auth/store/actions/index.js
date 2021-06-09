@@ -8,6 +8,7 @@ import {
   IS_SIGN_ACTION,
   CLEAN_STATE,
   LOGOUT,
+  IS_FETCHING,
 } from "../actionTypes";
 import { snackBarAction } from "../../../../store/actions";
 import * as requests from "./requests";
@@ -19,6 +20,7 @@ export const signInAction = (credo) => async (dispatch) => {
     bodyFormData.append("sPassword", credo.password);
     bodyFormData.append("sAction", "Auth");
     bodyFormData.append("ajax", 1);
+    dispatch(fethingAction());
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
       return dispatch({
@@ -56,7 +58,7 @@ export const signUpAction = (credo) => async (dispatch) => {
     bodyFormData.append("sName", credo.username);
     bodyFormData.append("sAction", "SaveMember");
     bodyFormData.append("ajax", 1);
-
+    dispatch(fethingAction());
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
       return dispatch({
@@ -112,4 +114,9 @@ export const logoutAction = () => ({
 export const cleanAction = (name) => ({
   type: CLEAN_STATE,
   payload: name,
+});
+
+const fethingAction = () => ({
+  type: IS_FETCHING,
+  payload: true,
 });
