@@ -16,6 +16,15 @@ export default makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
   },
+  // cardsContainerShadowBox: {
+  //   boxShadow: "7px 7px 10px 0 rgb(0 59 255 / 5%)",
+  //   "@media (max-width: 1385px)": {
+  //     // width: "100%",
+  //     display: "flex",
+  //     flexDirection: "column",
+  //     alignItems: "center",
+  //   },
+  // },
   titleWrapper: {
     display: "flex",
     justifyContent: "center",
@@ -29,7 +38,8 @@ export default makeStyles((theme) => ({
     maxWidth: 1200,
     flexWrap: "wrap",
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    borderRadius: `${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px 0 0`,
+    borderRadius: 5,
+    boxShadow: "7px 7px 10px 0 rgb(0 59 255 / 5%)",
     "@media (max-width: 1385px)": {
       flexDirection: "column",
       minWidth: 240,
@@ -74,10 +84,10 @@ export default makeStyles((theme) => ({
     width: "100%",
     height: 130,
     borderRadius: `0 0 ${theme.custom.mainBorderRadius}px ${theme.custom.mainBorderRadius}px`,
-    borderTop: "none",
-    borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    borderRight: `1px solid ${theme.custom.mainBorderGreyColor}`,
-    borderLeft: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    borderTop: `1px solid ${theme.custom.mainBorderGreyColor}`,
+    borderBottom: "none",
+    borderRight: "none",
+    borderLeft: "none",
     "@media (max-width: 1385px)": {
       minWidth: 240,
       maxWidth: 600,
@@ -106,6 +116,7 @@ export default makeStyles((theme) => ({
     fontSize: "16px",
     fontWeight: "bold",
     color: "#ffffff",
+    boxShadow: " 0 2px 6px 0 rgb(23 145 244 / 52%)",
     "&:hover": {
       backgroundColor: "#1791f4",
     },

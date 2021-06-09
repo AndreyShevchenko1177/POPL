@@ -1,12 +1,12 @@
 const labels = {
-  poplPops: "Popl",
+  poplPops: "Device",
   qrCodePops: "QR Code",
   walletPops: "Wallet",
 };
 
 export const backgroundColor = {
   poplPops: "rgba(62, 116, 226, 1)",
-  qrCodePops: "rgba(213, 229, 106, 1)",
+  qrCodePops: "rgba(107, 187, 228, 1)",
 };
 
 export const chartOptions = {

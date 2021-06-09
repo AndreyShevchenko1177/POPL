@@ -69,6 +69,7 @@ function Billing() {
           <Typography variant="h1">Popl Enterprise Pricing</Typography>
         </div>
         <div className={classes.cardsContainerWrapper}>
+          {/* <div className={classes.cardsContainerShadowBox}> */}
           <div className={classes.cardsContainer}>
             {subscriptionConfig.map(({
               id, title, price, priceId, profilesNumber, unitsRange,
@@ -87,13 +88,14 @@ function Billing() {
                 />
               </div>
             ))}
+            <div className={classes.contactUsSection}>
+              <Typography className={classes.contactUsTitle} variant='body2'>More than 100 Accounts?</Typography>
+              <a href="mailto:jason@popl.co">
+                <Button className={classes.contactSalesButton}>Contact Sales</Button>
+              </a>
+            </div>
           </div>
-          <div className={classes.contactUsSection}>
-            <Typography className={classes.contactUsTitle} variant='body2'>More than 100 Accounts?</Typography>
-            <a href="mailto:jason@popl.co">
-              <Button className={classes.contactSalesButton}>Contact Sales</Button>
-            </a>
-          </div>
+          {/* </div> */}
         </div>
         <div className={classes.footer}>
           <Typography variant="h3">Just want Popl Pro for your team?</Typography>

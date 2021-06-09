@@ -340,45 +340,8 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     <g>
     </g>
   </svg>,
-  successCheckMark: ({ fill, width, height }) => <svg width={width} height={height} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 507.2 507.2" >
-    <circle fill = "#32BA7C" cx="253.6" cy="253.6" r="253.6"/>
-    <path fill="#0AA06E" d="M188.8,368l130.4,130.4c108-28.8,188-127.2,188-244.8c0-2.4,0-4.8,0-7.2L404.8,152L188.8,368z"/>
-    <g>
-      <path fill = "#FFFFFF" d="M260,310.4c11.2,11.2,11.2,30.4,0,41.6l-23.2,23.2c-11.2,11.2-30.4,11.2-41.6,0L93.6,272.8
-   c-11.2-11.2-11.2-30.4,0-41.6l23.2-23.2c11.2-11.2,30.4-11.2,41.6,0L260,310.4z"/>
-      <path fill = "#FFFFFF" d="M348.8,133.6c11.2-11.2,30.4-11.2,41.6,0l23.2,23.2c11.2,11.2,11.2,30.4,0,41.6l-176,175.2
-   c-11.2,11.2-30.4,11.2-41.6,0l-23.2-23.2c-11.2-11.2-11.2-30.4,0-41.6L348.8,133.6z"/>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
-    <g>
-    </g>
+  successCheckMark: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 0C4.01087 0 0 4.01087 0 9C0 13.95 4.03043 18 9 18C13.9696 18 18 13.95 18 9C18 4.01087 13.9891 0 9 0ZM13.813 6.73043L7.57174 12.9522L4.08913 9.46957L5.28261 8.31522L7.5913 10.6239L12.737 5.47826L13.9304 6.67174L13.813 6.73043Z" fill="#2DD082"/>
   </svg>,
   cancelIcon: ({ fill, width, height }) => <svg width={width} height={height} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 507.2 507.2">
     <circle fill="#E24C4B" cx="227.556" cy="227.556" r="227.556"/>

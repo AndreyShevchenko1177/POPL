@@ -14,7 +14,7 @@ function SubscriptionCard({
       {currentPlan && <div className={classes.currentPlan}>Current Plan</div>}
       <Typography className={classes.title} variant='body2'>{title}</Typography>
       <div className={classes.priceDescriptionContainer}>
-        <span><span style={{ fontSize: 24 }}>${price}</span> month</span>
+        <span><span style={{ fontSize: 24 }}>${price}</span> / month</span>
       </div>
       <div className={classes.buttonContainer}>
         <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />
@@ -24,8 +24,8 @@ function SubscriptionCard({
           <div>
             <SvgMaker
               name='successCheckMark'
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               fill="#32BA7C"
             />
           </div>
@@ -35,8 +35,8 @@ function SubscriptionCard({
           <div>
             <SvgMaker
               name='successCheckMark'
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               fill="#32BA7C"
             />
           </div>
@@ -46,8 +46,8 @@ function SubscriptionCard({
           <div>
             <SvgMaker
               name= {["Basic"].includes(title) ? "cancelIcon" : "successCheckMark"}
-              width={20}
-              height={20}
+              width={["Basic"].includes(title) ? 20 : 18}
+              height={["Basic"].includes(title) ? 20 : 18}
             />
           </div>
           <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>Free Custom Popls for your team</Typography>
