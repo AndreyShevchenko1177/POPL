@@ -392,7 +392,7 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
     let result;
     if (photo && typeof photo !== "string") {
       uploadedFile = getId(12);
-      result = await uploadImage(new File([photo], `${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
+      result = await uploadImage(new File([photo], `${photo.name.split(".")[1]}_${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
     }
 
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder
