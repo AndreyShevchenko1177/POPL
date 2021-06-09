@@ -107,19 +107,19 @@ export default makeStyles((theme) => ({
   },
   nameInput: {
     fontSize: 18,
-    fontFamily: "DM Sans",
+    fontFamily: "Inter",
     fontWeight: 600,
     // paddingRight: 20,
   },
   bioInput: {
     fontSize: 14,
-    fontFamily: "DM Sans",
+    fontFamily: "Inter",
     fontWeight: 200,
     color: "#909090",
   },
   emailInput: {
     ontSize: 14,
-    fontFamily: "DM Sans",
+    fontFamily: "Inter",
     fontWeight: 200,
     color: "#5f5f5f !important",
     padding: 0,

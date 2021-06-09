@@ -19,6 +19,7 @@ let theme = createMuiTheme({
       "BlinkMacSystemFont",
       "\"Segoe UI\"",
       "Roboto",
+      "Inter",
       "\"Helvetica Neue\"",
       "Arial",
       "sans-serif",
@@ -87,17 +88,17 @@ let theme = createMuiTheme({
     MuiTypography: {
       h1: {
         fontWeight: "700",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "40px !important",
       },
       h2: {
         fontWeight: "700",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "32px !important",
       },
       h3: {
         fontWeight: "700",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "28px !important",
       },
       h4: {
@@ -105,32 +106,32 @@ let theme = createMuiTheme({
       },
       h5: {
         fontWeight: "700",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "17px !important",
       },
       h6: {
         fontWeight: "normal",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "16px !important",
       },
       body1: {
         fontWeight: "200",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "20px !important",
       },
       body2: {
         fontWeight: "200",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "20px !important",
       },
       subtitle1: {
         fontWeight: "normal",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "14px !important",
       },
       subtitle2: {
         fontWeight: "700",
-        fontFamily: "DM Sans",
+        fontFamily: "Inter",
         fontSize: "24px !important",
       },
     },

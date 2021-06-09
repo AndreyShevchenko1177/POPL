@@ -78,7 +78,7 @@ export default makeStyles((theme) => ({
   },
   nameInput: {
     fontSize: 16,
-    fontFamily: "DM Sans",
+    fontFamily: "Inter",
     fontWeight: 200,
     // paddingRight: 20,
   },
