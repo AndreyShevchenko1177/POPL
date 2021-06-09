@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Sidebar from "./Sidebar";
 import CSnackbar from "../components/SnackBar";
 import { restricteModeAction } from "../store/actions";
@@ -14,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  main: {
+    flexGrow: 1,
+    position: "relative",
+    height: "100vh",
+    maxWidth: `calc(100vw - ${theme.custom.drawerWidth}px)`,
+  },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   restrictedViewRoot: {
@@ -22,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     backdropFilter: "blur(10px)",
     "-webkit-backdrop-filter": "blur(10px)",
-    width: "calc(100% - 300px)",
+    width: `calc(100% - ${theme.custom.drawerWidth}px)`,
     height: "100vh",
     zIndex: 1000,
   },
@@ -92,13 +97,10 @@ export default function Main({ children, stripe }) {
       {!stripe && <Sidebar />}
       <main
         style={{
-          flexGrow: 1,
-          position: "relative",
-          height: "100vh",
-          backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}14` : "#ffffff",
+          backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}0f` : "#ffffff",
           overflow: (isRestrictedMode && (userId !== "243104" && userId !== "293299")) || !isMainPageScroll ? "hidden" : "auto",
-          maxWidth: "calc(100vw - 270px)",
         }}
+        className={classes.main}
         id='main'
       >
         <>

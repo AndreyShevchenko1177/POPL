@@ -24,7 +24,6 @@ export default makeStyles((theme) => ({
   },
   buttonWrapper: {
     position: "relative",
-    borderRadius: theme.custom.mainBorderRadius,
     marginLeft: 15,
     borderRadius: theme.custom.mainBorderRadius,
     "-webkit-box-shadow": theme.custom.mainBoxShadow,

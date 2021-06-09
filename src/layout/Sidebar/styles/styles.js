@@ -97,11 +97,11 @@ export default makeStyles((theme) => ({
       },
     },
   },
-  ulListHighLight: {
+  ulListHighLight: ({ fadeColor }) => ({
     backgroundColor: "#e0dede",
-    background: "linear-gradient(to right, rgba(255,255,255,0) 70%,rgba(255,255,255,1) 100%)",
+    background: `linear-gradient(to right, rgba(255,255,255,0) 70%, ${fadeColor} 100%)`,
     borderRadius: "0 5px 5px 0",
-  },
+  }),
   listText: {
     fontSize: "13px",
     letterSpacing: 0,

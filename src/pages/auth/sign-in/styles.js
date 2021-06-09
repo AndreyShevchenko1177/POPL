@@ -9,7 +9,8 @@ export default makeStyles((theme) => ({
   topIconContainer: {
     position: "absolute",
     top: "27px",
-    left: "33px",
+    left: "50%",
+    transform: "translateX(-50%)",
   },
   logo: {
     width: 150,
@@ -96,6 +97,7 @@ export default makeStyles((theme) => ({
     animationDelay: "4s",
   },
   loginContainer: {
+    position: "relative",
     display: "flex",
     padding: "81px 64px",
     width: "100%",

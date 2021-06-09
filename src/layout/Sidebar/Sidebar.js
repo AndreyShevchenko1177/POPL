@@ -28,9 +28,11 @@ import poplLogo from "../../assets/popl-enterprise.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 import { cleanAction } from "../../pages/overallAnalytics/store/actions";
+import { hexToRgbA } from "../../utils";
 
 function PermanentDrawerLeft() {
-  const classes = useStyles();
+  const [fadeColor, setFadeColor] = useState("rgba(255,255,255,1)");
+  const classes = useStyles({ fadeColor });
   const location = useLocation();
   const history = useHistory();
   const [highlight, setHighLight] = useState({});
@@ -49,7 +51,6 @@ function PermanentDrawerLeft() {
   const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  const [fadeColor, setFadeColor] = useState("rgba(255,255,255,1) 100%");
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -113,6 +114,13 @@ function PermanentDrawerLeft() {
     dispatch(getCompanyInfoAction());
   }, []);
 
+  // useEffect(() => {
+  //   if (profileInfo && profileInfo[1]) {
+  //     console.log(hexToRgbA(profileInfo[1], 1));
+  //     setFadeColor(hexToRgbA(profileInfo[1], 1));
+  //   }
+  // }, [profileInfo]);
+
   useEffect(() => {
     timeout(5000);
   }, [poplsFetching, profilesFetching, connectionsFetching]);
@@ -125,7 +133,7 @@ function PermanentDrawerLeft() {
         paper: classes.drawerPaper,
       }}
       anchor="left"
-      style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}14` : "#ffffff" }}
+      style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}0f` : "#ffffff" }} // setting color from company settings with 6% opacity
     >
       <div className={classes.toolbar} />
       <div className={classes.brand}>
