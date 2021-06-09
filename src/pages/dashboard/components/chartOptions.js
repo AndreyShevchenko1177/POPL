@@ -56,7 +56,7 @@ const chartOptions = {
         label: "QR Code",
         backgroundColor: "rgba(0, 0, 0, 0)",
         borderWidth: 3,
-        borderColor: "rgba(213, 229, 106, 1)",
+        borderColor: "rgba(107, 187, 228, 1)",
         maxBarThickness: 50,
         fill: true,
       },

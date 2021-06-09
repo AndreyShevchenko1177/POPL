@@ -143,4 +143,8 @@ export default makeStyles((theme) => ({
   chart: {
     overflow: "hidden",
   },
+  popsByProfile: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 }));

@@ -4,6 +4,7 @@ import React, {
 import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
+import clsx from "clsx";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
@@ -46,7 +47,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 145px; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
+              <div style="display: flex; width: 100%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
                 <div style='display: none; position: absolute; top: 0px ; left: -${data.labels[i]?.length * 10}px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
                   <span>${data.labels[i]} </span>
                 </div>
@@ -115,7 +116,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
 
   return data
     ? (!data.datasets[0].data.every((val) => !val)
-      ? <div className='chart-container'>
+      ? <div className={clsx("chart-container", classes.popsByProfile)}>
         <div style={{ position: "absolute", left: "-40px" }} className='chart-wrapper'>
           <Doughnut
             ref={chart}

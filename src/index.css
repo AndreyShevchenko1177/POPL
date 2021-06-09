@@ -183,14 +183,8 @@ p {
 }
 
 #legend3 {
-  position: absolute;
   padding-top: 10px;
-  left: 48%;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: 50%;
   height: 100%;
   overflow-y: auto;
 }
