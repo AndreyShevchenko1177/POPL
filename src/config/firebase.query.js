@@ -1,4 +1,6 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import heicConvert from "heic-convert";
+import worker from "workerize-loader!../worker";
 import firebase from "./firebase.config";
 
 let db = firebase.firestore();
@@ -64,11 +66,19 @@ export const uploadImage = async (file, folderName) => {
     file,
     name: file.name,
   };
+  let workerInstance = worker();
+
   if (ext.toLocaleLowerCase() === "heic" || ext.toLocaleLowerCase() === "heif") {
     console.log(`start convert ${ext} file to jpg`);
-    outputData.file = await heicToJpg(file);
-    console.log("end convert");
-    outputData.name = `${name}.jpg`;
+    return workerInstance.heicToJpg(file).then((outputBuffer) => {
+      outputData.file = outputBuffer;
+      console.log("end convert");
+      outputData.name = `${name}.jpg`;
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(`${folderName || ""}/${outputData.name}`);
+      return fileRef.put(outputData.file).then((res) => downloadFileFromFireBase(outputData.name, folderName));
+      // return downloadFileFromFireBase(outputData.name, folderName);
+    });
   }
   // let outputFile = file
   const storageRef = firebase.storage().ref();

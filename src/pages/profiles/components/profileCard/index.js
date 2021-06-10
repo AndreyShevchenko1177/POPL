@@ -389,6 +389,7 @@ export default function Card({
                     }));
                   }
                   setCurrentEditedProfile(id);
+                  event.target.value = "";
                   return dispatch(setProfileImageAction(id, personalMode.direct ? 2 : 1, event.target.files[0], setCurrentEditedProfile));
                 }}
               />

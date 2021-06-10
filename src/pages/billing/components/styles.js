@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
   },
   title: {
     fontWeight: "bold",
-    paddingBottom: 10,
+    padding: "15px 0 10px 0",
   },
   priceDescriptionContainer: {
     display: "flex",
