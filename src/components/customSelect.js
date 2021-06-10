@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.custom.mainBorderRadius,
     boxShadow: theme.custom.mainBoxShadow,
     outline: "none",
-    zIndex: 10,
+    zIndex: 101,
   },
   sortContainer: {
     position: "absolute",

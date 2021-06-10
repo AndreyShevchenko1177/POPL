@@ -165,7 +165,7 @@ export default makeStyles((theme) => ({
     backgroundColor: "gray",
     opacity: "0.45",
     position: "absolute",
-    zIndex: 1,
+    zIndex: 101,
   },
   dropZoneIconContainer: {
     width: 90,

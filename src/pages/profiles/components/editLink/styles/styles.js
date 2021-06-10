@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
     position: "fixed",
-    zIndex: 1,
+    zIndex: 1000,
   },
   wizardContainer: {
     position: "fixed",
@@ -75,9 +75,7 @@ export default makeStyles((theme) => ({
   secondPageLink: {
     position: "relative",
     width: 200,
-    "@media (max-width:1400px)": {
-      width: 200,
-    },
+    height: 200,
   },
   secondScreenLinkImage: {
     width: 200,

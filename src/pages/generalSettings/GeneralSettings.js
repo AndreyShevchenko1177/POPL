@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
 import SettingsField from "./components/SettingsField";
 import TeamMembers from "./components/TeamMembers";
-import { updateUserProfile, getCompanyInfoAction, deleteProfileAction } from "./store/actions";
+import {
+  updateUserProfile, getCompanyInfoAction, deleteProfileAction, isFileConvertingAction,
+} from "./store/actions";
 import Loader from "../../components/Loader";
 import UpladImage from "./components/uploadImage";
 import useStyles from "./styles";
@@ -45,6 +47,8 @@ function GeneralSettings() {
     setFieldsState({ ...fieldsState, [name]: value });
   };
 
+  console.log(fieldsState.file);
+
   const handleSave = () => {
     if (restrictEdit(parentProfilefId)) {
       return dispatch(snackBarAction({
@@ -74,8 +78,6 @@ function GeneralSettings() {
     dispatch(getCompanyInfoAction());
   }, []);
 
-  console.log(location.state?.firstLogin);
-
   useEffect(() => {
     if (companyInfo) {
       let result = {};
@@ -97,7 +99,6 @@ function GeneralSettings() {
       removeConfettiAnimation();
     }
   }, []);
-  console.log(isSign);
 
   return (
     <>

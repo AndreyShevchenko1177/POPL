@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { useState, useRef } from "react";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
@@ -6,9 +7,11 @@ import {
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import RemoveIcon from "@material-ui/icons/Remove";
+import worker from "workerize-loader!../../../../../worker";
 import useStyles from "../styles/styles";
 import Popup from "../../../../../components/popup";
 import { snackBarAction } from "../../../../../store/actions";
+import Loader from "../../../../../components/Loader";
 
 function EditScreen({
   currentIcon,
@@ -35,6 +38,7 @@ function EditScreen({
   const [src, setSrc] = useState("");
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [isFileConverting, setIsFileConverting] = useState(false);
 
   const handleOpenPopup = () => setIsOpenPopup(!isOpenPopup);
 
@@ -42,7 +46,7 @@ function EditScreen({
     event.persist();
     // Check if the file is an image.
     const file = event.target?.files[0];
-    if (file?.type.indexOf("image") === -1) {
+    if ((file?.type.indexOf("image") === -1) && (!["heif", "heic"].includes(file?.name.split(".")[file?.name.split(".").length - 1]))) {
       return dispatch(snackBarAction({
         message: "Invalid file type",
         severity: "error",
@@ -50,6 +54,22 @@ function EditScreen({
         open: true,
       }));
     }
+    if (["heif", "heic"].includes(file?.name.split(".")[file?.name.split(".").length - 1])) {
+      setIsFileConverting(true);
+      let workerInstance = worker();
+      return workerInstance.heicToJpg(file).then((convertedFile) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", (evt) => {
+          setSrc(evt.target.result);
+          setFile(file);
+          setIsFileConverting(false);
+        });
+        const blobFile = new Blob([convertedFile]);
+        reader.readAsDataURL(blobFile);
+        event.target.value = "";
+      });
+    }
+
     setFile(event.target?.files[0]);
     const reader = new FileReader();
     reader.addEventListener("load", (evt) => {
@@ -80,36 +100,50 @@ function EditScreen({
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
       <div style={isDeleteTab ? { height: "auto", paddingBottom: 60 } : {}} className={classes.linkImageValueContainer}>
-        <div className={classes.secondPageLink}>
-          <Popup
-            config={popupConfig}
-            isOpen={isOpenPopup}
-            handleClose={handleOpenPopup}
-            styles={classes.popup}
+        {isFileConverting
+          ? <Loader
+            containerStyles={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 200,
+              height: 200,
+            }}
+            styles={{
+              width: 30,
+              height: 30,
+            }}
           />
+          : <div className={classes.secondPageLink}>
+            <Popup
+              config={popupConfig}
+              isOpen={isOpenPopup}
+              handleClose={handleOpenPopup}
+              styles={classes.popup}
+            />
 
-          <IconButton
-            className={classes.removeButton}
-            onClick={() => setIsOpenPopup(!isOpenPopup)}
-          >
-            <RemoveIcon className={classes.removeIcon} />
-          </IconButton>
-          {!file
-            ? <div className={classes.editIconWrapper} onClick={() => fileInputRef.current?.click()}>
-              <EditIcon className={classes.editIcon}/>
-            </div>
-            : <Chip
-              className={classes.chipButton}
-              size='medium'
-              onDelete={() => {
-                setSrc("");
-                setFile(null);
-              }}
-            />}
-          <img className={classes.secondScreenLinkImage} src={src || (icon
-            ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
-            : currentIcon.icon)} alt={id} />
-        </div>
+            <IconButton
+              className={classes.removeButton}
+              onClick={() => setIsOpenPopup(!isOpenPopup)}
+            >
+              <RemoveIcon className={classes.removeIcon} />
+            </IconButton>
+            {!file
+              ? <div className={classes.editIconWrapper} onClick={() => fileInputRef.current?.click()}>
+                <EditIcon className={classes.editIcon}/>
+              </div>
+              : <Chip
+                className={classes.chipButton}
+                size='medium'
+                onDelete={() => {
+                  setSrc("");
+                  setFile(null);
+                }}
+              />}
+            <img className={classes.secondScreenLinkImage} src={src || (icon
+              ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${icon}?alt=media`
+              : currentIcon.icon)} alt={id} />
+          </div>}
         {!isDeleteTab && <div className={classes.linkInputsWrapper}>
           <div className={classes.labelContainer}>
             <Typography variant='h5'>Title</Typography>

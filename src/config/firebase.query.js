@@ -1,5 +1,4 @@
 /* eslint-disable import/no-webpack-loader-syntax */
-import heicConvert from "heic-convert";
 import worker from "workerize-loader!../worker";
 import firebase from "./firebase.config";
 
@@ -46,20 +45,6 @@ const downloadFileFromFireBase = (fileName, folderName) => {
   }
 };
 
-const heicToJpg = async (file) => {
-  const buffer = await file.arrayBuffer();
-  try {
-    const outputBuffer = await heicConvert({
-      buffer: Buffer.from(buffer), // the HEIC file buffer
-      format: "JPEG", // output format
-      quality: 1, // the jpeg compression quality, between 0 and 1
-    });
-    return outputBuffer;
-  } catch (error) {
-    console.log({ ...error });
-  }
-};
-
 export const uploadImage = async (file, folderName) => {
   const [ext, ...name] = file.name.split("_");
   const outputData = {
@@ -77,7 +62,6 @@ export const uploadImage = async (file, folderName) => {
       const storageRef = firebase.storage().ref();
       const fileRef = storageRef.child(`${folderName || ""}/${outputData.name}`);
       return fileRef.put(outputData.file).then((res) => downloadFileFromFireBase(outputData.name, folderName));
-      // return downloadFileFromFireBase(outputData.name, folderName);
     });
   }
   // let outputFile = file

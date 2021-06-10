@@ -52,7 +52,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
     position: "fixed",
-    zIndex: 1,
+    zIndex: 101,
   },
   wizardContainer: {
     position: "fixed",

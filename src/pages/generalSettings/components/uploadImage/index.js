@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, {
   useRef, useState, useEffect,
 } from "react";
@@ -6,12 +7,15 @@ import { Typography, Chip } from "@material-ui/core";
 import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import CreateIcon from "@material-ui/icons/Create";
 import clsx from "clsx";
+import worker from "workerize-loader!../../../../worker";
 import { snackBarAction } from "../../../../store/actions";
+import { isFileConvertingAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
 import Preview from "./components/Preview";
 import SvgMaker from "../../../../components/svgMaker";
 import { restrictEdit } from "../../../../utils";
+import Loader from "../../../../components/Loader";
 
 const DropZone = ({
   quantity, multiple, setFieldsState, image,
@@ -20,6 +24,7 @@ const DropZone = ({
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState({});
+  const { isFileConverting } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
   const [icons] = useState({
     pdf: "../../../../images/pdf.png",
     doc: "../../../../images/doc.png",
@@ -42,17 +47,19 @@ const DropZone = ({
   };
 
   const readImage = (file, index) => {
-    // Check if the file is an image.
-    if (file.type && file.type.indexOf("image") === -1) {
-      let src = "";
-      if (file.type.indexOf("pdf")) src = icons.pdf;
-      if (file.type.indexOf("vnd")) {
-        const type = file.type.split(".");
-        if (type[type.length - 1] === "document") src = icons.doc;
-        if (type[type.length - 1] === "sheet") src = icons.xls;
-      }
-      if (src === "") src = icons.unknown;
-      return setFiles((prev) => ({ [getId(12)]: { file, src } }));
+    // Check if the file is an image with heic/heif extension.
+    if (["heif", "heic"].includes(file?.name.split(".")[file?.name.split(".").length - 1])) {
+      dispatch(isFileConvertingAction(true));
+      let workerInstance = worker();
+      return workerInstance.heicToJpg(file).then((convertedFile) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", (event) => {
+          setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+          dispatch(isFileConvertingAction(false));
+        });
+        const blobFile = new Blob([convertedFile]);
+        reader.readAsDataURL(blobFile);
+      });
     }
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
@@ -89,7 +96,7 @@ const DropZone = ({
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
     }
-    if (!file[0]?.type.includes("image")) {
+    if (!file[0]?.type.includes("image") && (!["heif", "heic"].includes(file[0]?.name.split(".")[file[0]?.name.split(".").length - 1]))) {
       setValidation((prev) => ({ ...prev, fileType: true }));
       event.target.value = "";
       return;
@@ -141,60 +148,64 @@ const DropZone = ({
 
   return (
     <div className={classes.container}>
-      <div
-        onClick={companyImage ? () => {} : openFileDialog}
-        className={classes.headingDropZoneWrapper}
-      >
-        <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
-        {
-          !companyImage
-            ? <div className={classes.dashedContainer}>
-              { !Object.keys(files).length
-                ? (
-                  <div className={classes.IconTextWrapper}>
-                    <div className={classes.iconContainer}>
-                      <SvgMaker name="uploadCloud" fill="#999a9b" width={30} height={30} />
-                    </div>
-                    <Typography variant='subtitle1' classes={{ subtitle1: classes.uploadImageText }}>Upload</Typography>
-                  </div>
-                )
-                : <div className={classes.previewContainer}>
-                  {
-                    Object.keys(files).map((key) => (
-                      <div key={key} >
-                        <Preview openFileDialog={openFileDialog} file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+      {isFileConverting
+        ? <Loader styles={{
+          position: "absolute", top: 50, left: "calc(50% - 15px)", width: 30, height: 30,
+        }} />
+        : <div
+          onClick={companyImage ? () => {} : openFileDialog}
+          className={classes.headingDropZoneWrapper}
+        >
+          <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
+          {
+            !companyImage
+              ? <div className={classes.dashedContainer}>
+                { !Object.keys(files).length
+                  ? (
+                    <div className={classes.IconTextWrapper}>
+                      <div className={classes.iconContainer}>
+                        <SvgMaker name="uploadCloud" fill="#999a9b" width={30} height={30} />
                       </div>
-                    ))
-                  }
-                </div>
-              }
-            </div>
-            : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")}>
-              <Chip
-                className={classes.chipButton}
-                deleteiicon={<RemoveIcon />}
-                size='medium'
-                onDelete={() => {
-                  setCompanyImage("");
-                  setFieldsState((prev) => ({ ...prev, file: null }));
-                }}
-              />
-              <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${image}?alt=media`} />
-              <Chip
-                className={classes.chipButtonEdit}
-                deleteIcon={<CreateIcon />}
-                size='medium'
-                onDelete={() => openFileDialog()}
-              />
-            </div>
-        }
-        { <input
-          ref={fileInputRef}
-          type='file'
-          multiple={!!multiple}
-          onChange={onFilesAdded}
-        />}
-      </div>
+                      <Typography variant='subtitle1' classes={{ subtitle1: classes.uploadImageText }}>Upload</Typography>
+                    </div>
+                  )
+                  : <div className={classes.previewContainer}>
+                    {
+                      Object.keys(files).map((key) => (
+                        <div key={key} >
+                          <Preview openFileDialog={openFileDialog} file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+                        </div>
+                      ))
+                    }
+                  </div>
+                }
+              </div>
+              : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")}>
+                <Chip
+                  className={classes.chipButton}
+                  deleteiicon={<RemoveIcon />}
+                  size='medium'
+                  onDelete={() => {
+                    setCompanyImage("");
+                    setFieldsState((prev) => ({ ...prev, file: null }));
+                  }}
+                />
+                <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${image}?alt=media`} />
+                <Chip
+                  className={classes.chipButtonEdit}
+                  deleteIcon={<CreateIcon />}
+                  size='medium'
+                  onDelete={() => openFileDialog()}
+                />
+              </div>
+          }
+          { <input
+            ref={fileInputRef}
+            type='file'
+            multiple={!!multiple}
+            onChange={onFilesAdded}
+          />}
+        </div>}
     </div>
   );
 };

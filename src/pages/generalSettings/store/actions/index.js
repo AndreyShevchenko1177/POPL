@@ -7,10 +7,12 @@ import {
   CLEAR_STATE,
   IS_DATA_FETCHING,
   GET_COMPANY_INFO_FAIL,
+  IS_FILE_CONVERTING,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { snackBarAction, getProfileInfoRequest } from "../../../../store/actions";
 import { makeProfileNonPro } from "../../../profiles/store/actions/requests";
+import { uploadImage } from "../../../../config/firebase.query";
 
 export const updateUserProfile = ({
   name, color, websiteLink, file,
@@ -20,13 +22,18 @@ export const updateUserProfile = ({
     if (name || name === "") await requests.setCompanyName(name);
     if (color || color === "") await requests.setCompanyColor(color);
     if (websiteLink || websiteLink === "") await requests.setCompanyWebSite(websiteLink);
-    let uploadedFile; // here should be firebase upload function
+
+    let result; // response from firebase upload file
     if (file && typeof file !== "string") {
-      uploadedFile = getId(12);
-      await requests.setCompanyAvatar(new File([file], `${uploadedFile}`, { type: file.type }));
+      result = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_${getId(12)}`, { type: file.type }));
     }
-    if (typeof uploadedFile === "string") {
-      await requests.setCompanyImage(uploadedFile);
+    let fileName;
+    if (result) { // if filename returned from firebase taking form there name without other url params
+      let url = result.split("?")[0];
+      fileName = url.split("/")[url.split("/").length - 1];
+    }
+    if (fileName) {
+      await requests.setCompanyImage(fileName);
     } else requests.setCompanyImage(file || "");
 
     dispatch(clearStateAction("companyInfo"));
@@ -93,6 +100,11 @@ export const deleteProfileAction = (profileId) => async (dispatch, getState) => 
 
 const isFetchingAction = (isFetching) => ({
   type: IS_DATA_FETCHING,
+  payload: isFetching,
+});
+
+export const isFileConvertingAction = (isFetching) => ({
+  type: IS_FILE_CONVERTING,
   payload: isFetching,
 });
 

@@ -5,6 +5,8 @@ export default makeStyles((theme) => ({
     width: "100%",
     padding: "10px 15px",
     display: "flex",
+    minHeight: 138,
+    position: "relative",
     justifyContent: "center",
     "& input": {
       display: "none",

@@ -96,7 +96,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   }
 };
 
-export const addLinkAction = (value, title, profileData, iconId, userId, icon) => async (dispatch, getState) => {
+export const addLinkAction = (value, title, profileData, iconId, icon) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     const storedProfiles = getState().profilesReducer.dataProfiles.data;
@@ -110,13 +110,19 @@ export const addLinkAction = (value, title, profileData, iconId, userId, icon) =
       }));
     }
 
-    let uploadedFile;
+    let resultUploadFile; // in this variable will returning firebase file name
+    console.log(icon);
     if (icon && typeof icon !== "string") {
-      uploadedFile = getId(12);
-      await uploadImage(new File([icon], `icon-${uploadedFile}`, { type: icon.type }));
+      resultUploadFile = await uploadImage(new File([icon], `${icon.name.split(".")[icon.name.split(".").length - 1]}_icon-${getId(12)}`, { type: icon.type }));
     }
 
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, uploadedFile ? `icon-${uploadedFile}` : "")));
+    let fileName;
+    if (resultUploadFile) { // if filename returned from firebase taking form there name without other url params
+      let url = resultUploadFile.split("?")[0];
+      fileName = url.split("/")[url.split("/").length - 1];
+    }
+
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, fileName || "")));
     dispatch({
       type: ADD_LINK_SUCCESS,
       payload: "success",
@@ -225,15 +231,19 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
         open: true,
       }));
     }
-
+    let resultUploadFile; // in this variable will returning firebase file name
     // if file - uploading file
-    let uploadedFile;
     if (file && typeof icon !== "string") {
-      uploadedFile = getId(12);
-      await uploadImage(new File([file], `icon-${uploadedFile}`, { type: file.type }));
+      resultUploadFile = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_icon-${getId(12)}`, { type: file.type }));
     }
 
-    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, uploadedFile ? `icon-${uploadedFile}` : "")));
+    let fileName;
+    if (resultUploadFile) { // if filename returned from firebase taking form there name without other url params
+      let url = resultUploadFile.split("?")[0];
+      fileName = url.split("/")[url.split("/").length - 1];
+    }
+
+    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, fileName || "")));
     if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
       success();
       dispatch(clearStateAction("dataProfiles"));
@@ -392,7 +402,7 @@ export const setProfileImageAction = (profileId, profileState, photo, clearEdite
     let result;
     if (photo && typeof photo !== "string") {
       uploadedFile = getId(12);
-      result = await uploadImage(new File([photo], `${photo.name.split(".")[1]}_${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
+      result = await uploadImage(new File([photo], `${photo.name.split(".")[photo.name.split(".").length - 1]}_${profileId}_${uploadedFile}`, { type: photo.type }), "photos");
     }
 
     // file name that uplaods is differents of file name that downloads after that. I've faced it just when uploading in custom folder

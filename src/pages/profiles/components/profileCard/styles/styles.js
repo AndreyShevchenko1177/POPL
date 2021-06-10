@@ -265,7 +265,7 @@ export default makeStyles((theme) => ({
     top: -7,
     right: -7,
     cursor: "pointer",
-    zIndex: 10000,
+    zIndex: 100,
   },
   iconItem: {
     display: "flex",

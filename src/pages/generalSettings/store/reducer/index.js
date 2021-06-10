@@ -3,6 +3,7 @@ import {
   GET_COMPANY_INFO_FAIL,
   IS_DATA_FETCHING,
   CLEAR_STATE,
+  IS_FILE_CONVERTING,
 } from "../actionTypes";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     error: null,
   },
   isFetching: false,
+  isFileConverting: false,
 };
 
 export default function generalSettingsReducer(
@@ -48,6 +50,12 @@ export default function generalSettingsReducer(
     return {
       ...state,
       [payload]: initialState[payload],
+    };
+  }
+  case IS_FILE_CONVERTING: {
+    return {
+      ...state,
+      isFileConverting: payload,
     };
   }
   default:
