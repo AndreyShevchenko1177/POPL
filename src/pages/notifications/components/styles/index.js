@@ -126,7 +126,7 @@ export default makeStyles((theme) => ({
     width: "50%",
     display: "flex",
     justifyContent: "center",
-    padding: "20px 20px",
+    padding: "20px 0 20px 20px",
   },
   imageWrapper: {
     position: "relative",

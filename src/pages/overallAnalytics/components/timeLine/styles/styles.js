@@ -11,6 +11,7 @@ export default makeStyles((theme) => ({
     borderBottom: "1px solid #a5a4a4",
     borderRadius: theme.custom.mainBorderRadius,
     marginBottom: "20px",
+    backgroundColor: "#ffffff",
   },
   "network-container__title": {
     display: "flex",
@@ -25,6 +26,7 @@ export default makeStyles((theme) => ({
     padding: "40px 10px 10px 10px",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
+    backgroundColor: "#ffffff",
   },
   "network-container__line": {
     position: "relative",

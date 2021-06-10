@@ -44,7 +44,7 @@ function Header({
     <Paper elevation={0} className={classes.root}>
       <div
         style={{
-          padding: "10px 20px",
+          padding: "10px 20px 10px 40px",
           width: "100%",
           backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}0f` : "#ffffff",
           display: "flex",
