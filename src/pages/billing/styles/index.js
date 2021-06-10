@@ -40,6 +40,7 @@ export default makeStyles((theme) => ({
     border: "1px solid #e2ebf8",
     borderRadius: 5,
     boxShadow: "7px 7px 10px 0 rgb(0 59 255 / 5%)",
+    backgroundColor: "#ffffff",
     "@media (max-width: 1385px)": {
       flexDirection: "column",
       minWidth: 240,

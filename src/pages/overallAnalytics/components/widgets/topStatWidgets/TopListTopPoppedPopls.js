@@ -1,13 +1,11 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import moment from "moment";
-import { Tooltip } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import worker from "workerize-loader!../../../../../worker";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
-import icons from "../../../../profiles/components/profilelsIcons/icons";
-import { filterPops } from "../../../../../utils";
 
 function TopListPoppedPopls({ profilesData, dateRange }) {
   const classes = useStyles();
@@ -19,6 +17,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
   const totalPops = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data?.allPops,
   );
+  const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
   const getScrollValue = (v) => () => v; // with closure
 
@@ -33,33 +32,21 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
 
   useEffect(() => {
     if (totalPopls && totalPops && dateRange) {
-      setTimeout(() => {
-        const topPoppedPopls = {};
-        totalPopls.forEach((popl) => topPoppedPopls[popl.name] = []);
-
-        totalPops.forEach((pop) => {
-          const popDate = moment(pop[2]).format("x");
-          const name = filterPops.slicePoplNameFromPop(pop[1]);
-          if (name && name in topPoppedPopls) {
-            if ((popDate > moment(dateRange[0]).format("x")) && (popDate < moment(dateRange[1]).format("x"))) topPoppedPopls[name].push(pop);
-          }
+      let workerInstance = worker();
+      setIsWorkerRunning(true);
+      workerInstance.topPoppedPopls(JSON.stringify({
+        totalPopls, totalPops, dateRange,
+      }))
+        .then((result) => {
+          setData(result);
+          setIsWorkerRunning(false);
         });
-        const sortedPoppedPopls = Object.keys(topPoppedPopls)
-          .map((key) => ({ [key]: topPoppedPopls[key] }))
-          .sort((a, b) => Object.values(b)[0].length - Object.values(a)[0].length);
-
-        const result = [];
-        sortedPoppedPopls.forEach((item) => {
-          result.push({ name: Object.keys(item)[0], value: Object.values(item)[0].length });
-        });
-        setData(result);
-      }, 2000);
     }
   }, [totalPopls, totalPops, location, dateRange]);
 
   return (
     <>
-      {data
+      {data && !isWorkerRunning
         ? <div className={classes.tableBody}>
           {data
             .sort((a, b) => b.value - a.value)

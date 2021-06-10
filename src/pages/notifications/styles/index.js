@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    paddingTop: 70,
+    padding: "70px 40px 50px 40px",
     display: "flex",
     width: "100%",
     minWidth: 920,
@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
     width: "50%",
     display: "flex",
     justifyContent: "center",
-    padding: "0 20px",
+    padding: "0 20px 0 0",
   },
   rootFields: {
     // margin: "0 auto",

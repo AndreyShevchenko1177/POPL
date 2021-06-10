@@ -1,7 +1,9 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
+import worker from "workerize-loader!../../worker";
 import NetworkActivity from "./components/timeLine";
 import {
   cleanAction, mainAnalyticsAction,
@@ -251,36 +253,30 @@ function OverallAnalytics() {
   // SETTING ALL POPS
   useEffect(() => {
     if (allPopsData) {
-      setTimeout(() => {
-        // setting pops for popl level
-        if (location.state?.poplName) {
-          const poplPops = [];
-          const qrCodePops = [];
-          const walletPops = [];
-          const filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
-          filteredPops.forEach((pop) => {
-            if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
-            if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
-            if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+      // setting pops for popl level
+      if (location.state?.poplName) {
+        let workerInstance = worker();
+
+        workerInstance.overallAnalyticsPopsPoplLevel(JSON.stringify({ allPopsData, location }))
+          .then(({ poplPops, qrCodePops, walletPops }) => {
+            setPopsData({
+              poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
+            });
           });
-          return setPopsData({
-            poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
-          });
-        }
-        // setting popps for individual profile level
-        if (location.state?.id) {
-          return setPopsData({
-            poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
-            qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
-            allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
-          });
-        }
-        setPopsData({
-          poplPops: allPopsData.poplPops,
-          qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
-          allPops: allPopsData.allPops,
+      }
+      // setting popps for individual profile level
+      if (location.state?.id) {
+        return setPopsData({
+          poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
+          qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
+          allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
         });
-      }, 0);
+      }
+      setPopsData({
+        poplPops: allPopsData.poplPops,
+        qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
+        allPops: allPopsData.allPops,
+      });
     }
   }, [allPopsData, location]);
 
