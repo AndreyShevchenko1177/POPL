@@ -55,7 +55,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
                   ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
-                ${data.labels[i] && `<span style="height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )
