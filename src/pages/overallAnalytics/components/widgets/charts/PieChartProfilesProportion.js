@@ -87,7 +87,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
       const chartBackGroundColorsPopsByProfileDataProportion = [];
       setData(() => {
         if (location.state?.id) {
-          chartLabelsPopsByProfileDataProportion.push(location.state?.name);
+          chartLabelsPopsByProfileDataProportion.push({ name: location.state?.name, value: Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0) });
           chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
