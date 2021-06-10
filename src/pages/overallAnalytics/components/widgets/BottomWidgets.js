@@ -55,11 +55,11 @@ const BottomWidgets = memo(({
           heading='Most Active Devices'>
           <TopListPoppedPopls profilesData={profilesData} dateRange={calendar.dateRange} />
         </WidgetsContainer>
-        {/* <WidgetsContainer
+        <WidgetsContainer
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
           heading='Top tapped Links'>
           <TopListLinkTaps profilesData={profilesData} dateRange={calendar.dateRange} />
-        </WidgetsContainer> */}
+        </WidgetsContainer>
       </div>
     </div>
   );
