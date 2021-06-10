@@ -5,12 +5,12 @@ import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles";
 
 function WidgetsContainer({
-  children, heading, layerString, isChart,
+  children, heading, layerString, isChart, fullWidth,
 }) {
   const classes = useStyles();
 
   return (
-    <Paper elevation={1} className={classes.widgetRoot}>
+    <Paper elevation={1} className={fullWidth ? classes.fullWidgetRoot : classes.widgetRoot}>
       <div className={classes.widgetHeadingContainer}>
         <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
         <div className={classes.layerStringContainer}>

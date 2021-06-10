@@ -23,11 +23,14 @@ const BottomWidgets = memo(({
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer
+          fullWidth
           isChart
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
           heading='Pops by profile'>
           <PieChartProfilesProportion dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
+      </div>
+      <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer
           isChart
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}

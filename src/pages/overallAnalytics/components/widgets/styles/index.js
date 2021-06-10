@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: "20px 50px",
+    paddingTop: "20px",
   },
   twoWidgetsWrapper: {
     display: "flex",
@@ -20,7 +20,19 @@ export default makeStyles((theme) => ({
     width: "27%",
     flexGrow: 1,
     minWidth: 300,
-    maxWidth: 400,
+    padding: 10,
+    marginRight: 30,
+    borderRadius: theme.custom.mainBorderRadius,
+    "&:last-child": {
+      marginRight: 0,
+    },
+  },
+  fullWidgetRoot: {
+    position: "relative",
+    width: "100%",
+    flexGrow: 1,
+    minWidth: 300,
+    height: 425,
     padding: 10,
     marginRight: 30,
     borderRadius: theme.custom.mainBorderRadius,
@@ -29,7 +41,7 @@ export default makeStyles((theme) => ({
     },
   },
   widgetChildContainer: {
-    height: 230,
+    height: 320,
     overflow: "auto",
   },
   widgetHeadingContainer: {

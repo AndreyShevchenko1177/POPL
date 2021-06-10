@@ -65,9 +65,6 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   useEffect(() => {
     if (chart.current?.chartInstance) {
       const labelsArrayLength = data.labels.filter((el, i, arr) => arr.indexOf(el) === i).length;
-      if (labelsArrayLength > 10) {
-        document.querySelector(`#legend${index}`).style.paddingTop = `${100 + 20 * (labelsArrayLength + 1 - 10)}px`;
-      }
       document.querySelector(`#legend${index}`).innerHTML = chart.current?.chartInstance?.generateLegend();
       document.querySelectorAll(`#legend${index} > div`).forEach((item, index) => {
         item.addEventListener("click", (e) => handleClickLabel(e, index));
@@ -95,15 +92,15 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(name === "null" ? "no name" : name);
+            chartLabelsPopsByProfileDataProportion.push(name === "null" || !name ? { name: "no name", value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) } : { name, value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) });
             chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
         }
         return {
-          labels: chartLabelsPopsByProfileDataProportion,
+          labels: [...chartLabelsPopsByProfileDataProportion].sort((a, b) => b.value - a.value).map((el) => el.name),
           datasets: [{
-            data: datasetsPopsByProfileDataProportion,
+            data: [...chartLabelsPopsByProfileDataProportion].sort((a, b) => b.value - a.value).map((el) => el.value),
             backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
             ...chartOptions,
           }],
@@ -117,16 +114,12 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>
-        <div style={{ position: "absolute", left: "-40px" }} className='chart-wrapper'>
+        <div className='chart-wrapper'>
           <Doughnut
+            height={75}
+            width={150}
             ref={chart}
-            data={{
-              ...data,
-              datasets: [{
-                ...data.datasets[0],
-                data: data.datasets[0].data.filter((el, i) => i < profiles?.length),
-              }],
-            }}
+            data={data}
             legend={{ display: false }}
             options={{
               legendCallback: (chart) => {
