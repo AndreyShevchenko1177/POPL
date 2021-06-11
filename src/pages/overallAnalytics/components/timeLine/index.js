@@ -22,7 +22,7 @@ import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 import CustomSelect from "../../../../components/customSelect";
-import { filterConfig } from "./filterConfig";
+import { filterConfig, profileCountConfig } from "./filterConfig";
 import { isSafari } from "../../../../constants";
 
 function NetworkActivity({
@@ -38,6 +38,8 @@ function NetworkActivity({
   profileLevelId,
   profilesData,
   handleShowAllStat,
+  profileCountFilter,
+  setProfileCountFilter,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -56,7 +58,12 @@ function NetworkActivity({
   });
   const [openProfileSelect, setOpenProfileSelect] = useState({
     filter: { open: false, component: "" },
+    count: { open: false, component: "" },
   });
+
+  const handleChangeCountFilter = (event) => {
+    setProfileCountFilter(event.target.value);
+  };
 
   const handleChangeInputFilter = (event, val, item) => {
     console.log(val, item);
@@ -69,10 +76,23 @@ function NetworkActivity({
   };
 
   const filter = (value, name) => {
-    if (openProfileSelect[name].component === "select" && isSafari) {
-      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+    switch (name) {
+    case "filter": {
+      if (openProfileSelect[name].component === "select" && isSafari) {
+        return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+      }
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
     }
-    setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+    case "count": {
+      if (openProfileSelect[name].component === "select" && isSafari) {
+        return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
+      }
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+    }
+    default: {
+      return "unknown";
+    }
+    }
   };
 
   const handleClickLabel = (e, index) => {
@@ -227,8 +247,31 @@ function NetworkActivity({
             </span>
             <CloseIcon style={{
               cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-            }} onClick={clearFilterInput}/>
+            }} onClick={clearFilterInput} />
           </div>}
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant='contained'
+              color='primary'
+              disabled={location.state?.id}
+              style={{ whiteSpace: "nowrap" }}
+              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+              onClick={() => filter(true, "count")}
+              endIcon={<KeyboardArrowDownIcon />}
+              name='count'
+            >
+              Profile Count
+            </Button>
+            <CustomSelect
+              selectName='count'
+              config={profileCountConfig}
+              isOpen={openProfileSelect.count.open}
+              customState={{ profileCountFilter, setProfileCountFilter }}
+              events={{
+                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput, countChange: handleChangeCountFilter,
+              }}
+            />
+          </div>
           <div className={classes.buttonWrapper}>
             <Button
               variant='contained'
@@ -238,14 +281,16 @@ function NetworkActivity({
               endIcon={<KeyboardArrowDownIcon />}
               name='filter'
             >
-            Filter
+              Filter
             </Button>
             <CustomSelect
               selectName='filter'
               config={filterConfig}
               autoComleteData={profilesData}
               isOpen={openProfileSelect.filter.open}
-              events={{ handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput }}
+              events={{
+                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
+              }}
             />
           </div>
 
@@ -272,7 +317,7 @@ function NetworkActivity({
                 ? <Line
                   ref={chartRef} datasetKeyProvider={() => getId(12, "123456789")}
                   options={chartData?.options}
-                  data={ chartData?.data }
+                  data={chartData?.data}
                 />
                 : <div className={classes.noDataText}>
                   No data for this period

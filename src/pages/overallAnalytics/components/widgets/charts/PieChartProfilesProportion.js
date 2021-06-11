@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
-import { getRandomColor } from "../../../../../utils";
+import { defineDarkColor, getRandomColor } from "../../../../../utils";
 import { isSafari } from "../../../../../constants";
 
 const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => {
@@ -17,6 +17,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   const [data, setData] = useState(null);
   const [colors, setColors] = useState([]);
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
+  const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const location = useLocation();
 
@@ -47,15 +48,19 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 100%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
-                <div style='display: none; position: absolute; top: 0px ; left: -${data.labels[i]?.length * 10}px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
-                  <span>${data.labels[i]} </span>
-                </div>
+              <div style="display: flex; justify-content: space-between;    align-items: center; width: 75%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
+                <p> ${i + 1} </p>
                 <p style="background-color:
                   ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
-                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+                ${data.image[i] || (generalSettingsData && generalSettingsData[3])
+    ? `<img style="width: 25px; height: 25px" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`}?alt=media />`
+    : ` <div style="width: 25px; height: 25px; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}"> 
+
+                  </div>`
+}
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 100px; height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )
@@ -85,6 +90,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
       const datasetsPopsByProfileDataProportion = [];
       const chartLabelsPopsByProfileDataProportion = [];
       const chartBackGroundColorsPopsByProfileDataProportion = [];
+      const label = [];
       setData(() => {
         if (location.state?.id) {
           chartLabelsPopsByProfileDataProportion.push({ name: location.state?.name, value: Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0) });
@@ -97,20 +103,30 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
         }
+        profiles.forEach((el) => {
+          chartLabelsPopsByProfileDataProportion.forEach((item) => {
+            if (el.name === item.name) {
+              label.push({
+                ...item,
+                src: el.image,
+              });
+            }
+          });
+        });
         return {
-          labels: [...chartLabelsPopsByProfileDataProportion].sort((a, b) => b.value - a.value).map((el) => el.name),
+          labels: [...label].sort((a, b) => b.value - a.value).map((el) => el.name),
           datasets: [{
-            data: [...chartLabelsPopsByProfileDataProportion].sort((a, b) => b.value - a.value).map((el) => el.value),
+            data: [...label].sort((a, b) => b.value - a.value).map((el) => el.value),
             backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
             ...chartOptions,
           }],
+          image: [...label].sort((a, b) => b.value - a.value).map((el) => el.src),
         };
       });
     } else {
       setData(undefined);
     }
   }, [dohnutPopsByProfileData]);
-
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>

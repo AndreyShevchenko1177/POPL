@@ -44,6 +44,18 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
     zIndex: 10,
   },
+  countContainer: {
+    position: "absolute",
+    top: 55,
+    minWidth: 120,
+    width: 350,
+    minHeight: 60,
+    backgroundColor: "#ffffff",
+    borderRadius: theme.custom.mainBorderRadius,
+    boxShadow: theme.custom.mainBoxShadow,
+    outline: "none",
+    zIndex: 10,
+  },
   wrapper: {
     display: "flex",
     flexDirection: "column",
@@ -92,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomSelect({
-  config, events, isOpen, checkProfiles, selectName, autoComleteData, data,
+  config, events, isOpen, checkProfiles, selectName, autoComleteData, data, customState,
 }) {
   const classes = useStyles();
   const ref = useRef();
@@ -159,6 +171,8 @@ function CustomSelect({
                       label={label}
                       pseudoname={pseudoname}
                       startFilter={events.handleChange}
+                      customOnchange={events.countChange}
+                      customState={customState}
                       hideAutoComplete={() => events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }))}
                     />
                   </div>

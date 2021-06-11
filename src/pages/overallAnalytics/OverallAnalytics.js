@@ -22,6 +22,8 @@ function OverallAnalytics() {
   const classes = useStyles();
   const [options, setOption] = useState("");
   const [popsData, setPopsData] = useState(null);
+  const [popsLineData, setPopsLineData] = useState(null);
+  const [profileCountFilter, setProfileCountFilter] = useState(0);
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
   const allPopsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data,
@@ -280,7 +282,30 @@ function OverallAnalytics() {
     }
   }, [allPopsData, location]);
 
-  // console.log(popsData, chartData);
+  useEffect(() => {
+    if (profileCountFilter) {
+      const profilesDataCount = [];
+      let profileDataCopy = [...profilesData];
+      Object.keys(chartData.dohnutPopsByProfileData).forEach((el) => {
+        profilesDataCount.push({ name: el, value: Object.values(chartData.dohnutPopsByProfileData[el]).reduce((s, c) => s += c, 0) });
+      });
+      const sortDataCount = profilesDataCount.sort((a, b) => b.name - a.name);
+      const sortprofileDataCopy = profileDataCopy.sort((a, b) => b.name - a.name);
+      const result = sortprofileDataCopy.map((el, index) => ({ ...el, popsCount: sortDataCount[index].value })).sort((a, b) => b.popsCount - a.popsCount);
+      const data = {
+        poplPops: allPopsData.poplPops.filter((pop) => result.slice(0, profileCountFilter).map((el) => String(el.id)).includes(String(pop[0]))),
+        qrCodePops: [
+          ...allPopsData.qrCodePops
+            .filter((pop) => result.slice(0, profileCountFilter)
+              .map((el) => String(el.id)).includes(String(pop[0]))),
+          ...allPopsData.walletPops
+            .filter((pop) => result.slice(0, profileCountFilter)
+              .map((el) => String(el.id)).includes(String(pop[0])))],
+        allPops: allPopsData.allPops.filter((pop) => result.slice(0, profileCountFilter).map((el) => String(el.id)).includes(String(pop[0]))),
+      };
+      setPopsLineData(() => generateLineChartData(data, calendar.dateRange[0], calendar.dateRange[1]));
+    }
+  }, [profileCountFilter, calendar.dateRange]);
 
   useEffect(() => () => {
     dispatch(cleanAction());
@@ -336,7 +361,7 @@ function OverallAnalytics() {
       <div className={classes.contentRoot}>
         <div className={classes.overallAnalyticsContainer}>
           <NetworkActivity
-            data={chartData?.lineData}
+            data={!profileCountFilter ? chartData?.lineData : popsLineData}
             dataType={chartData?.dataType}
             calendar={calendar}
             setCalendar={setCalendar}
@@ -348,6 +373,8 @@ function OverallAnalytics() {
             selectOption={selectOption}
             profilesData={profilesData}
             handleShowAllStat={handleShowAllStat}
+            profileCountFilter={profileCountFilter}
+            setProfileCountFilter={setProfileCountFilter}
           />
         </div>
         <BottomWidgets

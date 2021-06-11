@@ -10,7 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import useStyles from "./styles/styles";
 
 function AutoComplete({
-  data, label, name, startFilter, hideAutoComplete, pseudoname,
+  data, label, name, startFilter, hideAutoComplete, pseudoname, customOnchange, customState,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -69,6 +69,7 @@ function AutoComplete({
 
   const clearSelectedItem = () => {
     setValue("");
+    customState?.setProfileCountFilter("");
   };
 
   const onMouseEvent = (event) => {
@@ -85,15 +86,14 @@ function AutoComplete({
       setLocalData(data);
     }
   }, [data]);
-
   return (
     <div>
       <OutlinedInput
-        value={value}
+        value={customState?.profileCountFilter || value}
         tabIndex={1}
         autoFocus
         classes={{ root: classes.outlinedInput }}
-        onChange={handleChange}
+        onChange={customOnchange || handleChange}
         onKeyDown={setSelectedItemByKey}
         placeholder={label}
         variant='outlined'
@@ -108,7 +108,7 @@ function AutoComplete({
         }
       />
       <div className={classes.listItemContainer}>
-        {localData.length ? localData.map((item, key) => (
+        {localData.length || pseudoname === "count" ? localData.map((item, key) => (
           <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
             <p data-key={key}>{item.name}</p>
           </div>

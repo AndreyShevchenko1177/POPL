@@ -15,3 +15,14 @@ export const filterConfig = [
     value: "",
   },
 ];
+
+export const profileCountConfig = [
+  {
+    id: 2,
+    label: "Enter profile count",
+    name: "profileCount",
+    pseudoname: "count",
+    type: "input",
+    value: "",
+  },
+];

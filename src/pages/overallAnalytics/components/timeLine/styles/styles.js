@@ -119,6 +119,7 @@ export default makeStyles((theme) => ({
   },
   buttonWrapper: {
     position: "relative",
+    marginLeft: 20,
     "-webkit-box-shadow": theme.custom.mainBoxShadow,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderRadius,
