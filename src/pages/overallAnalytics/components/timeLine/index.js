@@ -276,7 +276,7 @@ function NetworkActivity({
               endIcon={<KeyboardArrowDownIcon />}
               name='count'
             >
-              Profile Count
+              Accounts number
             </Button>
             <CustomSelect
               selectName='count'
