@@ -58,7 +58,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
                 </div>
                 <div style="width: 50px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
-    ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`}?alt=media />`
+    ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}`}?alt=media />`
     : ` <div style="width: 25px; height: 25px; border-radius: 50%; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}">  </div>`
 
 }                  

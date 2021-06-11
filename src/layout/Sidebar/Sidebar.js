@@ -305,6 +305,7 @@ function PermanentDrawerLeft() {
             })}
             button
             onClick={() => {
+              if (location.pathname === "/analytics") return;
               handleCollapseClick("analyticsOpen");
               highlightList("analytics");
               dispatch(cleanAction());
