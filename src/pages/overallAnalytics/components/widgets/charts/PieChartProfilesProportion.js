@@ -48,19 +48,22 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; justify-content: space-between; align-items: center; width: 75%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
-                <p> ${i + 1} </p>
+              <div style="display: flex; align-items: center; width: 100%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
+                <p style="width: 30px"> ${i + 1} </p>
+                <div style="width: 45px">
                 <p style="background-color:
-                  ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
+                  ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
+                </div>
+                <div style="width: 50px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
     ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`}?alt=media />`
-    : ` <div style="width: 25px; height: 25px; border-radius: 50%; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}"> 
+    : ` <div style="width: 25px; height: 25px; border-radius: 50%; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}">  </div>`
 
-                  </div>`
-}
-                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 100px; height: ${isSafari ? "20px" : "100%"} ;margin-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+}                  
+                </div>
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 300px; height: ${isSafari ? "20px" : "100%"} ; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
               </div>
         `,
       )
@@ -130,21 +133,23 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>
-        <div className='chart-wrapper'>
-          <Doughnut
-            height={75}
-            width={150}
-            ref={chart}
-            data={data}
-            legend={{ display: false }}
-            options={{
-              legendCallback: (chart) => {
-                const html = renderLabels(chart);
-                return html;
-              },
-              responsive: true,
-            }}
-          />
+        <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>
+          <div className='chart-wrapper' >
+            <Doughnut
+              height={75}
+              width={150}
+              ref={chart}
+              data={data}
+              legend={{ display: false }}
+              options={{
+                legendCallback: (chart) => {
+                  const html = renderLabels(chart);
+                  return html;
+                },
+                responsive: true,
+              }}
+            />
+          </div>
         </div>
         <div id={`legend${index}`} />
       </div>
