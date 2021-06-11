@@ -48,15 +48,15 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; justify-content: space-between;    align-items: center; width: 75%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
+              <div style="display: flex; justify-content: space-between; align-items: center; width: 75%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
                 <p> ${i + 1} </p>
                 <p style="background-color:
                   ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px; padding-right: 5px;">
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
-    ? `<img style="width: 25px; height: 25px" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`}?alt=media />`
-    : ` <div style="width: 25px; height: 25px; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}"> 
+    ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`}?alt=media />`
+    : ` <div style="width: 25px; height: 25px; border-radius: 50%; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}"> 
 
                   </div>`
 }
@@ -149,7 +149,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
         <div id={`legend${index}`} />
       </div>
       : <div className={classes.noDataText}>
-          No data for this period
+        No data for this period
       </div>)
     : <Loader
       containerStyles={{
