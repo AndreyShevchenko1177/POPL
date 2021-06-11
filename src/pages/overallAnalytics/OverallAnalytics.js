@@ -24,7 +24,7 @@ function OverallAnalytics() {
   const [popsData, setPopsData] = useState(null);
   const [popsLineData, setPopsLineData] = useState(null);
   const [profileCountFilter, setProfileCountFilter] = useState({
-    changeByTap: 0, changeByKey: 0,
+    changeByTap: "", changeByKey: "",
   });
   const { id: userId, name } = useSelector(({ authReducer }) => authReducer.signIn.data);
   const allPopsData = useSelector(

@@ -10,7 +10,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import useStyles from "./styles/styles";
 
 function AutoComplete({
-  data, label, name, startFilter, hideAutoComplete, pseudoname, customOnchange, customState,
+  data, label, startFilter, hideAutoComplete, pseudoname, customOnchange, customState,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -20,6 +20,7 @@ function AutoComplete({
   const [localData, setLocalData] = useState([]);
 
   const handleChange = (event) => {
+    console.log(customState);
     setValue(event.target.value);
     if (!event.target.value) {
       setLocalData(data);
@@ -49,6 +50,9 @@ function AutoComplete({
 
   const setSelectedItem = (event, selectedValue, item) => {
     selectItem(event, selectedValue, item);
+    customState?.setProfileCountFilter({
+      changeByTap: "", changeByKey: "",
+    });
   };
 
   const setSelectedItemByKey = (event) => {
@@ -73,7 +77,7 @@ function AutoComplete({
   const clearSelectedItem = () => {
     setValue("");
     customState?.setProfileCountFilter({
-      changeByTap: 0, changeByKey: 0,
+      changeByTap: "", changeByKey: "",
     });
   };
 
@@ -93,8 +97,9 @@ function AutoComplete({
   }, [data]);
   return (
     <div>
+      {console.log(customState?.profileCountFilter?.changeByTap)}
       <OutlinedInput
-        value={customState?.profileCountFilter?.changeByTap || value}
+        value={pseudoname === "count" ? customState?.profileCountFilter?.changeByTap : value}
         tabIndex={1}
         autoFocus
         classes={{ root: classes.outlinedInput }}

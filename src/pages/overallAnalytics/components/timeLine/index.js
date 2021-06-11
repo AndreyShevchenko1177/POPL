@@ -138,7 +138,7 @@ function NetworkActivity({
 
   useEffect(() => {
     if (!openProfileSelect.count.open && !profileCountFilter.changeByTap) {
-      setProfileCountFilter({ changeByTap: 0, changeByKey: 0 });
+      setProfileCountFilter({ changeByTap: "", changeByKey: "" });
     }
   }, [openProfileSelect.count.open]);
 
@@ -254,7 +254,7 @@ function NetworkActivity({
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => setProfileCountFilter({ changeByTap: 0, changeByKey: 0 })} />
+              }} onClick={() => setProfileCountFilter({ changeByTap: "", changeByKey: "" })} />
             </div>
           }
           {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
@@ -304,6 +304,7 @@ function NetworkActivity({
               config={filterConfig}
               autoComleteData={profilesData}
               isOpen={openProfileSelect.filter.open}
+              customState={{ profileCountFilter, setProfileCountFilter }}
               events={{
                 handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
               }}
