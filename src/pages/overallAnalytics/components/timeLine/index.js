@@ -62,7 +62,7 @@ function NetworkActivity({
   });
 
   const handleChangeCountFilter = (event) => {
-    setProfileCountFilter(event.target.value);
+    setProfileCountFilter((pc) => ({ ...pc, changeByTap: event.target.value }));
   };
 
   const handleChangeInputFilter = (event, val, item) => {
@@ -135,6 +135,12 @@ function NetworkActivity({
     </div>
     `).join("");
   };
+
+  useEffect(() => {
+    if (!openProfileSelect.count.open && !profileCountFilter.changeByTap) {
+      setProfileCountFilter({ changeByTap: 0, changeByKey: 0 });
+    }
+  }, [openProfileSelect.count.open]);
 
   useEffect(() => {
     if (data) {
@@ -241,6 +247,16 @@ function NetworkActivity({
           </Typography>
         </div>
         <div className={classes.filterContainer}>
+          { !!profileCountFilter.changeByKey
+            && <div className={clsx(classes.filterText, "overallanalytics-page")}>
+              <span style={{ whiteSpace: "nowrap" }}>
+                <i>{profileCountFilter.changeByKey > 1 ? `${profileCountFilter.changeByKey} accounts` : `${profileCountFilter.changeByKey} account`}</i>
+              </span>
+              <CloseIcon style={{
+                cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+              }} onClick={() => setProfileCountFilter({ changeByTap: 0, changeByKey: 0 })} />
+            </div>
+          }
           {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
             <span style={{ whiteSpace: "nowrap" }}>
               <i>{location.state?.profilesData?.name || location.state?.name}</i>
@@ -253,7 +269,7 @@ function NetworkActivity({
             <Button
               variant='contained'
               color='primary'
-              disabled={location.state?.id}
+              disabled={!!location.state?.id}
               style={{ whiteSpace: "nowrap" }}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => filter(true, "count")}

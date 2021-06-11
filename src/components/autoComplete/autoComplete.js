@@ -61,6 +61,9 @@ function AutoComplete({
       setActiveItem({ value: activeItem.value - 1, event: "key" });
     }
     if (event.key === "Enter") {
+      if (pseudoname === "count") {
+        customState?.setProfileCountFilter((pc) => ({ ...pc, changeByKey: event.target.value }));
+      }
       if (!itemRef.current) return;
       const selectedItem = data.find((item) => item.name === itemRef.current.dataset.name);
       selectItem(event, selectedItem.name, selectedItem);
@@ -69,7 +72,9 @@ function AutoComplete({
 
   const clearSelectedItem = () => {
     setValue("");
-    customState?.setProfileCountFilter("");
+    customState?.setProfileCountFilter({
+      changeByTap: 0, changeByKey: 0,
+    });
   };
 
   const onMouseEvent = (event) => {
@@ -89,7 +94,7 @@ function AutoComplete({
   return (
     <div>
       <OutlinedInput
-        value={customState?.profileCountFilter || value}
+        value={customState?.profileCountFilter?.changeByTap || value}
         tabIndex={1}
         autoFocus
         classes={{ root: classes.outlinedInput }}
@@ -99,6 +104,7 @@ function AutoComplete({
         variant='outlined'
         size="small"
         fullWidth
+        type={pseudoname === "count" ? "number" : "text"}
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="clear" size="small" onClick={clearSelectedItem}>
