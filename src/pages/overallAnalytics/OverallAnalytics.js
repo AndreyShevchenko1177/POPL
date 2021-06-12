@@ -298,6 +298,7 @@ function OverallAnalytics() {
         dohnutPopsData: true,
         dohnutPopsByProfileData: true,
       });
+      console.log("SWITCH");
       workerInstance.generateAllData(JSON.stringify({ popsData, isSafari })).then((result) => {
         const { data, maxDate, minDate } = JSON.parse(result);
         let minD;
@@ -356,7 +357,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true,
+        popsData, isPopsData: true, minDate: null, maxDate: null, isAllData: true,
       })).then((dohnutPopsData) => {
         setChartData((prev) => ({
           ...prev,
@@ -474,6 +475,7 @@ function OverallAnalytics() {
   }, [allPopsData, location]);
 
   useEffect(() => {
+    console.log("USEEFFECT");
     if (profileCountFilter && profilesData && chartData.dohnutPopsByProfileData) {
       const profilesDataCount = [];
       let profileDataCopy = [...profilesData];
@@ -567,7 +569,7 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
 
-      workerInstance.generateDohnutChartData(JSON.stringify({ popsData }))
+      workerInstance.generateDohnutChartData(JSON.stringify({ popsData, isPopsData: false }))
         .then((dohnutDirectData) => {
           setChartData((prev) => ({
             ...prev,

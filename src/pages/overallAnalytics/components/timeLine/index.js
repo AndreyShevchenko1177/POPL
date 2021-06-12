@@ -275,7 +275,7 @@ function NetworkActivity({
               endIcon={<KeyboardArrowDownIcon />}
               name='count'
             >
-              Accounts number
+              Number of top accounts
             </Button>
             <CustomSelect
               selectName='count'
@@ -391,7 +391,10 @@ function NetworkActivity({
 }
 
 const shallow = (prevProps, nextProps) => {
-  if (prevProps.data === nextProps.data) {
+  if (prevProps.data !== nextProps.data) {
+    return true;
+  }
+  if (prevProps.isChartsDataCalculating !== nextProps.isChartsDataCalculating) {
     return true;
   }
   return false;
