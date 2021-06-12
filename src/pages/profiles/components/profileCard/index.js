@@ -335,7 +335,7 @@ export default function Card({
                       ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + values.image}?alt=media`
                       : generalSettingsData && generalSettingsData[3]
                         ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
-                        : {
+                        : { // using in case when user don't have company color and image, but our logic build so, that we setting default color to white if user don't have any
                           name: "userIcon",
                           fill: generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000",
                           width: 80,

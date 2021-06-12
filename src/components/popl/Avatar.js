@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Avatar({
-  src, name, styles, bgColor, svg,
+  src, name, styles, bgColor,
 }) {
   const classes = useStyles();
 
@@ -29,6 +29,7 @@ export default function Avatar({
     top: 0,
     left: 0,
     zIndex: 1,
+    boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
   };
   return (
     <div
@@ -44,6 +45,7 @@ export default function Avatar({
             style={imageStyles}
           />
           : <div style={imageStyles}>
+            {/* bgColor is company image color. when it's absent, we showing user icon */}
             {!bgColor && <SvgMaker name={src.name} fill={src.fill} width={src.width} height={src.height} />}
           </div>
       }
