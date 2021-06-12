@@ -4,9 +4,9 @@ import React, {
 import { Doughnut } from "react-chartjs-2";
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
-import labels, { chartOptions, dohnutBackgroundColor, dohnutLabels } from "../chartConfig";
+import { chartOptions, dohnutBackgroundColor, dohnutLabels } from "../chartConfig";
 
-const PieChartDirectOnOff = memo(({ dohnutDirectData, index }) => {
+const PieChartDirectOnOff = memo(({ dohnutDirectData, index, isChartsDataCalculating }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -99,7 +99,7 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index }) => {
     }
   }, [dohnutDirectData]);
 
-  return data
+  return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
         <div className='chart-wrapper'>

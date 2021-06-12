@@ -11,7 +11,7 @@ import Loader from "../../../../../components/Loader";
 import { defineDarkColor, getRandomColor } from "../../../../../utils";
 import { isSafari } from "../../../../../constants";
 
-const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => {
+const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isChartsDataCalculating }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -130,7 +130,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index }) => 
       setData(undefined);
     }
   }, [dohnutPopsByProfileData]);
-  return data
+  return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>
         <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>

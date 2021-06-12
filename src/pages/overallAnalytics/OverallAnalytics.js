@@ -9,7 +9,7 @@ import {
   cleanAction, mainAnalyticsAction,
 } from "./store/actions";
 import {
-  generateLineChartData, generateDohnutPopsByProfileData, generateDohnutChartData, getYear, getMonth, getDay, monthsFullName, generateAllData, filterPops,
+  getYear, getMonth, getDay, monthsFullName,
 } from "../../utils";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -52,6 +52,13 @@ function OverallAnalytics() {
     normalData: [currentDate1, currentDate2],
   });
 
+  const [isChartsDataCalculating, setIsChartDataCalculating] = useState({ // when data recalculating locally running preloader
+    lineChart: false,
+    dohnutDirectData: false,
+    dohnutPopsData: false,
+    dohnutPopsByProfileData: false,
+  });
+
   const setDate = (minDate, maxDate) => {
     setOption("");
     let minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
@@ -71,16 +78,63 @@ function OverallAnalytics() {
       minDate = new Date(currentDate2);
       minD = currentDate2;
     }
-    if (maxDateMilis < minDateMilis) {
-      setChartData({
-        ...chartData,
-        lineData: generateLineChartData(popsData, maxDate, minDate),
-        dataType: "",
-        dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate),
-        dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
-        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate),
+    if (maxDateMilis < minDateMilis) { // from this condition depends order of maxDate and minDate parameters in generateDohnutChartData function
+      let workerInstance = worker();
 
+      // running preloaser for charts
+      setIsChartDataCalculating({
+        lineChart: true,
+        dohnutDirectData: true,
+        dohnutPopsData: true,
+        dohnutPopsByProfileData: true,
       });
+
+      workerInstance.generateDohnutChartData(JSON.stringify({
+        popsData, isPopsData: false, minDate, maxDate,
+      })).then((dohnutDirectData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutDirectData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutDirectData: false }));
+      });
+
+      workerInstance.generateLineChartData(JSON.stringify({
+        popsData, maxDate, minDate,
+      })).then((lineData) => {
+        setChartData((prev) => ({
+          ...prev,
+          lineData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+      });
+
+      workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
+        profileData: profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate,
+      })).then((dohnutPopsByProfileData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dohnutPopsByProfileData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsByProfileData: false }));
+      });
+
+      workerInstance.generateDohnutChartData(JSON.stringify({
+        popsData, isPopsData: true, minDate, maxDate,
+      })).then((dohnutPopsData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutPopsData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
+      });
+
       return setCalendar({
         ...calendar,
         dateRange: [maxDate, minDate],
@@ -88,37 +142,126 @@ function OverallAnalytics() {
         visible: false,
       });
     }
-    // console.log({
-    //   minDate, maxDate, minD, maxD,
-    // }, "set date function, component - overallanalytics");
+
     setCalendar({
       ...calendar,
       dateRange: [minDate, maxDate],
       normalData: [minD, maxD],
       visible: false,
     });
-    setChartData({
-      ...chartData,
-      lineData: generateLineChartData(popsData, minDate, maxDate),
-      dataType: "",
-      dohnutPopsData: generateDohnutChartData(popsData, true, minDate, maxDate),
-      dohnutDirectData: generateDohnutChartData(popsData, false, minDate, maxDate),
-      dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate),
+
+    let workerInstance = worker();
+
+    // running preloaser for charts
+    setIsChartDataCalculating({
+      lineChart: true,
+      dohnutDirectData: true,
+      dohnutPopsData: true,
+      dohnutPopsByProfileData: true,
+    });
+
+    workerInstance.generateDohnutChartData(JSON.stringify({
+      popsData, isPopsData: false, minDate, maxDate,
+    })).then((dohnutDirectData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dataType: "",
+        dohnutDirectData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutDirectData: false }));
+    });
+
+    workerInstance.generateLineChartData(JSON.stringify({
+      popsData, maxDate, minDate,
+    })).then((lineData) => {
+      setChartData((prev) => ({
+        ...prev,
+        lineData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+    });
+
+    workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
+      profileData: profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate, maxDate,
+    })).then((dohnutPopsByProfileData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dohnutPopsByProfileData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsByProfileData: false }));
+    });
+
+    workerInstance.generateDohnutChartData(JSON.stringify({
+      popsData, isPopsData: true, minDate, maxDate,
+    })).then((dohnutPopsData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dataType: "",
+        dohnutPopsData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
     });
   };
 
   const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
-    // console.log({
-    //   dateFromRange, dateFrom, dateTo, maxD, minD,
-    // }, "generate data, component - overallanalytics");
-    setChartData({
-      ...chartData,
-      lineData: generateLineChartData(popsData, dateFrom, dateTo),
-      dataType: "",
-      dohnutPopsData: generateDohnutChartData(popsData, true, dateFrom, dateTo),
-      dohnutDirectData: generateDohnutChartData(popsData, false, dateFrom, dateTo),
-      dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, dateFrom, dateTo),
+    let workerInstance = worker();
 
+    // running preloaser for charts
+    setIsChartDataCalculating({
+      lineChart: true,
+      dohnutDirectData: true,
+      dohnutPopsData: true,
+      dohnutPopsByProfileData: true,
+    });
+
+    workerInstance.generateDohnutChartData(JSON.stringify({
+      popsData, isPopsData: false, minDate: dateFrom, maxDate: dateTo,
+    })).then((dohnutDirectData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dataType: "",
+        dohnutDirectData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutDirectData: false }));
+    });
+
+    workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
+      profileData: profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate: dateFrom, maxDate: dateTo,
+    })).then((dohnutPopsByProfileData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dohnutPopsByProfileData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsByProfileData: false }));
+    });
+
+    workerInstance.generateLineChartData(JSON.stringify({
+      popsData, minDate: dateFrom, maxDate: dateTo,
+    })).then((lineData) => {
+      setChartData((prev) => ({
+        ...prev,
+        lineData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+    });
+
+    workerInstance.generateDohnutChartData(JSON.stringify({
+      popsData, isPopsData: true, minDate: dateFrom, maxDate: dateTo,
+    })).then((dohnutPopsData) => {
+      setChartData((prev) => ({
+        ...prev,
+        dataType: "",
+        dohnutPopsData,
+      }));
+      // stopping preloader
+      setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
     });
     return setCalendar({
       ...calendar,
@@ -144,41 +287,87 @@ function OverallAnalytics() {
   const selectOption = (event) => {
     setOption(event.target.value);
     setCalendar({ ...calendar, visible: false });
+    let workerInstance = worker();
+
     switch (event.target.value) {
     case "all time": {
-      const { data, maxDate, minDate } = generateAllData(popsData);
-      let minD;
-      let maxD;
-      if (isSafari) {
-        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
-          maxDate,
-        )}, ${getYear(maxDate)}-`;
-        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
-          minDate,
-        )}, ${getYear(minDate)}`;
-      } else {
-        minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
-          maxDate,
-        )}, ${getYear(maxDate)}-`;
-        maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
-          minDate,
-        )}, ${getYear(minDate)}`;
-      }
+      // running preloaser for charts
+      setIsChartDataCalculating({
+        lineChart: true,
+        dohnutDirectData: true,
+        dohnutPopsData: true,
+        dohnutPopsByProfileData: true,
+      });
+      workerInstance.generateAllData(JSON.stringify({ popsData, isSafari })).then((result) => {
+        const { data, maxDate, minDate } = JSON.parse(result);
+        let minD;
+        let maxD;
+        if (isSafari) {
+          minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+            maxDate,
+          )}, ${getYear(maxDate)}-`;
+          maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+            minDate,
+          )}, ${getYear(minDate)}`;
+        } else {
+          minD = `${monthsFullName[getMonth(maxDate)]} ${getDay(
+            maxDate,
+          )}, ${getYear(maxDate)}-`;
+          maxD = `${monthsFullName[getMonth(minDate)]} ${getDay(
+            minDate,
+          )}, ${getYear(minDate)}`;
+        }
 
-      setChartData({
-        ...chartData,
-        lineData: data,
-        dohnutPopsData: generateDohnutChartData(popsData, true, null, null, true),
-        dohnutDirectData: generateDohnutChartData(popsData, false, null, null, true),
-        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData, null, null, true),
-        dataType: "allData",
+        setChartData((prev) => ({
+          ...prev,
+          lineData: data,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+        setCalendar({
+          ...calendar,
+          dateRange: [new Date(maxDate), new Date(minDate)],
+          normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
+          visible: false,
+        });
       });
-      return setCalendar({
-        ...calendar,
-        dateRange: [maxDate, minDate],
-        normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
-        visible: false,
+
+      workerInstance.generateDohnutChartData(JSON.stringify({
+        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true,
+      })).then((dohnutDirectData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutDirectData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutDirectData: false }));
       });
+
+      workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
+        profileData: profilesData.map(({ id, name }) => ({ id, name })), popsData, minDate: null, maxDate: null, isAllData: true,
+      })).then((dohnutPopsByProfileData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dohnutPopsByProfileData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsByProfileData: false }));
+      });
+
+      workerInstance.generateDohnutChartData(JSON.stringify({
+        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true,
+      })).then((dohnutPopsData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutPopsData,
+        }));
+        // stopping preloader
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
+      });
+
+      return;
     }
     case "last 7 days": {
       const dateTo = moment().toDate();
@@ -305,7 +494,16 @@ function OverallAnalytics() {
               .map((el) => String(el.id)).includes(String(pop[0])))],
         allPops: allPopsData.allPops.filter((pop) => result.slice(0, profileCountFilter.changeByKey).map((el) => String(el.id)).includes(String(pop[0]))),
       };
-      setPopsLineData(() => generateLineChartData(data, calendar.dateRange[0], calendar.dateRange[1]));
+      let workerInstance = worker();
+      // running preloaser for charts
+      setIsChartDataCalculating((prev) => ({ ...prev, lineChart: true }));
+      workerInstance.generateLineChartData(JSON.stringify({
+        popsData: data, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1],
+      })).then((lineData) => {
+        setPopsLineData(lineData);
+        // stopping preloaser for charts
+        setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+      });
     }
   }, [profileCountFilter.changeByKey, calendar.dateRange, profilesData, chartData.dohnutPopsByProfileData]);
 
@@ -325,12 +523,60 @@ function OverallAnalytics() {
         setSaveSelected(false);
         return selectOption({ target: { value: options } });
       }
-      setChartData({
-        lineData: generateLineChartData(popsData),
-        dohnutPopsData: generateDohnutChartData(popsData, true),
-        dohnutDirectData: generateDohnutChartData(popsData),
-        dohnutPopsByProfileData: generateDohnutPopsByProfileData(profilesData.map(({ id, name }) => ({ id, name })), popsData),
+      let workerInstance = worker();
+
+      // running preloaser for charts
+      setIsChartDataCalculating({
+        lineChart: true,
+        dohnutDirectData: true,
+        dohnutPopsData: true,
+        dohnutPopsByProfileData: true,
       });
+
+      workerInstance.generateDohnutChartData(JSON.stringify({
+        popsData, isPopsData: true,
+      })).then((dohnutPopsData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutPopsData,
+        }));
+        // stopping preloaser for charts
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
+      });
+
+      workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
+        profileData: profilesData.map(({ id, name }) => ({ id, name })), popsData,
+      })).then((dohnutPopsByProfileData) => {
+        setChartData((prev) => ({
+          ...prev,
+          dohnutPopsByProfileData,
+        }));
+        // stopping preloaser for charts
+        setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsByProfileData: false }));
+      });
+
+      workerInstance.generateLineChartData(JSON.stringify({
+        popsData,
+      })).then((lineData) => {
+        setChartData((prev) => ({
+          ...prev,
+          lineData,
+        }));
+        // stopping preloaser for charts
+        setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
+      });
+
+      workerInstance.generateDohnutChartData(JSON.stringify({ popsData }))
+        .then((dohnutDirectData) => {
+          setChartData((prev) => ({
+            ...prev,
+            dataType: "",
+            dohnutDirectData,
+          }));
+          // stopping preloaser for charts
+          setIsChartDataCalculating((prev) => ({ ...prev, dohnutDirectData: false }));
+        });
     } else if (chartData.lineData) {
       setChartData({
         dohnutDirectData: null,
@@ -377,6 +623,7 @@ function OverallAnalytics() {
             handleShowAllStat={handleShowAllStat}
             profileCountFilter={profileCountFilter}
             setProfileCountFilter={setProfileCountFilter}
+            isChartsDataCalculating={isChartsDataCalculating.lineChart}
           />
         </div>
         <BottomWidgets
@@ -386,6 +633,7 @@ function OverallAnalytics() {
           dohnutDirectData={chartData?.dohnutDirectData}
           dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
           profilesData={profilesData}
+          isChartsDataCalculating={isChartsDataCalculating}
         />
       </div>
 

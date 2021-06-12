@@ -6,7 +6,7 @@ import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
 import labels, { backgroundColor, chartOptions } from "../chartConfig";
 
-const PieChartPopsDataProportion = memo(({ dohnutPopsData, index }) => {
+const PieChartPopsDataProportion = memo(({ dohnutPopsData, index, isChartsDataCalculating }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
@@ -93,7 +93,7 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index }) => {
     }
   }, [dohnutPopsData]);
 
-  return data
+  return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
         <div className='chart-wrapper'>

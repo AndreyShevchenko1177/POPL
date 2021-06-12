@@ -40,16 +40,15 @@ function NetworkActivity({
   handleShowAllStat,
   profileCountFilter,
   setProfileCountFilter,
+  isChartsDataCalculating,
 }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const chartRef = useRef();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
-  // const views = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
@@ -325,7 +324,7 @@ function NetworkActivity({
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__line"]}>
           <div id='lineChart' ></div>
-          {chartData === undefined
+          {chartData === undefined || isChartsDataCalculating
             ? <Loader
               styles={{ position: "absolute", top: "50%", left: "50%" }}
             />

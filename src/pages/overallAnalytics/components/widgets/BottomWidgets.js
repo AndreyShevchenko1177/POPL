@@ -12,7 +12,7 @@ import TopListViewedProfiles from "./topStatWidgets/TopListViewedViews";
 import TopListPoppedPopls from "./topStatWidgets/TopListTopPoppedPopls";
 
 const BottomWidgets = memo(({
-  dohnutPopsData, dohnutDirectData, dohnutPopsByProfileData, calendar, profilesData,
+  dohnutPopsData, dohnutDirectData, dohnutPopsByProfileData, calendar, profilesData, isChartsDataCalculating,
 }) => {
   const classes = useStyles();
   const location = useLocation();
@@ -27,7 +27,7 @@ const BottomWidgets = memo(({
           isChart
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
           heading='Pops by profile'>
-          <PieChartProfilesProportion dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
+          <PieChartProfilesProportion isChartsDataCalculating={isChartsDataCalculating.dohnutPopsByProfileData} dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
       </div>
       <div className={classes.twoWidgetsWrapper}>
@@ -35,13 +35,13 @@ const BottomWidgets = memo(({
           isChart
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
           heading='Pops proportion'>
-          <PieChartPopsDataProportion dohnutPopsData={dohnutPopsData} index={1} />
+          <PieChartPopsDataProportion isChartsDataCalculating={isChartsDataCalculating.dohnutPopsData} dohnutPopsData={dohnutPopsData} index={1} />
         </WidgetsContainer>
         <WidgetsContainer
           isChart
           layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
           heading='Direct on/off proportion'>
-          <PieChartDirectOnOff dohnutDirectData={dohnutDirectData} index={2} />
+          <PieChartDirectOnOff isChartsDataCalculating={isChartsDataCalculating.dohnutDirectData} dohnutDirectData={dohnutDirectData} index={2} />
         </WidgetsContainer>
 
       </div>
