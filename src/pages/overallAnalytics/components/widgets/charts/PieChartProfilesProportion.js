@@ -130,6 +130,8 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
       setData(undefined);
     }
   }, [dohnutPopsByProfileData]);
+
+  console.log("profiles proportion");
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>

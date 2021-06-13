@@ -298,7 +298,6 @@ function OverallAnalytics() {
         dohnutPopsData: true,
         dohnutPopsByProfileData: true,
       });
-      console.log("SWITCH");
       workerInstance.generateAllData(JSON.stringify({ popsData, isSafari })).then((result) => {
         const { data, maxDate, minDate } = JSON.parse(result);
         let minD;
@@ -475,7 +474,6 @@ function OverallAnalytics() {
   }, [allPopsData, location]);
 
   useEffect(() => {
-    console.log("USEEFFECT");
     if (profileCountFilter && profilesData && chartData.dohnutPopsByProfileData && profileCountFilter.changeByKey) {
       const profilesDataCount = [];
       let profileDataCopy = [...profilesData];

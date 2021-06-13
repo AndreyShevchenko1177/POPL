@@ -17,8 +17,6 @@ const BottomWidgets = memo(({
   const classes = useStyles();
   const location = useLocation();
 
-  console.log("bottom render");
-
   return (
     <div className={classes.bottomWidgetsRoot}>
       <div className={classes.twoWidgetsWrapper}>

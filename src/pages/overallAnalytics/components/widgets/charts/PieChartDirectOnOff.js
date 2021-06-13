@@ -78,7 +78,6 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index, isChartsDataCalcula
         };
         Object.keys(dohnutDirectData).forEach((popName) => {
           Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
-          // console.log(Object.values(dohnutData[popName]).reduce((sum, { directOn = 0, directOff = 0 }) => ({ ...sum, directOn: sum.directOn + directOn, directOff: sum.directOff + directOff }), { directOff: 0, directOn: 0 }));
         });
         Object.keys({ ...allData }).forEach((item) => {
           chartLabelsDirectOnOff.push(dohnutLabels[item]);
@@ -98,6 +97,8 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index, isChartsDataCalcula
       setData(undefined);
     }
   }, [dohnutDirectData]);
+
+  console.log("direct on off");
 
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)

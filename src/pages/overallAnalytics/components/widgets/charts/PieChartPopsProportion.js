@@ -93,6 +93,8 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index, isChartsDataCa
     }
   }, [dohnutPopsData]);
 
+  console.log("pops proportion");
+
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
