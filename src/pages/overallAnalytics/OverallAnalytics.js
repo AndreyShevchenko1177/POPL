@@ -476,7 +476,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     console.log("USEEFFECT");
-    if (profileCountFilter && profilesData && chartData.dohnutPopsByProfileData) {
+    if (profileCountFilter && profilesData && chartData.dohnutPopsByProfileData && profileCountFilter.changeByKey) {
       const profilesDataCount = [];
       let profileDataCopy = [...profilesData];
       Object.keys(chartData.dohnutPopsByProfileData).forEach((el) => {
