@@ -1,15 +1,15 @@
 export const selectConfig = [
   {
-    id: 1,
-    label: "Make Business",
-    name: "makeBusiness",
+    id: 7,
+    label: "Add link",
+    name: "addLink",
     type: "button",
     checked: false,
   },
   {
-    id: 2,
-    label: "Make Personal",
-    name: "makePersonal",
+    id: 8,
+    label: "Download QR code",
+    name: "qrCode",
     type: "button",
     checked: false,
   },
@@ -28,9 +28,16 @@ export const selectConfig = [
     checked: false,
   },
   {
-    id: 5,
-    label: "Turn Account on",
-    name: "turnProfileOn",
+    id: 1,
+    label: "Make Business",
+    name: "makeBusiness",
+    type: "button",
+    checked: false,
+  },
+  {
+    id: 2,
+    label: "Make Personal",
+    name: "makePersonal",
     type: "button",
     checked: false,
   },
@@ -42,12 +49,13 @@ export const selectConfig = [
     checked: false,
   },
   {
-    id: 7,
-    label: "Add link",
-    name: "addLink",
+    id: 5,
+    label: "Turn Account on",
+    name: "turnProfileOn",
     type: "button",
     checked: false,
   },
+
 ];
 
 export const sortConfig = [

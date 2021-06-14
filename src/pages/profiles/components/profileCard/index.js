@@ -31,7 +31,8 @@ import addLinkIcon from "../../../../assets/add.png";
 import proIcon from "../../../../assets/images/pro_icon.png";
 import verifiedIcon from "../../../../assets/images/verified.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
-import { defineDarkColor, restrictEdit } from "../../../../utils";
+import qrcodeIcon from "../../../../assets/qrcode.jpg";
+import { restrictEdit } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 
 function removeBioExtraBreakLines(bio) {
@@ -71,6 +72,7 @@ export default function Card({
   verified,
   nameBusiness,
   imageBusiness,
+  setQrCodesModal,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -155,6 +157,10 @@ export default function Card({
   const editIconHandler = () => {
     setProfileType((pt) => ({ ...pt, [id]: activeProfile }));
     setShowEditIcon(!showEditIcon);
+  };
+
+  const qrcodeHandler = () => {
+    setQrCodesModal((qcm) => ({ open: !qcm.open, profile: { id, url } }));
   };
 
   const changeIconSize = (event, size) => {
@@ -311,6 +317,18 @@ export default function Card({
               className={classes.proLogo}
               src={proIcon}
             />}
+            <div
+              className={classes.section1_qrcodeIcon}
+              onClick={qrcodeHandler}
+              onMouseUp={(event) => changeIconSize(event, 1)}
+              onMouseDown={(event) => changeIconSize(event, 0.7)}
+            >
+              <img
+                style={{ width: 25, height: 25, cursor: "pointer" }}
+                alt='qrcode'
+                src={qrcodeIcon}
+              />
+            </div>
             <div
               className={classes.section1_editIcon}
               onClick={editIconHandler}

@@ -1,6 +1,7 @@
 /* eslint-disable no-return-assign */
 import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import QRCode from "qrcode.react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
@@ -18,6 +19,7 @@ import CustomWizard from "../../components/wizard";
 import EditLinkModal from "./components/editLink";
 import { snackBarAction, handleMainPageScrollAction } from "../../store/actions";
 import { isSafari } from "../../constants";
+import QrCodeModal from "./components/QrCodeModal";
 
 const parentContainerStyle = {
   display: "flex",
@@ -56,6 +58,11 @@ export default function Profiles() {
   const [editLinkModal, setEditLinkModal] = useState({ open: false, data: {} });
   const [profileType, setProfileType] = useState({}); // person or business;
   const [currentEditedProfile, setCurrentEditedProfile] = useState(0); // for handling what profile card currently editing
+  const [qrCodes, setQrCodes] = useState({});
+  const [qrCodesModal, setQrCodesModal] = useState({
+    open: false,
+    profile: {},
+  });
 
   function handleOpenNewProfilePage() {
     history.push("/accounts/add-account");
@@ -160,6 +167,16 @@ export default function Profiles() {
   const selectBtn = (name, profileIds, selectName) => {
     if (Object.values(checkboxes).map((el) => el.checked).includes(true)) {
       setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
+      if (name === "qrCode") {
+        const selectedProfiles = profiles.filter((prof) => profileIds.includes(prof.id));
+        return setQrCodes({
+          codes: selectedProfiles.map((el) => ({
+            Component: (props) => <QRCode {...props} />,
+            data: el,
+          })),
+          profileIds,
+        });
+      }
       if (name === "addLink") {
         const filterProfiles = profiles.filter((el) => checkboxes[el.customId].checked);
         return setWizard({ data: filterProfiles, open: !!filterProfiles.length });
@@ -271,11 +288,30 @@ export default function Profiles() {
     dispatch(handleMainPageScrollAction(true));
   }, [editLinkModal.open]);
 
+  useEffect(() => {
+    if (qrCodes.profileIds) {
+      qrCodes.profileIds.forEach((id) => {
+        const canvas = document.getElementById(id);
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        let downloadLink = document.createElement("a");
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${id}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      });
+    }
+  }, [qrCodes.codes]);
+
   return (
     <>
       <Header
         rootLink="Accounts"
       />
+      <QrCodeModal {...qrCodesModal} setOpen={setQrCodesModal}/>
+      {qrCodes.codes?.map(({ Component, data }) => <Component value={data.url} style={{ display: "none" }} id={data.id}/>)}
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
@@ -341,6 +377,7 @@ export default function Profiles() {
                             num={index}
                             currentEditedProfile={currentEditedProfile}
                             setCurrentEditedProfile={setCurrentEditedProfile}
+                            setQrCodesModal={setQrCodesModal}
                           />
                         </div>
                         : <Draggable
@@ -369,6 +406,7 @@ export default function Profiles() {
                                 num={index}
                                 currentEditedProfile={currentEditedProfile}
                                 setCurrentEditedProfile={setCurrentEditedProfile}
+                                setQrCodesModal={setQrCodesModal}
                               />
                             </div>
                           )}

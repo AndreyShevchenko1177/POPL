@@ -74,6 +74,10 @@ export default makeStyles((theme) => ({
     alignItems: "flex-start",
     padding: "20px 0 0px 0",
   },
+  section1_qrcodeIcon: {
+    position: "absolute",
+    right: 50,
+  },
   section1_editIcon: {
     position: "absolute",
     right: 10,

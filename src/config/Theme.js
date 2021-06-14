@@ -51,6 +51,11 @@ let theme = createMuiTheme({
         //   "linear-gradient(110deg, rgba(230,225,225,1) 3%, rgba(208,204,204,1) 50%, rgba(199,195,195,1) 80%)",
       },
     },
+    MuiDialog: {
+      paper: {
+        borderRadius: 10,
+      },
+    },
     MuiPaper: {
       elevation5: {
         boxShadow: "0px 0px 30px rgba(0,0,0,0.2)",
