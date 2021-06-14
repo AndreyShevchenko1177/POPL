@@ -30,14 +30,14 @@ export default function QrCodeModal({ open, setOpen, profile }) {
     setOpen((m) => ({ ...m, open: false }));
   };
 
-  const downloadQrCode = (id) => {
+  const downloadQrCode = (id, name) => {
     const canvas = document.getElementById(id);
     const pngUrl = canvas
       .toDataURL("image/png")
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `${id}.png`;
+    downloadLink.download = `${name}_popl_qr.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -57,7 +57,7 @@ export default function QrCodeModal({ open, setOpen, profile }) {
               variant='contained'
               fullWidth
               color='primary'
-              onClick={() => downloadQrCode(profile.id)}
+              onClick={() => downloadQrCode(profile.id, profile.name)}
             >
                 Download qr code
             </Button>

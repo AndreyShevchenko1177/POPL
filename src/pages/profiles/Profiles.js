@@ -174,7 +174,7 @@ export default function Profiles() {
             Component: (props) => <QRCode {...props} />,
             data: el,
           })),
-          profileIds,
+          selectedProfiles,
         });
       }
       if (name === "addLink") {
@@ -289,15 +289,15 @@ export default function Profiles() {
   }, [editLinkModal.open]);
 
   useEffect(() => {
-    if (qrCodes.profileIds) {
-      qrCodes.profileIds.forEach((id) => {
+    if (qrCodes.selectedProfiles) {
+      qrCodes.selectedProfiles.forEach(({ name, id }) => {
         const canvas = document.getElementById(id);
         const pngUrl = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream");
         let downloadLink = document.createElement("a");
         downloadLink.href = pngUrl;
-        downloadLink.download = `${id}.png`;
+        downloadLink.download = `${name}_popl_qr.png`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
@@ -311,7 +311,7 @@ export default function Profiles() {
         rootLink="Accounts"
       />
       <QrCodeModal {...qrCodesModal} setOpen={setQrCodesModal}/>
-      {qrCodes.codes?.map(({ Component, data }) => <Component value={data.url} style={{ display: "none" }} id={data.id}/>)}
+      {qrCodes.codes?.map(({ Component, data }, key) => <Component key={key} value={data.url} style={{ display: "none" }} id={data.id}/>)}
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
           {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
