@@ -61,6 +61,7 @@ function NetworkActivity({
   });
 
   const handleChangeCountFilter = (event) => {
+    if (Number(event.target.value) > 10) return;
     setProfileCountFilter((pc) => ({ ...pc, changeByTap: event.target.value }));
   };
 
@@ -130,7 +131,7 @@ function NetworkActivity({
       </div>
         <hr style="width: 75px; position: absolute; top: 50%; background-color: ${borderColor}; transform: translateY(-50%); height: 4px; border: none; margin: 0; border-radius: 5px">
       </div>
-    ${label && `<span class="label" style="line-height: 30px; white-space: nowrap;">${label} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
+    ${`<span class="label" style="line-height: 30px; white-space: nowrap;">${label || "No name"} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
     </div>
     `).join("");
   };
@@ -247,7 +248,6 @@ function NetworkActivity({
 
   useEffect(() => {
     if (chartRef.current?.chartInstance) {
-      document.querySelector("#lineChart").style["justify-content"] = "center";
       document.querySelector("#lineChart").innerHTML = chartRef.current?.chartInstance?.generateLegend();
       document.querySelectorAll(".legendItem").forEach((item, index) => {
         if (item.children[1].className.includes("disabled")) return;

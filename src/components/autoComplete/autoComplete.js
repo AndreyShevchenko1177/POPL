@@ -97,7 +97,6 @@ function AutoComplete({
   }, [data]);
   return (
     <div>
-      {console.log(customState?.profileCountFilter?.changeByTap)}
       <OutlinedInput
         value={pseudoname === "count" ? customState?.profileCountFilter?.changeByTap : value}
         tabIndex={1}
