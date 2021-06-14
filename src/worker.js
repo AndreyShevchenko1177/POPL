@@ -76,6 +76,23 @@ const dateGeneration = (popsData, minDate, maxDate) => {
   return result;
 };
 
+const chooseAccountImage = ({ activeProfile, image, imageBusiness }, companyInfo) => {
+  let result = "";
+  if (activeProfile === "2") {
+    result = (imageBusiness && `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + imageBusiness}?alt=media`)
+      || (image && `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media`)
+      || "";
+  } else {
+    result = (image && `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media`)
+      || (imageBusiness && `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + imageBusiness}?alt=media`)
+      || "";
+  }
+  if (!result) {
+    return companyInfo[3] && `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${companyInfo[3]}?alt=media`;
+  }
+  return result;
+};
+
 // ==============================================================
 
 export async function heicToJpg(file) {
@@ -123,7 +140,9 @@ export function linkTapsWidgetCalculation(funcArguments) {
 }
 
 export function topViewedViews(funcArguments) {
-  const { profilesData, viewsBottom, dateRange } = JSON.parse(funcArguments);
+  const {
+    profilesData, viewsBottom, dateRange, companyInfo,
+  } = JSON.parse(funcArguments);
   const result = [];
   profilesData.forEach((profile) => {
     let profilesNumber = 0;
@@ -133,7 +152,7 @@ export function topViewedViews(funcArguments) {
         if ((viewsDate > moment(dateRange[0]).format("x")) && (viewsDate < moment(dateRange[1]).format("x"))) profilesNumber += 1;
       }
     });
-    result.push({ name: profile.name, value: profilesNumber });
+    result.push({ name: profile.name, value: profilesNumber, image: chooseAccountImage(profile, companyInfo) });
   });
   return result;
 }

@@ -96,6 +96,7 @@ export default makeStyles((theme) => ({
     padding: 5,
   },
   tableCellName: {
+    display: "flex",
     alignItems: "center",
     padding: 5,
     textOverflow: "ellipsis",
@@ -103,6 +104,24 @@ export default makeStyles((theme) => ({
     overflow: "hidden",
     width: "70%",
     borderBottom: "none",
+  },
+  topViewedViewsImageContainer: {
+    display: "flex",
+    alignItems: "center",
+    "& > img": {
+      width: 25,
+      height: 25,
+      borderRadius: "50%",
+      objectFit: "cover",
+      marginRight: 10,
+    },
+    "& > div": {
+      width: 25,
+      height: 25,
+      borderRadius: "50%",
+      boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
+      marginRight: 10,
+    },
   },
   tableCellNameLink: {
     display: "flex",

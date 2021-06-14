@@ -98,8 +98,6 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index, isChartsDataCalcula
     }
   }, [dohnutDirectData]);
 
-  console.log("direct on off");
-
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>

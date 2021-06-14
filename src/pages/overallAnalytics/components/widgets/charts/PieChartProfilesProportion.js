@@ -59,11 +59,11 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
                 <div style="width: 50px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
     ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}`}?alt=media />`
-    : ` <div style="width: 25px; height: 25px; border-radius: 50%; background-color: ${generalSettingsData && generalSettingsData[1] ? defineDarkColor(generalSettingsData[1]) : "#000000"}">  </div>`
+    : ` <div style="width: 25px; height: 25px; border-radius: 50%; box-shadow: 0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%); background-color: ${generalSettingsData && generalSettingsData[1]}">  </div>`
 
 }                  
                 </div>
-                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 300px; height: ${isSafari ? "20px" : "100%"} ; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 300px; height: ${isSafari ? "20px" : "100%"} ; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
               </div>
         `,
       )
@@ -72,7 +72,6 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
 
   useEffect(() => {
     if (chart.current?.chartInstance) {
-      const labelsArrayLength = data.labels.filter((el, i, arr) => arr.indexOf(el) === i).length;
       document.querySelector(`#legend${index}`).innerHTML = chart.current?.chartInstance?.generateLegend();
       document.querySelectorAll(`#legend${index} > div`).forEach((item, index) => {
         item.addEventListener("click", (e) => handleClickLabel(e, index));
@@ -101,7 +100,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
           datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
         } else {
           Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push(name === "null" || !name ? { name: "no name", value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) } : { name, value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) });
+            chartLabelsPopsByProfileDataProportion.push({ name, value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) });
             chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
             datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
           });
@@ -112,10 +111,12 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
               label.push({
                 ...item,
                 src: el.image,
+                name: item.name || "No name",
               });
             }
           });
         });
+
         return {
           labels: [...label].sort((a, b) => b.value - a.value).map((el) => el.name),
           datasets: [{
@@ -131,7 +132,6 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
     }
   }, [dohnutPopsByProfileData]);
 
-  console.log("profiles proportion");
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className={clsx("chart-container", classes.popsByProfile)}>

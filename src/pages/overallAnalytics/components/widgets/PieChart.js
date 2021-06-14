@@ -64,7 +64,6 @@ function PieChart({ data, index }) {
   return data
     ? (!data.datasets[0].data.every((val) => !val)
       ? <div className='chart-container'>
-        {console.log(data)}
         <div className='chart-wrapper'>
           <Doughnut
             ref={chart}

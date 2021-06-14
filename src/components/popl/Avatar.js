@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import SvgMaker from "../svgMaker";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,19 +35,12 @@ export default function Avatar({
       className={classes.container}
       style={{ ...styles.container, width: styles.image.width, height: styles.image.height }}
     >
-      {
-        typeof src !== "object"
-          ? <img
-            className="cursor-default target-element"
-            src={src}
-            alt={name}
-            style={imageStyles}
-          />
-          : <div style={imageStyles}>
-            {/* bgColor is company image color. when it's absent, we showing user icon */}
-            {!bgColor && <SvgMaker name={src.name} fill={src.fill} width={src.width} height={src.height} />}
-          </div>
-      }
+      {src && <img
+        className="cursor-default target-element"
+        src={src}
+        alt={name}
+        style={imageStyles}
+      />}
       {bgColor && <div style={backgroundStyles}></div>}
     </div>
   );

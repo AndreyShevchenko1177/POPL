@@ -3,12 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import moment from "moment";
-import { Tooltip } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
-import icons from "../../../../profiles/components/profilelsIcons/icons";
 import worker from "workerize-loader!../../../../../worker";
 
 function TopListViewedProfiles({ profilesData, dateRange }) {
@@ -19,6 +17,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
   const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
+  const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const getScrollValue = (v) => () => v; // with closure
 
@@ -32,20 +31,23 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
   }, [data]);
 
   useEffect(() => {
-    if (profilesData && viewsBottom && dateRange) {
+    if (profilesData && viewsBottom && dateRange && companyInfo) {
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
       let workerInstance = worker();
 
       setIsWorkerRunning(true);
-      workerInstance.topViewedViews(JSON.stringify({ profilesData, viewsBottom, dateRange }))
+      workerInstance.topViewedViews(JSON.stringify({
+        profilesData, viewsBottom, dateRange, companyInfo,
+      }))
         .then((result) => {
+          if (location.pathname !== window.location.pathname) return;
           setData(result);
           setIsWorkerRunning(false);
         });
     }
-  }, [viewsBottom, profilesData, dateRange]);
+  }, [viewsBottom, profilesData, dateRange, companyInfo]);
 
   return (
     <>
@@ -54,11 +56,19 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
           {data
             .sort((a, b) => b.value - a.value)
             .map(({
-              name, value, linkId, linkValue,
+              name, value, image,
             }, key) => (
               <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refProfiles : null}>
                 <div className={classes.tableCellRank }>{key + 1}</div>
-                <div className={clsx(classes.tableCellName) }>{name}</div>
+                <div className={clsx(classes.tableCellName) }>
+                  <div className={classes.topViewedViewsImageContainer}>
+                    {image
+                      ? <img alt='avatar' src={image} />
+                      : <div></div>
+                    }
+                  </div>
+                  <div>{name || <i>No name</i>}</div>
+                </div>
                 <div className={clsx(classes.tableCellValue)}>
                   {value}
                 </div>

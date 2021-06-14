@@ -203,7 +203,6 @@ function NetworkActivity({
   }, [chartData]);
 
   useEffect(() => {
-    console.log("useeffect");
     let linkTapsResult;
     let viewResult;
     if (dataType === "allData") {
@@ -232,8 +231,6 @@ function NetworkActivity({
   }, [linkTaps, views, calendar.dateRange, location]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
-
-  console.log("TIME LINE");
 
   return (
     <div className={classes["network-container"]}>
@@ -273,7 +270,7 @@ function NetworkActivity({
               endIcon={<KeyboardArrowDownIcon />}
               name='count'
             >
-              Number of top accounts
+              Number of top Accounts
             </Button>
             <CustomSelect
               selectName='count'
@@ -390,12 +387,11 @@ function NetworkActivity({
 
 const shallow = (prevProps, nextProps) => {
   if (prevProps.data !== nextProps.data) {
-    return true;
+    return false;
   }
   if (prevProps.isChartsDataCalculating !== nextProps.isChartsDataCalculating) {
-    return true;
+    return false;
   }
-  return false;
+  return true;
 };
-
 export default memo(NetworkActivity);

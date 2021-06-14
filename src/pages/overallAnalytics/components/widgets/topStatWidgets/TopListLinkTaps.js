@@ -38,6 +38,7 @@ function TopListLinkTaps({
         linksTaps, dateRange, location, profilesData,
       }))
         .then((links) => {
+          if (location.pathname !== window.location.pathname) return;
           links
             .sort((a, b) => b.clicks - a.clicks)
             .forEach((link) => {
