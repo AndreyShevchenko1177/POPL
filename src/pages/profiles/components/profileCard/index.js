@@ -160,7 +160,7 @@ export default function Card({
   };
 
   const qrcodeHandler = () => {
-    setQrCodesModal((qcm) => ({ open: !qcm.open, profile: { id, url } }));
+    setQrCodesModal((qcm) => ({ open: !qcm.open, profile: { id, url, name } }));
   };
 
   const changeIconSize = (event, size) => {
