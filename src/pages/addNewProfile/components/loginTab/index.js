@@ -53,9 +53,7 @@ function LoginTab() {
     <div>
       <Grid className={classes.loginInputsContainer} container spacing={3}>
         {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
-        {/* <Grid item xs={5}> */}
-        <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>enter the number of profiles you’d like to create below:</Typography>
-        {/* </Grid> */}
+        <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Enter the number of profiles you’d like to create below:</Typography>
         <Grid className={classes.loginInput} item xs={2}>
           <TextField
             type="number"
@@ -63,7 +61,6 @@ function LoginTab() {
             size='small'
             autoComplete="off"
             disabled={isFetching}
-            // helperText="enter the number of profiles you’d like to create below" // you’d like to create below
             name="profilesNumber"
             fullWidth
             autoFocus

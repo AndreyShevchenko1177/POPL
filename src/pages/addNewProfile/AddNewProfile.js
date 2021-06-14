@@ -10,7 +10,7 @@ function AddNewProfile() {
     <>
       <Header
         rootLink="Account"
-        firstChild="Add Account"
+        firstChild="Add Accounts"
         firstChildRedirectPath="/accounts/add-account"
         lastChild="New Account"
         path="/accounts"

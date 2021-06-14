@@ -34,8 +34,12 @@ function EmailInvite() {
     }
     setValue(event.target.value);
   };
+
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
+    if (!email.length && regexp.test(value)) {
+      emailsList.push(value);
+    }
     if (!emailsList.length && !email.length) return;
     dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
       if (isError) {
@@ -79,6 +83,8 @@ function EmailInvite() {
   useEffect(() => {
     if (isAddProfileSuccess) {
       // setIsOpenDropZone(false);
+      setValue("");
+      setEmail([]);
       dispatch(clearAction("addProfileByEmailSuccess"));
       dispatch(snackBarAction({
         message: "Account created successfully",
@@ -102,7 +108,7 @@ function EmailInvite() {
                 </p>
                 <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
               </div>)}
-              <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
+              <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
             </div>
 
           </div>

@@ -40,6 +40,9 @@ function EmailInvite() {
 
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
+    if (!email.length && regexp.test(value)) {
+      emailsList.push({ emailString: value, id: getId(8) });
+    }
     if (!emailsList.length && !email.length) return;
     dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], userData, () => setEmail([])));
   };
@@ -70,6 +73,8 @@ function EmailInvite() {
   useEffect(() => {
     if (isEmailSuccess) {
       // setIsOpenDropZone(false);
+      setValue("");
+      setEmail([]);
       dispatch(clearStateAction("inviteByEmail"));
       dispatch(snackBarAction({
         message: "Invites sent successfully",
@@ -94,7 +99,7 @@ function EmailInvite() {
                   </p>
                   <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
                 </div>)}
-                <input placeholder={email.length ? "" : "Enter Emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
+                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
               </div>
 
             </div>

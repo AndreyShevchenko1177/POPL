@@ -15,13 +15,13 @@ function ChoicePage() {
       <Header
         rootLink="Accounts"
         path='/accounts'
-        lastChild="Add Account"
+        lastChild="Add Accounts"
       />
       <div className={classes.choiceContainer}>
         <div className={classes.choiceWrapper}>
           <div className={classes.choiceHeader}>
             <span>
-              What type of accounts do you want to add?
+            Select method for adding accounts
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
@@ -35,7 +35,7 @@ function ChoicePage() {
             <div onClick={() => history.push("/accounts/add-account/new")}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
-                title='New Acocunt'
+                title='New Account'
                 description='Create new Popl accounts to add'
               />
             </div>

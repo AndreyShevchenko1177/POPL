@@ -290,7 +290,7 @@ export default function Profiles() {
             showAll={false}
             isShowSortBtn
             handleOpen={handleOpenNewProfilePage}
-            btn_title="Add Account"
+            btn_title="Add Accounts"
             handleCheck={handleCheck}
             searchValue={searchValue}
             handleSearch={handleSearch}
