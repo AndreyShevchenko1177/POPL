@@ -41,7 +41,7 @@ function EmailInvite() {
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
     if (!email.length && regexp.test(value)) {
-      emailsList.push({ emailString: value, id: getId(8) });
+      emailsList.push(value);
     }
     if (!emailsList.length && !email.length) return;
     dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], userData, () => setEmail([])));
