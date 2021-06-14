@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     minHeight: 400,
-    padding: "40px 10px 10px 10px",
+    padding: "60px 10px 10px 10px",
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     backgroundColor: "#ffffff",

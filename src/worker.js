@@ -320,3 +320,34 @@ export const generateDohnutPopsByProfileData = (funcArguments) => {
   });
   return data;
 };
+
+export const profileLineDataChart = (funcArguments) => {
+  const {
+    profilesData, popsData, minDate, maxDate,
+  } = JSON.parse(funcArguments);
+  let result = {};
+  const data = {};
+  result = dateGeneration(popsData, minDate, maxDate);
+  const { allPops } = popsData;
+  profilesData.forEach(({ id, name }) => {
+    let ownResult = { ...result };
+    let correctResult = {};
+    Object.values(allPops).forEach((item) => {
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      const profileId = item[0];
+      if (date in result) {
+        if (id == profileId) {
+          ownResult[date] = (ownResult[date] || 0) + 1;
+        }
+      }
+    });
+    Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+    Object.keys(result).forEach((el) => {
+      if (!correctResult[el]) correctResult[el] = 0;
+    });
+    data[name] = correctResult;
+  });
+  return {
+    isProfile: true, labels: Object.keys(result), data: Object.keys(data).map((el) => ({ name: el, dateValues: data[el], value: Object.values(data[el]).reduce((s, c) => s + c, 0) })).sort((a, b) => b.value - a.value),
+  };
+};

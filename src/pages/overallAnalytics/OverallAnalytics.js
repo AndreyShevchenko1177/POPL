@@ -58,8 +58,7 @@ function OverallAnalytics() {
     dohnutPopsData: false,
     dohnutPopsByProfileData: false,
   });
-
-  const workerInstance = worker();
+  const [workerInstance] = useState(() => worker());
 
   const setDate = (minDate, maxDate) => {
     setOption("");
@@ -484,38 +483,19 @@ function OverallAnalytics() {
   }, [allPopsData, location]);
 
   useEffect(() => {
-    if (profileCountFilter && profilesData && chartData.dohnutPopsByProfileData && profileCountFilter.changeByKey) {
-      const profilesDataCount = [];
-      let profileDataCopy = [...profilesData];
-      Object.keys(chartData.dohnutPopsByProfileData).forEach((el) => {
-        profilesDataCount.push({ name: el, value: Object.values(chartData.dohnutPopsByProfileData[el]).reduce((s, c) => s += c, 0) });
-      });
-      const sortDataCount = profilesDataCount.sort((a, b) => b.name - a.name);
-      const sortprofileDataCopy = profileDataCopy.sort((a, b) => b.name - a.name);
-      const result = sortprofileDataCopy.map((el, index) => ({ ...el, popsCount: sortDataCount[index].value })).sort((a, b) => b.popsCount - a.popsCount);
-      const data = {
-        poplPops: allPopsData.poplPops.filter((pop) => result.slice(0, profileCountFilter.changeByKey).map((el) => String(el.id)).includes(String(pop[0]))),
-        qrCodePops: [
-          ...allPopsData.qrCodePops
-            .filter((pop) => result.slice(0, profileCountFilter.changeByKey)
-              .map((el) => String(el.id)).includes(String(pop[0]))),
-          ...allPopsData.walletPops
-            .filter((pop) => result.slice(0, profileCountFilter.changeByKey)
-              .map((el) => String(el.id)).includes(String(pop[0])))],
-        allPops: allPopsData.allPops.filter((pop) => result.slice(0, profileCountFilter.changeByKey).map((el) => String(el.id)).includes(String(pop[0]))),
-      };
+    if (profileCountFilter && profilesData && profileCountFilter.changeByKey) {
       // running preloaser for charts
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: true }));
-      workerInstance.generateLineChartData(JSON.stringify({
-        popsData: data, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1],
-      })).then((lineData) => {
+      workerInstance.profileLineDataChart(JSON.stringify({
+        popsData, profilesData, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1],
+      })).then((res) => {
         if (location.pathname !== window.location.pathname) return;
-        setPopsLineData(lineData);
+        setPopsLineData({ ...res, data: res.data.slice(0, profileCountFilter.changeByKey) });
         // stopping preloaser for charts
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
     }
-  }, [profileCountFilter.changeByKey, calendar.dateRange, profilesData, chartData.dohnutPopsByProfileData]);
+  }, [profileCountFilter.changeByKey, calendar.dateRange, profilesData]);
 
   useEffect(() => () => {
     dispatch(cleanAction());

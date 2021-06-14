@@ -4,16 +4,16 @@ import React, {
   useEffect, useState, useRef, memo,
 } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
-import { Typography, Button, Paper } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
 import clsx from "clsx";
 import useStyles from "./styles/styles";
 import DatePicker from "../../../../components/DatePicker";
-import chartOptions, { colors } from "./chartOptions";
+import chartOptions, { chartProfileOptions, colors } from "./chartOptions";
 import Loader from "../../../../components/Loader";
 import {
   getMothName, getMonth, getDay, getYear,
@@ -124,13 +124,13 @@ function NetworkActivity({
   const renderLegend = (chart) => {
     const { data } = chart;
     return data.datasets.map(({ label, borderColor, data }, i) => `
-    <div class="legendItem" style="display: flex; align-items: center; height: 30px; max-width: 250px; cursor: pointer; margin-right: 30px">
+    <div class="legendItem" style="display: flex; align-items: center; height: 30px; cursor: pointer; margin-right: 30px">
       <div style="position: relative; width: 75px; height: 30px; margin-right: 10px">
         <div style="position: absolute; width: 16px; height: 16px; background-color: ${borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
       </div>
         <hr style="width: 75px; position: absolute; top: 50%; background-color: ${borderColor}; transform: translateY(-50%); height: 4px; border: none; margin: 0; border-radius: 5px">
       </div>
-    ${label && `<span class="label" style="line-height: 30px;">${label} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
+    ${label && `<span class="label" style="line-height: 30px; white-space: nowrap;">${label} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
     </div>
     `).join("");
   };
@@ -143,50 +143,103 @@ function NetworkActivity({
 
   useEffect(() => {
     if (data) {
-      const labels = [];
-      let newData = Object.keys(data).map((el) => data[el]);
-      // to set color for total popls line. it takes from specific array index
-      newData = [...newData.splice(2, 1), ...newData];
-      newData.forEach((values, i) => {
-        if (Array.isArray(values)) {
+      if (data.isProfile) {
+        const labels = [];
+        let options = { ...chartProfileOptions };
+        data.labels.forEach((value) => {
           if (isSafari) {
-            const safariValues = values.map((el) => el.split("-").join("/"));
-            return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+            const safariValues = value.split("-").join("/");
+            return labels.push(`${getMothName(getMonth(safariValues))} ${getDay(safariValues)} ${dataType === "allData" ? getYear(safariValues) : ""}`);
           }
-          values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
-          return;
-        }
-        chartOptions.data.datasets[i].data = [...Object.values(values)];
-        chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
-        // chartOptions.data.datasets[i].borderColor = [...Object.values(values)].every((el) => !el) ? "rgba(0, 0, 0, 0)" : colors[i];
-      });
-      chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
-      setChartData({
-        data: { ...chartOptions.data },
-        options: {
-          ...chartOptions.options,
-          legendCallback: (chart) => renderLegend(chart),
-          scales: {
-            ...chartOptions.scales,
-            xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: chartOptions.data.datasets[0].data.length === 2 }],
-            yAxes: [{
-              afterTickToLabelConversion(q) {
-                for (let tick in q.ticks) {
-                  const part = q.ticks[tick].split(".");
-                  if (part.length > 1) {
-                    if (part[1] > 0 || q.ticks[tick] < 1) {
-                      q.ticks[tick] = "";
-                    } else {
-                      q.ticks[tick] = Number(q.ticks[tick]).toFixed(0);
+          labels.push(`${getMothName(getMonth(value))} ${getDay(value)} ${dataType === "allData" ? getYear(value) : ""}`);
+        });
+        options.data.datasets = [];
+        data.data.forEach(({ name, dateValues }, i) => {
+          options.data.datasets[i] = {
+            data: Object.values(dateValues),
+            pointRadius: dataType === "allData" ? 0 : 3,
+            label: name,
+            lineTension: 0.1,
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            borderWidth: 3,
+            borderColor: colors[i],
+            maxBarThickness: 50,
+            fill: true,
+          };
+        });
+        options.data.labels = labels;
+        setChartData({
+          data: { ...options.data },
+          options: {
+            ...options.options,
+            legendCallback: (chart) => renderLegend(chart),
+            scales: {
+              ...options.scales,
+              xAxes: [{ ...options.options.scales.xAxes[0], offset: options.data.datasets[0].data.length === 2 }],
+              yAxes: [{
+                afterTickToLabelConversion(q) {
+                  for (let tick in q.ticks) {
+                    const part = q.ticks[tick].split(".");
+                    if (part.length > 1) {
+                      if (part[1] > 0 || q.ticks[tick] < 1) {
+                        q.ticks[tick] = "";
+                      } else {
+                        q.ticks[tick] = Number(q.ticks[tick]).toFixed(0);
+                      }
                     }
                   }
-                }
-                q.ticks[q.ticks.length - 1] = "0";
-              },
-            }],
+                  q.ticks[q.ticks.length - 1] = "0";
+                },
+              }],
+            },
           },
-        },
-      });
+        });
+      } else {
+        const labels = [];
+        let newData = Object.keys(data).map((el) => data[el]);
+        // to set color for total popls line. it takes from specific array index
+        newData = [...newData.splice(2, 1), ...newData];
+        newData.forEach((values, i) => {
+          if (Array.isArray(values)) {
+            if (isSafari) {
+              const safariValues = values.map((el) => el.split("-").join("/"));
+              return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+            }
+            values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+            return;
+          }
+          chartOptions.data.datasets[i].data = [...Object.values(values)];
+          chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
+          // chartOptions.data.datasets[i].borderColor = [...Object.values(values)].every((el) => !el) ? "rgba(0, 0, 0, 0)" : colors[i];
+        });
+        chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
+        setChartData({
+          data: { ...chartOptions.data },
+          options: {
+            ...chartOptions.options,
+            legendCallback: (chart) => renderLegend(chart),
+            scales: {
+              ...chartOptions.scales,
+              xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: chartOptions.data.datasets[0].data.length === 2 }],
+              yAxes: [{
+                afterTickToLabelConversion(q) {
+                  for (let tick in q.ticks) {
+                    const part = q.ticks[tick].split(".");
+                    if (part.length > 1) {
+                      if (part[1] > 0 || q.ticks[tick] < 1) {
+                        q.ticks[tick] = "";
+                      } else {
+                        q.ticks[tick] = Number(q.ticks[tick]).toFixed(0);
+                      }
+                    }
+                  }
+                  q.ticks[q.ticks.length - 1] = "0";
+                },
+              }],
+            },
+          },
+        });
+      }
     } else {
       setChartData(undefined);
     }
@@ -194,6 +247,7 @@ function NetworkActivity({
 
   useEffect(() => {
     if (chartRef.current?.chartInstance) {
+      document.querySelector("#lineChart").style["justify-content"] = "center";
       document.querySelector("#lineChart").innerHTML = chartRef.current?.chartInstance?.generateLegend();
       document.querySelectorAll(".legendItem").forEach((item, index) => {
         if (item.children[1].className.includes("disabled")) return;

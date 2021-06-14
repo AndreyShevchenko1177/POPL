@@ -192,9 +192,28 @@ p {
 #lineChart {
   position: absolute;
   display: flex;
-  top: -30px;
+  top: -60px;
   width: 100%;
-  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 50px;
+}
+
+#lineChart::-webkit-scrollbar {
+  height: 8px; /* высота для горизонтального скролла */
+  background-color: #b5b5b5;
+  border-radius: 5px;
+}
+
+/* ползунок скроллбара */
+#lineChart::-webkit-scrollbar-thumb {
+  background-color: #545454;
+  border-radius: 5px;
+}
+
+#lineChart::-webkit-scrollbar-thumb:hover {
+  background-color: #1d1d1d;
 }
 
 .chart-container {
