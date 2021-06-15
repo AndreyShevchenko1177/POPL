@@ -288,38 +288,58 @@ export function generateLineChartData(funcArguments) {
   return { ...data, labels: Object.keys(result) };
 }
 
-export const generateDohnutPopsByProfileData = (funcArguments) => {
-  const {
-    profileData, popsData, minDate, maxDate, isAllData,
-  } = JSON.parse(funcArguments);
-  let result = {};
-  const data = {};
-  if (isAllData) {
-    popsData.allPops.forEach((item) => {
-      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
-      result[date] = 0;
-    });
-  } else {
-    result = dateGeneration(popsData, minDate, maxDate);
-  }
-  const { allPops } = popsData;
-  profileData.forEach(({ id, name }) => {
-    let ownResult = { ...result };
-    let correctResult = {};
-    Object.values(allPops).forEach((item) => {
-      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
-      const profileId = item[0];
-      if (date in result) {
-        if (id == profileId) {
-          ownResult[date] = (ownResult[date] || 0) + 1;
-        }
-      }
-    });
-    Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
-    data[name] = correctResult;
-  });
-  return data;
-};
+// export const generateDohnutPopsByProfileData = (funcArguments) => {
+//   const {
+//     profileData, popsData, minDate, maxDate, isAllData, linkTaps, viewsKpis,
+//   } = JSON.parse(funcArguments);
+//   let result = {};
+//   let taps = {};
+//   let views = {};
+//   const data = {};
+//   if (isAllData) {
+//     popsData.allPops.forEach((item) => {
+//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+//       result[date] = 0;
+//     });
+//   } else {
+//     result = dateGeneration(popsData, minDate, maxDate);
+//   }
+//   const { allPops } = popsData;
+//   profileData.forEach(({ id, name }) => {
+//     let ownResult = { ...result };
+//     let correctResult = {};
+//     Object.values(allPops).forEach((item) => {
+//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+//       const profileId = item[0];
+//       if (date in result) {
+//         if (id == profileId) {
+//           ownResult[date] = (ownResult[date] || 0) + 1;
+//         }
+//       }
+//     });
+//     linkTaps.forEach(({ pid, event_at }) => {
+//       const date = `${event_at.slice(5, 10)}-${event_at.slice(0, 4)}`;
+//       if (date in result) {
+//         if (id == pid) {
+//           taps[date] = (taps[date] || 0) + 1;
+//         }
+//       }
+//     });
+//     viewsKpis.forEach((item) => {
+//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+//       const profileId = item[0];
+//       if (date in result) {
+//         if (id == profileId) {
+//           views[date] = (views[date] || 0) + 1;
+//         }
+//       }
+//     });
+
+//     Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+//     data[name] = correctResult;
+//   });
+//   return data;
+// };
 
 export const profileLineDataChart = (funcArguments) => {
   const {
@@ -349,5 +369,66 @@ export const profileLineDataChart = (funcArguments) => {
   });
   return {
     isProfile: true, labels: Object.keys(result), data: Object.keys(data).map((el) => ({ name: el, dateValues: data[el], value: Object.values(data[el]).reduce((s, c) => s + c, 0) })).sort((a, b) => b.value - a.value),
+  };
+};
+
+export const generateDohnutPopsByProfileData = (funcArguments) => {
+  const {
+    profileData, popsData, minDate, maxDate, isAllData, linkTaps, viewsKpis,
+  } = JSON.parse(funcArguments);
+  let result = {};
+  let taps = {};
+  let views = {};
+  const data = {};
+  if (isAllData) {
+    popsData.allPops.forEach((item) => {
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      result[date] = 0;
+    });
+  } else {
+    result = dateGeneration(popsData, minDate, maxDate);
+  }
+  const { allPops } = popsData;
+  profileData.forEach(({ id, name, image }) => {
+    let ownResult = { ...result };
+    let correctResult = {};
+    Object.values(allPops).forEach((item) => {
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      const profileId = item[0];
+      if (date in result) {
+        if (id == profileId) {
+          ownResult[date] = (ownResult[date] || 0) + 1;
+        }
+      }
+    });
+    linkTaps.forEach(({ pid, event_at }) => {
+      const date = `${event_at.slice(5, 10)}-${event_at.slice(0, 4)}`;
+      if (date in result) {
+        if (id == pid) {
+          taps[date] = (taps[date] || 0) + 1;
+        }
+      }
+    });
+    viewsKpis.forEach((item) => {
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+      const profileId = item[0];
+      if (date in result) {
+        if (id == profileId) {
+          views[date] = (views[date] || 0) + 1;
+        }
+      }
+    });
+    Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+    data[name] = {
+      result: correctResult,
+      ctr: `${(Object.values(taps).reduce((s, c) => s + c, 0) / Object.values(views).reduce((s, c) => s += c, 0) * 100).toFixed(1)}%`,
+      image,
+      id,
+    };
+  });
+  return {
+    data: Object.keys(data).map((item) => ({
+      popsCount: Object.values(data[item].result).reduce((s, c) => s += c, 0), ctr: data[item].ctr, image: data[item].image, name: item || "No name", id: data[item].id,
+    })).sort((a, b) => b.popsCount - a.popsCount),
   };
 };

@@ -5,24 +5,24 @@ import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 import clsx from "clsx";
+import { Paper } from "@material-ui/core";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
-import { getRandomColor } from "../../../../../utils";
 import { isSafari } from "../../../../../constants";
 
 const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isChartsDataCalculating }) => {
   const classes = useStyles();
   const chart = useRef();
   const [data, setData] = useState(null);
-  const [colors, setColors] = useState([]);
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const location = useLocation();
 
-  const handleClickLabel = (e, index) => {
+  const handleClickLabel = (e, i) => {
     const ctx = chart.current.chartInstance;
+    let index = i - 1;
     const meta = [];
     ctx.data.datasets.forEach((dataset, index) => {
       meta.push(ctx.getDatasetMeta(index));
@@ -35,35 +35,48 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
         index - label1Length
       ].hidden;
     }
-    if (e.currentTarget.lastElementChild.classList.contains("disable-legend")) {
-      e.currentTarget.lastElementChild.classList.remove("disable-legend");
+    if (e.currentTarget.classList.contains("disable-legend")) {
+      e.currentTarget.classList.remove("disable-legend");
     } else {
-      e.currentTarget.lastElementChild.classList.add("disable-legend");
+      e.currentTarget.classList.add("disable-legend");
     }
     ctx.update();
   };
 
   const renderLabels = (chart) => {
     const { data } = chart;
-    return data.datasets[0].data
+    const header = `
+        <div style="display: flex; padding-top: 10px; font-size: 15px; font-weight: 600; background-color: #fff; z-index: 1000;  align-items: center; width: 100%; padding-bottom: 15px; position: sticky; top: 0px; height: 40px;">
+          <div style="width: 50px; margin-right: 30px;">
+            <span> Ranking </span>
+          </div>
+        
+        <div style="width: 230px; ">
+          <span> Name </span>
+        </div>
+        <div style="width: 60px; display: flex; justify-content: center">  <span> CTR </span> </div>
+        <div style="width: 115px; display: flex; justify-content: center">  <span style="white-space: nowrap;"> Pops count </span> </div>
+         </div>
+      `;
+    return header + data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; align-items: center; width: 100%; margin-bottom:${isSafari ? "15px" : "0px"}" id="legend-${i}-item" class="legend-item">
-                <p style="width: 30px"> ${i + 1} </p>
-                <div style="width: 45px">
-                <p style="background-color:
-                  ${data.datasets[0].backgroundColor[i]};border-radius: 50%; width: 20px; height: 20px;">
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                </p>
-                </div>
-                <div style="width: 50px">
+              <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #969696; height: 50px; border-bottom: 1px solid #969696; cursor: pointer; position: relative" id="legend-${i}-item">
+                <div style="width: 50px; margin-right: 30px; display: flex;"> <p> ${i + 1} </p> </div>
+                <div style="display: flex; align-items: center;"> 
+                <div style="width: 45px; height: 45px; margin-right: 15px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
-    ? `<img style="width: 25px; height: 25px; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}`}?alt=media />`
-    : ` <div style="width: 25px; height: 25px; border-radius: 50%; box-shadow: 0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%); background-color: ${generalSettingsData && generalSettingsData[1]}">  </div>`
+    ? `<img style="width: 100%; height: 100%; border: 3px solid ${data.datasets[0].backgroundColor[i]}; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}`}?alt=media />`
+    : ` <div style="width: 100%; height: 100%; border: 3px solid ${data.datasets[0].backgroundColor[i]}; border-radius: 50%; box-shadow: 0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%); background-color: ${generalSettingsData && generalSettingsData[1]}">  </div>`
 
 }                  
                 </div>
-                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 300px; height: ${isSafari ? "20px" : "100%"} ; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
+                </div>
+                <div  style="width: 65px; display: flex; height: 100%; align-items: center; justify-content: center; border-left: 1px solid #969696;  border-right: 1px solid #969696;"> <span > ${data.ctr[i]} </span> </div>
+                <div style="display: flex;  height: 100%;align-items: center; margin-left: 12px;">
+                <span> ${data.popsCount[i]} </span>
+                 </div>
               </div>
         `,
       )
@@ -81,50 +94,23 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
 
   useEffect(() => {
     if (dohnutPopsByProfileData) {
-      let bc = [];
-      if (colors.length) {
-        bc = colors;
-      } else {
-        Object.keys(dohnutPopsByProfileData).forEach(() => bc.push(getRandomColor()));
-        setColors(bc);
-      }
-      delete dohnutPopsByProfileData.labels;
-      const datasetsPopsByProfileDataProportion = [];
-      const chartLabelsPopsByProfileDataProportion = [];
-      const chartBackGroundColorsPopsByProfileDataProportion = [];
-      const label = [];
+      let data;
       setData(() => {
         if (location.state?.id) {
-          chartLabelsPopsByProfileDataProportion.push({ name: location.state?.name, value: Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0) });
-          chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[0]);
-          datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[location.state?.name]).reduce((sum, cur) => sum += cur, 0));
+          data = dohnutPopsByProfileData.data.filter(({ id }) => id == location.state.id);
         } else {
-          Object.keys(dohnutPopsByProfileData).forEach((name, index) => {
-            chartLabelsPopsByProfileDataProportion.push({ name, value: Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0) });
-            chartBackGroundColorsPopsByProfileDataProportion.push(dohnutPoplByProfileBackgroundColor[index]);
-            datasetsPopsByProfileDataProportion.push(Object.values(dohnutPopsByProfileData[name]).reduce((sum, cur) => sum += cur, 0));
-          });
+          data = dohnutPopsByProfileData.data;
         }
-        profiles.forEach((el) => {
-          chartLabelsPopsByProfileDataProportion.forEach((item) => {
-            if (el.name === item.name) {
-              label.push({
-                ...item,
-                src: el.image,
-                name: item.name || "No name",
-              });
-            }
-          });
-        });
-
         return {
-          labels: [...label].sort((a, b) => b.value - a.value).map((el) => el.name),
+          labels: data.map((el) => el.name),
           datasets: [{
-            data: [...label].sort((a, b) => b.value - a.value).map((el) => el.value),
-            backgroundColor: chartBackGroundColorsPopsByProfileDataProportion,
+            data: data.map((el) => el.popsCount),
+            backgroundColor: data.map((_, i) => dohnutPoplByProfileBackgroundColor[i]),
             ...chartOptions,
           }],
-          image: [...label].sort((a, b) => b.value - a.value).map((el) => el.src),
+          image: data.map((el) => el.image),
+          popsCount: data.map((el) => el.popsCount),
+          ctr: data.map((el) => el.ctr),
         };
       });
     } else {
@@ -138,7 +124,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
         <div style={{ width: "60%", display: "flex", justifyContent: "center" }}>
           <div className='chart-wrapper' >
             <Doughnut
-              height={75}
+              height={90}
               width={150}
               ref={chart}
               data={data}
@@ -153,7 +139,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
             />
           </div>
         </div>
-        <div id={`legend${index}`} />
+        <Paper className={classes.rootLegend} elevation={3}><div id={`legend${index}`} /></Paper>
       </div>
       : <div className={classes.noDataText}>
         No data for this period

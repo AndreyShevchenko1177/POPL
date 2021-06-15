@@ -32,7 +32,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     flexGrow: 1,
     minWidth: 300,
-    height: 425,
+    height: 475,
     padding: 10,
     marginRight: 30,
     borderRadius: theme.custom.mainBorderRadius,
@@ -41,7 +41,7 @@ export default makeStyles((theme) => ({
     },
   },
   widgetChildContainer: {
-    height: 320,
+    height: 400,
     overflow: "auto",
   },
   widgetHeadingContainer: {
@@ -177,5 +177,10 @@ export default makeStyles((theme) => ({
   popsByProfile: {
     display: "flex",
     justifyContent: "flex-end",
+  },
+  rootLegend: {
+    padding: "15px",
+    margin: "10px 10px 10px 0px",
+
   },
 }));

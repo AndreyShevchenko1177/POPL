@@ -23,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QrCodeModal({ open, setOpen, profile }) {
+export default function QrCodeModal({
+  open, setOpen, profile,
+}) {
   const classes = useStyles();
 
   const handleClose = (value) => {
@@ -51,7 +53,18 @@ export default function QrCodeModal({ open, setOpen, profile }) {
             <div></div>
             <Typography variant='h5' id="simple-dialog-title">Qr Code</Typography>
             <div>
-              <QRCode size={175} value={profile.url} id={profile.id}/>
+              <QRCode size={175} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
+                imageSettings={{
+                  src: (profile.generalSettingsData && profile.generalSettingsData[3])
+                    ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profile.generalSettingsData[3]}?alt=media` : "/assets/img/logo_company.png",
+                  x: null,
+                  y: null,
+                  height: 24,
+                  width: 24,
+                  excavate: false,
+                }}
+              />
+              <QRCode size={175} style={{ display: "none" }} value={profile.url} id={profile.id} />
             </div>
             <Button
               variant='contained'
