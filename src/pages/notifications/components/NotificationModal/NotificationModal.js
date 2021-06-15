@@ -25,6 +25,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
   const [selectedDate, handleDateChange] = useState(new Date());
   const [time, setTime] = useState("");
+  const [openCalendar, setOpenCalendar] = useState(false);
 
   const handleChange = (event) => {
     setTime(event.target.value);
@@ -62,6 +63,9 @@ function NotificationModal({ closeModal, data, clearFields }) {
                 format="MMM dd, yyyy"
                 value={selectedDate}
                 InputAdornmentProps={{ position: "start" }}
+                onClick={() => setOpenCalendar(true)}
+                open={openCalendar}
+                onClose={() => setOpenCalendar(false)}
                 onChange={(date) => {
                   handleDateChange(`${new Date(date).getMonth() + 1}/${new Date(date).getDate()}/${new Date(date).getFullYear()} ${time ? normalizeDate(new Date(time).getHours()) : new Date().getHours()}:${time ? normalizeDate(new Date(time).getMinutes()) : new Date().getMinutes()}`);
                 }}
