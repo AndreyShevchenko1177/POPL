@@ -119,7 +119,7 @@ function Login(props) {
                   style={{ marginBottom: 20 }}
                 >
                   <GoogleLogin
-                    clientId="534205401562-b9tug5stlukqe1ma3tuq0s1mie8htmcr.apps.googleusercontent.com"
+                    clientId="1016915496422-0psqeusnp7ldabum6euge875kfii7nu6.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
