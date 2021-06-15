@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { chartOptions, dohnutPoplByProfileBackgroundColor } from "../chartConfig";
 import useStyles from "../styles";
 import Loader from "../../../../../components/Loader";
-import { defineDarkColor, getRandomColor } from "../../../../../utils";
+import { getRandomColor } from "../../../../../utils";
 import { isSafari } from "../../../../../constants";
 
 const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isChartsDataCalculating }) => {

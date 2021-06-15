@@ -43,7 +43,6 @@ const BottomWidgets = memo(({
         </WidgetsContainer>
 
       </div>
-
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer heading='Top viewed Accounts'>
           <TopListViewedProfiles profilesData={profilesData} dateRange={calendar.dateRange} />

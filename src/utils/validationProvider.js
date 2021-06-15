@@ -47,7 +47,9 @@ function validation(keys, params, value) {
   return errors;
 }
 
-export function ValidationProvider({ children, config, callCbAlways }) {
+export function ValidationProvider({
+  children, config, callCbAlways, clear,
+}) {
   const configKeys = Object.keys(config);
   const defaultValues = {};
   configKeys.forEach((key) => (defaultValues[key] = config[key].value));
@@ -77,6 +79,10 @@ export function ValidationProvider({ children, config, callCbAlways }) {
   };
 
   useEffect(() => {
+    if (clear) setValue(defaultValues);
+  }, [clear]);
+
+  useEffect(() => {
     const configKeys = Object.keys(config);
     const defaultValues = {};
     configKeys.forEach((key) => (defaultValues[key] = config[key].value));
@@ -86,7 +92,9 @@ export function ValidationProvider({ children, config, callCbAlways }) {
   return (
     <React.Fragment>
       {children(
-        { submit, onChange: onChangeHandler, onKeyDown },
+        {
+          submit, onChange: onChangeHandler, onKeyDown, clear,
+        },
         value,
         errors,
       )}

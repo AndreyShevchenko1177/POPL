@@ -61,7 +61,7 @@ function TabNavigation({ setHeaderValue }) {
             className={value === 0 ? classes.activeTab : classes.tab1}
           />
           <Tab
-            label="Login"
+            label="Log in"
             {...a11yProps(1)}
             className={value === 1 ? classes.activeTab : classes.tab2}
           />

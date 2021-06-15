@@ -55,7 +55,7 @@ export const addChildProfileAction = (userId, childId) => async (dispatch, getSt
   }
 };
 
-export const signInChildAction = (credo) => async (dispatch, getState) => {
+export const signInChildAction = (credo, stopSpinnerCB) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     if (restrictEdit(userId)) {
@@ -72,7 +72,9 @@ export const signInChildAction = (credo) => async (dispatch, getState) => {
     bodyFormData.append("sAction", "Auth");
     bodyFormData.append("ajax", 1);
     const { data } = await axios.post("", bodyFormData);
+
     if (!data.success) {
+      stopSpinnerCB();
       dispatch(
         snackBarAction({
           message: "Sign in fail",

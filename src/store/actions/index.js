@@ -39,7 +39,6 @@ export const snackBarAction = (payload) => ({
 
 // main action for getting profiles. called in app.js
 export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
-  console.log("PROFILES REQ");
   try {
     const dashboardPlan = getState().authReducer.dashboardPlan.data;
 
