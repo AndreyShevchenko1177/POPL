@@ -61,7 +61,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
     return header + data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #969696; height: 50px; border-bottom: 1px solid #969696; cursor: pointer; position: relative" id="legend-${i}-item">
+              <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #dadada; height: 50px; border-bottom: 1px solid #dadada; cursor: pointer; position: relative" id="legend-${i}-item">
                 <div style="width: 50px; margin-right: 30px; display: flex;"> <p> ${i + 1} </p> </div>
                 <div style="display: flex; align-items: center;"> 
                 <div style="width: 45px; height: 45px; margin-right: 15px">
@@ -73,7 +73,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
                 </div>
                 ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
                 </div>
-                <div  style="width: 65px; display: flex; height: 100%; align-items: center; justify-content: center; border-left: 1px solid #969696;  border-right: 1px solid #969696;"> <span > ${data.ctr[i]} </span> </div>
+                <div  style="width: 65px; display: flex; height: 100%; align-items: center; justify-content: center; border-left: 1px solid #dadada;  border-right: 1px solid #dadada;"> <span > ${data.ctr[i]} </span> </div>
                 <div style="display: flex;  height: 100%;align-items: center; margin-left: 12px;">
                 <span> ${data.popsCount[i]} </span>
                  </div>
