@@ -178,4 +178,29 @@ export default makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+  orSectionWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 20,
+  },
+  orSectionHr: {
+    width: "45%",
+    "& > hr": {
+      margin: 0,
+    },
+  },
+  orSectionText: {
+    width: "10%",
+    height: "100%",
+    fontSize: 16,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  googleButton: {
+    width: "100%",
+    height: 40,
+  },
 }));

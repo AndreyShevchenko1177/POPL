@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import GoogleLogin from "react-google-login";
+import AppleLogin from "react-apple-login";
 import {
   OutlinedInput,
   Button,
@@ -21,8 +23,8 @@ import { signInAction } from "../store/actions";
 import { ValidationProvider } from "../../../utils";
 import useStyles from "./styles";
 import AnimationComponent from "./AnimationComponent";
-import logo from "../../../assets/popl-enterprise.png";
 import Loader from "../../../components/Loader";
+import SvgMaker from "../../../components/svgMaker";
 
 function Login(props) {
   const classes = useStyles();
@@ -35,6 +37,10 @@ function Login(props) {
   function handleClickShowPassword() {
     setShowPassword(!showPassword);
   }
+
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
 
   const signIn = (values, errors) => {
     dispatch(
@@ -52,9 +58,6 @@ function Login(props) {
   return (
     <div className={classes.root}>
       <div className={classes.loginContainer}>
-        <div className={classes.topIconContainer}>
-          <img alt='logo' className={classes.logo} src={logo} />
-        </div>
         <Paper elevation={0} className={classes.loginFormWrapper}>
           <ValidationProvider config={signInConfig}>
             {(events, values, errors) => (
@@ -76,7 +79,80 @@ function Login(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  <Typography variant="h3">Login</Typography>
+                  <Typography variant="h3">Log in to your Popl account</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <AppleLogin
+                    clientId="com.react.apple.login"
+                    redirectURI="https://redirectUrl.com"
+                    render={(renderProps) => (
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className={classes.googleButton}
+                        startIcon={<SvgMaker fill="#ffffff" name="appleIcon" width={25} height={25} />}
+                      >
+                        Log in with Apple
+                      </Button>
+                    )}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <GoogleLogin
+                    clientId="534205401562-b9tug5stlukqe1ma3tuq0s1mie8htmcr.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                    render={(renderProps) => (
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={renderProps.onClick}
+                        // disabled={renderProps.disabled}
+                        className={classes.googleButton}
+                        startIcon={<SvgMaker name="googleIcon" width={20} height={20} />}
+                      >
+                        Log in with Google
+                      </Button>
+                    )}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xl={12}
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  align="center"
+                  style={{ marginBottom: 20 }}
+                >
+                  <div className={classes.orSectionWrapper}>
+                    <div className={classes.orSectionHr}><hr/></div>
+                    <div className={classes.orSectionText}>or</div>
+                    <div className={classes.orSectionHr}><hr/></div>
+                  </div>
                 </Grid>
                 <Grid
                   item
@@ -92,7 +168,6 @@ function Login(props) {
                     <FormControl fullWidth>
                       <OutlinedInput
                         type="text"
-                        // label="Username/Email"
                         name="username"
                         fullWidth
                         error={!!errors.username || result.error}
@@ -124,7 +199,6 @@ function Login(props) {
                     <FormControl fullWidth>
                       <OutlinedInput
                         type={showPassword ? "text" : "password"}
-                        // label="Password"
                         name="password"
                         fullWidth
                         error={!!errors.password || result.error}
@@ -152,6 +226,14 @@ function Login(props) {
                           : errors.password}
                       </FormHelperText>
                     </FormControl>
+                    <Typography
+                      variant='subtitle1'
+                      style={{ paddingTop: 10 }}
+                      classes={{ subtitle1: classes.haveAccountLink }}
+                      onClick={() => history.push("/forgot-password")}
+                    >
+                      Forgot password?
+                    </Typography>
                   </div>
                 </Grid>
                 <div className={classes.buttonsWrapper}>
@@ -172,7 +254,7 @@ function Login(props) {
                       className={classes.loginBtn}
                       onClick={() => events.submit(signIn)}
                     >
-                      Submit
+                      Log In
                     </Button>
                   </div>
                   <div className={classes.donHaveAccButton}>
@@ -181,24 +263,8 @@ function Login(props) {
                       classes={{ subtitle1: classes.haveAccountLink }}
                       onClick={() => history.push("/sign-up")}
                     >
-                      Don't have a profile? Join here
+                      New to Popl? Join here
                     </Typography>
-                    <Typography
-                      variant='subtitle1'
-                      classes={{ subtitle1: classes.haveAccountLink }}
-                      onClick={() => history.push("/forgot-password")}
-                    >
-                      Forgot password?
-                    </Typography>
-                    {/* <Button
-                      variant="contained"
-                      fullWidth
-                      color="primary"
-                      type="button"
-                      onClick={() => history.push("/sign-up")}
-                    >
-                    Don't have a profile? Join here
-                    </Button> */}
                   </div>
                 </div>
               </Grid>

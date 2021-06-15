@@ -325,7 +325,7 @@ function SignUp(props) {
                     classes={{ subtitle1: classes.haveAccountLink }}
                     onClick={() => history.push("/sign-in")}
                   >
-                    Already have a profile? Sign in
+                    Already have an Account? Log in
                   </Typography>
                   {/* <Button
                     variant="contained"
