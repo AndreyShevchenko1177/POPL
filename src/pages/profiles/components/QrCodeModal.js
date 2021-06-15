@@ -59,8 +59,8 @@ export default function QrCodeModal({
                     ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profile.generalSettingsData[3]}?alt=media` : "/assets/img/logo_company.png",
                   x: null,
                   y: null,
-                  height: 24,
-                  width: 24,
+                  height: 34,
+                  width: 34,
                   excavate: false,
                 }}
               />
