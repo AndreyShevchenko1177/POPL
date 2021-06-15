@@ -51,8 +51,8 @@ export default makeStyles((theme) => ({
     minHeight: "100vh",
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
-    position: "fixed",
-    zIndex: 101,
+    position: "absolute",
+    zIndex: 1001,
   },
   wizardContainer: {
     position: "fixed",

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     width: "675px",
-    height: 405,
+    height: 420,
     backgroundColor: "#fff",
     borderRadius: 4,
   },
@@ -61,6 +61,7 @@ export default makeStyles((theme) => ({
     },
   },
   calendarContainer: {
+    display: "flex",
     "& > div:first-child": {
       width: "25%",
       minWidth: 180,
