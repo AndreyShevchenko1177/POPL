@@ -161,6 +161,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     width: "80%",
+    minWidth: 190,
     position: "relative",
   },
   donHaveAccButton: {
@@ -200,7 +201,8 @@ export default makeStyles((theme) => ({
     alignItems: "center",
   },
   googleButton: {
-    width: "100%",
+    width: "80%",
+    minWidth: 190,
     height: 40,
   },
 }));

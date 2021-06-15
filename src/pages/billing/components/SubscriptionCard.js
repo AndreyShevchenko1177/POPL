@@ -13,6 +13,7 @@ function SubscriptionCard({
     <div className={classes.container}>
       {currentPlan && <div className={classes.currentPlan}>Current Plan</div>}
       <Typography className={classes.title} variant='body2'>{title}</Typography>
+      <Typography variant='body2' classes={{ body2: classes.accountsNunmber }}>{profilesNumber} Accounts</Typography>
       <div className={classes.priceDescriptionContainer}>
         <span><span style={{ fontSize: 24 }}>${price}</span> / month</span>
       </div>
@@ -20,7 +21,7 @@ function SubscriptionCard({
         <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />
       </div>
       <div className={classes.labelsContainer}>
-        <div className={classes.labelsItem}>
+        {/* <div className={classes.labelsItem}>
           <div>
             <SvgMaker
               name='successCheckMark'
@@ -30,7 +31,7 @@ function SubscriptionCard({
             />
           </div>
           <Typography variant='body2' classes={{ body2: classes.labelsItemsText }}>{profilesNumber} Accounts</Typography>
-        </div>
+        </div> */}
         <div className={classes.labelsItem}>
           <div>
             <SvgMaker
