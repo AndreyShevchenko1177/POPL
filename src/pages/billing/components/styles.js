@@ -12,6 +12,9 @@ export default makeStyles((theme) => ({
     fontWeight: "bold",
     padding: "15px 0 10px 0",
   },
+  accountsNunmber: {
+    fontWeight: "bold",
+  },
   priceDescriptionContainer: {
     display: "flex",
     minHeight: 85,

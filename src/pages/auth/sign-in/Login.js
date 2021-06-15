@@ -25,6 +25,9 @@ import useStyles from "./styles";
 import AnimationComponent from "./AnimationComponent";
 import Loader from "../../../components/Loader";
 import SvgMaker from "../../../components/svgMaker";
+import firebase from "../../../config/firebase.config";
+
+const provider = new firebase.auth.GoogleAuthProvider();
 
 function Login(props) {
   const classes = useStyles();
@@ -118,7 +121,42 @@ function Login(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  <GoogleLogin
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => {
+                      firebase.auth()
+                        .signInWithPopup(provider)
+                        .then((result) => {
+                          /** @type {firebase.auth.OAuthCredential} */
+                          let { credential } = result;
+
+                          console.log(result);
+
+                          // This gives you a Google Access Token. You can use it to access the Google API.
+                          let token = credential.accessToken;
+                          // The signed-in user info.
+                          let { user } = result;
+                          // ...
+                        }).catch((error) => {
+                          // Handle Errors here.
+                          console.log(error);
+                          let errorCode = error.code;
+                          let errorMessage = error.message;
+                          // The email of the user's account used.
+                          let { email } = error;
+                          // The firebase.auth.AuthCredential type that was used.
+                          let { credential } = error;
+                          // ...
+                        });
+                    }}
+                    // disabled={renderProps.disabled}
+                    className={classes.googleButton}
+                    startIcon={<SvgMaker name="googleIcon" width={20} height={20} />}
+                  >
+                        Log in with Google
+                  </Button>
+                  {/* <GoogleLogin
                     clientId="1016915496422-0psqeusnp7ldabum6euge875kfii7nu6.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={responseGoogle}
@@ -136,7 +174,7 @@ function Login(props) {
                         Log in with Google
                       </Button>
                     )}
-                  />
+                  /> */}
                 </Grid>
                 <Grid
                   item
