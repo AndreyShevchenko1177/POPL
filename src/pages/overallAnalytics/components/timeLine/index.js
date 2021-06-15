@@ -125,13 +125,13 @@ function NetworkActivity({
   const renderLegend = (chart) => {
     const { data } = chart;
     return data.datasets.map(({ label, borderColor, data }, i) => `
-    <div class="legendItem" style="display: flex; align-items: center; height: 30px; cursor: pointer; margin-right: 30px">
-      <div style="position: relative; width: 75px; height: 30px; margin-right: 10px">
-        <div style="position: absolute; width: 16px; height: 16px; background-color: ${borderColor}; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <div class="legendItem">
+      <div>
+        <div style="background-color: ${borderColor};">
       </div>
-        <hr style="width: 75px; position: absolute; top: 50%; background-color: ${borderColor}; transform: translateY(-50%); height: 4px; border: none; margin: 0; border-radius: 5px">
+        <hr style="background-color: ${borderColor};">
       </div>
-    ${`<span class="label" style="line-height: 30px; white-space: nowrap;">${label || "No name"} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
+    ${`<span class="label">${label || "No name"} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
     </div>
     `).join("");
   };

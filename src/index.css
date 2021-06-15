@@ -217,6 +217,45 @@ p {
 #lineChart::-webkit-scrollbar-thumb:hover {
   background-color: #1d1d1d;
 }
+.legendItem {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+.label {
+  line-height: 30px;
+  white-space: nowrap;
+}
+
+.legendItem hr {
+  width: 75px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border: none;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.legendItem > div {
+  position: relative;
+  width: 75px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.legendItem > div div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .chart-container {
   position: relative;
