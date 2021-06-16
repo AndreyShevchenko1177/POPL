@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, memo,
 } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { Typography, Button } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -18,11 +18,12 @@ import Loader from "../../../../components/Loader";
 import {
   getMothName, getMonth, getDay, getYear,
 } from "../../../../utils/dates";
+import { clearChecboxAction } from "../../store/actions";
 import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 import CustomSelect from "../../../../components/customSelect";
-import { filterConfig, profileCountConfig } from "./filterConfig";
+import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../../../constants";
 
 function NetworkActivity({
@@ -41,6 +42,7 @@ function NetworkActivity({
   profileCountFilter,
   setProfileCountFilter,
   isChartsDataCalculating,
+  checkboxes,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -60,6 +62,7 @@ function NetworkActivity({
     filter: { open: false, component: "" },
     count: { open: false, component: "" },
   });
+  const dispatch = useDispatch();
 
   const handleChangeCountFilter = (event) => {
     if (Number(event.target.value) > 10) return;
@@ -303,14 +306,14 @@ function NetworkActivity({
           </Typography>
         </div>
         <div className={classes.filterContainer}>
-          { !!profileCountFilter.changeByKey
+          { Object.values(checkboxes).includes(true)
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{profileCountFilter.changeByKey > 1 ? `${profileCountFilter.changeByKey} accounts` : `${profileCountFilter.changeByKey} account`}</i>
+                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} accounts` : `${1} account`}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => setProfileCountFilter({ changeByTap: "", changeByKey: "" })} />
+              }} onClick={() => dispatch(clearChecboxAction())} />
             </div>
           }
           {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>

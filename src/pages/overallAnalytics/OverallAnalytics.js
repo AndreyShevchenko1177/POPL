@@ -615,6 +615,7 @@ function OverallAnalytics() {
             profileCountFilter={profileCountFilter}
             setProfileCountFilter={setProfileCountFilter}
             isChartsDataCalculating={isChartsDataCalculating.lineChart}
+            checkboxes={checkboxes}
           />
         </div>
         <BottomWidgets
