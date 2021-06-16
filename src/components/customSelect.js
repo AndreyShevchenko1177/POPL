@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomSelect({
-  config, events, isOpen, checkProfiles, selectName, autoComleteData, data, customState,
+  config, events, isOpen, checkProfiles, selectName, autoComleteData, data, customState, filterValue,
 }) {
   const classes = useStyles();
   const ref = useRef();
@@ -174,6 +174,7 @@ function CustomSelect({
                       customOnchange={events.countChange}
                       customState={customState}
                       hideAutoComplete={() => events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }))}
+                      filterValue={filterValue}
                     />
                   </div>
                 );

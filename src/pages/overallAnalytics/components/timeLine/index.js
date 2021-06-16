@@ -50,6 +50,7 @@ function NetworkActivity({
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
+  const [filterValue, setFilterValue] = useState("");
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
     views: 0,
@@ -66,13 +67,14 @@ function NetworkActivity({
   };
 
   const handleChangeInputFilter = (event, val, item) => {
-    console.log(val, item);
+    setFilterValue(val);
   };
 
   const clearFilterInput = (name) => {
     // showAll();
     history.push("/analytics");
     handleShowAllStat();
+    setFilterValue("");
   };
 
   const filter = (value, name) => {
@@ -135,6 +137,12 @@ function NetworkActivity({
     </div>
     `).join("");
   };
+
+  useEffect(() => {
+    if (history.location.state?.name) {
+      setFilterValue(history.location.state?.name);
+    }
+  }, []);
 
   useEffect(() => {
     if (!openProfileSelect.count.open && !profileCountFilter.changeByTap) {
@@ -313,7 +321,7 @@ function NetworkActivity({
               cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
             }} onClick={clearFilterInput} />
           </div>}
-          <div className={classes.buttonWrapper}>
+          {/* <div className={classes.buttonWrapper}>
             <Button
               variant='contained'
               color='primary'
@@ -335,7 +343,7 @@ function NetworkActivity({
                 handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput, countChange: handleChangeCountFilter,
               }}
             />
-          </div>
+          </div> */}
           <div className={classes.buttonWrapper}>
             <Button
               variant='contained'
@@ -356,6 +364,7 @@ function NetworkActivity({
               events={{
                 handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
               }}
+              filterValue={filterValue}
             />
           </div>
 

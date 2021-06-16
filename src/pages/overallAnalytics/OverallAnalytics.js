@@ -41,7 +41,7 @@ function OverallAnalytics() {
   const [saveSelected, setSaveSelected] = useState(false);
   const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
-
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const minTimestamp = new Date().getTime() - (86400000 * 13);
   const currentDate1 = `${monthsFullName[getMonth(minTimestamp)]} ${getDay(minTimestamp)}, ${getYear(minTimestamp)}-`;
   const currentDate2 = `${monthsFullName[getMonth(new Date())]} ${getDay(
@@ -482,22 +482,21 @@ function OverallAnalytics() {
       });
     }
   }, [allPopsData, location]);
-
   useEffect(() => {
-    if (profileCountFilter && profilesData && profileCountFilter.changeByKey) {
+    if (!Object.keys(checkboxes).length) setPopsLineData(null);
+    if (profileCountFilter && profilesData && Object.keys(checkboxes).length) {
       // running preloaser for charts
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: true }));
       workerInstance.profileLineDataChart(JSON.stringify({
         popsData, profilesData, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1],
       })).then((res) => {
         if (location.pathname !== window.location.pathname) return;
-        setPopsLineData({ ...res, data: res.data.slice(0, profileCountFilter.changeByKey) });
+        setPopsLineData({ ...res, data: res.data.filter((prof) => Object.keys(checkboxes).filter((id) => checkboxes[id]).includes(String(prof.name))) });
         // stopping preloaser for charts
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
     }
-  }, [profileCountFilter.changeByKey, calendar.dateRange, profilesData]);
-
+  }, [checkboxes, calendar.dateRange, profilesData]);
   useEffect(() => () => {
     dispatch(cleanAction());
     setChartData({
@@ -601,7 +600,7 @@ function OverallAnalytics() {
       <div className={classes.contentRoot}>
         <div className={classes.overallAnalyticsContainer}>
           <NetworkActivity
-            data={!profileCountFilter.changeByKey ? chartData?.lineData : popsLineData}
+            data={!popsLineData?.data?.length ? chartData?.lineData : popsLineData}
             dataType={chartData?.dataType}
             calendar={calendar}
             setCalendar={setCalendar}

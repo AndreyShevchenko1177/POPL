@@ -1,26 +1,29 @@
 import React, {
   useState, useEffect, useRef,
 } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { useHistory } from "react-router-dom";
 import {
-  OutlinedInput, IconButton, InputAdornment,
+  OutlinedInput, IconButton, InputAdornment, Checkbox,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import useStyles from "./styles/styles";
+import { setCheckboxAction, clearChecboxAction } from "../../pages/overallAnalytics/store/actions";
 
 function AutoComplete({
-  data, label, startFilter, hideAutoComplete, pseudoname, customOnchange, customState,
+  data, label, startFilter, hideAutoComplete, pseudoname, customOnchange, customState, filterValue,
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const itemRef = useRef();
   const [value, setValue] = useState("");
   const [activeItem, setActiveItem] = useState({ value: -1, event: "" });
   const [localData, setLocalData] = useState([]);
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
 
   const handleChange = (event) => {
-    console.log(customState);
     setValue(event.target.value);
     if (!event.target.value) {
       setLocalData(data);
@@ -31,6 +34,7 @@ function AutoComplete({
   };
 
   const selectItem = (event, selectedValue, item) => {
+    dispatch(clearChecboxAction());
     startFilter(event, selectedValue, item);
     setValue(selectedValue);
     hideAutoComplete();
@@ -85,6 +89,10 @@ function AutoComplete({
     setActiveItem({ value: Number(event.target.dataset.key), event: "mouse" });
   };
 
+  const handleChangeCheckBox = (event) => {
+    dispatch(setCheckboxAction({ id: event.target.name, checked: event.target.checked }));
+  };
+
   useEffect(() => {
     if (activeItem.event === "mouse") return;
     itemRef.current?.scrollIntoView(false);
@@ -119,9 +127,26 @@ function AutoComplete({
       />
       <div className={classes.listItemContainer}>
         {localData.length || pseudoname === "count" ? localData.map((item, key) => (
-          <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
-            <p data-key={key}>{item.name}</p>
-          </div>
+          pseudoname === "analytics"
+            ? <div key={key} onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, classes.dataWrapper, { [classes.activeListItem]: activeItem.value === key })} tabIndex={1} >
+              <div>
+                <Checkbox
+                  color='primary'
+                  disabled={!!filterValue}
+                  checked={checkboxes[item.name] || false}
+                  name={String(item.name)}
+                  onChange={handleChangeCheckBox}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                />
+              </div>
+              <div onClick={(event) => setSelectedItem(event, item.name, item)} className={classes.labelContainer}>
+                <p data-key={key}>{item.name}</p>
+              </div>
+            </div>
+            : <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
+              <p data-key={key}>{item.name}</p>
+            </div>
+
         )) : <div className={classes.nothingFound}> Nothing found </div>}
       </div>
     </div>

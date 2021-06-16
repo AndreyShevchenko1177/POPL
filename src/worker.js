@@ -44,7 +44,7 @@ const dateGeneration = (popsData, minDate, maxDate) => {
   if (!Object.values(popsData)?.length) return;
   if (minDate) {
     const [_maxdY, _maxdM, _maxdD] = `${getYear(maxDate)}-${normalizeDate(getMonth(maxDate))}-${normalizeDate(getDay(maxDate))}`.split("-");
-    const [_mindY, _mindM, _mindD] = `${getYear(maxDate)}-${normalizeDate(getMonth(minDate))}-${normalizeDate(getDay(minDate))}`.split("-");
+    const [_mindY, _mindM, _mindD] = `${getYear(minDate)}-${normalizeDate(getMonth(minDate))}-${normalizeDate(getDay(minDate))}`.split("-");
     let a = moment([_maxdY, _maxdM, _maxdD]);
     let b = moment([_mindY, _mindM, _mindD]);
     calendarRange = Math.abs(a.diff(b, "days"));
@@ -64,7 +64,6 @@ const dateGeneration = (popsData, minDate, maxDate) => {
       result[key] = 0;
     }
   }
-
   if (calendarRange > 0) {
     for (let i = calendarRange; i > 0; i--) {
       const date = new Date(currentDate).setDate(currentDate.getDate() - i);
@@ -296,14 +295,14 @@ export function generateLineChartData(funcArguments) {
 //   let taps = {};
 //   let views = {};
 //   const data = {};
-//   if (isAllData) {
-//     popsData.allPops.forEach((item) => {
-//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
-//       result[date] = 0;
-//     });
-//   } else {
-//     result = dateGeneration(popsData, minDate, maxDate);
-//   }
+// if (isAllData) {
+//   popsData.allPops.forEach((item) => {
+//     const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+//     result[date] = 0;
+//   });
+// } else {
+//   result = dateGeneration(popsData, minDate, maxDate);
+// }
 //   const { allPops } = popsData;
 //   profileData.forEach(({ id, name }) => {
 //     let ownResult = { ...result };

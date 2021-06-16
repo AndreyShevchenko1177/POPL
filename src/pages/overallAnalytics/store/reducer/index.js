@@ -13,6 +13,8 @@ import {
   POPS_COUNT_TOP,
   TOTAL_POPLS,
   TOP_POPPED_POPLS,
+  CHECK_BOX,
+  CLEAR_CHECKBOXES,
 
 } from "../actionTypes";
 
@@ -61,6 +63,7 @@ const initialState = {
     error: null,
     isFetching: true,
   },
+  checkBoxData: {},
   isFetching: false,
 };
 
@@ -211,6 +214,21 @@ export default function realTimeAnalytics(
     return {
       ...state,
       [payload]: initialState[payload],
+    };
+  }
+  case CHECK_BOX: {
+    return {
+      ...state,
+      checkBoxData: {
+        ...state.checkBoxData,
+        [payload.id]: payload.checked,
+      },
+    };
+  }
+  case CLEAR_CHECKBOXES: {
+    return {
+      ...state,
+      checkBoxData: initialState.checkBoxData,
     };
   }
   default:

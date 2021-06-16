@@ -23,4 +23,14 @@ export default makeStyles((theme) => ({
   outlinedInput: {
     height: 40,
   },
+  dataWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  labelContainer: {
+    height: 40,
+    display: "flex",
+    alignItems: "center",
+  },
 }));

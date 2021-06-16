@@ -1,23 +1,16 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-return-assign */
 import {
-  GET_POPS_SUCCESS,
   GET_POPS_SUCCESS_NEW,
-  GET_POPS_FAIL,
   IS_DATA_FETCHING, CLEAN,
-  DASHBOARD_POPS_DATA,
   CLEAN_BY_NAME,
   GET_LINK_TAPS_BOTTOM,
   GET_VIEWS_BOTTOM,
-  GET_LINKS_TOP,
-  GET_VIEWS_TOP,
-  TOTAL_POPLS,
-  POPS_COUNT_TOP,
+  CHECK_BOX,
+  CLEAR_CHECKBOXES,
 } from "../actionTypes";
 
-import { removeCommas, filterPops } from "../../../../utils";
-import { snackBarAction } from "../../../../store/actions";
-import { profileIdsRequest } from "../../../profiles/store/actions/requests";
+import { filterPops } from "../../../../utils";
 import * as requests from "./requests";
 
 export const mainAnalyticsAction = () => async (dispatch, getState) => {
@@ -94,4 +87,13 @@ export const cleanAction = () => ({
 export const cleanActionName = (name) => ({
   type: CLEAN_BY_NAME,
   payload: name,
+});
+
+export const setCheckboxAction = (payload) => ({
+  type: CHECK_BOX,
+  payload,
+});
+
+export const clearChecboxAction = () => ({
+  type: CLEAR_CHECKBOXES,
 });
