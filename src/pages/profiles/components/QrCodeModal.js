@@ -60,7 +60,7 @@ export default function QrCodeModal({
         <div className={classes.container}>
           <div className={classes.wrapper}>
             <div></div>
-            <Typography variant='h5' id="simple-dialog-title">Qr Code</Typography>
+            <Typography variant='h5' id="simple-dialog-title">Account Name's QR Code</Typography>
             <div className='relative'>
               <QRCode size={175} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
                 // imageSettings={{
@@ -73,7 +73,7 @@ export default function QrCodeModal({
                 //   excavate: false,
                 // }}
               />
-              <QRCode size={175} style={{ display: "none" }} value={profile.url} id={profile.id} />
+              <QRCode size={175} style={{ display: "none" }} value={`https://poplme.co/${profile.url}/dqr`} id={profile.id} />
               <img
                 alt='logo'
                 className={classes.qrCodeLogo}
@@ -88,7 +88,7 @@ export default function QrCodeModal({
               color='primary'
               onClick={() => downloadQrCode(profile.id, profile.name)}
             >
-                Download qr code
+                Download QR code
             </Button>
           </div>
         </div>
