@@ -15,7 +15,6 @@ function getDayTime(interval = 15) {
   // dates = dates.slice(4);
   // dates = [...dates.filter((_, i, arr) => i >= arr.length - 4), ...dates.filter((_, i, arr) => i < arr.length - 4)];
   // dates = [...dates.map((el) => ({ ...el, title: `${el.title.split(" ").join(":")} am` })), ...dates.map((el) => ({ ...el, title: `${el.title.split(" ").join(":")} pm` }))];
-
   let amDates = dates.filter((el) => el.title.split(" ")[0] < 13).sort((a, b) => Number(a.title.split(" ").join("")) - Number(b.title.split(" ").join("")));
   let pmDates = dates.filter((el) => el.title.split(" ")[0] >= 12).sort((a, b) => Number(a.title.split(" ").join("")) - Number(b.title.split(" ").join("")));
   amDates = amDates.slice(4);

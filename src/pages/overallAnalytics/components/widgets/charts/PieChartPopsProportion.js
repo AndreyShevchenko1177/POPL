@@ -37,7 +37,7 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index, isChartsDataCa
     return data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; width: 105px" id="legend-${i}-item" class="legend-item">
+              <div style="display: flex; width: 105px; align-items: center;" id="legend-${i}-item" class="legend-item">
                 <div style='display: none; position: absolute; top: 0px ; left: -${data.labels[i]?.length * 10}px; background-color: rgb(102 102 102 / 50%); z-index: 100; padding: 5px; border-radius: 5px; color: #fff;'>
                   <span>${data.labels[i]} </span>
                 </div>

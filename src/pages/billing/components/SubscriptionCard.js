@@ -15,7 +15,7 @@ function SubscriptionCard({
       <Typography className={classes.title} variant='body2'>{title}</Typography>
       <Typography variant='body2' classes={{ body2: classes.accountsNunmber }}>{profilesNumber} Accounts</Typography>
       <div className={classes.priceDescriptionContainer}>
-        <span><span style={{ fontSize: 24 }}>${price}</span> / month</span>
+        <span>$<span style={{ fontSize: 24, color: "#000000" }}>{price}</span> / month</span>
       </div>
       <div className={classes.buttonContainer}>
         <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />

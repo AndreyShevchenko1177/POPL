@@ -13,7 +13,8 @@ export default makeStyles((theme) => ({
     padding: "15px 0 10px 0",
   },
   accountsNunmber: {
-    fontWeight: "bold",
+    fontSize: "17px !important",
+
   },
   priceDescriptionContainer: {
     display: "flex",
@@ -21,8 +22,9 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     paddingTop: 10,
     "& span": {
-      fontSize: "20px",
+      fontSize: "17px",
       fontWeight: "bold",
+      color: "#8d8d8d",
       // padding: "10px 0",
     },
   },

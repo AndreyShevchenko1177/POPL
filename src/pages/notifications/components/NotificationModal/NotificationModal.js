@@ -26,6 +26,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
   const [selectedDate, handleDateChange] = useState(new Date());
   const [time, setTime] = useState("");
   const [openCalendar, setOpenCalendar] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleChange = (event) => {
     setTime(event.target.value);
@@ -34,18 +35,22 @@ function NotificationModal({ closeModal, data, clearFields }) {
   const sendNotification = () => {
     if (data.sendAs === 2) {
       data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
+      setIsButtonDisabled(true);
       return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
     }
-
+    setIsButtonDisabled(true);
     dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }, closeModal));
   };
 
   const sendNotificationByTime = () => {
     if (data.sendAs === 2) {
       data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
+      closeModal();
+      setIsButtonDisabled(true);
       return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
     }
-    dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }), closeModal);
+    setIsButtonDisabled(true);
+    dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }, closeModal));
   };
 
   const getActiveStrategyItems = (index) => {
@@ -103,6 +108,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
               variant='contained'
               color="primary"
               onClick={closeModal}
+              disabled={isButtonDisabled}
             >
               Cancel
             </Button>
@@ -111,6 +117,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
               variant='contained'
               color="primary"
               onClick={sendNotificationByTime}
+              disabled={isButtonDisabled}
             >
               Schedule
             </Button>
@@ -126,6 +133,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
             variant='contained'
             color="primary"
             onClick={closeModal}
+            disabled={isButtonDisabled}
           >
             Cancel
           </Button>
@@ -134,6 +142,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
             variant='contained'
             color="primary"
             onClick={sendNotification}
+            disabled={isButtonDisabled}
           >
             Send now
           </Button>
@@ -166,7 +175,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
             <Strategy
               title='Send Now'
               icon={<SendIcon/>}
-              description='Start sending ypur campaign immediately'
+              description='Send your message immediately'
               activeTab={!activeTab.isShedule}
               onClick={(name) => setActiveTab({ value: 1, isShedule: false })}
             />

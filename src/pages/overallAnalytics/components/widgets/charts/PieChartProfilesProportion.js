@@ -47,22 +47,22 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
     const { data } = chart;
     const header = `
         <div style="display: flex; padding-top: 10px; font-size: 15px; font-weight: 600; background-color: #fff; z-index: 1000;  align-items: center; width: 100%; padding-bottom: 15px; position: sticky; top: 0px; height: 40px;">
-          <div style="width: 50px; margin-right: 30px;">
-            <span> Ranking </span>
+          <div style="width: 20px; margin-right: 10px;">
+           
           </div>
         
-        <div style="width: 230px; ">
+        <div style="width: 239px; ">
           <span> Name </span>
         </div>
-        <div style="width: 60px; display: flex; justify-content: center">  <span> CTR </span> </div>
-        <div style="width: 115px; display: flex; justify-content: center">  <span style="white-space: nowrap;"> Pops count </span> </div>
+        <div style="width: 115px; display: flex; justify-content: center">  <span style="white-space: nowrap;"> Pop count </span> </div>
+        <div style="width: 42px; display: flex; justify-content: center">  <span> CTR </span> </div>
          </div>
       `;
     return header + data.datasets[0].data
       .map(
         (_, i) => `
-              <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #dadada; height: 50px; border-bottom: 1px solid #dadada; cursor: pointer; position: relative" id="legend-${i}-item">
-                <div style="width: 50px; margin-right: 30px; display: flex;"> <p> ${i + 1} </p> </div>
+              <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #dadada; background-color: ${i < 3 ? "#f6f6f6" : "#ffffff"}; height: 50px; border-bottom: 1px solid #dadada; cursor: pointer; position: relative" id="legend-${i}-item">
+                <div style="width: 20px; margin-right: 10px; display: flex;"> <p> ${i + 1} </p> </div>
                 <div style="display: flex; align-items: center;"> 
                 <div style="width: 45px; height: 45px; margin-right: 15px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
@@ -71,12 +71,13 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
 
 }                  
                 </div>
-                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
+                ${data.labels[i] && `<span style="font-weight: ${i < 3 ? 700 : 200}; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" class="label">${data.labels[i] === "No name" ? "<i>No name</i>" : data.labels[i]}</span>`}
                 </div>
-                <div  style="width: 65px; display: flex; height: 100%; align-items: center; justify-content: center; border-left: 1px solid #dadada;  border-right: 1px solid #dadada;"> <span > ${data.ctr[i]} </span> </div>
-                <div style="display: flex;  height: 100%;align-items: center; margin-left: 12px;">
+                
+                <div style="display: flex; width: 100px;  height: 100%;align-items: center; padding: 0 10px; border-left: 1px solid #dadada;  border-right: 1px solid #dadada;">
                 <span> ${data.popsCount[i]} </span>
                  </div>
+                 <div  style="width: 65px; display: flex; height: 100%; align-items: center; justify-content: center;"> <span > ${data.ctr[i]} </span> </div>
               </div>
         `,
       )

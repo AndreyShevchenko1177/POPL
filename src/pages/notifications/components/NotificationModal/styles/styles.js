@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     width: "675px",
-    height: 420,
+    height: 400,
     backgroundColor: "#fff",
     borderRadius: 4,
   },
@@ -42,6 +42,7 @@ export default makeStyles((theme) => ({
       padding: "20px 30px 15px 25px",
       borderRadius: 2,
       cursor: "pointer",
+      width: "50%",
     },
     "& svg": {
       width: "45px",
