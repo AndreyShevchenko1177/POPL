@@ -60,7 +60,7 @@ export default function QrCodeModal({
         <div className={classes.container}>
           <div className={classes.wrapper}>
             <div></div>
-            <Typography variant='h5' id="simple-dialog-title">Account Name's QR Code</Typography>
+            <Typography variant='h5' id="simple-dialog-title">{profile.name}'s QR Code</Typography>
             <div className='relative'>
               <QRCode size={175} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
                 // imageSettings={{
