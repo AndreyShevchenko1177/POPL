@@ -2,7 +2,6 @@ import React from "react";
 import QRCode from "qrcode.react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import { Typography } from "@material-ui/core";
 
@@ -20,6 +19,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  qrCodeLogo: {
+    width: 30,
+    height: 30,
+    borderRadius: "50%",
+    objectFit: "cover",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
   },
 }));
 
@@ -52,19 +61,26 @@ export default function QrCodeModal({
           <div className={classes.wrapper}>
             <div></div>
             <Typography variant='h5' id="simple-dialog-title">Qr Code</Typography>
-            <div>
+            <div className='relative'>
               <QRCode size={175} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
-                imageSettings={{
-                  src: (profile.generalSettingsData && profile.generalSettingsData[3])
-                    ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profile.generalSettingsData[3]}?alt=media` : "/assets/img/logo_company.png",
-                  x: null,
-                  y: null,
-                  height: 34,
-                  width: 34,
-                  excavate: false,
-                }}
+                // imageSettings={{
+                //   src: (profile.generalSettingsData && profile.generalSettingsData[3])
+                //     ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profile.generalSettingsData[3]}?alt=media` : "/assets/img/logo_company.png",
+                //   x: null,
+                //   y: null,
+                //   height: 34,
+                //   width: 34,
+                //   excavate: false,
+                // }}
               />
               <QRCode size={175} style={{ display: "none" }} value={profile.url} id={profile.id} />
+              <img
+                alt='logo'
+                className={classes.qrCodeLogo}
+                src={(profile.generalSettingsData && profile.generalSettingsData[3])
+                  ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profile.generalSettingsData[3]}?alt=media`
+                  : "/assets/img/logo_company.png"}
+              />
             </div>
             <Button
               variant='contained'
