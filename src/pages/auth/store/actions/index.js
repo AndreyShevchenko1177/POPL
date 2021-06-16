@@ -13,16 +13,27 @@ import {
 import { snackBarAction } from "../../../../store/actions";
 import * as requests from "./requests";
 
-export const signInAction = (credo) => async (dispatch) => {
+export const signInAction = (credo, isGoogleApple) => async (dispatch) => {
   try {
     const bodyFormData = new FormData();
     bodyFormData.append("sEmail", credo.username);
     bodyFormData.append("sPassword", credo.password);
     bodyFormData.append("sAction", "Auth");
     bodyFormData.append("ajax", 1);
-    dispatch(fethingAction());
+    dispatch(fethingAction(true));
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
+      if (isGoogleApple) {
+        dispatch(fethingAction(false));
+        return dispatch(
+          snackBarAction({
+            message: "Please log in using email password",
+            severity: "error",
+            duration: 3000,
+            open: true,
+          }),
+        );
+      }
       return dispatch({
         type: SIGN_IN_FAIL,
         payload: true,
@@ -58,7 +69,7 @@ export const signUpAction = (credo) => async (dispatch) => {
     bodyFormData.append("sName", credo.username);
     bodyFormData.append("sAction", "SaveMember");
     bodyFormData.append("ajax", 1);
-    dispatch(fethingAction());
+    dispatch(fethingAction(true));
     const { data } = await axios.post("", bodyFormData);
     if (!data.success) {
       return dispatch({
@@ -116,7 +127,7 @@ export const cleanAction = (name) => ({
   payload: name,
 });
 
-const fethingAction = () => ({
+const fethingAction = (isFetching) => ({
   type: IS_FETCHING,
-  payload: true,
+  payload: isFetching,
 });

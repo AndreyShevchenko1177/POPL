@@ -40,36 +40,20 @@ function Login(props) {
   }
 
   const responseGoogle = (response) => {
-    console.log(response);
     const { tokenId, accessToken } = response;
     const provider = new firebase.auth.GoogleAuthProvider.credential(tokenId, accessToken);
     console.log(provider);
     firebase.auth()
       .signInWithCredential(provider)
-      .then((res) => console.log(res));
-    // .signInWithPopup(provider)
-    // .then((result) => {
-    //   // @type {firebase.auth.OAuthCredential}
-    //   let { credential } = result;
-
-    //   console.log(result);
-
-    //   // This gives you a Google Access Token. You can use it to access the Google API.
-    //   let token = credential.accessToken;
-    //   // The signed-in user info.
-    //   let { user } = result;
-    //   // ...
-    // }).catch((error) => {
-    //   // Handle Errors here.
-    //   console.log(error);
-    //   let errorCode = error.code;
-    //   let errorMessage = error.message;
-    //   // The email of the user's account used.
-    //   let { email } = error;
-    //   // The firebase.auth.AuthCredential type that was used.
-    //   let { credential } = error;
-    //   // ...
-    // });
+      .then((res) => {
+        console.log(res);
+        dispatch(
+          signInAction({
+            username: res.user?.email,
+            password: res.user?.uid,
+          }, true),
+        );
+      });
   };
 
   const signIn = (values, errors) => {

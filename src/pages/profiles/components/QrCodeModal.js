@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   qrCodeLogo: {
-    width: 30,
-    height: 30,
+    width: 45,
+    height: 45,
     borderRadius: "50%",
     objectFit: "cover",
     position: "absolute",
