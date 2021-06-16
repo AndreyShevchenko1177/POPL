@@ -283,7 +283,7 @@ const DropZone = ({
                 <li>Must be CSV</li>
                 <li>Maximum file size is <b>50MB</b></li>
                 <li>First row is column header</li>
-                <li>One of the header must be "Email" or "Email Address"</li>
+                <li>One of the headers must be "Email" or "Email Address"</li>
               </ol>
             </>}
         </div>

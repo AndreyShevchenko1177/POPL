@@ -29,14 +29,14 @@ function ChoicePage() {
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Existing Account'
-                description='Add accounts from existing Popl accounts'
+                description='Add existing Popl accounts'
               />
             </div>
             <div onClick={() => history.push("/accounts/add-account/new")}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'
-                description='Create new Popl accounts to add'
+                description='Create new Popl accounts'
               />
             </div>
           </div>

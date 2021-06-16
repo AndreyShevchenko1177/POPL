@@ -77,7 +77,7 @@ export const signInChildAction = (credo, stopSpinnerCB) => async (dispatch, getS
       stopSpinnerCB();
       dispatch(
         snackBarAction({
-          message: "Sign in fail",
+          message: "Invalid email or password",
           severity: "error",
           duration: 12000,
           open: true,

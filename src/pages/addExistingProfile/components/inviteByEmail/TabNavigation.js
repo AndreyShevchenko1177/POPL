@@ -40,7 +40,7 @@ function TabNavigation({ setHeaderValue }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    setHeaderValue(!newValue ? "Send email invites to existing Popl accounts" : "login to existing popl account");
+    setHeaderValue(!newValue ? "Send email invites to existing Popl accounts" : "Log in to existing Popl accounts");
     setValue(newValue);
   };
 

@@ -53,7 +53,7 @@ function LoginTab() {
     <div>
       <Grid className={classes.loginInputsContainer} container spacing={3}>
         {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
-        <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Enter the number of profiles you’d like to create below:</Typography>
+        <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Enter number of accounts you’d like to create below:</Typography>
         <Grid className={classes.loginInput} item xs={2}>
           <TextField
             type="number"
@@ -68,6 +68,9 @@ function LoginTab() {
             value={value}
           />
         </Grid>
+        <Grid item xs={12} classes={{ item: classes.gridWithoutPadding }}>
+          <Typography classes={{ subtitle1: classes.textBelowInput }} variant='subtitle1'>These accounts will be created with randomly generated emails that can be changed later </Typography>
+        </Grid>
         <Grid item xs={3}>
           <Button
             variant="contained"
@@ -76,7 +79,7 @@ function LoginTab() {
             disabled={isFetching}
             fullWidth
           >
-                Create profiles
+                Create accounts
           </Button>
         </Grid>
       </Grid>

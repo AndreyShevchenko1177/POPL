@@ -136,7 +136,7 @@ function LoginTab() {
                   }}
                   size={20}
                 />}
-                Log in
+                Add account
               </Button>
             </Grid>
           </Grid>
