@@ -34,7 +34,9 @@ export const updateUserProfile = ({
     }
     if (fileName) {
       await requests.setCompanyImage(fileName);
-    } else requests.setCompanyImage(file || "");
+    } else {
+      await requests.setCompanyImage(file || "");
+    }
 
     dispatch(clearStateAction("companyInfo"));
     dispatch(getCompanyInfoAction());
