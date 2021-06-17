@@ -303,7 +303,7 @@ function Login(props) {
                       className={classes.loginBtn}
                       onClick={() => events.submit(signIn)}
                     >
-                      Log In
+                      {!isFetching && "Log In"}
                     </Button>
                   </div>
                   <div className={classes.donHaveAccButton}>

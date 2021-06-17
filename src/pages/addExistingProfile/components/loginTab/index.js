@@ -125,6 +125,7 @@ function LoginTab() {
                 disabled={isFetching}
                 onClick={() => events.submit(create)}
                 fullWidth
+                style={{ height: 36, width: 117 }}
               >
                 {isFetching && <Loader
                   containerStyles={{
@@ -136,7 +137,7 @@ function LoginTab() {
                   }}
                   size={20}
                 />}
-                Add account
+                {!isFetching && "Add account"}
               </Button>
             </Grid>
           </Grid>

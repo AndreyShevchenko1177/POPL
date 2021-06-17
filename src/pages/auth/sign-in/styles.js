@@ -127,7 +127,10 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     padding: 0,
   },
-  loginBtn: { margin: "30px 0" },
+  loginBtn: {
+    margin: "30px 0",
+    height: 36,
+  },
   adornment: {
     padding: 12,
     color: "rgba(0,0,0,0.54)",

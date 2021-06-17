@@ -25,12 +25,7 @@ const DropZone = ({
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState({});
   const { isFileConverting } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
-  const [icons] = useState({
-    pdf: "../../../../images/pdf.png",
-    doc: "../../../../images/doc.png",
-    xls: "../../../../images/xls.png",
-    unknown: "../../../../images/unknown.png",
-  });
+
   const [validation, setValidation] = useState({
     quantity: false,
     fileType: false,
@@ -43,7 +38,7 @@ const DropZone = ({
     const result = { ...files };
     delete result[key];
     Object.keys(result).length > 0 ? setFiles(result) : setFiles({});
-    // if (image) setFieldsState((fs) => ({ ...fs, file: image }));
+    setFieldsState((prev) => ({ ...prev, file: null }));
   };
 
   const readImage = (file, index) => {
@@ -61,6 +56,7 @@ const DropZone = ({
         reader.readAsDataURL(blobFile);
       });
     }
+    setFieldsState((fs) => ({ ...fs, file }));
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
@@ -104,7 +100,6 @@ const DropZone = ({
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
-    setFieldsState((fs) => ({ ...fs, file: file[0] }));
     setCompanyImage("");
     handleFilesObject(file);
     event.target.value = "";
@@ -153,13 +148,13 @@ const DropZone = ({
           position: "absolute", top: 50, left: "calc(50% - 15px)", width: 30, height: 30,
         }} />
         : <div
-          onClick={companyImage ? () => {} : openFileDialog}
+          // onClick={companyImage ? () => {} : openFileDialog}
           className={classes.headingDropZoneWrapper}
         >
           <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
           {
             !companyImage
-              ? <div className={classes.dashedContainer}>
+              ? <div onClick={companyImage ? () => {} : openFileDialog} className={classes.dashedContainer}>
                 { !Object.keys(files).length
                   ? (
                     <div className={classes.IconTextWrapper}>

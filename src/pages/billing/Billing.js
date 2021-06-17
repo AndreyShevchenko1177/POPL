@@ -67,6 +67,7 @@ function Billing() {
       <div className={classes.container}>
         <div className={classes.titleWrapper}>
           <Typography variant="h1">Popl Enterprise Pricing</Typography>
+          <Typography>Start using Popl Enterprise today with a free 1 month trial</Typography>
         </div>
         <div className={classes.cardsContainerWrapper}>
           {/* <div className={classes.cardsContainerShadowBox}> */}
