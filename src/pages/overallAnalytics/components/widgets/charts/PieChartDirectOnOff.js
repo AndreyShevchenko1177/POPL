@@ -71,18 +71,12 @@ const PieChartDirectOnOff = memo(({ dohnutDirectData, index, isChartsDataCalcula
       const datasetDirectProportion = [];
       const chartLabelsDirectOnOff = [];
       const chartBackGroundColorsDirectOnOff = [];
+      const data = Object.values(dohnutDirectData).reduce((acc, v) => ({ ...acc, directOff: acc.directOff + v.directOff, directOn: acc.directOn + v.directOn }), { directOff: 0, directOn: 0 });
       setData(() => {
-        let allData = {
-          directOn: 0,
-          directOff: 0,
-        };
-        Object.keys(dohnutDirectData).forEach((popName) => {
-          Object.values(dohnutDirectData[popName]).forEach(({ directOn = 0, directOff = 0 }) => allData = { ...allData, directOn: allData.directOn + directOn, directOff: allData.directOff + directOff });
-        });
-        Object.keys({ ...allData }).forEach((item) => {
+        Object.keys(data).forEach((item) => {
           chartLabelsDirectOnOff.push(dohnutLabels[item]);
           chartBackGroundColorsDirectOnOff.push(dohnutBackgroundColor[item]);
-          datasetDirectProportion.push(allData[item]);
+          datasetDirectProportion.push(data[item]);
         });
         return {
           labels: [...chartLabelsDirectOnOff],

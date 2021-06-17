@@ -16,19 +16,22 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
   const refProfiles = useRef(null);
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
+  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+  const isSelected = Object.values(checkboxes).includes(true);
   const getScrollValue = (v) => () => v; // with closure
 
-  useEffect(() => {
-    if (refProfiles?.current) {
-      const main = document.querySelector("#main");
-      const getScrollYValue = getScrollValue((window.scrollY));
-      refProfiles?.current?.scrollIntoView(false);
-      main.scrollTo({ top: getScrollYValue() });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (refProfiles?.current) {
+  //     const main = document.querySelector("#main");
+  //     const getScrollYValue = getScrollValue((window.scrollY));
+  //     refProfiles?.current?.scrollIntoView(false);
+  //     main.scrollTo({ top: getScrollYValue() });
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     if (profilesData && viewsBottom && dateRange && companyInfo) {
@@ -48,7 +51,6 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
         });
     }
   }, [viewsBottom, profilesData, dateRange, companyInfo]);
-
   return (
     <>
       {data && !isWorkerRunning
@@ -56,9 +58,10 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
           {data
             .sort((a, b) => b.value - a.value)
             .map(({
-              name, value, image,
+              name, value, image, id,
             }, key) => (
-              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} ref={location.state?.name === name ? refProfiles : null}>
+              // ref={location.state?.name === name ? refProfiles : null}
+              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: !isSelected ? location.state?.name === name ? refProfiles : null : selectedProfiles.includes(Number(id)) ? refProfiles : null }) } key={key}>
                 <div className={classes.tableCellRank }>{key + 1}</div>
                 <div className={clsx(classes.tableCellName) }>
                   <div className={classes.topViewedViewsImageContainer}>

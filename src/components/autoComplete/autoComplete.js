@@ -133,8 +133,8 @@ function AutoComplete({
                 <Checkbox
                   color='primary'
                   disabled={!!filterValue}
-                  checked={checkboxes[item.name] || false}
-                  name={String(item.name)}
+                  checked={checkboxes[item.id] || false}
+                  name={String(item.id)}
                   onChange={handleChangeCheckBox}
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />

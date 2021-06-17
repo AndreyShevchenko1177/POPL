@@ -17,6 +17,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
   const [data, setData] = useState(null);
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
 
   const location = useLocation();
 
@@ -102,6 +103,12 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
         } else {
           data = dohnutPopsByProfileData.data;
         }
+
+        const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+        const isSelected = Object.values(checkboxes).includes(true);
+        if (isSelected) {
+          data = data.filter((el) => selectedProfiles.includes(Number(el.id)));
+        }
         return {
           labels: data.map((el) => el.name),
           datasets: [{
@@ -117,7 +124,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
     } else {
       setData(undefined);
     }
-  }, [dohnutPopsByProfileData]);
+  }, [dohnutPopsByProfileData, checkboxes]);
 
   return data && !isChartsDataCalculating
     ? (!data.datasets[0].data.every((val) => !val)
