@@ -35,11 +35,14 @@ function a11yProps(index) {
   };
 }
 
-function TabNavigation() {
+function TabNavigation({ setHeaderValue }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => setValue(newValue);
+  const handleChange = (event, newValue) => {
+    setHeaderValue(!newValue ? "Create new profiles with emails" : "Create new profiles with random emails");
+    setValue(newValue);
+  };
 
   return (
     <div className={classes.root}>
@@ -53,7 +56,7 @@ function TabNavigation() {
           aria-label="simple tabs example"
         >
           <Tab
-            label="Emails"
+            label="Email invite"
             {...a11yProps(0)}
             className={value === 0 ? classes.activeTab : classes.tab1}
           />

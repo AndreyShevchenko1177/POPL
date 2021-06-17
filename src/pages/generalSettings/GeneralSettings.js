@@ -47,8 +47,6 @@ function GeneralSettings() {
     setFieldsState({ ...fieldsState, [name]: value });
   };
 
-  console.log(fieldsState.file);
-
   const handleSave = () => {
     if (restrictEdit(parentProfilefId)) {
       return dispatch(snackBarAction({

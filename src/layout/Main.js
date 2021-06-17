@@ -127,7 +127,7 @@ export default function Main({ children, stripe }) {
                   color="primary"
                   onClick={() => history.push("/settings/billing")}
                 >
-                Subscribe now
+                Start free trial to unlock dashboard
                 </Button>
               </div>
             </div>}

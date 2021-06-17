@@ -15,4 +15,10 @@ export default makeStyles((theme) => ({
     fontWeight: "bold !important",
     paddingTop: 20,
   },
+  textBelowInput: {
+    padding: 0,
+  },
+  gridWithoutPadding: {
+    padding: "0 !important",
+  },
 }));

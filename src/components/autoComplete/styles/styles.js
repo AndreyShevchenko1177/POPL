@@ -25,12 +25,12 @@ export default makeStyles((theme) => ({
   },
   dataWrapper: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   labelContainer: {
     height: 40,
     display: "flex",
     alignItems: "center",
+    paddingLeft: 10,
   },
 }));

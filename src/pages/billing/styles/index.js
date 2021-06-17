@@ -27,6 +27,8 @@ export default makeStyles((theme) => ({
   // },
   titleWrapper: {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     width: "100%",
     paddingBottom: 30,

@@ -56,6 +56,39 @@ function Login(props) {
       });
   };
 
+  const appleAuth = () => {
+    let provider = new firebase.auth.OAuthProvider("apple.com");
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        /** @type {firebase.auth.OAuthCredential} */
+        let { credential } = result;
+        console.log(result);
+        // The signed-in user info.
+        let { user } = result;
+
+        // You can also get the Apple OAuth Access and ID Tokens.
+        let { accessToken } = credential;
+        let { idToken } = credential;
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        // The email of the user's account used.
+        let { email } = error;
+        // The firebase.auth.AuthCredential type that was used.
+        let { credential } = error;
+        alert(errorMessage);
+
+        console.log(errorCode, errorMessage, email, credential);
+        // ...
+      });
+  };
+
   const signIn = (values, errors) => {
     dispatch(
       signInAction({
@@ -105,7 +138,7 @@ function Login(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  <AppleLogin
+                  {/* <AppleLogin
                     clientId="com.react.apple.login"
                     redirectURI="https://redirectUrl.com"
                     render={(renderProps) => (
@@ -120,7 +153,16 @@ function Login(props) {
                         Log in with Apple
                       </Button>
                     )}
-                  />
+                  /> */}
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={appleAuth}
+                    className={classes.googleButton}
+                    startIcon={<SvgMaker fill="#ffffff" name="appleIcon" width={25} height={25} />}
+                  >
+                        Log in with Apple
+                  </Button>
                 </Grid>
                 <Grid
                   item
@@ -303,7 +345,7 @@ function Login(props) {
                       className={classes.loginBtn}
                       onClick={() => events.submit(signIn)}
                     >
-                      Log In
+                      {!isFetching && "Log In"}
                     </Button>
                   </div>
                   <div className={classes.donHaveAccButton}>
