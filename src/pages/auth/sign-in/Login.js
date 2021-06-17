@@ -39,20 +39,26 @@ function Login(props) {
     setShowPassword(!showPassword);
   }
 
-  const responseGoogle = (response) => {
-    const { tokenId, accessToken } = response;
-    const provider = new firebase.auth.GoogleAuthProvider.credential(tokenId, accessToken);
-    console.log(provider);
+  const googleAuth = () => {
+    let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()
-      .signInWithCredential(provider)
-      .then((res) => {
-        console.log(res);
+      .signInWithPopup(provider)
+      .then((result) => {
+        console.log(result);
+        // The signed-in user info.
+        let { user } = result;
+
         dispatch(
           signInAction({
-            username: res.user?.email,
-            password: res.user?.uid,
+            username: user?.email,
+            password: user?.uid,
           }, true),
         );
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        console.log(error);
+        // ...
       });
   };
 
@@ -62,29 +68,20 @@ function Login(props) {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        /** @type {firebase.auth.OAuthCredential} */
-        let { credential } = result;
         console.log(result);
         // The signed-in user info.
         let { user } = result;
 
-        // You can also get the Apple OAuth Access and ID Tokens.
-        let { accessToken } = credential;
-        let { idToken } = credential;
-
+        dispatch(
+          signInAction({
+            username: user?.email,
+            password: user?.uid,
+          }, true),
+        );
         // ...
       })
       .catch((error) => {
-        // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        // The email of the user's account used.
-        let { email } = error;
-        // The firebase.auth.AuthCredential type that was used.
-        let { credential } = error;
-        alert(errorMessage);
-
-        console.log(errorCode, errorMessage, email, credential);
+        console.log(error);
         // ...
       });
   };
@@ -138,22 +135,6 @@ function Login(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  {/* <AppleLogin
-                    clientId="com.react.apple.login"
-                    redirectURI="https://redirectUrl.com"
-                    render={(renderProps) => (
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                        className={classes.googleButton}
-                        startIcon={<SvgMaker fill="#ffffff" name="appleIcon" width={25} height={25} />}
-                      >
-                        Log in with Apple
-                      </Button>
-                    )}
-                  /> */}
                   <Button
                     variant='contained'
                     color='primary'
@@ -174,60 +155,16 @@ function Login(props) {
                   align="center"
                   style={{ marginBottom: 20 }}
                 >
-                  {/* <Button
+                  <Button
                     variant='contained'
                     color='primary'
-                    onClick={() => {
-                      firebase.auth()
-                        .signInWithPopup(provider)
-                        .then((result) => {
-                          // @type {firebase.auth.OAuthCredential}
-                          let { credential } = result;
-
-                          console.log(result);
-
-                          // This gives you a Google Access Token. You can use it to access the Google API.
-                          let token = credential.accessToken;
-                          // The signed-in user info.
-                          let { user } = result;
-                          // ...
-                        }).catch((error) => {
-                          // Handle Errors here.
-                          console.log(error);
-                          let errorCode = error.code;
-                          let errorMessage = error.message;
-                          // The email of the user's account used.
-                          let { email } = error;
-                          // The firebase.auth.AuthCredential type that was used.
-                          let { credential } = error;
-                          // ...
-                        });
-                    }}
+                    onClick={googleAuth}
                     // disabled={renderProps.disabled}
                     className={classes.googleButton}
                     startIcon={<SvgMaker name="googleIcon" width={20} height={20} />}
                   >
                         Log in with Google
-                  </Button> */}
-                  <GoogleLogin
-                    clientId="1016915496422-0psqeusnp7ldabum6euge875kfii7nu6.apps.googleusercontent.com"
-                    buttonText="Login"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={"single_host_origin"}
-                    render={(renderProps) => (
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={renderProps.onClick}
-                        // disabled={renderProps.disabled}
-                        className={classes.googleButton}
-                        startIcon={<SvgMaker name="googleIcon" width={20} height={20} />}
-                      >
-                        Log in with Google
-                      </Button>
-                    )}
-                  />
+                  </Button>
                 </Grid>
                 <Grid
                   item
