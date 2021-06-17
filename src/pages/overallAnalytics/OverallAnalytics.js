@@ -60,6 +60,8 @@ function OverallAnalytics() {
     dohnutPopsByProfileData: false,
   });
   const [workerInstance] = useState(() => worker());
+  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+  const isSelected = Object.values(checkboxes).includes(true);
 
   const setDate = (minDate, maxDate) => {
     setOption("");
@@ -90,7 +92,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: false, minDate, maxDate,
+        popsData, isPopsData: false, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
       })).then((dohnutDirectData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -127,7 +129,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: true, minDate, maxDate,
+        popsData, isPopsData: true, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
       })).then((dohnutPopsData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -163,7 +165,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: false, minDate, maxDate,
+      popsData, isPopsData: false, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
     })).then((dohnutDirectData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -200,7 +202,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: true, minDate, maxDate,
+      popsData, isPopsData: true, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
     })).then((dohnutPopsData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -223,7 +225,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: false, minDate: dateFrom, maxDate: dateTo,
+      popsData, isPopsData: false, minDate: dateFrom, maxDate: dateTo, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
     })).then((dohnutDirectData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -260,7 +262,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: true, minDate: dateFrom, maxDate: dateTo,
+      popsData, isPopsData: true, minDate: dateFrom, maxDate: dateTo, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
     })).then((dohnutPopsData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -341,7 +343,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true,
+        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
       })).then((dohnutDirectData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -366,7 +368,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: true, minDate: null, maxDate: null, isAllData: true,
+        popsData, isPopsData: true, minDate: null, maxDate: null, isAllData: true, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
       })).then((dohnutPopsData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -491,7 +493,7 @@ function OverallAnalytics() {
         popsData, profilesData, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1],
       })).then((res) => {
         if (location.pathname !== window.location.pathname) return;
-        setPopsLineData({ ...res, data: res.data.filter((prof) => Object.keys(checkboxes).filter((id) => checkboxes[id]).includes(String(prof.name))) });
+        setPopsLineData({ ...res, data: res.data.filter((prof) => selectedProfiles.includes(Number(prof.id))), isProfile: true });
         // stopping preloaser for charts
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
@@ -521,9 +523,8 @@ function OverallAnalytics() {
         dohnutPopsData: true,
         dohnutPopsByProfileData: true,
       });
-
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: true,
+        popsData, isPopsData: true, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
       })).then((dohnutPopsData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -556,8 +557,7 @@ function OverallAnalytics() {
         // stopping preloaser for charts
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
-
-      workerInstance.generateDohnutChartData(JSON.stringify({ popsData, isPopsData: false }))
+      workerInstance.generateDohnutChartData(JSON.stringify({ popsData, isPopsData: false, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData }))
         .then((dohnutDirectData) => {
           if (location.pathname !== window.location.pathname) return;
           setChartData((prev) => ({
@@ -576,7 +576,7 @@ function OverallAnalytics() {
         dohnutPopsByProfileData: null,
       });
     }
-  }, [popsData, location]);
+  }, [popsData, location, checkboxes]);
 
   useEffect(() => {
     if (viewsBottom) {
@@ -615,6 +615,7 @@ function OverallAnalytics() {
             profileCountFilter={profileCountFilter}
             setProfileCountFilter={setProfileCountFilter}
             isChartsDataCalculating={isChartsDataCalculating.lineChart}
+            checkboxes={checkboxes}
           />
         </div>
         <BottomWidgets

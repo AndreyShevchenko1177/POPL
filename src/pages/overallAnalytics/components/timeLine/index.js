@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, memo,
 } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { Typography, Button } from "@material-ui/core";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -18,11 +18,12 @@ import Loader from "../../../../components/Loader";
 import {
   getMothName, getMonth, getDay, getYear,
 } from "../../../../utils/dates";
+import { clearChecboxAction } from "../../store/actions";
 import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 import CustomSelect from "../../../../components/customSelect";
-import { filterConfig, profileCountConfig } from "./filterConfig";
+import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../../../constants";
 
 function NetworkActivity({
@@ -41,6 +42,7 @@ function NetworkActivity({
   profileCountFilter,
   setProfileCountFilter,
   isChartsDataCalculating,
+  checkboxes,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -60,6 +62,7 @@ function NetworkActivity({
     filter: { open: false, component: "" },
     count: { open: false, component: "" },
   });
+  const dispatch = useDispatch();
 
   const handleChangeCountFilter = (event) => {
     if (Number(event.target.value) > 10) return;
@@ -267,30 +270,44 @@ function NetworkActivity({
   useEffect(() => {
     let linkTapsResult;
     let viewResult;
+    // console.log(checkboxes, linkTaps);
     if (dataType === "allData") {
       return setKpisData({ ...kpisData, views: views?.length, linkTaps: linkTaps?.length });
     }
     if (linkTaps && views) {
       let linkTapsData = linkTaps;
+
       // if individual profile level filtering linkTaps by profile id
       if (profileLevelId) linkTapsData = linkTapsData.filter((linkTap) => linkTap.pid == profileLevelId);
-
+      const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]);
+      const isSelected = Object.values(checkboxes).includes(true);
       if (moment(calendar.dateRange[0]).format("x") === moment(calendar.dateRange[1]).format("x")) {
-        linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL"));
-        viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+        if (isSelected) {
+          linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL") && selectedProfiles.includes(link.pid));
+          viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL") && selectedProfiles.includes(view[0]));
+        } else {
+          linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+          viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+        }
       } else {
         linkTapsResult = linkTapsData.filter((link) => {
           const linkDate = moment(link.event_at).format("x");
+          if (isSelected) {
+            return (linkDate >= moment(calendar.dateRange[0]).format("x")) && (linkDate <= moment(calendar.dateRange[1]).format("x") && selectedProfiles.includes(link.pid));
+          }
           return (linkDate >= moment(calendar.dateRange[0]).format("x")) && (linkDate <= moment(calendar.dateRange[1]).format("x"));
         });
         viewResult = views.filter((view) => {
           const viewsDate = moment(view[2]).format("x");
+          if (isSelected) {
+            return (viewsDate >= moment(calendar.dateRange[0]).format("x")) && (viewsDate <= moment(calendar.dateRange[1]).format("x") && selectedProfiles.includes(view[0]));
+          }
           return (viewsDate >= moment(calendar.dateRange[0]).format("x")) && (viewsDate <= moment(calendar.dateRange[1]).format("x"));
         });
       }
     }
     if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
-  }, [linkTaps, views, calendar.dateRange, location]);
+  }, [linkTaps, views, calendar.dateRange, location, checkboxes]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
 
@@ -303,14 +320,14 @@ function NetworkActivity({
           </Typography>
         </div>
         <div className={classes.filterContainer}>
-          { !!profileCountFilter.changeByKey
+          { Object.values(checkboxes).includes(true)
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{profileCountFilter.changeByKey > 1 ? `${profileCountFilter.changeByKey} accounts` : `${profileCountFilter.changeByKey} account`}</i>
+                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} accounts` : `${1} account`}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => setProfileCountFilter({ changeByTap: "", changeByKey: "" })} />
+              }} onClick={() => dispatch(clearChecboxAction())} />
             </div>
           }
           {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
@@ -404,7 +421,9 @@ function NetworkActivity({
           {chartData?.data?.datasets[0]?.data && kpisConfig.map((item) => {
             let isFetched = false;
             if (item.id === "popsCount") {
-              item.value = chartData?.data?.datasets[0]?.data.reduce((acc, value) => acc += value, 0);
+              const isSelected = Object.values(checkboxes).includes(true);
+              item.value = !isSelected ? [...chartData?.data?.datasets].slice(1).reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0)
+                : chartData?.data?.datasets.reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0);
             }
 
             if (item.id === "linkTaps") {

@@ -72,12 +72,11 @@ const PieChartPopsDataProportion = memo(({ dohnutPopsData, index, isChartsDataCa
       const datasetsPopsDataProportion = [];
       const chartLabelsPopsDataProportion = [];
       const chartBackGroundColorsPopsDataProportion = [];
-
       setData(() => {
         Object.keys(dohnutPopsData).forEach((popName) => {
           chartLabelsPopsDataProportion.push(labels[popName]);
           chartBackGroundColorsPopsDataProportion.push(backgroundColor[popName]);
-          datasetsPopsDataProportion.push(Object.values(dohnutPopsData[popName]).reduce((sum, cur) => sum += cur, 0));
+          datasetsPopsDataProportion.push(dohnutPopsData[popName]);
         });
         return {
           labels: chartLabelsPopsDataProportion,

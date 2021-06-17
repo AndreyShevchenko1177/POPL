@@ -20,6 +20,7 @@ function TopListLinkTaps({
   const [data, setData] = useState();
   const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
 
   const handleDownloadFile = (linkId, path, value) => {
     if (linkId !== 37) return;
@@ -31,11 +32,12 @@ function TopListLinkTaps({
       let workerInstance = worker();
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
-
+      const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+      const isSelected = Object.values(checkboxes).includes(true);
       const result = [];
       setIsWorkerRunning(true);
       workerInstance.linkTapsWidgetCalculation(JSON.stringify({
-        linksTaps, dateRange, location, profilesData,
+        linksTaps, dateRange, location, profilesData: isSelected ? profilesData.filter((el) => selectedProfiles.includes(Number(el.id))) : profilesData,
       }))
         .then((links) => {
           if (location.pathname !== window.location.pathname) return;
@@ -64,7 +66,7 @@ function TopListLinkTaps({
           setIsWorkerRunning(false);
         });
     }
-  }, [linksTaps, profilesData, dateRange, location]);
+  }, [linksTaps, profilesData, dateRange, location, checkboxes]);
 
   return (
     <>

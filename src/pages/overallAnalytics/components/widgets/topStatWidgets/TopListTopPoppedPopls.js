@@ -19,6 +19,10 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
   );
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
+  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+  const isSelected = Object.values(checkboxes).includes(true);
+
   const getScrollValue = (v) => () => v; // with closure
 
   useEffect(() => {
@@ -35,14 +39,14 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
       let workerInstance = worker();
       setIsWorkerRunning(true);
       workerInstance.topPoppedPopls(JSON.stringify({
-        totalPopls, totalPops, dateRange,
+        totalPopls, totalPops, dateRange, profilesData: isSelected ? profilesData.filter((el) => selectedProfiles.includes(el.id)) : null,
       }))
         .then((result) => {
           setData(result);
           setIsWorkerRunning(false);
         });
     }
-  }, [totalPopls, totalPops, location, dateRange]);
+  }, [totalPopls, totalPops, location, dateRange, checkboxes]);
 
   return (
     <>
