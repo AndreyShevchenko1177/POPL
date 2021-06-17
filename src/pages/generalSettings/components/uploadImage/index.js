@@ -46,6 +46,7 @@ const DropZone = ({
     if (["heif", "heic"].includes(file?.name.split(".")[file?.name.split(".").length - 1])) {
       dispatch(isFileConvertingAction(true));
       let workerInstance = worker();
+      setFieldsState((fs) => ({ ...fs, file }));
       return workerInstance.heicToJpg(file).then((convertedFile) => {
         const reader = new FileReader();
         reader.addEventListener("load", (event) => {
