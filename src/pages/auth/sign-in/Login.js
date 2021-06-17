@@ -57,51 +57,24 @@ function Login(props) {
   };
 
   const appleAuth = () => {
-    // let provider = new firebase.auth.OAuthProvider("apple.com");
-    // firebase
-    //   .auth()
-    //   .signInWithPopup(provider)
-    //   .then((result) => {
-    //     /** @type {firebase.auth.OAuthCredential} */
-    //     let { credential } = result;
-
-    //     // The signed-in user info.
-    //     let { user } = result;
-
-    //     // You can also get the Apple OAuth Access and ID Tokens.
-    //     let { accessToken } = credential;
-    //     let { idToken } = credential;
-
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     // Handle Errors here.
-    //     let errorCode = error.code;
-    //     let errorMessage = error.message;
-    //     // The email of the user's account used.
-    //     let { email } = error;
-    //     // The firebase.auth.AuthCredential type that was used.
-    //     let { credential } = error;
-    //     alert(errorMessage);
-
-    //     console.log(errorCode, errorMessage, email, credential);
-    //     // ...
-    //   });
-
-    // GOOGLE
-    let provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth()
+    let provider = new firebase.auth.OAuthProvider("apple.com");
+    firebase
+      .auth()
       .signInWithPopup(provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
         let { credential } = result;
-
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = credential.accessToken;
+        console.log(result);
         // The signed-in user info.
         let { user } = result;
+
+        // You can also get the Apple OAuth Access and ID Tokens.
+        let { accessToken } = credential;
+        let { idToken } = credential;
+
         // ...
-      }).catch((error) => {
+      })
+      .catch((error) => {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
@@ -109,7 +82,9 @@ function Login(props) {
         let { email } = error;
         // The firebase.auth.AuthCredential type that was used.
         let { credential } = error;
-        console.log(error);
+        alert(errorMessage);
+
+        console.log(errorCode, errorMessage, email, credential);
         // ...
       });
   };
