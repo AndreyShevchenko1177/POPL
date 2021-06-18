@@ -15,6 +15,13 @@ export default makeStyles((theme) => ({
       marginLeft: 15,
     },
   },
+  containerWrapper: {
+    position: "sticky",
+    top: 70,
+    zIndex: 1000,
+    backgroundColor: "#ffffff",
+    width: "100%",
+  },
   searchContainer: {
     display: "flex",
     position: "relative",

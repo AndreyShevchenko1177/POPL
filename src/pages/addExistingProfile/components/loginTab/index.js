@@ -125,7 +125,7 @@ function LoginTab() {
                 disabled={isFetching}
                 onClick={() => events.submit(create)}
                 fullWidth
-                style={{ height: 36, width: 117 }}
+                style={{ height: 36, width: 125 }}
               >
                 {isFetching && <Loader
                   containerStyles={{

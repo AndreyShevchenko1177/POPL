@@ -172,31 +172,31 @@ function PoplsItem() {
           dragablePopls?.length ? "relative" : ""
         } main-padding popls-page-container`}
       >
-        <div className="popls-header-container">
-          <SearchStripe
-            isShowSortBtn
-            isFetching={isFetching}
-            handleCheck={handleCheck}
-            checked={mainCheck}
-            checkboxes={checkboxes}
-            setFilters={showAll}
-            isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
-            searchValue={searchValue}
-            handleSearch={handleSearch}
-            arrowHandler={arrowHandler}
-            selectObject={{
-              openProfileSelect,
-              setOpenProfileSelect,
-              sortConfig: sortingConfig,
-              sortHandler,
-              resetSort,
-              handleChange: handleChangeInputFilter,
-              clearInput: clearFilterInput,
-            }}
-            filterConfig={filteringConfig}
-            autoComleteData={profiles}
-          />
-        </div>
+        {/* <div className="popls-header-container"> */}
+        <SearchStripe
+          isShowSortBtn
+          isFetching={isFetching}
+          handleCheck={handleCheck}
+          checked={mainCheck}
+          checkboxes={checkboxes}
+          setFilters={showAll}
+          isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+          searchValue={searchValue}
+          handleSearch={handleSearch}
+          arrowHandler={arrowHandler}
+          selectObject={{
+            openProfileSelect,
+            setOpenProfileSelect,
+            sortConfig: sortingConfig,
+            sortHandler,
+            resetSort,
+            handleChange: handleChangeInputFilter,
+            clearInput: clearFilterInput,
+          }}
+          filterConfig={filteringConfig}
+          autoComleteData={profiles}
+        />
+        {/* </div> */}
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : dragablePopls?.length ? (

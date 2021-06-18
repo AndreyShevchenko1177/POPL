@@ -199,30 +199,29 @@ function Connections() {
         }
         }
       >
-        <div className={classes.poplsHeaderContainer}>
-          <SearchStripe
-            isShowSortBtn
-            setFilters={showAll}
-            isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
-            searchValue={searchValue}
-            checked={selectAllCheckbox}
-            handleSearch={handleSearch}
-            showCRM
-            handleCheck={handleSelectAllCheckboxes}
-            arrowHandler={arrowHandler}
-            selectObject={{
-              openProfileSelect,
-              setOpenProfileSelect,
-              sortConfig: sortingConfig,
-              sortHandler,
-              resetSort,
-              handleChange: handleChangeInputFilter,
-              clearInput: clearFilterInput,
-            }}
-            filterConfig={filteringConfig}
-            autoComleteData={profiles}
-          />
-        </div>
+        <SearchStripe
+          styles={{ containerWrapper: { top: 0 } }}
+          isShowSortBtn
+          setFilters={showAll}
+          isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+          searchValue={searchValue}
+          checked={selectAllCheckbox}
+          handleSearch={handleSearch}
+          showCRM
+          handleCheck={handleSelectAllCheckboxes}
+          arrowHandler={arrowHandler}
+          selectObject={{
+            openProfileSelect,
+            setOpenProfileSelect,
+            sortConfig: sortingConfig,
+            sortHandler,
+            resetSort,
+            handleChange: handleChangeInputFilter,
+            clearInput: clearFilterInput,
+          }}
+          filterConfig={filteringConfig}
+          autoComleteData={profiles}
+        />
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : dragableConnections?.length ? (

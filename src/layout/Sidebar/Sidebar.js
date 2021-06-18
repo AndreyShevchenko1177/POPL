@@ -330,7 +330,7 @@ function PermanentDrawerLeft() {
               primary="Analytics"
             />
           </ListItem>
-          <Link to="/campaigns">
+          {/* <Link to="/campaigns">
             <ListItem
               divider={false}
               className={clsx(classes.ulList, {
@@ -360,7 +360,7 @@ function PermanentDrawerLeft() {
                 primary="Campaigns"
               />
             </ListItem>
-          </Link>
+          </Link> */}
           <Link to="/notifications">
             <ListItem
               divider={false}
