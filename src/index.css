@@ -224,6 +224,12 @@ p {
   cursor: pointer;
   margin-right: 30px;
 }
+
+.activeLegendItem {
+  background-color: #787878 !important;
+  color: #ffffff;
+}
+
 .label {
   line-height: 30px;
   white-space: nowrap;

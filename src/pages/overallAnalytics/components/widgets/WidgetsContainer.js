@@ -1,21 +1,25 @@
 import React from "react";
 import clsx from "clsx";
 import { Paper, Typography } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles";
+import WidgetImages from "../widgetImage";
 
 function WidgetsContainer({
-  children, heading, layerString, isChart, fullWidth,
+  children, heading, layerString, isChart, fullWidth, profilesData,
 }) {
   const classes = useStyles();
+  const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
+  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
 
   return (
     <Paper elevation={1} className={fullWidth ? classes.fullWidgetRoot : classes.widgetRoot}>
       <div className={classes.widgetHeadingContainer}>
-        <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
-        <div className={classes.layerStringContainer}>
-          <Typography classes={{ subtitle1: classes.widgetLayerString }} variant='subtitle1'>{layerString}</Typography>
-        </div>
+        <WidgetImages data={profilesData?.filter((el) => selectedProfiles.includes(Number(el.id)))}>
+          <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
+        </WidgetImages>
+
         <div className={classes.infoIcon}>
           <SvgMaker
             name='info'

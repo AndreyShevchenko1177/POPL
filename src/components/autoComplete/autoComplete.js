@@ -139,7 +139,7 @@ function AutoComplete({
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />
               </div>
-              <div onClick={(event) => setSelectedItem(event, item.name, item)} className={classes.labelContainer}>
+              <div className={classes.labelContainer}>
                 <p data-key={key}>{item.name}</p>
               </div>
             </div>

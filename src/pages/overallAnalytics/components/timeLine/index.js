@@ -330,14 +330,14 @@ function NetworkActivity({
               }} onClick={() => dispatch(clearChecboxAction())} />
             </div>
           }
-          {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
+          {/* {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
             <span style={{ whiteSpace: "nowrap" }}>
               <i>{location.state?.profilesData?.name || location.state?.name}</i>
             </span>
             <CloseIcon style={{
               cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
             }} onClick={clearFilterInput} />
-          </div>}
+          </div>} */}
           {/* <div className={classes.buttonWrapper}>
             <Button
               variant='contained'

@@ -46,14 +46,18 @@ export default makeStyles((theme) => ({
   },
   widgetHeadingContainer: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexWrap: "wrap",
+    maxHeight: 65,
+    overflow: "auto",
     // borderBottom: `1px solid ${theme.custom.mainBorderGreyColor}`,
     paddingBottom: 10,
     marginBottom: 10,
+    marginLeft: 10,
   },
   infoIcon: {
-    marginLeft: 10,
+    right: 10,
+    top: 10,
+    position: "absolute",
     display: "flex",
     alignItems: "center",
     cursor: "pointer",
@@ -61,6 +65,7 @@ export default makeStyles((theme) => ({
   widgetHeading: {
     whiteSpace: "nowrap",
     fontWeight: "bold",
+    marginRight: 10,
   },
   layerStringContainer: {
     maxWidth: "50%",
@@ -181,6 +186,5 @@ export default makeStyles((theme) => ({
   rootLegend: {
     padding: "15px",
     margin: "10px 10px 10px 0px",
-
   },
 }));
