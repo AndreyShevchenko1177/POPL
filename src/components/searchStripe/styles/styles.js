@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
   containerWrapper: {
     position: "sticky",
     top: 70,
-    zIndex: 1000,
+    zIndex: 999,
     backgroundColor: "#ffffff",
     width: "100%",
   },

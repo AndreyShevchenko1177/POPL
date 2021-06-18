@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
     position: "absolute",
-    zIndex: 101,
+    zIndex: 1000,
   },
   wizardContainer: {
     position: "fixed",
