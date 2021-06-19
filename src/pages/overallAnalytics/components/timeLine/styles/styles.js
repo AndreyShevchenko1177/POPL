@@ -2,9 +2,13 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   "network-container": {
-    padding: "10px 0 0 0",
+    padding: "90px 0 0 0",
   },
   "network-container__header": {
+    position: "fixed",
+    top: 70,
+    zIndex: 1000,
+    width: "calc(100% - 350px)",
     display: "flex",
     padding: "10px 15px",
     boxShadow: theme.custom.mainBoxShadow,
@@ -18,12 +22,13 @@ export default makeStyles((theme) => ({
     minWidth: "240px",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingBottom: 50,
   },
   "network-container__charts": {
     display: "flex",
     flexDirection: "column",
     minHeight: 400,
-    padding: "60px 10px 10px 10px",
+    padding: 10,
     boxShadow: theme.custom.mainBoxShadow,
     borderRadius: theme.custom.mainBorderForBigElement,
     backgroundColor: "#ffffff",

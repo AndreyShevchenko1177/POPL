@@ -47,7 +47,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
   const renderLabels = (chart) => {
     const { data } = chart;
     const header = `
-        <div style="display: flex; padding-top: 10px; font-size: 15px; font-weight: 600; background-color: #fff; z-index: 1000;  align-items: center; width: 100%; padding-bottom: 15px; position: sticky; top: 0px; height: 40px;">
+        <div style="display: flex; padding-top: 10px; font-size: 15px; font-weight: 600; background-color: #fff; z-index: 100;  align-items: center; width: 100%; padding-bottom: 15px; position: sticky; top: 0px; height: 40px;">
           <div style="width: 20px; margin-right: 10px;">
            
           </div>

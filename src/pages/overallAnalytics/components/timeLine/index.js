@@ -314,11 +314,11 @@ function NetworkActivity({
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
-        <div className={classes["network-container__title"]}>
+        {/* <div className={classes["network-container__title"]}>
           <Typography variant="h5" classes={{ h5: classes.text }}>
             Pops Over Time
           </Typography>
-        </div>
+        </div> */}
         <div className={classes.filterContainer}>
           { Object.values(checkboxes).includes(true)
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>
@@ -397,6 +397,11 @@ function NetworkActivity({
         </div>
       </div>
       <div className={classes["network-container__charts"]}>
+        <div className={classes["network-container__title"]}>
+          <Typography variant="h5" classes={{ h5: classes.text }}>
+            Pops Over Time
+          </Typography>
+        </div>
         <div className={classes["network-container__line"]}>
           <div id='lineChart' ></div>
           {chartData === undefined || isChartsDataCalculating

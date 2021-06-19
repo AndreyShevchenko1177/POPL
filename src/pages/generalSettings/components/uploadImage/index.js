@@ -43,7 +43,9 @@ const DropZone = ({
 
   const readImage = (file, index) => {
     // Check if the file is an image with heic/heif extension.
-    if (["heif", "heic"].includes(file?.name.split(".")[file?.name.split(".").length - 1])) {
+    const fileName = file?.name.split(".")[file?.name.split(".").length - 1];
+    console.log(fileName, file);
+    if (["heif", "heic"].includes(fileName.toLowerCase())) {
       dispatch(isFileConvertingAction(true));
       let workerInstance = worker();
       setFieldsState((fs) => ({ ...fs, file }));
