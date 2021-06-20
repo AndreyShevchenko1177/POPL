@@ -76,11 +76,22 @@ export default makeStyles((theme) => ({
   },
   section1_qrcodeIcon: {
     position: "absolute",
-    right: 50,
+    right: 10,
   },
   section1_editIcon: {
     position: "absolute",
-    right: 10,
+    right: 50,
+  },
+  doneText: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    color: "#32aa32",
+    fontWeight: "bold",
+    height: 25,
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
   section1_title: {
     height: 29,

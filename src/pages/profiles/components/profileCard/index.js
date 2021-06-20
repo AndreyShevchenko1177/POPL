@@ -340,11 +340,18 @@ export default function Card({
               onMouseUp={(event) => changeIconSize(event, 1)}
               onMouseDown={(event) => changeIconSize(event, 0.7)}
             >
-              <img
-                style={{ width: 25, height: 25, cursor: "pointer" }}
-                alt='edit'
-                src={editProfileIcon}
-              />
+              {showEditIcon
+                ? <div
+                  className={classes.doneText}
+                  onClick={editIconHandler}
+                >
+                  Done
+                </div>
+                : <img
+                  style={{ width: 25, height: 25, cursor: "pointer" }}
+                  alt='edit'
+                  src={editProfileIcon}
+                />}
             </div>
             <div className={clsx(classes.section1_avatar)}>
               {setProfilePhoto.isFetching && currentEditedProfile === id
