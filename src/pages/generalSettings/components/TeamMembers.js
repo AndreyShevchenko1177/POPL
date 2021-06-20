@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Button, Paper, TextField, Typography,
@@ -15,6 +15,7 @@ function TeamMembers({ showConfirmModal }) {
   const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
+  const ref = useRef();
   const [profilesList, setProfilesList] = useState([]);
   const classes = useStyles();
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
@@ -45,6 +46,10 @@ function TeamMembers({ showConfirmModal }) {
     showConfirmModal(id);
   };
 
+  useEffect(() => {
+    ref.current?.focus();
+  }, [isShow]);
+
   return (
     <div className={classes.fieldContainer}>
       <div className={classes.paddingWrapper}>
@@ -66,7 +71,10 @@ function TeamMembers({ showConfirmModal }) {
         </Button>
       </div>
       {isShow && (
-        <Paper className={classes.teamMembersPopup}>
+        <Paper className={classes.teamMembersPopup} tabIndex={1} ref={ref} onBlur={(event) => {
+          if (event.currentTarget.contains(event.relatedTarget)) return;
+          setIsShow(false);
+        }}>
           <CancelIcon className={classes.closeIcon} onClick={() => setIsShow(false)} />
           <div className={classes.searchInputWrapper}>
             <TextField

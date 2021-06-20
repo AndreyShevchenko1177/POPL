@@ -1,5 +1,5 @@
 import { Button, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import useStyles from "../styles";
@@ -8,6 +8,7 @@ import userIcon from "../../../../assets/svg/user.svg";
 
 function Recipients({ setValues, recipients }) {
   const classes = useStyles();
+  const ref = useRef();
   const [isShow, setIsShow] = useState(false);
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
@@ -15,6 +16,10 @@ function Recipients({ setValues, recipients }) {
   const handleDeleteRecipient = (id) => {
     setValues((prev) => ({ ...prev, recipients: prev.recipients.filter(({ customId }) => customId !== id) }));
   };
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, [isShow]);
 
   return (
     <div className={classes.recipientsRoot}>
@@ -44,12 +49,17 @@ function Recipients({ setValues, recipients }) {
 
       </div>
       {isShow && (
-        <ProfilesList
-          recipients={recipients}
-          setIsShow={setIsShow}
-          profiles={profiles}
-          setRecepients={setValues}
-        />
+        <div ref={ref} tabIndex={1} onBlur={(event) => {
+          if (event.currentTarget.contains(event.relatedTarget)) return;
+          setIsShow(false);
+        }}>
+          <ProfilesList
+            recipients={recipients}
+            setIsShow={setIsShow}
+            profiles={profiles}
+            setRecepients={setValues}
+          />
+        </div>
       )}
     </div>
   );

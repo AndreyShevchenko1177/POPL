@@ -112,9 +112,9 @@ function CustomSelect({
   const dispatch = useDispatch();
 
   const onBlurHandler = (event) => {
-    // if (event.currentTarget.contains(event.relatedTarget)) return;
-    // if (event.relatedTarget?.name === selectName) return;
-    // events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }));
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    if (event.relatedTarget?.name === selectName) return;
+    events.hideSelectHandler((h) => ({ ...h, [selectName]: { open: false, component: "select" } }));
   };
 
   useEffect(() => {
