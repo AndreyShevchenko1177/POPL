@@ -111,11 +111,11 @@ function OverallAnalytics() {
         popsData, maxDate, minDate,
       })).then(({ lineData, percentageData }) => {
         if (location.pathname !== window.location.pathname) return;
+        setPercentagePopsKpisData(percentageData);
         setChartData((prev) => ({
           ...prev,
           lineData,
         }));
-        setPercentagePopsKpisData(percentageData);
         // stopping preloader
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
@@ -185,11 +185,11 @@ function OverallAnalytics() {
       popsData, maxDate, minDate,
     })).then(({ lineData, percentageData }) => {
       if (location.pathname !== window.location.pathname) return;
+      setPercentagePopsKpisData(percentageData);
       setChartData((prev) => ({
         ...prev,
         lineData,
       }));
-      setPercentagePopsKpisData(percentageData);
       // stopping preloader
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
     });
@@ -258,11 +258,11 @@ function OverallAnalytics() {
       popsData, minDate: dateFrom, maxDate: dateTo,
     })).then(({ lineData, percentageData }) => {
       if (location.pathname !== window.location.pathname) return;
+      setPercentagePopsKpisData(percentageData);
       setChartData((prev) => ({
         ...prev,
         lineData,
       }));
-      setPercentagePopsKpisData(percentageData);
       // stopping preloader
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
     });
@@ -446,7 +446,7 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     default: {
-      setIsAllTime(false);
+      // setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(2, "weeks").subtract(-1, "d")
         .toDate();
@@ -565,11 +565,11 @@ function OverallAnalytics() {
         popsData,
       })).then(({ lineData, percentageData }) => {
         if (location.pathname !== window.location.pathname) return;
+        setPercentagePopsKpisData(percentageData);
         setChartData((prev) => ({
           ...prev,
           lineData,
         }));
-        setPercentagePopsKpisData(percentageData);
         // stopping preloaser for charts
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
