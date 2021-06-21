@@ -187,7 +187,7 @@ function NetworkActivity({
             legendCallback: (chart) => renderLegend(chart),
             scales: {
               ...options.scales,
-              xAxes: [{ ...options.options.scales.xAxes[0], offset: options.data.datasets[0].data.length === 2 }],
+              xAxes: [{ ...options.options.scales.xAxes[0], offset: options.data.datasets[0].data.length === 1 }],
               yAxes: [{
                 afterTickToLabelConversion(q) {
                   for (let tick in q.ticks) {
@@ -232,7 +232,7 @@ function NetworkActivity({
             legendCallback: (chart) => renderLegend(chart),
             scales: {
               ...chartOptions.scales,
-              xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: chartOptions.data.datasets[0].data.length === 2 }],
+              xAxes: [{ ...chartOptions.options.scales.xAxes[0], offset: chartOptions.data.datasets[0].data.length === 1 }],
               yAxes: [{
                 afterTickToLabelConversion(q) {
                   for (let tick in q.ticks) {

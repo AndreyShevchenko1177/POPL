@@ -171,6 +171,12 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
     });
   } catch (error) {
     console.log(error);
+    dispatch(snackBarAction({
+      message: "server error",
+      severity: "error",
+      duration: 6000,
+      open: true,
+    }));
     dispatch(fetchingAction(false, "connectionsSidebar"));
   }
 };
