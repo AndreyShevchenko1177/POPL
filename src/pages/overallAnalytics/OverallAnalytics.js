@@ -52,7 +52,7 @@ function OverallAnalytics() {
     dateRange: [new Date(currentDate1.slice(0, currentDate1.length - 1)), new Date(currentDate2)],
     normalData: [currentDate1, currentDate2],
   });
-
+  const [filterValue, setFilterValue] = useState("");
   const [isChartsDataCalculating, setIsChartDataCalculating] = useState({ // when data recalculating locally running preloader
     lineChart: false,
     dohnutDirectData: false,
@@ -283,6 +283,7 @@ function OverallAnalytics() {
 
   const handleShowAllStat = () => {
     // dispatch(getStatisticItemsRequest(userId));
+    setFilterValue("");
     setChartData({
       dohnutDirectData: null,
       dohnutPopsData: null,
@@ -484,6 +485,7 @@ function OverallAnalytics() {
       });
     }
   }, [allPopsData, location]);
+
   useEffect(() => {
     if (!Object.keys(checkboxes).length) setPopsLineData(null);
     if (profileCountFilter && profilesData && Object.keys(checkboxes).length) {
@@ -499,6 +501,7 @@ function OverallAnalytics() {
       });
     }
   }, [checkboxes, calendar.dateRange, profilesData]);
+
   useEffect(() => () => {
     dispatch(cleanAction());
     setChartData({
@@ -616,6 +619,8 @@ function OverallAnalytics() {
             setProfileCountFilter={setProfileCountFilter}
             isChartsDataCalculating={isChartsDataCalculating.lineChart}
             checkboxes={checkboxes}
+            filterValue={filterValue}
+            setFilterValue={setFilterValue}
           />
         </div>
         <BottomWidgets

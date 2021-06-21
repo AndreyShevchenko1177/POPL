@@ -43,6 +43,8 @@ function NetworkActivity({
   setProfileCountFilter,
   isChartsDataCalculating,
   checkboxes,
+  filterValue,
+  setFilterValue,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -52,7 +54,6 @@ function NetworkActivity({
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
-  const [filterValue, setFilterValue] = useState("");
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
     views: 0,
@@ -168,7 +169,7 @@ function NetworkActivity({
         options.data.datasets = [];
         data.data.forEach(({ name, dateValues }, i) => {
           options.data.datasets[i] = {
-            data: Object.values(dateValues),
+            data: data.labels.map((date) => dateValues[date]),
             pointRadius: dataType === "allData" ? 0 : 3,
             label: name,
             lineTension: 0.1,
