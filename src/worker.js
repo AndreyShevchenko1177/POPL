@@ -48,7 +48,7 @@ const dateGeneration = (popsData, minDate, maxDate) => {
     let a = moment([_maxdY, _maxdM, _maxdD]);
     let b = moment([_mindY, _mindM, _mindD]);
     calendarRange = Math.abs(a.diff(b, "days"));
-    currentDate = new Date(maxDate);
+    currentDate = new Date(maxDate).getTime() < new Date(minDate).getTime() ? new Date(minDate) : new Date(maxDate);
   } else {
     currentDate = new Date();
   }
@@ -208,45 +208,6 @@ export function overallAnalyticsPopsPoplLevel(funcArguments) {
 
   return { poplPops, qrCodePops, walletPops };
 }
-
-// FUNCTION FROM UTILS FOR CHARTS DATA GENERATION
-// export function generateDohnutChartData(funcArguments) {
-//   const {
-//     popsData, isPopsData, minDate, maxDate, isAllData,
-//   } = JSON.parse(funcArguments);
-//   let result = {};
-//   if (isAllData) {
-//     popsData.allPops.forEach((item) => {
-//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
-//       result[date] = 0;
-//     });
-//   } else {
-//     result = dateGeneration(popsData, minDate, maxDate);
-//   }
-//   const data = {};
-//   const { allPops, ...newPopsData } = popsData;
-
-//   Object.keys(newPopsData).forEach((popKey) => {
-//     let ownResult = { ...result };
-//     let correctResult = {};
-//     popsData[popKey].forEach((item) => {
-//       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
-//       const direct = item[3];
-//       if (date in result) {
-//         if (isPopsData) return ownResult[date] = (ownResult[date] || 0) + 1;
-//         if (direct == "1") {
-//           ownResult[date] = { ...(ownResult[date] || {}), directOn: (ownResult[date]?.directOn || 0) + 1 };
-//         } else {
-//           ownResult[date] = { ...(ownResult[date] || {}), directOff: (ownResult[date]?.directOff || 0) + 1 };
-//         }
-//       }
-//     });
-//     Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
-//     data[popKey] = correctResult;
-//   });
-//   console.log(data);
-//   return data;
-// }
 
 export function generateDohnutChartData(funcArguments) {
   const {

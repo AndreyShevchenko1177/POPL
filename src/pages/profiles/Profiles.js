@@ -310,7 +310,7 @@ export default function Profiles() {
       <Header
         rootLink="Accounts"
       />
-      <QrCodeModal {...qrCodesModal} setOpen={setQrCodesModal}/>
+      {qrCodesModal.open && <QrCodeModal {...qrCodesModal} setOpen={setQrCodesModal}/>}
       {qrCodes.codes?.map(({ Component, data }, key) => <Component key={key} value={data.url} style={{ display: "none" }} id={data.id}/>)}
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
