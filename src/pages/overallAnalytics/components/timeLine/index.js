@@ -506,9 +506,11 @@ function NetworkActivity({
                 item.value = "";
               } else {
                 item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
-                item.percentage = item.value
-                  ? ((((kpisData.linkTaps / kpisData.views) * 100) - ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100)) / ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100) * 100).toFixed(1)
-                  : "";
+                if (!isAllTimeData) {
+                  item.percentage = item.value
+                    ? ((((kpisData.linkTaps / kpisData.views) * 100) - ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100)) / ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100) * 100).toFixed(1)
+                    : "";
+                } else item.percentage = 0;
               }
               isFetched = linkTapsFetching || viewsFetching;
             }

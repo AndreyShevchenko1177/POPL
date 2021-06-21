@@ -10,6 +10,8 @@ function StatisticItem({
 }) {
   const classes = useStyles();
 
+  console.log(percentage, title);
+
   return (
     <div className={styles?.container || classes.topStatisticsItemContainer}>
       {count === undefined || isFetched ? (
@@ -31,7 +33,7 @@ function StatisticItem({
                 ? addCommas(String(value))
                 : <div><span>{value}</span><span style={{ fontSize: styles?.percentageFontSize || 30 }}>%</span></div>
               : "-"}
-            {value && percentage && <div className={classes.percentageContainer}>
+            {value && !!percentage && <div className={classes.percentageContainer}>
               <div className={classes.percentageIconWrapper}>
                 <SvgMaker fill={percentage >= 0 ? "#1b6f9d" : "#f6941f"} width={10} height={10} name={ percentage >= 0 ? "upArrow" : "downArrow"} />
               </div>
