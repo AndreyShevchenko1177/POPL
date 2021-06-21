@@ -66,6 +66,7 @@ export const uploadImage = async (file, folderName) => {
   }
   // let outputFile = file
   const storageRef = firebase.storage().ref();
+  console.log(outputData.name);
   const fileRef = storageRef.child(`${folderName || ""}/${outputData.name}`);
   await fileRef.put(outputData.file);
   return downloadFileFromFireBase(outputData.name, folderName);

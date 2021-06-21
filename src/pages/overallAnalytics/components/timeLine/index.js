@@ -43,6 +43,10 @@ function NetworkActivity({
   setProfileCountFilter,
   isChartsDataCalculating,
   checkboxes,
+  filterValue,
+  setFilterValue,
+  popsPercentageData,
+  isAllTimeData,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -52,11 +56,12 @@ function NetworkActivity({
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
   const viewsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.isFetching);
-  const [filterValue, setFilterValue] = useState("");
   const [kpisData, setKpisData] = useState({
     linkTaps: 0,
     views: 0,
     ctr: 0,
+    viewsHistory: 0,
+    linkTapsHistory: 0,
   });
   const [openProfileSelect, setOpenProfileSelect] = useState({
     filter: { open: false, component: "" },
@@ -129,6 +134,7 @@ function NetworkActivity({
 
   const renderLegend = (chart) => {
     const { data } = chart;
+    console.log(data);
     return data.datasets.map(({ label, borderColor, data }, i) => `
     <div class="legendItem">
       <div>
@@ -168,7 +174,7 @@ function NetworkActivity({
         options.data.datasets = [];
         data.data.forEach(({ name, dateValues }, i) => {
           options.data.datasets[i] = {
-            data: Object.values(dateValues),
+            data: data.labels.map((date) => dateValues[date]),
             pointRadius: dataType === "allData" ? 0 : 3,
             label: name,
             lineTension: 0.1,
@@ -270,9 +276,19 @@ function NetworkActivity({
   useEffect(() => {
     let linkTapsResult;
     let viewResult;
-    // console.log(checkboxes, linkTaps);
+    let linkTapsHistory = [];
+    let viewsHistory = [];
+    let daysDiff;
+    if (moment(calendar.dateRange[0]).format("LL") === moment(calendar.dateRange[1]).format("LL")) { // if checked one date in picker
+      daysDiff = 1;
+    } else {
+      daysDiff = moment(calendar.dateRange[0]).diff(moment(calendar.dateRange[1]), "days");
+    }
+    const newRange = [moment(calendar.dateRange[0]).subtract(Math.abs(daysDiff), "days"), moment(calendar.dateRange[1]).subtract(Math.abs(daysDiff), "days")];
     if (dataType === "allData") {
-      return setKpisData({ ...kpisData, views: views?.length, linkTaps: linkTaps?.length });
+      return setKpisData({
+        ...kpisData, views: views?.length, linkTaps: linkTaps?.length,
+      });
     }
     if (linkTaps && views) {
       let linkTapsData = linkTaps;
@@ -285,28 +301,53 @@ function NetworkActivity({
         if (isSelected) {
           linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL") && selectedProfiles.includes(link.pid));
           viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL") && selectedProfiles.includes(view[0]));
+          linkTapsHistory = linkTapsData.filter((link) => moment(link.event_at).format("LL") === newRange[0].format("LL") && selectedProfiles.includes(link.pid));
+          viewsHistory = views.filter((view) => moment(view[2]).format("LL") === newRange[0].format("LL") && selectedProfiles.includes(view[0]));
         } else {
           linkTapsResult = linkTapsData.filter((link) => moment(link.event_at).format("LL") === moment(calendar.dateRange[0]).format("LL"));
           viewResult = views.filter((view) => moment(view[2]).format("LL") === moment(calendar.dateRange[0]).format("LL"));
+          linkTapsHistory = linkTapsData.filter((link) => moment(link.event_at).format("LL") === newRange[0].format("LL"));
+          viewsHistory = views.filter((view) => moment(view[2]).format("LL") === newRange[0].format("LL"));
         }
       } else {
         linkTapsResult = linkTapsData.filter((link) => {
           const linkDate = moment(link.event_at).format("x");
           if (isSelected) {
+            // for percentages
+            if ((linkDate >= newRange[0].format("x")) && (linkDate <= newRange[1].format("x") && selectedProfiles.includes(link.pid))) {
+              linkTapsHistory.push(link);
+            }
             return (linkDate >= moment(calendar.dateRange[0]).format("x")) && (linkDate <= moment(calendar.dateRange[1]).format("x") && selectedProfiles.includes(link.pid));
+          }
+          // for percentages
+          if ((linkDate >= newRange[0].format("x")) && (linkDate <= newRange[1].format("x"))) {
+            linkTapsHistory.push(link);
           }
           return (linkDate >= moment(calendar.dateRange[0]).format("x")) && (linkDate <= moment(calendar.dateRange[1]).format("x"));
         });
         viewResult = views.filter((view) => {
           const viewsDate = moment(view[2]).format("x");
           if (isSelected) {
+            // for percentages
+            if ((viewsDate >= newRange[0].format("x")) && (viewsDate <= newRange[1].format("x") && selectedProfiles.includes(view[0]))) {
+              viewsHistory.push(view);
+            }
             return (viewsDate >= moment(calendar.dateRange[0]).format("x")) && (viewsDate <= moment(calendar.dateRange[1]).format("x") && selectedProfiles.includes(view[0]));
+          }
+          // for percentages
+          if ((viewsDate >= newRange[0].format("x")) && (viewsDate <= newRange[1].format("x"))) {
+            viewsHistory.push(view);
           }
           return (viewsDate >= moment(calendar.dateRange[0]).format("x")) && (viewsDate <= moment(calendar.dateRange[1]).format("x"));
         });
       }
     }
-    if (linkTapsResult && viewResult) setKpisData({ ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length });
+
+    if (linkTapsResult && viewResult) {
+      setKpisData({
+        ...kpisData, views: viewResult.length, linkTaps: linkTapsResult.length, viewsHistory: viewsHistory.length, linkTapsHistory: linkTapsHistory.length, allData: false,
+      });
+    }
   }, [linkTaps, views, calendar.dateRange, location, checkboxes]);
 
   calendar.dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
@@ -427,28 +468,48 @@ function NetworkActivity({
             let isFetched = false;
             if (item.id === "popsCount") {
               const isSelected = Object.values(checkboxes).includes(true);
-              item.value = !isSelected ? [...chartData?.data?.datasets].slice(1).reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0)
+              item.value = !isSelected
+                ? [...chartData?.data?.datasets].slice(1).reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0)
                 : chartData?.data?.datasets.reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0);
+              if (popsPercentageData && !isAllTimeData) {
+                const popsCountPrevPeriod = Object.values(popsPercentageData.allPops).reduce((acc, value) => acc += value, 0);
+                item.percentage = ((item.value - popsCountPrevPeriod) / popsCountPrevPeriod * 100).toFixed(1);
+              } else item.percentage = 0;
             }
 
             if (item.id === "linkTaps") {
               if (poplLevel) {
                 item.value = "";
-              } else item.value = kpisData.linkTaps;
+              } else {
+                item.value = kpisData.linkTaps;
+                if (!isAllTimeData) {
+                  item.percentage = ((kpisData.linkTaps - kpisData.linkTapsHistory) / kpisData.linkTapsHistory * 100).toFixed(1);
+                } else item.percentage = 0;
+              }
               isFetched = linkTapsFetching;
             }
 
             if (item.id === "views") {
               if (poplLevel) {
                 item.value = "";
-              } else item.value = kpisData.views;
+              } else {
+                item.value = kpisData.views;
+                if (!isAllTimeData) {
+                  item.percentage = ((kpisData.views - kpisData.viewsHistory) / kpisData.viewsHistory * 100).toFixed(1);
+                } else item.percentage = 0;
+              }
               isFetched = viewsFetching;
             }
 
             if (item.id === "ctr") {
               if (poplLevel) {
                 item.value = "";
-              } else item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
+              } else {
+                item.value = kpisData.linkTaps && kpisData.views ? `${((kpisData.linkTaps / kpisData.views) * 100).toFixed(1)}` : "";
+                item.percentage = item.value
+                  ? ((((kpisData.linkTaps / kpisData.views) * 100) - ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100)) / ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100) * 100).toFixed(1)
+                  : "";
+              }
               isFetched = linkTapsFetching || viewsFetching;
             }
             return <React.Fragment key={item.id}>

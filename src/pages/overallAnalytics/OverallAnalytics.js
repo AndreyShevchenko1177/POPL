@@ -52,7 +52,7 @@ function OverallAnalytics() {
     dateRange: [new Date(currentDate1.slice(0, currentDate1.length - 1)), new Date(currentDate2)],
     normalData: [currentDate1, currentDate2],
   });
-
+  const [filterValue, setFilterValue] = useState("");
   const [isChartsDataCalculating, setIsChartDataCalculating] = useState({ // when data recalculating locally running preloader
     lineChart: false,
     dohnutDirectData: false,
@@ -62,8 +62,11 @@ function OverallAnalytics() {
   const [workerInstance] = useState(() => worker());
   const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
   const isSelected = Object.values(checkboxes).includes(true);
+  const [percentagePopsKpisData, setPercentagePopsKpisData] = useState(null); // pops for previous date range relative to current
+  const [isAllTime, setIsAllTime] = useState(false);
 
   const setDate = (minDate, maxDate) => {
+    setIsAllTime(false);
     setOption("");
     let minD = `${monthsFullName[getMonth(minDate)]} ${getDay(
       minDate,
@@ -106,8 +109,9 @@ function OverallAnalytics() {
 
       workerInstance.generateLineChartData(JSON.stringify({
         popsData, maxDate, minDate,
-      })).then((lineData) => {
+      })).then(({ lineData, percentageData }) => {
         if (location.pathname !== window.location.pathname) return;
+        setPercentagePopsKpisData(percentageData);
         setChartData((prev) => ({
           ...prev,
           lineData,
@@ -179,8 +183,9 @@ function OverallAnalytics() {
 
     workerInstance.generateLineChartData(JSON.stringify({
       popsData, maxDate, minDate,
-    })).then((lineData) => {
+    })).then(({ lineData, percentageData }) => {
       if (location.pathname !== window.location.pathname) return;
+      setPercentagePopsKpisData(percentageData);
       setChartData((prev) => ({
         ...prev,
         lineData,
@@ -251,8 +256,9 @@ function OverallAnalytics() {
 
     workerInstance.generateLineChartData(JSON.stringify({
       popsData, minDate: dateFrom, maxDate: dateTo,
-    })).then((lineData) => {
+    })).then(({ lineData, percentageData }) => {
       if (location.pathname !== window.location.pathname) return;
+      setPercentagePopsKpisData(percentageData);
       setChartData((prev) => ({
         ...prev,
         lineData,
@@ -283,6 +289,7 @@ function OverallAnalytics() {
 
   const handleShowAllStat = () => {
     // dispatch(getStatisticItemsRequest(userId));
+    setFilterValue("");
     setChartData({
       dohnutDirectData: null,
       dohnutPopsData: null,
@@ -300,6 +307,7 @@ function OverallAnalytics() {
 
     switch (event.target.value) {
     case "all time": {
+      setIsAllTime(true);
       // running preloaser for charts
       setIsChartDataCalculating({
         lineChart: true,
@@ -383,6 +391,7 @@ function OverallAnalytics() {
       return;
     }
     case "last 7 days": {
+      setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(6, "d").toDate();
       const dateFromRange = moment().subtract(7, "d").toDate();
@@ -395,6 +404,7 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     case "month to date": {
+      setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(1, "months").endOf("month").subtract(-1, "d")
         .toDate();
@@ -408,6 +418,7 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     case "last 30 days": {
+      setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(1, "months").subtract(-1, "d").toDate();
       const dateFromRange = moment().subtract(1, "months").toDate();
@@ -420,6 +431,7 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     case "week to date": {
+      setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(1, "weeks").endOf("isoWeek").subtract(-1, "d")
         .toDate();
@@ -434,6 +446,7 @@ function OverallAnalytics() {
       return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
     }
     default: {
+      // setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(2, "weeks").subtract(-1, "d")
         .toDate();
@@ -484,6 +497,7 @@ function OverallAnalytics() {
       });
     }
   }, [allPopsData, location]);
+
   useEffect(() => {
     if (!Object.keys(checkboxes).length) setPopsLineData(null);
     if (profileCountFilter && profilesData && Object.keys(checkboxes).length) {
@@ -499,6 +513,7 @@ function OverallAnalytics() {
       });
     }
   }, [checkboxes, calendar.dateRange, profilesData]);
+
   useEffect(() => () => {
     dispatch(cleanAction());
     setChartData({
@@ -548,8 +563,9 @@ function OverallAnalytics() {
       });
       workerInstance.generateLineChartData(JSON.stringify({
         popsData,
-      })).then((lineData) => {
+      })).then(({ lineData, percentageData }) => {
         if (location.pathname !== window.location.pathname) return;
+        setPercentagePopsKpisData(percentageData);
         setChartData((prev) => ({
           ...prev,
           lineData,
@@ -616,6 +632,10 @@ function OverallAnalytics() {
             setProfileCountFilter={setProfileCountFilter}
             isChartsDataCalculating={isChartsDataCalculating.lineChart}
             checkboxes={checkboxes}
+            filterValue={filterValue}
+            setFilterValue={setFilterValue}
+            popsPercentageData={percentagePopsKpisData}
+            isAllTimeData={isAllTime}
           />
         </div>
         <BottomWidgets
@@ -628,7 +648,6 @@ function OverallAnalytics() {
           isChartsDataCalculating={isChartsDataCalculating}
         />
       </div>
-
     </>
   );
 }

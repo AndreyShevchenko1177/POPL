@@ -320,18 +320,39 @@ export function generateAllData(funcArguments) {
 export function generateLineChartData(funcArguments) {
   const { popsData, minDate, maxDate } = JSON.parse(funcArguments);
   const result = dateGeneration(popsData, minDate, maxDate);
+  let daysDiff;// days number between min and max dates to calculate the current renge data before minDate for percentages in KPIs
+  let percentageResult;
+  if (!minDate || !maxDate) {
+    daysDiff = 14;
+    percentageResult = dateGeneration(popsData, moment(moment().subtract(14, "days")).subtract(Math.abs(daysDiff), "days"), moment().subtract(Math.abs(daysDiff), "days"));
+  } else {
+    if (moment(minDate).format("LL") === moment(maxDate).format("LL")) { // if checking just one date in date picker
+      daysDiff = 1;
+    } else {
+      daysDiff = moment(minDate).diff(moment(maxDate), "days");
+    }
+    // daysDiff = moment(minDate).diff(moment(maxDate), "days");
+    percentageResult = dateGeneration(popsData, moment(minDate).subtract(Math.abs(daysDiff), "days"), moment(maxDate).subtract(Math.abs(daysDiff), "days"));
+  }
+
   const data = {};
+  const percentageData = {};
   Object.keys(popsData).forEach((popKey) => {
     let ownResult = { ...result };
+    let ownPercentageResult = { ...percentageResult };
     popsData[popKey].forEach((item) => {
       const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`;
       if (date in result) {
         ownResult[date] = (ownResult[date] || 0) + 1;
       }
+      if (date in percentageResult) {
+        ownPercentageResult[date] = (ownPercentageResult[date] || 0) + 1;
+      }
     });
     data[popKey] = ownResult;
+    percentageData[popKey] = ownPercentageResult;
   });
-  return { ...data, labels: Object.keys(result) };
+  return { lineData: { ...data, labels: Object.keys(result) }, percentageData };
 }
 
 export const profileLineDataChart = (funcArguments) => {

@@ -27,6 +27,16 @@ export default makeStyles((theme) => ({
       borderRight: "none !important",
     },
   },
+  percentageContainer: {
+    display: "flex",
+    marginLeft: 10,
+    alignItems: "center",
+  },
+  percentageIconWrapper: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: 5,
+  },
   topStatisticsItemContainer: {
     width: "16%",
     display: "flex",
