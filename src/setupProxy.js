@@ -40,7 +40,7 @@ module.exports = function (app) {
   app.use(
     "/firebase",
     createProxyMiddleware({
-      target: "https://firebasestorage.googleapis.com/v0/b/poplco.appspot.com/o/",
+      target: "https://firebasestorage.googleapis.com/v0/b/poplco.appspot.com/o/logos%2F",
       pathRewrite: { "^/firebase": "/" },
       headers: { "X-Forwarded-Prefix": "/" },
       changeOrigin: true,
