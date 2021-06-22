@@ -275,9 +275,9 @@ function NetworkActivity({
   useEffect(() => {
     let linkTapsResult;
     let viewResult;
-    let linkTapsHistory = [];
-    let viewsHistory = [];
-    let daysDiff;
+    let linkTapsHistory = []; // link taps for previous period
+    let viewsHistory = []; // views for previous period
+    let daysDiff; // current range days difference
     if (moment(calendar.dateRange[0]).format("LL") === moment(calendar.dateRange[1]).format("LL")) { // if checked one date in picker
       daysDiff = 1;
     } else {
@@ -473,7 +473,7 @@ function NetworkActivity({
               if (popsPercentageData && !isAllTimeData) {
                 const popsCountPrevPeriod = Object.values(popsPercentageData.allPops).reduce((acc, value) => acc += value, 0);
                 item.percentage = ((item.value - popsCountPrevPeriod) / popsCountPrevPeriod * 100).toFixed(1);
-              } else item.percentage = 0;
+              } else item.percentage = 0; // if all time data setting 0 not to display it at all
             }
 
             if (item.id === "linkTaps") {
@@ -483,7 +483,7 @@ function NetworkActivity({
                 item.value = kpisData.linkTaps;
                 if (!isAllTimeData) {
                   item.percentage = ((kpisData.linkTaps - kpisData.linkTapsHistory) / kpisData.linkTapsHistory * 100).toFixed(1);
-                } else item.percentage = 0;
+                } else item.percentage = 0; // if all time data setting 0 not to display it at all
               }
               isFetched = linkTapsFetching;
             }
@@ -495,7 +495,7 @@ function NetworkActivity({
                 item.value = kpisData.views;
                 if (!isAllTimeData) {
                   item.percentage = ((kpisData.views - kpisData.viewsHistory) / kpisData.viewsHistory * 100).toFixed(1);
-                } else item.percentage = 0;
+                } else item.percentage = 0; // if all time data setting 0 not to display it at all
               }
               isFetched = viewsFetching;
             }
@@ -509,7 +509,7 @@ function NetworkActivity({
                   item.percentage = item.value
                     ? ((((kpisData.linkTaps / kpisData.views) * 100) - ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100)) / ((kpisData.linkTapsHistory / kpisData.viewsHistory) * 100) * 100).toFixed(1)
                     : "";
-                } else item.percentage = 0;
+                } else item.percentage = 0; // if all time data setting 0 not to display it at all
               }
               isFetched = linkTapsFetching || viewsFetching;
             }

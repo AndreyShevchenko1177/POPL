@@ -188,7 +188,7 @@ const DropZone = ({
                     setFieldsState((prev) => ({ ...prev, file: null }));
                   }}
                 />
-                <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${image}?alt=media`} />
+                <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${image}?alt=media`} />
                 <Chip
                   className={classes.chipButtonEdit}
                   deleteIcon={<CreateIcon />}
