@@ -18,6 +18,7 @@ export const subscriptionConfig = [
     unitsRange: [1, 5],
     profilesNumber: "1-5",
     priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
+    // priceId: "price_1Iq1WpJqkGKmOFO6z7NTiHzW", // free price product
   },
   {
     id: 2,

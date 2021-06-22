@@ -77,7 +77,7 @@ export default function Dashboard() {
             startIcon={<AddIcon />}
             onClick={handleOpen}
           >
-          Add accounts
+          Add Accounts
           </Button>
         </div>
       </div>

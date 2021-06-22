@@ -108,7 +108,7 @@ function GeneralSettings() {
       <ConfirmModal
         open={conFirmModal.open}
         onClose={onConfirmModal}
-        dialogTitle='Do you really want to delete this profile?'
+        dialogTitle='Are you sure you want to remove this profile from your dashboard?'
         okButtonTitle='OK'
         cancelButtonTitle='Cancel'
         onOk={onOk}

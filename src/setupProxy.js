@@ -37,4 +37,13 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
+  app.use(
+    "/firebase",
+    createProxyMiddleware({
+      target: "https://firebasestorage.googleapis.com/v0/b/poplco.appspot.com/o/",
+      pathRewrite: { "^/firebase": "/" },
+      headers: { "X-Forwarded-Prefix": "/" },
+      changeOrigin: true,
+    }),
+  );
 };
