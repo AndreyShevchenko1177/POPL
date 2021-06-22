@@ -95,7 +95,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: false, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+        popsData, isPopsData: false, minDate, maxDate, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
       })).then((dohnutDirectData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -133,7 +133,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: true, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+        popsData, isPopsData: true, minDate, maxDate, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
       })).then((dohnutPopsData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -169,7 +169,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: false, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+      popsData, isPopsData: false, minDate, maxDate, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
     })).then((dohnutDirectData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -207,7 +207,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: true, minDate, maxDate, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+      popsData, isPopsData: true, minDate, maxDate, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
     })).then((dohnutPopsData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -230,7 +230,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: false, minDate: dateFrom, maxDate: dateTo, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+      popsData, isPopsData: false, minDate: dateFrom, maxDate: dateTo, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
     })).then((dohnutDirectData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -268,7 +268,7 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutChartData(JSON.stringify({
-      popsData, isPopsData: true, minDate: dateFrom, maxDate: dateTo, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+      popsData, isPopsData: true, minDate: dateFrom, maxDate: dateTo, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
     })).then((dohnutPopsData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -351,7 +351,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+        popsData, isPopsData: false, minDate: null, maxDate: null, isAllData: true, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
       })).then((dohnutDirectData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -376,7 +376,7 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutChartData(JSON.stringify({
-        popsData, isPopsData: true, minDate: null, maxDate: null, isAllData: true, profileData: profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))),
+        popsData, isPopsData: true, minDate: null, maxDate: null, isAllData: true, profileData: isSelected ? profilesData.filter(({ id }) => selectedProfiles.includes(Number(id))) : profilesData,
       })).then((dohnutPopsData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({

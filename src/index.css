@@ -291,6 +291,13 @@ p {
 .disable-legend {
   text-decoration: line-through;
 }
+
+.disable-image {
+  border: 0px !important;
+  /* width: 39px !important;
+  height:  39px !important; */
+}
+
 div:nth-last-child().disable-legend {
   text-decoration: line-through;
 }

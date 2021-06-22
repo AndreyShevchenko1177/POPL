@@ -3,7 +3,7 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   OutlinedInput, IconButton, InputAdornment, Checkbox,
 } from "@material-ui/core";
@@ -16,6 +16,7 @@ function AutoComplete({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const itemRef = useRef();
   const [value, setValue] = useState("");
@@ -89,8 +90,15 @@ function AutoComplete({
     setActiveItem({ value: Number(event.target.dataset.key), event: "mouse" });
   };
 
-  const handleChangeCheckBox = (event) => {
-    dispatch(setCheckboxAction({ id: event.target.name, checked: event.target.checked }));
+  const handleChangeCheckBox = (event, name) => {
+    event.preventDefault();
+    const currentTargetAttribute = event.currentTarget.dataset.key;
+    const targetAttribute = event.target.dataset.key;
+    if (currentTargetAttribute !== targetAttribute) return;
+    if (location.state?.id) {
+      history.push("/analytics");
+    }
+    dispatch(setCheckboxAction({ id: name || event.target.name, checked: name ? !checkboxes[name] || false : event.target.checked }));
   };
 
   useEffect(() => {
@@ -128,14 +136,14 @@ function AutoComplete({
       <div className={classes.listItemContainer}>
         {localData.length || pseudoname === "count" ? localData.map((item, key) => (
           pseudoname === "analytics"
-            ? <div key={key} onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, classes.dataWrapper, { [classes.activeListItem]: activeItem.value === key })} tabIndex={1} >
+            ? <div key={key} onClick={(event) => handleChangeCheckBox(event, String(item.id))} onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, classes.dataWrapper, { [classes.activeListItem]: activeItem.value === key })} tabIndex={1} >
               <div>
                 <Checkbox
                   color='primary'
-                  disabled={!!filterValue}
+                  // disabled={!!filterValue}
                   checked={checkboxes[item.id] || false}
                   name={String(item.id)}
-                  onChange={handleChangeCheckBox}
+                  onChange={(event) => handleChangeCheckBox(event, false)}
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />
               </div>

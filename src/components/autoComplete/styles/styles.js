@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     fontSize: 18,
   },
   listItem: {
-    padding: "10px 10px",
+    margin: "10px 10px",
     "&:hover": {
       backgroundColor: "#efefef",
       cursor: "pointer",
@@ -32,5 +32,9 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     paddingLeft: 10,
+  },
+  disabled: {
+    backgroundColor: "#efefef",
+    color: "#c0c0c0",
   },
 }));

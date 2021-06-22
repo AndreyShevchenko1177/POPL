@@ -10,8 +10,6 @@ function StatisticItem({
 }) {
   const classes = useStyles();
 
-  console.log(percentage, title);
-
   return (
     <div className={styles?.container || classes.topStatisticsItemContainer}>
       {count === undefined || isFetched ? (

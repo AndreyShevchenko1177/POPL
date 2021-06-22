@@ -37,8 +37,10 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
       ].hidden;
     }
     if (e.currentTarget.classList.contains("disable-legend")) {
+      e.currentTarget.childNodes[3].children[0].children[0].classList.remove("disable-image");
       e.currentTarget.classList.remove("disable-legend");
     } else {
+      e.currentTarget.childNodes[3].children[0].children[0].classList.add("disable-image");
       e.currentTarget.classList.add("disable-legend");
     }
     ctx.update();
@@ -65,7 +67,7 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
               <div style="display: flex; align-items: center;  width: 100%; border-top: ${i === 0 ? "1px" : "0px"} solid #dadada; background-color: ${i < 3 ? "#f6f6f6" : "#ffffff"}; height: 50px; border-bottom: 1px solid #dadada; cursor: pointer; position: relative" id="legend-${i}-item">
                 <div style="width: 20px; margin-right: 10px; display: flex;"> <p> ${i + 1} </p> </div>
                 <div style="display: flex; align-items: center;"> 
-                <div style="width: 45px; height: 45px; margin-right: 15px">
+                <div style="display: flex; align-items: center; width: 45px; height: 45px; margin-right: 15px">
                 ${data.image[i] || (generalSettingsData && generalSettingsData[3])
     ? `<img style="width: 100%; height: 100%; border: 3px solid ${data.datasets[0].backgroundColor[i]}; border-radius: 50%; object-fit: cover;" src=${data.image[i] ? process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + data.image[i] : `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}`}?alt=media />`
     : ` <div style="width: 100%; height: 100%; border: 3px solid ${data.datasets[0].backgroundColor[i]}; border-radius: 50%; box-shadow: 0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%); background-color: ${generalSettingsData && generalSettingsData[1]}">  </div>`

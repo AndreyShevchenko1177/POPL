@@ -11,7 +11,7 @@ function WidgetImage({
       {children}
       {data.map((el, key) => (
         <div key={key} style={{
-          width, height, marginBottom: 10, marginRight: 10,
+          width, height, marginBottom: 10, marginRight: 10, minWidth: 25,
         }}>
           {el.image || (generalSettingsData && generalSettingsData[3])
             ? <img style={{

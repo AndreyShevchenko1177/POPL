@@ -16,10 +16,10 @@ function WidgetsContainer({
   return (
     <Paper elevation={1} className={fullWidth ? classes.fullWidgetRoot : classes.widgetRoot}>
       <div className={classes.widgetHeadingContainer}>
-        <WidgetImages data={profilesData?.filter((el) => selectedProfiles.includes(Number(el.id)))}>
-          <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
-        </WidgetImages>
-
+        <Typography classes={{ subtitle1: classes.widgetHeading }} variant='subtitle1'>{heading}</Typography>
+        <div style={{ display: "flex", overflow: "auto", paddingTop: 10 }}>
+          <WidgetImages data={profilesData?.filter((el) => selectedProfiles.includes(Number(el.id)))}/>
+        </div>
         <div className={classes.infoIcon}>
           <SvgMaker
             name='info'

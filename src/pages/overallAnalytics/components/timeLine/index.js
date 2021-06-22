@@ -134,7 +134,6 @@ function NetworkActivity({
 
   const renderLegend = (chart) => {
     const { data } = chart;
-    console.log(data);
     return data.datasets.map(({ label, borderColor, data }, i) => `
     <div class="legendItem">
       <div>
