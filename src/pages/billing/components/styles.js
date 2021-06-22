@@ -24,7 +24,7 @@ export default makeStyles((theme) => ({
     paddingTop: 10,
     "& span": {
       fontSize: "16px",
-      fontWeight: "bold",
+      fontWeight: 200,
       color: "#8d8d8d",
       // padding: "10px 0",
     },
