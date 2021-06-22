@@ -406,7 +406,7 @@ function PermanentDrawerLeft() {
                 <div style={{
                   width: 40, height: 40, display: "flex", alignItems: "center",
                 }} className={classes.sideBarIcons}>
-                  {profileInfo[3] ? <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${profileInfo[3]}?alt=media`} />
+                  {profileInfo[3] ? <img className={classes.profileImage} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${profileInfo[3]}?alt=media`} />
                     : !profileInfo[3] && <div className={classes.profileCircle}>
                       <div className={classes.logoIconWrapper}>
                         <SvgMaker name="uploadCloud" fill="#999a9b" width={20} height={20} />

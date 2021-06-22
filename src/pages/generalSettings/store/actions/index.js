@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
@@ -25,12 +26,13 @@ export const updateUserProfile = ({
 
     let result; // response from firebase upload file
     if (file && typeof file !== "string") {
-      result = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_${getId(12)}`, { type: file.type }));
+      result = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_${getId(12)}.png`, { type: file.type }), "logos");
     }
     let fileName;
     if (result) { // if filename returned from firebase taking form there name without other url params
-      let url = result.split("?")[0];
-      fileName = url.split("/")[url.split("/").length - 1];
+      fileName = result
+        .split("?")[0]
+        .split("logos%2F")[1];
     }
     if (fileName) {
       await requests.setCompanyImage(fileName);
