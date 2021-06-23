@@ -76,7 +76,7 @@ export default function QrCodeModal({
         })
           .then((res) => {
             convertBlobToBase64(res.data)
-              .then((base64) => setImage(" "))
+              .then((base64) => setImage(base64))
               .catch((error) => {
                 setImage(null);
                 console.log(error);
