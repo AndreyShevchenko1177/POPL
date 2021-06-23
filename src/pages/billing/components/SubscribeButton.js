@@ -18,6 +18,7 @@ function SubscribeButton({
     formdata.append("sAction", "CheckoutSessionStripe");
     formdata.append("sPriceId", priceId);
     formdata.append("sQuantity", quantity);
+    formdata.append("sTrial", 30);
 
     let requestOptions = {
       method: "POST",
