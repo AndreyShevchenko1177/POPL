@@ -73,7 +73,9 @@ export default function Main({ children, stripe }) {
       if (dashboardPlan == 0 || dashboardPlan === "") {
         if (!allowedPaths.includes(location.pathname)) {
           if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
-          if (totalProfiles > 1 && location.pathname === "/accounts") return dispatch(restricteModeAction(true));
+          if (totalProfiles > 1 && location.pathname === "/accounts") {
+            return dispatch(restricteModeAction(true));
+          }
           return dispatch(restricteModeAction(true));
         }
         dispatch(restricteModeAction(false));
@@ -106,31 +108,51 @@ export default function Main({ children, stripe }) {
         <>
           {children}
           {isRestrictedMode && (userId !== "243104" && userId !== "293299") // userId checkout used just for development
-            && <div
-              style={location.pathname === "/" ? { height: "calc(100vh - 90px)", top: 90 } : {}}
-              className={classes.restrictedViewRoot}
-            >
-              <div className={classes.restrictedViewOpacity}>
+            && (
+              location.pathname === "/accounts" && totalProfiles === 1
+                ? <div className={classes.buttonsWrapper}>
+                  <Button
+                    className={classes.addAccountsBtn}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => history.push("/accounts/add-account")}
+                  >
+                    Add Accounts
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => history.push("/settings/billing")}
+                  >
+                    Start free trial to unlock dashboard
+                  </Button>
+                </div>
+                : <div
+                  style={location.pathname === "/" ? { height: "calc(100vh - 90px)", top: 90 } : {}}
+                  className={classes.restrictedViewRoot}
+                >
+                  <div className={classes.restrictedViewOpacity}>
 
-              </div>
-              <div className={classes.buttonsWrapper}>
-                <Button
-                  className={classes.addAccountsBtn}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => history.push("/accounts/add-account")}
-                >
-                Add accounts
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => history.push("/settings/billing")}
-                >
-                Start free trial to unlock dashboard
-                </Button>
-              </div>
-            </div>}
+                  </div>
+                  <div className={classes.buttonsWrapper}>
+                    <Button
+                      className={classes.addAccountsBtn}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => history.push("/accounts/add-account")}
+                    >
+                      Add Accounts
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => history.push("/settings/billing")}
+                    >
+                      Start free trial to unlock dashboard
+                    </Button>
+                  </div>
+                </div>
+            )}
         </>
       </main>
     </div>
