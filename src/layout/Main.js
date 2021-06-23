@@ -50,6 +50,20 @@ const useStyles = makeStyles((theme) => ({
     "-webkit-transform": "translate(-50%,-50%)",
     zIndex: 2000,
   },
+  accountsButtonsWrapper: {
+    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    "-webkit-transform": "translate(-50%,-50%)",
+    zIndex: 1000,
+    "@media(max-height:850px)": {
+      top: 410,
+      transform: "translate(-50%, 0)",
+    },
+  },
   addAccountsBtn: {
     marginBottom: 10,
   },
@@ -110,7 +124,7 @@ export default function Main({ children, stripe }) {
           {isRestrictedMode && (userId !== "243104" && userId !== "293299") // userId checkout used just for development
             && (
               location.pathname === "/accounts" && totalProfiles === 1
-                ? <div className={classes.buttonsWrapper}>
+                ? <div className={classes.accountsButtonsWrapper}>
                   <Button
                     className={classes.addAccountsBtn}
                     variant="contained"
