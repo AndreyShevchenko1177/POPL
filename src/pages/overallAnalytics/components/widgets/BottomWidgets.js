@@ -24,7 +24,7 @@ const BottomWidgets = memo(({
           fullWidth
           isChart
           // layerString={(location.state?.poplName && location.state?.poplName) || (location.state?.id && location.state.name)}
-          heading='Pops by profile'>
+          heading='Pop Leaderboard'>
           <PieChartProfilesProportion isChartsDataCalculating={isChartsDataCalculating.dohnutPopsByProfileData} dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
       </div>

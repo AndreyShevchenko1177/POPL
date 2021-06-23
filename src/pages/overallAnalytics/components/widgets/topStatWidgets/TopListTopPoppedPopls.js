@@ -39,7 +39,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
       let workerInstance = worker();
       setIsWorkerRunning(true);
       workerInstance.topPoppedPopls(JSON.stringify({
-        totalPopls, totalPops, dateRange, profilesData: isSelected ? profilesData.filter((el) => selectedProfiles.includes(el.id)) : null,
+        totalPopls, totalPops, dateRange, profilesData: isSelected ? profilesData.filter((el) => selectedProfiles.includes(Number(el.id))) : null,
       }))
         .then((result) => {
           setData(result);
@@ -47,7 +47,6 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
         });
     }
   }, [totalPopls, totalPops, location, dateRange, checkboxes]);
-
   return (
     <>
       {data && !isWorkerRunning

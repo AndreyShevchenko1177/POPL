@@ -212,7 +212,7 @@ export default function Card({
           : bio
             ? removeBioExtraBreakLines(bio)
             : "",
-        name: nameBusiness || name || url || "",
+        name: nameBusiness,
         image: imageBusiness || image || "",
       });
     } else {
@@ -224,7 +224,7 @@ export default function Card({
           : bioBusiness
             ? removeBioExtraBreakLines(bioBusiness)
             : "",
-        name: name || nameBusiness || url || "",
+        name,
         image: image || imageBusiness || "",
       });
     }
@@ -363,7 +363,7 @@ export default function Card({
                   src={
                     values.image
                       ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + values.image}?alt=media`
-                      : generalSettingsData && generalSettingsData[3] && `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${generalSettingsData[3]}?alt=media`
+                      : generalSettingsData && generalSettingsData[3] && `${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${generalSettingsData[3]}?alt=media`
                   }
                   name={name}
                   styles={{

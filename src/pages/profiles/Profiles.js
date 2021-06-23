@@ -254,7 +254,7 @@ export default function Profiles() {
       popsNumber: profilePops[prof.id],
       linkTapsNumber: [...prof.business, ...prof.social].reduce((sum, c) => sum += c.clicks, 0),
     })));
-  }, [profileConnections, profilePopls, profilePops]);
+  }, [profileConnections, profilePopls, profilePops, profilesData]);
 
   useEffect(() => {
     const checkBoxObject = {};
