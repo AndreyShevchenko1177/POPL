@@ -135,6 +135,19 @@ export default function Card({
     return `${result + (bio ? 130 : 110)}px`;
   };
 
+  const handleDone = () => {
+    setCurrentEditedProfile(id);
+    if (activeProfile === "2") {
+      if ((nameBusiness && values.name !== nameBusiness) || (!nameBusiness && url && values.name !== url)) dispatch(setProfileNameAcion(id, 2, values.name));
+      if (bioBusiness !== values.bio) dispatch(setProfileBioAcion(id, 2, values.bio));
+    } else {
+      if ((name && values.name !== name) || (!name && url && values.name !== url)) dispatch(setProfileNameAcion(id, 1, values.name));
+      if (bio !== values.bio) dispatch(setProfileBioAcion(id, 1, values.bio));
+    }
+    if (email !== values.email) dispatch(setProfileEmailAcion(id, values.email));
+    editIconHandler();
+  };
+
   const updateFieldRequest = (event, action) => {
     if (event.key === "Enter") action();
   };
@@ -202,30 +215,22 @@ export default function Card({
   }, [profileLinks, personalMode]);
 
   useEffect(() => {
-    // changing here values depending on business/presonal values.
+    // changing here values depending on business/presonal state.
     if (activeProfile === "2") {
       setPersonalMode({ direct: true, text: "Business" });
       setValues({
         ...values,
-        bio: bioBusiness
-          ? removeBioExtraBreakLines(bioBusiness)
-          : bio
-            ? removeBioExtraBreakLines(bio)
-            : "",
-        name: nameBusiness,
-        image: imageBusiness || image || "",
+        bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "",
+        name: nameBusiness || url || "",
+        image: imageBusiness || "",
       });
     } else {
       setPersonalMode({ direct: false, text: "Personal" });
       setValues({
         ...values,
-        bio: bio
-          ? removeBioExtraBreakLines(bio)
-          : bioBusiness
-            ? removeBioExtraBreakLines(bioBusiness)
-            : "",
-        name,
-        image: image || imageBusiness || "",
+        bio: bio ? removeBioExtraBreakLines(bio) : "",
+        name: name || url || "",
+        image: image || "",
       });
     }
   }, [activeProfile]);
@@ -246,9 +251,9 @@ export default function Card({
 
   useEffect(() => {
     if (activeProfile === "2") {
-      return setValues({ ...values, name: nameBusiness || name || url || "" });
+      return setValues({ ...values, name: nameBusiness || url || "" });
     }
-    setValues({ ...values, name: name || nameBusiness || url || "" });
+    setValues({ ...values, name: name || url || "" });
   }, [name, nameBusiness]);
 
   useEffect(() => {
@@ -256,27 +261,19 @@ export default function Card({
       // if some bio doesn't exists trying to show another one. if neither exists - setting empty string
       return setValues({
         ...values,
-        bio: bioBusiness
-          ? removeBioExtraBreakLines(bioBusiness)
-          : bio
-            ? removeBioExtraBreakLines(bio)
-            : "",
+        bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "",
       });
     }
     return setValues({
       ...values,
-      bio: bio
-        ? removeBioExtraBreakLines(bio)
-        : bioBusiness
-          ? removeBioExtraBreakLines(bioBusiness)
-          : "",
+      bio: bio ? removeBioExtraBreakLines(bio) : "",
     });
   }, [bio, bioBusiness]);
 
   useEffect(() => {
     if (activeProfile === "2") {
-      setValues({ ...values, image: imageBusiness || image || "" });
-    } else setValues({ ...values, image: image || imageBusiness || "" });
+      setValues({ ...values, image: imageBusiness || "" });
+    } else setValues({ ...values, image: image || "" });
 
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image, imageBusiness]);
@@ -285,24 +282,16 @@ export default function Card({
     if (activeProfile === "2") {
       return setValues({
         ...values,
-        bio: bioBusiness
-          ? removeBioExtraBreakLines(bioBusiness)
-          : bio
-            ? removeBioExtraBreakLines(bio)
-            : "",
-        name: nameBusiness || name || url || "",
-        image: imageBusiness || image || "",
+        bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "",
+        name: nameBusiness || url || "",
+        image: imageBusiness || "",
       });
     }
     return setValues({
       ...values,
-      bio: bio
-        ? removeBioExtraBreakLines(bio)
-        : bioBusiness
-          ? removeBioExtraBreakLines(bioBusiness)
-          : "",
-      name: name || nameBusiness || url || "",
-      image: image || imageBusiness || "",
+      bio: bio ? removeBioExtraBreakLines(bio) : "",
+      name: name || url || "",
+      image: image || "",
     });
   }, []);
 
@@ -343,7 +332,7 @@ export default function Card({
               {showEditIcon
                 ? <div
                   className={classes.doneText}
-                  onClick={editIconHandler}
+                  onClick={handleDone}
                 >
                   Done
                 </div>
@@ -425,11 +414,11 @@ export default function Card({
                     ? <TextField
                       style={{ width: settextFieldWidth(values?.name?.length || 0), transition: "width 0.075s linear" }}
                       name='name'
-                      onBlur={() => {
-                        if ((name && values.name === name) || (!name && url && values.name === url)) return;
-                        setCurrentEditedProfile(id);
-                        dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
-                      }}
+                      // onBlur={() => {
+                      //   if ((name && values.name === name) || (!name && url && values.name === url)) return;
+                      //   setCurrentEditedProfile(id);
+                      //   dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
+                      // }}
                       onFocus={() => setEditState({ ...editState, name: true })}
                       onChange={handleValuesChange}
                       onKeyDown={(event) => updateFieldRequest(event, () => {
@@ -459,11 +448,11 @@ export default function Card({
                     style={{ width: settextFieldWidth(values?.email?.length || 0), transition: "width 0.075s linear" }}
                     classes={{ root: classes.disabledTextfieldBio }}
                     name='email'
-                    onBlur={() => {
-                      if (email === values.email) return;
-                      setCurrentEditedProfile(id);
-                      dispatch(setProfileEmailAcion(id, values.email));
-                    }}
+                    // onBlur={() => {
+                    //   if (email === values.email) return;
+                    //   setCurrentEditedProfile(id);
+                    //   dispatch(setProfileEmailAcion(id, values.email));
+                    // }}
                     onFocus={() => setEditState({ ...editState, email: true })}
                     disabled={!showEditIcon}
                     onChange={handleValuesChange}
@@ -492,10 +481,10 @@ export default function Card({
                         name='bio'
                         onFocus={() => setEditState({ ...editState, bio: true })}
                         disabled={!showEditIcon}
-                        onBlur={(event) => {
-                          setCurrentEditedProfile(id);
-                          dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
-                        }}
+                        // onBlur={(event) => {
+                        //   setCurrentEditedProfile(id);
+                        //   dispatch(setProfileBioAcion(id, personalMode.direct ? 2 : 1, values.bio));
+                        // }}
                         multiline
                         rowsMax={2}
                         onChange={handleValuesChange}
