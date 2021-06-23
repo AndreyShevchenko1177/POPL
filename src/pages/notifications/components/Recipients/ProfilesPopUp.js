@@ -49,7 +49,7 @@ function ProfilesList({
   useEffect(() => {
     if (profiles) {
       const result = {};
-      setProfilesList([...profiles]);
+      setProfilesList([...profiles].map((el) => (el.activeProfile === "2" ? ({ ...el, name: el.nameBusiness, image: el.imageBusiness }) : el)));
       profiles.forEach((profile) => {
         const isProfileInRecipients = recipients.find(({ customId }) => customId === profile.customId);
         result[profile.customId] = !!isProfileInRecipients;
@@ -78,12 +78,12 @@ function ProfilesList({
         : <>
           <div className={classes.profilesListContent}>
             {profilesList.map(({
-              customId, name, image, id,
+              customId, name, image, id, url,
             }) => (
               <div key={customId} className={classes.profilesListMemberWrapper}>
                 <Paper elevation={10} className={classes.profilesListMemberItem}>
                   <img alt='userIcon' className={classes.profilesListNameItemImage} src={image ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media` : userIcon} />
-                  <p className={classes.profilesListNameItemName} > {name}</p>
+                  <p className={classes.profilesListNameItemName} > {name || url}</p>
                   <Checkbox
                     color="primary"
                     name={customId.toString()}
