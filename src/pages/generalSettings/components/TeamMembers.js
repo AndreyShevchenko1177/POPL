@@ -24,7 +24,7 @@ function TeamMembers({ showConfirmModal }) {
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   useEffect(() => {
-    if (profiles) setProfilesList([...profiles]);
+    if (profiles) setProfilesList([...profiles.map((el) => (el.activeProfile === "2" ? ({ ...el, name: el.nameBusiness, image: el.imageBusiness }) : el))]);
   }, [profiles]);
 
   const handleChange = (event) => {
@@ -94,7 +94,7 @@ function TeamMembers({ showConfirmModal }) {
             : <>
               <div className={classes.content}>
                 {profilesList.map(({
-                  customId, name, image, id,
+                  customId, name, image, id, url,
                 }) => (
                   <div key={customId} className={classes.memberWrapper}>
                     <Paper elevation={10} className={classes.memberItem}>
@@ -102,7 +102,7 @@ function TeamMembers({ showConfirmModal }) {
                         <HighlightOffIcon />
                       </div>}
                       <img alt='userIcon' className={classes.nameItemImage} src={image ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media` : userIcon} />
-                      <p className={classes.nameItemName} > {name}</p>
+                      <p className={classes.nameItemName} > {name || url}</p>
                     </Paper>
                   </div>
                 ))}
