@@ -10,6 +10,7 @@ import useStyles from "./styles";
 import Loader from "../../../components/Loader";
 import { restrictEdit } from "../../../utils";
 import { snackBarAction } from "../../../store/actions";
+import Avatar from "../../../components/popl/Avatar";
 
 function TeamMembers({ showConfirmModal }) {
   const [isShow, setIsShow] = useState(false);
@@ -20,6 +21,7 @@ function TeamMembers({ showConfirmModal }) {
   const classes = useStyles();
   const profiles = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const isFetchingProfiles = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
+  const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
@@ -101,7 +103,23 @@ function TeamMembers({ showConfirmModal }) {
                       {userId !== id && <div className={classes.deleteIcon} onClick={() => deleteProfile(id)} >
                         <HighlightOffIcon />
                       </div>}
-                      <img alt='userIcon' className={classes.nameItemImage} src={image ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media` : userIcon} />
+                      <Avatar
+                        bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
+                        src={
+                          image
+                            ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media`
+                            : generalSettingsData && generalSettingsData[3] && `${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${generalSettingsData[3]}?alt=media`
+                        }
+                        name={name}
+                        styles={{
+                          image: {
+                            width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover",
+                          },
+                          container: {
+                            marginRight: "10px",
+                          },
+                        }}
+                      />
                       <p className={classes.nameItemName} > {name || url}</p>
                     </Paper>
                   </div>

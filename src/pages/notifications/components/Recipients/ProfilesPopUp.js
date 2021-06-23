@@ -7,6 +7,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import userIcon from "../../../../assets/svg/user.svg";
 import useStyles from "../styles";
 import Loader from "../../../../components/Loader";
+import Avatar from "../../../../components/popl/Avatar";
 
 function ProfilesList({
   setIsShow, profiles, setRecepients, recipients,
@@ -15,6 +16,7 @@ function ProfilesList({
   const [profilesList, setProfilesList] = useState([]);
   const classes = useStyles();
   const isFetchingProfiles = useSelector(({ profilesReducer }) => profilesReducer.isFetching);
+  const generalSettingsData = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const [checked, setIsChecked] = useState({});
   const [checkedProfiles, setCheckedProfiles] = useState([...recipients]);
 
@@ -82,7 +84,23 @@ function ProfilesList({
             }) => (
               <div key={customId} className={classes.profilesListMemberWrapper}>
                 <Paper elevation={10} className={classes.profilesListMemberItem}>
-                  <img alt='userIcon' className={classes.profilesListNameItemImage} src={image ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media` : userIcon} />
+                  <Avatar
+                    bgColor={(generalSettingsData && generalSettingsData[1] && !generalSettingsData[3]) && generalSettingsData[1]}
+                    src={
+                      image
+                        ? `${process.env.REACT_APP_BASE_FIREBASE_PHOTOS_URL + image}?alt=media`
+                        : generalSettingsData && generalSettingsData[3] && `${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${generalSettingsData[3]}?alt=media`
+                    }
+                    name={name}
+                    styles={{
+                      image: {
+                        width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover",
+                      },
+                      container: {
+                        marginRight: "10px",
+                      },
+                    }}
+                  />
                   <p className={classes.profilesListNameItemName} > {name || url}</p>
                   <Checkbox
                     color="primary"
