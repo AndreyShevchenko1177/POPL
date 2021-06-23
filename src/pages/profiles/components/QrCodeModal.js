@@ -69,21 +69,23 @@ export default function QrCodeModal({
     if (open) {
       if (profile.generalSettingsData && profile.generalSettingsData[3]) {
         return axios({
-          baseURL: "/firebase",
-          url: `/logos%2f${profile.generalSettingsData[3]}?alt=media`,
+          baseURL: "/v0",
+          url: `/b/poplco.appspot.com/o/logos%2F${profile.generalSettingsData[3]}?alt=media`,
           method: "GET",
           responseType: "blob",
         })
-          // .then((res) => {
-          //   console.log(res);
-          //   return res.blob();
-          // })
           .then((res) => {
             convertBlobToBase64(res.data)
-              .then((base64) => setImage(base64))
-              .catch((error) => console.log(error));
+              .then((base64) => setImage(" "))
+              .catch((error) => {
+                setImage(null);
+                console.log(error);
+              });
           })
-          .catch((err) => console.log("error", { ...err }));
+          .catch((err) => {
+            setImage(" ");
+            console.log(err);
+          });
       }
       setImage("/assets/img/logo_company.png");
     }

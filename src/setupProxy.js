@@ -38,10 +38,10 @@ module.exports = function (app) {
     }),
   );
   app.use(
-    "/firebase",
+    "/v0",
     createProxyMiddleware({
-      target: "https://firebasestorage.googleapis.com/v0/b/poplco.appspot.com/o/logos%2F",
-      pathRewrite: { "^/firebase": "/" },
+      target: "https://firebasestorage.googleapis.com",
+      pathRewrite: { "^/v0": "/v0" },
       headers: { "X-Forwarded-Prefix": "/" },
       changeOrigin: true,
     }),
