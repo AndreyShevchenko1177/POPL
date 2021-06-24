@@ -193,9 +193,19 @@ export const getLatestConnectionsAction = () => async (dispatch, getState) => {
     const profiles = getState().profilesReducer.dataProfiles.data;
 
     const connections = await getCollectionData("people", [...profiles.map(({ id }) => id)]);
+    // const result = uniqueObjectsInArray(connections
+    // .reduce((acc, item) => ([...acc, ...item.data])
+    //   .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
+    // .slice(0, 10)
+    // .map((con) => {
+    //   const parentProfile = profiles.find((profile) => profile.id === con.profileId);
+    //   return { ...con, parentProfileName: parentProfile?.name || "" };
+    // });
+
     const result = uniqueObjectsInArray(connections
-      .reduce((acc, item) => ([...acc, ...item.data])
-        .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), []), (item) => item.id)
+      .reduce((acc, item) => ([...acc, ...item.data]), [])
+      .filter((con) => !("noPopl" in con))
+      .sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))), (item) => item.id)
       .slice(0, 10)
       .map((con) => {
         const parentProfile = profiles.find((profile) => profile.id === con.profileId);
