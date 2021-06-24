@@ -480,7 +480,8 @@ function NetworkActivity({
                 : chartData?.data?.datasets.reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0) || "";
               if (popsPercentageData && !isAllTimeData) {
                 const popsCountPrevPeriod = Object.values(popsPercentageData.allPops).reduce((acc, value) => acc += value, 0);
-                item.percentage = ((item.value - popsCountPrevPeriod) / popsCountPrevPeriod * 100).toFixed(1);
+                if (popsCountPrevPeriod === 0) item.percentage = 0;
+                else item.percentage = ((item.value - popsCountPrevPeriod) / popsCountPrevPeriod * 100).toFixed(1);
               } else item.percentage = 0; // if all time data setting 0 not to display it at all
             }
 
