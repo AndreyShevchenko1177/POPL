@@ -221,16 +221,16 @@ export default function Card({
       setValues({
         ...values,
         bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "",
-        name: nameBusiness || url || "",
-        image: imageBusiness || "",
+        name: nameBusiness || name || url || "",
+        image: imageBusiness || image || "",
       });
     } else {
       setPersonalMode({ direct: false, text: "Personal" });
       setValues({
         ...values,
         bio: bio ? removeBioExtraBreakLines(bio) : "",
-        name: name || url || "",
-        image: image || "",
+        name: name || nameBusiness || url || "",
+        image: image || imageBusiness || "",
       });
     }
   }, [activeProfile]);
@@ -251,9 +251,9 @@ export default function Card({
 
   useEffect(() => {
     if (activeProfile === "2") {
-      return setValues({ ...values, name: nameBusiness || url || "" });
+      return setValues({ ...values, name: nameBusiness || name || url || "" });
     }
-    setValues({ ...values, name: name || url || "" });
+    setValues({ ...values, name: name || nameBusiness || url || "" });
   }, [name, nameBusiness]);
 
   useEffect(() => {
@@ -272,8 +272,8 @@ export default function Card({
 
   useEffect(() => {
     if (activeProfile === "2") {
-      setValues({ ...values, image: imageBusiness || "" });
-    } else setValues({ ...values, image: image || "" });
+      setValues({ ...values, image: imageBusiness || image || "" });
+    } else setValues({ ...values, image: image || imageBusiness || "" });
 
     dispatch(isFetchingAction(false, "setProfilePhoto"));
   }, [image, imageBusiness]);
@@ -283,15 +283,15 @@ export default function Card({
       return setValues({
         ...values,
         bio: bioBusiness ? removeBioExtraBreakLines(bioBusiness) : "",
-        name: nameBusiness || url || "",
-        image: imageBusiness || "",
+        name: nameBusiness || name || url || "",
+        image: imageBusiness || image || "",
       });
     }
     return setValues({
       ...values,
       bio: bio ? removeBioExtraBreakLines(bio) : "",
-      name: name || url || "",
-      image: image || "",
+      name: name || nameBusiness || url || "",
+      image: image || imageBusiness || "",
     });
   }, []);
 
@@ -423,7 +423,9 @@ export default function Card({
                       onChange={handleValuesChange}
                       onKeyDown={(event) => updateFieldRequest(event, () => {
                         if (event.key === "Enter") {
-                          if ((name && values.name === name) || (!name && url && values.name === url)) return;
+                          if (activeProfile === "1") {
+                            if ((name && values.name === name) || (!name && url && values.name === url)) return;
+                          } else if ((nameBusiness && values.name === nameBusiness) || (!nameBusiness && url && values.name === url)) return;
                           setCurrentEditedProfile(id);
                           dispatch(setProfileNameAcion(id, personalMode.direct ? 2 : 1, values.name));
                         }

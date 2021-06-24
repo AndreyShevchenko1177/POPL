@@ -323,10 +323,13 @@ export const setProfileNameAcion = (profileId, profileState, name) => async (dis
       }));
     }
     dispatch(isFetchingAction(true, "setProfileName"));
-    const result = await requests.setProfileName(profileId, profileState, name);
+    await requests.setProfileName(profileId, profileState, name);
+    const updatedProfile = await requests.getProfileAction(profileId); // making it just for name cause we need to know actual info about name. we setting it to url if name is absent and now we need to check it again
     dispatch({
       type: SET_PROFILE_NAME,
-      payload: { profileId, name, profileState },
+      payload: {
+        profileId, name, profileState, updatedProfile: updatedProfile.data,
+      },
     });
   } catch (error) {
     dispatch(isFetchingAction(false, "setProfileName"));

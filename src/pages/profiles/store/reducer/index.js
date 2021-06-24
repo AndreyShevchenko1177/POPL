@@ -86,7 +86,7 @@ export default function profilesReducer(
       if (!profile.name) {
         return {
           ...profile,
-          name: profile.url,
+          name: profile.nameBusiness || profile.url,
         };
       }
       return profile;
@@ -273,6 +273,7 @@ export default function profilesReducer(
     };
   }
   case SET_PROFILE_NAME: {
+    console.log(payload.updatedProfile);
     return {
       ...state,
       setProfileName: {
@@ -282,8 +283,13 @@ export default function profilesReducer(
       },
       dataProfiles: {
         data: state.dataProfiles.data.map((profile) => {
-          console.log(payload.profileState);
-          if (profile.id == payload.profileId) return { ...profile, [payload.profileState == "2" ? "nameBusiness" : "name"]: payload.name };
+          if (profile.id == payload.profileId) {
+            return {
+              ...profile,
+              name: payload.updatedProfile.name || payload.updatedProfile.nameBusiness || payload.updatedProfile.url,
+              nameBusiness: payload.updatedProfile.nameBusiness || payload.updatedProfile.name || payload.updatedProfile.url,
+            };
+          }
           return profile;
         }),
         error: null,
