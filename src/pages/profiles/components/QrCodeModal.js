@@ -112,7 +112,9 @@ export default function QrCodeModal({
                       excavate: true,
                     }}
                   />
-                  {!(profile.generalSettingsData && profile.generalSettingsData[3]) ? null : <circle cx="120" cy="120" r="25" fill='#ffffff00' stroke="white" stroke-width="5"/>}
+                  {!(profile.generalSettingsData && profile.generalSettingsData[3])
+                    ? null
+                    : <circle cx="120" cy="120" r="25" fill='#ffffff00' stroke="white" stroke-width="5"/>}
                 </svg>
                 : <Loader />}
             </div>
