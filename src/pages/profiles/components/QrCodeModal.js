@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { Typography } from "@material-ui/core";
 import axios from "axios";
+import { doc } from "prettier";
 import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
@@ -103,18 +104,22 @@ export default function QrCodeModal({
                 ? <svg viewBox="0 0 240 240" width="180" height="180" id={profile.id}>
                   <QRCode size={240} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
                     level='M'
-                    imageSettings={{
+                    imageSettings={!(profile.generalSettingsData && profile.generalSettingsData[3]) ? {
                       src: image,
                       x: null,
                       y: null,
                       height: 41,
                       width: 41,
                       excavate: true,
-                    }}
+                    } : { excavate: true }}
                   />
-                  {!(profile.generalSettingsData && profile.generalSettingsData[3])
-                    ? null
-                    : <circle cx="120" cy="120" r="25" fill='#ffffff00' stroke="white" stroke-width="5"/>}
+
+                  <defs>
+                    <clipPath id="circleView">
+                      <circle cx="120" cy="120" r="25" fill="#FFFFFF" />
+                    </clipPath>
+                  </defs>
+                  <image width="50" height="50" x="95" y="95" xlinkHref={image} clip-path="url(#circleView)"/>
                 </svg>
                 : <Loader />}
             </div>
@@ -132,3 +137,12 @@ export default function QrCodeModal({
     </div>
   );
 }
+
+// {!(profile.generalSettingsData && profile.generalSettingsData[3])
+//     ? null : <><defs>
+//       <pattern id="image" x="0" y="0" patternUnits="userSpaceOnUse" height="500" width="500">
+//         <image width="48" height="50" x="95" y="95" xlinkHref={image}></image>
+//       </pattern>
+//     </defs>
+//     {/* height="96" */}
+//     <circle id='top' cx="120" cy="120" r="25" fill="url(#image)"/></>}
