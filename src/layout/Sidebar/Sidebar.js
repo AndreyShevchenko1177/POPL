@@ -28,7 +28,7 @@ import poplLogo from "../../assets/popl-enterprise.png";
 import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 import { cleanAction } from "../../pages/overallAnalytics/store/actions";
-import { hexToRgbA } from "../../utils";
+import { subscriptionConfig } from "../../pages/billing/index";
 
 function PermanentDrawerLeft() {
   const [fadeColor, setFadeColor] = useState("rgba(255,255,255,1)");
@@ -42,6 +42,13 @@ function PermanentDrawerLeft() {
     connectionsOpen: false,
     campaignsOpen: false,
   });
+  const [greyedLinks, setGreyedLinks] = useState({
+    accounts: false,
+    analytics: false,
+    connections: false,
+    devices: false,
+    notifications: false,
+  });
   const { tierLevelInfo } = useSelector(({ systemReducer }) => systemReducer);
   const poplsSidebar = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.data);
   const poplsFetching = useSelector(({ systemReducer }) => systemReducer.poplsSidebar.isFetching);
@@ -51,6 +58,8 @@ function PermanentDrawerLeft() {
   const connectionsFetching = useSelector(({ systemReducer }) => systemReducer.connectionsSidebar.isFetching);
   const dispatch = useDispatch();
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+  const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
+  const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
 
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
@@ -120,6 +129,48 @@ function PermanentDrawerLeft() {
   //     setFadeColor(hexToRgbA(profileInfo[1], 1));
   //   }
   // }, [profileInfo]);
+  useEffect(() => {
+    if (dashboardPlan !== null) {
+      if (dashboardPlan == 0 || dashboardPlan === "") {
+        if (totalProfiles === 1) {
+          setGreyedLinks({
+            accounts: false,
+            analytics: true,
+            connections: false,
+            devices: true,
+            notifications: false,
+          });
+        } else {
+          setGreyedLinks({
+            accounts: true,
+            analytics: true,
+            connections: true,
+            devices: true,
+            notifications: true,
+          });
+        }
+      } else {
+        const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+        if (totalProfiles > subscription.unitsRange[1]) {
+          setGreyedLinks({
+            accounts: true,
+            analytics: true,
+            connections: true,
+            devices: true,
+            notifications: true,
+          });
+        } else {
+          setGreyedLinks({
+            accounts: false,
+            analytics: false,
+            connections: false,
+            devices: false,
+            notifications: false,
+          });
+        }
+      }
+    }
+  }, [location, totalProfiles, dashboardPlan]);
 
   useEffect(() => {
     timeout(5000);
@@ -148,7 +199,6 @@ function PermanentDrawerLeft() {
           <Link to="/">
             <ListItem
               divider={false}
-              // style={{ background: `linear-gradient(to right, rgba(255,255,255,0) 70%,${fadeColor})` }}
               className={clsx(classes.ulList, {
                 [classes.ulListHighLight]: highlight.main,
               })}
@@ -198,23 +248,25 @@ function PermanentDrawerLeft() {
               </ListItemIcon>
               <ListItemText
                 disableTypography
+                style={greyedLinks.accounts ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
                 classes={{
                   root: clsx(classes.listText, {
                     [classes.listTextHighLight]: highlight.profiles,
                   }),
                 }}
-                style={{ position: "relative" }}
                 primary="Accounts"
               />
               {profilesFetching ? <Loader styles={{
                 width: 20, height: 20,
               }}/>
-                : <Typography variant='subtitle1' classes={{
-                  root: clsx(classes.listText, {
-                    [classes.listTextHighLight]: highlight.profiles,
-                  }),
-                  subtitle1: classes.fontSize13,
-                }}>{profilesSidebar}</Typography> }
+                : <Typography variant='subtitle1'
+                  style={greyedLinks.accounts ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
+                  classes={{
+                    root: clsx(classes.listText, {
+                      [classes.listTextHighLight]: highlight.profiles,
+                    }),
+                    subtitle1: classes.fontSize13,
+                  }}>{profilesSidebar}</Typography> }
             </ListItem>
           </Link>
           <ListItem
@@ -246,17 +298,20 @@ function PermanentDrawerLeft() {
                   [classes.listTextHighLight]: highlight.connections,
                 }),
               }}
+              style={greyedLinks.connections ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
               primary="Connections"
             />
             {connectionsFetching ? <Loader styles={{
               width: 20, height: 20,
             }}/>
-              : <Typography variant='subtitle1' classes={{
-                root: clsx(classes.listText, {
-                  [classes.listTextHighLight]: highlight.connections,
-                }),
-                subtitle1: classes.fontSize13,
-              }}>{connectionsSidebar}</Typography>}
+              : <Typography variant='subtitle1'
+                style={greyedLinks.connections ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
+                classes={{
+                  root: clsx(classes.listText, {
+                    [classes.listTextHighLight]: highlight.connections,
+                  }),
+                  subtitle1: classes.fontSize13,
+                }}>{connectionsSidebar}</Typography>}
           </ListItem>
           <ListItem
             divider={false}
@@ -286,17 +341,20 @@ function PermanentDrawerLeft() {
                   [classes.listTextHighLight]: highlight.popls,
                 }),
               }}
+              style={greyedLinks.devices ? { color: "#b8b8b8", position: "relative" } : {}}
               primary="Devices"
             />
             {poplsFetching ? <Loader styles={{
               width: 20, height: 20,
             }}/>
-              : <Typography variant='subtitle1' classes={{
-                root: clsx(classes.listText, {
-                  [classes.listTextHighLight]: highlight.popls,
-                }),
-                subtitle1: classes.fontSize13,
-              }}>{poplsSidebar}</Typography>}
+              : <Typography variant='subtitle1'
+                style={greyedLinks.devices ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
+                classes={{
+                  root: clsx(classes.listText, {
+                    [classes.listTextHighLight]: highlight.popls,
+                  }),
+                  subtitle1: classes.fontSize13,
+                }}>{poplsSidebar}</Typography>}
           </ListItem>
           <ListItem
             divider={false}
@@ -328,6 +386,7 @@ function PermanentDrawerLeft() {
               disableTypography
               classes={{ root: classes.listText }}
               primary="Analytics"
+              style={greyedLinks.analytics ? { color: "#b8b8b8", position: "relative" } : {}}
             />
           </ListItem>
           {/* <Link to="/campaigns">
@@ -389,6 +448,7 @@ function PermanentDrawerLeft() {
                     [classes.listTextHighLight]: highlight.notifications,
                   }),
                 }}
+                style={greyedLinks.notifications ? { color: "#b8b8b8", position: "relative" } : {}}
                 primary="Notifications"
               />
             </ListItem>

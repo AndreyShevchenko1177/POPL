@@ -86,7 +86,7 @@ export default function Main({ children, stripe }) {
       const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/accounts/add-account", "/accounts/new-account", "/accounts/add-account/new"];
       if (dashboardPlan == 0 || dashboardPlan === "") {
         if (!allowedPaths.includes(location.pathname)) {
-          if (location.pathname === "/" && totalProfiles === 1) return dispatch(restricteModeAction(false));
+          if (["/", "/connections", "/notifications"].includes(location.pathname) && totalProfiles === 1) return dispatch(restricteModeAction(false));
           if (totalProfiles > 1 && location.pathname === "/accounts") {
             return dispatch(restricteModeAction(true));
           }
