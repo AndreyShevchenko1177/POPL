@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 /* eslint-disable import/no-webpack-loader-syntax */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -318,6 +319,7 @@ function OverallAnalytics() {
       workerInstance.generateAllData(JSON.stringify({ popsData, isSafari })).then((result) => {
         if (location.pathname !== window.location.pathname) return;
         const { data, maxDate, minDate } = JSON.parse(result);
+        console.log(maxDate, minDate);
         let minD;
         let maxD;
         if (isSafari) {
@@ -483,18 +485,19 @@ function OverallAnalytics() {
           });
       }
       // setting popps for individual profile level
-      if (location.state?.id) {
+      else if (location.state?.id) {
         return setPopsData({
           poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
           qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
           allPops: allPopsData.allPops.filter((pop) => pop[0] == location.state.id),
         });
+      } else {
+        setPopsData({
+          poplPops: allPopsData.poplPops,
+          qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
+          allPops: allPopsData.allPops,
+        });
       }
-      setPopsData({
-        poplPops: allPopsData.poplPops,
-        qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
-        allPops: allPopsData.allPops,
-      });
     }
   }, [allPopsData, location]);
 

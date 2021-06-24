@@ -24,7 +24,7 @@ import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/re
 import { GET_POPS_FOR_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
 import { isFetchingAction as isFetchingProfilesAction } from "../../pages/profiles/store/actions";
 import {
-  uniqueObjectsInArray, formatDateConnections, getId, removeCommas,
+  uniqueObjectsInArray, formatDateConnections, getId, removeCommas, filterPops,
 } from "../../utils";
 
 export const getProfileData = (data) => ({
@@ -148,7 +148,14 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
     // calling pops for profile buttons pops count
     const pops = await Promise.all(profiles.map(({ id }) => popsActionRequest(id)));
     pops.forEach((item) => profilePops[item.config.data.get("pid")] = item.data.length);
-
+    const poplPops = [];
+    const qrCodePops = [];
+    const walletPops = [];
+    pops.map(({ data }) => data).reduce((sum, cur) => ([...sum, ...cur]), []).forEach((pop) => {
+      if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
+      if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
+      if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
+    });
     connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
     dispatch({
       type: CONNECTIONS_INFO_SIDEBAR,
@@ -162,7 +169,7 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
 
     dispatch({
       type: GET_POPS_FOR_POPLS_SUCCESS,
-      payload: pops.reduce((acc, value) => ([...acc, ...value.data]), []),
+      payload: [...qrCodePops, ...walletPops, ...poplPops],
     });
 
     dispatch({

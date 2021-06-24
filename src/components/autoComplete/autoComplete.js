@@ -95,7 +95,7 @@ function AutoComplete({
     const currentTargetAttribute = event.currentTarget.dataset.key;
     const targetAttribute = event.target.dataset.key;
     if (currentTargetAttribute !== targetAttribute) return;
-    if (location.state?.id) {
+    if (location.state?.id || location.state?.name) {
       history.push("/analytics");
     }
     dispatch(setCheckboxAction({ id: name || event.target.name, checked: name ? !checkboxes[name] || false : event.target.checked }));

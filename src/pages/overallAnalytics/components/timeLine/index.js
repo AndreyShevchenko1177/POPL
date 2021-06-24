@@ -52,6 +52,7 @@ function NetworkActivity({
   const history = useHistory();
   const location = useLocation();
   const chartRef = useRef();
+  const containerLineRef = useRef();
   const [chartData, setChartData] = useState();
   const linkTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const linkTapsFetching = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.isFetching);
@@ -263,7 +264,14 @@ function NetworkActivity({
   }, [data]);
 
   useEffect(() => {
+    const legend = document.querySelector("#lineChart");
+    if (chartData?.data?.datasets[0]?.data?.filter((v) => v).length === 0) {
+      if (legend) {
+        legend.style.display = "none";
+      }
+    }
     if (chartRef.current?.chartInstance) {
+      legend.style.display = "flex";
       document.querySelector("#lineChart").innerHTML = chartRef.current?.chartInstance?.generateLegend();
       document.querySelectorAll(".legendItem").forEach((item, index) => {
         if (item.children[1].className.includes("disabled")) return;
@@ -442,7 +450,7 @@ function NetworkActivity({
             Pops Over Time
           </Typography>
         </div>
-        <div className={classes["network-container__line"]}>
+        <div className={classes["network-container__line"]} ref={containerLineRef}>
           <div id='lineChart' ></div>
           {chartData === undefined || isChartsDataCalculating
             ? <Loader
@@ -468,8 +476,8 @@ function NetworkActivity({
             if (item.id === "popsCount") {
               const isSelected = Object.values(checkboxes).includes(true);
               item.value = !isSelected
-                ? [...chartData?.data?.datasets].slice(1).reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0)
-                : chartData?.data?.datasets.reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0);
+                ? [...chartData?.data?.datasets].slice(1).reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0) || ""
+                : chartData?.data?.datasets.reduce((acc, value) => acc += value.data.reduce((s, c) => s += c, 0), 0) || "";
               if (popsPercentageData && !isAllTimeData) {
                 const popsCountPrevPeriod = Object.values(popsPercentageData.allPops).reduce((acc, value) => acc += value, 0);
                 item.percentage = ((item.value - popsCountPrevPeriod) / popsCountPrevPeriod * 100).toFixed(1);
@@ -480,7 +488,7 @@ function NetworkActivity({
               if (poplLevel) {
                 item.value = "";
               } else {
-                item.value = kpisData.linkTaps;
+                item.value = kpisData.linkTaps || "";
                 if (!isAllTimeData) {
                   item.percentage = ((kpisData.linkTaps - kpisData.linkTapsHistory) / kpisData.linkTapsHistory * 100).toFixed(1);
                 } else item.percentage = 0; // if all time data setting 0 not to display it at all
@@ -492,7 +500,7 @@ function NetworkActivity({
               if (poplLevel) {
                 item.value = "";
               } else {
-                item.value = kpisData.views;
+                item.value = kpisData.views || "";
                 if (!isAllTimeData) {
                   item.percentage = ((kpisData.views - kpisData.viewsHistory) / kpisData.viewsHistory * 100).toFixed(1);
                 } else item.percentage = 0; // if all time data setting 0 not to display it at all
