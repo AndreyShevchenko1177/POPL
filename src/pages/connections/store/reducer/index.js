@@ -65,7 +65,7 @@ export default function connectionsReducer(state = initialState, { type, payload
       connections: {
         data: {
           ...state.connections.data,
-          allConnections: state.connections.data.connectionsObject[payload].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))),
+          allConnections: payload.reduce((acc, cur) => ([...acc, ...state.connections.data.connectionsObject[cur]]), []).sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time))),
         },
         error: null,
       },

@@ -96,7 +96,7 @@ function AutoComplete({
     const targetAttribute = event.target.dataset.key;
     if (currentTargetAttribute !== targetAttribute) return;
     if (location.state?.id || location.state?.name) {
-      history.push("/analytics");
+      history.push(location.pathname);
     }
     dispatch(setCheckboxAction({ id: name || event.target.name, checked: name ? !checkboxes[name] || false : event.target.checked }));
   };
@@ -135,25 +135,24 @@ function AutoComplete({
       />
       <div className={classes.listItemContainer}>
         {localData.length || pseudoname === "count" ? localData.map((item, key) => (
-          pseudoname === "analytics"
-            ? <div key={key} onClick={(event) => handleChangeCheckBox(event, String(item.id))} onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, classes.dataWrapper, { [classes.activeListItem]: activeItem.value === key })} tabIndex={1} >
-              <div>
-                <Checkbox
-                  color='primary'
-                  // disabled={!!filterValue}
-                  checked={checkboxes[item.id] || false}
-                  name={String(item.id)}
-                  onChange={(event) => handleChangeCheckBox(event, false)}
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <div className={classes.labelContainer}>
-                <p data-key={key}>{item.name}</p>
-              </div>
+          <div key={key} onClick={(event) => handleChangeCheckBox(event, String(item.id))} onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, classes.dataWrapper, { [classes.activeListItem]: activeItem.value === key })} tabIndex={1} >
+            <div>
+              <Checkbox
+                color='primary'
+                // disabled={!!filterValue}
+                checked={checkboxes[item.id] || false}
+                name={String(item.id)}
+                onChange={(event) => handleChangeCheckBox(event, false)}
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
             </div>
-            : <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
+            <div className={classes.labelContainer}>
               <p data-key={key}>{item.name}</p>
             </div>
+          </div>
+          // : <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>
+          //   <p data-key={key}>{item.name}</p>
+          // </div>
 
         )) : <div className={classes.nothingFound}> Nothing found </div>}
       </div>

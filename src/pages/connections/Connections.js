@@ -10,6 +10,7 @@ import Header from "../../components/Header";
 import {
   collectSelectedConnections, clearConnectionData, showAllConnectionsAction, showConnectionByProfile,
 } from "./store/actions";
+import { clearChecboxAction, setCheckboxAction } from "../overallAnalytics/store/actions";
 import { ConnectedCard, NotConnectedCard } from "./components/connectionCard";
 import useStyles from "./styles/styles";
 import SearchStripe from "../../components/searchStripe";
@@ -24,6 +25,7 @@ function Connections() {
   const location = useLocation();
   const history = useHistory();
   const profileData = useSelector(({ authReducer }) => authReducer.signIn.data);
+  const dataCheckboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const profiles = useSelector(
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
@@ -119,6 +121,7 @@ function Connections() {
 
   const clearFilterInput = (name) => {
     showAll();
+    dispatch(clearChecboxAction());
   };
 
   const handleChangeInputFilter = (event, val, item) => {
@@ -129,8 +132,23 @@ function Connections() {
       height: 0,
       offset: 0,
     });
-    dispatch(showConnectionByProfile(item.id));
+    // dispatch(showConnectionByProfile(Object.keys(dataCheckboxes)));
   };
+
+  useEffect(() => {
+    if (location.state?.id) {
+      dispatch(setCheckboxAction({ id: Number(location.state.id), checked: true }));
+    }
+  }, [location.state?.id]);
+
+  useEffect(() => {
+    if (Object.keys(dataCheckboxes).length) {
+      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes).includes(true);
+      if (!isSelected) return dispatch(showConnectionByProfile(profiles.map(({ id }) => Number(id))));
+      dispatch(showConnectionByProfile(selectedCheckBox));
+    }
+  }, [dataCheckboxes]);
 
   useEffect(() => {
     if (location.state?.id) {
@@ -138,7 +156,10 @@ function Connections() {
     }
     dispatch(collectSelectedConnections(profileData.id));
 
-    return () => dispatch(clearConnectionData("collectConnections"));
+    return () => {
+      dispatch(clearConnectionData("collectConnections"));
+      dispatch(clearChecboxAction());
+    };
   }, []);
 
   useEffect(() => {
@@ -153,7 +174,6 @@ function Connections() {
         filteredConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
         return result;
       });
-      dispatch(showConnectionByProfile(location.state?.id));
       setSortConnections(filteredConnections);
       return setConnections(filteredConnections.slice(0, 19));
     }
@@ -177,8 +197,6 @@ function Connections() {
     });
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
-
-  console.log(dragableConnections);
 
   return (
     <>

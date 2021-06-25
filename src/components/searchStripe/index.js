@@ -37,8 +37,11 @@ function SearchStripe({
 }) {
   const classes = useStyles();
   const history = useHistory();
-  const location = useLocation();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+
+  const dataCheckboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
+  const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
+  const isSelected = Object.values(dataCheckboxes).includes(true);
 
   return (
     <div style={styles?.containerWrapper || {}} className={classes.containerWrapper}>
@@ -83,9 +86,9 @@ function SearchStripe({
           {showAll
         && <div className='relative'>
           <div className={classes.buttonWrapper}>
-            {autoComleteData && autoComleteData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={classes.sortText}>
+            {isSelected && <div className={classes.sortText}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{location.state?.profilesData?.name || location.state?.name}</i>
+                <i>{`${selectedCheckBox.length} accounts`}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,

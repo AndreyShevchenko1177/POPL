@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { cleanAction } from "../overallAnalytics/store/actions";
+import { cleanAction, clearChecboxAction, setCheckboxAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
@@ -24,6 +24,7 @@ function PoplsItem() {
   const profiles = useSelector(
     ({ profilesReducer }) => profilesReducer.dataProfiles.data,
   );
+  const dataCheckboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
   const editPoplFetching = useSelector(({ poplsReducer }) => poplsReducer.editPopl.isFetching);
   const pops = useSelector(({ poplsReducer }) => poplsReducer.allPops?.data);
@@ -115,15 +116,24 @@ function PoplsItem() {
 
   const clearFilterInput = (name) => {
     showAll(null, "all");
+    dispatch(clearChecboxAction());
   };
 
   const handleChangeInputFilter = (event, val) => {
     if (!val) {
       showAll(null, "all");
-      return;
     }
-    setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(val.toLowerCase())));
+    // setPopls(popls.filter((item) => item.profileOwner.toLowerCase().includes(val.toLowerCase())));
   };
+
+  useEffect(() => {
+    if (Object.keys(dataCheckboxes).length) {
+      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes).includes(true);
+      if (!isSelected) return setPopls(popls);
+      setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))));
+    }
+  }, [dataCheckboxes]);
 
   useEffect(() => {
     const checkBoxObject = {};
@@ -147,16 +157,25 @@ function PoplsItem() {
     }
   }, [checkboxes]);
 
-  useEffect(() => () => dispatch(cleanAction()), []); // cleaning analytics reducer
+  useEffect(() => () => {
+    dispatch(cleanAction());
+    dispatch(clearChecboxAction());
+  }, []); // cleaning analytics reducer
+
+  useEffect(() => {
+    if (location.state?.profilesData?.id) {
+      dispatch(setCheckboxAction({ id: Number(location.state?.profilesData?.id), checked: true }));
+    }
+  }, [location.state?.profilesData?.id]);
 
   useEffect(() => {
     if (!pops) return;
-    if (location.state?.profilesData?.id) {
-      setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
-      return setPopls(popls
-        .filter((popl) => popl.profileId === location.state.profilesData.id)
-        .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
-    }
+    // if (location.state?.profilesData?.id) {
+    //   setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
+    //   return setPopls(popls
+    //     .filter((popl) => popl.profileId === location.state.profilesData.id)
+    //     .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+    // }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
   }, [popls, pops, location]);
 
