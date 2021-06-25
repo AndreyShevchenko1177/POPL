@@ -142,13 +142,13 @@ function Connections() {
   }, [location.state?.id]);
 
   useEffect(() => {
-    if (Object.keys(dataCheckboxes).length) {
+    if (Object.keys(dataCheckboxes).length && connectionsObject) {
       const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
       const isSelected = Object.values(dataCheckboxes).includes(true);
       if (!isSelected) return dispatch(showConnectionByProfile(profiles.map(({ id }) => Number(id))));
       dispatch(showConnectionByProfile(selectedCheckBox));
     }
-  }, [dataCheckboxes]);
+  }, [dataCheckboxes, connectionsObject]);
 
   useEffect(() => {
     if (location.state?.id) {
