@@ -32,7 +32,7 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState();
 
   const handleOpen = () => {
-    history.push("/accounts/add-account");
+    history.push("/accounts/add-account", { path: "/" });
   };
 
   useEffect(() => {

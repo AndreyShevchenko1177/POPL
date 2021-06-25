@@ -1,11 +1,10 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-lone-blocks */
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Paper, Typography } from "@material-ui/core";
-import { check } from "prettier";
 import clsx from "clsx";
 import Header from "../../components/Header";
 import {
@@ -185,8 +184,6 @@ function Connections() {
     <>
       <Header
         rootLink="Connections"
-        firstChild={location.state?.name}
-        path="/connections"
       />
       <div
         className={`${

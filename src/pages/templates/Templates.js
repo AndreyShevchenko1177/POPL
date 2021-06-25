@@ -11,7 +11,8 @@ function SettingsPage() {
   return (
     <>
       <Header
-        rootLink="Templates"
+        firstChild
+        path="/accounts"
       />
       <div className={classes.container}>
         <Paper className={classes.linksContainer}>

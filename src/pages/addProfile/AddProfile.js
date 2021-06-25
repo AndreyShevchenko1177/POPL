@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import ListIcon from "@material-ui/icons/List";
 import useStyle from "./styles/styles";
 import ChoiceCard from "./components/AddProfileCard";
@@ -9,13 +9,13 @@ import addLinkIcon from "../../assets/add.png";
 function ChoicePage() {
   const classes = useStyle();
   const history = useHistory();
+  const location = useLocation();
 
   return (
     <>
       <Header
-        rootLink="Accounts"
-        path='/accounts'
-        lastChild="Add Accounts"
+        firstChild
+        path={location.state.path}
       />
       <div className={classes.choiceContainer}>
         <div className={classes.choiceWrapper}>
@@ -25,14 +25,14 @@ function ChoicePage() {
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
-            <div onClick={() => history.push("/accounts/new-account")}>
+            <div onClick={() => history.push("/accounts/new-account", { path: location.state.path })}>
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Existing Account'
                 description='Add existing Popl accounts'
               />
             </div>
-            <div onClick={() => history.push("/accounts/add-account/new")}>
+            <div onClick={() => history.push("/accounts/add-account/new", { path: location.state.path })}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'

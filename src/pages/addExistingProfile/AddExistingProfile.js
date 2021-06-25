@@ -1,21 +1,19 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import TabsContainer from "./components/TabContainer";
 import useStyles from "./styles/styles";
 import Header from "../../components/Header";
-// import CustomInput from "../../components/customInput";
 
 function AddExistingProfile() {
+  const location = useLocation();
   const classes = useStyles();
 
   return (
     <>
       <div>
         <Header
-          rootLink="Accounts"
-          firstChild="Add Accounts"
-          firstChildRedirectPath="/accounts/add-account"
-          lastChild="Existing Account"
-          path="/accounts"
+          firstChild
+          path={location.state.path}
         />
       </div>
       <div className={classes.container}>

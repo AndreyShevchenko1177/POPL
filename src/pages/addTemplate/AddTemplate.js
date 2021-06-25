@@ -51,9 +51,8 @@ function AddTemplate() {
   return (
     <>
       <Header
-        rootLink="Templates"
-        lastChild="Add Template"
-        path="/templates"
+        firstChild
+        path="/accounts"
       />
       {wizard.open && <CustomWizard
         disabled data={[]}

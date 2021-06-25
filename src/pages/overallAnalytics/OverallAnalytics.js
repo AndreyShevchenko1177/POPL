@@ -7,7 +7,7 @@ import moment from "moment";
 import worker from "workerize-loader!../../worker";
 import NetworkActivity from "./components/timeLine";
 import {
-  cleanAction, mainAnalyticsAction,
+  cleanAction, mainAnalyticsAction, setCheckboxAction,
 } from "./store/actions";
 import {
   getYear, getMonth, getDay, monthsFullName,
@@ -319,7 +319,6 @@ function OverallAnalytics() {
       workerInstance.generateAllData(JSON.stringify({ popsData, isSafari })).then((result) => {
         if (location.pathname !== window.location.pathname) return;
         const { data, maxDate, minDate } = JSON.parse(result);
-        console.log(maxDate, minDate);
         let minD;
         let maxD;
         if (isSafari) {
@@ -486,6 +485,7 @@ function OverallAnalytics() {
       }
       // setting popps for individual profile level
       else if (location.state?.id) {
+        dispatch(setCheckboxAction({ id: String(location.state.id), checked: true }));
         return setPopsData({
           poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
           qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
@@ -610,11 +610,6 @@ function OverallAnalytics() {
     <>
       <Header
         rootLink="Analytics"
-        rootLinkClick={handleShowAllStat}
-        lastChild={location.state?.name || location.state?.poplName}
-        firstChild={location.state?.id ? "Accounts" : location.state?.name ? "Devices" : ""}
-        firstChildRedirectPath={location.state?.id ? "/accounts" : "/popls"}
-        path="/analytics"
       />
       <div className={classes.contentRoot}>
         <div className={classes.overallAnalyticsContainer}>

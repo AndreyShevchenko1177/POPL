@@ -27,9 +27,8 @@ function MyTemplates() {
   return (
     <>
       <Header
-        rootLink="Templates"
-        path='/templates'
-        lastChild="My Templates"
+        firstChild
+        path="/accounts"
       />
       <div className={classes.container}>
         <Paper className={classes.templatesContainer}>

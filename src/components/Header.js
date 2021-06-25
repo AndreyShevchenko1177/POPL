@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, makeStyles, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,14 +52,16 @@ function Header({
           height: 70,
         }}
       >
+        {firstChild && <ArrowBackIosIcon className={classes.arrowIcon} />}
         <Typography
           onClick={handleRedirect}
-          className={lastChild && classes.rootLink}
+          className={firstChild && classes.rootLink}
           variant="body1"
         >
-          {rootLink}
+          {rootLink || "Back"}
         </Typography>
-        {firstChild && <ArrowForwardIosIcon className={classes.arrowIcon} />}
+
+        {/* {firstChild && <ArrowBackIosIcon className={classes.arrowIcon} />}
         <Typography
           className={firstChildRedirectPath && classes.rootLink}
           variant="body1"
@@ -67,8 +69,8 @@ function Header({
         >
           {firstChild}
         </Typography>
-        {lastChild && <ArrowForwardIosIcon className={classes.arrowIcon} />}
-        <Typography variant="h5">{lastChild}</Typography>
+        {lastChild && <ArrowBackIosIcon className={classes.arrowIcon} />}
+        <Typography variant="h5">{lastChild}</Typography> */}
       </div>
 
     </Paper>

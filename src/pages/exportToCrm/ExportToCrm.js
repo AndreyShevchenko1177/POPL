@@ -97,9 +97,8 @@ function ChoicePage() {
   return (
     <>
       <Header
-        rootLink="Connections"
+        firstChild
         path='/connections'
-        lastChild="Export to CRM"
       />
       <div className={classes.choiceContainer}>
         <div className={classes.choiceWrapper}>

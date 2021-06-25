@@ -164,8 +164,6 @@ function PoplsItem() {
     <>
       <Header
         rootLink="Devices"
-        firstChild={location.state?.profilesData?.name}
-        path="/popls"
       />
       <div
         className={`${

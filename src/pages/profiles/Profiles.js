@@ -65,7 +65,7 @@ export default function Profiles() {
   });
 
   function handleOpenNewProfilePage() {
-    history.push("/accounts/add-account");
+    history.push("/accounts/add-account", { path: "/accounts" });
   }
 
   function handleOnDragEnd(result) {
