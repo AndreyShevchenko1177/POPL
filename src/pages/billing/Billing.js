@@ -6,7 +6,6 @@ import useStyles from "./styles";
 import stripeConfig from "./stripeConfig";
 import SubscriptionCard from "./components/SubscriptionCard";
 import TwoWeeksFreeButton from "./components/TwoWeeksFreeButton";
-import { profileIdsRequest } from "../profiles/store/actions/requests";
 
 const stripe = window.Stripe && window.Stripe(stripeConfig.stripePk);
 
