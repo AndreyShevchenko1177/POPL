@@ -8,13 +8,13 @@ const templatesConfig = [
     id: 1,
     name: "Add Template",
     icon: <SettingsIcon/>,
-    path: "templates/add-template",
+    path: "/templates/add-template",
   },
   {
     id: 2,
     name: "My Templates",
     icon: <PaymentIcon />,
-    path: "templates/my-templates",
+    path: "/templates/my-templates",
   },
 ];
 

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LinkItem({
-  name, icon, path,
+  name, icon, path, rootPath,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -36,7 +36,7 @@ function LinkItem({
 
   const redirect = () => {
     if (name === "Logout") return handleLogout();
-    history.push(path);
+    history.push(path, { path: "/templates", rootPath });
   };
 
   return (

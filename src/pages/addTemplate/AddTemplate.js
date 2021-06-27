@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import {
-  Button, Paper, TextField, Typography,
+  Button, Paper, TextField,
 } from "@material-ui/core";
 import Header from "../../components/Header";
 import useStyles from "./styles";
@@ -52,7 +51,7 @@ function AddTemplate() {
     <>
       <Header
         firstChild
-        path="/accounts"
+        path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       {wizard.open && <CustomWizard
         disabled data={[]}

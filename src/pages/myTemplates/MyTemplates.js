@@ -1,4 +1,5 @@
 import { Paper } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../components/Header";
 import useStyles from "./styles/styles";
@@ -21,6 +22,7 @@ const linksConfig = [
 ];
 
 function MyTemplates() {
+  const location = useLocation();
   const classes = useStyles();
   const [isShowAssign, setIsShowAssign] = useState(false);
 
@@ -28,7 +30,7 @@ function MyTemplates() {
     <>
       <Header
         firstChild
-        path="/accounts"
+        path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.container}>
         <Paper className={classes.templatesContainer}>

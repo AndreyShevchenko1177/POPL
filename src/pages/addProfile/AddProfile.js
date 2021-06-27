@@ -10,12 +10,11 @@ function ChoicePage() {
   const classes = useStyle();
   const history = useHistory();
   const location = useLocation();
-
   return (
     <>
       <Header
         firstChild
-        path={location.state.path}
+        path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.choiceContainer}>
         <div className={classes.choiceWrapper}>
@@ -25,14 +24,14 @@ function ChoicePage() {
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
-            <div onClick={() => history.push("/accounts/new-account", { path: location.state.path })}>
+            <div onClick={() => history.push("/accounts/new-account", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Existing Account'
                 description='Add existing Popl accounts'
               />
             </div>
-            <div onClick={() => history.push("/accounts/add-account/new", { path: location.state.path })}>
+            <div onClick={() => history.push("/accounts/add-account/new", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'

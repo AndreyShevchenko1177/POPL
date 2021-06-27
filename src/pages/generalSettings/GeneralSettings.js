@@ -101,9 +101,8 @@ function GeneralSettings() {
   return (
     <>
       <Header
-        rootLink="Settings"
-        lastChild="General Settings"
         path="/settings"
+        firstChild
       />
       <ConfirmModal
         open={conFirmModal.open}

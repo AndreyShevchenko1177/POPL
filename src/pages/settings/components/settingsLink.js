@@ -36,7 +36,7 @@ function LinkItem({
 
   const redirect = () => {
     if (name === "Logout") return handleLogout();
-    history.push(path);
+    history.push(path, { path: "/settings", rootPath: "/settings" });
   };
 
   return (

@@ -16,8 +16,8 @@ function SettingsPage() {
       <div className={classes.container}>
         <Paper className={classes.linksContainer}>
           {linksConfig.map(({
-            id, name, icon, path,
-          }) => <LinkItem key={id} name={name} icon={icon} path={path} />)}
+            id, ...data
+          }) => <LinkItem key={id} {...data} />)}
         </Paper>
       </div>
     </>

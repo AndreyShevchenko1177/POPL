@@ -8,13 +8,13 @@ const linksConfig = [
     id: 1,
     name: "General Settings",
     icon: <SettingsIcon/>,
-    path: "settings/general-settings",
+    path: "/settings/general-settings",
   },
   {
     id: 2,
     name: "Subscribe",
     icon: <PaymentIcon />,
-    path: "settings/billing",
+    path: "/settings/billing",
   },
   {
     id: 3,

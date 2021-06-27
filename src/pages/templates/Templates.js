@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Paper } from "@material-ui/core";
 import Header from "../../components/Header";
 import LinkItem from "./components/TemplatesLink";
@@ -7,6 +8,7 @@ import useStyles from "./styles";
 
 function SettingsPage() {
   const classes = useStyles();
+  const location = useLocation();
 
   return (
     <>
@@ -17,8 +19,8 @@ function SettingsPage() {
       <div className={classes.container}>
         <Paper className={classes.linksContainer}>
           {linksConfig.map(({
-            id, name, icon, path,
-          }) => <LinkItem key={id} name={name} icon={icon} path={path} />)}
+            id, ...data
+          }) => <LinkItem key={id} {...data} rootPath={location.state.rootPath}/>)}
         </Paper>
       </div>
     </>

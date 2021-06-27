@@ -77,7 +77,7 @@ function SearchStripe({
             variant="contained"
             color="primary"
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-            onClick={() => history.push("/connections/export-to-crm")}
+            onClick={() => history.push("/connections/export-to-crm", { path: "/connections", rootPath: "/connections" })}
           >
           Export to CRM
           </Button>
@@ -181,7 +181,7 @@ function SearchStripe({
             color="primary"
             style={{ minWidth: 100 }}
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
-            onClick={() => history.push("/templates")}
+            onClick={() => history.push("/templates", { rootPath: "/accounts", path: "/accounts" })}
             name='action'
           >
             {"Templates"}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, makeStyles, Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useSelector } from "react-redux";
 
@@ -29,11 +29,12 @@ function Header({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const handleRedirect = () => {
     if (lastChild || firstChild) {
-      history.push(path);
+      history.push(path, { path: location.state.path, rootPath: location.state.rootPath });
       rootLinkClick && rootLinkClick();
     }
   };
