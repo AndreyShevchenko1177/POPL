@@ -5,6 +5,7 @@ import useStyle from "./styles/styles";
 import ChoiceCard from "./components/AddProfileCard";
 import Header from "../../components/Header";
 import addLinkIcon from "../../assets/add.png";
+import loginIcon from "../../assets/log-in.png";
 
 function ChoicePage() {
   const classes = useStyle();
@@ -24,18 +25,25 @@ function ChoicePage() {
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
-            <div onClick={() => history.push("/accounts/new-account", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
-              <ChoiceCard
-                Icon={() => <ListIcon fontSize='large'/>}
-                title='Existing Account'
-                description='Add existing Popl accounts'
-              />
-            </div>
             <div onClick={() => history.push("/accounts/add-account/new", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'
                 description='Create new Popl accounts'
+              />
+            </div>
+            <div onClick={() => history.push("/accounts/new-account/email-invite", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
+              <ChoiceCard
+                Icon={() => <ListIcon fontSize='large'/>}
+                title='Email invite'
+                description='Send email invites to accounts'
+              />
+            </div>
+            <div onClick={() => history.push("/accounts/new-account/log-in", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
+              <ChoiceCard
+                Icon={() => <img className={classes.addLink} alt='add-icon' src={loginIcon}/>}
+                title='Log in'
+                description='Login to existing Popl accounts'
               />
             </div>
           </div>

@@ -23,12 +23,10 @@ export default makeStyles((theme) => ({
   choiceCardsWrapper: {
     width: "100%",
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     "& div": {
       cursor: "pointer",
-      "@media (max-width:1100px)": {
-        paddingBottom: 10,
-      },
     },
     "@media (max-width:1100px)": {
       display: "flex",
@@ -38,6 +36,7 @@ export default makeStyles((theme) => ({
   },
   choiceCardContainer: {
     minWidth: 375,
+    marginBottom: 10,
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
   },

@@ -20,8 +20,9 @@ import Dashboard from "./pages/dashboard";
 import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 import OverallAnalytics from "./pages/overallAnalytics";
-import AddExistingProfile from "./pages/addExistingProfile";
-import AddNewProfile from "./pages/addNewProfile";
+import CreateAccountByEmailInvite from "./pages/createAccountByEmailInvite";
+// import CreateAccountByEmailInvite from "./pages/addExistingProfile";
+import AddNewProfile from "./pages/createNewAccount";
 import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
 import Notifications from "./pages/notifications";
@@ -30,6 +31,7 @@ import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
 import Billing from "./pages/billing";
 import AddProfile from "./pages/addProfile";
+import LoginExistingProfile from "./pages/loginExistingProfile";
 import Templates from "./pages/templates";
 import AddTemplate from "./pages/addTemplate";
 import MyTemplates from "./pages/myTemplates";
@@ -82,11 +84,18 @@ function App(props) {
           <Profiles />
         </PrivateRoute>
         <PrivateRoute
-          path="/accounts/new-account"
+          path="/accounts/new-account/email-invite"
           exact
           isLoggedIn={profileData?.id}
         >
-          <AddExistingProfile />
+          <CreateAccountByEmailInvite/>
+        </PrivateRoute>
+        <PrivateRoute
+          path="/accounts/new-account/log-in"
+          exact
+          isLoggedIn={profileData?.id}
+        >
+          <LoginExistingProfile />
         </PrivateRoute>
         <PrivateRoute
           path="/accounts/add-account/new"

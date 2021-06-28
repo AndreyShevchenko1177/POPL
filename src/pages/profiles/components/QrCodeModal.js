@@ -47,7 +47,7 @@ export default function QrCodeModal({
   open, setOpen, profile,
 }) {
   const classes = useStyles();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({ base64Data: null, widthRatio: 1, heightRatio: 1 });
 
   const handleClose = (value) => {
     setOpen((m) => ({ ...m, open: false }));
@@ -77,18 +77,28 @@ export default function QrCodeModal({
         })
           .then((res) => {
             convertBlobToBase64(res.data)
-              .then((base64) => setImage(base64))
+              .then((base64) => {
+                const image = new Image();
+                image.onload = function () {
+                  const w = this.width;
+                  const h = this.height;
+                  console.log(this.width, this.height);
+                  setImage({ base64Data: base64, widthRatio: w > h ? w / h : 1, heightRatio: w < h ? h / w : 1 });
+                };
+                image.src = base64;
+              })
               .catch((error) => {
-                setImage(null);
+                setImage({ base64Data: null, widthRatio: 1, heightRatio: 1 });
                 console.log(error);
               });
           })
           .catch((err) => {
-            setImage(" ");
+            setImage({ base64Data: " ", widthRatio: 1, heightRatio: 1 });
             console.log(err);
           });
       }
-      setImage("/assets/img/logo_company.png");
+
+      setImage({ base64Data: "/assets/img/logo_company.png", widthRatio: 1, heightRatio: 1 });
     }
   }, [open]);
 
@@ -100,12 +110,12 @@ export default function QrCodeModal({
             <div></div>
             <Typography variant='h5' id="simple-dialog-title">{profile.name}'s QR Code</Typography>
             <div className={classes.qrCodeWrapper}>
-              {image
+              {image.base64Data
                 ? <svg viewBox="0 0 240 240" width="180" height="180" id={profile.id}>
                   <QRCode size={240} value={`https://poplme.co/${profile.url}/dqr`} renderAs={"svg"}
                     level='M'
                     imageSettings={!(profile.generalSettingsData && profile.generalSettingsData[3]) ? {
-                      src: image,
+                      src: image.base64Data,
                       x: null,
                       y: null,
                       height: 41,
@@ -119,7 +129,7 @@ export default function QrCodeModal({
                       <circle cx="120" cy="120" r="25" fill="#FFFFFF" />
                     </clipPath>
                   </defs>
-                  <image width="50" height="50" x="95" y="95" xlinkHref={image} clip-path="url(#circleView)"/>
+                  <image width={String(50 * image.widthRatio)} height={String(50 * image.heightRatio)} x="95" y="95" xlinkHref={image.base64Data} clip-path="url(#circleView)"/>
                 </svg>
                 : <Loader />}
             </div>
