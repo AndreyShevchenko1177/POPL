@@ -129,7 +129,7 @@ export default function Main({ children, stripe }) {
                     className={classes.addAccountsBtn}
                     variant="contained"
                     color="primary"
-                    onClick={() => history.push("/accounts/add-account")}
+                    onClick={() => history.push("/accounts/add-account", { rootPath: "/accounts", path: "/accounts" })}
                   >
                     Add Accounts
                   </Button>
