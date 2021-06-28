@@ -25,18 +25,18 @@ function ChoicePage() {
             </span>
           </div>
           <div className={classes.choiceCardsWrapper}>
-            <div onClick={() => history.push("/accounts/add-account/new", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
-              <ChoiceCard
-                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
-                title='New Account'
-                description='Create new Popl accounts'
-              />
-            </div>
             <div onClick={() => history.push("/accounts/new-account/email-invite", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Email invite'
                 description='Send email invites to accounts'
+              />
+            </div>
+            <div onClick={() => history.push("/accounts/add-account/new", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
+              <ChoiceCard
+                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
+                title='New Account'
+                description='Create new Popl accounts'
               />
             </div>
             <div onClick={() => history.push("/accounts/new-account/log-in", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>

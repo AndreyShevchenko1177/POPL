@@ -7,7 +7,7 @@ export default makeStyles((theme) => ({
     paddingTop: 70,
   },
   choiceWrapper: {
-    width: 800,
+    width: "100%",
     minWidth: 400,
     padding: "0px 20px",
   },
@@ -23,19 +23,19 @@ export default makeStyles((theme) => ({
   choiceCardsWrapper: {
     width: "100%",
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center",
     "& div": {
       cursor: "pointer",
+      marginRight: 10,
     },
-    "@media (max-width:1100px)": {
+    "@media (max-width:1300px)": {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
     },
   },
   choiceCardContainer: {
-    minWidth: 375,
+    minWidth: 320,
     marginBottom: 10,
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
