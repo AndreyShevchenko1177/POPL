@@ -9,6 +9,7 @@ import {
   FormHelperText,
   Grid,
   Button,
+  Typography,
 } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
@@ -68,6 +69,7 @@ function LoginExistingProfile() {
         path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.root}>
+        <Typography variant='subtitle1' classes={{ subtitle1: classes.heading }}>Log in to Popl Accounts to add them to the dashboard</Typography>
         <ValidationProvider clear={isClear} config={signInConfig}>
           {(events, values, errors) => (
             <Grid className={classes.loginInputsContainer} container spacing={3}>

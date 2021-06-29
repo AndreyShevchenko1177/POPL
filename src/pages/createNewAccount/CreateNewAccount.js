@@ -61,7 +61,7 @@ function CreateNewAccount() {
       <div className={classes.root}>
         <Grid className={classes.loginInputsContainer} container spacing={3}>
           {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
-          <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Enter number of accounts you’d like to create below:</Typography>
+          <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Create accounts from the dashboard</Typography>
           <Grid className={classes.loginInput} item xs={2}>
             <TextField
               type="number"

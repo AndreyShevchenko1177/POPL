@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   root: {
-    paddingTop: 100,
+    paddingTop: 70,
   },
   loginInputsContainer: {
     flexDirection: "column",
@@ -15,8 +15,9 @@ export default makeStyles((theme) => ({
     padding: "0 0 0 5px",
   },
   inputHeading: {
-    fontWeight: "bold !important",
-    paddingTop: 20,
+    fontSize: "16px !important",
+    fontWeight: "bold",
+    paddingBottom: 10,
   },
   textBelowInput: {
     padding: 0,

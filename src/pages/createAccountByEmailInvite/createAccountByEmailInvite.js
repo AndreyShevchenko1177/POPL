@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import clsx from "clsx";
 import { addNewProfileByEmailAction, clearAction, removeFileAction } from "./store/actions";
@@ -122,9 +122,10 @@ function CreateAccountByEmailIvite() {
         path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.rootDiv}>
+        <Typography variant='subtitle1' classes={{ subtitle1: classes.heading }}>Invite users to add or create Popl accounts via Email</Typography>
         {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
         <div className={clsx("relative", classes.rootWrapper)}>
-          <Grid container className={classes.emailsComponentWrapper} spacing={3}>
+          <Grid container className={classes.emailsComponentWrapper}>
             <div className={classes.emailContainer}>
               <div className={classes.emailChipContainer}>
                 {email.map(({ emailString, id }) => <div key={id} className={classes.emailChip}>

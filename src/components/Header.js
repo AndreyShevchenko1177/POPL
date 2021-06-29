@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
     color: "#565956",
     margin: "0 10px",
+    cursor: "pointer",
   },
   rootLink: {
     "&:hover": {
@@ -39,8 +40,6 @@ function Header({
     }
   };
 
-  const firstChildRedirect = () => history.push(firstChildRedirectPath);
-
   return (
     <Paper elevation={0} className={classes.root}>
       <div
@@ -53,7 +52,7 @@ function Header({
           height: 70,
         }}
       >
-        {firstChild && <ArrowBackIosIcon className={classes.arrowIcon} />}
+        {firstChild && <ArrowBackIosIcon onClick={handleRedirect} className={classes.arrowIcon} />}
         <Typography
           onClick={handleRedirect}
           className={firstChild && classes.rootLink}

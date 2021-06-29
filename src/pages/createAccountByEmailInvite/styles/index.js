@@ -2,17 +2,22 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   rootDiv: {
-    paddingTop: 100,
+    padding: "70px 30px 0 30px",
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
   },
   rootWrapper: {
-    width: "90%",
+    width: "100%",
   },
   rootContainer: {
     borderRadius: theme.custom.mainBorderForBigElement,
     boxShadow: theme.custom.mainBoxShadow,
+  },
+  heading: {
+    fontSize: "16px !important",
+    fontWeight: "bold",
+    paddingBottom: 10,
   },
   gridItem: {
     padding: "8px 0px !important",
