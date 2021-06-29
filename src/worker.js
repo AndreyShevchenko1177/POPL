@@ -444,7 +444,7 @@ export const generateDohnutPopsByProfileData = (funcArguments) => {
     data[name] = {
       result: correctResult,
       ctr: `${(Object.values(taps).reduce((s, c) => s + c, 0) / Object.values(views).reduce((s, c) => s += c, 0) * 100).toFixed(1)}%`,
-      image: imageBusiness || image || "",
+      image: activeProfile === "2" ? (imageBusiness || image || "") : (image || imageBusiness || ""),
       id,
     };
   });
