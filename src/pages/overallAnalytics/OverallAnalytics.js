@@ -120,9 +120,17 @@ function OverallAnalytics() {
         // stopping preloader
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
-
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({ id, name, image }) => ({ id, name, image })), popsData, minDate, maxDate, linkTaps, viewsKpis: viewsBottom,
+        profileData: profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })),
+        popsData,
+        minDate,
+        maxDate,
+        linkTaps,
+        viewsKpis: viewsBottom,
       })).then((dohnutPopsByProfileData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -196,7 +204,16 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-      profileData: profilesData.map(({ id, name, image }) => ({ id, name, image })), popsData, minDate, maxDate, linkTaps, viewsKpis: viewsBottom,
+      profileData: profilesData.map(({
+        id, name, image, activeProfile, imageBusiness,
+      }) => ({
+        id, name, image, activeProfile, imageBusiness,
+      })),
+      popsData,
+      minDate,
+      maxDate,
+      linkTaps,
+      viewsKpis: viewsBottom,
     })).then((dohnutPopsByProfileData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -244,7 +261,16 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-      profileData: profilesData.map(({ id, name, image }) => ({ id, name, image })), popsData, minDate: dateFrom, maxDate: dateTo, linkTaps, viewsKpis: viewsBottom,
+      profileData: profilesData.map(({
+        id, name, image, activeProfile, imageBusiness,
+      }) => ({
+        id, name, image, activeProfile, imageBusiness,
+      })),
+      popsData,
+      minDate: dateFrom,
+      maxDate: dateTo,
+      linkTaps,
+      viewsKpis: viewsBottom,
     })).then((dohnutPopsByProfileData) => {
       if (location.pathname !== window.location.pathname) return;
       setChartData((prev) => ({
@@ -365,7 +391,17 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({ id, name, image }) => ({ id, name, image })), popsData, minDate: null, maxDate: null, isAllData: true, linkTaps, viewsKpis: viewsBottom,
+        profileData: profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })),
+        popsData,
+        minDate: null,
+        maxDate: null,
+        isAllData: true,
+        linkTaps,
+        viewsKpis: viewsBottom,
       })).then((dohnutPopsByProfileData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({
@@ -554,7 +590,14 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
       });
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({ id, name, image }) => ({ id, name, image })), popsData, linkTaps, viewsKpis: viewsBottom,
+        profileData: profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })),
+        popsData,
+        linkTaps,
+        viewsKpis: viewsBottom,
       })).then((dohnutPopsByProfileData) => {
         if (location.pathname !== window.location.pathname) return;
         setChartData((prev) => ({

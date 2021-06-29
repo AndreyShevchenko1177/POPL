@@ -51,7 +51,8 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
     <>
       {data && !isWorkerRunning
         ? <div className={classes.tableBody}>
-          {data
+
+          {data.legnth ? data
             .sort((a, b) => b.value - a.value)
             .map(({
               name, value, linkId, linkValue,
@@ -63,7 +64,11 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
                   {value}
                 </div>
               </div>
-            ))}
+            ))
+            : <div className={clsx(classes.noDataText, classes.noDataTextWidgets)}>
+                No top tapped links for this account
+            </div>
+          }
         </div>
         : <Loader containerStyles={{
           width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
