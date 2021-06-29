@@ -12,14 +12,14 @@ import TopListViewedProfiles from "./topStatWidgets/TopListViewedViews";
 import TopListPoppedPopls from "./topStatWidgets/TopListTopPoppedPopls";
 
 const BottomWidgets = memo(({
-  dohnutPopsData, dohnutDirectData, dohnutPopsByProfileData, calendar, profilesData, isChartsDataCalculating,
+  dohnutPopsData, dohnutDirectData, dohnutPopsByProfileData, calendar, profilesData, isChartsDataCalculating, isPoplLevel,
 }) => {
   const classes = useStyles();
   const location = useLocation();
 
   return (
     <div className={classes.bottomWidgetsRoot}>
-      <div className={classes.twoWidgetsWrapper}>
+      {!isPoplLevel && <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer
           fullWidth
           isChart
@@ -27,7 +27,7 @@ const BottomWidgets = memo(({
           heading='Pop Leaderboard'>
           <PieChartProfilesProportion isChartsDataCalculating={isChartsDataCalculating.dohnutPopsByProfileData} dohnutPopsByProfileData={dohnutPopsByProfileData} index={3} />
         </WidgetsContainer>
-      </div>
+      </div>}
       <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer
           profilesData={profilesData}
@@ -47,7 +47,7 @@ const BottomWidgets = memo(({
         </WidgetsContainer>
 
       </div>
-      <div className={classes.twoWidgetsWrapper}>
+      {!isPoplLevel && <div className={classes.twoWidgetsWrapper}>
         <WidgetsContainer
           heading='Top viewed Accounts'
           profilesData={profilesData}
@@ -71,7 +71,7 @@ const BottomWidgets = memo(({
         >
           <TopListLinkTaps profilesData={profilesData} dateRange={calendar.dateRange} />
         </WidgetsContainer>
-      </div>
+      </div>}
     </div>
   );
 });

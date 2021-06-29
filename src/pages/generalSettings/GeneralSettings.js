@@ -165,7 +165,7 @@ function GeneralSettings() {
                 color='primary'
                 onClick={() => {
                   handleSave();
-                  history.push("/accounts/add-account");
+                  history.push("/accounts/add-account", { rootPath: "/settings/general-settings", path: "/settings/general-settings" });
                 }}
                 style={{ width: 200 }}
               >

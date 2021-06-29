@@ -644,6 +644,7 @@ function OverallAnalytics() {
           dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
           profilesData={profilesData}
           isChartsDataCalculating={isChartsDataCalculating}
+          isPoplLevel={location.state?.poplName}
         />
       </div>
     </>
