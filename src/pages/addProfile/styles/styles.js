@@ -35,7 +35,11 @@ export default makeStyles((theme) => ({
     },
   },
   choiceCardContainer: {
-    minWidth: 320,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 320,
+    maxHeight: 150,
     marginBottom: 10,
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
     borderRadius: theme.custom.mainBorderRadius,
