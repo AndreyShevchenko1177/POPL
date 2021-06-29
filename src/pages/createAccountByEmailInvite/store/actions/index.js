@@ -29,10 +29,10 @@ const getIdFromEmail = async (email) => {
   return axios.post("", formdata);
 };
 
-const inviteByEmailAction = (emails, userData, clear) => async (dispatch, getState) => {
+export const inviteByEmailAction = (emails, clear) => async (dispatch, getState) => {
   try {
-    const userId = getState().authReducer.signIn.data.id;
-    if (restrictEdit(userId)) {
+    const userData = getState().authReducer.signIn.data;
+    if (restrictEdit(userData.userId)) {
       return dispatch(snackBarAction({
         message: "Can not edit demo account",
         severity: "error",
@@ -44,8 +44,12 @@ const inviteByEmailAction = (emails, userData, clear) => async (dispatch, getSta
     const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);
     for (const email of reqEmails) {
       const { data } = await getIdFromEmail(email);
-      if (data == 0 || data == userData.id) continue;
-      inviteByEmailRequest(email, userData, data);
+      if (data == userData.id) continue;
+      if (data == "null" || !data) {
+        inviteToPoplEmail({ email, id: userData.id, name: userData.name });
+      } else {
+        inviteByEmailRequest(email, userData, data);
+      }
     }
     clear();
     dispatch(fetchData(false));
@@ -72,6 +76,21 @@ const inviteByEmailAction = (emails, userData, clear) => async (dispatch, getSta
         open: true,
       }),
     );
+  }
+};
+
+const inviteToPoplEmail = ({ email, name, id }) => {
+  try {
+    const formdata = new FormData();
+    formdata.append("ajax", "1");
+    formdata.append("sAction", "InviteToPoplEmail");
+    formdata.append("sToEmail", email);
+    formdata.append("sCompanyName", name);
+    formdata.append("iID", id);
+
+    return axios.post("", formdata);
+  } catch (error) {
+    console.log(error);
   }
 };
 

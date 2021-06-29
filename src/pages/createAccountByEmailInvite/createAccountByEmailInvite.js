@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { Button, Grid, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import clsx from "clsx";
-import { addNewProfileByEmailAction, clearAction, removeFileAction } from "./store/actions";
+import { inviteByEmailAction, clearAction, removeFileAction } from "./store/actions";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../utils/uniqueId";
@@ -46,7 +46,7 @@ function CreateAccountByEmailIvite() {
       emailsList.push(value);
     }
     if (!emailsList.length && !email.length) return;
-    dispatch(addNewProfileByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
+    dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
       if (isError) {
         dispatch(snackBarAction({
           message: `such emails already exists - ${errorMessage.length > 2 ? `${errorMessage.slice(0, 2).join(", ")} and ${errorMessage.length - 2} more` : errorMessage.join(", ")}`,
