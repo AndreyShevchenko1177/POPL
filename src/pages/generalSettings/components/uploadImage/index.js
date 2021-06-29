@@ -154,7 +154,7 @@ const DropZone = ({
           // onClick={companyImage ? () => {} : openFileDialog}
           className={classes.headingDropZoneWrapper}
         >
-          <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Team Logo</Typography>
+          <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Company Logo</Typography>
           {
             !companyImage
               ? <div onClick={companyImage ? () => {} : openFileDialog} className={classes.dashedContainer}>

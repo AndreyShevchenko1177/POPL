@@ -116,26 +116,26 @@ function GeneralSettings() {
       {isFetching
         ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }}/>
         : <div className={classes.container}>
-          {location.state?.firstLogin && (
-            <div className={classes.onboardContainer}>
-              <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
-                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}! Set up your team
-              </Typography>
-              {/* <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
+          {/* {location.state?.firstLogin && ( */}
+          <div className={classes.onboardContainer}>
+            <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
+                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}! Set up your dashboard
+            </Typography>
+            {/* <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
                 Set up your team
               </Typography> */}
-            </div>
-          )}
+          </div>
+          {/* )} */}
           <UpladImage image={companyInfo && companyInfo[3]} setFieldsState={setFieldsState} />
           <SettingsField
-            title="Name"
+            title="Company Name"
             name="name"
             placeholder="Enter you name"
             value={fieldsState.name}
             handleChange={handleChangeField}
           />
           <SettingsField
-            title="Website URL"
+            title="Website"
             name="websiteLink"
             placeholder="Enter you website URL"
             value={fieldsState.websiteLink}
