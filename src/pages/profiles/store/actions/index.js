@@ -98,8 +98,8 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
 
 export const addLinkAction = (value, title, profileData, iconId, icon) => async (dispatch, getState) => {
   try {
+    dispatch(isFetchingAction(true, "addLink"));
     const userId = getState().authReducer.signIn.data.id;
-    const storedProfiles = getState().profilesReducer.dataProfiles.data;
 
     if (restrictEdit(userId)) {
       return dispatch(snackBarAction({
@@ -111,7 +111,6 @@ export const addLinkAction = (value, title, profileData, iconId, icon) => async 
     }
 
     let resultUploadFile; // in this variable will returning firebase file name
-    console.log(icon);
     if (icon && typeof icon !== "string") {
       resultUploadFile = await uploadImage(new File([icon], `${icon.name.split(".")[icon.name.split(".").length - 1]}_icon-${getId(12)}`, { type: icon.type }));
     }
@@ -123,14 +122,20 @@ export const addLinkAction = (value, title, profileData, iconId, icon) => async 
     }
 
     const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, fileName || "")));
+
+    const successLinksIds = result
+      .filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success") // filtering by success request
+      .map((link) => link.value.config?.data.get("iID")); // getting ids from request config in formdata
+
+    const newProfileData = await Promise.all(successLinksIds.map((id) => requests.getProfileAction(id))); // getting updated profiles
+
     dispatch({
       type: ADD_LINK_SUCCESS,
-      payload: "success",
+      payload: {
+        profiles: newProfileData.map(({ data, id }) => ({ ...data, id })),
+        data: "success",
+      },
     });
-    const successLinks = result.filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success");
-
-    dispatch(clearStateAction("dataProfiles"));
-    return dispatch(getProfilesDataAction(userId));
   } catch (error) {
     console.log(error);
     dispatch(

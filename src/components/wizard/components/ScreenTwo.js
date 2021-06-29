@@ -16,8 +16,8 @@ function ScreenTwo({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const addLinkSuccess = useSelector(({ profilesReducer }) => profilesReducer.addLink.data);
+  const isAddLinkFetching = useSelector(({ profilesReducer }) => profilesReducer.addLink.isFetching);
   const [values, setValues] = useState({ title: "", value: "", src: "" });
   const [file, setFile] = useState(null);
   const [isValid, setIsValid] = useState({ title: true, value: true });
@@ -156,6 +156,8 @@ function ScreenTwo({
           variant="contained"
           color="primary"
           fullWidth
+          disabled={isAddLinkFetching}
+          style={{ height: 36, width: 175 }}
           onClick={action
             ? () => {
               action({ ...values, id, customId: getId(8) });
@@ -164,7 +166,17 @@ function ScreenTwo({
             : addLink
           }
         >
-          Add link
+          {isAddLinkFetching && <Loader
+            containerStyles={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              height: 20,
+            }}
+            size={20}
+          />}
+          {!isAddLinkFetching && "Add link"}
         </Button>
       </div>
     </div>

@@ -31,6 +31,7 @@ const initialState = {
   addLink: {
     data: null,
     error: null,
+    isFetching: false,
   },
   deleteLink: {
     data: null,
@@ -112,13 +113,33 @@ export default function profilesReducer(
     };
   }
   case ADD_LINK_SUCCESS: {
+    const profileLinks = {};
     return {
       ...state,
-      addLink: {
-        data: payload,
-        error: null,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          const updatedProfile = payload.profiles.find((item) => item.id == profile.id);
+          // console.log(profile.id, updatedProfile, payload.profiles);
+          if (updatedProfile) {
+            profileLinks[profile.customId] = {
+              1: updatedProfile.social,
+              2: updatedProfile.business,
+            };
+            return { ...updatedProfile, customId: profile.customId }; // returning updated profile and setting previous custom id for draggable component
+          }
+          return profile;
+        }),
       },
-      isFetching: false,
+      addLink: {
+        data: payload.data,
+        error: null,
+        isFetching: false,
+      },
+      profileLinks: { // updating profile links
+        ...state.profileLinks,
+        ...profileLinks,
+      },
     };
   }
   case ADD_LINK_FAIL: {
@@ -127,8 +148,8 @@ export default function profilesReducer(
       addLink: {
         data: payload,
         error,
+        isFetching: false,
       },
-      isFetching: false,
     };
   }
   case EDIT_PROFILE_LINK: {
