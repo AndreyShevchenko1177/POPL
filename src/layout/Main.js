@@ -83,7 +83,7 @@ export default function Main({ children, stripe }) {
 
   useEffect(() => {
     if (dashboardPlan !== null) {
-      const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/accounts/add-account", "/accounts/new-account", "/accounts/add-account/new"];
+      const allowedPaths = ["/settings", "/settings/billing", "/settings/general-settings", "/accounts/new-account/log-in", "/accounts/new-account/email-invite", "/accounts/add-account", "/accounts/add-account/new"];
       if (dashboardPlan == 0 || dashboardPlan === "") {
         if (!allowedPaths.includes(location.pathname)) {
           if (["/", "/connections", "/notifications"].includes(location.pathname) && totalProfiles === 1) return dispatch(restricteModeAction(false));
@@ -153,7 +153,9 @@ export default function Main({ children, stripe }) {
                       className={classes.addAccountsBtn}
                       variant="contained"
                       color="primary"
-                      onClick={() => history.push("/accounts/add-account")}
+                      onClick={() => {
+                        history.push("/accounts/add-account", { rootPath: location.pathname, path: location.pathname });
+                      }}
                     >
                       Add Accounts
                     </Button>
