@@ -51,8 +51,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
     <>
       {data && !isWorkerRunning
         ? <div className={classes.tableBody}>
-
-          {data.legnth ? data
+          {data.length ? data
             .sort((a, b) => b.value - a.value)
             .map(({
               name, value, linkId, linkValue,

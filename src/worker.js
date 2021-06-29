@@ -87,7 +87,7 @@ const chooseAccountImage = ({ activeProfile, image, imageBusiness }, companyInfo
       || "";
   }
   if (!result) {
-    return companyInfo[3] && `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${companyInfo[3]}?alt=media`;
+    return companyInfo[3] && `${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${companyInfo[3]}?alt=media`;
   }
   return result;
 };

@@ -208,6 +208,12 @@ function NetworkActivity({
                   }
                   q.ticks[q.ticks.length - 1] = "0";
                 },
+                ticks: {
+                  max: (function () {
+                    Math.max(...this.data.datasets.reduce((acc, { data }) => [...acc, ...data], []));
+                  }).bind(options)(),
+                  min: 0,
+                },
               }],
             },
           },
