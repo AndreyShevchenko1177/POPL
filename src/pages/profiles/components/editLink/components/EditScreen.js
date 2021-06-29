@@ -1,7 +1,7 @@
 /* eslint-disable import/no-webpack-loader-syntax */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   TextField, Button, Typography, IconButton, Chip,
 } from "@material-ui/core";
@@ -39,6 +39,8 @@ function EditScreen({
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
   const [isFileConverting, setIsFileConverting] = useState(false);
+  const isEditLinksFetching = useSelector(({ profilesReducer }) => profilesReducer.editLink.isFetching);
+  const isDeleteLinksFetching = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.isFetching);
 
   const handleOpenPopup = () => setIsOpenPopup(!isOpenPopup);
 
@@ -96,6 +98,10 @@ function EditScreen({
     event.persist();
     setInputValue({ ...inputValue, [event.target.name]: event.target.value });
   };
+
+  useEffect(() => {
+    if (isDeleteLinksFetching) setIsOpenPopup(false);
+  }, [isDeleteLinksFetching]);
 
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
@@ -185,11 +191,21 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
-            style={{ whiteSpace: "nowrap" }}
+            disabled={isEditLinksFetching || isDeleteLinksFetching}
+            style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             className={classes.editLink}
             onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file)}
           >
-            {profileBtnTitle}
+            {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
+              containerStyles={{
+                position: "absolute",
+                top: 10,
+                left: 99,
+                height: 20,
+              }}
+              size={20}
+            />}
+            {(!isEditLinksFetching || isDeleteLinksFetching) && profileBtnTitle}
           </Button>
         </div>
         <div>
@@ -197,11 +213,21 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
+            disabled={isEditLinksFetching || isDeleteLinksFetching}
             className={classes.editLink}
-            style={{ whiteSpace: "nowrap" }}
+            style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file)}
           >
-            {allProfilesBtnTitle}
+            {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
+              containerStyles={{
+                position: "absolute",
+                top: 10,
+                left: 99,
+                height: 20,
+              }}
+              size={20}
+            />}
+            {(!isEditLinksFetching || !isDeleteLinksFetching) && allProfilesBtnTitle}
           </Button>
         </div>
         <div>
@@ -209,11 +235,21 @@ function EditScreen({
             variant="contained"
             color="primary"
             fullWidth
+            disabled={isEditLinksFetching || isDeleteLinksFetching}
+            style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             className={classes.editLink}
-            style={{ whiteSpace: "nowrap" }}
             onClick={() => setLinkOrdering(id)}
           >
-            Make link first for all profiles
+            {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
+              containerStyles={{
+                position: "absolute",
+                top: 10,
+                left: 99,
+                height: 20,
+              }}
+              size={20}
+            />}
+            {(!isEditLinksFetching || !isDeleteLinksFetching) && "Make link first for all profiles"}
           </Button>
         </div>
       </div>

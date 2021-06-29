@@ -36,10 +36,12 @@ const initialState = {
   deleteLink: {
     data: null,
     error: null,
+    isFetching: false,
   },
   editLink: {
     data: null,
     error: null,
+    isFetching: false,
   },
   setProfileName: {
     data: null,
@@ -153,20 +155,62 @@ export default function profilesReducer(
     };
   }
   case EDIT_PROFILE_LINK: {
+    const profileLinks = {};
     return {
       ...state,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          const updatedProfile = payload.find((item) => item.id == profile.id);
+          // console.log(profile.id, updatedProfile, payload.profiles);
+          if (updatedProfile) {
+            profileLinks[profile.customId] = {
+              1: updatedProfile.social,
+              2: updatedProfile.business,
+            };
+            return { ...updatedProfile, customId: profile.customId }; // returning updated profile and setting previous custom id for draggable component
+          }
+          return profile;
+        }),
+      },
       editLink: {
         data: payload,
         error: null,
+        isFetching: false,
+      },
+      profileLinks: { // updating profile links
+        ...state.profileLinks,
+        ...profileLinks,
       },
     };
   }
   case DELETE_PROFILE_LINK: {
+    const profileLinks = {};
     return {
       ...state,
+      dataProfiles: {
+        ...state.dataProfiles,
+        data: state.dataProfiles.data.map((profile) => {
+          const updatedProfile = payload.find((item) => item.id == profile.id);
+          // console.log(profile.id, updatedProfile, payload.profiles);
+          if (updatedProfile) {
+            profileLinks[profile.customId] = {
+              1: updatedProfile.social,
+              2: updatedProfile.business,
+            };
+            return { ...updatedProfile, customId: profile.customId }; // returning updated profile and setting previous custom id for draggable component
+          }
+          return profile;
+        }),
+      },
       deleteLink: {
         data: payload,
         error: null,
+        isFetching: false,
+      },
+      profileLinks: { // updating profile links
+        ...state.profileLinks,
+        ...profileLinks,
       },
     };
   }

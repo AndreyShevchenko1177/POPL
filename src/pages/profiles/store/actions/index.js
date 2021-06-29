@@ -2,7 +2,6 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
-import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
 import { getId, removeCommas, restrictEdit } from "../../../../utils";
 import {
@@ -24,6 +23,8 @@ import {
   SET_LINK_ORDER,
   SET_LINKS_OBJECT,
   SET_PROFILE_EMAIL,
+  EDIT_PROFILE_LINK,
+  DELETE_PROFILE_LINK,
 } from "../actionTypes";
 import * as requests from "./requests";
 import { subscriptionConfig } from "../../../billing/index";
@@ -227,6 +228,7 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
 export const editLinkAction = (success, linksArray, file) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
+    dispatch(isFetchingAction(true, "editLink"));
 
     if (restrictEdit(userId)) {
       return dispatch(snackBarAction({
@@ -248,20 +250,30 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
       fileName = url.split("/")[url.split("/").length - 1];
     }
 
-    const result = await Promise.all(linksArray.map((item) => requests.editLinkRequest(item, fileName || "")));
-    if (result.every(({ data }) => typeof data === "object" || !!data.success)) {
-      success();
-      dispatch(clearStateAction("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
-    }
+    const result = await Promise.allSettled(linksArray.map((item) => requests.editLinkRequest(item, fileName || "")));
+
+    const successLinksIds = result
+      .filter((el) => el.status === "fulfilled" && (typeof el.value.data === "object" || !!el.value.data?.success)) // filtering by success request
+      .map((link) => link.value.config?.data.get("iID")); // getting ids from request config in formdata
+
+    const newProfileData = await Promise.all(successLinksIds.map((id) => requests.getProfileAction(id))); // getting updated profiles
+
+    if (successLinksIds.length) success();
+
+    dispatch({
+      type: EDIT_PROFILE_LINK,
+      payload: newProfileData.map(({ data, id }) => ({ ...data, id })),
+    });
   } catch (error) {
     console.log(error);
+    dispatch(isFetchingAction(false, "editLink"));
   }
 };
 
 export const deleteLinkAction = (success, linksArray) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
+    dispatch(isFetchingAction(true, "deleteLink"));
 
     if (restrictEdit(userId)) {
       return dispatch(snackBarAction({
@@ -272,24 +284,25 @@ export const deleteLinkAction = (success, linksArray) => async (dispatch, getSta
       }));
     }
 
-    const result = await Promise.all(linksArray.map(({
+    const result = await Promise.allSettled(linksArray.map(({
       linkType, linkHash, profileId, linkId,
     }) => requests.deleteLinkRequest(linkType, linkHash, profileId, linkId)));
-    if (result.every(({ data }) => !!data.success)) {
-      success();
-      // if (result.length < 2) {
-      //   return dispatch({
-      //     type: DELETE_PROFILE_LINK,
-      //     payload: {
-      //       profileId: linksArray[0].profileId,
-      //       linkId: linksArray[0].linkId,
-      //     },
-      //   });
-      // }
-      dispatch(clearStateAction("dataProfiles"));
-      return dispatch(getProfilesDataAction(userId));
-    }
+
+    const successLinksIds = result
+      .filter((el) => el.status === "fulfilled" && !!el.value.data?.success) // filtering by success request
+      .map((link) => link.value.config?.data.get("iID")); // getting ids from request config in formdata
+
+    const newProfileData = await Promise.all(successLinksIds.map((id) => requests.getProfileAction(id))); // getting updated profiles
+
+    if (successLinksIds.length) success();
+
+    dispatch({
+      type: DELETE_PROFILE_LINK,
+      payload: newProfileData.map(({ data, id }) => ({ ...data, id })),
+    });
   } catch (error) {
+    dispatch(isFetchingAction(false, "deleteLink"));
+
     console.log(error);
   }
 };

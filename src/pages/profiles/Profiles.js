@@ -246,8 +246,6 @@ export default function Profiles() {
     setProfiles(profilesData);
   }, [profilesData]);
 
-  console.log(profilesData);
-
   useEffect(() => {
     setProfiles((prevProfile) => prevProfile.map((prof) => ({
       ...prof,

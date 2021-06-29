@@ -8,27 +8,6 @@ import { clearStateAction } from "../../../profiles/store/actions";
 import { getProfileInfoRequest, snackBarAction } from "../../../../store/actions";
 import { restrictEdit } from "../../../../utils";
 
-const inviteByEmailRequest = (email, userData, emailId) => {
-  const formdata = new FormData();
-  formdata.append("ajax", "1");
-  formdata.append("sAction", "AddToDashboardEmail");
-  formdata.append("sToEmail", email);
-  formdata.append("sToName", "name");
-  formdata.append("sCompanyName", userData.name);
-  formdata.append("iID", userData.id);
-  formdata.append("sChild", `[${emailId}]`);
-  formdata.append("sSubject", "Hey name, time to go pro :rocket:");
-  return axios.post("", formdata);
-};
-
-const getIdFromEmail = async (email) => {
-  const formdata = new FormData();
-  formdata.append("ajax", "1");
-  formdata.append("sAction", "GetIdFromEmail");
-  formdata.append("iEmail", email);
-  return axios.post("", formdata);
-};
-
 export const inviteByEmailAction = (emails, clear) => async (dispatch, getState) => {
   try {
     const userData = getState().authReducer.signIn.data;
@@ -43,12 +22,12 @@ export const inviteByEmailAction = (emails, clear) => async (dispatch, getState)
 
     const reqEmails = emails.filter((email, i, array) => array.indexOf(email) === i);
     for (const email of reqEmails) {
-      const { data } = await getIdFromEmail(email);
+      const { data } = await requests.getIdFromEmail(email);
       if (data == userData.id) continue;
       if (data == "null" || !data) {
-        inviteToPoplEmail({ email, id: userData.id, name: userData.name });
+        requests.inviteToPoplEmail({ email, id: userData.id, name: userData.name });
       } else {
-        inviteByEmailRequest(email, userData, data);
+        requests.inviteByEmailRequest(email, userData, data);
       }
     }
     clear();
@@ -76,21 +55,6 @@ export const inviteByEmailAction = (emails, clear) => async (dispatch, getState)
         open: true,
       }),
     );
-  }
-};
-
-const inviteToPoplEmail = ({ email, name, id }) => {
-  try {
-    const formdata = new FormData();
-    formdata.append("ajax", "1");
-    formdata.append("sAction", "InviteToPoplEmail");
-    formdata.append("sToEmail", email);
-    formdata.append("sCompanyName", name);
-    formdata.append("iID", id);
-
-    return axios.post("", formdata);
-  } catch (error) {
-    console.log(error);
   }
 };
 
