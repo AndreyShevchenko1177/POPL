@@ -59,7 +59,7 @@ function CreateNewAccount() {
         path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.root}>
-        <Grid className={classes.loginInputsContainer} container spacing={3}>
+        <Grid className={classes.loginInputsContainer} container>
           {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
           <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Create accounts from the dashboard</Typography>
           <Grid className={classes.loginInput} item xs={2}>
