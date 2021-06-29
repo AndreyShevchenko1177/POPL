@@ -176,6 +176,11 @@ export default makeStyles((theme) => ({
     left: "calc(50% - 95px)",
     fontWeight: "500",
   },
+  noDataTextWidgets: {
+    left: 0,
+    textAlign: "center",
+    padding: "0px 5px",
+  },
   chart: {
     overflow: "hidden",
   },

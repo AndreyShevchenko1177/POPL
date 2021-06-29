@@ -54,7 +54,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
     <>
       {data && !isWorkerRunning
         ? <div className={classes.tableBody}>
-          {data
+          {data.length ? data
             .sort((a, b) => b.value - a.value)
             .map(({
               name, value, image, id,
@@ -74,7 +74,10 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
                   {value}
                 </div>
               </div>
-            ))}
+            ))
+            : <div className={clsx(classes.noDataText, classes.noDataTextWidgets)}>
+                No active devices for this account
+            </div>}
         </div>
         : <Loader containerStyles={{
           width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",

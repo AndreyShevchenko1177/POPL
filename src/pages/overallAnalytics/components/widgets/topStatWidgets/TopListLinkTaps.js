@@ -72,7 +72,7 @@ function TopListLinkTaps({
     <>
       {data && !isWorkerRunning
         ? <div className={classes.tableBody}>
-          {data.map(({
+          {data.length ? data.map(({
             name, value, linkId, linkValue,
           }, key) => (
             <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name }) } key={key} >
@@ -93,7 +93,10 @@ function TopListLinkTaps({
                 <div>{value}</div>
               </div>
             </div>
-          ))}
+          ))
+            : <div className={clsx(classes.noDataText, classes.noDataTextWidgets)}>
+            No top viewed accounts for this account
+            </div>}
         </div>
         : <Loader containerStyles={{
           width: "40px", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",

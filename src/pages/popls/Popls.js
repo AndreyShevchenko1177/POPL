@@ -110,6 +110,13 @@ function PoplsItem() {
   };
 
   const resetSort = () => {
+    if (Object.keys(dataCheckboxes).length) {
+      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes).includes(true);
+      if (!isSelected) return setPopls(popls);
+      setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))).map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+      return setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
+    }
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
@@ -131,7 +138,11 @@ function PoplsItem() {
       const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
       const isSelected = Object.values(dataCheckboxes).includes(true);
       if (!isSelected) return setPopls(popls);
-      setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))));
+      setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))).map((popl) => ({
+        ...popl,
+        date: new Date(popl.activationDate).getTime(),
+        popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length,
+      })));
     }
   }, [dataCheckboxes]);
 
@@ -169,14 +180,18 @@ function PoplsItem() {
   }, [location.state?.profilesData?.id]);
 
   useEffect(() => {
-    if (!pops) return;
+    if (!pops && Object.keys(dataCheckboxes).length) return;
     // if (location.state?.profilesData?.id) {
     //   setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
     //   return setPopls(popls
     //     .filter((popl) => popl.profileId === location.state.profilesData.id)
     //     .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     // }
-    setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
+    setPopls(popls.map((popl) => ({
+      ...popl,
+      date: new Date(popl.activationDate).getTime(),
+      popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length,
+    })));
   }, [popls, pops, location]);
 
   return (

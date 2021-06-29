@@ -409,7 +409,9 @@ export const generateDohnutPopsByProfileData = (funcArguments) => {
     result = dateGeneration(popsData, minDate, maxDate);
   }
   const { allPops } = popsData;
-  profileData.forEach(({ id, name, image }) => {
+  profileData.forEach(({
+    id, name, image, imageBusiness, activeProfile,
+  }) => {
     let ownResult = { ...result };
     let correctResult = {};
     Object.values(allPops).forEach((item) => {
@@ -442,7 +444,7 @@ export const generateDohnutPopsByProfileData = (funcArguments) => {
     data[name] = {
       result: correctResult,
       ctr: `${(Object.values(taps).reduce((s, c) => s + c, 0) / Object.values(views).reduce((s, c) => s += c, 0) * 100).toFixed(1)}%`,
-      image,
+      image: imageBusiness || image || "",
       id,
     };
   });
