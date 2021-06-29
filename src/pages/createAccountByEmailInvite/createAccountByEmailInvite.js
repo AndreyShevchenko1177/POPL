@@ -122,7 +122,7 @@ function CreateAccountByEmailIvite() {
         path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
       <div className={classes.rootDiv}>
-        <Typography variant='subtitle1' classes={{ subtitle1: classes.heading }}>Invite users to add or create Popl accounts via Email</Typography>
+        <Typography variant='subtitle1' classes={{ subtitle1: classes.heading }}>Invite users to add or create Popl accounts via email</Typography>
         {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
         <div className={clsx("relative", classes.rootWrapper)}>
           <Grid container className={classes.emailsComponentWrapper}>
@@ -167,7 +167,7 @@ function CreateAccountByEmailIvite() {
                 color="primary"
                 disabled={isFetching}
               >
-                Create profiles
+                Send invite
               </Button>
             </div>
           </Grid>

@@ -29,21 +29,21 @@ function ChoicePage() {
               <ChoiceCard
                 Icon={() => <ListIcon fontSize='large'/>}
                 title='Email invite'
-                description='Send email invites to accounts'
+                description='Invite users to add or create Popl accounts via email'
               />
             </div>
             <div onClick={() => history.push("/accounts/add-account/new", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'
-                description='Create new Popl accounts'
+                description='Create accounts from the dashboard'
               />
             </div>
             <div onClick={() => history.push("/accounts/new-account/log-in", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={loginIcon}/>}
                 title='Log in'
-                description='Login to existing Popl accounts'
+                description='Log in to Popl Accounts to add them to the dashboard'
               />
             </div>
           </div>
