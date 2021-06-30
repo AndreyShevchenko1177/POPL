@@ -74,7 +74,6 @@ export default function Card({
   imageBusiness,
   setQrCodesModal,
 }) {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [directOn, setDirectOn] = useState({
     direct: false,
@@ -105,6 +104,7 @@ export default function Card({
     next: false,
     back: false,
   });
+  const classes = useStyles({ values });
   const nameField = useRef(null);
   const bioField = useRef(null);
   const fileInputRef = useRef(null);
@@ -125,14 +125,14 @@ export default function Card({
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const settextFieldWidth = (length, bio) => {
-    if (length < 10) return bio ? "130px" : "110px";
+  const settextFieldWidth = (length) => {
+    if (length < 10) return "130px";
     if (length > 40) return "410px";
     let result = 0;
     for (let i = 0; i < length - 10; i++) {
-      result += bio ? 9 : 10;
+      result += 9;
     }
-    return `${result + (bio ? 130 : 110)}px`;
+    return `${result + 130}px`;
   };
 
   const handleDone = () => {
@@ -478,7 +478,7 @@ export default function Card({
                     ? <Loader containerStyles={{ margin: "5px 0 0 50px" }} styles={{ width: 20, height: 20 }} />
                     : showEditIcon
                       ? <TextField
-                        style={{ width: settextFieldWidth(values?.bio?.length, "bio"), transition: "width 0.075s linear" }}
+                        style={{ width: settextFieldWidth(values?.bio?.length), transition: "width 0.075s linear" }}
                         classes={{ root: classes.disabledTextfieldBio }}
                         name='bio'
                         onFocus={() => setEditState({ ...editState, bio: true })}

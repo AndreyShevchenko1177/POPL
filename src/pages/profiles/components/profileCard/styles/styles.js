@@ -120,12 +120,12 @@ export default makeStyles((theme) => ({
       fontWeight: "200",
     },
   },
-  nameInput: {
-    fontSize: 18,
+  nameInput: ({ values }) => ({
+    fontSize: values?.name ? 18 : 14,
     fontFamily: "Inter",
-    fontWeight: 600,
+    fontWeight: values?.name ? 600 : 200,
     // paddingRight: 20,
-  },
+  }),
   bioInput: {
     fontSize: 14,
     fontFamily: "Inter",
