@@ -7,7 +7,7 @@ import moment from "moment";
 import worker from "workerize-loader!../../worker";
 import NetworkActivity from "./components/timeLine";
 import {
-  cleanAction, mainAnalyticsAction, setCheckboxAction,
+  cleanAction, clearChecboxAction, mainAnalyticsAction, setCheckboxAction,
 } from "./store/actions";
 import {
   getYear, getMonth, getDay, monthsFullName,
@@ -68,6 +68,21 @@ function OverallAnalytics() {
   const isSelected = Object.values(checkboxes).includes(true);
   const [percentagePopsKpisData, setPercentagePopsKpisData] = useState(null); // pops for previous date range relative to current
   const [isAllTime, setIsAllTime] = useState(false);
+
+  const handleRefresh = () => {
+    setPopsData(null);
+    setPopsLineData(null);
+    setViewsKpis(null);
+    setChartData({
+      dohnutDirectData: null,
+      dohnutPopsData: null,
+      lineData: null,
+      dohnutPopsByProfileData: null,
+    });
+    dispatch(cleanAction());
+    dispatch(clearChecboxAction());
+    dispatch(mainAnalyticsAction());
+  };
 
   const setDate = (minDate, maxDate) => {
     setIsAllTime(false);
@@ -318,7 +333,6 @@ function OverallAnalytics() {
   };
 
   const handleShowAllStat = () => {
-    // dispatch(getStatisticItemsRequest(userId));
     setFilterValue("");
     setChartData({
       dohnutDirectData: null,
@@ -326,7 +340,6 @@ function OverallAnalytics() {
       lineData: null,
       dohnutPopsByProfileData: null,
     });
-    // dispatch(cleanAction());
     setPopsData(null);
     setSaveSelected(true);
   };
@@ -542,7 +555,7 @@ function OverallAnalytics() {
 
   useEffect(() => {
     if (!Object.keys(checkboxes).length) setPopsLineData(null);
-    if (profileCountFilter && profilesData && Object.keys(checkboxes).length) {
+    if (popsData && profileCountFilter && profilesData && Object.keys(checkboxes).length) {
       // running preloaser for charts
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: true }));
       workerInstance.profileLineDataChart(JSON.stringify({
@@ -554,17 +567,7 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
     }
-  }, [checkboxes, calendar.dateRange, profilesData]);
-
-  useEffect(() => () => {
-    dispatch(cleanAction());
-    setChartData({
-      dohnutDirectData: null,
-      dohnutPopsData: null,
-      lineData: null,
-      dohnutPopsByProfileData: null,
-    });
-  }, []);
+  }, [checkboxes, calendar.dateRange, profilesData, popsData]);
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
@@ -652,6 +655,8 @@ function OverallAnalytics() {
     }
   }, [location, viewsBottom]);
 
+  useEffect(() => () => dispatch(clearChecboxAction()), []);
+
   return (
     <>
       <Header
@@ -681,6 +686,7 @@ function OverallAnalytics() {
             popsPercentageData={percentagePopsKpisData}
             isAllTimeData={isAllTime}
             devices={devices}
+            handleRefresh={handleRefresh}
           />
         </div>
         <BottomWidgets

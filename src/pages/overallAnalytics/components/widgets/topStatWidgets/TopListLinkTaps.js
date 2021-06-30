@@ -17,7 +17,7 @@ function TopListLinkTaps({
 }) {
   const classes = useStyles();
   const location = useLocation();
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
@@ -28,6 +28,7 @@ function TopListLinkTaps({
   };
 
   useEffect(() => {
+    if (!linksTaps) setData(null); // when clicking refresh button settings to null to show spinner
     if (profilesData && dateRange && linksTaps) {
       let workerInstance = worker();
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array

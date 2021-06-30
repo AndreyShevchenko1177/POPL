@@ -35,6 +35,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
   }, [data]);
 
   useEffect(() => {
+    if (!totalPops) setData(null); // when clicking refresh button settings to null to show spinner
     if (totalPopls && totalPops && dateRange) {
       let workerInstance = worker();
       setIsWorkerRunning(true);

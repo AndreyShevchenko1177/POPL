@@ -15,15 +15,28 @@ import * as requests from "./requests";
 
 export const mainAnalyticsAction = () => async (dispatch, getState) => {
   const profilesData = getState().profilesReducer.dataProfiles.data;
+  const storedPops = getState().realTimeAnalytics.allPopsNew;
+  const storedLinkTaps = getState().realTimeAnalytics.linkTapsBottom;
+  const storedViews = getState().realTimeAnalytics.viewsBottom;
 
   const userIdsArray = profilesData.map(({ id }) => id);
 
-  // get all views for all profiles
-  dispatch(getViewsByDate(userIdsArray));
+  // get all views for all profiles if they are not stored in redux
+  if (!storedViews.data) {
+    dispatch(getViewsByDate(userIdsArray));
+  }
 
   // get all links taps for all profiles
-  dispatch(getLinkTapsAction(userIdsArray));
-  dispatch(isFetchingAction(false, "linkTapsBottom"));
+  !storedLinkTaps.data && dispatch(getLinkTapsAction(userIdsArray));
+  // dispatch(isFetchingAction(false, "linkTapsBottom"));
+
+  if (storedPops.data) {
+    return;
+    // return dispatch({
+    //   type: GET_POPS_SUCCESS_NEW,
+    //   payload: { ...storedPops.data },
+    // });
+  }
 
   // get all pops for all profiles
   Promise.all(userIdsArray.map((id) => requests.popsActionRequest(id)))
@@ -47,7 +60,7 @@ export const mainAnalyticsAction = () => async (dispatch, getState) => {
     .catch((err) => console.log(err));
 };
 
-export const getLinkTapsAction = (profileId) => async (dispatch) => {
+export const getLinkTapsAction = (profileId) => async (dispatch, getState) => {
   try {
     const linkTaps = await Promise.all(profileId.map((id) => requests.getLinkTaps(id)));
 
@@ -61,7 +74,7 @@ export const getLinkTapsAction = (profileId) => async (dispatch) => {
   }
 };
 
-export const getViewsByDate = (profileId) => async (dispatch) => {
+export const getViewsByDate = (profileId) => async (dispatch, getState) => {
   try {
     const views = await Promise.all(profileId.map((id) => requests.getViews(id)));
 
