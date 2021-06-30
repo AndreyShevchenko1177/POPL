@@ -275,7 +275,7 @@ export default function Card({
       setValues({ ...values, image: imageBusiness || image || "" });
     } else setValues({ ...values, image: image || imageBusiness || "" });
 
-    dispatch(isFetchingAction(false, "setProfilePhoto"));
+    // dispatch(isFetchingAction(false, "setProfilePhoto")); // NEED TO OBSERVE DOES IT CAUSING SOME ISSUES
   }, [image, imageBusiness]);
 
   useEffect(() => {

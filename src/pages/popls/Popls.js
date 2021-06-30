@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import PoplCard from "./components/poplCard";
 import useStyles from "./styles/styles";
 import "./styles/styles.css";
-import { cleanAction, clearChecboxAction, setCheckboxAction } from "../overallAnalytics/store/actions";
+import { clearChecboxAction, setCheckboxAction } from "../overallAnalytics/store/actions";
 import SearchStripe from "../../components/searchStripe";
 import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
@@ -169,7 +169,7 @@ function PoplsItem() {
   }, [checkboxes]);
 
   useEffect(() => () => {
-    dispatch(cleanAction());
+    // dispatch(cleanAction());
     dispatch(clearChecboxAction());
   }, []); // cleaning analytics reducer
 

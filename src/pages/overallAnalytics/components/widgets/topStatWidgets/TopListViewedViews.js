@@ -34,6 +34,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
   }, [data]);
 
   useEffect(() => {
+    if (!viewsBottom) setData(null); // when clicking refresh button settings to null to show spinner
     if (profilesData && viewsBottom && dateRange && companyInfo) {
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));

@@ -116,11 +116,14 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
   },
   filterContainer: {
-    width: "100%",
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
-    marginRight: 20,
+    margin: "0 20px 0 auto",
+  },
+  refreshButtonContainer: {
+    display: "flex",
+    alignItems: "center",
   },
   buttonWrapper: {
     position: "relative",

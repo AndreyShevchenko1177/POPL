@@ -8,7 +8,6 @@ import {
   CLEAN_BY_NAME,
   GET_VIEWS_BOTTOM,
   GET_LINK_TAPS_BOTTOM,
-  GET_LINKS_TOP,
   GET_VIEWS_TOP,
   POPS_COUNT_TOP,
   TOTAL_POPLS,
@@ -28,11 +27,6 @@ const initialState = {
     error: null,
   },
   dashboardPops: null,
-  linkTapsTop: {
-    data: null,
-    error: null,
-    isFetching: true,
-  },
   totalPopls: {
     data: null,
     error: null,
@@ -151,16 +145,6 @@ export default function realTimeAnalytics(
     return {
       ...state,
       viewsBottom: {
-        data: payload,
-        error: null,
-        isFetching: false,
-      },
-    };
-  }
-  case GET_LINKS_TOP: {
-    return {
-      ...state,
-      linkTapsTop: {
         data: payload,
         error: null,
         isFetching: false,

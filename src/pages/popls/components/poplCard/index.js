@@ -186,7 +186,6 @@ function PoplCard({
           startIcon={<EqualizerIcon />}
           className={classes.button}
           onClick={() => {
-            dispatch(cleanAction());
             history.push("/analytics", { name: popl.name, poplName: popl.name });
           }}
         >

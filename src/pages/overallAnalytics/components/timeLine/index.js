@@ -25,6 +25,7 @@ import kpisConfig from "./kpisConfig";
 import CustomSelect from "../../../../components/customSelect";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../../../constants";
+import SvgMaker from "../../../../components/svgMaker";
 
 function NetworkActivity({
   data,
@@ -47,6 +48,7 @@ function NetworkActivity({
   setFilterValue,
   popsPercentageData,
   isAllTimeData,
+  handleRefresh,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -379,6 +381,18 @@ function NetworkActivity({
             Pops Over Time
           </Typography>
         </div> */}
+        <div className={classes.refreshButtonContainer}>
+          <Button
+            variant='contained'
+            color='primary'
+            classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+            onClick={handleRefresh}
+            endIcon={<SvgMaker name='circleArrow' width={20} height={20} fill="#ffffff" />}
+            name='filter'
+          >
+              Update
+          </Button>
+        </div>
         <div className={classes.filterContainer}>
           { Object.values(checkboxes).includes(true)
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>

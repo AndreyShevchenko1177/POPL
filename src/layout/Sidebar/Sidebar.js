@@ -366,7 +366,6 @@ function PermanentDrawerLeft() {
               if (location.pathname === "/analytics") return;
               handleCollapseClick("analyticsOpen");
               highlightList("analytics");
-              dispatch(cleanAction());
               history.push("/analytics", {});
             }}
           >
