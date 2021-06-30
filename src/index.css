@@ -320,7 +320,7 @@ input[type="number"] {
 
 /* for filter button on overall analytics */
 .overallanalytics-page {
-  margin-right: 15px !important;
+  margin-right: 5px !important;
 }
 
 .linksContainer::-webkit-scrollbar {

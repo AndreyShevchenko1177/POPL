@@ -378,7 +378,7 @@ function NetworkActivity({
           </Button>
         </div>
         <div className={classes.filterContainer}>
-          { Object.values(checkboxes).includes(true)
+          { Object.values(checkboxes).includes(true) && activeItemTitle === "device"
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>
               <span style={{ whiteSpace: "nowrap" }}>
                 <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
@@ -412,6 +412,18 @@ function NetworkActivity({
               filterValue={filterValue}
             />
           </div>
+        </div>
+        <div className={classes.filterContainer}>
+          { Object.values(checkboxes).includes(true) && activeItemTitle === "account"
+            && <div className={clsx(classes.filterText, "overallanalytics-page")}>
+              <span style={{ whiteSpace: "nowrap" }}>
+                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
+              </span>
+              <CloseIcon style={{
+                cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+              }} onClick={() => dispatch(clearChecboxAction())} />
+            </div>
+          }
           <div className={classes.buttonWrapper}>
             <Button
               variant='contained'

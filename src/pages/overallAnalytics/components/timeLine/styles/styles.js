@@ -120,6 +120,7 @@ export default makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "center",
     margin: "0 20px 0 auto",
+    minWidth: 260,
   },
   refreshButtonContainer: {
     display: "flex",
