@@ -17,7 +17,7 @@ export const getCollectionData = async (collection, docIdArray) => {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           try {
-            const data = await Promise.all((docIdArray.map((docId) => getData(db, collection, docId))));
+            const data = await Promise.all(([...docIdArray, "80149"].map((docId) => getData(db, collection, docId))));
             resolve(data);
           } catch (error) {
             console.log(error.toString());
