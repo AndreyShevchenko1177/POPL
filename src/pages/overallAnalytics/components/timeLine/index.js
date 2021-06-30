@@ -75,11 +75,6 @@ function NetworkActivity({
   });
   const dispatch = useDispatch();
 
-  const handleChangeCountFilter = (event) => {
-    if (Number(event.target.value) > 10) return;
-    setProfileCountFilter((pc) => ({ ...pc, changeByTap: event.target.value }));
-  };
-
   const handleChangeInputFilter = (event, val, item) => {
     setFilterValue(val);
   };
@@ -267,7 +262,7 @@ function NetworkActivity({
 
   useEffect(() => {
     const legend = document.querySelector("#lineChart");
-    if (chartData?.data?.datasets[0]?.data?.filter((v) => v).length === 0) {
+    if (!chartData) {
       if (legend) {
         legend.style.display = "none";
       }
@@ -373,9 +368,10 @@ function NetworkActivity({
           <Button
             variant='contained'
             color='primary'
+            disabled={!chartData}
             classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
             onClick={handleRefresh}
-            endIcon={<SvgMaker name='circleArrow' width={20} height={20} fill="#ffffff" />}
+            endIcon={<SvgMaker name='circleArrow' width={15} height={15} fill={chartData ? "#ffffff" : "grey"} />}
             name='update'
           >
               Update
@@ -392,48 +388,17 @@ function NetworkActivity({
               }} onClick={() => dispatch(clearChecboxAction())} />
             </div>
           }
-          {}
-          {/* {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
-            <span style={{ whiteSpace: "nowrap" }}>
-              <i>{location.state?.profilesData?.name || location.state?.name}</i>
-            </span>
-            <CloseIcon style={{
-              cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-            }} onClick={clearFilterInput} />
-          </div>} */}
-          {/* <div className={classes.buttonWrapper}>
-            <Button
-              variant='contained'
-              color='primary'
-              disabled={!!location.state?.id}
-              style={{ whiteSpace: "nowrap" }}
-              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-              onClick={() => filter(true, "count")}
-              endIcon={<KeyboardArrowDownIcon />}
-              name='count'
-            >
-              Number of top Accounts
-            </Button>
-            <CustomSelect
-              selectName='count'
-              config={profileCountConfig}
-              isOpen={openProfileSelect.count.open}
-              customState={{ profileCountFilter, setProfileCountFilter }}
-              events={{
-                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput, countChange: handleChangeCountFilter,
-              }}
-            />
-          </div> */}
           <div className={classes.buttonWrapper}>
             <Button
               variant='contained'
               color='primary'
+              disabled={activeItemTitle === "account"}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => filter(true, "device")}
               endIcon={<KeyboardArrowDownIcon />}
               name='device'
             >
-              Device Filter
+              Devices
             </Button>
 
             <CustomSelect
@@ -451,12 +416,13 @@ function NetworkActivity({
             <Button
               variant='contained'
               color='primary'
+              disabled={activeItemTitle === "device"}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => filter(true, "filter")}
               endIcon={<KeyboardArrowDownIcon />}
               name='filter'
             >
-              Filter
+              Accounts
             </Button>
 
             <CustomSelect

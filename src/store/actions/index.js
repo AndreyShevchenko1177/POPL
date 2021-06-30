@@ -156,10 +156,11 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
       if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
       if (filterPops.filterWalletPops(pop[1])) return walletPops.push(pop);
     });
-    connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id).length);
+
+    connections.forEach(({ data, docId }) => profileConnection[docId] = uniqueObjectsInArray(data.map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) })), (item) => item.id || item.email).length);
     dispatch({
       type: CONNECTIONS_INFO_SIDEBAR,
-      payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id).length,
+      payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id || item.email).length,
     });
 
     dispatch({

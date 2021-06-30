@@ -195,7 +195,10 @@ export default function realTimeAnalytics(
     };
   }
   case CLEAN: {
-    return initialState;
+    return {
+      ...initialState,
+      checkBoxData: state.checkBoxData,
+    };
   }
   case CLEAN_BY_NAME: {
     return {
