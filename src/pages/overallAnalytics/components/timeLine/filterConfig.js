@@ -16,12 +16,12 @@ export const filterConfig = [
   },
 ];
 
-export const profileCountConfig = [
+export const deviceConfig = [
   {
     id: 2,
-    label: "Enter profile count",
-    name: "profileCount",
-    pseudoname: "count",
+    label: "Enter device name",
+    name: "deviceFilter",
+    pseudoname: "device",
     type: "input",
     value: "",
   },

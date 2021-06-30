@@ -69,7 +69,7 @@ const initialState = {
 
 export default function realTimeAnalytics(
   state = initialState,
-  { type, payload },
+  { type, payload, name },
 ) {
   switch (type) {
   case GET_POPS_SUCCESS: {
@@ -221,7 +221,10 @@ export default function realTimeAnalytics(
       ...state,
       checkBoxData: {
         ...state.checkBoxData,
-        [payload.id]: payload.checked,
+        [name]: {
+          ...state.checkBoxData[name],
+          [payload.id]: payload.checked,
+        },
       },
     };
   }

@@ -31,6 +31,9 @@ function OverallAnalytics() {
   const allPopsData = useSelector(
     ({ realTimeAnalytics }) => realTimeAnalytics.allPopsNew.data,
   );
+  const devices = useSelector(
+    ({ poplsReducer }) => poplsReducer.allPopls.data,
+  );
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const [chartData, setChartData] = useState({
     dohnutDirectData: null,
@@ -677,6 +680,7 @@ function OverallAnalytics() {
             setFilterValue={setFilterValue}
             popsPercentageData={percentagePopsKpisData}
             isAllTimeData={isAllTime}
+            devices={devices}
           />
         </div>
         <BottomWidgets

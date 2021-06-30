@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
     zIndex: 10,
   },
-  countContainer: {
+  deviceContainer: {
     position: "absolute",
     top: 55,
     minWidth: 120,

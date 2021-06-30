@@ -89,9 +89,10 @@ export const cleanActionName = (name) => ({
   payload: name,
 });
 
-export const setCheckboxAction = (payload) => ({
+export const setCheckboxAction = (payload, name) => ({
   type: CHECK_BOX,
   payload,
+  name,
 });
 
 export const clearChecboxAction = () => ({
