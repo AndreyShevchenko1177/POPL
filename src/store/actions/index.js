@@ -163,8 +163,6 @@ export const profilesInfoAction = (profiles) => async (dispatch, getState) => {
       payload: uniqueObjectsInArray(connections.reduce((acc, item) => ([...acc, ...item.data]), []), (item) => item.id || item.email).length,
     });
 
-    console.log(connections, profileConnection);
-
     dispatch({
       type: PROFILE_POPS,
       payload: profilePops,
