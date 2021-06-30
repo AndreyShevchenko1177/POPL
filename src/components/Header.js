@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   arrowIcon: {
     fontSize: "20px",
     color: "#565956",
-    marginRight: 10,
     cursor: "pointer",
   },
   rootLink: {

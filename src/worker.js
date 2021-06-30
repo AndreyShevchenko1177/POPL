@@ -194,12 +194,17 @@ export function topPoppedPopls(funcArguments) {
 
 // this function calling in OverallAnalytics file in useEffect with allPopsData and location and calculating pops data on popl level
 export function overallAnalyticsPopsPoplLevel(funcArguments) {
-  const { allPopsData, location } = JSON.parse(funcArguments);
-
+  const { allPopsData, location, selectedDevices } = JSON.parse(funcArguments);
+  console.log(selectedDevices);
   const poplPops = [];
   const qrCodePops = [];
   const walletPops = [];
-  const filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
+  let filteredPops = null;
+  if (selectedDevices) {
+    filteredPops = allPopsData.allPops.filter((pop) => selectedDevices.includes(filterPops.slicePoplNameFromPop(pop[1])));
+  } else {
+    filteredPops = allPopsData.allPops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === location.state.poplName);
+  }
   filteredPops.forEach((pop) => {
     if (filterPops.filterPoplPops(pop[1])) return poplPops.push(pop);
     if (filterPops.filterQrCodePops(pop[1])) return qrCodePops.push(pop);
@@ -318,6 +323,44 @@ export function generateAllData(funcArguments) {
 }
 
 export function generateLineChartData(funcArguments) {
+  const { popsData, minDate, maxDate } = JSON.parse(funcArguments);
+  const result = dateGeneration(popsData, minDate, maxDate);
+  let daysDiff;// days number between min and max dates to calculate the current renge data before minDate for percentages in KPIs
+  let percentageResult;
+  if (!minDate || !maxDate) {
+    daysDiff = 14;
+    percentageResult = dateGeneration(popsData, moment(moment().subtract(14, "days")).subtract(Math.abs(daysDiff), "days"), moment().subtract(Math.abs(daysDiff), "days"));
+  } else {
+    if (moment(minDate).format("LL") === moment(maxDate).format("LL")) { // if checking just one date in date picker
+      daysDiff = 1;
+    } else {
+      daysDiff = moment(minDate).diff(moment(maxDate), "days");
+    }
+    // daysDiff = moment(minDate).diff(moment(maxDate), "days");
+    percentageResult = dateGeneration(popsData, moment(minDate).subtract(Math.abs(daysDiff), "days"), moment(maxDate).subtract(Math.abs(daysDiff), "days"));
+  }
+
+  const data = {};
+  const percentageData = {};
+  Object.keys(popsData).forEach((popKey) => {
+    let ownResult = { ...result };
+    let ownPercentageResult = { ...percentageResult };
+    popsData[popKey].forEach((item) => {
+      const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`;
+      if (date in result) {
+        ownResult[date] = (ownResult[date] || 0) + 1;
+      }
+      if (date in percentageResult) {
+        ownPercentageResult[date] = (ownPercentageResult[date] || 0) + 1;
+      }
+    });
+    data[popKey] = ownResult;
+    percentageData[popKey] = ownPercentageResult;
+  });
+  return { lineData: { ...data, labels: Object.keys(result) }, percentageData };
+}
+
+export function generateDeviceData(funcArguments) {
   const { popsData, minDate, maxDate } = JSON.parse(funcArguments);
   const result = dateGeneration(popsData, minDate, maxDate);
   let daysDiff;// days number between min and max dates to calculate the current renge data before minDate for percentages in KPIs

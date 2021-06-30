@@ -57,7 +57,10 @@ const initialState = {
     error: null,
     isFetching: true,
   },
-  checkBoxData: {},
+  checkBoxData: {
+    profiles: {},
+    devices: {},
+  },
   isFetching: false,
 };
 
