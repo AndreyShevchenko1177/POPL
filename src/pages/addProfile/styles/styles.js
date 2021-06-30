@@ -58,6 +58,7 @@ export default makeStyles((theme) => ({
   choiceCardDescription: {
     fontSize: 16,
     fontWeight: 400,
+    textAlign: "center",
   },
   addLink: {
     width: 35,
