@@ -23,7 +23,7 @@ import { getId } from "../../../../utils/uniqueId";
 import StatisticItem from "../topStatistics/statisticItem";
 import kpisConfig from "./kpisConfig";
 import CustomSelect from "../../../../components/customSelect";
-import { filterConfig } from "./filterConfig";
+import { filterConfig, deviceConfig } from "./filterConfig";
 import { isSafari } from "../../../../constants";
 import SvgMaker from "../../../../components/svgMaker";
 
@@ -48,6 +48,7 @@ function NetworkActivity({
   setFilterValue,
   popsPercentageData,
   isAllTimeData,
+  devices,
   handleRefresh,
 }) {
   const classes = useStyles();
@@ -68,6 +69,7 @@ function NetworkActivity({
   });
   const [openProfileSelect, setOpenProfileSelect] = useState({
     filter: { open: false, component: "" },
+    device: { open: false, component: "" },
     count: { open: false, component: "" },
   });
   const dispatch = useDispatch();
@@ -75,7 +77,6 @@ function NetworkActivity({
   const handleChangeInputFilter = (event, val, item) => {
     setFilterValue(val);
   };
-
   const clearFilterInput = (name) => {
     // showAll();
     history.push("/analytics");
@@ -84,23 +85,10 @@ function NetworkActivity({
   };
 
   const filter = (value, name) => {
-    switch (name) {
-    case "filter": {
-      if (openProfileSelect[name].component === "select" && isSafari) {
-        return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
-      }
-      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
+    if (openProfileSelect[name].component === "select" && isSafari) {
+      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
     }
-    case "count": {
-      if (openProfileSelect[name].component === "select" && isSafari) {
-        return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: false, component: "" } });
-      }
-      return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
-    }
-    default: {
-      return "unknown";
-    }
-    }
+    return setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
   };
 
   const handleClickLabel = (e, index) => {
@@ -437,12 +425,36 @@ function NetworkActivity({
               color='primary'
               disabled={!chartData}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+              onClick={() => filter(true, "device")}
+              endIcon={<KeyboardArrowDownIcon />}
+              name='device'
+            >
+              Device Filter
+            </Button>
+
+            <CustomSelect
+              selectName='device'
+              config={deviceConfig}
+              autoComleteData={devices}
+              isOpen={openProfileSelect.device.open}
+              events={{
+                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
+              }}
+              filterValue={filterValue}
+            />
+          </div>
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant='contained'
+              color='primary'
+              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => filter(true, "filter")}
               endIcon={<KeyboardArrowDownIcon />}
               name='filter'
             >
               Accounts
             </Button>
+
             <CustomSelect
               selectName='filter'
               config={filterConfig}
@@ -455,7 +467,6 @@ function NetworkActivity({
               filterValue={filterValue}
             />
           </div>
-
         </div>
         <div style={{ position: "relative" }}>
           <DatePicker
