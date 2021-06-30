@@ -46,7 +46,7 @@ function AutoComplete({
           ...popl, disabled: false,
         },
       });
-    } if (pseudoname === "analytics") {
+    } if (pseudoname === "profiles") {
       return history.push("/analytics", item);
     }
     const connection = data.find((el) => el.id === item.id);
@@ -98,7 +98,7 @@ function AutoComplete({
     if (location.state?.id || location.state?.name) {
       history.push(location.pathname);
     }
-    dispatch(setCheckboxAction({ id: name || event.target.name, checked: name ? !checkboxes[name] || false : event.target.checked }, pseudoname));
+    dispatch(setCheckboxAction({ id: name || event.target.name, checked: name ? !checkboxes[pseudoname][name] || false : event.target.checked }, pseudoname));
   };
 
   useEffect(() => {
@@ -140,7 +140,7 @@ function AutoComplete({
               <Checkbox
                 color='primary'
                 // disabled={!!filterValue}
-                checked={checkboxes[item.id] || false}
+                checked={checkboxes[pseudoname][item.id] || false}
                 name={String(item.id)}
                 onChange={(event) => handleChangeCheckBox(event, false, pseudoname)}
                 inputProps={{ "aria-label": "primary checkbox" }}

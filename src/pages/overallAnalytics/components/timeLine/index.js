@@ -43,6 +43,7 @@ function NetworkActivity({
   profileCountFilter,
   setProfileCountFilter,
   isChartsDataCalculating,
+  activeItemTitle,
   checkboxes,
   filterValue,
   setFilterValue,
@@ -148,7 +149,6 @@ function NetworkActivity({
       setProfileCountFilter({ changeByTap: "", changeByKey: "" });
     }
   }, [openProfileSelect.count.open]);
-
   useEffect(() => {
     if (data) {
       if (data.isProfile) {
@@ -376,7 +376,7 @@ function NetworkActivity({
             classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
             onClick={handleRefresh}
             endIcon={<SvgMaker name='circleArrow' width={20} height={20} fill="#ffffff" />}
-            name='filter'
+            name='update'
           >
               Update
           </Button>
@@ -385,13 +385,14 @@ function NetworkActivity({
           { Object.values(checkboxes).includes(true)
             && <div className={clsx(classes.filterText, "overallanalytics-page")}>
               <span style={{ whiteSpace: "nowrap" }}>
-                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} accounts` : `${1} account`}</i>
+                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
               }} onClick={() => dispatch(clearChecboxAction())} />
             </div>
           }
+          {}
           {/* {profilesData && profilesData.some((item) => item.id === (location.state?.profilesData?.id || location.state?.id)) && <div className={clsx(classes.filterText, "overallanalytics-page")}>
             <span style={{ whiteSpace: "nowrap" }}>
               <i>{location.state?.profilesData?.name || location.state?.name}</i>
@@ -438,7 +439,7 @@ function NetworkActivity({
             <CustomSelect
               selectName='device'
               config={deviceConfig}
-              autoComleteData={devices}
+              autoComleteData={devices.map((el) => ({ ...el, id: el.name }))}
               isOpen={openProfileSelect.device.open}
               events={{
                 handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,

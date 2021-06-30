@@ -24,6 +24,8 @@ function OverallAnalytics() {
   const [options, setOption] = useState("");
   const [popsData, setPopsData] = useState(null);
   const [popsLineData, setPopsLineData] = useState(null);
+  const [deviceLineData, setDeviceLineData] = useState(null);
+  const [popsDeviceData, setPopsDeviceData] = useState(null);
   const [profileCountFilter, setProfileCountFilter] = useState({
     changeByTap: "", changeByKey: "",
   });
@@ -64,8 +66,8 @@ function OverallAnalytics() {
     dohnutPopsByProfileData: false,
   });
   const [workerInstance] = useState(() => worker());
-  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
-  const isSelected = Object.values(checkboxes).includes(true);
+  const selectedProfiles = Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).map((el) => Number(el));
+  const isSelected = Object.values(checkboxes.profiles).includes(true);
   const [percentagePopsKpisData, setPercentagePopsKpisData] = useState(null); // pops for previous date range relative to current
   const [isAllTime, setIsAllTime] = useState(false);
 
@@ -554,8 +556,8 @@ function OverallAnalytics() {
   }, [allPopsData, location]);
 
   useEffect(() => {
-    if (!Object.keys(checkboxes).length) setPopsLineData(null);
-    if (popsData && profileCountFilter && profilesData && Object.keys(checkboxes).length) {
+    if (!Object.keys(checkboxes.profiles).length) setPopsLineData(null);
+    if (popsData && profileCountFilter && profilesData && Object.keys(checkboxes.profiles).length) {
       // running preloaser for charts
       setIsChartDataCalculating((prev) => ({ ...prev, lineChart: true }));
       workerInstance.profileLineDataChart(JSON.stringify({
@@ -567,7 +569,35 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
     }
-  }, [checkboxes, calendar.dateRange, profilesData, popsData]);
+  }, [checkboxes.profiles, calendar.dateRange, profilesData, popsData]);
+
+  useEffect(() => {
+    const isSelected = Object.values(checkboxes.devices).includes(true);
+    if (isSelected) {
+      const selectedDevices = Object.keys(checkboxes.devices).filter((el) => checkboxes.devices[el]);
+      workerInstance.overallAnalyticsPopsPoplLevel(JSON.stringify({ allPopsData, location, selectedDevices }))
+        .then(({ poplPops, qrCodePops, walletPops }) => {
+          if (location.pathname !== window.location.pathname) return;
+          setPopsDeviceData({
+            poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
+          });
+        });
+    } else {
+      setDeviceLineData(null);
+    }
+  }, [checkboxes.devices]);
+
+  useEffect(() => {
+    const isSelected = Object.values(checkboxes.devices).includes(true);
+    if (popsDeviceData && isSelected) {
+      workerInstance.generateDeviceData(JSON.stringify({ popsData: popsDeviceData, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1] })).then(({ lineData, percentageData }) => {
+        setDeviceLineData((prev) => ({
+          ...prev,
+          lineData,
+        }));
+      });
+    }
+  }, [popsDeviceData, calendar.dateRange]);
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
@@ -644,7 +674,7 @@ function OverallAnalytics() {
         dohnutPopsByProfileData: null,
       });
     }
-  }, [popsData, location, checkboxes]);
+  }, [popsData, location, checkboxes.profiles]);
 
   useEffect(() => {
     if (viewsBottom) {
@@ -657,6 +687,12 @@ function OverallAnalytics() {
 
   useEffect(() => () => dispatch(clearChecboxAction()), []);
 
+  const getPopsData = () => {
+    if (deviceLineData?.lineData) return deviceLineData.lineData;
+    if (popsLineData?.data?.length) return popsLineData;
+    return chartData?.lineData;
+  };
+
   return (
     <>
       <Header
@@ -665,7 +701,7 @@ function OverallAnalytics() {
       <div className={classes.contentRoot}>
         <div className={classes.overallAnalyticsContainer}>
           <NetworkActivity
-            data={!popsLineData?.data?.length ? chartData?.lineData : popsLineData}
+            data={getPopsData()}
             dataType={chartData?.dataType}
             calendar={calendar}
             setCalendar={setCalendar}
@@ -680,7 +716,10 @@ function OverallAnalytics() {
             profileCountFilter={profileCountFilter}
             setProfileCountFilter={setProfileCountFilter}
             isChartsDataCalculating={isChartsDataCalculating.lineChart}
-            checkboxes={checkboxes}
+            profilCheckboxes={checkboxes.profiles}
+            deviceCheckboxes={checkboxes.devices}
+            checkboxes={isSelected ? checkboxes.profiles : checkboxes.devices}
+            activeItemTitle={isSelected ? "account" : "device"}
             filterValue={filterValue}
             setFilterValue={setFilterValue}
             popsPercentageData={percentagePopsKpisData}
