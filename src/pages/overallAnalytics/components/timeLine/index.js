@@ -72,11 +72,6 @@ function NetworkActivity({
   });
   const dispatch = useDispatch();
 
-  const handleChangeCountFilter = (event) => {
-    if (Number(event.target.value) > 10) return;
-    setProfileCountFilter((pc) => ({ ...pc, changeByTap: event.target.value }));
-  };
-
   const handleChangeInputFilter = (event, val, item) => {
     setFilterValue(val);
   };
@@ -279,7 +274,7 @@ function NetworkActivity({
 
   useEffect(() => {
     const legend = document.querySelector("#lineChart");
-    if (chartData?.data?.datasets[0]?.data?.filter((v) => v).length === 0) {
+    if (!chartData) {
       if (legend) {
         legend.style.display = "none";
       }
@@ -385,9 +380,10 @@ function NetworkActivity({
           <Button
             variant='contained'
             color='primary'
+            disabled={!chartData}
             classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
             onClick={handleRefresh}
-            endIcon={<SvgMaker name='circleArrow' width={20} height={20} fill="#ffffff" />}
+            endIcon={<SvgMaker name='circleArrow' width={15} height={15} fill={chartData ? "#ffffff" : "grey"} />}
             name='filter'
           >
               Update
@@ -439,12 +435,13 @@ function NetworkActivity({
             <Button
               variant='contained'
               color='primary'
+              disabled={!chartData}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => filter(true, "filter")}
               endIcon={<KeyboardArrowDownIcon />}
               name='filter'
             >
-              Filter
+              Accounts
             </Button>
             <CustomSelect
               selectName='filter'
