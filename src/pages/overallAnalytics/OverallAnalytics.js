@@ -754,7 +754,7 @@ function OverallAnalytics() {
           dohnutPopsByProfileData={chartData?.dohnutPopsByProfileData}
           profilesData={profilesData}
           isChartsDataCalculating={isChartsDataCalculating}
-          isPoplLevel={location.state?.poplName}
+          isPoplLevel={location.state?.poplName || getActiveIteTitle() === "device"}
         />
       </div>
     </>
