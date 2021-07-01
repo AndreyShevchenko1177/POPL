@@ -8,6 +8,10 @@ import {
   GET_VIEWS_BOTTOM,
   CHECK_BOX,
   CLEAR_CHECKBOXES,
+  CACHE_LINK_TAPS_WIDGET,
+  CACHE_TOP_VIEWED_PROFILES_WIDGET,
+  CACHE_MOST_ACTIVE_DEVICES_WIDGET,
+  CLEAR_CACHE_GRAPHS,
 } from "../actionTypes";
 
 import { filterPops } from "../../../../utils";
@@ -88,6 +92,21 @@ export const getViewsByDate = (profileId) => async (dispatch, getState) => {
   }
 };
 
+export const cacheLinkTapsWidgetAction = (data) => ({
+  type: CACHE_LINK_TAPS_WIDGET,
+  payload: data,
+});
+
+export const cacheTopViewedAccountsAction = (data) => ({
+  type: CACHE_TOP_VIEWED_PROFILES_WIDGET,
+  payload: data,
+});
+
+export const cacheMostActiveDevicesAction = (data) => ({
+  type: CACHE_MOST_ACTIVE_DEVICES_WIDGET,
+  payload: data,
+});
+
 export const isFetchingAction = (isFetching, name) => ({
   type: IS_DATA_FETCHING,
   payload: name ? { isFetching, name } : isFetching,
@@ -110,4 +129,8 @@ export const setCheckboxAction = (payload, name) => ({
 
 export const clearChecboxAction = () => ({
   type: CLEAR_CHECKBOXES,
+});
+
+export const clearGraphCache = () => ({
+  type: CLEAR_CACHE_GRAPHS,
 });

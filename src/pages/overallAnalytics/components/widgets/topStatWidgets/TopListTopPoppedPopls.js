@@ -2,14 +2,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import worker from "workerize-loader!../../../../../worker";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
+import { cacheMostActiveDevicesAction } from "../../../store/actions";
 
 function TopListPoppedPopls({ profilesData, dateRange }) {
   const classes = useStyles();
   const location = useLocation();
+  const dispatch = useDispatch();
   const [data, setData] = useState(null);
   const refPopls = useRef(null);
 
@@ -20,6 +22,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
+  const mostActiveDevicesCache = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.mostActiveDevicesCache);
   const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
   const isSelected = Object.values(checkboxes).includes(true);
 
@@ -36,6 +39,7 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
 
   useEffect(() => {
     if (!totalPops) setData(null); // when clicking refresh button settings to null to show spinner
+    if (!data && mostActiveDevicesCache) return setData(mostActiveDevicesCache); // for initial render checking cache and setting if it's available
     if (totalPopls && totalPops && dateRange) {
       let workerInstance = worker();
       setIsWorkerRunning(true);
@@ -43,11 +47,13 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
         totalPopls, totalPops, dateRange, profilesData: isSelected ? profilesData.filter((el) => selectedProfiles.includes(Number(el.id))) : null,
       }))
         .then((result) => {
+          if (!data && !location.state?.id && !location.state?.poplName) dispatch(cacheMostActiveDevicesAction(result)); // setting cache just for initial render and for non popl or accounts level
           setData(result);
           setIsWorkerRunning(false);
         });
     }
   }, [totalPopls, totalPops, location, dateRange, checkboxes]);
+
   return (
     <>
       {data && !isWorkerRunning

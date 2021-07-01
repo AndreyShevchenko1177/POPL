@@ -33,7 +33,7 @@ export default makeStyles((theme) => ({
     position: "relative",
     width: "100%",
     height: 170,
-    marginBottom: "10px",
+    margin: "5px 0",
     display: "flex",
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,

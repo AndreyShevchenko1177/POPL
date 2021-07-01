@@ -5,20 +5,23 @@ import clsx from "clsx";
 import { Tooltip } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
 import icons from "../../../../profiles/components/profilelsIcons/icons";
 import { downLoadFile } from "../../../../profiles/components/profilelsIcons/downLoadAction";
 import worker from "workerize-loader!../../../../../worker";
+import { cacheLinkTapsWidgetAction } from "../../../store/actions";
 
 function TopListLinkTaps({
   profilesData, dateRange,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const location = useLocation();
   const [data, setData] = useState(null);
   const linksTaps = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.linkTapsBottom.data);
+  const linksTapsCached = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.topTappedLinksCache);
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
 
@@ -29,6 +32,7 @@ function TopListLinkTaps({
 
   useEffect(() => {
     if (!linksTaps) setData(null); // when clicking refresh button settings to null to show spinner
+    if (linksTapsCached && !data) return setData(linksTapsCached); // for initial render checking cache and setting if it's available
     if (profilesData && dateRange && linksTaps) {
       let workerInstance = worker();
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
@@ -63,6 +67,8 @@ function TopListLinkTaps({
                 name: component, value: link.clicks, linkId: link.id, linkValue: link.value,
               });
             });
+
+          if (!data && !location.state?.id && !location.state?.poplName) dispatch(cacheLinkTapsWidgetAction([...result])); // setting cache just for initial render and for non popl or accounts level
           setData(result);
           setIsWorkerRunning(false);
         });

@@ -14,6 +14,10 @@ import {
   TOP_POPPED_POPLS,
   CHECK_BOX,
   CLEAR_CHECKBOXES,
+  CACHE_LINK_TAPS_WIDGET,
+  CACHE_TOP_VIEWED_PROFILES_WIDGET,
+  CACHE_MOST_ACTIVE_DEVICES_WIDGET,
+  CLEAR_CACHE_GRAPHS,
 
 } from "../actionTypes";
 
@@ -61,6 +65,9 @@ const initialState = {
     profiles: {},
     devices: {},
   },
+  topTappedLinksCache: null,
+  topViewedAccountsCache: null,
+  mostActiveDevicesCache: null,
   isFetching: false,
 };
 
@@ -194,6 +201,24 @@ export default function realTimeAnalytics(
       },
     };
   }
+  case CACHE_LINK_TAPS_WIDGET: {
+    return {
+      ...state,
+      topTappedLinksCache: payload,
+    };
+  }
+  case CACHE_TOP_VIEWED_PROFILES_WIDGET: {
+    return {
+      ...state,
+      topViewedAccountsCache: payload,
+    };
+  }
+  case CACHE_MOST_ACTIVE_DEVICES_WIDGET: {
+    return {
+      ...state,
+      mostActiveDevicesCache: payload,
+    };
+  }
   case CLEAN: {
     return {
       ...initialState,
@@ -222,6 +247,14 @@ export default function realTimeAnalytics(
     return {
       ...state,
       checkBoxData: initialState.checkBoxData,
+    };
+  }
+  case CLEAR_CACHE_GRAPHS: {
+    return {
+      ...state,
+      topTappedLinksCache: null,
+      topViewedAccountsCache: null,
+      mostActiveDevicesCache: null,
     };
   }
   default:

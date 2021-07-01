@@ -13,7 +13,7 @@ import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import { updatePopl } from "../../store/actions";
 import { dateFormat, restrictEdit } from "../../../../utils";
 import Loader from "../../../../components/Loader";
-import { cleanAction } from "../../../overallAnalytics/store/actions";
+import { clearGraphCache } from "../../../overallAnalytics/store/actions";
 import { snackBarAction } from "../../../../store/actions";
 import bandIcon from "../../../../assets/popls/band.png";
 import keyChainIcon from "../../../../assets/popls/keychain.png";
@@ -186,6 +186,7 @@ function PoplCard({
           startIcon={<EqualizerIcon />}
           className={classes.button}
           onClick={() => {
+            dispatch(clearGraphCache());
             history.push("/analytics", { name: popl.name, poplName: popl.name, id: popl.id });
           }}
         >
