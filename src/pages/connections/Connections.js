@@ -85,6 +85,7 @@ function Connections() {
       height: 0,
       offset: 0,
     });
+    dispatch(clearChecboxAction());
     dispatch(showAllConnectionsAction());
   };
 
@@ -137,18 +138,18 @@ function Connections() {
 
   useEffect(() => {
     if (location.state?.id) {
-      dispatch(setCheckboxAction({ id: Number(location.state.id), checked: true }));
+      dispatch(setCheckboxAction({ id: Number(location.state.id), checked: true }, "profiles"));
     }
   }, [location.state?.id]);
 
   useEffect(() => {
-    if (Object.keys(dataCheckboxes).length && connectionsObject && profiles) {
-      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
-      const isSelected = Object.values(dataCheckboxes).includes(true);
+    if (Object.keys(dataCheckboxes.profiles).length && connectionsObject && profiles) {
+      const selectedCheckBox = Object.keys(dataCheckboxes.profiles).filter((el) => dataCheckboxes.profiles[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes.profiles).includes(true);
       if (!isSelected) return dispatch(showConnectionByProfile(profiles.map(({ id }) => Number(id))));
       dispatch(showConnectionByProfile(selectedCheckBox));
     }
-  }, [dataCheckboxes, connectionsObject, profiles]);
+  }, [dataCheckboxes.profiles, connectionsObject, profiles]);
 
   useEffect(() => {
     if (location.state?.id) {
@@ -218,7 +219,7 @@ function Connections() {
           styles={{ containerWrapper: { top: 0 } }}
           isShowSortBtn
           setFilters={showAll}
-          isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+          isShow={!Object.values(dataCheckboxes.profiles).includes(true)}
           searchValue={searchValue}
           checked={selectAllCheckbox}
           handleSearch={handleSearch}

@@ -2,6 +2,7 @@ import { formatDateConnections } from "../../../../utils";
 import {
   GET_CONNECTIONS_SUCCESS,
   GET_CONNECTIONS_FAIL,
+  GET_OBJECT_IDS_SUCCESS,
   CLEAR_EDIT_CONNECTIONS,
   CLEAR_ADD_CONNECTIONS,
   GET_PROFILES_IDS_SUCCESS,
@@ -34,6 +35,18 @@ export default function connectionsReducer(state = initialState, { type, payload
         error: null,
       },
       isFetching: false,
+    };
+  }
+  case GET_OBJECT_IDS_SUCCESS: {
+    return {
+      ...state,
+      connections: {
+        ...state.connections,
+        data: {
+          ...state.connections.data,
+          ...payload,
+        },
+      },
     };
   }
   case GET_CONNECTIONS_FAIL: {
