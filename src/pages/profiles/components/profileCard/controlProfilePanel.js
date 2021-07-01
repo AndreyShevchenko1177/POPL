@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   Grid, FormGroup, Button,
@@ -11,6 +11,7 @@ import useStyles from "./styles/styles";
 import CustomSwitch from "../../../../components/customSwitcher";
 import { isSafari } from "../../../../constants";
 import poplIcon from "../../../../assets/sidebar/poplIcon_black.png";
+import { clearGraphCache } from "../../../overallAnalytics/store/actions";
 
 function ProfilePanel({
   id,
@@ -27,6 +28,7 @@ function ProfilePanel({
   poplsNumber,
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const history = useHistory();
   const isFetching = useSelector(({ profilesReducer }) => profilesReducer.setProfilesSettings.isFetching);
 
@@ -104,9 +106,13 @@ function ProfilePanel({
           color="primary"
           startIcon={<EqualizerIcon />}
           className={clsx(classes.button, isSafari ? classes.buttonAbsolute : classes.buttonRelative)}
-          onClick={() => history.push("/analytics", {
-            id, name, business, social, personalMode, profileName: name, url, poplsCount: poplsNumber, from: "profiles",
-          })}
+          onClick={() => {
+            dispatch(clearGraphCache());
+            history.push("/analytics", {
+              id, name, business, social, personalMode, profileName: name, url, poplsCount: poplsNumber, from: "profiles",
+
+            });
+          }}
         >
           Analytics
         </Button>

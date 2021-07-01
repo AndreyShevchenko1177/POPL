@@ -4,20 +4,23 @@ import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import moment from "moment";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../../../components/Loader";
 import useStyles from "../styles";
 import worker from "workerize-loader!../../../../../worker";
+import { cacheTopViewedAccountsAction } from "../../../store/actions";
 
 function TopListViewedProfiles({ profilesData, dateRange }) {
   const classes = useStyles();
   const location = useLocation();
+  const dispatch = useDispatch();
   const [data, setData] = useState(null);
   const refProfiles = useRef(null);
   const [isWorkerRunning, setIsWorkerRunning] = useState(false);
 
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const viewsBottom = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.viewsBottom.data);
+  const viwedAccountsCache = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.topViewedAccountsCache);
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
@@ -35,6 +38,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
 
   useEffect(() => {
     if (!viewsBottom) setData(null); // when clicking refresh button settings to null to show spinner
+    if (!data && viwedAccountsCache) return setData(viwedAccountsCache); // for initial render checking cache and setting if it's available
     if (profilesData && viewsBottom && dateRange && companyInfo) {
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
@@ -46,6 +50,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
       }))
         .then((result) => {
           if (location.pathname !== window.location.pathname) return;
+          if (!data && !location.state?.id && !location.state?.poplName) dispatch(cacheTopViewedAccountsAction(result)); // setting cache just for initial render and for non popl or accounts level
           setData(result);
           setIsWorkerRunning(false);
         });

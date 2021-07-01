@@ -40,7 +40,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     height: 170,
     minWidth: 1000,
-    marginBottom: "10px",
+    margin: "5px 0",
     display: "flex",
     alignItems: "center",
     borderRadius: theme.custom.mainBorderForBigElement,
