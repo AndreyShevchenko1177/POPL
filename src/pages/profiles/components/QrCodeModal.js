@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import { Typography } from "@material-ui/core";
 import axios from "axios";
-import { doc } from "prettier";
 import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
@@ -98,7 +97,7 @@ export default function QrCodeModal({
           });
       }
 
-      setImage({ base64Data: "/assets/img/logo_company.png", widthRatio: 1, heightRatio: 1 });
+      setImage({ base64Data: "/assets/img/qr_code_logo.png", widthRatio: 1, heightRatio: 1 });
     }
   }, [open]);
 
@@ -129,7 +128,7 @@ export default function QrCodeModal({
                       <circle cx="120" cy="120" r="25" fill="#FFFFFF" />
                     </clipPath>
                   </defs>
-                  <image width={String(50 * image.widthRatio)} height={String(50 * image.heightRatio)} x="95" y="95" xlinkHref={image.base64Data} clip-path="url(#circleView)"/>
+                  <image width={String(50 * image.widthRatio)} height={String(50 * image.heightRatio)} x="95" y="95" xlinkHref={image.base64Data} clipPath="url(#circleView)"/>
                 </svg>
                 : <Loader />}
             </div>
