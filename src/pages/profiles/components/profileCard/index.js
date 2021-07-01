@@ -462,8 +462,9 @@ export default function Card({
                     onKeyDown={(event) => updateFieldRequest(event, () => {
                       if (event.key === "Enter") {
                         if (email === values.email) return;
+                        const setPrevEmail = () => setValues((prev) => ({ ...prev, email: email || "" }));
                         setCurrentEditedProfile(id);
-                        dispatch(setProfileEmailAcion(id, values.email));
+                        dispatch(setProfileEmailAcion(id, values.email, setPrevEmail));
                       }
                     })}
                     placeholder={showEditIcon ? "Enter your email" : ""}

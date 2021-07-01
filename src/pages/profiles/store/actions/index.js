@@ -376,7 +376,7 @@ export const setProfileBioAcion = (profileId, profileState, bio) => async (dispa
   }
 };
 
-export const setProfileEmailAcion = (profileId, email) => async (dispatch, getState) => {
+export const setProfileEmailAcion = (profileId, email, setPrevEmail) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     if (restrictEdit(userId)) {
@@ -391,12 +391,13 @@ export const setProfileEmailAcion = (profileId, email) => async (dispatch, getSt
     const result = await requests.setProfileEmail(profileId, email);
     if (result.data?.error === "Email already exist") {
       dispatch(isFetchingAction(false, "setProfileEmail"));
-      return dispatch(snackBarAction({
+      dispatch(snackBarAction({
         message: "Email alredy exist",
         severity: "error",
         duration: 12000,
         open: true,
       }));
+      return setPrevEmail();
     }
     dispatch({
       type: SET_PROFILE_EMAIL,
