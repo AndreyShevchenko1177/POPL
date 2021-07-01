@@ -12,6 +12,7 @@ import {
   CACHE_TOP_VIEWED_PROFILES_WIDGET,
   CACHE_MOST_ACTIVE_DEVICES_WIDGET,
   CLEAR_CACHE_GRAPHS,
+  CACHE_DIRECT_ON_OFF_CHART,
 } from "../actionTypes";
 
 import { filterPops } from "../../../../utils";
@@ -104,6 +105,11 @@ export const cacheTopViewedAccountsAction = (data) => ({
 
 export const cacheMostActiveDevicesAction = (data) => ({
   type: CACHE_MOST_ACTIVE_DEVICES_WIDGET,
+  payload: data,
+});
+
+export const cacheDirectOnOffAction = (data) => ({
+  type: CACHE_DIRECT_ON_OFF_CHART,
   payload: data,
 });
 

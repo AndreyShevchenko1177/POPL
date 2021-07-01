@@ -18,6 +18,7 @@ import {
   CACHE_TOP_VIEWED_PROFILES_WIDGET,
   CACHE_MOST_ACTIVE_DEVICES_WIDGET,
   CLEAR_CACHE_GRAPHS,
+  CACHE_DIRECT_ON_OFF_CHART,
 
 } from "../actionTypes";
 
@@ -68,6 +69,7 @@ const initialState = {
   topTappedLinksCache: null,
   topViewedAccountsCache: null,
   mostActiveDevicesCache: null,
+  directOnOffCache: null,
   isFetching: false,
 };
 
@@ -255,6 +257,13 @@ export default function realTimeAnalytics(
       topTappedLinksCache: null,
       topViewedAccountsCache: null,
       mostActiveDevicesCache: null,
+      directOnOffCache: null,
+    };
+  }
+  case CACHE_DIRECT_ON_OFF_CHART: {
+    return {
+      ...state,
+      directOnOffCache: payload,
     };
   }
   default:

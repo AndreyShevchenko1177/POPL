@@ -57,8 +57,6 @@ export function NotConnectedCard({
     },
   ];
 
-  console.log(number);
-
   return (
     <>
       <DragDots position="center" />
