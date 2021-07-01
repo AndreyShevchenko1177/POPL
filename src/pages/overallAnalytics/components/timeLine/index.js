@@ -385,7 +385,12 @@ function NetworkActivity({
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => dispatch(clearChecboxAction())} />
+              }} onClick={() => {
+                if (location.state?.poplName) {
+                  history.push("/analytics");
+                }
+                dispatch(clearChecboxAction());
+              }} />
             </div>
           }
           <div className={classes.buttonWrapper}>
@@ -421,7 +426,12 @@ function NetworkActivity({
               </span>
               <CloseIcon style={{
                 cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => dispatch(clearChecboxAction())} />
+              }} onClick={() => {
+                if (location.state?.id) {
+                  history.push("/analytics");
+                }
+                dispatch(clearChecboxAction());
+              }} />
             </div>
           }
           <div className={classes.buttonWrapper}>

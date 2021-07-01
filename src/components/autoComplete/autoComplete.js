@@ -49,6 +49,9 @@ function AutoComplete({
     } if (pseudoname === "profiles") {
       return history.push("/analytics", item);
     }
+    if (pseudoname === "devices") {
+      return history.push("/analytics");
+    }
     const connection = data.find((el) => el.id === item.id);
     history.push("/connections", { ...connection });
   };

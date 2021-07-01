@@ -529,6 +529,7 @@ function OverallAnalytics() {
     if (allPopsData) {
       // setting pops for popl level
       if (location.state?.poplName) {
+        dispatch(setCheckboxAction({ id: String(location.state.poplName), checked: true }, location.state.from));
         workerInstance.overallAnalyticsPopsPoplLevel(JSON.stringify({ allPopsData, location }))
           .then(({ poplPops, qrCodePops, walletPops }) => {
             if (location.pathname !== window.location.pathname) return;
@@ -539,7 +540,7 @@ function OverallAnalytics() {
       }
       // setting popps for individual profile level
       else if (location.state?.id) {
-        dispatch(setCheckboxAction({ id: String(location.state.id), checked: true }));
+        dispatch(setCheckboxAction({ id: String(location.state.id), checked: true }, location.state.from));
         return setPopsData({
           poplPops: allPopsData.poplPops.filter((pop) => pop[0] == location.state.id),
           qrCodePops: [...allPopsData.qrCodePops.filter((pop) => pop[0] == location.state.id), ...allPopsData.walletPops.filter((pop) => pop[0] == location.state.id)],
@@ -582,7 +583,12 @@ function OverallAnalytics() {
             poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
           });
         });
-    } else {
+    } else if (allPopsData && popsData) {
+      setPopsData({
+        poplPops: allPopsData.poplPops,
+        qrCodePops: [...allPopsData.qrCodePops, ...allPopsData.walletPops],
+        allPops: allPopsData.allPops,
+      });
       setDeviceLineData(null);
     }
   }, [checkboxes.devices]);
