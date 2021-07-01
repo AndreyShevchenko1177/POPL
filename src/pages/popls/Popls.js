@@ -26,6 +26,7 @@ function PoplsItem() {
   );
   const dataCheckboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const popls = useSelector(({ poplsReducer }) => poplsReducer.allPopls.data);
+  const [sortPopls, setSortPopls] = useState();
   const editPoplFetching = useSelector(({ poplsReducer }) => poplsReducer.editPopl.isFetching);
   const pops = useSelector(({ poplsReducer }) => poplsReducer.allPops?.data);
   const isFetching = useSelector(({ poplsReducer }) => poplsReducer.isFetching);
@@ -43,6 +44,10 @@ function PoplsItem() {
   const history = useHistory();
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [filteringConfig, setFilterConfig] = useState(filterConfig);
+  const [needHeight, setNeedHeight] = useState({
+    height: 0,
+    offset: 0,
+  });
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -66,6 +71,11 @@ function PoplsItem() {
     case "all": {
       setSearchValue("");
       history.push("/popls");
+      dispatch(clearChecboxAction());
+      setNeedHeight({
+        height: 0,
+        offset: 0,
+      });
       setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     }
     default:
@@ -106,17 +116,24 @@ function PoplsItem() {
       const sortProfiles = [...prevPopls].sort((a, b) => b[name] - a[name]);
       return sortProfiles;
     });
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
     setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
-
   const resetSort = () => {
-    if (Object.keys(dataCheckboxes).length) {
-      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
-      const isSelected = Object.values(dataCheckboxes).includes(true);
-      if (!isSelected) return setPopls(popls);
+    if (Object.keys(dataCheckboxes.profiles).length) {
+      const selectedCheckBox = Object.keys(dataCheckboxes.profiles).filter((el) => dataCheckboxes.profiles[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes.profiles).includes(true);
+      if (!isSelected) return showAll(null, "all");
       setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))).map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
       return setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
     }
+    setNeedHeight({
+      height: 0,
+      offset: 0,
+    });
     setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
     setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
   };
@@ -134,17 +151,23 @@ function PoplsItem() {
   };
 
   useEffect(() => {
-    if (Object.keys(dataCheckboxes).length) {
-      const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
-      const isSelected = Object.values(dataCheckboxes).includes(true);
-      if (!isSelected) return setPopls(popls);
-      setPopls(popls.filter((item) => selectedCheckBox.includes(Number(item.mid))).map((popl) => ({
+    if (Object.keys(dataCheckboxes.profiles).length) {
+      const selectedCheckBox = Object.keys(dataCheckboxes.profiles).filter((el) => dataCheckboxes.profiles[el]).map((el) => Number(el));
+      const isSelected = Object.values(dataCheckboxes.profiles).includes(true);
+      if (!isSelected) return showAll(null, "all");
+      const extendedPopls = popls.filter((item) => selectedCheckBox.includes(Number(item.mid))).map((popl) => ({
         ...popl,
         date: new Date(popl.activationDate).getTime(),
         popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length,
-      })));
+      }));
+      setSortPopls(extendedPopls);
+      setPopls(extendedPopls.slice(0, 19));
+      setNeedHeight({
+        height: 0,
+        offset: 0,
+      });
     }
-  }, [dataCheckboxes]);
+  }, [dataCheckboxes.profiles]);
 
   useEffect(() => {
     const checkBoxObject = {};
@@ -175,24 +198,33 @@ function PoplsItem() {
 
   useEffect(() => {
     if (location.state?.profilesData?.id) {
-      dispatch(setCheckboxAction({ id: Number(location.state?.profilesData?.id), checked: true }));
+      dispatch(setCheckboxAction({ id: Number(location.state?.profilesData?.id), checked: true }, "profiles"));
     }
   }, [location.state?.profilesData?.id]);
 
   useEffect(() => {
-    if (!pops && Object.keys(dataCheckboxes).length) return;
-    // if (location.state?.profilesData?.id) {
-    //   setFilterConfig((fc) => fc.map((item) => (location.state.profilesData[item.pseudoname] ? ({ ...item, value: location.state.profilesData[item.pseudoname] }) : item)));
-    //   return setPopls(popls
-    //     .filter((popl) => popl.profileId === location.state.profilesData.id)
-    //     .map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
-    // }
-    setPopls(popls.map((popl) => ({
+    if (!pops || Object.keys(dataCheckboxes.profiles).length) return;
+    const extendedPopls = popls.map((popl) => ({
       ...popl,
       date: new Date(popl.activationDate).getTime(),
       popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length,
-    })));
+    }));
+    setSortPopls(extendedPopls);
+    setPopls(extendedPopls.slice(0, 19));
   }, [popls, pops, location]);
+
+  useEffect(() => {
+    if (!needHeight.offset) return;
+    // initializing new checkboxes state by scrolling
+    // setCheckBoxes((prev) => {
+    //   const result = {};
+    //   sortPopls.slice(needHeight.offset, (needHeight.offset + 19)).forEach((popl) => result[popl.customId] = false); // initial checkbox state = false
+    //   return { ...prev, ...result };
+    // });
+    setPopls((popl) => ([...popl, ...sortPopls.slice(needHeight.offset, (needHeight.offset + 19))]));
+  }, [needHeight]);
+
+  // console.log(needHeight, dragablePopls);
 
   return (
     <>
@@ -202,17 +234,23 @@ function PoplsItem() {
       <div
         className={`${
           dragablePopls?.length ? "relative" : ""
-        } main-padding popls-page-container`}
+        } main-padding popls-page-container ${classes.poplsMainContainer}`}
+        onScroll={(event) => {
+          if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 150 + needHeight.height) {
+            setNeedHeight({ height: event.target?.scrollTop, offset: needHeight.offset + 20 });
+          }
+        }}
       >
         {/* <div className="popls-header-container"> */}
         <SearchStripe
+          styles={{ containerWrapper: { top: 0 } }}
           isShowSortBtn
           isFetching={isFetching}
           handleCheck={handleCheck}
           checked={mainCheck}
           checkboxes={checkboxes}
           setFilters={showAll}
-          isShow={location.state?.disabled === undefined ? true : location.state?.disabled}
+          isShow={!Object.values(dataCheckboxes.profiles).includes(true)}
           searchValue={searchValue}
           handleSearch={handleSearch}
           arrowHandler={arrowHandler}

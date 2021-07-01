@@ -1,6 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
+  poplsMainContainer: {
+    overflow: "auto",
+    height: "100vh",
+    outline: "none",
+  },
   poplsContainer: {
     display: "flex",
     flexDirection: "column",

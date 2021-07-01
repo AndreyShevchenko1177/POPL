@@ -40,8 +40,8 @@ function SearchStripe({
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
   const dataCheckboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
-  const selectedCheckBox = Object.keys(dataCheckboxes).filter((el) => dataCheckboxes[el]).map((el) => Number(el));
-  const isSelected = Object.values(dataCheckboxes).includes(true);
+  const selectedCheckBox = Object.keys(dataCheckboxes.profiles).filter((el) => dataCheckboxes.profiles[el]).map((el) => Number(el));
+  const isSelected = Object.values(dataCheckboxes.profiles).includes(true);
 
   return (
     <div style={styles?.containerWrapper || {}} className={classes.containerWrapper}>
