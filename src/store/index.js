@@ -5,7 +5,9 @@ import rootReducer from "./reducer";
 import { SIGN_IN_SUCCESS, IS_SIGN_ACTION } from "../pages/auth/store/actionTypes";
 
 const middleware = [thunk];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (process.env.NODE_ENV !== "production"
+  && typeof window !== "undefined"
+  && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 const store = createStore(
   rootReducer,
   /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)),
