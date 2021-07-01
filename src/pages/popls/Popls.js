@@ -224,7 +224,7 @@ function PoplsItem() {
     setPopls((popl) => ([...popl, ...sortPopls.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
-  // console.log(needHeight, dragablePopls);
+  //   console.log(needHeight, dragablePopls);
 
   return (
     <>
@@ -236,8 +236,8 @@ function PoplsItem() {
           dragablePopls?.length ? "relative" : ""
         } main-padding popls-page-container ${classes.poplsMainContainer}`}
         onScroll={(event) => {
-          if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 150 + needHeight.height) {
-            setNeedHeight({ height: event.target?.scrollTop, offset: needHeight.offset + 20 });
+          if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 120 + needHeight.height) {
+            setNeedHeight({ height: event.target?.scrollTop, offset: needHeight.offset + 19 });
           }
         }}
       >
