@@ -11,7 +11,7 @@ export const filterConfig = [
     active: false,
     label: "Enter name",
     name: "name",
-    pseudoname: "name",
+    pseudoname: "profiles",
     type: "input",
     value: "",
   },

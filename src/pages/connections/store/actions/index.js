@@ -1,10 +1,13 @@
+/* eslint-disable import/no-webpack-loader-syntax */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-return-assign */
+import worker from "workerize-loader!../../worker/worker";
 import { getCollectionData } from "../../../../config/firebase.query";
-import { getId } from "../../../../utils/uniqueId";
 
 import {
   GET_CONNECTIONS_SUCCESS,
   GET_CONNECTIONS_FAIL,
+  GET_OBJECT_IDS_SUCCESS,
   CLEAR_ADD_CONNECTIONS,
   CLEAR_EDIT_CONNECTIONS,
   GET_PROFILES_IDS_SUCCESS,
@@ -20,6 +23,8 @@ import {
 } from "../../../../utils";
 import { snackBarAction } from "../../../../store/actions";
 import { profileIdsRequest, getProfileAction } from "../../../profiles/store/actions/requests";
+
+const workerInstanse = worker();
 
 export const collectSelectedConnections = (id, isSingle) => async (dispatch, getState) => {
   try {
@@ -46,72 +51,40 @@ export const collectSelectedConnections = (id, isSingle) => async (dispatch, get
     }
 
     let allConnections = await getCollectionData("people", idsArray);
-
-    // removing duplicated connections from array
-    const filteredConnections = uniqueObjectsInArray(allConnections
-      .reduce((acc, item) => ([...acc, ...item.data]), []) // in allConnections we have array with profile id's. in each profile id placed array of connections related to this certain profile and we gathering it in one array
-      .sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time))), // sorting by date. we have to set target date(in our case most recent) in the end of array not to delete it by removing duplicates
-    (item) => item.id || item.email);
-    const idsObject = {}; // object with connections by profile id's without duplicated connections
-
-    allConnections.forEach(({ data, docId }) => idsObject[docId] = uniqueObjectsInArray(data
-      .map((d) => ({ ...d, customId: Number(getId(12, "1234567890")) }))
-      .sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time))), // sorting by date. we have to set target date(in our case most recent) in the end of array not to delete it by removing duplicates
-    (item) => item.id || item.email)); // removing duplicated connections for each certain profile connections array
-
-    // adding object with connected with names in each connection. one connection could be in different profiles and we need to find relations between all connections and all profiles
-    filteredConnections.forEach((con) => {
-      const names = {};
-      allConnections.forEach(({ data, docId }) => {
-        data.forEach((el) => {
-          if (!("noPopl" in el)) {
-            if (el.id === con.id) {
-              names[docId] = { ...profileName[docId], connected: el.time };
-            }
-          } else if (el.email === con.email) {
-            names[docId] = { ...profileName[docId], connected: el.time };
-          }
-        });
+    let filteredConnections = null;
+    let idsObject = null;
+    if (isSingle) {
+      filteredConnections = await workerInstanse.getFilteredConnections(JSON.stringify({ allConnections, profileName }));
+      idsObject = await workerInstanse.getIdsObject(JSON.stringify({ profileName, allConnections }));
+      return dispatch({
+        type: GET_CONNECTIONS_SUCCESS,
+        payload: {
+          connectionsObject: idsObject,
+          allConnections: isSingle
+            ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time)))
+            : filteredConnections,
+          connections: filteredConnections,
+        },
       });
-      con.names = names;
-      con.customId = Number(getId(12, "1234567890"));
-    });
-
-    // sorting connections by date to place more recent connection in the very beginning of the list
-    filteredConnections.sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time)));
-
-    // adding object with connected with names in each profile id's connections array item. one connection could be in different profiles and we need to find relations between all connections and all profiles
-    Object.values(idsObject).forEach((connections) => {
-      connections.forEach((con) => {
-        const names = {};
-        allConnections.forEach(({ data, docId }) => {
-          data.forEach((el) => {
-            if (!("noPopl" in el)) {
-              if (el.id === con.id) {
-                names[docId] = { ...profileName[docId], connected: el.time };
-              }
-            } else if (el.email === con.email) {
-              names[docId] = { ...profileName[docId], connected: el.time };
-            }
-          });
-        });
-        con.names = names;
+    }
+    workerInstanse.getFilteredConnections(JSON.stringify({ allConnections, profileName })).then((filteredConnections) => {
+      dispatch({
+        type: GET_CONNECTIONS_SUCCESS,
+        payload: {
+          allConnections: filteredConnections,
+          connections: filteredConnections,
+        },
       });
     });
 
-    // console.log(filteredConnections.filter((item, i) => {
-    //   if ("noPopl" in item) console.log(i);
-    //   return "noPopl" in item;
-    // }));
-    dispatch({
-      type: GET_CONNECTIONS_SUCCESS,
-      payload: {
-        connectionsObject: idsObject,
-        allConnections: isSingle
-          ? idsObject[id].sort((a, b) => new Date(formatDateConnections(b.time)) - new Date(formatDateConnections(a.time)))
-          : filteredConnections,
-        connections: filteredConnections,
-      },
+    workerInstanse.getIdsObject(JSON.stringify({ profileName, allConnections })).then((idsObject) => {
+      dispatch({
+        type: GET_OBJECT_IDS_SUCCESS,
+        payload: {
+          connectionsObject: idsObject,
+
+        },
+      });
     });
   } catch (error) {
     console.log(error);
