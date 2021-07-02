@@ -1,11 +1,13 @@
 import React from "react";
 import useStyle from "../styles/styles";
 
-function ChoiceCard({ Icon, title, description }) {
+function ChoiceCard({
+  Icon, title, description, redirect,
+}) {
   const classes = useStyle();
   return (
     // <div className={classes.choiceCardContainer}>
-    <div className={classes.choiceCardWrapper}>
+    <div onClick={redirect} className={classes.choiceCardWrapper}>
       <div>
         {Icon()}
       </div>

@@ -21,9 +21,8 @@ import PrivateRoute from "./core/PrivateRoute";
 import setAxios from "./config/axios.config";
 import OverallAnalytics from "./pages/overallAnalytics";
 import CreateAccountByEmailInvite from "./pages/createAccountByEmailInvite";
-// import CreateAccountByEmailInvite from "./pages/addExistingProfile";
+import CrmSalesForce from "./pages/crmSalesForce";
 import AddNewProfile from "./pages/createNewAccount";
-import CrmIntegrations from "./pages/crmIntegrations";
 import Campaigns from "./pages/campaigns";
 import Notifications from "./pages/notifications";
 import PopBranding from "./pages/popBranding";
@@ -118,11 +117,11 @@ function App(props) {
           <Connections />
         </PrivateRoute>
         <PrivateRoute
-          path="/connections/crm-integrations"
+          path="/connections/crm-salesforce"
           exact
           isLoggedIn={profileData?.id}
         >
-          <CrmIntegrations />
+          <CrmSalesForce />
         </PrivateRoute>
         <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
           <Campaigns />
