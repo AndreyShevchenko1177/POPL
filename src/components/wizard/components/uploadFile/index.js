@@ -68,11 +68,13 @@ const UploadFile = ({
 
   const onDrop = (event) => {
     stopEvent(event);
-    const file = event.target.files;
+
+    const file = event.dataTransfer.files;
     if (quantity && files && Object.keys(files).length >= quantity) {
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
     }
+    console.log("file", file, event.target);
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
@@ -137,7 +139,7 @@ const UploadFile = ({
           { !Object.keys(files).length
             ? (
               <div className={classes.IconTextWrapper}>
-                <Typography variant='body2'>Drag and drop your CSV here</Typography>
+                <Typography variant='body2'>Drag and drop your file here</Typography>
                 <p className={classes.selectLink}>Or select it from your computer</p>
               </div>
             )

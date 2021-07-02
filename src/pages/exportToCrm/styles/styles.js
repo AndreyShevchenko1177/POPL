@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     marginTop: "10%",
-    justifyContent: "space-between",
+    justifyContent: "center",
     "& div": {
       cursor: "pointer",
     },
@@ -35,7 +35,8 @@ export default makeStyles((theme) => ({
   },
   choiceCardContainer: {
     // minWidth: 360,
-    width: "32%",
+    width: 320,
+    marginRight: 20,
     minWidth: 270,
     maxWidth: 420,
     border: `1px solid ${theme.custom.mainBorderGreyColor}`,
