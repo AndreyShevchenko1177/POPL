@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     zIndex: 1000,
     width: "calc(100% - 350px)",
     display: "flex",
-    padding: "10px 15px",
+    padding: "10px 0",
     // boxShadow: theme.custom.mainBoxShadow,
     // borderBottom: "1px solid #a5a4a4",
     // borderRadius: theme.custom.mainBorderRadius,

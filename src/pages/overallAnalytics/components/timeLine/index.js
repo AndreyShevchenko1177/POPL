@@ -373,8 +373,7 @@ function NetworkActivity({
                 Update
             </Button>
           </div>
-          <div className={classes.filterContainer}>
-
+          <div style={{ marginLeft: "auto" }} className={classes.filterContainer}>
             <div className={classes.buttonWrapper}>
               { Object.values(checkboxes).includes(true) && activeItemTitle === "device"
               && <div className={clsx(classes.filterText, "overallanalytics-page")}>
@@ -415,7 +414,7 @@ function NetworkActivity({
               />
             </div>
           </div>
-          <div className={classes.filterContainer}>
+          <div style={{ marginRight: 10 }} className={classes.filterContainer}>
             <div className={classes.buttonWrapper}>
               { Object.values(checkboxes).includes(true) && activeItemTitle === "account"
               && <div className={clsx(classes.filterText, "overallanalytics-page")}>
@@ -459,7 +458,7 @@ function NetworkActivity({
           </div>
         </div>
 
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", marginLeft: "auto" }}>
           <DatePicker
             selectOption={selectOption}
             options={options}
