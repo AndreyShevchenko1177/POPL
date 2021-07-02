@@ -295,7 +295,7 @@ p {
 .disable-image {
   border: 0px !important;
   /* width: 39px !important;
-  height:  39px !important; */
+    height:  39px !important; */
 }
 
 div:nth-last-child().disable-legend {
@@ -321,6 +321,9 @@ input[type="number"] {
 /* for filter button on overall analytics */
 .overallanalytics-page {
   margin-right: 5px !important;
+  position: absolute;
+  top: 40px;
+  left: 5px;
 }
 
 .linksContainer::-webkit-scrollbar {

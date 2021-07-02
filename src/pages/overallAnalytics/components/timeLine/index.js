@@ -122,15 +122,15 @@ function NetworkActivity({
   const renderLegend = (chart) => {
     const { data } = chart;
     return data.datasets.map(({ label, borderColor, data }, i) => `
-    <div class="legendItem">
-      <div>
-        <div style="background-color: ${borderColor};">
+      <div class="legendItem">
+        <div>
+          <div style="background-color: ${borderColor};">
+        </div>
+          <hr style="background-color: ${borderColor};">
+        </div>
+      ${`<span class="label">${label || "No name"} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
       </div>
-        <hr style="background-color: ${borderColor};">
-      </div>
-    ${`<span class="label">${label || "No name"} (${data.reduce((sum, cur) => sum += cur, 0)})</span>`}
-    </div>
-    `).join("");
+      `).join("");
   };
 
   useEffect(() => {
@@ -359,107 +359,106 @@ function NetworkActivity({
   return (
     <div className={classes["network-container"]}>
       <div className={classes["network-container__header"]}>
-        {/* <div className={classes["network-container__title"]}>
-          <Typography variant="h5" classes={{ h5: classes.text }}>
-            Pops Over Time
-          </Typography>
-        </div> */}
-        <div className={classes.refreshButtonContainer}>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={!chartData}
-            classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-            onClick={handleRefresh}
-            endIcon={<SvgMaker name='circleArrow' width={15} height={15} fill={chartData ? "#ffffff" : "grey"} />}
-            name='update'
-          >
-              Update
-          </Button>
-        </div>
-        <div className={classes.filterContainer}>
-          { Object.values(checkboxes).includes(true) && activeItemTitle === "device"
-            && <div className={clsx(classes.filterText, "overallanalytics-page")}>
-              <span style={{ whiteSpace: "nowrap" }}>
-                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
-              </span>
-              <CloseIcon style={{
-                cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => {
-                if (location.state?.poplName) {
-                  history.push("/analytics");
-                }
-                dispatch(clearChecboxAction());
-              }} />
-            </div>
-          }
-          <div className={classes.buttonWrapper}>
+        <div className={classes.buttonContainer}>
+          <div className={classes.refreshButtonContainer}>
             <Button
               variant='contained'
               color='primary'
-              disabled={activeItemTitle === "account"}
+              disabled={!chartData}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-              onClick={() => filter(true, "device")}
-              endIcon={<KeyboardArrowDownIcon />}
-              name='device'
+              onClick={handleRefresh}
+              endIcon={<SvgMaker name='circleArrow' width={15} height={15} fill={chartData ? "#ffffff" : "grey"} />}
+              name='update'
             >
-              Devices
+                Update
             </Button>
-
-            <CustomSelect
-              selectName='device'
-              config={deviceConfig}
-              autoComleteData={devices.map((el) => ({ ...el, id: el.name }))}
-              isOpen={openProfileSelect.device.open}
-              events={{
-                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
-              }}
-              filterValue={filterValue}
-            />
           </div>
-        </div>
-        <div className={classes.filterContainer}>
-          { Object.values(checkboxes).includes(true) && activeItemTitle === "account"
-            && <div className={clsx(classes.filterText, "overallanalytics-page")}>
-              <span style={{ whiteSpace: "nowrap" }}>
-                <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
-              </span>
-              <CloseIcon style={{
-                cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
-              }} onClick={() => {
-                if (location.state?.id) {
-                  history.push("/analytics");
-                }
-                dispatch(clearChecboxAction());
-              }} />
+          <div className={classes.filterContainer}>
+
+            <div className={classes.buttonWrapper}>
+              { Object.values(checkboxes).includes(true) && activeItemTitle === "device"
+              && <div className={clsx(classes.filterText, "overallanalytics-page")}>
+                <span style={{ whiteSpace: "nowrap" }}>
+                  <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
+                </span>
+                <CloseIcon style={{
+                  cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+                }} onClick={() => {
+                  if (location.state?.poplName) {
+                    history.push("/analytics");
+                  }
+                  dispatch(clearChecboxAction());
+                }} />
+              </div>
+              }
+              <Button
+                variant='contained'
+                color='primary'
+                disabled={activeItemTitle === "account"}
+                classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+                onClick={() => filter(true, "device")}
+                endIcon={<KeyboardArrowDownIcon />}
+                name='device'
+              >
+                Devices
+              </Button>
+
+              <CustomSelect
+                selectName='device'
+                config={deviceConfig}
+                autoComleteData={devices.map((el) => ({ ...el, id: el.name }))}
+                isOpen={openProfileSelect.device.open}
+                events={{
+                  handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
+                }}
+                filterValue={filterValue}
+              />
             </div>
-          }
-          <div className={classes.buttonWrapper}>
-            <Button
-              variant='contained'
-              color='primary'
-              disabled={activeItemTitle === "device"}
-              classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
-              onClick={() => filter(true, "filter")}
-              endIcon={<KeyboardArrowDownIcon />}
-              name='filter'
-            >
-              Accounts
-            </Button>
+          </div>
+          <div className={classes.filterContainer}>
+            <div className={classes.buttonWrapper}>
+              { Object.values(checkboxes).includes(true) && activeItemTitle === "account"
+              && <div className={clsx(classes.filterText, "overallanalytics-page")}>
+                <span style={{ whiteSpace: "nowrap" }}>
+                  <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
+                </span>
+                <CloseIcon style={{
+                  cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,
+                }} onClick={() => {
+                  if (location.state?.id) {
+                    history.push("/analytics");
+                  }
+                  dispatch(clearChecboxAction());
+                }} />
+              </div>
+              }
+              <Button
+                variant='contained'
+                color='primary'
+                disabled={activeItemTitle === "device"}
+                classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
+                onClick={() => filter(true, "filter")}
+                endIcon={<KeyboardArrowDownIcon />}
+                name='filter'
+              >
+                Accounts
+              </Button>
 
-            <CustomSelect
-              selectName='filter'
-              config={filterConfig}
-              autoComleteData={profilesData}
-              isOpen={openProfileSelect.filter.open}
-              customState={{ profileCountFilter, setProfileCountFilter }}
-              events={{
-                handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
-              }}
-              filterValue={filterValue}
-            />
+              <CustomSelect
+                selectName='filter'
+                config={filterConfig}
+                autoComleteData={profilesData}
+                isOpen={openProfileSelect.filter.open}
+                customState={{ profileCountFilter, setProfileCountFilter }}
+                events={{
+                  handleChange: handleChangeInputFilter, hideSelectHandler: setOpenProfileSelect, clearInput: clearFilterInput,
+                }}
+                filterValue={filterValue}
+              />
+            </div>
           </div>
         </div>
+
         <div style={{ position: "relative" }}>
           <DatePicker
             selectOption={selectOption}
@@ -473,7 +472,7 @@ function NetworkActivity({
       <div className={classes["network-container__charts"]}>
         <div className={classes["network-container__title"]}>
           <Typography variant="h5" classes={{ h5: classes.text }}>
-            Pops Over Time
+              Pops Over Time
           </Typography>
         </div>
         <div className={classes["network-container__line"]} ref={containerLineRef}>

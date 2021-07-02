@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
   "network-container": {
+    position: "relative",
     padding: "90px 0 0 0",
   },
   "network-container__header": {
@@ -11,9 +12,9 @@ export default makeStyles((theme) => ({
     width: "calc(100% - 350px)",
     display: "flex",
     padding: "10px 15px",
-    boxShadow: theme.custom.mainBoxShadow,
-    borderBottom: "1px solid #a5a4a4",
-    borderRadius: theme.custom.mainBorderRadius,
+    // boxShadow: theme.custom.mainBoxShadow,
+    // borderBottom: "1px solid #a5a4a4",
+    // borderRadius: theme.custom.mainBorderRadius,
     marginBottom: "20px",
     backgroundColor: "#ffffff",
   },
@@ -119,8 +120,6 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
-    margin: "0 20px 0 auto",
-    minWidth: 260,
   },
   refreshButtonContainer: {
     display: "flex",
@@ -149,5 +148,9 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     marginRight: 5,
     paddingTop: 5,
+  },
+  buttonContainer: {
+    display: "flex",
+    width: "calc(70% + 40px)",
   },
 }));

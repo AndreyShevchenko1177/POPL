@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
   },
   DroppableConnectionContainer: {
     display: "flex",
+    paddingTop: "15px",
     flexDirection: "column",
     width: "100%",
     outline: "none",
