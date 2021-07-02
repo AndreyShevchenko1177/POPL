@@ -314,7 +314,7 @@ export default function Profiles() {
       {qrCodes.codes?.map(({ Component, data }, key) => <Component key={key} value={data.url} style={{ display: "none" }} id={data.id}/>)}
       <div className={clsx("main-padding relative", "o-none", classes.mainPageWrapper)}>
         <Grid container alignItems="center">
-          {wizard.open && <CustomWizard data={wizard.data} isOpen={wizard.open} setIsOpen={setWizard}/>}
+          {wizard.open && <CustomWizard data={wizard.data} setIsOpen={setWizard}/>}
           {editLinkModal.open && <EditLinkModal profiles={profiles} allLinks={profiles.reduce((s, {
             business, social, activeProfile, id,
           }) => [...s, ...business.map((el) => ({
