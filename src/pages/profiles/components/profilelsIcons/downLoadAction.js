@@ -1,16 +1,16 @@
 import axios from "axios";
 
-export function downLoadFile(path, fileName) {
+export function downLoadFile(fileName) {
   axios({
-    baseURL: "",
-    url: path,
+    baseURL: "/v0",
+    url: `/b/poplco.appspot.com/o/${fileName}?alt=media`,
     method: "GET",
     responseType: "blob",
   })
     .then((blob) => {
       // Create blob link to download
       const url = window.URL.createObjectURL(
-        new Blob([blob]),
+        new Blob([blob.data]),
       );
       const name = fileName.split(".")[1] ? fileName : `${fileName}.pdf`;
       const link = document.createElement("a");

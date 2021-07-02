@@ -1,28 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import WizardPanel from "./components/tabPanel";
 import useStyles from "./styles/styles";
 import icons from "../../pages/profiles/components/profilelsIcons/icons";
 
 function CustomWizard({
-  data, isOpen, setIsOpen, action,
+  data, setIsOpen, action,
 }) {
   const classes = useStyles();
-  const ref = useRef();
-
-  const blurHandler = (event) => {
-    // if (event.currentTarget.contains(event.relatedTarget)) return;
-    // setIsOpen((v) => ({ ...v, open: false }));
-  };
-
-  useEffect(() => {
-    ref.current?.focus();
-  }, [isOpen]);
 
   return (
     <>
       <div className={classes.opacityBackground} onClick={() => setIsOpen((v) => ({ ...v, open: false }))}></div>
-      <div className={classes.wizardContainer} ref={ref} onBlur={blurHandler} tabIndex={1}>
+      <div className={classes.wizardContainer}>
         <HighlightOffIcon onClick={() => setIsOpen((v) => ({ ...v, open: false }))} className={classes.closeIcon} />
         <div>
           <WizardPanel

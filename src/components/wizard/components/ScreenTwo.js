@@ -10,6 +10,7 @@ import { snackBarAction } from "../../../store/actions";
 import Loader from "../../Loader";
 import { addLinkAction, clearStateAction } from "../../../pages/profiles/store/actions";
 import { getId } from "../../../utils";
+import UploadFile from "./uploadFile";
 
 function ScreenTwo({
   icon, id, closeWizard, profileData, action,
@@ -19,10 +20,11 @@ function ScreenTwo({
   const addLinkSuccess = useSelector(({ profilesReducer }) => profilesReducer.addLink.data);
   const isAddLinkFetching = useSelector(({ profilesReducer }) => profilesReducer.addLink.isFetching);
   const [values, setValues] = useState({ title: "", value: "", src: "" });
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null); // custom link icon property
   const [isValid, setIsValid] = useState({ title: true, value: true });
   const fileInputRef = useRef(null);
   const [isFileConverting, setIsFileConverting] = useState(false);
+  const [files, setFiles] = useState({}); // for icon type file
 
   const handleSetLinkUrl = (event) => {
     event.persist();
@@ -68,13 +70,25 @@ function ScreenTwo({
   };
 
   const addLink = () => {
-    const validation = { value: true, title: true };
-    if (!values.value) validation.value = false;
-    if (!values.title) validation.title = false;
-    setIsValid(validation);
-    if (Object.values(validation).includes(false)) return;
-    setIsValid({ title: true, value: true });
-    dispatch(addLinkAction(values.value, values.title, profileData, id, file));
+    if (id === 37) {
+      if (!Object.values(files).length) {
+        return dispatch(snackBarAction({
+          message: "File is required",
+          severity: "error",
+          duration: 12000,
+          open: true,
+        }));
+      }
+      dispatch(addLinkAction(values.value, values.title, profileData, id, file, Object.values(files)[0].file));
+    } else {
+      const validation = { value: true, title: true };
+      if (!values.value) validation.value = false;
+      if (!values.title) validation.title = false;
+      setIsValid(validation);
+      if (Object.values(validation).includes(false)) return;
+      setIsValid({ title: true, value: true });
+      dispatch(addLinkAction(values.value, values.title, profileData, id, file));
+    }
   };
 
   useEffect(() => {
@@ -123,33 +137,35 @@ function ScreenTwo({
               onChange={onIconAdded}
             />
           </div>}
-        <div className={classes.linkInputsWrapper}>
-          <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
-            <TextField
-              fullWidth
-              value={values.title}
-              name='title'
-              placeholder='Link Title'
-              onChange={handleSetLinkUrl}
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </div>
-          <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
-            <TextField
-              fullWidth
-              value={values.value}
-              name='value'
-              placeholder={icon.placeholder}
-              onChange={handleSetLinkUrl}
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-            {(!isValid.value || !isValid.title) && <span className={classes.errorText}>Mandatory field</span>}
-          </div>
-        </div>
+        {id === 37
+          ? <UploadFile files={files} setFiles={setFiles} />
+          : <div className={classes.linkInputsWrapper}>
+            <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
+              <TextField
+                fullWidth
+                value={values.title}
+                name='title'
+                placeholder='Link Title'
+                onChange={handleSetLinkUrl}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </div>
+            <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
+              <TextField
+                fullWidth
+                value={values.value}
+                name='value'
+                placeholder={icon.placeholder}
+                onChange={handleSetLinkUrl}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+              {(!isValid.value || !isValid.title) && <span className={classes.errorText}>Mandatory field</span>}
+            </div>
+          </div>}
       </div>
       <div className={classes.btnContainer}>
         <Button

@@ -15,7 +15,7 @@ export default function SocialPoplsIcons({
 
   const linkRedirect = (path, linkId, value) => {
     try {
-      if (linkId === 37) return downLoadFile(path, value);
+      if (linkId === 37) return downLoadFile(value);
       if (linkId === 22) return downloadContacts(path, profileName);
       return window.open(path);
     } catch (error) {

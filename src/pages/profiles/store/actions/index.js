@@ -97,7 +97,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   }
 };
 
-export const addLinkAction = (value, title, profileData, iconId, icon) => async (dispatch, getState) => {
+export const addLinkAction = (value, title, profileData, iconId, icon, file) => async (dispatch, getState) => {
   try {
     dispatch(isFetchingAction(true, "addLink"));
     const userId = getState().authReducer.signIn.data.id;
@@ -111,18 +111,32 @@ export const addLinkAction = (value, title, profileData, iconId, icon) => async 
       }));
     }
 
-    let resultUploadFile; // in this variable will returning firebase file name
+    let resultUploadIcon; // in this variable will returning firebase custom icon name
+    let resultUploadFile; // in this variable will returning firebase uploaded file name
+
     if (icon && typeof icon !== "string") {
-      resultUploadFile = await uploadImage(new File([icon], `${icon.name.split(".")[icon.name.split(".").length - 1]}_icon-${getId(12)}`, { type: icon.type }));
+      resultUploadIcon = await uploadImage(new File([icon], `${icon.name.split(".")[icon.name.split(".").length - 1]}_icon-${getId(12)}`, { type: icon.type }));
     }
 
+    if (file) {
+      resultUploadFile = await uploadImage(new File([file], `${userId}-file-${getId(12)}.${file.name.split(".")[file.name.split(".").length - 1]}`, { type: file.type }));
+    }
+
+    let iconName;
     let fileName;
-    if (resultUploadFile) { // if filename returned from firebase taking form there name without other url params
+
+    if (resultUploadIcon) { // if filename returned from firebase taking form there name without other url params
+      let url = resultUploadIcon.split("?")[0];
+      iconName = url.split("/")[url.split("/").length - 1];
+    }
+
+    if (resultUploadFile) { // if filename returned from firebase taking from there name without other url params
+      console.log(resultUploadFile);
       let url = resultUploadFile.split("?")[0];
       fileName = url.split("/")[url.split("/").length - 1];
     }
 
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(value, title, item, iconId, fileName || "")));
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(fileName, title, item, iconId, iconName || "")));
 
     const successLinksIds = result
       .filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success") // filtering by success request

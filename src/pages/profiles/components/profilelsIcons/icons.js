@@ -225,7 +225,7 @@ const icons = {
     icon: File,
     text: "File",
     placeholder: "Tinder profile link",
-    path: "https://firebasestorage.googleapis.com/v0/b/poplco.appspot.com/o/",
+    path: "",
   },
   38: {
     icon: Clubhouse,

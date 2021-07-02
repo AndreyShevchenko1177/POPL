@@ -51,13 +51,45 @@ function TopListLinkTaps({
             .forEach((link) => {
               const component = (
                 <>
-                  <Tooltip PopperProps={{ disablePortal: true }} title={link.value} placement="top"><span className={classes.linkTapsName}>{link.profileName}</span></Tooltip>
+                  <Tooltip
+                    PopperProps={{ disablePortal: true }}
+                    title={link.value} placement="top"
+                  >
+                    <span
+                      style={{
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingRight: 5,
+                        width: "80%",
+                      }}
+                    >
+                      {link.profileName}
+                    </span>
+                  </Tooltip>
                   {link.id === 37
-                    ? <div className={classes.linkIcon} onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}>
-                      <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                    ? <div
+                      style={{
+                        margin: "0 5px 0 0px",
+                        cursor: "pointer",
+                        minWidth: 25,
+                        width: "20%",
+                      }}
+                      onClick={() => handleDownloadFile(link.id, icons[link.id].path, link.value)}
+                    >
+                      <img style={{ width: 25, height: 25 }} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
                     </div>
-                    : <a className={classes.linkIcon} href={icons[link.id].path + link.value} target='blank'>
-                      <img className={classes.iconLink} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
+                    : <a
+                      style={{
+                        margin: "0 5px 0 0px",
+                        cursor: "pointer",
+                        minWidth: 25,
+                        width: "20%",
+                      }}
+                      href={icons[link.id].path + link.value}
+                      target='blank'
+                    >
+                      <img style={{ width: 25, height: 25 }} src={link.icon ? `${process.env.REACT_APP_BASE_FIREBASE_CUSTOM_ICON}${link.icon}?alt=media` : icons[link.id].icon} alt={link.title} />
                     </a>
 
                   }
