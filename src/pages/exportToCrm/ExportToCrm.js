@@ -119,7 +119,7 @@ function ChoicePage() {
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='Export to Salesforce'
-                redirect={() => history.push("/connections/crm-salesforce")}
+                redirect={() => history.push("/connections/crm-salesforce", { path: "/connections/export-to-crm" })}
                 // description='Create new Popl profiles to add'
               />
             </div>
