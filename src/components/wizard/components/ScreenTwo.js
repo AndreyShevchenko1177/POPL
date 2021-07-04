@@ -71,6 +71,10 @@ function ScreenTwo({
 
   const addLink = () => {
     if (id === 37) {
+      const validation = { value: true, title: true };
+      if (!values.title) validation.title = false;
+      setIsValid(validation);
+
       if (!Object.values(files).length) {
         return dispatch(snackBarAction({
           message: "File is required",
@@ -79,6 +83,8 @@ function ScreenTwo({
           open: true,
         }));
       }
+      if (Object.values(validation).includes(false)) return;
+      setIsValid({ title: true, value: true });
       dispatch(addLinkAction(values.value, values.title, profileData, id, file, Object.values(files)[0].file));
     } else {
       const validation = { value: true, title: true };
@@ -138,7 +144,21 @@ function ScreenTwo({
             />
           </div>}
         {id === 37
-          ? <UploadFile files={files} setFiles={setFiles} />
+          ? <div className={classes.titleUploadWrapper}>
+            <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
+              <TextField
+                fullWidth
+                value={values.title}
+                name='title'
+                placeholder='Link Title'
+                onChange={handleSetLinkUrl}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </div>
+            <UploadFile files={files} setFiles={setFiles} />
+          </div>
           : <div className={classes.linkInputsWrapper}>
             <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
               <TextField

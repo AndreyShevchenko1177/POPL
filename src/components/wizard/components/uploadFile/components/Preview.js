@@ -4,14 +4,15 @@ import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import useStyles from "../styles";
 
 function Preview({
-  deleteAction, file,
+  deleteAction, file, styles,
 }) {
   const classes = useStyles();
-  console.log(file);
+
   return (
     <div className={classes.imageContainer}>
-      <img alt='logo' className={classes.image} src={file.src} />
+      <img style={{ ...styles.image }} alt='logo' className={classes.image} src={file.src} />
       <Chip
+        style={{ ...styles.chipButton }}
         className={classes.chipButton}
         deleteicon={<RemoveIcon />}
         size='medium'

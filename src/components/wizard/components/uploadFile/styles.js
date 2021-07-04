@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
       justifyContent: "center",
       width: "100%",
     },
-    marginTop: 10,
+    marginTop: 5,
   },
   chipButton: {
     backgroundColor: "transparent !important",

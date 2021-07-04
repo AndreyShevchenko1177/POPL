@@ -12,6 +12,8 @@ import useStyles from "../styles/styles";
 import Popup from "../../../../../components/popup";
 import { snackBarAction } from "../../../../../store/actions";
 import Loader from "../../../../../components/Loader";
+import UploadFile from "../../../../../components/wizard/components/uploadFile";
+import fileIcon from "../../../../../assets/file.png";
 
 function EditScreen({
   currentIcon,
@@ -32,7 +34,7 @@ function EditScreen({
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState({ title: null, value: null });
+  const [inputValue, setInputValue] = useState({ title: "", value: "" });
   const [isValid, setIsValid] = useState({ title: true, value: true });
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [src, setSrc] = useState("");
@@ -41,6 +43,7 @@ function EditScreen({
   const [isFileConverting, setIsFileConverting] = useState(false);
   const isEditLinksFetching = useSelector(({ profilesReducer }) => profilesReducer.editLink.isFetching);
   const isDeleteLinksFetching = useSelector(({ profilesReducer }) => profilesReducer.deleteLink.isFetching);
+  const [uploadedFiles, setUploadedFiles] = useState({});
 
   const handleOpenPopup = () => setIsOpenPopup(!isOpenPopup);
 
@@ -100,6 +103,11 @@ function EditScreen({
   };
 
   useEffect(() => {
+    setInputValue({ title: title || "", value: value || "" });
+    setUploadedFiles([{ file: { name: value || "" }, src: fileIcon }]);
+  }, []);
+
+  useEffect(() => {
     if (isDeleteLinksFetching) setIsOpenPopup(false);
   }, [isDeleteLinksFetching]);
 
@@ -157,7 +165,7 @@ function EditScreen({
           <div className={clsx(classes.linkValue, "mb-10", !isValid.title && classes.borderRed)}>
             <TextField
               fullWidth
-              value={inputValue.title === "" ? inputValue.title : inputValue.title || title}
+              value={inputValue.title}
               name='title'
               placeholder='Link Title'
               onChange={handleSetLinkUrl}
@@ -166,23 +174,35 @@ function EditScreen({
               }}
             />
           </div>
-          <div className={classes.labelContainer}>
-            <Typography variant='h5'>Url</Typography>
-          </div>
-          <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
-
-            <TextField
-              fullWidth
-              value={inputValue.value === "" ? inputValue.value : inputValue.value || value}
-              name='value'
-              placeholder={currentIcon.placeholder}
-              onChange={handleSetLinkUrl}
-              InputProps={{
-                disableUnderline: true,
+          {id === 37
+            ? <UploadFile
+              styles={{
+                dashedContainer: { height: 60 },
+                image: { width: 30, height: 30 },
+                chipButton: { top: "-16px", right: "10px" },
               }}
+              files={uploadedFiles}
+              setFiles={setUploadedFiles}
+
             />
-            {(!isValid.value || !isValid.title) && <span className={classes.errorText}>Mandatory field</span>}
-          </div>
+            : <>
+              <div className={classes.labelContainer}>
+                <Typography variant='h5'>Url</Typography>
+              </div>
+              <div className={clsx(classes.linkValue, !isValid.value && classes.borderRed)}>
+                <TextField
+                  fullWidth
+                  value={inputValue.value}
+                  name='value'
+                  placeholder={currentIcon.placeholder}
+                  onChange={handleSetLinkUrl}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+                {(!isValid.value || !isValid.title) && <span className={classes.errorText}>Mandatory field</span>}
+              </div>
+            </>}
         </div>}
       </div>
       <div className={classes.btnContainer}>

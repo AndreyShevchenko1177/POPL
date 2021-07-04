@@ -241,4 +241,10 @@ export default makeStyles((theme) => ({
     width: 25,
     height: 25,
   },
+  titleUploadWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: 15,
+  },
 }));

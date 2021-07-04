@@ -2,19 +2,15 @@ import React, {
   useRef, useState, useEffect,
 } from "react";
 import { useDispatch } from "react-redux";
-import { Typography, Chip } from "@material-ui/core";
-import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
-import CreateIcon from "@material-ui/icons/Create";
-import clsx from "clsx";
+import { Typography } from "@material-ui/core";
 import { snackBarAction } from "../../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils";
 import Preview from "./components/Preview";
-import SvgMaker from "../../../svgMaker";
 import fileIcon from "../../../../assets/file.png";
 
 const UploadFile = ({
-  quantity = 1, multiple, files, setFiles,
+  quantity = 1, multiple, files, setFiles, styles,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -135,7 +131,7 @@ const UploadFile = ({
         onClick={openFileDialog}
         className={classes.headingDropZoneWrapper}
       >
-        <div style={dragHover ? { borderColor: "#3da5f5" } : {}} className={classes.dashedContainer}>
+        <div style={dragHover ? { borderColor: "#3da5f5", ...styles?.dashedContainer } : { ...styles?.dashedContainer }} className={classes.dashedContainer}>
           { !Object.keys(files).length
             ? (
               <div className={classes.IconTextWrapper}>
@@ -147,7 +143,7 @@ const UploadFile = ({
               {
                 Object.keys(files).map((file) => (
                   <div key={file} >
-                    <Preview file={Object.values(files)[0]} deleteAction={() => setFiles({})} />
+                    <Preview styles={styles} file={Object.values(files)[0]} deleteAction={() => setFiles({})} />
                   </div>
                 ))
               }
