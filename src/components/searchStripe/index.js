@@ -23,11 +23,10 @@ function SearchStripe({
   arrowHandler = () => console.log("add event"),
   selectObject,
   disabled,
-  setFilters,
-  isShow,
-  isFetching,
+  numberActivecheckboxes,
+  sendEmailTo,
   showCRM,
-  showAll = true,
+  showAll,
   isShowSortBtn,
   checkboxes = {},
   templates,
@@ -158,12 +157,22 @@ function SearchStripe({
             />}
           </div>
         </div>}
-        <Filters
+        {/* <Filters
           isFetching={isFetching}
           setFilters={setFilters}
           disabled={isShow}
           showAll={showAll}
-        />
+        /> */}
+        {showAll && <div className={classes.buttonWrapper}>
+          <Button
+            variant="contained"
+            color="primary"
+            classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            onClick={sendEmailTo}
+            disabled={!numberActivecheckboxes}
+          >
+            {numberActivecheckboxes ? `Send email to (${numberActivecheckboxes})` : "Send email to"}
+          </Button> </div>}
         {btn_title && <div className={classes.buttonWrapper}>
           <Button
             variant="contained"

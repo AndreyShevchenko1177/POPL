@@ -4,10 +4,8 @@ import {
   Switch,
   Route,
   useLocation,
-  useHistory,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import Auth from "./pages/auth/Auth";
 import Login from "./pages/auth/sign-in";
 import Profiles from "./pages/profiles";
@@ -25,6 +23,7 @@ import CrmSalesForce from "./pages/crmSalesForce";
 import AddNewProfile from "./pages/createNewAccount";
 import Campaigns from "./pages/campaigns";
 import Notifications from "./pages/notifications";
+import EmailNotifcations from "./pages/emailNotifications";
 import PopBranding from "./pages/popBranding";
 import Settings from "./pages/settings";
 import GeneralSettings from "./pages/generalSettings";
@@ -128,6 +127,9 @@ function App(props) {
         </PrivateRoute>
         <PrivateRoute path="/notifications" exact isLoggedIn={profileData?.id}>
           <Notifications />
+        </PrivateRoute>
+        <PrivateRoute path="/email-notifications" exact isLoggedIn={profileData?.id}>
+          <EmailNotifcations />
         </PrivateRoute>
         <PrivateRoute
           path="/campaings/pop-branding"

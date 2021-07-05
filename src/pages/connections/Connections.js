@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Paper, Typography } from "@material-ui/core";
+import { AccordionActions, Paper, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import Header from "../../components/Header";
 import {
@@ -136,6 +136,20 @@ function Connections() {
     // dispatch(showConnectionByProfile(Object.keys(dataCheckboxes)));
   };
 
+  const sendEmailTo = () => {
+    const connections = Object.keys(checkboxes).reduce((acc, cur) => {
+      if (checkboxes[cur]) {
+        const activeConnection = dragableConnections.find(({ customId }) => customId == cur);
+        if (activeConnection.email) {
+          return [...acc, activeConnection];
+        }
+        return acc;
+      }
+      return acc;
+    }, []);
+    history.push("email-notifications", connections);
+  };
+
   useEffect(() => {
     if (location.state?.id) {
       dispatch(setCheckboxAction({ id: Number(location.state.id), checked: true }, "profiles"));
@@ -218,10 +232,13 @@ function Connections() {
         <SearchStripe
           styles={{ containerWrapper: { top: 0 } }}
           isShowSortBtn
+          showAll
           setFilters={showAll}
           isShow={!Object.values(dataCheckboxes.profiles).includes(true)}
           searchValue={searchValue}
           checked={selectAllCheckbox}
+          numberActivecheckboxes={Object.values(checkboxes).filter((checked) => checked).length}
+          sendEmailTo={sendEmailTo}
           handleSearch={handleSearch}
           showCRM
           handleCheck={handleSelectAllCheckboxes}

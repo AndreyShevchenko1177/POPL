@@ -43,7 +43,7 @@ export const sendEmailAction = ({ users, ...data }, success) => async (dispatch,
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully sent email",
+      message: `${users.length}  ${user.length > 1 ? "emails" : "email"} sent successfully`,
       severity: "success",
       duration: 12000,
       open: true,
@@ -62,7 +62,7 @@ export const sendShedulerEmailAction = ({ users, ...data }, success) => async (d
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully sent email",
+      message: `${users.length}  ${user.length > 1 ? "emails" : "email"} sent successfully`,
       severity: "success",
       duration: 12000,
       open: true,

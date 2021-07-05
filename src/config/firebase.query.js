@@ -24,6 +24,9 @@ export const getCollectionData = async (collection, docIdArray) => {
             resolve(data);
           } catch (error) {
             console.log(error.toString());
+            // firebase.auth().currentUser.getIdToken(true).then((res) => {
+            //   console.log(res, "refresh success");
+            // }).catch((error) => console.log(error, "error"));
             window.location.reload();
             // reject(error);
           }

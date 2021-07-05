@@ -24,7 +24,7 @@ function Notifications() {
   });
   const [isShowModal, setIsShowModal] = useState(false);
   const userData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
-
+  console.log(values);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
