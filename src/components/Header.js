@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header({
-  rootLink, firstChild, lastChild, path, rootLinkClick, firstChildRedirectPath,
+  rootLink, firstChild, lastChild, path, rootLinkClick, firstChildRedirectPath, leftPadding,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -43,7 +43,7 @@ function Header({
     <Paper elevation={0} className={classes.root}>
       <div
         style={{
-          padding: "10px 20px 10px 40px",
+          padding: `10px 20px 10px ${leftPadding || "40px"}`,
           width: "100%",
           backgroundColor: companyInfo && companyInfo[1] ? `${companyInfo[1]}0f` : "#ffffff",
           display: "flex",
