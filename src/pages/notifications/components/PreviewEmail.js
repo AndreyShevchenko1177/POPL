@@ -2,7 +2,9 @@ import React from "react";
 import { Paper, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 
-function PreviewEmail({ message, title, userName }) {
+function PreviewEmail({
+  message, title, userName, children,
+}) {
   const classes = useStyles();
 
   return (
@@ -17,7 +19,9 @@ function PreviewEmail({ message, title, userName }) {
           <div className={classes.emailText}>{`${userName} via Popl Enterprise`}</div>
         </div>
         <div className={classes.emailMessage}>
-          {message}
+          <span className={classes.emailPreviewMessage}>{message}</span>
+          <br/><br/>
+          {children}
           <br/><br/>
           <span className={classes.emailPreviewFooter}>Sent via Popl Enterprise</span>
         </div>

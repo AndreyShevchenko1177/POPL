@@ -216,4 +216,7 @@ export default makeStyles((theme) => ({
     fontSize: 16,
     color: "grey",
   },
+  emailPreviewMessage: {
+    fontSize: 16,
+  },
 }));
