@@ -127,7 +127,7 @@ const UploadFile = ({
   }, [validation]);
 
   return (
-    <div className={classes.container}>
+    <div style={{ ...styles?.container }} className={classes.container}>
       <div
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}

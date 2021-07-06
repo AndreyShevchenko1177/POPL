@@ -131,7 +131,6 @@ export const addLinkAction = (value, title, profileData, iconId, icon, file) => 
     }
 
     if (resultUploadFile) { // if filename returned from firebase taking from there name without other url params
-      console.log(resultUploadFile);
       let url = resultUploadFile.split("?")[0];
       fileName = url.split("/")[url.split("/").length - 1];
     }
@@ -239,7 +238,7 @@ export const setProfileStatusAction = (profileIds, state, isSingle) => async (di
   }
 };
 
-export const editLinkAction = (success, linksArray, file) => async (dispatch, getState) => {
+export const editLinkAction = (success, linksArray, file, linkFile) => async (dispatch, getState) => {
   try {
     const userId = getState().authReducer.signIn.data.id;
     dispatch(isFetchingAction(true, "editLink"));
@@ -252,19 +251,32 @@ export const editLinkAction = (success, linksArray, file) => async (dispatch, ge
         open: true,
       }));
     }
-    let resultUploadFile; // in this variable will returning firebase file name
-    // if file - uploading file
+    let uploadedIcon; // in this variable will returning firebase icon name
+    let uploadedFile;
+
+    // for uploaded file in link type file
+    if (linkFile) {
+      uploadedFile = await uploadImage(new File([linkFile], `${userId}-file-${getId(12)}.${linkFile.name.split(".")[linkFile.name.split(".").length - 1]}`, { type: linkFile.type }));
+    }
+
+    // if icon - uploading file
     if (file && typeof icon !== "string") {
-      resultUploadFile = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_icon-${getId(12)}`, { type: file.type }));
+      uploadedIcon = await uploadImage(new File([file], `${file.name.split(".")[file.name.split(".").length - 1]}_icon-${getId(12)}`, { type: file.type }));
     }
 
     let fileName;
-    if (resultUploadFile) { // if filename returned from firebase taking form there name without other url params
-      let url = resultUploadFile.split("?")[0];
+    let linkFileName;
+    if (uploadedIcon) { // if filename returned from firebase taking form there name without other url params
+      let url = uploadedIcon.split("?")[0];
       fileName = url.split("/")[url.split("/").length - 1];
     }
 
-    const result = await Promise.allSettled(linksArray.map((item) => requests.editLinkRequest(item, fileName || "")));
+    if (uploadedFile) { // if linkFileName returned from firebase taking form there name without other url params
+      let url = uploadedFile.split("?")[0];
+      linkFileName = url.split("/")[url.split("/").length - 1];
+    }
+
+    const result = await Promise.allSettled(linksArray.map((item) => requests.editLinkRequest({ ...item, linkValue: linkFileName || item.linkValue }, fileName || "")));
 
     const successLinksIds = result
       .filter((el) => el.status === "fulfilled" && (typeof el.value.data === "object" || !!el.value.data?.success)) // filtering by success request

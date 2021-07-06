@@ -25,19 +25,19 @@ function EditLinkModal({
     }
   };
 
-  const editLink = (hash, value, title, file) => {
+  const editLink = (hash, value, title, file, uploadedFile) => {
     const [pId, type] = Object.entries(profileType)[0];
     const links = [{
       profileId: pId, linkType: type, linkHash: hash, linkValue: value, linkTitle: title, linkId: data.id,
     }];
-    dispatch(editLinkAction(successCb, links, file));
+    dispatch(editLinkAction(successCb, links, file, uploadedFile));
   };
 
-  const editAllLinks = (hash, id, title, value, editValue, editTitle, file) => {
+  const editAllLinks = (hash, id, title, value, editValue, editTitle, file, uploadedFile) => {
     const needToEdit = allLinks.filter((link) => link.id === id && link.title === title && link.value === value);
     dispatch(editLinkAction(successCb, needToEdit.map((el) => ({
       ...el, linkHash: el.hash, linkTitle: editTitle, linkValue: editValue,
-    })), file));
+    })), file, uploadedFile));
   };
 
   const deleteLink = (hash) => {
