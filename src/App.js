@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   useLocation,
+  withRouter,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "./pages/auth/Auth";
@@ -36,7 +37,7 @@ import MyTemplates from "./pages/myTemplates";
 import ExportToCrm from "./pages/exportToCrm";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
-import { getProfileInfoRequest } from "./store/actions";
+import { getProfileInfoRequest, isShowParagonAction } from "./store/actions";
 import { getDashboardPlanAction } from "./pages/auth/store/actions";
 
 setAxios();
@@ -46,6 +47,8 @@ function App(props) {
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
   const location = useLocation();
   const dispatch = useDispatch();
+
+  console.log(window.location);
 
   useEffect(() => {
     if (location.pathname.split("/")[1] !== "billing") {
@@ -59,6 +62,15 @@ function App(props) {
   useEffect(() => {
     if (dashboardPlan !== null && profileData.id) dispatch(getProfileInfoRequest(profileData.id));
   }, [dashboardPlan]);
+
+  useEffect(() => {
+    console.log(props.location.pathname);
+    if (window.location.pathname === "/connections/crm-salesforce") {
+      dispatch(isShowParagonAction(true));
+    } else {
+      dispatch(isShowParagonAction(false));
+    }
+  }, [window.location.pathname]);
 
   return (
     <Router>
@@ -183,4 +195,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default withRouter(App);

@@ -15,6 +15,7 @@ import {
   POPLS_INFO_SIDEBAR,
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
+  IS_SHOW_PARAGON,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../pages/profiles/store/actions/requests";
 import { getPoplsAction } from "../../pages/popls/store/actions";
@@ -244,4 +245,9 @@ export const fetchingAction = (isFetching, name) => ({
 export const handleMainPageScrollAction = (isScroll) => (dispatch) => dispatch({
   type: HANDLE_MAIN_PAGE_SCROLL,
   payload: isScroll,
+});
+
+export const isShowParagonAction = (isShow) => ({
+  type: IS_SHOW_PARAGON,
+  payload: isShow,
 });

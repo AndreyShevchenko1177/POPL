@@ -13,6 +13,7 @@ import {
   POPLS_INFO_SIDEBAR,
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
+  IS_SHOW_PARAGON,
 } from "../actionTypes";
 
 const initialState = {
@@ -67,6 +68,7 @@ const initialState = {
   isRestrictedMode: false,
   isFetching: false,
   isMainPageScroll: true,
+  isShowParagon: true,
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -205,6 +207,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isMainPageScroll: payload,
+    };
+  }
+  case IS_SHOW_PARAGON: {
+    return {
+      ...state,
+      isShowParagon: payload,
     };
   }
   default:
