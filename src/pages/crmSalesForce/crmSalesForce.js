@@ -14,60 +14,34 @@ function CrmSalesForce() {
   const { isShowParagon } = useSelector(({ systemReducer }) => systemReducer);
 
   useEffect(() => {
-    isMounted = true;
-
     async function initParagon() {
       // await firebase.auth().signInAnonymously()
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           // console.log(user);
           const token = await user.getIdToken(); // .then((token) => {
-          console.log(isShowParagon);
-          if (!isMounted) return;
           await window.paragon.authenticate(
             "d04cc8f3-7368-4dc3-8d12-d96e538dd6b3",
             token,
           );
+          if (!isMounted) {
+            isMounted = true;
+          } else {
+            let response = window.paragon.getUser();
 
-          console.log("isMounted", isShowParagon);
-          let response = window.paragon.getUser();
-
-          if (response.integrations.salesforce.enabled) {
+            if (response.integrations.salesforce.enabled) {
             // alert('already auth');
             // document.getElementById("SFloader").style.display = "none";
             // document.getElementById("SFcheck").style.display = "block";
             // document.getElementById("SFtext").style.display = "block";
-          } else {
-            setIsLaunching(false);
-            window.paragon.connect("salesforce");
+            } else {
+              setIsLaunching(false);
+              window.paragon.connect("salesforce");
             // document.getElementById("SFloader").style.display = "none";
             // document.getElementById("SFcheck").style.display = "block";
             // document.getElementById("SFtext").style.display = "block";
+            }
           }
-          // .then((value) => {
-          //   let response = window.paragon.getUser();
-          //   console.log("isMounted", isMounted);
-          //   if (!isMounted) return;
-          //   if (response.integrations.salesforce.enabled) {
-          //     // alert('already auth');
-          //     // document.getElementById("SFloader").style.display = "none";
-          //     // document.getElementById("SFcheck").style.display = "block";
-          //     // document.getElementById("SFtext").style.display = "block";
-          //   } else {
-          //     setIsLaunching(false);
-          //     window.paragon.connect("salesforce");
-          //     // document.getElementById("SFloader").style.display = "none";
-          //     // document.getElementById("SFcheck").style.display = "block";
-          //     // document.getElementById("SFtext").style.display = "block";
-          //   }
-          //   // }, 2000);
-          // }).catch((error) => {
-          //   console.log(error);
-          //   setIsLaunching(false);
-          //   // document.getElementById("SFloader").style.display = "none";
-          //   // document.getElementById("SFtextLoad").style.display = "block";
-          // });
-          // });
         } else {
           console.log("user is signed out");
           setIsLaunching(false);
@@ -83,6 +57,8 @@ function CrmSalesForce() {
       initParagon();
     }
   }, []);
+
+  useEffect(() => () => isMounted = false, []);
 
   return <div>
     <Header

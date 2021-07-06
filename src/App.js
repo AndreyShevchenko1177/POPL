@@ -48,8 +48,6 @@ function App(props) {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  console.log(window.location);
-
   useEffect(() => {
     if (location.pathname.split("/")[1] !== "billing") {
       deleteCookies("sessionId");
@@ -64,135 +62,135 @@ function App(props) {
   }, [dashboardPlan]);
 
   useEffect(() => {
-    console.log(props.location.pathname);
+    // console.log(location.pathname);
     if (window.location.pathname === "/connections/crm-salesforce") {
       dispatch(isShowParagonAction(true));
     } else {
       dispatch(isShowParagonAction(false));
     }
-  }, [window.location.pathname]);
+  }, [location.pathname]);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/sign-up" exact>
-          <Auth>
-            <SignUp />
-          </Auth>
-        </Route>
-        <Route path="/sign-in" exact>
-          <Auth>
-            <Login />
-          </Auth>
-        </Route>
-        <Route path="/forgot-password" exact>
-          <Auth>
-            <ForgotPassword />
-          </Auth>
-        </Route>
-        <PrivateRoute path="/accounts" exact isLoggedIn={profileData?.id}>
-          <Profiles />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/accounts/new-account/email-invite"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <CreateAccountByEmailInvite/>
-        </PrivateRoute>
-        <PrivateRoute
-          path="/accounts/new-account/log-in"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <LoginExistingProfile />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/accounts/add-account/new"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <AddNewProfile />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/accounts/add-account"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <AddProfile />
-        </PrivateRoute>
-        <PrivateRoute path="/popls" exact isLoggedIn={profileData?.id}>
-          <PoplsItem />
-        </PrivateRoute>
-        <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>
-          <Connections />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/connections/crm-salesforce"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <CrmSalesForce />
-        </PrivateRoute>
-        <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
-          <Campaigns />
-        </PrivateRoute>
-        <PrivateRoute path="/notifications" exact isLoggedIn={profileData?.id}>
-          <Notifications />
-        </PrivateRoute>
-        <PrivateRoute path="/email-notifications" exact isLoggedIn={profileData?.id}>
-          <EmailNotifcations />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/campaings/pop-branding"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <PopBranding />
-        </PrivateRoute>
-        <PrivateRoute path="/clip-app" exact isLoggedIn={profileData?.id}>
-          <ClipApp />
-        </PrivateRoute>
-        <PrivateRoute
-          path="/analytics"
-          exact
-          isLoggedIn={profileData?.id}
-        >
-          <OverallAnalytics />
-        </PrivateRoute>
-        <PrivateRoute path="/settings" exact isLoggedIn={profileData?.id}>
-          <Settings />
-        </PrivateRoute>
-        <PrivateRoute path="/templates" exact isLoggedIn={profileData?.id}>
-          <Templates />
-        </PrivateRoute>
-        <PrivateRoute path="/templates/add-template" exact isLoggedIn={profileData?.id}>
-          <AddTemplate />
-        </PrivateRoute>
-        <PrivateRoute path="/templates/my-templates" exact isLoggedIn={profileData?.id}>
-          <MyTemplates />
-        </PrivateRoute>
-        <PrivateRoute path="/settings/general-settings" exact isLoggedIn={profileData?.id}>
-          <GeneralSettings />
-        </PrivateRoute>
-        <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
-          <Billing />
-        </PrivateRoute>
-        <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
-          <SuccessPage />
-        </PrivateRoute>
-        <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
-          <Dashboard />
-        </PrivateRoute>
-        <PrivateRoute path="/connections/export-to-crm" exact isLoggedIn={profileData?.id}>
-          <ExportToCrm />
-        </PrivateRoute>
-        <Route path="*">
-          <div>Not found</div>
-        </Route>
-      </Switch>
-    </Router>
+    // <Router>
+    <Switch>
+      <Route path="/sign-up" exact>
+        <Auth>
+          <SignUp />
+        </Auth>
+      </Route>
+      <Route path="/sign-in" exact>
+        <Auth>
+          <Login />
+        </Auth>
+      </Route>
+      <Route path="/forgot-password" exact>
+        <Auth>
+          <ForgotPassword />
+        </Auth>
+      </Route>
+      <PrivateRoute path="/accounts" exact isLoggedIn={profileData?.id}>
+        <Profiles />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/accounts/new-account/email-invite"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <CreateAccountByEmailInvite/>
+      </PrivateRoute>
+      <PrivateRoute
+        path="/accounts/new-account/log-in"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <LoginExistingProfile />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/accounts/add-account/new"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <AddNewProfile />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/accounts/add-account"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <AddProfile />
+      </PrivateRoute>
+      <PrivateRoute path="/popls" exact isLoggedIn={profileData?.id}>
+        <PoplsItem />
+      </PrivateRoute>
+      <PrivateRoute path="/connections" exact isLoggedIn={profileData?.id}>
+        <Connections />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/connections/crm-salesforce"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <CrmSalesForce />
+      </PrivateRoute>
+      <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
+        <Campaigns />
+      </PrivateRoute>
+      <PrivateRoute path="/notifications" exact isLoggedIn={profileData?.id}>
+        <Notifications />
+      </PrivateRoute>
+      <PrivateRoute path="/email-notifications" exact isLoggedIn={profileData?.id}>
+        <EmailNotifcations />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/campaings/pop-branding"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <PopBranding />
+      </PrivateRoute>
+      <PrivateRoute path="/clip-app" exact isLoggedIn={profileData?.id}>
+        <ClipApp />
+      </PrivateRoute>
+      <PrivateRoute
+        path="/analytics"
+        exact
+        isLoggedIn={profileData?.id}
+      >
+        <OverallAnalytics />
+      </PrivateRoute>
+      <PrivateRoute path="/settings" exact isLoggedIn={profileData?.id}>
+        <Settings />
+      </PrivateRoute>
+      <PrivateRoute path="/templates" exact isLoggedIn={profileData?.id}>
+        <Templates />
+      </PrivateRoute>
+      <PrivateRoute path="/templates/add-template" exact isLoggedIn={profileData?.id}>
+        <AddTemplate />
+      </PrivateRoute>
+      <PrivateRoute path="/templates/my-templates" exact isLoggedIn={profileData?.id}>
+        <MyTemplates />
+      </PrivateRoute>
+      <PrivateRoute path="/settings/general-settings" exact isLoggedIn={profileData?.id}>
+        <GeneralSettings />
+      </PrivateRoute>
+      <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
+        <Billing />
+      </PrivateRoute>
+      <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>
+        <SuccessPage />
+      </PrivateRoute>
+      <PrivateRoute path="/" exact isLoggedIn={profileData?.id}>
+        <Dashboard />
+      </PrivateRoute>
+      <PrivateRoute path="/connections/export-to-crm" exact isLoggedIn={profileData?.id}>
+        <ExportToCrm />
+      </PrivateRoute>
+      <Route path="*">
+        <div>Not found</div>
+      </Route>
+    </Switch>
+    // </Router>
   );
 }
 
-export default withRouter(App);
+export default App;
