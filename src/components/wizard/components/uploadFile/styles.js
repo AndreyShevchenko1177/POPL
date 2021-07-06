@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   container: {
-    width: "100%",
+    width: "240%",
     padding: "10px 15px",
     display: "flex",
     justifyContent: "center",

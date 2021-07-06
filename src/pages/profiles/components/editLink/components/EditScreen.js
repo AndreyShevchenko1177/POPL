@@ -180,6 +180,7 @@ function EditScreen({
                 dashedContainer: { height: 60 },
                 image: { width: 30, height: 30 },
                 chipButton: { top: "-16px", right: "10px" },
+                container: { width: "100%" },
               }}
               files={uploadedFiles}
               setFiles={setUploadedFiles}
@@ -214,7 +215,17 @@ function EditScreen({
             disabled={isEditLinksFetching || isDeleteLinksFetching}
             style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             className={classes.editLink}
-            onClick={() => profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file)}
+            onClick={() => {
+              if (!Object.values(uploadedFiles).length) {
+                return dispatch(snackBarAction({
+                  message: "File is required",
+                  severity: "error",
+                  duration: 12000,
+                  open: true,
+                }));
+              }
+              profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0].file);
+            }}
           >
             {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
               containerStyles={{
@@ -236,7 +247,17 @@ function EditScreen({
             disabled={isEditLinksFetching || isDeleteLinksFetching}
             className={classes.editLink}
             style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
-            onClick={() => allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file)}
+            onClick={() => {
+              if (!Object.values(uploadedFiles).length) {
+                return dispatch(snackBarAction({
+                  message: "File is required",
+                  severity: "error",
+                  duration: 12000,
+                  open: true,
+                }));
+              }
+              allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0].file);
+            }}
           >
             {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
               containerStyles={{
