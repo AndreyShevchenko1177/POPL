@@ -24,14 +24,16 @@ const UploadFile = ({
   const [dragHover, setDragHower] = useState(false);
 
   const readImage = (file, index) => {
-    // Check if the file is an image.
-    if (file.type && file.type.indexOf("image") === -1) return setFiles((prev) => ({ [getId(12)]: { file, src: fileIcon } }));
-
-    const reader = new FileReader();
-    reader.addEventListener("load", (event) => {
-      setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
-    });
-    reader.readAsDataURL(file);
+    // Check if the file is an image. if not - setting default icon for file
+    if (file.type && file.type.indexOf("image") !== -1) {
+      const reader = new FileReader();
+      reader.addEventListener("load", (event) => {
+        setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+      });
+      reader.readAsDataURL(file);
+    } else {
+      setFiles((prev) => ({ [getId(12)]: { file, src: fileIcon } }));
+    }
   };
 
   const handleFilesObject = (files) => {
@@ -91,6 +93,8 @@ const UploadFile = ({
     handleFilesObject(file);
     event.target.value = "";
   };
+
+  console.log(files);
 
   useEffect(() => {
     if (validation.fileType) {

@@ -37,7 +37,7 @@ import MyTemplates from "./pages/myTemplates";
 import ExportToCrm from "./pages/exportToCrm";
 import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
-import { getProfileInfoRequest, isShowParagonAction } from "./store/actions";
+import { getProfileInfoRequest } from "./store/actions";
 import { getDashboardPlanAction } from "./pages/auth/store/actions";
 
 setAxios();
@@ -60,15 +60,6 @@ function App(props) {
   useEffect(() => {
     if (dashboardPlan !== null && profileData.id) dispatch(getProfileInfoRequest(profileData.id));
   }, [dashboardPlan]);
-
-  useEffect(() => {
-    // console.log(location.pathname);
-    if (window.location.pathname === "/connections/crm-salesforce") {
-      dispatch(isShowParagonAction(true));
-    } else {
-      dispatch(isShowParagonAction(false));
-    }
-  }, [location.pathname]);
 
   return (
     // <Router>

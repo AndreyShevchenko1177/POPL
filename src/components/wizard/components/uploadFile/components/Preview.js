@@ -10,9 +10,9 @@ function Preview({
 
   return (
     <div className={classes.imageContainer}>
-      <img style={{ ...styles.image }} alt='logo' className={classes.image} src={file.src} />
+      <img style={{ ...styles?.image }} alt='logo' className={classes.image} src={file.src} />
       <Chip
-        style={{ ...styles.chipButton }}
+        style={{ ...styles?.chipButton }}
         className={classes.chipButton}
         deleteicon={<RemoveIcon />}
         size='medium'

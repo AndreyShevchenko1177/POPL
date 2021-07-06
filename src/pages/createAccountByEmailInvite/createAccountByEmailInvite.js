@@ -58,7 +58,7 @@ function CreateAccountByEmailIvite() {
         return setEmail([]);
       }
       dispatch(removeFileAction(Object.keys(filesList)[0]));
-      return setEmail([]);
+      // return setEmail([]);
     }));
   };
 
@@ -107,7 +107,7 @@ function CreateAccountByEmailIvite() {
       setEmail([]);
       dispatch(clearAction("inviteByEmail"));
       dispatch(snackBarAction({
-        message: "Email sent successfully",
+        message: `${email.length || 1} ${email.length > 1 ? "emails" : "email"} sent successfully`,
         severity: "success",
         duration: 6000,
         open: true,
