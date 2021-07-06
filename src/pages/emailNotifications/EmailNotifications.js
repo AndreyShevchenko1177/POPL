@@ -80,7 +80,7 @@ function EmailNotifications() {
 
   const removeResepient = useCallback((event) => {
     setValues({ ...values, recipients: values.recipients.filter(({ customId }) => customId != event.currentTarget.dataset.customid) });
-  }, []);
+  }, [values.recipients]);
 
   const closeModal = () => {
     setValues(defaultValues);
@@ -119,7 +119,7 @@ function EmailNotifications() {
 
   useEffect(() => {
     if (messageAreaRef.current) {
-      messageAreaRef.current.children[0].children[0].style = `padding-right: ${isScrollBarVisible ? "50px" : "0px"}`;
+      messageAreaRef.current.children[0].style = `padding-bottom: ${isScrollBarVisible ? "35px" : "0px"}`;
     }
   }, [isScrollBarVisible]);
 
@@ -134,7 +134,7 @@ function EmailNotifications() {
         <div className={classes.rootFieldsWrapper}>
           <div className={classes.rootFields}>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Subject</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Subject *</Typography>
               <TextField
                 placeholder={"Subject"}
                 name="title"
@@ -146,7 +146,7 @@ function EmailNotifications() {
               />
             </div>
             <div className={classes.fieldWrapper}>
-              <div className={clsx(classes.attachment, { [classes.attachmentWithoutScrollBar]: !isScrollBarVisible })}>
+              <div className={clsx(classes.attachment)}>
                 <input
                   ref={fileRef}
                   type='file'
@@ -168,7 +168,7 @@ function EmailNotifications() {
                 </SvgIcon>
               </div>
 
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Message</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Message *</Typography>
               <TextField
                 placeholder='Message'
                 name="message"
@@ -184,7 +184,7 @@ function EmailNotifications() {
             </div>
             <div className={classes.fieldWrapper}>
 
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{emails.length > 1 ? "Recepients" : "Recepient"}</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{emails.length > 1 ? "Recepients" : "Recepient"}{values.recipients.length ? `(${values.recipients.length})` : ""}</Typography>
               {/* <div className={classes.emailListRoot}> */}
 
               <div className={classes.emailListContainer}>

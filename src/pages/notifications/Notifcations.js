@@ -70,7 +70,7 @@ function Notifications() {
               </div>
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Title " : "Subject "}</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Title " : "Subject *"}</Typography>
               <TextField
                 placeholder={values.sendAs === 1 ? "Title" : "Subject"}
                 name="title"
@@ -82,7 +82,7 @@ function Notifications() {
               />
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Message</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Message " : "Message *"}</Typography>
               <TextField
                 placeholder='Message'
                 name="message"

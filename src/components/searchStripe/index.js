@@ -168,6 +168,7 @@ function SearchStripe({
             variant="contained"
             color="primary"
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
+            style={{ whiteSpace: "nowrap" }}
             onClick={sendEmailTo}
             disabled={!numberActivecheckboxes}
           >

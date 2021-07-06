@@ -37,7 +37,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     position: "absolute",
     bottom: 20,
-    right: 40,
+    left: 7,
     "& *": {
       cursor: "pointer",
     },
