@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
     margin: "0 auto",
   },
   rootFieldsWrapper: {
-    width: "50%",
+    // width: "50%",
     display: "flex",
     justifyContent: "center",
     padding: "0 20px 0 0",
@@ -25,27 +25,107 @@ export default makeStyles((theme) => ({
   },
   fieldWrapper: {
     display: "flex",
+    position: "relative",
     flexDirection: "column",
     width: "100%",
     paddingBottom: 10,
+    // "& textarea": {
+    //   paddingRight: 50,
+    // },
+  },
+  attachment: {
+    display: "flex",
+    position: "absolute",
+    bottom: 20,
+    right: 40,
+    "& *": {
+      cursor: "pointer",
+    },
+    "& input": {
+      display: "none",
+    },
+    zIndex: 3,
+  },
+  attachmentWithoutScrollBar: {
+    right: 15,
+  },
+  borderWrapper: {
+    position: "absolute",
+    width: 480,
+    top: 30,
+    height: 200,
+    border: "1px solid #b3b3b3",
+    borderRadius: 4,
+    zIndex: 1,
+  },
+  fullBorderWidth: {
+    width: 500,
+  },
+  emailListRoot: {
+    height: 200,
+    overflow: "auto",
   },
   emailListContainer: {
+    padding: 10,
     height: 200,
-    marginBottom: 10,
     overflow: "auto",
+    zIndex: 2,
   },
   emailRow: {
     padding: "6px 0px",
     display: "flex",
+    position: "relative",
     "& p:first-child": {
-      width: 190,
+      width: "35%",
+      paddingRight: 5,
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
     },
     "& p:nth-child(2)": {
-      paddingRight: 5,
+      width: "55%",
+      //   paddingRight: 5,
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
     },
     "& h5:first-child": {
       width: 190,
     },
+  },
+  deleteIcon: {
+    position: "absolute",
+    right: 0,
+    cursor: "pointer",
+    "& svg": {
+      fill: "#808080",
+      width: 22,
+      height: 22,
+    },
+  },
+  deleteFile: {
+    position: "absolute",
+    right: 0,
+    top: -17,
+    cursor: "pointer",
+    "& svg": {
+      fill: "#808080",
+      width: 22,
+      height: 22,
+    },
+  },
+  filePreview: {
+    display: "flex",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    "& > div": {
+      padding: "0px 10px 5px 0px",
+      "& img": {
+        width: 45,
+        height: 45,
+      },
+    },
+
   },
   emailHeader: {
     padding: 0,

@@ -139,8 +139,8 @@ function Connections() {
   const sendEmailTo = () => {
     const connections = Object.keys(checkboxes).reduce((acc, cur) => {
       if (checkboxes[cur]) {
-        const activeConnection = dragableConnections.find(({ customId }) => customId == cur);
-        if (activeConnection.email) {
+        const activeConnection = allConnections.find(({ customId }) => customId == cur);
+        if (activeConnection?.email) {
           return [...acc, activeConnection];
         }
         return acc;
@@ -149,6 +149,17 @@ function Connections() {
     }, []);
     history.push("email-notifications", connections);
   };
+
+  useEffect(() => {
+    const checkboxArray = Object.values(checkboxes);
+    if (checkboxArray.every((el) => !el)) {
+      setSelectAllCheckbox(false);
+    } else if (checkboxArray.every((el) => el)) {
+      setSelectAllCheckbox(true);
+    } else if (checkboxArray.some((el) => !el)) {
+      setSelectAllCheckbox(false);
+    }
+  }, [checkboxes]);
 
   useEffect(() => {
     if (location.state?.id) {
@@ -186,7 +197,7 @@ function Connections() {
       // setting initial checkboxes state for rendered connections
       setCheckBoxes(() => {
         const result = {};
-        filteredConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+        allConnections.forEach((con) => result[con.customId] = false); // initial checkbox state = false
         return result;
       });
       setSortConnections(filteredConnections);
@@ -195,7 +206,7 @@ function Connections() {
     // setting initial checkboxes state for rendered connections for non individual profile level
     setCheckBoxes(() => {
       const result = {};
-      allConnections.slice(0, 19).forEach((con) => result[con.customId] = false); // initial checkbox state = false
+      allConnections.forEach((con) => result[con.customId] = false); // initial checkbox state = false
       return result;
     });
     setConnections(allConnections.slice(0, 19));
@@ -205,11 +216,11 @@ function Connections() {
   useEffect(() => {
     if (!needHeight.offset) return;
     // initializing new checkboxes state by scrolling
-    setCheckBoxes((prev) => {
-      const result = {};
-      sortConnections.slice(needHeight.offset, (needHeight.offset + 19)).forEach((con) => result[con.customId] = false); // initial checkbox state = false
-      return { ...prev, ...result };
-    });
+    // setCheckBoxes((prev) => {
+    //   const result = {};
+    //   allConnections.forEach((con) => result[con.customId] = false); // initial checkbox state = false
+    //   return { ...prev, ...result };
+    // });
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
