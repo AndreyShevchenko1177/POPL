@@ -16,10 +16,10 @@ import Strategy from "./Strategy";
 import getDayTime from "./getDayTime";
 import { normalizeDate } from "../../../../utils";
 import {
-  sendNotificationAction, sendShedulerNotificationAction, sendEmailAction, sendShedulerEmailAction,
+  sendNotificationAction, sendShedulerNotificationAction, sendEmailAction, sendShedulerEmailAction, addAttachementAction, addAttachementShedulerAction,
 } from "../../store/actions";
 
-function NotificationModal({ closeModal, data, clearFields }) {
+function NotificationModal({ closeModal, data, file }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
@@ -28,14 +28,13 @@ function NotificationModal({ closeModal, data, clearFields }) {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const handleChange = (event) => {
-    setTime(event.target.value);
-  };
-
   const sendNotification = () => {
     if (data.sendAs === 2) {
       data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
       setIsButtonDisabled(true);
+      if (file) {
+        return dispatch(addAttachementAction(file, { ...data, users: data.recipients }, closeModal));
+      }
       return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
     }
     setIsButtonDisabled(true);
@@ -47,6 +46,9 @@ function NotificationModal({ closeModal, data, clearFields }) {
       data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
       closeModal();
       setIsButtonDisabled(true);
+      if (file) {
+        return dispatch(addAttachementShedulerAction(file, { ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
+      }
       return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
     }
     setIsButtonDisabled(true);
@@ -107,7 +109,7 @@ function NotificationModal({ closeModal, data, clearFields }) {
               className={classes.confirmBtn}
               variant='contained'
               color="primary"
-              onClick={closeModal}
+              onClick={() => closeModal("cancel")}
               disabled={isButtonDisabled}
             >
               Cancel

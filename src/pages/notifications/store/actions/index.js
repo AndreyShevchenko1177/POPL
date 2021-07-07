@@ -1,6 +1,8 @@
 import { SEND_NOTIFICATION } from "../actionsType";
 import * as requests from "./requests";
 import { snackBarAction } from "../../../../store/actions";
+import { uploadImage } from "../../../../config/firebase.query";
+import { getId } from "../../../../utils";
 
 export const sendNotificationAction = ({ users, ...data }, success) => async (dispatch) => {
   try {
@@ -34,11 +36,11 @@ export const sendShedulerNotificationAction = ({ users, ...data }, success) => a
   }
 };
 
-export const sendEmailAction = ({ users, ...data }, success) => async (dispatch, getState) => {
+export const sendEmailAction = ({ users, ...data }, success, fileUrl, fileType) => async (dispatch, getState) => {
   try {
     const user = getState().profilesReducer.dataProfiles.data[0];
     const result = await Promise.all(users.map((el) => requests.sendEmailRequest({
-      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message,
+      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, fileUrl, fileType,
     })));
     console.log(result);
     success();
@@ -53,11 +55,11 @@ export const sendEmailAction = ({ users, ...data }, success) => async (dispatch,
   }
 };
 
-export const sendShedulerEmailAction = ({ users, ...data }, success) => async (dispatch, getState) => {
+export const sendShedulerEmailAction = ({ users, ...data }, success, fileUrl, fileType) => async (dispatch, getState) => {
   try {
     const user = getState().profilesReducer.dataProfiles.data[0];
     const result = await Promise.all(users.map((el) => requests.sendShedulerEmailRequest({
-      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, time: data.time,
+      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, time: data.time, fileUrl, fileType,
     })));
     console.log(result);
     success();
@@ -70,4 +72,16 @@ export const sendShedulerEmailAction = ({ users, ...data }, success) => async (d
   } catch (error) {
     console.log(error);
   }
+};
+
+export const addAttachementAction = (file, { users, ...data }, success) => async (dispatch, getState) => {
+  const userId = getState().authReducer.signIn.data.id;
+  const fileUrl = await uploadImage(new File([file], `${userId}-file-${getId(12)}.${file.name.split(".")[file.name.split(".").length - 1]}`, { type: file.type }), "photos");
+  dispatch(sendEmailAction({ users, ...data }, success, fileUrl, file.type));
+};
+
+export const addAttachementShedulerAction = (file, { users, ...data }, success) => async (dispatch, getState) => {
+  const userId = getState().authReducer.signIn.data.id;
+  const fileUrl = await uploadImage(new File([file], `${userId}-file-${getId(12)}.${file.name.split(".")[file.name.split(".").length - 1]}`, { type: file.type }), "photos");
+  dispatch(sendShedulerEmailAction({ users, ...data }, success, fileUrl, file.type));
 };
