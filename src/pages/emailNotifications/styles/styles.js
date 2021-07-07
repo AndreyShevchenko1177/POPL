@@ -123,6 +123,7 @@ export default makeStyles((theme) => ({
       "& img": {
         width: 45,
         height: 45,
+        objectFit: "cover",
       },
     },
 

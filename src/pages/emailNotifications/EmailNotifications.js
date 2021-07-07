@@ -65,25 +65,28 @@ function EmailNotifications() {
   const [isShowModal, setIsShowModal] = useState(false);
   const userData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
-  const [isScrollBarVisible, setIsScrollBarVisible] = useState(false);
+  // const [isScrollBarVisible, setIsScrollBarVisible] = useState(false);
 
   const scrollbarVisible = (element) => element.scrollHeight > element.clientHeight;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
-    if (scrollbarVisible(event.target)) {
-      return setIsScrollBarVisible(true);
-    }
-    setIsScrollBarVisible(false);
+    // if (scrollbarVisible(event.target)) {
+    //   return setIsScrollBarVisible(true);
+    // }
+    // setIsScrollBarVisible(false);
   };
 
   const removeResepient = useCallback((event) => {
     setValues({ ...values, recipients: values.recipients.filter(({ customId }) => customId != event.currentTarget.dataset.customid) });
   }, [values.recipients]);
 
-  const closeModal = () => {
-    setValues(defaultValues);
+  const closeModal = (isCancel) => {
+    if (!isCancel) {
+      setValues(defaultValues);
+      setFiles({});
+    }
     setIsShowModal(false);
   };
 
@@ -99,7 +102,8 @@ function EmailNotifications() {
   const readImage = (file, index) => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
-      setFiles((prev) => ({ ...prev, [getId(12)]: { file, src: event.target.result } }));
+      // setFiles((prev) => ({ ...prev, [getId(12)]: { file, src: event.target.result } }));
+      setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
     });
     reader.readAsDataURL(file);
   };
@@ -119,9 +123,9 @@ function EmailNotifications() {
 
   useEffect(() => {
     if (messageAreaRef.current) {
-      messageAreaRef.current.children[0].style = `padding-bottom: ${isScrollBarVisible ? "35px" : "0px"}`;
+      messageAreaRef.current.children[0].style = "padding-bottom: 35px";
     }
-  }, [isScrollBarVisible]);
+  }, []);
 
   return (
     <>
@@ -150,13 +154,11 @@ function EmailNotifications() {
                 <input
                   ref={fileRef}
                   type='file'
-                  multiple
                   onChange={onFilesAdded}
                 />
                 <input
                   ref={imageRef}
                   type='file'
-                  multiple
                   accept="image/png, image/jpeg"
                   onChange={onFilesAdded}
                 />
@@ -210,7 +212,7 @@ function EmailNotifications() {
                   variant='contained'
                   color="primary"
                   onClick={() => setIsShowModal(true)}
-                  disabled={!values.recipients.length || (!values.message && !values.title)}
+                  disabled={!values.recipients.length || !values.message || !values.title}
                 >
                   Schedule/Send now
                 </Button>
@@ -224,7 +226,7 @@ function EmailNotifications() {
         {isShowModal && <>
           <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
           <div className={classes.wizardContainer} tabIndex={1}>
-            <NotificationModal closeModal={closeModal} data={values}/>
+            <NotificationModal closeModal={closeModal} data={values} file={Object.values(files)[0].file}/>
           </div>
         </>}
       </div>

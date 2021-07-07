@@ -27,6 +27,8 @@ export const sendEmailRequest = (data) => {
   bodyFormData.append("sFromName", `${data.fromName} via Popl Enterprise`);
   bodyFormData.append("sSubject", data.title);
   bodyFormData.append("sContent", data.message);
+  bodyFormData.append("sPath", data.fileUrl);
+  bodyFormData.append("sType", data.fileType);
   return axios.post("", bodyFormData);
 };
 
@@ -39,5 +41,7 @@ export const sendShedulerEmailRequest = (data) => {
   bodyFormData.append("sFromName", `${data.fromName} via Popl Enterprise`);
   bodyFormData.append("sSubject", data.title);
   bodyFormData.append("sContent", data.message);
+  bodyFormData.append("sPath", data.fileUrl);
+  bodyFormData.append("sType", data.fileType);
   return axios.post("", bodyFormData);
 };
