@@ -24,6 +24,7 @@ function PreviewEmail({
           {children}
           <br/><br/>
           <span className={classes.emailPreviewFooter}>Sent via Popl Enterprise</span>
+          <br/><br/>
         </div>
       </Paper>
     </div>

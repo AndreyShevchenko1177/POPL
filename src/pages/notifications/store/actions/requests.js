@@ -24,11 +24,12 @@ export const sendEmailRequest = (data) => {
   bodyFormData.append("sAction", "SendEmail");
   bodyFormData.append("sToEmail", data.email);
   bodyFormData.append("sToName", `${data.toName}`);
-  bodyFormData.append("sFromName", `${data.fromName} via Popl Enterprise`);
+  bodyFormData.append("sFromName", `${data.fromName} ${data.fileType ? "" : "via Popl Enterprise"}`); // for notification by connections
   bodyFormData.append("sSubject", data.title);
   bodyFormData.append("sContent", data.message);
   bodyFormData.append("sPath", data.fileUrl);
   bodyFormData.append("sType", data.fileType);
+  bodyFormData.append("sName", data.fileName);
   return axios.post("", bodyFormData);
 };
 
@@ -38,10 +39,11 @@ export const sendShedulerEmailRequest = (data) => {
   bodyFormData.append("sToEmail", data.email);
   bodyFormData.append("sTime", data.time);
   bodyFormData.append("sToName", `${data.toName}`);
-  bodyFormData.append("sFromName", `${data.fromName} via Popl Enterprise`);
+  bodyFormData.append("sFromName", `${data.fromName} ${data.fileType ? "" : "via Popl Enterprise"}`); // for notification by connections
   bodyFormData.append("sSubject", data.title);
   bodyFormData.append("sContent", data.message);
   bodyFormData.append("sPath", data.fileUrl);
   bodyFormData.append("sType", data.fileType);
+  bodyFormData.append("sName", data.fileName);
   return axios.post("", bodyFormData);
 };
