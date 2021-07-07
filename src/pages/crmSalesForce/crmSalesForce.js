@@ -44,6 +44,7 @@ function CrmSalesForce() {
   const [isLaunching, setIsLaunching] = useState(false);
 
   useEffect(() => {
+    isMounted = true;
     async function initParagon() {
       await firebase.auth().signInAnonymously();
       // const jwtToken = jwt.sign(
@@ -94,28 +95,25 @@ function CrmSalesForce() {
             "d04cc8f3-7368-4dc3-8d12-d96e538dd6b3",
             token,
           );
-          if (!isMounted) {
-            isMounted = true;
-          } else {
-            let response = window.paragon.getUser();
-            if (response.integrations.salesforce.enabled) {
-              dispatch(snackBarAction({
-                message: "Salesforce enabled",
-                severity: "success",
-                duration: 12000,
-                open: true,
-              }));
-              setIsLaunching(false);
+          let response = window.paragon.getUser();
+          console.log(response);
+          if (response.integrations.salesforce.enabled) {
+            dispatch(snackBarAction({
+              message: "Salesforce enabled",
+              severity: "success",
+              duration: 12000,
+              open: true,
+            }));
+            setIsLaunching(false);
             // alert('already auth');
-            // document.getElementById("SFloader").style.display = "none";
-            // document.getElementById("SFcheck").style.display = "block";
-            // document.getElementById("SFtext").style.display = "block";
+          } else {
+            setIsLaunching(false);
+            if (!isMounted) {
+              isMounted = true;
             } else {
-              setIsLaunching(false);
-              window.paragon.connect("salesforce");
-            // document.getElementById("SFloader").style.display = "none";
-            // document.getElementById("SFcheck").style.display = "block";
-            // document.getElementById("SFtext").style.display = "block";
+              window.paragon.connect("salesforce", {
+                onSuccess: () => console.log("success"),
+              });
             }
           }
         } else {
