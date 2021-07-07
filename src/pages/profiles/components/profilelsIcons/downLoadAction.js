@@ -12,7 +12,8 @@ export function downLoadFile(fileName) {
       const url = window.URL.createObjectURL(
         new Blob([blob.data]),
       );
-      const name = fileName.split(".")[1] ? fileName : `${fileName}.pdf`;
+      const originName = fileName.split("%5E")[1];
+      const name = fileName.split(".")[1] ? (originName || fileName) : `${fileName}.pdf`;
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute(

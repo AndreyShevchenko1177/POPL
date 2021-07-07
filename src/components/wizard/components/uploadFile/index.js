@@ -72,7 +72,6 @@ const UploadFile = ({
       setValidation((prev) => ({ ...prev, quantity: true }));
       return;
     }
-    console.log("file", file, event.target);
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
@@ -93,8 +92,6 @@ const UploadFile = ({
     handleFilesObject(file);
     event.target.value = "";
   };
-
-  console.log(files);
 
   useEffect(() => {
     if (validation.fileType) {

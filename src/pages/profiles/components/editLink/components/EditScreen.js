@@ -104,7 +104,8 @@ function EditScreen({
 
   useEffect(() => {
     setInputValue({ title: title || "", value: value || "" });
-    setUploadedFiles([{ file: { name: value || "" }, src: fileIcon }]);
+    const fileName = value?.split("%5E")[1];
+    setUploadedFiles([{ file: { name: fileName || value || "" }, src: fileIcon }]);
   }, []);
 
   useEffect(() => {
