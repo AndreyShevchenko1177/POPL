@@ -213,10 +213,10 @@ export default makeStyles((theme) => ({
     overflow: "hidden",
   },
   emailPreviewFooter: {
-    fontSize: 16,
+    fontSize: 14,
     color: "grey",
   },
   emailPreviewMessage: {
-    fontSize: 16,
+    fontSize: 14,
   },
 }));

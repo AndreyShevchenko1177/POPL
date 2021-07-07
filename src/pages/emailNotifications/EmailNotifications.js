@@ -220,7 +220,7 @@ function EmailNotifications() {
             </div>
           </div>
         </div>
-        <PreviewEmail message={values.message} title={values.title} userName={((companyInfo || "") && companyInfo[0]) || ((userData || "") && userData[0]?.name?.split(" ")[0])}>
+        <PreviewEmail message={values.message} title={values.title} fromText={((companyInfo || "") && companyInfo[0]) || "via Popl Enterprise"}>
           <FilePreview files={files} style={{ filePreviewContainer: classes.filePreview, iconStyle: classes.deleteFile }} onRemove={removeFile}/>
         </PreviewEmail>
         {isShowModal && <>
