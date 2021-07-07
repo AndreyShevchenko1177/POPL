@@ -55,7 +55,8 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
           setIsWorkerRunning(false);
         });
     }
-  }, [viewsBottom, profilesData, dateRange, companyInfo, checkboxes]);
+  }, [viewsBottom, profilesData, dateRange, companyInfo, checkboxes.profiles]);
+
   return (
     <>
       {data && !isWorkerRunning
@@ -65,7 +66,7 @@ function TopListViewedProfiles({ profilesData, dateRange }) {
             .map(({
               name, value, image, id,
             }, key) => (
-              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: location.state?.name === name })} key={key} ref={location.state?.name === name ? refProfiles : null}>
+              <div className={clsx(classes.tableRow, { [classes.activeTableRow]: Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).includes(String(id)) })} key={key} ref={Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).includes(Number(id)) ? refProfiles : null}>
                 <div className={classes.tableCellRank }>{key + 1}</div>
                 <div className={clsx(classes.tableCellName) }>
                   <div className={classes.topViewedViewsImageContainer}>

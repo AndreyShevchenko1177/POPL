@@ -141,11 +141,15 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, lineChart: false }));
       });
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({
+        profileData: !isSelected ? profilesData.map(({
           id, name, image, activeProfile, imageBusiness,
         }) => ({
           id, name, image, activeProfile, imageBusiness,
-        })),
+        })) : profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })).filter((el) => selectedProfiles.includes(Number(el.id))),
         popsData,
         minDate,
         maxDate,
@@ -224,11 +228,15 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-      profileData: profilesData.map(({
+      profileData: !isSelected ? profilesData.map(({
         id, name, image, activeProfile, imageBusiness,
       }) => ({
         id, name, image, activeProfile, imageBusiness,
-      })),
+      })) : profilesData.map(({
+        id, name, image, activeProfile, imageBusiness,
+      }) => ({
+        id, name, image, activeProfile, imageBusiness,
+      })).filter((el) => selectedProfiles.includes(Number(el.id))),
       popsData,
       minDate,
       maxDate,
@@ -281,11 +289,15 @@ function OverallAnalytics() {
     });
 
     workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-      profileData: profilesData.map(({
+      profileData: !isSelected ? profilesData.map(({
         id, name, image, activeProfile, imageBusiness,
       }) => ({
         id, name, image, activeProfile, imageBusiness,
-      })),
+      })) : profilesData.map(({
+        id, name, image, activeProfile, imageBusiness,
+      }) => ({
+        id, name, image, activeProfile, imageBusiness,
+      })).filter((el) => selectedProfiles.includes(Number(el.id))),
       popsData,
       minDate: dateFrom,
       maxDate: dateTo,
@@ -409,11 +421,15 @@ function OverallAnalytics() {
       });
 
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({
+        profileData: !isSelected ? profilesData.map(({
           id, name, image, activeProfile, imageBusiness,
         }) => ({
           id, name, image, activeProfile, imageBusiness,
-        })),
+        })) : profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })).filter((el) => selectedProfiles.includes(Number(el.id))),
         popsData,
         minDate: null,
         maxDate: null,
@@ -636,11 +652,15 @@ function OverallAnalytics() {
         setIsChartDataCalculating((prev) => ({ ...prev, dohnutPopsData: false }));
       });
       workerInstance.generateDohnutPopsByProfileData(JSON.stringify({
-        profileData: profilesData.map(({
+        profileData: !isSelected ? profilesData.map(({
           id, name, image, activeProfile, imageBusiness,
         }) => ({
           id, name, image, activeProfile, imageBusiness,
-        })),
+        })) : profilesData.map(({
+          id, name, image, activeProfile, imageBusiness,
+        }) => ({
+          id, name, image, activeProfile, imageBusiness,
+        })).filter((el) => selectedProfiles.includes(Number(el.id))),
         popsData,
         linkTaps,
         viewsKpis: viewsBottom,

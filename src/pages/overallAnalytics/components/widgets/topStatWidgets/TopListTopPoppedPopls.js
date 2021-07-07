@@ -23,8 +23,8 @@ function TopListPoppedPopls({ profilesData, dateRange }) {
 
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
   const mostActiveDevicesCache = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.mostActiveDevicesCache);
-  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
-  const isSelected = Object.values(checkboxes).includes(true);
+  const selectedProfiles = Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).map((el) => Number(el));
+  const isSelected = Object.values(checkboxes.profiles).includes(true);
 
   const getScrollValue = (v) => () => v; // with closure
 

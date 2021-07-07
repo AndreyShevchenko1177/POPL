@@ -195,7 +195,6 @@ export function topPoppedPopls(funcArguments) {
 // this function calling in OverallAnalytics file in useEffect with allPopsData and location and calculating pops data on popl level
 export function overallAnalyticsPopsPoplLevel(funcArguments) {
   const { allPopsData, location, selectedDevices } = JSON.parse(funcArguments);
-  console.log(selectedDevices);
   const poplPops = [];
   const qrCodePops = [];
   const walletPops = [];

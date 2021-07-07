@@ -37,8 +37,8 @@ function TopListLinkTaps({
       let workerInstance = worker();
       // sorting calendar dates, cause sometimes more recent date is in the beggining of array
       dateRange.sort((a, b) => moment(a).format("x") - moment(b).format("x"));
-      const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
-      const isSelected = Object.values(checkboxes).includes(true);
+      const selectedProfiles = Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).map((el) => Number(el));
+      const isSelected = Object.values(checkboxes.profiles).includes(true);
       const result = [];
       setIsWorkerRunning(true);
       workerInstance.linkTapsWidgetCalculation(JSON.stringify({
