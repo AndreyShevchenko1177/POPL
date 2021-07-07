@@ -94,8 +94,6 @@ export default makeStyles((theme) => ({
     },
   },
   deleteIcon: {
-    position: "absolute",
-    right: 0,
     cursor: "pointer",
     "& svg": {
       fill: "#808080",

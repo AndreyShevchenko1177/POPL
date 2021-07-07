@@ -212,7 +212,7 @@ function EmailNotifications() {
                   variant='contained'
                   color="primary"
                   onClick={() => setIsShowModal(true)}
-                  disabled={!values.recipients.length || !values.message || !values.title}
+                  disabled={!values.recipients.length || (!values.message && !Object.keys(files).length) || !values.title}
                 >
                   Schedule/Send now
                 </Button>
@@ -226,7 +226,7 @@ function EmailNotifications() {
         {isShowModal && <>
           <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
           <div className={classes.wizardContainer} tabIndex={1}>
-            <NotificationModal closeModal={closeModal} data={values} file={Object.values(files)[0].file}/>
+            <NotificationModal closeModal={closeModal} data={values} file={Object.values(files)[0]?.file}/>
           </div>
         </>}
       </div>
