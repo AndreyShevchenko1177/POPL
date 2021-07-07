@@ -119,7 +119,7 @@ export const addLinkAction = (value, title, profileData, iconId, icon, file) => 
     }
 
     if (file) {
-      resultUploadFile = await uploadImage(new File([file], `${userId}-file-${getId(12)}.${file.name.split(".")[file.name.split(".").length - 1]}`, { type: file.type }));
+      resultUploadFile = await uploadImage(new File([file], `${userId}-file-${getId(12)}^${file.name}`, { type: file.type }));
     }
 
     let iconName;
@@ -256,7 +256,8 @@ export const editLinkAction = (success, linksArray, file, linkFile) => async (di
 
     // for uploaded file in link type file
     if (linkFile) {
-      uploadedFile = await uploadImage(new File([linkFile], `${userId}-file-${getId(12)}.${linkFile.name.split(".")[linkFile.name.split(".").length - 1]}`, { type: linkFile.type }));
+      console.log(linkFile);
+      uploadedFile = await uploadImage(new File([linkFile], `${userId}-file-${getId(12)}^${linkFile.name}`, { type: linkFile.type }));
     }
 
     // if icon - uploading file
