@@ -13,7 +13,6 @@ function WidgetImage({
         <div key={key} style={{
           width, height, marginBottom: 10, marginRight: 10, minWidth: 25,
         }}>
-          {console.log(el.image)}
           {el.image || (generalSettingsData && generalSettingsData[3])
             ? <img style={{
               width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover",

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Papa from "papaparse";
+import jwt from "jsonwebtoken";
+import firebase from "../../config/firebase.config";
+import pem from "./jwtSecret";
 import useStyle from "./styles/styles";
 import ChoiceCard from "./components/ExportToCrmCard";
 import Header from "../../components/Header";
 import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
+import Loader from "../../components/Loader";
+import { snackBarAction } from "../../store/actions";
+
+let isMounted = true;
 
 function ChoicePage() {
   const classes = useStyle();
   const history = useHistory();
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  const userId = useSelector(({ authReducer }) => authReducer.signIn.data?.id);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const dispatch = useDispatch();
 
   const getNotFoundProperty = (el) => {
     let elem = el;
@@ -94,45 +104,110 @@ function ChoicePage() {
     });
   };
 
+  const paragonEnabled = () => {
+    dispatch(snackBarAction({
+      message: "Salesforce enabled",
+      severity: "success",
+      duration: 12000,
+      open: true,
+    }));
+  };
+
+  async function initParagon() {
+    await firebase.auth().signInAnonymously();
+    const jwtToken = jwt.sign(
+      {
+        sub: userId,
+        iat: Math.floor(new Date().getTime() / 1000),
+        exp: Math.floor((new Date().getTime() / 1000) + 3600),
+      },
+      pem,
+      {
+        algorithm: "RS256",
+        keyid: "2324kd",
+      },
+    );
+
+    await window.paragon.authenticate(
+      "d04cc8f3-7368-4dc3-8d12-d96e538dd6b3",
+      jwtToken,
+    );
+    if (!isMounted) {
+      isMounted = true;
+    } else {
+      let response = window.paragon.getUser();
+
+      console.log(response);
+
+      setIsLaunching(false);
+      window.paragon.connect("salesforce", {
+        onSuccess: () => console.log("success"),
+      });
+
+      // if (response.integrations.salesforce.enabled) {
+      //   paragonEnabled();
+      //   setIsLaunching(false);
+      // } else {
+      //   setIsLaunching(false);
+      //   window.paragon.connect("salesforce", {
+      //     onSuccess: () => console.log("success"),
+      //   });
+      // }
+    }
+  }
+
+  const connectParagon = () => {
+    setIsLaunching(true);
+    initParagon();
+  };
+
+  useEffect(() => {
+    isMounted = true;
+
+    return () => isMounted = false;
+  }, []);
+
   return (
     <>
       <Header
         firstChild
         path='/connections'
       />
-      <div className={classes.choiceContainer}>
-        <div className={classes.choiceWrapper}>
-          {/* <div className={classes.choiceHeader}>
+      {isLaunching
+        ? <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />
+        : <div className={classes.choiceContainer}>
+          <div className={classes.choiceWrapper}>
+            {/* <div className={classes.choiceHeader}>
             <span>
               What type of profiles do you want to add?
             </span>
           </div> */}
-          <div className={classes.choiceCardsWrapper}>
-            <div className={classes.choiceCardContainer} onClick={exportToCrm}>
-              <ChoiceCard
-                Icon={() => <SvgMaker width={30} height={30} name={"csv"} fill='#fff' />}
-                title='Export to CSV'
+            <div className={classes.choiceCardsWrapper}>
+              <div className={classes.choiceCardContainer} onClick={exportToCrm}>
+                <ChoiceCard
+                  Icon={() => <SvgMaker width={30} height={30} name={"csv"} fill='#fff' />}
+                  title='Export to CSV'
                 // description='Add profiles from existing Popl profiles'
-              />
-            </div>
-            <div className={classes.choiceCardContainer} onClick={() => {}}>
-              <ChoiceCard
-                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
-                title='Export to Salesforce'
-                redirect={() => history.push("/connections/crm-salesforce", { path: "/connections/export-to-crm" })}
+                />
+              </div>
+              <div className={classes.choiceCardContainer} onClick={() => {}}>
+                <ChoiceCard
+                  Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
+                  title='Export to Salesforce'
+                  onClick={connectParagon}
                 // description='Create new Popl profiles to add'
-              />
-            </div>
-            <div className={classes.choiceCardContainer} onClick={() => {}}>
-              <ChoiceCard
-                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
-                title='Export to Hubspot'
+                />
+              </div>
+              <div className={classes.choiceCardContainer} onClick={() => {}}>
+                <ChoiceCard
+                  Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
+                  title='Export to Hubspot'
                 // description='Create new Popl profiles to add'
-              />
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div>}
     </>
   );
 }
