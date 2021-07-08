@@ -12,6 +12,7 @@ import { snackBarAction } from "../../store/actions";
 import Loader from "../../components/Loader";
 import useStyles from "./styles";
 import Header from "../../components/Header";
+import ConfirmModal from "../../components/ConfirmModal";
 
 function CreateNewAccount() {
   const classes = useStyles();
@@ -20,6 +21,7 @@ function CreateNewAccount() {
   const dispatch = useDispatch();
   const { isFetching } = useSelector(({ createNewAccountReducer }) => createNewAccountReducer);
   const isAddProfileSuccess = useSelector(({ createNewAccountReducer }) => createNewAccountReducer.addProfileByRandomEmailSuccess);
+  const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
 
   const handleChange = (event) => {
     // if (isNaN(Number(event.target.value))) return;
@@ -37,6 +39,19 @@ function CreateNewAccount() {
         }));
       }
     });
+  };
+
+  const onConfirmModal = (id) => {
+    setConfirmModal({ open: !conFirmModal.open, data: id });
+  };
+
+  const onOk = () => {
+    create();
+    setConfirmModal({ open: !conFirmModal.open, data: null });
+  };
+
+  const onCancel = () => {
+    setConfirmModal({ open: !conFirmModal.open, data: null });
   };
 
   useEffect(() => {
@@ -58,10 +73,19 @@ function CreateNewAccount() {
         firstChild
         path={location.pathname === location.state.path ? location.state.rootPath : location.state.path}
       />
+      <ConfirmModal
+        open={conFirmModal.open}
+        onClose={onConfirmModal}
+        dialogTitle={`Confirm creation of ${value} number of accounts`}
+        okButtonTitle='Create accounts'
+        cancelButtonTitle='Cancel'
+        onOk={onOk}
+        onCancel={onCancel}
+      />
       <div className={classes.root}>
         <Grid className={classes.loginInputsContainer} container>
           {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
-          <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Create accounts from the dashboard</Typography>
+          <Typography classes={{ subtitle1: classes.inputHeading }} variant='subtitle1'>Enter number of accounts to create</Typography>
           <Grid className={classes.loginInput} item xs={2}>
             <TextField
               type="number"
@@ -83,7 +107,7 @@ function CreateNewAccount() {
             <Button
               variant="contained"
               color="primary"
-              onClick={create}
+              onClick={onConfirmModal}
               disabled={isFetching}
               fullWidth
             >
