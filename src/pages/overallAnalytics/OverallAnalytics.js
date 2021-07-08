@@ -595,6 +595,7 @@ function OverallAnalytics() {
       workerInstance.overallAnalyticsPopsPoplLevel(JSON.stringify({ allPopsData, location, selectedDevices }))
         .then(({ poplPops, qrCodePops, walletPops }) => {
           if (location.pathname !== window.location.pathname) return;
+
           setPopsDeviceData({
             poplPops, qrCodePops: [...qrCodePops, ...walletPops], allPops: [...poplPops, ...qrCodePops, ...walletPops],
           });
@@ -612,6 +613,31 @@ function OverallAnalytics() {
   useEffect(() => {
     const isSelected = Object.values(checkboxes.devices).includes(true);
     if (popsDeviceData && isSelected) {
+      workerInstance.generateDohnutPopsByDeviceData(JSON.stringify({
+        popsData: popsDeviceData,
+        profileData: profilesData,
+        minDate: calendar.dateRange[0],
+        maxDate: calendar.dateRange[1],
+        isPopsData: true,
+      })).then((res) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutPopsData: res,
+        }));
+      });
+      workerInstance.generateDohnutPopsByDeviceData(JSON.stringify({
+        popsData: popsDeviceData,
+        profileData: profilesData,
+        minDate: calendar.dateRange[0],
+        maxDate: calendar.dateRange[1],
+      })).then((res) => {
+        setChartData((prev) => ({
+          ...prev,
+          dataType: "",
+          dohnutDirectData: res,
+        }));
+      });
       workerInstance.generateDeviceData(JSON.stringify({ popsData: popsDeviceData, minDate: calendar.dateRange[0], maxDate: calendar.dateRange[1] })).then(({ lineData, percentageData }) => {
         setDeviceLineData((prev) => ({
           ...prev,

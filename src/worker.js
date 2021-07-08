@@ -496,3 +496,76 @@ export const generateDohnutPopsByProfileData = (funcArguments) => {
     })).sort((a, b) => b.popsCount - a.popsCount),
   };
 };
+
+export const generateDohnutPopsByDeviceData = (funcArguments) => {
+  const {
+    popsData, profileData, isPopsData, minDate, maxDate,
+  } = JSON.parse(funcArguments);
+  let result = {};
+  result = dateGeneration(popsData, minDate, maxDate);
+
+  const profilesData = {};
+  const { allPops, ...newPopsData } = popsData;
+
+  profileData.forEach(({ id, name, image }) => {
+    const data = [];
+    Object.keys(newPopsData).forEach((popKey) => {
+      let ownResult = { ...result };
+      let correctResult = {};
+      popsData[popKey].forEach((item) => {
+        const date = `${item[2].slice(5, 10)}-${item[2].slice(0, 4)}`; // using to pass year in the end of date string for Pacific Timezone. in this timezone getDay() method returns day behind. eg. "2021-05-21" returns 20
+        const direct = item[3];
+        const profileId = item[0];
+        if (date in result) {
+          if (id == profileId) {
+            if (isPopsData) return ownResult[date] = (ownResult[date] || 0) + 1;
+            if (direct == "1") {
+              ownResult[date] = { ...(ownResult[date] || {}), directOn: (ownResult[date]?.directOn || 0) + 1 };
+            } else {
+              ownResult[date] = { ...(ownResult[date] || {}), directOff: (ownResult[date]?.directOff || 0) + 1 };
+            }
+          }
+        }
+      });
+      Object.keys(ownResult).forEach((item) => (ownResult[item] ? correctResult[item] = ownResult[item] : null));
+      // data[popKey] = correctResult;
+      data.push({ [popKey]: correctResult });
+    });
+    profilesData[name] = data;
+  });
+  const popsRes = {
+    poplPops: 0,
+    qrCodePops: 0,
+  };
+  const directRes = {
+    poplPops: {
+      directOff: 0,
+      directOn: 0,
+    },
+    qrCodePops: {
+      directOff: 0,
+      directOn: 0,
+    },
+  };
+  Object.values(profilesData).forEach(([poplPops, qrCodePops]) => {
+    if (!isPopsData) {
+      Object
+        .values(poplPops.poplPops)
+        .forEach((direct) => {
+          directRes.poplPops.directOff += direct.directOff || 0;
+          directRes.poplPops.directOn += direct.directOn || 0;
+        });
+      Object
+        .values(qrCodePops.qrCodePops)
+        .forEach((direct) => {
+          directRes.qrCodePops.directOff += direct.directOff || 0;
+          directRes.qrCodePops.directOn += direct.directOn || 0;
+        });
+    } else {
+      popsRes.poplPops += Object.values(poplPops.poplPops).reduce((acc, v) => acc += v, 0);
+      popsRes.qrCodePops += Object.values(qrCodePops.qrCodePops).reduce((acc, v) => acc += v, 0);
+    }
+  });
+
+  return isPopsData ? popsRes : directRes;
+};
