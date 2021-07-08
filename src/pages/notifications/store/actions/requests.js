@@ -22,7 +22,7 @@ export const sendShedulerNotificationRequest = (data, userId) => {
 export const sendEmailRequest = (data) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "SendEmail");
-  bodyFormData.append("sToEmail", data.email);
+  bodyFormData.append("sToEmail", "mynamesurnamemyname@gmail.com");
   bodyFormData.append("sToName", `${data.toName}`);
   bodyFormData.append("sFromName", `${data.fromName} ${data.fileType ? "" : "via Popl Enterprise"}`); // for notification by connections
   bodyFormData.append("sSubject", data.title);

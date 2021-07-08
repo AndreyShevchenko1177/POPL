@@ -67,6 +67,8 @@ function EmailNotifications() {
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   // const [isScrollBarVisible, setIsScrollBarVisible] = useState(false);
 
+  console.log(values);
+
   const scrollbarVisible = (element) => element.scrollHeight > element.clientHeight;
 
   const handleChange = (event) => {
@@ -83,10 +85,10 @@ function EmailNotifications() {
   }, [values.recipients]);
 
   const closeModal = (isCancel) => {
-    if (!isCancel) {
-      setValues(defaultValues);
-      setFiles({});
-    }
+    // if (!isCancel) {
+    //   setValues(defaultValues);
+    //   setFiles({});
+    // }
     setIsShowModal(false);
   };
 
