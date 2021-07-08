@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
   },
   poplsContainer: {
     display: "flex",
-    padding: "15px",
+    paddingTop: "15px",
     flexDirection: "column",
     width: "100%",
     outline: "none",

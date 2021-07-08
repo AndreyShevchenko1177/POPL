@@ -33,6 +33,7 @@ function SearchStripe({
   filterConfig,
   autoComleteData,
   styles,
+  isActionsBtn,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -113,7 +114,7 @@ function SearchStripe({
           </div>
         </div>}
         </div>
-        {!showAll && <div className={classes.buttonWrapper}>
+        {!showAll && isActionsBtn && <div className={classes.buttonWrapper}>
           <Button
             variant="contained"
             color="primary"
