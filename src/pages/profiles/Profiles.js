@@ -324,6 +324,7 @@ export default function Profiles() {
           }))], [])} profileType={profileType} setEditLinkModal={setEditLinkModal} data={editLinkModal.data} isOpen={editLinkModal.open}/>}
           <SearchStripe
             showAll={false}
+            isActionsBtn
             isShowSortBtn
             handleOpen={handleOpenNewProfilePage}
             btn_title="Add Accounts"

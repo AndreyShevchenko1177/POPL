@@ -36,7 +36,7 @@ function ChoicePage() {
               <ChoiceCard
                 Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
                 title='New Account'
-                description='Create accounts from the dashboard'
+                description='Enter number of accounts to create'
               />
             </div>
             <div onClick={() => history.push("/accounts/new-account/log-in", { path: "/accounts/add-account", rootPath: location.state.rootPath })}>

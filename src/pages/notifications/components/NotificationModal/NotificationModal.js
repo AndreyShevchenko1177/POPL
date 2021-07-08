@@ -34,12 +34,13 @@ function NotificationModal({
 
   const sendNotification = () => {
     if (data.sendAs === 2) {
-      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise<br/><br/>`;
+      const reqData = { ...data };
+      reqData.message = `${reqData.message}<br/><br/>Sent via Popl Enterprise`;
       setIsButtonDisabled(true);
       if (file) {
-        return dispatch(addAttachementAction(file, { ...data, users: data.recipients }, closeModal, isConnection));
+        return dispatch(addAttachementAction(file, { ...reqData, users: data.recipients }, closeModal, isConnection));
       }
-      return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal, isConnection));
+      return dispatch(sendEmailAction({ ...reqData, users: data.recipients }, closeModal, isConnection));
     }
     setIsButtonDisabled(true);
     dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }, closeModal));
@@ -47,13 +48,14 @@ function NotificationModal({
 
   const sendNotificationByTime = () => {
     if (data.sendAs === 2) {
-      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise<br/><br/>`;
+      const reqData = { ...data };
+      reqData.message = `${reqData.message}<br/><br/>Sent via Popl Enterprise`;
       closeModal();
       setIsButtonDisabled(true);
       if (file) {
-        return dispatch(addAttachementShedulerAction(file, { ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
+        return dispatch(addAttachementShedulerAction(file, { ...reqData, users: reqData.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
       }
-      return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
+      return dispatch(sendShedulerEmailAction({ ...reqData, users: reqData.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
     }
     setIsButtonDisabled(true);
     dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }, closeModal));
