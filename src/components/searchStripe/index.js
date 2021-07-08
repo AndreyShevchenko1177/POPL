@@ -34,6 +34,7 @@ function SearchStripe({
   autoComleteData,
   styles,
   isActionsBtn,
+  crmDisabled,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -76,6 +77,7 @@ function SearchStripe({
           <Button
             variant="contained"
             color="primary"
+            disabled={crmDisabled}
             classes={{ root: classes.button, iconSizeMedium: classes.addIcon }}
             onClick={() => history.push("/connections/export-to-crm", { path: "/connections", rootPath: "/connections" })}
           >

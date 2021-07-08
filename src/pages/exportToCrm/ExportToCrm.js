@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Papa from "papaparse";
 import jwt from "jsonwebtoken";
 import firebase from "../../config/firebase.config";
@@ -12,6 +12,7 @@ import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
 import Loader from "../../components/Loader";
 import { snackBarAction } from "../../store/actions";
+import salesForceOnSuccess from "./salesforceOnSuccess";
 
 let isMounted = true;
 
@@ -19,7 +20,7 @@ function ChoicePage() {
   const classes = useStyle();
   const history = useHistory();
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  const userId = useSelector(({ authReducer }) => authReducer.signIn.data?.id);
+  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const [isLaunching, setIsLaunching] = useState(false);
   const dispatch = useDispatch();
 
@@ -104,9 +105,9 @@ function ChoicePage() {
     });
   };
 
-  const paragonEnabled = () => {
+  const paragonEnabled = (message) => {
     dispatch(snackBarAction({
-      message: "Salesforce enabled",
+      message,
       severity: "success",
       duration: 12000,
       open: true,
@@ -117,7 +118,7 @@ function ChoicePage() {
     await firebase.auth().signInAnonymously();
     const jwtToken = jwt.sign(
       {
-        sub: userId,
+        sub: userData?.id,
         iat: Math.floor(new Date().getTime() / 1000),
         exp: Math.floor((new Date().getTime() / 1000) + 3600),
       },
@@ -141,7 +142,10 @@ function ChoicePage() {
 
       setIsLaunching(false);
       window.paragon.connect("salesforce", {
-        onSuccess: () => console.log("success"),
+        onSuccess: () => {
+          paragonEnabled("Contacts uploading begun");
+          salesForceOnSuccess(jwtToken, userData?.name, userData?.id, allConnections).then((res) => console.log(res)).catch((err) => console.log(err));
+        },
       });
 
       // if (response.integrations.salesforce.enabled) {
@@ -166,6 +170,10 @@ function ChoicePage() {
 
     return () => isMounted = false;
   }, []);
+
+  // useEffect(() => {
+  //   if (!allConnections.length) history.push("/connections");
+  // }, [allConnections]);
 
   return (
     <>

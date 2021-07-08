@@ -38,6 +38,15 @@ module.exports = function (app) {
     }),
   );
   app.use(
+    "/paragon-connectoins",
+    createProxyMiddleware({
+      target: "https://api.useparagon.com/projects/d04cc8f3-7368-4dc3-8d12-d96e538dd6b3/sdk/events/trigger",
+      pathRewrite: { "^/paragon-connectoins": "/" },
+      headers: { "X-Forwarded-Prefix": "/" },
+      changeOrigin: true,
+    }),
+  );
+  app.use(
     "/v0",
     createProxyMiddleware({
       target: "https://firebasestorage.googleapis.com",

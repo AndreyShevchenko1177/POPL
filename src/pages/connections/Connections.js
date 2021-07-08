@@ -252,6 +252,7 @@ function Connections() {
           sendEmailTo={sendEmailTo}
           handleSearch={handleSearch}
           showCRM
+          // crmDisabled={!allConnections?.length}
           handleCheck={handleSelectAllCheckboxes}
           arrowHandler={arrowHandler}
           selectObject={{
