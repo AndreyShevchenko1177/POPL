@@ -11,7 +11,7 @@ function WidgetsContainer({
 }) {
   const classes = useStyles();
   const checkboxes = useSelector(({ realTimeAnalytics }) => realTimeAnalytics.checkBoxData);
-  const selectedProfiles = Object.keys(checkboxes).filter((el) => checkboxes[el]).map((el) => Number(el));
+  const selectedProfiles = Object.keys(checkboxes.profiles).filter((el) => checkboxes.profiles[el]).map((el) => Number(el));
 
   return (
     <Paper elevation={1} className={fullWidth ? classes.fullWidgetRoot : classes.widgetRoot}>
