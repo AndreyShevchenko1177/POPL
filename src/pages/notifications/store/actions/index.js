@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { SEND_NOTIFICATION } from "../actionsType";
 import * as requests from "./requests";
 import { snackBarAction } from "../../../../store/actions";
@@ -36,11 +37,21 @@ export const sendShedulerNotificationAction = ({ users, ...data }, success) => a
   }
 };
 
-export const sendEmailAction = ({ users, ...data }, success, fileUrl, fileType, fileName) => async (dispatch, getState) => {
+export const sendEmailAction = ({ users, ...data }, success, isConnection, fileUrl, fileType, fileName) => async (dispatch, getState) => {
   try {
     const user = getState().profilesReducer.dataProfiles.data[0];
+    const companyInfo = getState().generalSettingsReducer.companyInfo.data;
+
+    let fromName;
+
+    if (isConnection) {
+      fromName = (companyInfo && companyInfo[0]) || "via Popl Enterprise"; // for notification by connections
+    } else {
+      fromName = user.name.split(" ")[0];
+    }
+
     const result = await Promise.all(users.map((el) => requests.sendEmailRequest({
-      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, fileUrl, fileType, fileName,
+      email: el.email, toName: el.name, fromName, title: data.title, message: data.message, fileUrl, fileType, fileName, companyInfo,
     })));
     console.log(result);
     success();
@@ -55,11 +66,20 @@ export const sendEmailAction = ({ users, ...data }, success, fileUrl, fileType, 
   }
 };
 
-export const sendShedulerEmailAction = ({ users, ...data }, success, fileUrl, fileType, fileName) => async (dispatch, getState) => {
+export const sendShedulerEmailAction = ({ users, ...data }, success, isConnection, fileUrl, fileType, fileName) => async (dispatch, getState) => {
   try {
     const user = getState().profilesReducer.dataProfiles.data[0];
+    const companyInfo = getState().generalSettingsReducer.companyInfo.data;
+
+    let fromName;
+
+    if (isConnection) {
+      fromName = (companyInfo && companyInfo[0]) || "via Popl Enterprise"; // for notification by connections
+    } else {
+      fromName = user.name.split(" ")[0];
+    }
     const result = await Promise.all(users.map((el) => requests.sendShedulerEmailRequest({
-      email: el.email, toName: el.name, fromName: user.name.split(" ")[0], title: data.title, message: data.message, time: data.time, fileUrl, fileType, fileName,
+      email: el.email, toName: el.name, fromName, title: data.title, message: data.message, time: data.time, fileUrl, fileType, fileName,
     })));
     console.log(result);
     success();
@@ -74,17 +94,17 @@ export const sendShedulerEmailAction = ({ users, ...data }, success, fileUrl, fi
   }
 };
 
-export const addAttachementAction = (file, { users, ...data }, success) => async (dispatch, getState) => {
+export const addAttachementAction = (file, { users, ...data }, success, isConnection) => async (dispatch, getState) => {
   const userId = getState().authReducer.signIn.data.id;
   const type = file.name.split(".")[file.name.split(".").length - 1];
   let name = file.name.split(".");
   name.pop();
   name = name.join();
   const fileUrl = await uploadImage(new File([file], `${userId}-file-${getId(12)}.${file.name.split(".")[file.name.split(".").length - 1]}`, { type: file.type }), "photos");
-  dispatch(sendEmailAction({ users, ...data }, success, fileUrl, type, name));
+  dispatch(sendEmailAction({ users, ...data }, success, isConnection, fileUrl, type, name));
 };
 
-export const addAttachementShedulerAction = (file, { users, ...data }, success) => async (dispatch, getState) => {
+export const addAttachementShedulerAction = (file, { users, ...data }, success, isConnection) => async (dispatch, getState) => {
   const userId = getState().authReducer.signIn.data.id;
   const type = file.name.split(".")[file.name.split(".").length - 1];
   let name = file.name.split(".");

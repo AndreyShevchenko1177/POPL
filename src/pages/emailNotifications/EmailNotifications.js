@@ -226,7 +226,7 @@ function EmailNotifications() {
         {isShowModal && <>
           <div className={classes.opacityBackground} onClick={() => setIsShowModal(false)}></div>
           <div className={classes.wizardContainer} tabIndex={1}>
-            <NotificationModal closeModal={closeModal} data={values} file={Object.values(files)[0]?.file}/>
+            <NotificationModal isConnection={true} closeModal={closeModal} data={values} file={Object.values(files)[0]?.file}/>
           </div>
         </>}
       </div>

@@ -19,7 +19,9 @@ import {
   sendNotificationAction, sendShedulerNotificationAction, sendEmailAction, sendShedulerEmailAction, addAttachementAction, addAttachementShedulerAction,
 } from "../../store/actions";
 
-function NotificationModal({ closeModal, data, file }) {
+function NotificationModal({
+  closeModal, data, file, isConnection,
+}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
@@ -28,14 +30,16 @@ function NotificationModal({ closeModal, data, file }) {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  console.log(isConnection);
+
   const sendNotification = () => {
     if (data.sendAs === 2) {
-      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
+      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise<br/><br/>`;
       setIsButtonDisabled(true);
       if (file) {
-        return dispatch(addAttachementAction(file, { ...data, users: data.recipients }, closeModal));
+        return dispatch(addAttachementAction(file, { ...data, users: data.recipients }, closeModal, isConnection));
       }
-      return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal));
+      return dispatch(sendEmailAction({ ...data, users: data.recipients }, closeModal, isConnection));
     }
     setIsButtonDisabled(true);
     dispatch(sendNotificationAction({ ...data, users: data.recipients.map((el) => el.id) }, closeModal));
@@ -43,13 +47,13 @@ function NotificationModal({ closeModal, data, file }) {
 
   const sendNotificationByTime = () => {
     if (data.sendAs === 2) {
-      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise`;
+      data.message = `${data.message}<br/><br/>Sent via Popl Enterprise<br/><br/>`;
       closeModal();
       setIsButtonDisabled(true);
       if (file) {
-        return dispatch(addAttachementShedulerAction(file, { ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
+        return dispatch(addAttachementShedulerAction(file, { ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
       }
-      return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal));
+      return dispatch(sendShedulerEmailAction({ ...data, users: data.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
     }
     setIsButtonDisabled(true);
     dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }, closeModal));
