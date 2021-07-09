@@ -1,11 +1,16 @@
 import {
-  ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING,
+  ADD_NEW_PROFILE_BY_RANDOM_EMAIL, CLEAR, REMOVE_FILE, FILES_LIST, IS_FETCHING, INVITE_BY_EMAIL_SUCCESS, INVITE_BY_EMAIL_FAIL, ADD_NEW_PROFILE_BY_EMAIL,
 } from "../actionTypes";
 
 const initialState = {
   addProfileByRandomEmailSuccess: false,
+  addProfileByEmailSuccess: false,
   isFetching: false,
   filesList: {},
+  inviteByEmail: {
+    success: false,
+    error: null,
+  },
 };
 
 export default function createNewAccountReducer(state = initialState, { type, payload }) {
@@ -15,6 +20,31 @@ export default function createNewAccountReducer(state = initialState, { type, pa
       ...state,
       addProfileByRandomEmailSuccess: true,
       isFetching: false,
+    };
+  }
+  case ADD_NEW_PROFILE_BY_EMAIL: {
+    return {
+      ...state,
+      addProfileByEmailSuccess: true,
+      isFetching: false,
+    };
+  }
+  case INVITE_BY_EMAIL_SUCCESS: {
+    return {
+      ...state,
+      inviteByEmail: {
+        success: true,
+        error: null,
+      },
+    };
+  }
+  case INVITE_BY_EMAIL_FAIL: {
+    return {
+      ...state,
+      inviteByEmail: {
+        success: false,
+        error: payload,
+      },
     };
   }
   case REMOVE_FILE: {

@@ -18,3 +18,24 @@ export const addNewProfileWithRandomEmailRequest = async (parentId) => {
     withCredentials: true,
   });
 };
+
+export const inviteByEmailRequest = (email, userData, emailId) => {
+  const formdata = new FormData();
+  formdata.append("ajax", "1");
+  formdata.append("sAction", "AddToDashboardEmail");
+  formdata.append("sToEmail", email);
+  formdata.append("sToName", "name");
+  formdata.append("sCompanyName", userData.name);
+  formdata.append("iID", userData.id);
+  formdata.append("sChild", `[${emailId}]`);
+  formdata.append("sSubject", "Hey name, time to go pro :rocket:");
+  return axios.post("", formdata);
+};
+
+export const getIdFromEmail = async (email) => {
+  const formdata = new FormData();
+  formdata.append("ajax", "1");
+  formdata.append("sAction", "GetIdFromEmail");
+  formdata.append("iEmail", email);
+  return axios.post("", formdata);
+};

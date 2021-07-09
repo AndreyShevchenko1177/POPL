@@ -13,6 +13,7 @@ import Loader from "../../components/Loader";
 import useStyles from "./styles";
 import Header from "../../components/Header";
 import ConfirmModal from "../../components/ConfirmModal";
+import CreateAccountByEmail from "./components/EmailBox";
 
 function CreateNewAccount() {
   const classes = useStyles();
@@ -111,11 +112,17 @@ function CreateNewAccount() {
               disabled={isFetching}
               fullWidth
             >
-                Create accounts
+              Create accounts
             </Button>
           </Grid>
         </Grid>
+        <div className={classes.orSectionWrapper}>
+          <div className={classes.orSectionHr}><hr/></div>
+          <div className={classes.orSectionText}>OR</div>
+          <div className={classes.orSectionHr}><hr/></div>
+        </div>
       </div>
+      <CreateAccountByEmail />
     </React.Fragment>
   );
 }
