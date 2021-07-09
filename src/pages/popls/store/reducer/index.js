@@ -31,7 +31,7 @@ const initialState = {
     data: null,
     error: null,
   },
-  isFetching: false,
+  isFetching: null,
 };
 
 export default function poplsReducer(state = initialState, { type, payload, error }) {

@@ -59,6 +59,7 @@ function PoplsItem() {
   };
 
   const handleSearch = (event) => {
+    if (isLoading ?? true) return;
     setSearchValue(event.target.value);
     if (!event.target.value) {
       return setPopls(popls.map((popl) => ({ ...popl, date: new Date(popl.activationDate).getTime(), popsNumber: pops.filter((pop) => filterPops.slicePoplNameFromPop(pop[1]) === popl.name).length })));
@@ -265,6 +266,7 @@ function PoplsItem() {
           }}
           filterConfig={filteringConfig}
           autoComleteData={profiles}
+          isLoading={isLoading ?? true}
         />
         {/* </div> */}
         {isLoading ? (

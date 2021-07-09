@@ -119,7 +119,7 @@ export default function Profiles() {
   }
 
   const handleSearch = (event) => {
-    if (!profilesData && !profilesData.length) return;
+    if (isLoading ?? true) return;
     setSearchValue(event.target.value);
     if (!event.target.value) {
       return setProfiles(profilesData);
@@ -335,6 +335,7 @@ export default function Profiles() {
             checkboxes={checkboxes}
             arrowHandler={arrowHandler}
             templates={true}
+            isLoading={isLoading ?? true}
             selectObject={{
               openProfileSelect,
               setOpenProfileSelect,

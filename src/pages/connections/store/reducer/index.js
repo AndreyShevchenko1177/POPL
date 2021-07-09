@@ -22,7 +22,7 @@ const initialState = {
     data: [],
     error: null,
   },
-  isFetching: false,
+  isFetching: null,
 };
 
 export default function connectionsReducer(state = initialState, { type, payload, error }) {
