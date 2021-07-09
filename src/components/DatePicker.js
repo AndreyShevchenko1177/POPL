@@ -58,7 +58,7 @@ function MSelect({ onClick, options }) {
 }
 
 function CDatePicker({
-  calendar, setCalendar, setDate, selectOption, options,
+  calendar, setCalendar, setDate, selectOption, options, disabled,
 }) {
   const ref = useRef();
 
@@ -68,6 +68,7 @@ function CDatePicker({
   };
 
   const clickCalendar = () => {
+    if (disabled) return;
     setCalendar({ ...calendar, visible: !calendar.visible });
   };
 

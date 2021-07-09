@@ -34,7 +34,6 @@ function NetworkActivity({
   setDate,
   selectOption,
   options,
-  dataType,
   views,
   poplLevel,
   profileLevelId,
@@ -152,15 +151,15 @@ function NetworkActivity({
         data.labels.forEach((value) => {
           if (isSafari) {
             const safariValues = value.split("-").join("/");
-            return labels.push(`${getMothName(getMonth(safariValues))} ${getDay(safariValues)} ${dataType === "allData" ? getYear(safariValues) : ""}`);
+            return labels.push(`${getMothName(getMonth(safariValues))} ${getDay(safariValues)} ${isAllTimeData ? getYear(safariValues) : ""}`);
           }
-          labels.push(`${getMothName(getMonth(value))} ${getDay(value)} ${dataType === "allData" ? getYear(value) : ""}`);
+          labels.push(`${getMothName(getMonth(value))} ${getDay(value)} ${isAllTimeData ? getYear(value) : ""}`);
         });
         options.data.datasets = [];
         data.data.forEach(({ name, dateValues }, i) => {
           options.data.datasets[i] = {
             data: data.labels.map((date) => dateValues[date]),
-            pointRadius: dataType === "allData" ? 0 : 3,
+            pointRadius: isAllTimeData ? 0 : 3,
             label: name,
             lineTension: 0.1,
             backgroundColor: "rgba(0, 0, 0, 0)",
@@ -212,13 +211,13 @@ function NetworkActivity({
           if (Array.isArray(values)) {
             if (isSafari) {
               const safariValues = values.map((el) => el.split("-").join("/"));
-              return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+              return safariValues.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${isAllTimeData ? getYear(el) : ""}`));
             }
-            values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${dataType === "allData" ? getYear(el) : ""}`));
+            values.forEach((el) => labels.push(`${getMothName(getMonth(el))} ${getDay(el)} ${isAllTimeData ? getYear(el) : ""}`));
             return;
           }
           chartOptions.data.datasets[i].data = [...Object.values(values)];
-          chartOptions.data.datasets[i].pointRadius = dataType === "allData" ? 0 : 3;
+          chartOptions.data.datasets[i].pointRadius = isAllTimeData ? 0 : 3;
           // chartOptions.data.datasets[i].borderColor = [...Object.values(values)].every((el) => !el) ? "rgba(0, 0, 0, 0)" : colors[i];
         });
         chartOptions.data.labels = labels.sort((a, b) => new Date(a) - new Date(b));
@@ -289,11 +288,11 @@ function NetworkActivity({
       daysDiff = moment(calendar.dateRange[0]).diff(moment(calendar.dateRange[1]), "days");
     }
     const newRange = [moment(calendar.dateRange[0]).subtract(Math.abs(daysDiff), "days"), moment(calendar.dateRange[1]).subtract(Math.abs(daysDiff), "days")];
-    if (dataType === "allData") {
-      return setKpisData({
-        ...kpisData, views: views?.length, linkTaps: linkTaps?.length,
-      });
-    }
+    // if (dataType === "allData") {
+    //     return setKpisData({
+    //       ...kpisData, views: views?.length, linkTaps: linkTaps?.length,
+    //     });
+    //   }
     if (linkTaps && views) {
       let linkTapsData = linkTaps;
 
@@ -393,7 +392,7 @@ function NetworkActivity({
               <Button
                 variant='contained'
                 color='primary'
-                disabled={activeItemTitle === "account"}
+                disabled={activeItemTitle === "account" || chartData === undefined || isChartsDataCalculating}
                 classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
                 onClick={() => filter(true, "device")}
                 endIcon={<KeyboardArrowDownIcon />}
@@ -434,7 +433,7 @@ function NetworkActivity({
               <Button
                 variant='contained'
                 color='primary'
-                disabled={activeItemTitle === "device"}
+                disabled={activeItemTitle === "device" || chartData === undefined || isChartsDataCalculating}
                 classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
                 onClick={() => filter(true, "filter")}
                 endIcon={<KeyboardArrowDownIcon />}
@@ -465,6 +464,7 @@ function NetworkActivity({
             calendar={calendar}
             setCalendar={setCalendar}
             setDate={setDate}
+            disabled={chartData === undefined || isChartsDataCalculating}
           />
         </div>
       </div>

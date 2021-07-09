@@ -266,7 +266,7 @@ function OverallAnalytics() {
     });
   };
 
-  const generateData = (dateFromRange, dateFrom, dateTo, maxD, minD) => {
+  const generateData = (dateFrom, dateTo, maxD, minD) => {
     // running preloaser for charts
     setIsChartDataCalculating({
       lineChart: true,
@@ -340,7 +340,7 @@ function OverallAnalytics() {
     });
     return setCalendar({
       ...calendar,
-      dateRange: [dateTo, dateFromRange],
+      dateRange: [dateTo, dateFrom],
       normalData: [`${maxD}-`, minD.slice(0, minD.length - 1)],
       visible: false,
     });
@@ -465,48 +465,42 @@ function OverallAnalytics() {
       setIsAllTime(false);
       const dateTo = moment().toDate();
       const dateFrom = moment().subtract(6, "d").toDate();
-      const dateFromRange = moment().subtract(7, "d").toDate();
       let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
         dateTo,
       )}, ${getYear(dateTo)}-`;
       let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
         dateFrom,
       )}, ${getYear(dateFrom)}`;
-      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+      return generateData(dateFrom, dateTo, maxD, minD);
     }
     case "month to date": {
       setIsAllTime(false);
       const dateTo = moment().toDate();
-      const dateFrom = moment().subtract(1, "months").endOf("month").subtract(-1, "d")
-        .toDate();
-      const dateFromRange = moment().subtract(1, "months").endOf("month").toDate();
+      const dateFrom = moment().startOf("month").toDate();
       let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
         dateTo,
       )}, ${getYear(dateTo)}-`;
       let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
         dateFrom,
       )}, ${getYear(dateFrom)}`;
-      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+      return generateData(dateFrom, dateTo, maxD, minD);
     }
     case "last 30 days": {
       setIsAllTime(false);
       const dateTo = moment().toDate();
-      const dateFrom = moment().subtract(1, "months").subtract(-1, "d").toDate();
-      const dateFromRange = moment().subtract(1, "months").toDate();
+      const dateFrom = moment().subtract(29, "days").toDate();
       let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
         dateTo,
       )}, ${getYear(dateTo)}-`;
       let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
         dateFrom,
       )}, ${getYear(dateFrom)}`;
-      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+      return generateData(dateFrom, dateTo, maxD, minD);
     }
     case "week to date": {
       setIsAllTime(false);
       const dateTo = moment().toDate();
-      const dateFrom = moment().subtract(1, "weeks").endOf("isoWeek").subtract(-1, "d")
-        .toDate();
-      const dateFromRange = moment().subtract(1, "weeks").endOf("isoWeek")
+      const dateFrom = moment().startOf("isoWeek")
         .toDate();
       let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
         dateTo,
@@ -514,14 +508,12 @@ function OverallAnalytics() {
       let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
         dateFrom,
       )}, ${getYear(dateFrom)}`;
-      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+      return generateData(dateFrom, dateTo, maxD, minD);
     }
     default: {
-      // setIsAllTime(false);
+      setIsAllTime(false);
       const dateTo = moment().toDate();
-      const dateFrom = moment().subtract(2, "weeks").subtract(-1, "d")
-        .toDate();
-      const dateFromRange = moment().subtract(2, "weeks")
+      const dateFrom = moment().subtract(13, "days")
         .toDate();
       let minD = `${monthsFullName[getMonth(dateTo)]} ${getDay(
         dateTo,
@@ -529,7 +521,7 @@ function OverallAnalytics() {
       let maxD = `${monthsFullName[getMonth(dateFrom)]} ${getDay(
         dateFrom,
       )}, ${getYear(dateFrom)}`;
-      return generateData(dateFromRange, dateFrom, dateTo, maxD, minD);
+      return generateData(dateFrom, dateTo, maxD, minD);
     }
     }
   };
@@ -772,7 +764,6 @@ function OverallAnalytics() {
         <div className={classes.overallAnalyticsContainer}>
           <NetworkActivity
             data={getPopsData()}
-            dataType={chartData?.dataType}
             calendar={calendar}
             setCalendar={setCalendar}
             setDate={setDate}

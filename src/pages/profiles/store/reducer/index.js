@@ -70,7 +70,7 @@ const initialState = {
     data: {},
   },
   profileLinks: null,
-  isFetching: false,
+  isFetching: null,
 };
 
 export default function profilesReducer(

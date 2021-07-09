@@ -35,6 +35,7 @@ function SearchStripe({
   styles,
   isActionsBtn,
   crmDisabled,
+  isLoading,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -99,6 +100,7 @@ function SearchStripe({
             <Button
               variant='contained'
               color='primary'
+              disabled={isLoading}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               onClick={() => arrowHandler(true, "filter")}
               endIcon={<KeyboardArrowDownIcon />}
@@ -143,6 +145,7 @@ function SearchStripe({
             <Button
               variant="contained"
               color="primary"
+              disabled={isLoading}
               style={{ whiteSpace: "nowrap" }}
               classes={{ root: classes.actionButton, iconSizeMedium: classes.addIcon }}
               endIcon={<KeyboardArrowDownIcon />}
@@ -209,6 +212,7 @@ function SearchStripe({
             onChange={handleSearch}
             placeholder="Search"
             inputProps={{ "aria-label": "search here" }}
+            disabled={isLoading}
           />
           <div>
             <SearchIcon style={{ cursor: "pointer" }}/>

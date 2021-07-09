@@ -71,6 +71,7 @@ function Connections() {
   };
 
   const handleSearch = (event) => {
+    if (isLoading ?? true) return;
     setSearchValue(event.target.value);
     if (!event.target.value) {
       return setConnections(allConnections.slice(0, 19));
@@ -266,6 +267,7 @@ function Connections() {
           }}
           filterConfig={filteringConfig}
           autoComleteData={profiles}
+          isLoading={isLoading ?? true}
         />
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
