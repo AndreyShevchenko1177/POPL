@@ -25,7 +25,6 @@ function CreateNewAccount() {
   const [conFirmModal, setConfirmModal] = useState({ open: false, data: null });
 
   const handleChange = (event) => {
-    // if (isNaN(Number(event.target.value))) return;
     setValue(event.target.value);
   };
 
@@ -60,7 +59,7 @@ function CreateNewAccount() {
       setValue("");
       dispatch(clearAction("addProfileByRandomEmailSuccess"));
       dispatch(snackBarAction({
-        message: "Accounts created successfully",
+        message: `${value} number of accounts created successfully`,
         severity: "success",
         duration: 6000,
         open: true,
@@ -116,11 +115,14 @@ function CreateNewAccount() {
             </Button>
           </Grid>
         </Grid>
-        <div className={classes.orSectionWrapper}>
-          <div className={classes.orSectionHr}><hr/></div>
-          <div className={classes.orSectionText}>OR</div>
-          <div className={classes.orSectionHr}><hr/></div>
+        <div className='full-w flex-row-center-horizontal'>
+          <div className={classes.orSectionWrapper}>
+            <div className={classes.orSectionHr}><hr/></div>
+            <div className={classes.orSectionText}>OR</div>
+            <div className={classes.orSectionHr}><hr/></div>
+          </div>
         </div>
+
       </div>
       <CreateAccountByEmail />
     </React.Fragment>

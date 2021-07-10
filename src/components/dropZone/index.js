@@ -1,19 +1,17 @@
 import React, {
   useRef, useState, useEffect,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button, Typography } from "@material-ui/core";
 import Papa from "papaparse";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import Loader from "../Loader";
-import { addFileAction } from "../../pages/addExistingProfile/store/actions";
-import { addFileNewProfileAction } from "../../pages/addNewProfile/store/actions";
 import { getId } from "../../utils/uniqueId";
 import Preview from "./components/Preview";
 
 const DropZone = ({
-  name, styles, quantity, type = ["vnd.ms-excel", "text/csv"], multiple, icon, handleClose, page,
+  styles, quantity, multiple, icon, handleClose, addFileAction, filesList, isFetching,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -32,8 +30,6 @@ const DropZone = ({
     fileType: false,
     duplicated: false,
   });
-  const { isFetching, filesList } = useSelector(({ addProfilesReducer }) => addProfilesReducer);
-  const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
   const regexp = /@\w+([\.-]?\w+)/;
 
   const handleDeleteFile = (key) => {
@@ -189,11 +185,8 @@ const DropZone = ({
           open: true,
         }));
       }
-      if (page === "addNewProfile") {
-        dispatch(addFileNewProfileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
-      } else {
-        dispatch(addFileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
-      }
+      dispatch(addFileAction({ fileName: Object.values(files)[0].file.name, emails: result }));
+
       return handleClose();
     }
     return dispatch(snackBarAction({

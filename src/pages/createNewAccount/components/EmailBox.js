@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import clsx from "clsx";
-import { createAccountByEmail, clearAction, removeFileAction } from "../store/actions";
+import {
+  createAccountByEmail, clearAction, removeFileAction, addFileNewProfileAction,
+} from "../store/actions";
 import { snackBarAction } from "../../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../utils/uniqueId";
@@ -20,11 +21,8 @@ function CreateAccountByEmail() {
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
   const { isFetching, filesList } = useSelector(({ createNewAccountReducer }) => createNewAccountReducer);
-  const isAddProfileSuccess = useSelector(({ createNewAccountReducer }) => createNewAccountReducer.addProfileByEmailSuccess);
-  const isAddExistProfileSuccess = useSelector(({ createNewAccountReducer }) => createNewAccountReducer.inviteByEmail.success);
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const regexp = /@\w+([\.-]?\w+)/;
 
   const handleChange = (event) => {
@@ -39,23 +37,17 @@ function CreateAccountByEmail() {
 
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
+    // when user didn't distinguished typed email with "Tab" or comma
+    // and there are no other distinguished this way emails check validity of email and send it
     if (!email.length && regexp.test(value)) {
       emailsList.push(value);
     }
     if (!emailsList.length && !email.length) return;
-    dispatch(createAccountByEmail([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
-      if (isError) {
-        dispatch(snackBarAction({
-          message: `such emails already exists - ${errorMessage.length > 2 ? `${errorMessage.slice(0, 2).join(", ")} and ${errorMessage.length - 2} more` : errorMessage.join(", ")}`,
-          severity: "error",
-          duration: 6000,
-          open: true,
-        }));
-        dispatch(removeFileAction(Object.keys(filesList)[0]));
-        return setEmail([]);
-      }
-      dispatch(removeFileAction(Object.keys(filesList)[0]));
-      // return setEmail([]);
+    dispatch(createAccountByEmail([...emailsList, ...email.map((el) => el.emailString)], () => {
+      setValue("");
+      setEmail([]);
+      dispatch(clearAction("inviteByEmail"));
+      dispatch(removeFileAction());
     }));
   };
 
@@ -82,36 +74,6 @@ function CreateAccountByEmail() {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  useEffect(() => {
-    if (isAddProfileSuccess) {
-      // setIsOpenDropZone(false);
-      setValue("");
-      setEmail([]);
-      dispatch(clearAction("addProfileByEmailSuccess"));
-      dispatch(snackBarAction({
-        message: "Account created successfully",
-        severity: "success",
-        duration: 6000,
-        open: true,
-      }));
-    }
-  }, [isAddProfileSuccess]);
-
-  useEffect(() => {
-    if (isAddExistProfileSuccess) {
-      // setIsOpenDropZone(false);
-      setValue("");
-      setEmail([]);
-      dispatch(clearAction("inviteByEmail"));
-      dispatch(snackBarAction({
-        message: `${email.length || 1} ${email.length > 1 ? "emails" : "email"} sent successfully`,
-        severity: "success",
-        duration: 6000,
-        open: true,
-      }));
-    }
-  }, [isAddExistProfileSuccess]);
-
   return (
     <React.Fragment>
       <div className={classes.rootDiv}>
@@ -132,7 +94,7 @@ function CreateAccountByEmail() {
                   </p>
                   <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
                 </div>)}
-                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "40%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
+                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "40%", backgroundColor: "transparent" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
               </div>
 
             </div>
@@ -181,7 +143,9 @@ function CreateAccountByEmail() {
                 icon={<SvgMaker name={"csv"} fill='#fff' />}
                 quantity={1}
                 handleClose={() => setIsOpenDropZone(false)}
-                page='addNewProfile'
+                addFileAction={addFileNewProfileAction}
+                isFetching={isFetching}
+                filesList={filesList}
               />
             </div>
           </>}

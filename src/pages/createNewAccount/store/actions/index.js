@@ -72,9 +72,14 @@ export const createAccountByEmail = (emails, clear) => async (dispatch, getState
         requests.inviteByEmailRequest(email, userData, data);
       }
     }
+    dispatch(snackBarAction({
+      message: `${reqEmails.length} number of accounts created successfully`,
+      severity: "success",
+      duration: 6000,
+      open: true,
+    }));
     clear();
     dispatch(fetchData(false));
-    dispatch(removeFileAction());
     dispatch(clearStateAction("dataProfiles"));
     dispatch(getProfileInfoRequest(userData.id));
 

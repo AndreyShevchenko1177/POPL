@@ -6,7 +6,9 @@ import { useLocation } from "react-router-dom";
 import { Button, Grid, Typography } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import clsx from "clsx";
-import { inviteByEmailAction, clearAction, removeFileAction } from "./store/actions";
+import {
+  inviteByEmailAction, clearAction, removeFileAction, addFileNewProfileAction,
+} from "./store/actions";
 import { snackBarAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../utils/uniqueId";
@@ -23,11 +25,8 @@ function CreateAccountByEmailIvite() {
   const [backspaceCheck, setBackspaceCheck] = useState("");
   const [isOpenDropZone, setIsOpenDropZone] = useState(false);
   const { isFetching, filesList } = useSelector(({ createAccountByEmailInvite }) => createAccountByEmailInvite);
-  const isAddProfileSuccess = useSelector(({ createAccountByEmailInvite }) => createAccountByEmailInvite.addProfileByEmailSuccess);
-  const isAddExistProfileSuccess = useSelector(({ createAccountByEmailInvite }) => createAccountByEmailInvite.inviteByEmail.success);
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const regexp = /^\w([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const regexp = /@\w+([\.-]?\w+)/;
 
   const handleChange = (event) => {
@@ -42,23 +41,17 @@ function CreateAccountByEmailIvite() {
 
   const handleInvite = () => {
     const emailsList = Object.values(filesList).reduce((acc, file) => acc = [...acc, ...file], []);
+    // when user didn't distinguished typed email with "Tab" or comma
+    // and there are no other distinguished this way emails check validity of email and send it
     if (!email.length && regexp.test(value)) {
       emailsList.push(value);
     }
     if (!emailsList.length && !email.length) return;
-    dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], (isError, errorMessage) => {
-      if (isError) {
-        dispatch(snackBarAction({
-          message: `such emails already exists - ${errorMessage.length > 2 ? `${errorMessage.slice(0, 2).join(", ")} and ${errorMessage.length - 2} more` : errorMessage.join(", ")}`,
-          severity: "error",
-          duration: 6000,
-          open: true,
-        }));
-        dispatch(removeFileAction(Object.keys(filesList)[0]));
-        return setEmail([]);
-      }
+    dispatch(inviteByEmailAction([...emailsList, ...email.map((el) => el.emailString)], () => {
+      setValue("");
+      setEmail([]);
+      dispatch(clearAction("inviteByEmail"));
       dispatch(removeFileAction(Object.keys(filesList)[0]));
-      // return setEmail([]);
     }));
   };
 
@@ -85,36 +78,6 @@ function CreateAccountByEmailIvite() {
     setEmail((em) => em.filter((email) => email.id !== id));
   };
 
-  useEffect(() => {
-    if (isAddProfileSuccess) {
-      // setIsOpenDropZone(false);
-      setValue("");
-      setEmail([]);
-      dispatch(clearAction("addProfileByEmailSuccess"));
-      dispatch(snackBarAction({
-        message: "Account created successfully",
-        severity: "success",
-        duration: 6000,
-        open: true,
-      }));
-    }
-  }, [isAddProfileSuccess]);
-
-  useEffect(() => {
-    if (isAddExistProfileSuccess) {
-      // setIsOpenDropZone(false);
-      setValue("");
-      setEmail([]);
-      dispatch(clearAction("inviteByEmail"));
-      dispatch(snackBarAction({
-        message: `${email.length || 1} ${email.length > 1 ? "emails" : "email"} sent successfully`,
-        severity: "success",
-        duration: 6000,
-        open: true,
-      }));
-    }
-  }, [isAddExistProfileSuccess]);
-
   return (
     <React.Fragment>
       <Header
@@ -124,7 +87,7 @@ function CreateAccountByEmailIvite() {
       <div className={classes.rootDiv}>
         <Typography variant='subtitle1' classes={{ subtitle1: classes.heading }}>Invite users to add or create Popl accounts via email</Typography>
         {isFetching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 20px)" }} />}
-        <div className={clsx("relative", classes.rootWrapper)}>
+        <div className={classes.rootWrapper}>
           <Grid container className={classes.emailsComponentWrapper}>
             <div className={classes.emailContainer}>
               <div className={classes.emailChipContainer}>
@@ -134,7 +97,7 @@ function CreateAccountByEmailIvite() {
                   </p>
                   <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
                 </div>)}
-                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "35%" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
+                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "40%", backgroundColor: "transparent" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
               </div>
 
             </div>
@@ -183,7 +146,9 @@ function CreateAccountByEmailIvite() {
                 icon={<SvgMaker name={"csv"} fill='#fff' />}
                 quantity={1}
                 handleClose={() => setIsOpenDropZone(false)}
-                page='addNewProfile'
+                addFileAction={addFileNewProfileAction}
+                isFetching={isFetching}
+                filesList={filesList}
               />
             </div>
           </>}

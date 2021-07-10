@@ -30,6 +30,13 @@ export const inviteByEmailAction = (emails, clear) => async (dispatch, getState)
         requests.inviteByEmailRequest(email, userData, data);
       }
     }
+
+    dispatch(snackBarAction({
+      message: `${reqEmails.length} ${reqEmails.length > 1 ? "emails" : "email"} sent successfully`,
+      severity: "success",
+      duration: 6000,
+      open: true,
+    }));
     clear();
     dispatch(fetchData(false));
     dispatch(removeFileAction());
@@ -55,50 +62,6 @@ export const inviteByEmailAction = (emails, clear) => async (dispatch, getState)
         open: true,
       }),
     );
-  }
-};
-
-export const addNewProfileByEmailAction = (emails, resultCallBack) => async (dispatch, getState) => {
-  try {
-    const userData = getState().authReducer.signIn.data;
-    const errors = [];
-
-    if (restrictEdit(userData.id)) {
-      return dispatch(snackBarAction({
-        message: "Can not edit demo account",
-        severity: "error",
-        duration: 6000,
-        open: true,
-      }));
-    }
-
-    dispatch(fetchData(true));
-    const result = await Promise.all(emails.map((email) => requests.addNewProfileByEmailRequest(email.trim(), userData.id)));
-    result.filter(({ data }) => typeof data === "string" || !data.success).forEach(({ config }) => errors.push(config.data.get("sEmail")));
-    if (errors.length > 0) {
-      console.log(errors);
-      dispatch(inviteByEmailAction(errors, userData, resultCallBack));
-      //   if (errors.length === result.length) {
-      //     resultCallBack(true, errors);
-      //     return dispatch(fetchData(false));
-      //   }
-      //   dispatch(clearStateAction("dataProfiles"));
-      // dispatch(getProfileInfoRequest(userId));
-      //   dispatch({
-      //     type: ADD_NEW_PROFILE_BY_EMAIL,
-      //   });
-      //   resultCallBack(true, errors);
-      return;
-      //   return dispatch(fetchData(false));
-    }
-    resultCallBack();
-    dispatch(clearStateAction("dataProfiles"));
-    dispatch(getProfileInfoRequest(userData.id));
-    return dispatch({
-      type: ADD_NEW_PROFILE_BY_EMAIL,
-    });
-  } catch (error) {
-    console.log(error);
   }
 };
 

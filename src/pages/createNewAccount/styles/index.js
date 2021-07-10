@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
+    width: "70%",
     height: 20,
     padding: "70px 20px 20px",
   },
@@ -41,7 +41,7 @@ export default makeStyles((theme) => ({
     },
   },
   orSectionText: {
-    width: "10%",
+    padding: "0 5px",
     height: "100%",
     fontSize: 16,
     display: "flex",

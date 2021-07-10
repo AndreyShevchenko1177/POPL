@@ -8,8 +8,6 @@ import poplsReducer from "../../pages/popls/store/reducer";
 import realTimeAnalytics from "../../pages/overallAnalytics/store/reducer";
 import connectionsReducer from "../../pages/connections/store/reducer";
 import stripeResult from "../../pages/stripeResultPages/store/reducer";
-import addProfilesReducer from "../../pages/addExistingProfile/store/reducer";
-import newProfileReducer from "../../pages/addNewProfile/store/reducer";
 import loginExistingReducer from "../../pages/loginExistingProfile/store/reducer";
 import createNewAccountReducer from "../../pages/createNewAccount/store/reducer";
 import createAccountByEmailInvite from "../../pages/createAccountByEmailInvite/store/reducer";
@@ -27,8 +25,6 @@ const appReducer = combineReducers({
   realTimeAnalytics,
   connectionsReducer,
   stripeResult,
-  addProfilesReducer,
-  newProfileReducer,
   loginExistingReducer,
   createNewAccountReducer,
   createAccountByEmailInvite,
