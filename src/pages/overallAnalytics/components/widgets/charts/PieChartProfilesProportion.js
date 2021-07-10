@@ -54,11 +54,11 @@ const PieChartProfilesProportion = memo(({ dohnutPopsByProfileData, index, isCha
            
           </div>
         
-        <div style="width: 239px; ">
+        <div style="width: 240px; ">
           <span> Name </span>
         </div>
-        <div style="width: 115px; display: flex; justify-content: center">  <span style="white-space: nowrap;"> Pop count </span> </div>
-        <div style="width: 42px; display: flex; justify-content: center">  <span> CTR </span> </div>
+        <div style="width: 120px; display: flex; justify-content: center">  <span style="white-space: nowrap;"> Pop count </span> </div>
+        <div style="display: flex; justify-content: center">  <span> Tap Through Rate </span> </div>
          </div>
       `;
     return header + data.datasets[0].data

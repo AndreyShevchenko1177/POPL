@@ -1,8 +1,8 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable guard-for-in */
 import React, { useState, useEffect, useRef } from "react";
-import { Bar, Line } from "react-chartjs-2";
-import chartOptions, { colors } from "./chartOptions";
+import { Line } from "react-chartjs-2";
+import chartOptions from "./chartOptions";
 import Loader from "../../../components/Loader";
 import useStyles from "./styles/style";
 import { isSafari } from "../../../constants";

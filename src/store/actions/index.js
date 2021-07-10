@@ -24,7 +24,7 @@ import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/re
 import { GET_POPS_FOR_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
 import { isFetchingAction as isFetchingProfilesAction } from "../../pages/profiles/store/actions";
 import {
-  uniqueObjectsInArray, formatDateConnections, getId, removeCommas, filterPops,
+  uniqueObjectsInArray, formatDateConnections, getId, filterPops,
 } from "../../utils";
 
 export const getProfileData = (data) => ({
@@ -58,7 +58,7 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
       let idsArray;
       profiles = [{ ...myProfile.data, id: myProfile.id, customId: getId(12) }];
       if (response.data && response.data !== "null") {
-        idsArray = JSON.parse(removeCommas(response.data));
+        idsArray = JSON.parse((response.data));
         const result = await Promise.all(idsArray.map((id) => getProfileAction(id)));
         profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
           ...p,

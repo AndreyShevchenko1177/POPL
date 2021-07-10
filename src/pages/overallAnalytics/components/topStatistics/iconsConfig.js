@@ -27,7 +27,7 @@ const initialState = [
   },
   {
     id: "ctr",
-    title: "CTR",
+    title: "Tap Through Rate",
     value: " ",
     isTop: true,
     icon: <img style={{ width: "20px", height: "25px" }} alt='popl' src={popls} />,

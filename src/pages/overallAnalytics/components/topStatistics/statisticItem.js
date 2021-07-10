@@ -27,7 +27,7 @@ function StatisticItem({
             style={{ textAlign: "center", display: "flex" }}
           >
             {value
-              ? title !== "CTR"
+              ? title !== "Tap Through Rate"
                 ? addCommas(String(value))
                 : <div><span>{value}</span><span style={{ fontSize: styles?.percentageFontSize || 30 }}>%</span></div>
               : "-"}

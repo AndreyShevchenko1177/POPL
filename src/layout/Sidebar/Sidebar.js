@@ -123,12 +123,6 @@ function PermanentDrawerLeft() {
     dispatch(getCompanyInfoAction());
   }, []);
 
-  // useEffect(() => {
-  //   if (profileInfo && profileInfo[1]) {
-  //     console.log(hexToRgbA(profileInfo[1], 1));
-  //     setFadeColor(hexToRgbA(profileInfo[1], 1));
-  //   }
-  // }, [profileInfo]);
   useEffect(() => {
     if (dashboardPlan !== null) {
       if (dashboardPlan == 0 || dashboardPlan === "") {

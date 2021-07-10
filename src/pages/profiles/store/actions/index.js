@@ -3,7 +3,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
 import { snackBarAction } from "../../../../store/actions";
-import { getId, removeCommas, restrictEdit } from "../../../../utils";
+import { getId, restrictEdit } from "../../../../utils";
 import {
   GET_DATA_PROFILES_SUCCESS,
   GET_DATA_PROFILES_FAIL,
@@ -42,7 +42,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
     const response = await requests.profileIdsRequest(userId);
     profiles = [{ customId: getId(12), id: myProfile.id, ...myProfile.data }];
     if (response.data && response.data !== "null") {
-      const idsArray = JSON.parse(removeCommas(response.data));
+      const idsArray = JSON.parse(response.data);
       const result = await Promise.all(idsArray.map((id) => requests.getProfileAction(id)));
       profiles = [{ ...myProfile.data, id: myProfile.id }, ...result.map((el) => ({ ...el.data, id: el.id }))].map((p) => ({
         ...p,
@@ -205,7 +205,7 @@ export const turnProfileAction = (profileIds, state) => async (dispatch, getStat
       type: TURN_PROFILE_ON_OFF_SUCCESS,
       payload: {
         profileIds: result.filter((res) => res.status === "fulfilled").map((res) => {
-          const { id } = JSON.parse(removeCommas(res.value.config.data));
+          const { id } = JSON.parse((res.value.config.data));
           return id;
         }),
         state,

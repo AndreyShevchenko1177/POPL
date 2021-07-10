@@ -1,3 +1,4 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { useState, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -7,19 +8,20 @@ import {
   Paper, Typography, Button, Tooltip,
 } from "@material-ui/core";
 import clsx from "clsx";
+import worker from "workerize-loader!../../worker";
 import ConnectionCard from "./components/ConnectionCard";
 import useStyles from "./styles/style";
 import Chart from "./components/Chart";
 import { getPopsAction } from "./store/actions";
 import { getLatestConnectionsAction } from "../../store/actions";
 import { setIsSignAction } from "../auth/store/actions";
-import { generateLineChartData } from "../../utils";
 import Loader from "../../components/Loader";
 
 export default function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [workerInstanse] = useState(worker());
   const profilesData = useSelector(({ profilesReducer }) => profilesReducer.dataProfiles.data);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
   const isSign = useSelector(({ authReducer }) => authReducer.isSign); // if true it means user signed in, not page refresh
@@ -55,11 +57,15 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (popsData && Object.values(popsData).length) {
-      setChartData(generateLineChartData({
-        poplPops: popsData.poplPops,
-        qrCodePops: [...popsData.qrCodePops, ...popsData.walletPops],
-        allPops: popsData.allPops,
-      }));
+      workerInstanse.generateLineChartData(JSON.stringify({ popsData })).then(({ lineData }) => {
+        const qrPops = Object.keys(lineData.qrCodePops).reduce((acc, cur) => {
+          acc[cur] = lineData.qrCodePops[cur] + lineData.walletPops[cur];
+          return acc;
+        }, {});
+        setChartData({
+          poplPops: lineData.poplPops, qrCodePops: qrPops, allPops: lineData.allPops, labels: lineData.labels,
+        });
+      });
     } else {
       setChartData(popsData);
     }
