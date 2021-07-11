@@ -358,6 +358,7 @@ function OverallAnalytics() {
     setSaveSelected(true);
   };
 
+  // FIRES AFTER SELECTING OPTIONS IN CALENDAR
   const selectOption = (event) => {
     setOption(event.target.value);
     setCalendar({ ...calendar, visible: false });
@@ -526,13 +527,14 @@ function OverallAnalytics() {
     }
   };
 
+  // INITIAL DATA LOADING AFTER PROFILES DATA LOADED
   useEffect(() => {
     if (profilesData) {
       dispatch(mainAnalyticsAction());
     }
   }, [profilesData]);
 
-  // SETTING ALL POPS
+  // SETTING ALL POPS. WHEN LOADED DATA FROM mainAnalyticsAction
   useEffect(() => {
     if (allPopsData) {
       // setting pops for popl level
@@ -564,6 +566,7 @@ function OverallAnalytics() {
     }
   }, [allPopsData, location]);
 
+  // FIRES AFTER SELECTING OPTIONS IN ACCOUNTS FILTER BUTTON
   useEffect(() => {
     if (!Object.keys(checkboxes.profiles).length) setPopsLineData(null);
     if (popsData && profileCountFilter && profilesData && Object.keys(checkboxes.profiles).length) {
@@ -580,6 +583,7 @@ function OverallAnalytics() {
     }
   }, [checkboxes.profiles, calendar.dateRange, profilesData, popsData]);
 
+  // FIRES AFTER SELECTING OPTIONS IN DEVICES FILTER BUTTON
   useEffect(() => {
     const isSelected = Object.values(checkboxes.devices).includes(true);
     if (isSelected) {
