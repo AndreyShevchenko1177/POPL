@@ -59,7 +59,7 @@ function CreateNewAccount() {
       setValue("");
       dispatch(clearAction("addProfileByRandomEmailSuccess"));
       dispatch(snackBarAction({
-        message: `${value} number of accounts created successfully`,
+        message: `${value} ${value > 1 ? "accounts" : "account"} created successfully`,
         severity: "success",
         duration: 6000,
         open: true,

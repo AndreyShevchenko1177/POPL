@@ -73,7 +73,7 @@ export const createAccountByEmail = (emails, clear) => async (dispatch, getState
       }
     }
     dispatch(snackBarAction({
-      message: `${reqEmails.length} number of accounts created successfully`,
+      message: `${reqEmails.length} ${reqEmails.length > 1 ? "accounts" : "account"} created successfully`,
       severity: "success",
       duration: 6000,
       open: true,

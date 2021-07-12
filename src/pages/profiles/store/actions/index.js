@@ -135,7 +135,7 @@ export const addLinkAction = (value, title, profileData, iconId, icon, file) => 
       fileName = url.split("/")[url.split("/").length - 1];
     }
 
-    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(fileName, title, item, iconId, iconName || "")));
+    const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(iconId === 37 ? fileName : value, title, item, iconId, iconName || "")));
 
     const successLinksIds = result
       .filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success") // filtering by success request
@@ -256,7 +256,6 @@ export const editLinkAction = (success, linksArray, file, linkFile) => async (di
 
     // for uploaded file in link type file
     if (linkFile) {
-      console.log(linkFile);
       uploadedFile = await uploadImage(new File([linkFile], `${userId}-file-${getId(12)}^${linkFile.name}`, { type: linkFile.type }));
     }
 

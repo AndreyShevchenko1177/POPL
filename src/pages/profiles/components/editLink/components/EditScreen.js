@@ -14,6 +14,7 @@ import { snackBarAction } from "../../../../../store/actions";
 import Loader from "../../../../../components/Loader";
 import UploadFile from "../../../../../components/wizard/components/uploadFile";
 import fileIcon from "../../../../../assets/file.png";
+import { uploadImage } from "../../../../../config/firebase.query";
 
 function EditScreen({
   currentIcon,
@@ -103,14 +104,19 @@ function EditScreen({
   };
 
   useEffect(() => {
-    setInputValue({ title: title || "", value: value || "" });
-    const fileName = value?.split("%5E")[1];
-    setUploadedFiles([{ file: { name: fileName || value || "" }, src: fileIcon }]);
+    if (id === 37) {
+      const fileName = value?.split("%5E")[1];
+      setUploadedFiles([{ file: { name: fileName || value || "" }, src: fileIcon }]);
+    } else {
+      setInputValue({ title: title || "", value: value || "" });
+    }
   }, []);
 
   useEffect(() => {
     if (isDeleteLinksFetching) setIsOpenPopup(false);
   }, [isDeleteLinksFetching]);
+
+  console.log(uploadedFiles);
 
   return (
     <div style={{ justifyContent: isDeleteTab ? "center" : "space-between" }} className={classes.linkContainer}>
@@ -217,7 +223,7 @@ function EditScreen({
             style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             className={classes.editLink}
             onClick={() => {
-              if (!Object.values(uploadedFiles).length) {
+              if (id === 37 && !Object.values(uploadedFiles).length) {
                 return dispatch(snackBarAction({
                   message: "File is required",
                   severity: "error",
@@ -225,7 +231,7 @@ function EditScreen({
                   open: true,
                 }));
               }
-              profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0].file);
+              profileBtnEvent(hash, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0]?.file);
             }}
           >
             {(isEditLinksFetching || isDeleteLinksFetching) && <Loader
@@ -249,7 +255,7 @@ function EditScreen({
             className={classes.editLink}
             style={{ whiteSpace: "nowrap", width: 218, height: 36 }}
             onClick={() => {
-              if (!Object.values(uploadedFiles).length) {
+              if (id === 37 && !Object.values(uploadedFiles).length) {
                 return dispatch(snackBarAction({
                   message: "File is required",
                   severity: "error",
@@ -257,7 +263,7 @@ function EditScreen({
                   open: true,
                 }));
               }
-              allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0].file);
+              allProfileBtnEvent(hash, id, title, value, inputValue.value || value, inputValue.title || title, file, Object.values(uploadedFiles)[0]?.file);
             }}
           >
             {(isEditLinksFetching || isDeleteLinksFetching) && <Loader

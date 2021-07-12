@@ -94,7 +94,7 @@ function CreateAccountByEmail() {
                   </p>
                   <HighlightOffIcon className={classes.icon} onClick={() => removeEmail(id)}/>
                 </div>)}
-                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px" } : { width: "40%", backgroundColor: "transparent" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
+                <input placeholder={email.length ? "" : "Enter emails separated by commas"} className={classes.emailInput} style={email.length ? { minWidth: "10px", backgroundColor: "transparent" } : { width: "40%", backgroundColor: "transparent" }} onChange={handleChange} onKeyDown={handleKeyDownChange} onKeyUp={handleKeyChange} value={value}/>
               </div>
 
             </div>
