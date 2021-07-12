@@ -130,7 +130,7 @@ function CreateAccountByEmailIvite() {
                 color="primary"
                 disabled={isFetching}
               >
-                Send Invite
+                Send Invites
               </Button>
             </div>
           </Grid>
