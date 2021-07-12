@@ -6,7 +6,6 @@ function ChoiceCard({
 }) {
   const classes = useStyle();
   return (
-    // <div className={classes.choiceCardContainer}>
     <div onClick={onClick} className={classes.choiceCardWrapper}>
       <div>
         {Icon()}

@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { snackBarAction } from "../../store/actions";
 import pem from "./jwtSecret";
 import useStyle from "./styles/styles";
-import ChoiceCard from "./components/crmSalesForceCard";
+import ChoiceCard from "../exportToCrm/components/ExportToCrmCard";
 import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
 
