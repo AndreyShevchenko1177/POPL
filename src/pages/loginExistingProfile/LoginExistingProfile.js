@@ -147,7 +147,7 @@ function LoginExistingProfile() {
                     }}
                     size={20}
                   />}
-                  {!isFetching && "Add account"}
+                  {!isFetching && "Add Account"}
                 </Button>
               </Grid>
             </Grid>

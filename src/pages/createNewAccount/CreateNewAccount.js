@@ -111,7 +111,7 @@ function CreateNewAccount() {
               disabled={isFetching}
               fullWidth
             >
-              Create accounts
+              Create Accounts
             </Button>
           </Grid>
         </Grid>
