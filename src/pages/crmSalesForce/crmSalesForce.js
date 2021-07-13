@@ -11,6 +11,7 @@ import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
 import { jwtSign } from "./helpers/jwtSign";
 import { newParagonJwtAction } from "./store/actions";
+import uploadConnections from "./helpers/uploadConnections";
 
 let isMounted = true;
 
@@ -21,25 +22,30 @@ function CrmSalesForce() {
   const [isLaunching, setIsLaunching] = useState(false);
   const paragonJwt = useSelector(({ paragonReducer }) => paragonReducer);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
+  const userName = useSelector(({ authReducer }) => authReducer.signIn.data.name);
+
+  const checkParagonJwt = function (jwt) {
+    if (jwt === "") {
+      jwt = jwtSign(userId);
+      dispatch(newParagonJwtAction(jwt));
+    }
+    return jwt;
+  };
 
   async function initParagon() {
-    let jwtToken = paragonJwt;
-
-    if (paragonJwt === "") {
-      jwtToken = jwtSign(userId);
-      dispatch(newParagonJwtAction(jwtToken));
-    }
+    let jwtToken = checkParagonJwt(paragonJwt);
 
     await window.paragon.authenticate(
       process.env.REACT_APP_PARAGON_PROJECT_ID,
       jwtToken,
     );
+
     if (!isMounted) {
       isMounted = true;
     } else {
       let response = window.paragon.getUser();
 
-      console.log(response);
+      console.log("response", response);
 
       if (response.integrations.salesforce.enabled) {
         dispatch(snackBarAction({
@@ -49,6 +55,50 @@ function CrmSalesForce() {
           open: true,
         }));
         setIsLaunching(false);
+      } else {
+        setIsLaunching(false);
+        window.paragon.connect("salesforce", {
+          onSuccess: () => console.log("success"),
+        });
+      }
+    }
+  }
+
+  async function uploadToParagon() {
+    let jwtToken = checkParagonJwt(paragonJwt);
+
+    await window.paragon.authenticate(
+      process.env.REACT_APP_PARAGON_PROJECT_ID,
+      jwtToken,
+    );
+
+    if (!isMounted) {
+      isMounted = true;
+    } else {
+      let response = window.paragon.getUser();
+
+      console.log("response", response);
+
+      if (response?.integrations?.salesforce?.enabled) {
+        if (response?.integrations?.salesforce?.configuredWorkflows
+          && Object.values(response.integrations.salesforce.configuredWorkflows)[0].enabled) {
+          console.log("call uploadConnections([])");
+          //
+          //
+          //
+          // Should we pass "userName" or "nameBusiness" ???
+          //
+          //
+          //
+          uploadConnections(jwtToken, userName, userId, []);
+        } else {
+          dispatch(snackBarAction({
+            message: "Smth wrong...",
+            severity: "error",
+            duration: 5000,
+            open: true,
+          }));
+        }
       } else {
         setIsLaunching(false);
         window.paragon.connect("salesforce", {
@@ -82,7 +132,7 @@ function CrmSalesForce() {
             />
           </div>
 
-          <div className={ classes.choiceCardContainer } onClick={ () => { } }>
+          <div className={ classes.choiceCardContainer } onClick={ uploadToParagon }>
             <ChoiceCard
               Icon={ () => <img className={ classes.addLink } alt='add-icon' src={ addLinkIcon } /> }
               title='Upload Contacts to Salesforce'
