@@ -81,7 +81,7 @@ function CrmSalesForce() {
         <div className={classes.choiceCardsWrapper}>
           <div className={classes.choiceCardContainer} onClick={() => { }}>
             <ChoiceCard
-              Icon={() => <SvgMaker width={30} height={30} name={"settings"} fill='#000' />}
+              Icon={() => <SvgMaker width={35} height={35} name={"settings"} fill='#000' />}
               title='Configure Salesforce Integration'
             // description='---'
             />

@@ -50,11 +50,12 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "30px",
+    padding: "20px",
   },
   choiceCardTitle: {
     fontSize: 17,
     fontWeight: 600,
+    whiteSpace: "nowrap",
   },
   choiceCardDescription: {
     fontSize: 16,
