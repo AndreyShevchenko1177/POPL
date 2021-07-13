@@ -100,10 +100,12 @@ function CrmSalesForce() {
           }));
         }
       } else {
-        setIsLaunching(false);
-        window.paragon.connect("salesforce", {
-          onSuccess: () => console.log("success"),
-        });
+        dispatch(snackBarAction({
+          message: "Smth wrong...",
+          severity: "error",
+          duration: 5000,
+          open: true,
+        }));
       }
     }
   }
