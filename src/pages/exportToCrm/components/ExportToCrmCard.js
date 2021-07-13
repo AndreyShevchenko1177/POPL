@@ -17,7 +17,6 @@ function ChoiceCard({
         {description}
       </div>
     </div>
-    // </div>
   );
 }
 

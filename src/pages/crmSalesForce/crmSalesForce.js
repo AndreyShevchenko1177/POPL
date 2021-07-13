@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import jwt from "jsonwebtoken";
 import Header from "../../components/Header";
 import Loader from "../../components/Loader";
 import { snackBarAction } from "../../store/actions";
-import pem from "./jwtSecret";
 import useStyle from "./styles/styles";
 import ChoiceCard from "../exportToCrm/components/ExportToCrmCard";
 import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
+import { jwtSign } from "./helpers/jwtSign";
+import { newParagonJwtAction } from "./store/actions";
 
 let isMounted = true;
 
@@ -19,21 +19,16 @@ function CrmSalesForce() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [isLaunching, setIsLaunching] = useState(false);
+  const paragonJwt = useSelector(({ paragonReducer }) => paragonReducer);
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   async function initParagon() {
-    const jwtToken = jwt.sign(
-      {
-        sub: userId,
-        iat: Math.floor(new Date().getTime() / 1000),
-        exp: Math.floor((new Date().getTime() / 1000) + 3600),
-      },
-      pem,
-      {
-        algorithm: "RS256",
-        keyid: "2324kd",
-      },
-    );
+    let jwtToken = paragonJwt;
+
+    if (paragonJwt === "") {
+      jwtToken = jwtSign(userId);
+      dispatch(newParagonJwtAction(jwtToken));
+    }
 
     await window.paragon.authenticate(
       process.env.REACT_APP_PARAGON_PROJECT_ID,
@@ -72,24 +67,24 @@ function CrmSalesForce() {
   return <div>
     <Header
       firstChild
-      path={location.state?.path || "/"}
+      path={ location.state?.path || "/" }
     />
-    {isLaunching && <Loader styles={{ position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" }} />}
+    { isLaunching && <Loader styles={ { position: "absolute", top: "calc(50% - 20px)", left: "calc(50% - 170px)" } } /> }
 
-    <div className={classes.choiceContainer}>
-      <div className={classes.choiceWrapper}>
-        <div className={classes.choiceCardsWrapper}>
-          <div className={classes.choiceCardContainer} onClick={() => { }}>
+    <div className={ classes.choiceContainer }>
+      <div className={ classes.choiceWrapper }>
+        <div className={ classes.choiceCardsWrapper }>
+          <div className={ classes.choiceCardContainer } onClick={ initParagon }>
             <ChoiceCard
-              Icon={() => <SvgMaker width={35} height={35} name={"settings"} fill='#000' />}
+              Icon={ () => <SvgMaker width={ 35 } height={ 35 } name={ "settings" } fill='#000' /> }
               title='Configure Salesforce Integration'
             // description='---'
             />
           </div>
 
-          <div className={classes.choiceCardContainer} onClick={() => { }}>
+          <div className={ classes.choiceCardContainer } onClick={ () => { } }>
             <ChoiceCard
-              Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon} />}
+              Icon={ () => <img className={ classes.addLink } alt='add-icon' src={ addLinkIcon } /> }
               title='Upload Contacts to Salesforce'
             // description='---'
             />

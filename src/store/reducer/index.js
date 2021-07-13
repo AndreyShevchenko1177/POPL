@@ -14,6 +14,7 @@ import createAccountByEmailInvite from "../../pages/createAccountByEmailInvite/s
 import generalSettingsReducer from "../../pages/generalSettings/store/reducer";
 import dashboardReducer from "../../pages/dashboard/store/reducer";
 import { LOGOUT } from "../../pages/auth/store/actionTypes";
+import paragonReducer from "../../pages/crmSalesForce/store/reducer";
 
 const appReducer = combineReducers({
   form: formReducer,
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
   createAccountByEmailInvite,
   generalSettingsReducer,
   dashboardReducer,
+  paragonReducer,
 });
 
 const rootReducer = (state, action) => {
