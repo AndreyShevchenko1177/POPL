@@ -113,7 +113,7 @@ export default function Profiles() {
       typeof event.target.className === "string"
       && (event.target.className.includes("target-element") || event.target.offsetParent?.className?.includes("target-element"))
     ) {
-      setCheckBoxes((cb) => ({ ...cb, [customId]: { ...cb[customId], checked: !cb[customId].checked } }));
+      // setCheckBoxes((cb) => ({ ...cb, [customId]: { ...cb[customId], checked: !cb[customId].checked } }));
       // history.push("/popls", { profilesData: profilesData.find((el) => el.id === id), disabled: false });
     }
   }
