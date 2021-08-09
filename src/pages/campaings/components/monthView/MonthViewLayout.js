@@ -30,7 +30,7 @@ function MonthViewLayout({
       let eventId = event?.eventId || moment().format("YYYY/MM/DD_HH:mm:ss.SSS");
 
       if (prev[newDate]) { // this date is present already
-        prev[newDate].push({ ...event, eventId, deleteThisEvent: deleteThisEvent(eventId) });
+        prev[newDate].push({ ...event, eventId, deleteThisEvent: deleteThisEvent(eventId, newDate) });
         let newEvents = prev[newDate].sort((a, b) => {
           if (a.values.isAllDay) return -1;
           if (b.values.isAllDay) return 1;
