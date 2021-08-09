@@ -1,14 +1,5 @@
 import axios from "axios";
 
-export const getChildrenIdsRequest = (userId) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("sAction", "getChild");
-  bodyFormData.append("iID", userId);
-  return axios.post("", bodyFormData, {
-    withCredentials: true,
-  });
-};
-
 export const profileIdsRequest = async (userId) => {
   const bodyFormData = new FormData();
   bodyFormData.append("sAction", "getChild");
@@ -130,7 +121,6 @@ export const makeProfileSubscriberRequest = (userId) => {
 
   fetch(`https://api.revenuecat.com/v1/subscribers/${userId}/entitlements/pro/promotional`, options)
     .then((response) => {
-      console.log(response);
       if (response.status === 201) {
         makeProfileProRequest(userId.toString(), "1");
       }
@@ -256,4 +246,16 @@ export const changeLinksOrderRequest = ({
   bodyFormData.append("sID", profileId.toString());
   bodyFormData.append("iProfileNum", profileState);
   return axios.post("", bodyFormData);
+};
+
+export const usageRecordRequest = async (subItemId, quantity, timestamp) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("sAction", "SetNumberAccounts");
+  bodyFormData.append("sSubscription", subItemId);
+  bodyFormData.append("sQuantity", quantity);
+  bodyFormData.append("sTimeStamp", timestamp);
+
+  return axios.post("", bodyFormData, {
+    withCredentials: true,
+  });
 };

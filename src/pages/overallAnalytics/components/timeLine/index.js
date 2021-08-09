@@ -377,7 +377,11 @@ function NetworkActivity({
               { Object.values(checkboxes).includes(true) && activeItemTitle === "device"
               && <div className={clsx(classes.filterText, "overallanalytics-page")}>
                 <span style={{ whiteSpace: "nowrap" }}>
-                  <i>{Object.values(checkboxes).filter((el) => !!el).length > 1 ? `${Object.values(checkboxes).filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}</i>
+                  <i>
+                    {Object.values(checkboxes)
+                      .filter((el) => !!el).length > 1 ? `${Object.values(checkboxes)
+                        .filter((el) => !!el).length} ${activeItemTitle}s` : `${1} ${activeItemTitle}`}
+                  </i>
                 </span>
                 <CloseIcon style={{
                   cursor: "pointer", color: "#666666", fontSize: 20, marginLeft: 5,

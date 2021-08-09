@@ -16,8 +16,8 @@ export const SuccessPage = () => {
   const userData = useSelector(({ authReducer }) => authReducer.signIn.data);
 
   useEffect(() => {
-    const timer = setTimeout(() => history.push("/settings/billing"), 5000);
-    const { subscriptionId } = JSON.parse(getCookie("sessionId"));
+    const timer = setTimeout(() => history.push("/accounts"), 5000);
+    const { subscriptionId, quantity, isNewBilling } = JSON.parse(getCookie("sessionId"));
     if (subscriptionId) {
       const bodyFormData = new FormData();
       bodyFormData.append("sAction", "SetDashboardPlan");
@@ -29,7 +29,7 @@ export const SuccessPage = () => {
       });
     }
 
-    setStripeCustomer(params.sessionId, userData.id, (message) => dispatch(snackBarAction({
+    setStripeCustomer(params.sessionId, userData.id, quantity, isNewBilling, (message) => dispatch(snackBarAction({
       message,
       severity: "error",
       duration: 6000,
@@ -47,7 +47,7 @@ export const SuccessPage = () => {
       {JSON.parse(getCookie("sessionId")).id === params.sessionId ? (
         <div className={classes.container}>
           <img className={classes.icon} alt="success" src={successIcon} />
-          <p className={classes.resultText}>Your payment successfully</p>
+          <p className={classes.resultText}>Payment Successful</p>
           <a href="/" className={classes.backPageText}>
             You will be redirected back to your dashboard in 5 seconds
           </a>

@@ -30,11 +30,11 @@ function Recipients({ setValues, recipients }) {
           color="primary"
           onClick={() => setIsShow(true)}
         >
-          Select Recipients
+          Select Accounts
         </Button>
       </div>
       <div className={classes.recipientsList}>
-        <Typography>Recipients *</Typography>
+        <Typography>Accounts *</Typography>
         <div className={classes.recipientsContentWrapper}>
           {recipients.map(({ name, image, customId }) => (
             <div key={customId} className={classes.recipientItem}>

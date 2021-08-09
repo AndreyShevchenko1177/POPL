@@ -13,6 +13,7 @@ import {
   POPLS_INFO_SIDEBAR,
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
+  SET_METERED_SUB_QUANTITY,
 } from "../actionTypes";
 
 const initialState = {
@@ -67,6 +68,7 @@ const initialState = {
   isRestrictedMode: false,
   isFetching: false,
   isMainPageScroll: true,
+  setMeteredSubQuantity: null,
 };
 
 export default function systemReducer(state = initialState, { type, payload }) {
@@ -205,6 +207,12 @@ export default function systemReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isMainPageScroll: payload,
+    };
+  }
+  case SET_METERED_SUB_QUANTITY: {
+    return {
+      ...state,
+      setMeteredSubQuantity: payload,
     };
   }
   default:

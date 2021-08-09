@@ -1,1 +1,1 @@
-export const PARAGON_NEW_JWT = "[PARAGON] NEW JWT";
+export const SAVE_JWT_TOKEN = "[SALESFORCE] SAVE JWT TOKEN";

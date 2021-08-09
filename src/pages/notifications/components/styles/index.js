@@ -40,8 +40,7 @@ export default makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#ffffff",
-    zIndex: 1000,
-    // padding: 10,
+    zIndex: 1003,
     borderRadius: theme.custom.mainBorderRadius,
   },
   profilesListCloseIcon: {

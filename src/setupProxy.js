@@ -38,10 +38,10 @@ module.exports = function (app) {
     }),
   );
   app.use(
-    "/paragon-connectoins",
+    "/paragon-connections",
     createProxyMiddleware({
       target: "https://api.useparagon.com/projects/d04cc8f3-7368-4dc3-8d12-d96e538dd6b3/sdk/events/trigger",
-      pathRewrite: { "^/paragon-connectoins": "/" },
+      pathRewrite: { "^/paragon-connections": "/" },
       headers: { "X-Forwarded-Prefix": "/" },
       changeOrigin: true,
     }),

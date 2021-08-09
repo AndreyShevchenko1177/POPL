@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable import/no-cycle */
+import axios from "axios";
 import {
   PROFILE_DATA, ALERT,
   PROFILE_COUNT_TIER_LEVEL,
@@ -15,6 +16,7 @@ import {
   POPLS_INFO_SIDEBAR,
   CONNECTIONS_INFO_SIDEBAR,
   LATEST_CONNECTIONS,
+  SET_METERED_SUB_QUANTITY,
 } from "../actionTypes";
 import { profileIdsRequest, getProfileAction, makeProfileSubscriberRequest } from "../../pages/profiles/store/actions/requests";
 import { getPoplsAction } from "../../pages/popls/store/actions";
@@ -22,7 +24,8 @@ import { subscriptionConfig } from "../../pages/billing/index";
 import { getCollectionData } from "../../config/firebase.query";
 import { popsActionRequest } from "../../pages/overallAnalytics/store/actions/requests";
 import { GET_POPS_FOR_POPLS_SUCCESS } from "../../pages/popls/store/actionTypes";
-import { isFetchingAction as isFetchingProfilesAction } from "../../pages/profiles/store/actions";
+import { GET_DATA_PROFILES_SUCCESS } from "../../pages/profiles/store/actionTypes";
+import { isFetchingAction as isFetchingProfilesAction, usageRecordAction } from "../../pages/profiles/store/actions";
 import {
   uniqueObjectsInArray, formatDateConnections, getId, filterPops,
 } from "../../utils";
@@ -72,6 +75,43 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
     } else {
       profiles = profilesData;
     }
+    const [subsItemId, subscriptionId] = profiles[0].stripeSubscription.split("%");
+    // timeout should be called just once when trial period expires
+    // if ((trialPeriodTime - new Date().getTime()) >= new Date().getTime() - 20000) {
+    //   setTimeout(() => {
+    //     usageRecordAction(subsItemId, profiles.length, Math.round(new Date().getTime() / 1000));
+    //   }, trialPeriodTime - new Date().getTime());
+    // }
+
+    // this calling every time we loading profiles to set actual number of accounts in stripe usage records
+    if (subsItemId) {
+      if (dashboardPlan === "10") {
+        usageRecordAction(subsItemId, profiles.length, Math.round(new Date().getTime() / 1000))
+          .then(() => { // after successfully usage record call getting actual usage quantity
+            if (profiles && profiles[0]?.stripeCustomer) {
+              const getSubscriptionItemId = new FormData();
+              getSubscriptionItemId.append("sAction", "EnterpriseGetSubscriptionQuantity");
+              getSubscriptionItemId.append("sCustomerId", profiles[0].stripeCustomer);
+
+              axios.post("", getSubscriptionItemId, {
+                withCredentials: true,
+              })
+                .then((res) => {
+                  const getQuantity = (data) => {
+                    const subscription = subscriptionConfig.find(({ id }) => id == "10"); // getting priceId from subscription and checking then in stripe response to ensure that it's right subscription
+                    if (subscription && (data?.lines?.data && data.lines.data[0]?.price?.id === subscription.priceId) && data.lines.data[0]?.quantity) return data.lines.data[0].quantity;
+                    return null;
+                  };
+                  dispatch({
+                    type: SET_METERED_SUB_QUANTITY,
+                    payload: getQuantity(res.data),
+                  });
+                })
+                .catch((err) => console.error(err));
+            }
+          });
+      }
+    }
 
     dispatch({
       type: PROFILES_INFO_SIDEBAR,
@@ -86,10 +126,23 @@ export const getProfileInfoRequest = (userId) => async (dispatch, getState) => {
           unProProfileIds.push(profile.id);
         }
       });
-
       if (unProProfileIds.length) {
-        if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
-          Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)));
+        if (subscriptionConfig[dashboardPlan == 10 ? 4 : dashboardPlan - 1].unitsRange[1] >= profiles.length) { // checking if profiles length in tier making all profiles pro
+          Promise.all(unProProfileIds.map((id) => makeProfileSubscriberRequest(id)))
+            .then(() => {
+              const result = profiles.map((profile) => {
+                if (unProProfileIds.includes(profile.id)) {
+                  profile.pro = "1"; // setting pro for new and mapped array cause it's asynchronus calls and we can't know which one fulfilled first
+                  return { ...profile, pro: "1" };
+                }
+                return profile;
+              });
+              console.log(result, "system");
+              dispatch({
+                type: GET_DATA_PROFILES_SUCCESS,
+                payload: result,
+              });
+            });
         }
         // =====THIS WAS USED TO MAKE PRO AS MUCH PROFILES AS TIER LEVEL ALLOWS===
         // else {
@@ -245,3 +298,31 @@ export const handleMainPageScrollAction = (isScroll) => (dispatch) => dispatch({
   type: HANDLE_MAIN_PAGE_SCROLL,
   payload: isScroll,
 });
+
+export const increaseStripeAccountNumber = (quantity, cb) => async (dispatch, getState) => {
+  const profiles = getState().profilesReducer.dataProfiles.data;
+  usageRecordAction(profiles[0].stripeSubscription.split("%")[0], quantity, Math.round(new Date().getTime() / 1000)).then(() => { // after successfully usage record call getting actual usage quantity
+    if (profiles && profiles[0]?.stripeCustomer) {
+      const getSubscriptionItemId = new FormData();
+      getSubscriptionItemId.append("sAction", "EnterpriseGetSubscriptionQuantity");
+      getSubscriptionItemId.append("sCustomerId", profiles[0].stripeCustomer);
+
+      axios.post("", getSubscriptionItemId, {
+        withCredentials: true,
+      })
+        .then((res) => {
+          const getQuantity = (data) => {
+            const subscription = subscriptionConfig.find(({ id }) => id == "10"); // getting priceId from subscription and checking then in stripe response to ensure that it's right subscription
+            if (subscription && (data?.lines?.data && data.lines.data[0]?.price?.id === subscription.priceId) && data.lines.data[0]?.quantity) return data.lines.data[0].quantity;
+            return null;
+          };
+          cb();
+          dispatch({
+            type: SET_METERED_SUB_QUANTITY,
+            payload: getQuantity(res.data),
+          });
+        })
+        .catch((err) => console.error(err));
+    }
+  });
+};

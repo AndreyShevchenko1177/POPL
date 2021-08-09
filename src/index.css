@@ -60,9 +60,20 @@ p {
   display: flex;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-center {
+  justify-content: center;
+}
+
 .flex-row-center-horizontal {
   display: flex;
   justify-content: center;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /* paddings */
@@ -118,6 +129,22 @@ p {
   height: 100vh;
 }
 
+.lh-32 {
+  line-height: 32px;
+}
+
+.h-30 {
+  height: 30px;
+}
+
+.h-35 {
+  height: 35px;
+}
+
+.w-35 {
+  width: 35px;
+}
+
 .h-55 {
   height: 55px !important;
 }
@@ -128,6 +155,10 @@ p {
 
 .c-pointer {
   cursor: pointer;
+}
+
+.ta-center {
+  text-align: center;
 }
 
 .datepicker {
@@ -345,6 +376,10 @@ input[type="number"] {
 }
 .disable-bg {
   background-color: #bcbcbc !important;
+}
+
+.dialog-popup {
+  display: none;
 }
 
 @keyframes confettiRain {

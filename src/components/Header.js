@@ -34,7 +34,7 @@ function Header({
 
   const handleRedirect = () => {
     if (lastChild || firstChild) {
-      history.push(path, { path: location.state.path, rootPath: location.state.rootPath });
+      history.push(path, { path: location.state?.path, rootPath: location.state?.rootPath });
       rootLinkClick && rootLinkClick();
     }
   };

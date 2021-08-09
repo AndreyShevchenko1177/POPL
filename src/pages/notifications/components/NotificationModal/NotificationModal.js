@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Button,
@@ -18,6 +18,7 @@ import { normalizeDate } from "../../../../utils";
 import {
   sendNotificationAction, sendShedulerNotificationAction, sendEmailAction, sendShedulerEmailAction, addAttachementAction, addAttachementShedulerAction,
 } from "../../store/actions";
+import TimeSheduler from "../../../../components/TimeSheduler";
 
 function NotificationModal({
   closeModal, data, file, isConnection,
@@ -26,11 +27,11 @@ function NotificationModal({
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState({ value: 1, isShedule: false });
   const [selectedDate, handleDateChange] = useState(new Date());
-  const [time, setTime] = useState("");
-  const [openCalendar, setOpenCalendar] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  console.log(isConnection);
+  const selectDay = useCallback((date) => {
+    handleDateChange(date);
+  }, []);
 
   const sendNotification = () => {
     if (data.sendAs === 2) {
@@ -57,8 +58,9 @@ function NotificationModal({
       }
       return dispatch(sendShedulerEmailAction({ ...reqData, users: reqData.recipients, time: Math.round((new Date(selectedDate).getTime() - new Date().getTime()) / 1000) }, closeModal, isConnection));
     }
+    console.log(new Date(selectedDate));
     setIsButtonDisabled(true);
-    dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }, closeModal));
+    // dispatch(sendShedulerNotificationAction({ ...data, users: data.recipients.map((el) => el.id), time: new Date(selectedDate) }, closeModal));
   };
 
   const getActiveStrategyItems = (index) => {
@@ -67,49 +69,11 @@ function NotificationModal({
       return (
         <div className={classes.timeContainer}>
           <p>Choose send time</p>
-          <div className={classes.calendarContainer}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                autoOk
-                variant="inline"
-                inputVariant="outlined"
-                format="MMM dd, yyyy"
-                value={selectedDate}
-                InputAdornmentProps={{ position: "start" }}
-                onClick={() => setOpenCalendar(true)}
-                open={openCalendar}
-                onClose={() => setOpenCalendar(false)}
-                onChange={(date) => {
-                  handleDateChange(`${new Date(date).getMonth() + 1}/${new Date(date).getDate()}/${new Date(date).getFullYear()} ${time ? normalizeDate(new Date(time).getHours()) : new Date().getHours()}:${time ? normalizeDate(new Date(time).getMinutes()) : new Date().getMinutes()}`);
-                }}
-                size='small'
-                style={{ fontWeight: "normal" }}
-                minDate={new Date()}
-              />
-            </MuiPickersUtilsProvider>
-            <Autocomplete
-              id="combo-box-demo"
-              size='small'
-              options={getDayTime(15)}
-              getOptionDisabled={(option) => {
-                const timeMilliseconds = new Date(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${option.value ? normalizeDate(new Date(option.value).getHours()) : new Date().getHours()}:${option.value ? normalizeDate(new Date(option.value).getMinutes()) : new Date().getMinutes()}`).getTime();
-                const dateNowMilliseconds = new Date().getTime();
-                if (dateNowMilliseconds > timeMilliseconds) return true;
-                return false;
-              }}
-              getOptionSelected={(option, value) => option.title === value.title}
-              getOptionLabel={(option) => option.title}
-              style={{ display: "inline-flex" }}
-              onChange={(event, value) => {
-                if (!value) {
-                  return setTime("");
-                }
-                setTime(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${new Date(value.value).getHours()}:${new Date(value.value).getMinutes()}`);
-                handleDateChange(`${new Date(selectedDate).getMonth() + 1}/${new Date(selectedDate).getDate()}/${new Date(selectedDate).getFullYear()} ${value.value ? normalizeDate(new Date(value.value).getHours()) : new Date().getHours()}:${value.value ? normalizeDate(new Date(value.value).getMinutes()) : new Date().getMinutes()}`);
-              }}
-              renderInput={(params) => <TextField {...params} label="Choose time" variant="outlined" />}
-            />
-          </div>
+          <TimeSheduler
+            classes={classes}
+            handleDateChange={selectDay}
+            selectedDate={selectedDate}
+          />
           <div className={classes.bottomButtons}>
             <Button
               className={classes.confirmBtn}

@@ -21,6 +21,20 @@ import { GET_DATA_PROFILES_SUCCESS } from "../../../profiles/store/actionTypes";
 import { uploadImage } from "../../../../config/firebase.query";
 
 import * as requests from "./requests";
+import { setCompanyImageToProfileImage } from "../../../profiles/store/actions";
+
+function setProfileImage(profile, companyImage) {
+  if (profile.activeProfile === "1") {
+    if (profile.image) {
+      return { ...profile, imageBusiness: `${companyImage}_default_.png` };
+    }
+    return { ...profile, image: `${companyImage}_default_.png` };
+  }
+  if (profile.imageBusiness) {
+    return { ...profile, image: `${companyImage}_default_.png` };
+  }
+  return { ...profile, imageBusiness: `${companyImage}_default_.png` };
+}
 
 export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatch, getState) => {
   try {
@@ -32,6 +46,14 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
       type: GET_POPLS_SUCCESS,
       payload: popls.map((el) => ({ ...el, customId: Number(getId(12, "1234567890")) })),
     });
+    const companyImage = getState().generalSettingsReducer?.companyInfo?.data && getState().generalSettingsReducer?.companyInfo?.data[3];
+    if (companyImage && profiles.some(({ imageBusiness, image }) => !(imageBusiness ?? true) && !(image ?? true))) {
+      await setCompanyImageToProfileImage(companyImage, profiles.filter(({ image, imageBusiness }) => !image || !imageBusiness));
+      profiles = profiles.map((profile) => setProfileImage(profile, companyImage));
+
+      console.log("popls", profiles);
+    }
+
     dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: profiles,
@@ -41,6 +63,7 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
       payload: popls.length,
     });
   } catch (error) {
+    console.error(error);
     dispatch({
       type: GET_POPLS_FAIL,
       payload: error,
@@ -50,7 +73,7 @@ export const getPoplsAction = (profiles, poplsInfoSideBarType) => async (dispatc
       snackBarAction({
         message: "Server error",
         severity: "error",
-        duration: 3000,
+        duration: 6000,
         open: true,
       }),
     );

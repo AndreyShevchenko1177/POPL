@@ -82,7 +82,7 @@ function Notifications() {
               />
             </div>
             <div className={classes.fieldWrapper}>
-              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>{values.sendAs === 1 ? "Message " : "Message *"}</Typography>
+              <Typography variant='subtitle1' classes={{ subtitle1: classes.formLabels }}>Message *</Typography>
               <TextField
                 placeholder='Message'
                 name="message"
@@ -105,7 +105,7 @@ function Notifications() {
                   variant='contained'
                   color="primary"
                   onClick={() => setIsShowModal(true)}
-                  disabled={!values.recipients.length || (!values.message && !values.title)}
+                  disabled={!values.recipients.length || (values.sendAs === 1 ? !values.message : (!values.message || !values.title))}
                 >
                   Schedule/Send now
                 </Button>

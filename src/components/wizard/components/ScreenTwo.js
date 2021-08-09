@@ -13,7 +13,7 @@ import { getId } from "../../../utils";
 import UploadFile from "./uploadFile";
 
 function ScreenTwo({
-  icon, id, closeWizard, profileData, action,
+  icon, id, closeWizard, profileData, action, campaingsAction,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -70,6 +70,7 @@ function ScreenTwo({
   };
 
   const addLink = () => {
+    console.log("addlink");
     if (id === 37) {
       const validation = { value: true, title: true };
       if (!values.title) validation.title = false;
@@ -85,7 +86,14 @@ function ScreenTwo({
       }
       if (Object.values(validation).includes(false)) return;
       setIsValid({ title: true, value: true });
-      dispatch(addLinkAction(values.value, values.title, profileData, id, file, Object.values(files)[0].file));
+      if (campaingsAction) {
+        campaingsAction({
+          value: values.value, title: values.title, id, icon: file, file: Object.values(files)[0].file, src: values.src,
+        });
+        closeWizard();
+      } else {
+        dispatch(addLinkAction(values.value, values.title, profileData, id, file, Object.values(files)[0].file));
+      }
     } else {
       const validation = { value: true, title: true };
       if (!values.value) validation.value = false;
@@ -93,7 +101,14 @@ function ScreenTwo({
       setIsValid(validation);
       if (Object.values(validation).includes(false)) return;
       setIsValid({ title: true, value: true });
-      dispatch(addLinkAction(values.value, values.title, profileData, id, file));
+      if (campaingsAction) {
+        campaingsAction({
+          value: values.value, title: values.title, id, icon: file, src: values.src,
+        });
+        closeWizard();
+      } else {
+        dispatch(addLinkAction(values.value, values.title, profileData, id, file));
+      }
     }
   };
 

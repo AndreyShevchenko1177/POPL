@@ -29,6 +29,7 @@ import Loader from "../../components/Loader";
 import { getCompanyInfoAction } from "../../pages/generalSettings/store/actions";
 import { cleanAction } from "../../pages/overallAnalytics/store/actions";
 import { subscriptionConfig } from "../../pages/billing/index";
+import useLongPress from "../../components/useLongPressHook";
 
 function PermanentDrawerLeft() {
   const [fadeColor, setFadeColor] = useState("rgba(255,255,255,1)");
@@ -60,7 +61,7 @@ function PermanentDrawerLeft() {
   const profileInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
   const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
-
+  const stripeQuantity = useSelector(({ systemReducer }) => systemReducer.setMeteredSubQuantity);
   const handleCollapseClick = (name) => {
     const setRestFalse = {};
     Object.keys(collapse).forEach((key) => {
@@ -68,53 +69,47 @@ function PermanentDrawerLeft() {
     });
     setCollapse({ ...setRestFalse, [name]: !collapse[name] });
   };
-
   const highlightList = (name) => {
     setHighLight({ [name]: true });
   };
-
   let timer = null;
-
   const timeout = (time) => {
     if (timer) {
       clearTimeout(timer);
     }
-
     timer = setTimeout(() => {
       ["poplsSidebar", "profilesSidebar", "connectionsSidebar"].forEach((name) => {
         dispatch(fetchingAction(false, name));
       });
     }, time);
   };
-
+  const onLongPress = () => {
+    history.push("/campaigns");
+  };
+  const longPressEvent = useLongPress(onLongPress, () => {}, { delay: 2000, shouldPreventDefault: true });
   useEffect(() => {
     let name = location.pathname.split("/")[1];
     if (location.pathname.includes("general-settings")) {
       name = "profileInfo";
     }
-
     if (name === "crm-integrations") {
       setCollapse({
         analyticsOpen: false, profilesIsOpen: false, campaignsOpen: false, connectionsOpen: true,
       });
     }
-
     if (name === "pop-branding") {
       setCollapse({
         analyticsOpen: false, profilesIsOpen: false, campaignsOpen: true, connectionsOpen: false,
       });
     }
-
     if (name === "new-profile") {
       setCollapse({
         analyticsOpen: false, profilesIsOpen: true, campaignsOpen: false, connectionsOpen: false,
       });
     }
-
     if (!name) name += "main";
     highlightList(name);
   }, [location]);
-
   useEffect(() => {
     if (localStorage.getItem("subscription")) {
       const result = JSON.parse(localStorage.getItem("subscription"));
@@ -122,7 +117,6 @@ function PermanentDrawerLeft() {
     }
     dispatch(getCompanyInfoAction());
   }, []);
-
   useEffect(() => {
     if (dashboardPlan !== null) {
       if (dashboardPlan == 0 || dashboardPlan === "") {
@@ -145,6 +139,9 @@ function PermanentDrawerLeft() {
         }
       } else {
         const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+        if (dashboardPlan == "10" && stripeQuantity) { // setting actual quantity to unitsRange if subscription is on metered pricing
+          subscription.unitsRange = [0, stripeQuantity];
+        }
         if (totalProfiles > subscription.unitsRange[1]) {
           setGreyedLinks({
             accounts: true,
@@ -164,12 +161,10 @@ function PermanentDrawerLeft() {
         }
       }
     }
-  }, [location, totalProfiles, dashboardPlan]);
-
+  }, [location, totalProfiles, dashboardPlan, stripeQuantity]);
   useEffect(() => {
     timeout(5000);
   }, [poplsFetching, profilesFetching, connectionsFetching]);
-
   return (
     <Drawer
       className={classes.drawer}
@@ -181,7 +176,7 @@ function PermanentDrawerLeft() {
       style={{ backgroundColor: profileInfo && profileInfo[1] ? `${profileInfo[1]}0f` : "#ffffff" }} // setting color from company settings with 6% opacity
     >
       <div className={classes.toolbar} />
-      <div className={classes.brand}>
+      <div className={classes.brand} {...longPressEvent}>
         <img
           className={classes.logo}
           src={poplLogo}
@@ -222,7 +217,7 @@ function PermanentDrawerLeft() {
             <ListItem
               divider={false}
               className={clsx(classes.ulList, {
-                [classes.ulListHighLight]: highlight.profiles,
+                [classes.ulListHighLight]: highlight.accounts,
               })}
               button
               onClick={() => {
@@ -250,9 +245,8 @@ function PermanentDrawerLeft() {
                 }}
                 primary="Accounts"
               />
-              {profilesFetching ? <Loader styles={{
-                width: 20, height: 20,
-              }}/>
+              { profilesFetching
+                ? <Loader styles={ { width: 20, height: 20 } } />
                 : <Typography variant='subtitle1'
                   style={greyedLinks.accounts ? { color: "#b8b8b8", position: "relative" } : { position: "relative" }}
                   classes={{
@@ -382,7 +376,7 @@ function PermanentDrawerLeft() {
               style={greyedLinks.analytics ? { color: "#b8b8b8", position: "relative" } : {}}
             />
           </ListItem>
-          {/* <Link to="/campaigns">
+          {/* <Link to="/campaings">
             <ListItem
               divider={false}
               className={clsx(classes.ulList, {
@@ -465,7 +459,6 @@ function PermanentDrawerLeft() {
                         <SvgMaker name="uploadCloud" fill="#999a9b" width={20} height={20} />
                         <span>Upload</span>
                       </div>
-
                     </div>}
                 </div>
               </ListItemIcon>
@@ -494,14 +487,26 @@ function PermanentDrawerLeft() {
           }} className={classes.sideBarIcons}>
             <img className='dark' style={{ width: "100%" }} alt='popl' src={settings} />
           </div>
-
           <span className={classes.settingsText} onClick={() => history.push("/settings")}>
             Settings
           </span>
         </div>
+
+        <a href="mailto:jason@popl.co">
+          <div className={classes.settingsContainer}>
+            <div style={{
+              width: 20, height: 20, display: "flex", alignItems: "center", marginRight: 15,
+            }} className={classes.sideBarIcons}>
+              {/* <img className='dark' style={{ width: "100%" }} alt='popl' src={settings} /> */}
+            </div>
+            <span className={classes.settingsText}>
+              Support
+            </span>
+          </div>
+        </a>
+
       </div>
     </Drawer>
   );
 }
-
 export default PermanentDrawerLeft;

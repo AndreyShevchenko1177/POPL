@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Papa from "papaparse";
 import useStyle from "./styles/styles";
 import ChoiceCard from "./components/ExportToCrmCard";
 import Header from "../../components/Header";
-import addLinkIcon from "../../assets/add.png";
 import SvgMaker from "../../components/svgMaker";
-import Loader from "../../components/Loader";
+import salesForceIcon from "../../assets/connections/Salesforcecom_logo.png";
+import hubspotIcon from "../../assets/connections/519-5197570_hubspot-hubspot-sprocket-clipart.png";
 
 function ChoicePage() {
   const classes = useStyle();
   const history = useHistory();
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  const [isLaunching, setIsLaunching] = useState(false);
 
   const getNotFoundProperty = (el) => {
     let elem = el;
@@ -112,14 +111,14 @@ function ChoicePage() {
           <div className={classes.choiceCardsWrapper}>
             <div className={classes.choiceCardContainer} onClick={exportToCrm}>
               <ChoiceCard
-                Icon={() => <SvgMaker width={30} height={30} name={"csv"} fill='#fff' />}
-                title='Export to CSV'
+                Icon={() => <SvgMaker width={45} height={45} margin-bottom={"20px"} name={"csv"} fill='#fff' />}
+                title='Export to CSV' titleStyle = {{ marginTop: "7px" }}
                 // description='Add profiles from existing Popl profiles'
               />
             </div>
             <div className={classes.choiceCardContainer} onClick={() => {}}>
               <ChoiceCard
-                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
+                Icon={() => <img className={classes.addLink} alt='add-icon' src={salesForceIcon}/>}
                 title='Export to Salesforce'
                 onClick={() => history.push("/connections/crm-salesforce", { path: "/connections/export-to-crm" })}
                 // description='Create new Popl profiles to add'
@@ -127,7 +126,7 @@ function ChoicePage() {
             </div>
             <div className={classes.choiceCardContainer} onClick={() => {}}>
               <ChoiceCard
-                Icon={() => <img className={classes.addLink} alt='add-icon' src={addLinkIcon}/>}
+                Icon={() => <img className={classes.addLink} alt='add-icon' src={hubspotIcon}/>}
                 title='Export to Hubspot'
                 // description='Create new Popl profiles to add'
               />

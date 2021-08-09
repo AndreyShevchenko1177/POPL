@@ -191,7 +191,7 @@ function SearchStripe({
             {btn_title}
           </Button>
         </div>}
-        {templates && <div className={classes.buttonWrapper}>
+        {/* {templates && <div className={classes.buttonWrapper}>
           <Button
             variant="contained"
             color="primary"
@@ -202,7 +202,7 @@ function SearchStripe({
           >
             {"Templates"}
           </Button>
-        </div>}
+        </div>} */}
         <Paper component="form" className={classes.root} elevation={0}>
           <InputBase
             fullWidth

@@ -56,7 +56,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "20px",
+    padding: "30px 20px",
   },
 
   choiceCardTitle: {

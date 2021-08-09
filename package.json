@@ -69,7 +69,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "upload:aws": "scp -r -i ../testAWSkeys.pem ./build ubuntu@ec2-3-137-126-31.us-east-2.compute.amazonaws.com:~/html",
+    "upload:aws": "scp -r -i ../popovAws.pem ./build ubuntu@ec2-3-139-45-46.us-east-2.compute.amazonaws.com:~/html",
+    "upload:stage": "scp -r -i ../popovAws.pem ./build ubuntu@ec2-3-139-45-46.us-east-2.compute.amazonaws.com:~/stage",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "postinstall": "patch-package"

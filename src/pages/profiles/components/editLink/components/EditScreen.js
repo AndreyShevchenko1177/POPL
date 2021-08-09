@@ -297,7 +297,7 @@ function EditScreen({
               }}
               size={20}
             />}
-            {(!isEditLinksFetching || !isDeleteLinksFetching) && "Make link first for all profiles"}
+            {(!isEditLinksFetching || !isDeleteLinksFetching) && "Make link first for all accounts"}
           </Button>
         </div>
       </div>

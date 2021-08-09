@@ -77,6 +77,7 @@ export default function Main({ children, stripe }) {
   const { isRestrictedMode, isMainPageScroll } = useSelector(({ systemReducer }) => systemReducer);
   const totalProfiles = useSelector(({ systemReducer }) => systemReducer.profilesInfoMainPage);
   const dashboardPlan = useSelector(({ authReducer }) => authReducer.dashboardPlan.data);
+  const stripeQuantity = useSelector(({ systemReducer }) => systemReducer.setMeteredSubQuantity);
   // for development mode
   const userId = useSelector(({ authReducer }) => authReducer.signIn.data?.id);
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
@@ -92,9 +93,13 @@ export default function Main({ children, stripe }) {
           }
           return dispatch(restricteModeAction(true));
         }
+
         dispatch(restricteModeAction(false));
       } else {
         const subscription = subscriptionConfig.find((sub) => sub.id == dashboardPlan);
+        if (dashboardPlan == "10" && stripeQuantity) { // setting actual quantity to unitsRange if subscription is on metered pricing
+          subscription.unitsRange = [0, stripeQuantity];
+        }
         if (!allowedPaths.includes(location.pathname)) {
           if (totalProfiles > subscription.unitsRange[1]) {
             return dispatch(restricteModeAction(true));
@@ -104,7 +109,7 @@ export default function Main({ children, stripe }) {
         dispatch(restricteModeAction(false));
       }
     }
-  }, [location, totalProfiles, dashboardPlan]);
+  }, [location, totalProfiles, dashboardPlan, stripeQuantity]);
 
   return (
     <div className={classes.root}>

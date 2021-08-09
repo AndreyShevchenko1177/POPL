@@ -46,9 +46,27 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+
+    position: "relative",
   },
   companyImageWrapper: {
     width: "80px !important",
+    "&:hover": {
+      "& > .dialog-popup": {
+        display: "block",
+      },
+    },
+  },
+  dialogOptions: {
+    display: "flex",
+    flexDirection: "column",
+    "& > div": {
+      paddingBottom: 5,
+    },
+    "& > div:hover": {
+      textDecoration: "underline",
+      cursor: "pointer",
+    },
   },
   dashedContainer: {
     display: "flex",
@@ -59,9 +77,15 @@ export default makeStyles((theme) => ({
     width: "80px",
     height: "80px",
     cursor: "pointer",
+    "&:hover": {
+      "& .dialog-popup": {
+        display: "block !important",
+      },
+    },
   },
   previewContainer: {
     display: "flex",
+    position: "relative",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -88,6 +112,7 @@ export default makeStyles((theme) => ({
     height: 80,
     borderRadius: "50%",
     objectFit: "cover",
+    cursor: "pointer",
   },
   fieldTitle: {
     fontWeight: "bold !important",
@@ -97,5 +122,52 @@ export default makeStyles((theme) => ({
   uploadImageText: {
     color: "#999a9b",
     fontSize: "12px !important",
+  },
+  logoImage: {
+    width: 30,
+    height: 30,
+    borderRadius: "50%",
+    objectFit: "cover",
+    cursor: "pointer",
+  },
+  logoImageText: {
+    position: "absolute",
+    color: "#999a9b",
+    fontSize: "7px !important",
+    top: 17,
+    left: 2,
+  },
+  logoContainer: {
+    position: "absolute",
+    cursor: "pointer",
+    bottom: "-6px",
+    zIndex: 100,
+    // backgroundColor: "#ffffff",
+    right: "43%",
+    "&:hover": {
+      "& > .dialog-popup": {
+        display: "block",
+      },
+    },
+  },
+  logoWrapper: {
+    borderRadius: "50%",
+    backgroundColor: "rgb(224, 222, 222)",
+    width: 30,
+    display: "flex",
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dialogContainer: {
+    width: 150,
+    position: "absolute",
+    right: ({ right }) => `${right}px`,
+    padding: 10,
+    top: ({ top }) => `${top}px`,
+    zIndex: 100,
+    backgroundColor: "#ffffff",
+    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+    borderRadius: 5,
   },
 }));

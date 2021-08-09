@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Typography } from "@material-ui/core";
 import useStyles from "./styles";
 import SubscribeButton from "./SubscribeButton";
@@ -8,6 +9,7 @@ function SubscriptionCard({
   title, price, priceId, stripe, profilesNumber, quantity, unitsRange, subscriptionId, currentPlan,
 }) {
   const classes = useStyles();
+  const userId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   return (
     <div className={classes.container}>
@@ -15,10 +17,10 @@ function SubscriptionCard({
       <Typography className={classes.title} variant='body2'>{title}</Typography>
       <Typography variant='body2' classes={{ body2: classes.accountsNumber }}>{profilesNumber} Accounts</Typography>
       <div className={classes.priceDescriptionContainer}>
-        <span><span style={{ fontSize: 18 }}>${price}</span> / month</span>
+        <span><span style={{ fontSize: 18 }}>${subscriptionId === 3 && ["4294972146", "4294970999"].includes(userId) ? 250 : price}</span> / month</span>
       </div>
       <div className={classes.buttonContainer}>
-        <SubscribeButton priceId={priceId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />
+        <SubscribeButton priceId={priceId} userId={userId} stripe={stripe} quantity={quantity} unitsRange={unitsRange} title={title} subscriptionId={subscriptionId} />
       </div>
       <div className={classes.labelsContainer}>
         {/* <div className={classes.labelsItem}>

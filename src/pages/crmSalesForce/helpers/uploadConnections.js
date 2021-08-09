@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function salesForceOnSuccess(token, userName, userId, connections) {
+export function salesForceOnSuccess(token, userName, userId, connections) {
   let url = "";
   const profileData = {
     name: "Upload tapped",
@@ -11,7 +11,7 @@ function salesForceOnSuccess(token, userName, userId, connections) {
     },
   };
   return axios({
-    baseURL: "/paragon-connectoins",
+    baseURL: "/paragon-connections",
     url: "",
     method: "POST",
     headers: {
@@ -22,5 +22,3 @@ function salesForceOnSuccess(token, userName, userId, connections) {
     withCredentials: true,
   });
 }
-
-export default salesForceOnSuccess;

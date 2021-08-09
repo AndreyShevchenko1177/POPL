@@ -26,10 +26,4 @@ if (localStorage.profileData) {
   });
 }
 
-store.subscribe(() => {
-  console.group("---STORE---");
-  console.log(store.getState());
-  console.groupEnd();
-});
-
 export default store;

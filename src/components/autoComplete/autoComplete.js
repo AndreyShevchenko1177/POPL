@@ -114,6 +114,7 @@ function AutoComplete({
       setLocalData(data);
     }
   }, [data]);
+
   return (
     <div>
       <OutlinedInput
@@ -150,7 +151,7 @@ function AutoComplete({
               />
             </div>
             <div className={classes.labelContainer}>
-              <p data-key={key}>{item.nickname || item.name}</p>
+              <p data-key={key}>{item.nickname?.replace(/[\\]/g, "") || item.name?.replace(/[\\]/g, "")}</p>
             </div>
           </div>
           // : <div onMouseMove={onMouseEvent} data-key={key} ref={activeItem.value == key ? itemRef : null} data-name={item.name} className={clsx(classes.listItem, { [classes.activeListItem]: activeItem.value === key })} key={key} tabIndex={1} onClick={(event) => setSelectedItem(event, item.name, item)}>

@@ -8,3 +8,4 @@ export * from "./addCommas";
 export * from "./defineDarkColor";
 export * from "./restrictEditing";
 export * from "./confetti";
+export * from "./getDayTime";

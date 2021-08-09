@@ -76,7 +76,7 @@ function CreateNewAccount() {
       <ConfirmModal
         open={conFirmModal.open}
         onClose={onConfirmModal}
-        dialogTitle={`Confirm creation of ${value} number of accounts`}
+        dialogTitle={`Please confirm that you'd like to create ${value} ${value > 1 ? "accounts" : "account"}`}
         okButtonTitle='Create accounts'
         cancelButtonTitle='Cancel'
         onOk={onOk}

@@ -8,7 +8,7 @@ import { deleteLinkAction, editLinkAction, makeLinkFirstOrderACtion } from "../.
 import { snackBarAction } from "../../../../store/actions";
 
 function EditLinkModal({
-  isOpen, setEditLinkModal, data, profileType, allLinks, profiles,
+  setEditLinkModal, data, profileType, allLinks, profiles,
 }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -113,7 +113,7 @@ function EditLinkModal({
             <EditScreen
               {...data}
               profileBtnTitle={<div>Edit&nbsp; <p>{data.name}</p>'s link</div>}
-              allProfilesBtnTitle='Edit link from all profiles'
+              allProfilesBtnTitle='Edit link from all accounts'
               profileBtnEvent={editLink}
               deleteBtnTitle={`Delete ${data.name}'s link`}
               deleteAction={deleteLink}

@@ -28,7 +28,7 @@ import {
 import ProfilePanel from "./controlProfilePanel";
 import Loader from "../../../../components/Loader";
 import addLinkIcon from "../../../../assets/add.png";
-import proIcon from "../../../../assets/images/pro_icon.png";
+import proIcon from "../../../../assets/images/PoplProBig.png";
 import verifiedIcon from "../../../../assets/images/verified.png";
 import editProfileIcon from "../../../../assets/edit_profile_card.png";
 import qrcodeIcon from "../../../../assets/qrcode.jpg";
@@ -73,6 +73,7 @@ export default function Card({
   nameBusiness,
   imageBusiness,
   setQrCodesModal,
+  logo,
 }) {
   const dispatch = useDispatch();
   const [directOn, setDirectOn] = useState({
@@ -275,7 +276,7 @@ export default function Card({
       setValues({ ...values, image: imageBusiness || image || "" });
     } else setValues({ ...values, image: image || imageBusiness || "" });
 
-    // dispatch(isFetchingAction(false, "setProfilePhoto")); // NEED TO OBSERVE DOES IT CAUSING SOME ISSUES
+    dispatch(isFetchingAction(false, "setProfilePhoto")); // NEED TO OBSERVE DOES IT CAUSING SOME ISSUES
   }, [image, imageBusiness]);
 
   useEffect(() => {
@@ -303,14 +304,15 @@ export default function Card({
         className={clsx(classes.root, profileOff === "1" ? classes.rootProfileOffBackground : (personalMode.direct && classes.rootBusinessModeBackground))}
         onClick={(event) => handleClickPoplItem(event, undefined, customId)}
       >
+        {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
         <div className={classes.mainContent}>
-          {profileOff === "1" && <span className={classes.profileOff}>OFF</span>}
+
+          <img
+            alt='pro-log'
+            className={classes.proLogo}
+            src={proIcon}
+          />
           <div className={clsx(classes.section1, "target-element")}>
-            {pro == "1" && <img
-              alt='pro-log'
-              className={classes.proLogo}
-              src={proIcon}
-            />}
             <div
               className={classes.section1_qrcodeIcon}
               onClick={qrcodeHandler}
@@ -362,6 +364,9 @@ export default function Card({
                     container: { marginLeft: "49px" },
                   }}
                 />}
+              {logo && <div className={classes.logo}>
+                <img src={`${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL + logo}?alt=media`} alt='logo'/>
+              </div>}
               <div className={clsx(classes.checkboxWrapper, {
                 "mt-10": isSafari,
               })}>

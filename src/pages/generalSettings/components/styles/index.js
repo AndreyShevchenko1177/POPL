@@ -39,7 +39,9 @@ export default makeStyles((theme) => ({
     cursor: "pointer",
     borderRadius: 10,
     "& input": {
-      display: "none",
+      opacity: 0,
+      position: "absolute",
+      bottom: -10,
     },
   },
   teamMembersPopup: {

@@ -13,8 +13,8 @@ import createNewAccountReducer from "../../pages/createNewAccount/store/reducer"
 import createAccountByEmailInvite from "../../pages/createAccountByEmailInvite/store/reducer";
 import generalSettingsReducer from "../../pages/generalSettings/store/reducer";
 import dashboardReducer from "../../pages/dashboard/store/reducer";
+import salesForceReducer from "../../pages/crmSalesForce/store/reducer";
 import { LOGOUT } from "../../pages/auth/store/actionTypes";
-import paragonReducer from "../../pages/crmSalesForce/store/reducer";
 
 const appReducer = combineReducers({
   form: formReducer,
@@ -31,7 +31,7 @@ const appReducer = combineReducers({
   createAccountByEmailInvite,
   generalSettingsReducer,
   dashboardReducer,
-  paragonReducer,
+  salesForceReducer,
 });
 
 const rootReducer = (state, action) => {

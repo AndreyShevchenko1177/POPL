@@ -12,7 +12,7 @@ const linksConfig = [
   },
   {
     id: 2,
-    name: "Subscribe",
+    name: "My Subscription",
     icon: <PaymentIcon />,
     path: "/settings/billing",
   },

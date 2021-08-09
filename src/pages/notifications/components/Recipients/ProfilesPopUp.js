@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
-  Button, Checkbox, Paper, TextField, Typography,
+  Button, Checkbox, Paper, TextField,
 } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
-import userIcon from "../../../../assets/svg/user.svg";
 import useStyles from "../styles";
 import Loader from "../../../../components/Loader";
 import Avatar from "../../../../components/popl/Avatar";
 
 function ProfilesList({
-  setIsShow, profiles, setRecepients, recipients,
+  setIsShow, profiles, setRecepients, recipients, styles,
 }) {
   const [searchValue, setSearchValue] = useState("");
   const [profilesList, setProfilesList] = useState([]);
@@ -61,7 +60,7 @@ function ProfilesList({
   }, [profiles]);
 
   return (
-    <Paper className={classes.profilesListPopup}>
+    <Paper style={styles?.profilesListPopup || {}} className={classes.profilesListPopup}>
       <CancelIcon className={classes.profilesListCloseIcon} onClick={() => setIsShow(false)} />
       <div className={classes.profilesListSearchInputWrapper}>
         <TextField

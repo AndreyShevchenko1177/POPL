@@ -11,11 +11,11 @@ export default makeStyles((theme) => ({
     left: "-40px",
     width: "calc(100% + 80px)",
     height: "calc(100% + 48px)",
-    minHeight: "300vh",
+    minHeight: "100vh",
     backgroundColor: theme.custom.modalOpacityBackground,
     opacity: theme.custom.modalOpacity,
     position: "absolute",
-    zIndex: 1000,
+    zIndex: 1005,
   },
   wizardContainer: {
     position: "fixed",

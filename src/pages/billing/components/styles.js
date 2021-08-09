@@ -88,7 +88,7 @@ export default makeStyles((theme) => ({
     height: 40,
     width: 170,
     marginTop: 10,
-    borderRadius: 4,
+    borderRadius: 5,
     fontSize: "16px",
     fontWeight: "bold",
   },

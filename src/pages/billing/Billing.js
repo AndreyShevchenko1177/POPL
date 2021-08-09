@@ -37,15 +37,24 @@ export const subscriptionConfig = [
   },
   {
     id: 4,
-    title: "Enterprise",
+    title: "Usage",
     price: "1000",
     unitsRange: [51, 100],
     priceId: "price_1IpQTfJqkGKmOFO6pz9p6c2y",
     profilesNumber: "51-100",
   },
+  {
+    id: 10,
+    title: "Usage",
+    price: "1000",
+    unitsRange: [0, 100],
+    priceId: "price_1JGCwhJqkGKmOFO6hAXXZ76j",
+    profilesNumber: "0-100",
+  },
 ];
 
 const twoWeeksFreePriceId = "price_1IyL7TJqkGKmOFO6hexjtWnF";
+export const scale250PriceId = "price_1JK8QeJqkGKmOFO6O2WdtZ4E";
 
 function Billing() {
   const classes = useStyles();
@@ -71,7 +80,7 @@ function Billing() {
         <div className={classes.cardsContainerWrapper}>
           {/* <div className={classes.cardsContainerShadowBox}> */}
           <div className={classes.cardsContainer}>
-            {subscriptionConfig.map(({
+            {subscriptionConfig.filter((_, index, arr) => index !== arr.length - 1).map(({
               id, title, price, priceId, profilesNumber, unitsRange,
             }) => (
               <div className={classes.cardItemContainer} key={id}>

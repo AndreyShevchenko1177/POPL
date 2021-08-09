@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useLocation,
-  withRouter,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "./pages/auth/Auth";
@@ -21,7 +21,8 @@ import setAxios from "./config/axios.config";
 import OverallAnalytics from "./pages/overallAnalytics";
 import CreateAccountByEmailInvite from "./pages/createAccountByEmailInvite";
 import AddNewProfile from "./pages/createNewAccount";
-import Campaigns from "./pages/campaigns";
+import Campaings from "./pages/campaings";
+import NewBilling from "./pages/newBillingPage";
 import Notifications from "./pages/notifications";
 import EmailNotifcations from "./pages/emailNotifications";
 import PopBranding from "./pages/popBranding";
@@ -39,6 +40,8 @@ import { SuccessPage } from "./pages/stripeResultPages";
 import { deleteCookies } from "./utils/cookie";
 import { getProfileInfoRequest } from "./store/actions";
 import { getDashboardPlanAction } from "./pages/auth/store/actions";
+import { getIdFromEmail } from "./pages/createAccountByEmailInvite/store/actions/requests";
+import { getProfileAction, profileIdsRequest, usageRecordRequest } from "./pages/profiles/store/actions/requests";
 
 setAxios();
 
@@ -60,6 +63,29 @@ function App(props) {
   useEffect(() => {
     if (dashboardPlan !== null && profileData.id) dispatch(getProfileInfoRequest(profileData.id));
   }, [dashboardPlan]);
+
+  // using this for testing
+  useEffect(() => {
+    // GET ID FROM EMAIL
+    // getIdFromEmail("mohamed.khaled@khoshaim.com").then((res) => console.log(res.data));
+
+    // GET PROFILE CHILDREN
+    // profileIdsRequest("4294971606").then((res) => console.log(res.data));
+
+    // GET PROFILE INFO
+    // getProfileAction("4294971606").then((res) => console.log(res));
+
+    // GET STRIPE UPCOMING INVOICE
+    // const getSubscriptionItemId = new FormData();
+    // getSubscriptionItemId.append("sAction", "EnterpriseGetSubscriptionQuantity");
+    // getSubscriptionItemId.append("sCustomerId", "cus_JxCHdxWOuGh4lT");
+
+    // axios.post("", getSubscriptionItemId, {
+    //   withCredentials: true,
+    // }).then((res) => console.log(res.data));
+
+    // usageRecordRequest("si_JxCHTfjkat5aVj", 3, Math.ceil(new Date().getTime() / 1000));
+  }, []);
 
   return (
     // <Router>
@@ -117,7 +143,7 @@ function App(props) {
         <Connections />
       </PrivateRoute>
       <PrivateRoute path="/campaigns" exact isLoggedIn={profileData?.id}>
-        <Campaigns />
+        <Campaings />
       </PrivateRoute>
       <PrivateRoute path="/notifications" exact isLoggedIn={profileData?.id}>
         <Notifications />
@@ -126,7 +152,7 @@ function App(props) {
         <EmailNotifcations />
       </PrivateRoute>
       <PrivateRoute
-        path="/campaings/pop-branding"
+        path="/campaigns/pop-branding"
         exact
         isLoggedIn={profileData?.id}
       >
@@ -157,7 +183,11 @@ function App(props) {
       <PrivateRoute path="/settings/general-settings" exact isLoggedIn={profileData?.id}>
         <GeneralSettings />
       </PrivateRoute>
+
       <PrivateRoute path="/settings/billing" exact isLoggedIn={profileData?.id}>
+        {(dashboardPlan > 0 && dashboardPlan < 5) ? <Billing /> : <NewBilling/>}
+      </PrivateRoute>
+      <PrivateRoute path="/settings/new-billing" exact isLoggedIn={profileData?.id}>
         <Billing />
       </PrivateRoute>
       <PrivateRoute path="/billing/success/:sessionId" exact isLoggedIn={profileData?.id} stripe={true}>

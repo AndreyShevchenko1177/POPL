@@ -21,17 +21,18 @@ export default makeStyles((theme) => ({
   },
   choiceCardsWrapper: {
     width: "100%",
+    minWidth: "850px",
     display: "flex",
     marginTop: "10%",
     justifyContent: "center",
     "& div": {
       cursor: "pointer",
     },
-    "@media (max-width:1200px)": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
+    // "@media (max-width:1200px)": {
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   alignItems: "center",
+    // },
   },
   choiceCardContainer: {
     // minWidth: 360,
@@ -50,7 +51,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: "20px",
+    padding: "30px 20px",
   },
   choiceCardTitle: {
     fontSize: 17,
@@ -62,7 +63,10 @@ export default makeStyles((theme) => ({
     fontWeight: 400,
   },
   addLink: {
-    width: 35,
-    height: 35,
+    // width: 45,
+    height: 50,
+  },
+  svgIcon: {
+    height: 50,
   },
 }));

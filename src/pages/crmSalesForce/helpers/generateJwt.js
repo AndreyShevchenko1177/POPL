@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import pem from "../jwtSecret";
 
-export const jwtSign = function (userId) {
+export function generateJwt(userId) {
   const jwtToken = jwt.sign(
     {
       sub: userId,
@@ -14,6 +14,5 @@ export const jwtSign = function (userId) {
       keyid: "2324kd",
     },
   );
-
   return jwtToken;
-};
+}

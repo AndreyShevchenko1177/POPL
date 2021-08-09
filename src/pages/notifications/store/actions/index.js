@@ -11,7 +11,7 @@ export const sendNotificationAction = ({ users, ...data }, success) => async (di
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully sent notification",
+      message: `Successfully sent notification to ${result.length} ${result.length > 1 ? "accounts" : "account"}`,
       severity: "success",
       duration: 12000,
       open: true,
@@ -27,7 +27,7 @@ export const sendShedulerNotificationAction = ({ users, ...data }, success) => a
     console.log(result);
     success();
     dispatch(snackBarAction({
-      message: "Successfully sent notification",
+      message: `Successfully sent notification to ${result.length} ${result.length > 1 ? "accounts" : "account"}`,
       severity: "success",
       duration: 12000,
       open: true,

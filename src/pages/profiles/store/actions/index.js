@@ -2,6 +2,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-return-assign */
+import axios from "axios";
 import { snackBarAction } from "../../../../store/actions";
 import { getId, restrictEdit } from "../../../../utils";
 import {
@@ -34,7 +35,6 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
   try {
     const storeProfiles = getState().profilesReducer.dataProfiles.data;
     if (storeProfiles) return; // calling this action only when we don't have profiles in store
-
     const dashboardPlan = getState().authReducer.dashboardPlan.data;
     let profiles = [];
     dispatch(isFetchingAction(true));
@@ -62,8 +62,21 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         });
 
         if (unProProfileIds.length) {
-          if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] > profiles.length) { // checking if profiles length in tier making all profiles pro
-            Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)));
+          if (subscriptionConfig[dashboardPlan - 1].unitsRange[1] >= profiles.length) { // checking if profiles length in tier making all profiles pro
+            Promise.all(unProProfileIds.map((id) => requests.makeProfileSubscriberRequest(id)))
+              .then(() => {
+                const result = profiles.map((profile) => {
+                  if (unProProfileIds.includes(profile.id)) {
+                    return { ...profile, pro: "1" };
+                  }
+                  return profile;
+                });
+                console.log("profile", profiles);
+                dispatch({
+                  type: GET_DATA_PROFILES_SUCCESS,
+                  payload: result,
+                });
+              });
           }
           // =====THIS WAS USED TO MAKE PRO AS MUCH PROFILES AS TIER LEVEL ALLOWS===
           // else {
@@ -74,7 +87,7 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
         }
       }
     }
-
+    console.log("profile", profiles);
     return dispatch({
       type: GET_DATA_PROFILES_SUCCESS,
       payload: profiles,
@@ -94,6 +107,51 @@ export const getProfilesDataAction = (userId) => async (dispatch, getState) => {
       payload: error,
     });
     return dispatch(isFetchingAction(false));
+  }
+};
+
+const convertBlobToBase64 = (blob) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.onerror = reject;
+  reader.onload = () => {
+    resolve(reader.result);
+  };
+  reader.readAsDataURL(blob);
+});
+
+function setProfileImage({
+  id, activeProfile, image, imageBusiness,
+}, fileName) {
+  if (activeProfile === "1") {
+    if (image) {
+      return requests.setProfilePhoto(id, "2", fileName);
+    }
+    return requests.setProfilePhoto(id, activeProfile, fileName);
+  }
+  if (imageBusiness) {
+    return requests.setProfilePhoto(id, "1", fileName);
+  }
+  return requests.setProfilePhoto(id, activeProfile, fileName);
+}
+
+export const setCompanyImageToProfileImage = async (companyImageUrl, profiles) => {
+  console.log(profiles);
+  try {
+    const { data } = await axios({
+      baseURL: "/v0",
+      url: `/b/poplco.appspot.com/o/logos%2F${companyImageUrl}?alt=media`,
+      method: "GET",
+      responseType: "blob",
+    });
+    const result = await uploadImage(new File([data], `${companyImageUrl}_default_.png`, { type: data.type }), "photos");
+    console.log(result);
+    const fileName = result
+      .split("?")[0]
+      .split("photos%2F")[1];
+    const uploadedImages = await Promise.all(profiles.map((profile) => setProfileImage(profile, fileName)));
+    return uploadedImages;
+  } catch (err) {
+    console.error(err);
   }
 };
 
@@ -137,6 +195,8 @@ export const addLinkAction = (value, title, profileData, iconId, icon, file) => 
 
     const result = await Promise.allSettled(profileData.map((item) => requests.addLinkRequest(iconId === 37 ? fileName : value, title, item, iconId, iconName || "")));
 
+    console.log(result);
+
     const successLinksIds = result
       .filter((el) => el.status === "fulfilled" && el.value.data?.done === "Success") // filtering by success request
       .map((link) => link.value.config?.data.get("iID")); // getting ids from request config in formdata
@@ -167,17 +227,28 @@ export const addLinkAction = (value, title, profileData, iconId, icon, file) => 
   }
 };
 
-export const setDirectAction = (profileIds, state, isSingle) => async (dispatch) => {
+export const setDirectAction = (profileIds, state, isSingle) => async (dispatch, getState) => {
   try {
     if (isSingle) dispatch(isFetchingAction(true, "setProfilesSettings"));
-    const result = await Promise.allSettled(profileIds.map((el) => requests.directRequest(el, state)));
     dispatch({
       type: SET_DIRECT_ON_OFF_SUCCESS,
       payload: {
-        profileIds: result.filter((res) => res.status === "fulfilled").map((res) => res.value.config.data.get("iID")),
+        profileIds,
         state,
       },
     });
+    const result = await Promise.allSettled(profileIds.map((el) => requests.directRequest(el, state)));
+    const errors = result.filter(({ value }) => !value.data.done);
+    if (errors.length) {
+      const profiles = getState().profilesReducer.dataProfiles.data;
+      const profilesWithError = profiles.filter((profile) => errors.map((res) => String(res.value.config.data.get("iID"))).includes(String(profile.id))).map(({ name, nameBusiness }) => name || nameBusiness);
+      return dispatch(snackBarAction({
+        message: `An error occurred while updating the direct on/direct off switcher for such accounts - ${profilesWithError.join(", ")}`,
+        severity: "error",
+        open: true,
+        duration: 10000,
+      }));
+    }
   } catch (error) {
     console.log(error);
     return dispatch({
@@ -221,15 +292,28 @@ export const turnProfileAction = (profileIds, state) => async (dispatch, getStat
 
 export const setProfileStatusAction = (profileIds, state, isSingle) => async (dispatch, getState) => {
   try {
-    if (isSingle) dispatch(isFetchingAction(true, "setProfilesSettings"));
-    const result = await Promise.allSettled(profileIds.map((el) => requests.statusRequest(el, state)));
+    if (isSingle) {
+      dispatch(isFetchingAction(true, "setProfilesSettings"));
+    }
     dispatch({
       type: SET_PROFILE_STATUS_SUCCESS,
       payload: {
-        profileIds: result.filter((res) => res.status === "fulfilled").map((res) => res.value.config.data.get("iID")),
+        profileIds,
         state,
       },
     });
+    const result = await Promise.allSettled(profileIds.map((el) => requests.statusRequest(el, state)));
+    const errors = result.filter(({ value }) => !value.data.done);
+    if (errors.length) {
+      const profiles = getState().profilesReducer.dataProfiles.data;
+      const profilesWithError = profiles.filter((profile) => errors.map((res) => String(res.value.config.data.get("iID"))).includes(String(profile.id))).map(({ name, nameBusiness }) => name || nameBusiness);
+      return dispatch(snackBarAction({
+        message: `An error occurred while updating the personal/business switcher for such accounts - ${profilesWithError.join(", ")}`,
+        severity: "error",
+        open: true,
+        duration: 10000,
+      }));
+    }
   } catch (error) {
     return dispatch({
       type: SET_PROFILE_STATUS_FAIL,
@@ -516,6 +600,15 @@ export const makeLinkFirstOrderACtion = (success, data) => async (dispatch, getS
     success();
     dispatch(clearStateAction("dataProfiles"));
     return dispatch(getProfilesDataAction(userId)); // when request will work correctly
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const usageRecordAction = async (subItemId, quantity, timestamp) => {
+  try {
+    const result = await requests.usageRecordRequest(subItemId, quantity, timestamp);
+    console.log(result);
   } catch (error) {
     console.log(error);
   }

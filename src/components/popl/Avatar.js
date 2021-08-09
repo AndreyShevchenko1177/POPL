@@ -41,7 +41,7 @@ export default function Avatar({
         alt={name}
         style={imageStyles}
       />}
-      {bgColor && <div style={backgroundStyles}></div>}
+      {bgColor && !src && <div style={backgroundStyles}></div>}
     </div>
   );
 }

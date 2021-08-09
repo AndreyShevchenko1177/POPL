@@ -119,7 +119,7 @@ function GeneralSettings() {
           {location.state?.firstLogin && (
             <div className={classes.onboardContainer}>
               <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
-                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}! Set up your dashboard
+                Welcome {profiles && profiles[0]?.name?.split(" ")[0]}! Set up your team
               </Typography>
               {/* <Typography variant="subtitle1" classes={{ subtitle1: classes.onboardFlowTitle }}>
                 Set up your team

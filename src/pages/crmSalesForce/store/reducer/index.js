@@ -1,20 +1,20 @@
-import { SIGN_IN_SUCCESS, LOGOUT } from "../../../auth/store/actionTypes";
-import { PARAGON_NEW_JWT } from "../actionTypes";
+import {
+  SAVE_JWT_TOKEN,
+} from "../actionTypes";
 
-const initialState = "";
+const initialState = {
+  jwtToken: null,
+};
 
-export default function paragonReducer(state = initialState, { type, payload }) {
-  console.group("type, payload");
-  console.log(type, payload);
-  console.groupEnd();
-
-  if ([SIGN_IN_SUCCESS, LOGOUT].includes(type)) {
-    return initialState;
+export default function salesForceReducer(state = initialState, { type, payload }) {
+  switch (type) {
+  case SAVE_JWT_TOKEN: {
+    return {
+      ...state,
+      jwtToken: payload,
+    };
   }
-
-  if (type === PARAGON_NEW_JWT) {
-    return payload;
+  default:
+    return state;
   }
-
-  return state;
 }

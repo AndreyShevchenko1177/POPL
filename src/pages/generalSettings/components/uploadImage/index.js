@@ -3,19 +3,31 @@ import React, {
   useRef, useState, useEffect,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, Chip } from "@material-ui/core";
-import RemoveIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
-import CreateIcon from "@material-ui/icons/Create";
+import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import worker from "workerize-loader!../../../../worker";
 import { snackBarAction } from "../../../../store/actions";
 import { isFileConvertingAction } from "../../store/actions";
 import useStyles from "./styles";
 import { getId } from "../../../../utils/uniqueId";
-import Preview from "./components/Preview";
 import SvgMaker from "../../../../components/svgMaker";
 import { restrictEdit } from "../../../../utils";
 import Loader from "../../../../components/Loader";
+
+function OptionDialog({
+  onDelete, onEdit, top = 40, right = 45, deleteBtnTItle = "Remove Image", editBtnTitle = "Edit Image",
+}) {
+  const classes = useStyles({ top, right });
+  return (
+    // added class dialog-popup in index.css
+    <div className={clsx(classes.dialogContainer, "dialog-popup")}>
+      <div className={classes.dialogOptions}>
+        <div onClick={onDelete}>{deleteBtnTItle}</div>
+        <div onClick={onEdit}>{editBtnTitle}</div>
+      </div>
+    </div>
+  );
+}
 
 const DropZone = ({
   quantity, multiple, setFieldsState, image,
@@ -23,7 +35,10 @@ const DropZone = ({
   const classes = useStyles();
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
+  const logoFileInputRef = useRef(null);
+  const [optionDialog, setOptionDialog] = useState({ logo: false, companyImage: false });
   const [files, setFiles] = useState({});
+  const [logoFiles, setLogosFiles] = useState({});
   const { isFileConverting } = useSelector(({ generalSettingsReducer }) => generalSettingsReducer);
 
   const [validation, setValidation] = useState({
@@ -32,6 +47,7 @@ const DropZone = ({
     duplicated: false,
   });
   const [companyImage, setCompanyImage] = useState("");
+  const [companyLogo, setCompanyLogo] = useState("");
   const parentProfilefId = useSelector(({ authReducer }) => authReducer.signIn.data.id);
 
   const handleDeleteFile = (key) => {
@@ -41,7 +57,7 @@ const DropZone = ({
     setFieldsState((prev) => ({ ...prev, file: null }));
   };
 
-  const readImage = (file, index) => {
+  const readImage = (file, index, inputName) => {
     // Check if the file is an image with heic/heif extension.
     const fileName = file?.name.split(".")[file?.name.split(".").length - 1];
     console.log(fileName, file);
@@ -52,7 +68,11 @@ const DropZone = ({
       return workerInstance.heicToJpg(file).then((convertedFile) => {
         const reader = new FileReader();
         reader.addEventListener("load", (event) => {
-          setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+          if (inputName) setLogosFiles({ [getId(12)]: { file, src: event.target.result } });
+          else {
+            setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+          }
+
           dispatch(isFileConvertingAction(false));
         });
         const blobFile = new Blob([convertedFile]);
@@ -62,21 +82,24 @@ const DropZone = ({
     setFieldsState((fs) => ({ ...fs, file }));
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
-      setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+      if (inputName) setLogosFiles({ [getId(12)]: { file, src: event.target.result } });
+      else {
+        setFiles((prev) => ({ [getId(12)]: { file, src: event.target.result } }));
+      }
     });
     reader.readAsDataURL(file);
   };
 
-  const handleFilesObject = (files) => {
+  const handleFilesObject = (files, inputName) => {
     if (!files) return;
     const result = {};
     Object.values(files).forEach((file, i) => {
       result[i] = { file };
-      readImage(file, i);
+      readImage(file, i, inputName);
     });
   };
 
-  const openFileDialog = () => {
+  const openFileDialog = (isLogo) => {
     if (restrictEdit(parentProfilefId)) {
       return dispatch(snackBarAction({
         message: "Can not edit demo account",
@@ -85,11 +108,17 @@ const DropZone = ({
         open: true,
       }));
     }
+    setOptionDialog({ logo: false, companyImage: false });
+    if (isLogo) {
+      return logoFileInputRef.current?.click();
+    }
+    console.log("click");
     fileInputRef.current?.click();
   };
 
   const onFilesAdded = async (event) => {
     event.persist();
+    const inputName = event.target.name;
     const file = event.target.files;
     if (quantity && files && Object.keys(files).length >= quantity) {
       setValidation((prev) => ({ ...prev, quantity: true }));
@@ -103,8 +132,8 @@ const DropZone = ({
     setValidation((prev) => ({
       ...prev, quantity: false, fileType: false, duplicated: false,
     }));
-    setCompanyImage("");
-    handleFilesObject(file);
+    !inputName && setCompanyImage("");
+    handleFilesObject(file, inputName);
     event.target.value = "";
   };
 
@@ -142,7 +171,7 @@ const DropZone = ({
     if (image) {
       setCompanyImage(image);
     }
-  }, [image]);
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -154,10 +183,72 @@ const DropZone = ({
           // onClick={companyImage ? () => {} : openFileDialog}
           className={classes.headingDropZoneWrapper}
         >
-          <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Company Logo</Typography>
+          <Typography variant="subtitle1" classes={{ subtitle1: classes.fieldTitle }}>Company Images</Typography>
+          <div className={classes.logoContainer} >
+            {!companyLogo
+              ? (!Object.keys(logoFiles).length
+                ? (
+                  <div className='relative' onClick={() => openFileDialog(true)}>
+                    <div className={clsx(classes.IconTextWrapper, classes.logoWrapper)} >
+                      <SvgMaker name="uploadCloud" fill="#999a9b" width={20} height={20} />
+                    </div>
+                    {/* <Typography variant='subtitle1' classes={{ subtitle1: classes.logoImageText }}>Logo</Typography> */}
+                  </div>
+                )
+                : <>
+                  <OptionDialog
+                    deleteBtnTItle='Delete Logo'
+                    editBtnTitle='Edit Logo'
+                    top={10}
+                    right={-140}
+                    onDelete={() => {
+                      setCompanyLogo("");
+                      setLogosFiles({});
+                      setOptionDialog({ ...optionDialog, logo: false });
+                      //   setFieldsState((prev) => ({ ...prev, file: null }));
+                    }}
+                    onEdit={() => {
+                      openFileDialog(true);
+                      setOptionDialog({ logo: false, companyImage: false });
+                    }}
+                  />
+                  {
+                    Object.keys(logoFiles).map((key) => (
+                      <div className='h-30' key={key} onClick={() => setOptionDialog({ ...optionDialog, logo: true })}>
+                        <img alt='logo' className={classes.logoImage} src={logoFiles[key].src}/>
+                        {/* <Preview openFileDialog={openFileDialog} file={logoFiles[key]} deleteAction={() => handleDeleteFile(key)} /> */}
+                      </div>
+                    ))
+                  }
+                </>)
+              : <>
+                <div onClick={() => setOptionDialog({ ...optionDialog, logo: true })}>
+                  <OptionDialog
+                    deleteBtnTItle='Delete Logo'
+                    editBtnTitle='Edit Logo'
+                    onDelete={() => {
+                      setCompanyLogo("");
+                      setOptionDialog({ ...optionDialog, logo: false });
+                      //   setFieldsState((prev) => ({ ...prev, file: null }));
+                    }}
+                    onEdit={() => {
+                      openFileDialog(true);
+                      setOptionDialog({ logo: false, companyImage: false });
+                    }}
+                  />
+                </div>
+
+              </>
+
+            }
+
+          </div>
           {
             !companyImage
-              ? <div onClick={companyImage ? () => {} : openFileDialog} className={classes.dashedContainer}>
+              ? <div
+                onClick={Object.keys(files).length ? () => setOptionDialog({ ...optionDialog, companyImage: true }) : () => openFileDialog()}
+                className={classes.dashedContainer}
+              >
                 { !Object.keys(files).length
                   ? (
                     <div className={classes.IconTextWrapper}>
@@ -171,38 +262,58 @@ const DropZone = ({
                     {
                       Object.keys(files).map((key) => (
                         <div key={key} >
-                          <Preview openFileDialog={openFileDialog} file={files[key]} deleteAction={() => handleDeleteFile(key)} />
+                          <OptionDialog
+                            top={60}
+                            onDelete={() => {
+                              handleDeleteFile(key);
+                              setOptionDialog({ logo: false, companyImage: false });
+                            }}
+                            onEdit={(event) => {
+                              event.stopPropagation();
+                              openFileDialog();
+                              setOptionDialog({ logo: false, companyImage: false });
+                            }}
+                          />
+                          <img alt='logo' className={classes.image} src={files[key].src} />
                         </div>
                       ))
                     }
                   </div>
                 }
               </div>
-              : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")}>
-                <Chip
-                  className={classes.chipButton}
-                  deleteiicon={<RemoveIcon />}
-                  size='medium'
+              : <div className={clsx(classes.headingDropZoneWrapper, classes.companyImageWrapper, "relative")} onClick={(event) => {
+                setOptionDialog({ ...optionDialog, companyImage: true });
+              }
+              }>
+                <OptionDialog
+                  top={40}
                   onDelete={() => {
                     setCompanyImage("");
+                    setOptionDialog({ logo: false, companyImage: false });
                     setFieldsState((prev) => ({ ...prev, file: null }));
+                  }}
+                  onEdit={(event) => {
+                    event.stopPropagation();
+                    openFileDialog();
+                    setOptionDialog({ logo: false, companyImage: false });
                   }}
                 />
                 <img className={classes.image} alt='avatar' src={`${process.env.REACT_APP_BASE_FIREBASE_LOGOS_URL}${image}?alt=media`} />
-                <Chip
-                  className={classes.chipButtonEdit}
-                  deleteIcon={<CreateIcon />}
-                  size='medium'
-                  onDelete={() => openFileDialog()}
-                />
               </div>
           }
-          { <input
+          <input
             ref={fileInputRef}
             type='file'
             multiple={!!multiple}
             onChange={onFilesAdded}
-          />}
+          />
+          <input
+            ref={logoFileInputRef}
+            name='logo'
+            type='file'
+            multiple={!!multiple}
+            onChange={onFilesAdded}
+          />
         </div>}
     </div>
   );
