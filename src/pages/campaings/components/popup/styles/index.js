@@ -149,6 +149,9 @@ export default makeStyles((theme) => ({
     height: 37,
     cursor: "pointer",
   },
+  iconItemEventPopupMode: {
+    cursor: "default",
+  },
   linkIcon: {
     transform: "scale(1, 1)",
     width: 30,

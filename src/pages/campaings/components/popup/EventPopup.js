@@ -7,6 +7,7 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import moment from "moment";
 import useStyles from "./styles";
+import LinkIcon from "./components/LinkIcon";
 
 export default function EventPopup({
   data, closeModalEvent, onModalHandler,
@@ -41,7 +42,18 @@ export default function EventPopup({
               {data?.event?.values?.title}
             </div>
             <div className={classes.linkEventPopup}>
-              {"--link--"}
+
+              {data?.event?.values?.link?.id
+                && <div className={classes.linkTestLinkBtnWrapper}>
+                  <LinkIcon
+                    eventPopupMode={true}
+                    editLink={() => {}}
+                    deleteLink={() => {}}
+                    icon={data?.event?.values?.link?.src}
+                    id={data?.event?.values?.link?.id}
+                    title={data?.event?.values?.link?.title}
+                  />
+                </div>}
             </div>
           </div>
 
