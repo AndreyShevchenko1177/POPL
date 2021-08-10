@@ -23,12 +23,27 @@ function MonthViewController({
     });
   }, []);
 
+  const [modalEvent, setModalEvent] = useState({
+    data: { title: "title" },
+    isShow: false,
+  });
+
+  const onModalEventHandler = useCallback((data, show) => {
+    setModalEvent((prevModalData) => {
+      if (shallowCompare(data, prevModalData.data) && prevModalData.isShow === show) return prevModalData;
+      return {
+        data,
+        isShow: show,
+      };
+    });
+  }, []);
+
   const currentDay = correctDate(new Date());
 
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child, {
-        data: correctDaysDisplay(quantity), modal, onModalHandler,
+        data: correctDaysDisplay(quantity), modal, onModalHandler, modalEvent, onModalEventHandler,
       });
     }
     return child;

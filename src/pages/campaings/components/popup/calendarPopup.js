@@ -336,7 +336,7 @@ function CalendarPopup({
           >
             {!data.event ? "Create campaign" : "Save campaign"}
           </Button>
-          {!!data.event && <Button
+          {/* {!!data.event && <Button
             variant='contained'
             color='primary'
             className={classes.createLinkBtn}
@@ -346,7 +346,7 @@ function CalendarPopup({
             }}
           >
             {"Delete campaign"}
-          </Button>}
+          </Button>} */}
         </div>
 
       </Paper>

@@ -1,39 +1,15 @@
 import { Typography } from "@material-ui/core";
 import React, { memo } from "react";
 import clsx from "clsx";
-import moment from "moment";
 
 import Context from "../../../../context";
 import { datePicker } from "../../helper/datepicker";
 import { week } from "../../constants";
 import useStyles from "../../styles/styles.js";
-
-const CalendarEvent = function ({ event, onModalHandlerEditMode }) {
-  const classes = useStyles();
-  let timeStart = moment(event.selectedDate.from.dayTime).format("h:mm a");
-  let { title } = event.values;
-  title = (title.length ? title : "No title");
-  let { isAllDay } = event.values;
-  // debugger
-  return (
-    // <div className={isAllDay ? classes.eventWrapperAllDay : classes.eventWrapper}>
-    <div
-      className={clsx(classes.eventWrapper, isAllDay ? classes.eventWrapperAllDay : "")}
-      onClick={(e) => {
-        e.stopPropagation();
-        console.log("click");
-        onModalHandlerEditMode(event);
-      }}
-    >
-      <div className={isAllDay ? classes.eventCircleAllDay : classes.eventCircleBlue}></div>
-      {!isAllDay && <div className={classes.eventTime}>{timeStart}</div>}
-      <div className={classes.eventTitle}>{title}</div>
-    </div>
-  );
-};
+import CalendarEvent from "./CalendarEvent";
 
 function Day({
-  day, date, weekPosition, itemStyle, onModalHandler, dayStore,
+  day, date, weekPosition, itemStyle, onModalHandler, dayStore, onModalEventHandler,
 }) {
   console.log(dayStore);
 
@@ -66,7 +42,9 @@ function Day({
               {dayStore?.map((event, index) => <CalendarEvent
                 event={event}
                 key={index}
-                onModalHandlerEditMode={(event) => onModalHandler({ day, date, event }, true)} />)}
+                // onModalHandlerEditMode={(event) => onModalHandler({ day, date, event }, true)} />)
+                onModalHandlerEditMode={(event) => onModalEventHandler({ day, date, event }, true)} />)
+              }
 
             </div>
           </div>

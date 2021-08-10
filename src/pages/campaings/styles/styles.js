@@ -145,9 +145,16 @@ export default makeStyles((theme) => ({
     padding: "0 3px",
     "&:hover": {
       backgroundColor: "#c8cacd",
+      cursor: "pointer",
     },
   },
   eventWrapperAllDay: {
     backgroundColor: "#e9f1fe",
+  },
+  popperRoot: {
+    borderRadius: "0.3em",
+    border: "1px solid #000000",
+    boxShadow: "2px 2px 10px 0px rgba(0,0,0,0.5)",
+    padding: "20px",
   },
 }));

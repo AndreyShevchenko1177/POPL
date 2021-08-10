@@ -159,7 +159,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     padding: "20px 0",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
   linkTestLinkBtnWrapper: {
     position: "relative",
@@ -181,10 +181,44 @@ export default makeStyles((theme) => ({
       padding: 5,
     },
   },
+  deleteButton: {
+    position: "absolute",
+    right: 25,
+    top: 0,
+    cursor: "pointer",
+    zIndex: 100,
+    "& button": {
+      padding: 5,
+    },
+  },
+  editButton: {
+    position: "absolute",
+    right: 50,
+    top: 0,
+    cursor: "pointer",
+    zIndex: 100,
+    "& button": {
+      padding: 5,
+    },
+  },
   checkboxRoot: {
     padding: "0px 9px 9px 9px",
   },
   checkboxLabel: {
     height: 30,
   },
+  eventPopup: {
+    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    minHeight: 300,
+    width: 500,
+    maxHeight: 740,
+    zIndex: 1002,
+    padding: "15px 15px 15px 50px",
+  },
+
 }));

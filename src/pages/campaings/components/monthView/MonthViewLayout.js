@@ -1,13 +1,13 @@
 import React, { memo, useState } from "react";
 import clsx from "clsx";
 import moment from "moment";
-import { object } from "prop-types";
 import Day from "./MonthDay";
 import useStyles from "../../styles/styles.js";
 import CalendarPopup from "../popup/calendarPopup";
+import EventPopup from "../popup/EventPopup";
 
 function MonthViewLayout({
-  data, modal, onModalHandler,
+  data, modal, onModalHandler, modalEvent, onModalEventHandler,
 }) {
   const [calendarStore, setCalendarStore] = useState({});
 
@@ -63,15 +63,30 @@ function MonthViewLayout({
               return <Day
                 dayStore={dayStore}
                 onModalHandler={onModalHandler}
+                onModalEventHandler={onModalEventHandler}
                 weekPosition={index}
                 key={index} {...data} />;
             })}
           </div>
         </div>
       </div>
-      {modal.isShow && <CalendarPopup data={modal.data} addEventHandler={addEventHandler} closeModal={(event) => {
-        onModalHandler(modal.data, false);
-      }} date={modal.data} />}
+      {modal.isShow && <CalendarPopup
+        data={modal.data}
+        addEventHandler={addEventHandler}
+        closeModal={(event) => {
+          onModalHandler(modal.data, false);
+        }}
+        date={modal.data} />}
+
+      {modalEvent.isShow && <EventPopup
+        data={modalEvent?.data}
+        // data={modalEvent?.data?.event}
+        closeModalEvent={(event) => {
+          onModalEventHandler(modalEvent, false);
+        }}
+        addEventHandler={addEventHandler}
+        onModalHandler={onModalHandler}
+      ></EventPopup>}
     </>
   );
 }
