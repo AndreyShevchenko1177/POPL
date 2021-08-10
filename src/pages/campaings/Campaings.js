@@ -82,6 +82,7 @@ function Campaings() {
     <React.Fragment>
       <Header
         rootLink="Campaigns"
+        campaignsMode='calendar'
       />
       <div className={classes.root} >
         <CalendarHeader

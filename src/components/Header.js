@@ -3,6 +3,11 @@ import { Paper, makeStyles, Typography } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useSelector } from "react-redux";
+import clsx from "clsx";
+import calendarViewMode from "../pages/campaings/img/calendar_view.jpg";
+import calendarViewGrayedMode from "../pages/campaings/img/calendar_view_greyed.jpg";
+import listViewMode from "../pages/campaings/img/list_view.jpg";
+import listViewGrayedMode from "../pages/campaings/img/list_view_greyed.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,15 +27,40 @@ const useStyles = makeStyles((theme) => ({
     },
     cursor: "pointer",
   },
+
+  calendarModeSwitcher: {
+    display: "flex",
+    cursor: "pointer",
+    marginLeft: "20px",
+    padding: "5px 10px",
+    border: "1px solid gray",
+    borderRadius: "5px",
+    "& img": {
+      width: "20px",
+      height: "20px",
+      display: "block",
+    },
+    "& div": {
+      "&:first-child": {
+        marginRight: "10px",
+      },
+    },
+  },
+
+  backgroundGray: {
+    backgroundColor: "gray",
+  },
 }));
 
 function Header({
-  rootLink, firstChild, lastChild, path, rootLinkClick, firstChildRedirectPath, leftPadding,
+  rootLink, firstChild, lastChild, path, rootLinkClick, firstChildRedirectPath, leftPadding, campaignsMode,
 }) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+
+  const isCalendarMode = () => (campaignsMode === "calendar");
 
   const handleRedirect = () => {
     if (lastChild || firstChild) {
@@ -59,6 +89,17 @@ function Header({
         >
           {rootLink || "Back"}
         </Typography>
+
+        {rootLink === "Campaigns"
+          && <div className={classes.calendarModeSwitcher} >
+            <div className={clsx("", (isCalendarMode() ? classes.backgroundGray : ""))}>
+              <img src={isCalendarMode() ? calendarViewGrayedMode : calendarViewMode} />
+            </div>
+            {/* <div className={clsx("", (!isCalendarMode() ? classes.backgroundGray : ""))}> */}
+            <div className={classes.backgroundGray}>
+              <img src={isCalendarMode() ? listViewMode : listViewGrayedMode} />
+            </div>
+          </div>}
 
         {/* {firstChild && <ArrowBackIosIcon className={classes.arrowIcon} />}
         <Typography
