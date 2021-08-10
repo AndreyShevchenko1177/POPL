@@ -4,6 +4,8 @@ import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import moment from "moment";
 import useStyles from "./styles";
 
 export default function EventPopup({
@@ -32,9 +34,45 @@ export default function EventPopup({
               <EditOutlinedIcon fontSize='small' />
             </IconButton>
           </div>
-        </div>
-        <div onClick={closeModalEvent}>
-          {data?.event?.values?.title}
+
+          <div className={classes.wrapperTitleEventPopup}>
+            <div className={classes.sqrEventPopup}></div>
+            <div className={classes.titleEventPopup}>
+              {data?.event?.values?.title}
+            </div>
+            <div className={classes.linkEventPopup}>
+              {"--link--"}
+            </div>
+          </div>
+
+          <div className={classes.restDataWrapperEventPopup}>
+            <div className={classes.dateTimeWrapperEventPopup}>
+              <div className={classes.dateEventPopup}>
+                {`${moment(data?.event?.selectedDate?.from?.dayTime).format("dddd, MMMM D, YYYY")}`}
+              </div>
+              <div className={classes.roundEventPopup}></div>
+              <div className={classes.timeEventPopup}>
+                {data?.event?.values?.isAllDay
+                  ? "All day"
+                  : `${moment(data?.event?.selectedDate?.from?.dayTime).format("LT")} - ${moment(data?.event?.selectedDate?.to?.dayTime).format("LT")}`}
+              </div>
+            </div>
+
+            <div>
+              <div className={classes.repeatEventPopup}>
+                {`Repeat: ${data?.event?.values?.repeatOption ?? "Do not repeat"}`}
+              </div>
+            </div>
+
+            <div>
+              <div className={classes.accountsEventPopup}>
+                {"--accounts--"}
+                <IconButton>
+                  <ArrowDropDownIcon fontSize='small' />
+                </IconButton>
+              </div>
+            </div>
+          </div>
         </div>
 
       </Paper>

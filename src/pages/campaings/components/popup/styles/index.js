@@ -183,7 +183,7 @@ export default makeStyles((theme) => ({
   },
   deleteButton: {
     position: "absolute",
-    right: 25,
+    right: 30,
     top: 0,
     cursor: "pointer",
     zIndex: 100,
@@ -193,7 +193,7 @@ export default makeStyles((theme) => ({
   },
   editButton: {
     position: "absolute",
-    right: 50,
+    right: 60,
     top: 0,
     cursor: "pointer",
     zIndex: 100,
@@ -207,6 +207,7 @@ export default makeStyles((theme) => ({
   checkboxLabel: {
     height: 30,
   },
+
   eventPopup: {
     position: "absolute",
     display: "flex",
@@ -214,11 +215,49 @@ export default makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    minHeight: 300,
-    width: 500,
+    minHeight: 250,
+    width: 400,
     maxHeight: 740,
     zIndex: 1002,
-    padding: "15px 15px 15px 50px",
+    padding: "40px 25px 20px 25px",
+    lineHeight: "2.5em",
+  },
+
+  wrapperTitleEventPopup: {
+    display: "flex",
+    alignItems: "baseline",
+  },
+  restDataWrapperEventPopup: {
+    marginLeft: "20px",
+  },
+
+  sqrEventPopup: {
+    width: "10px",
+    height: "10px",
+    borderRadius: "2px",
+    backgroundColor: "#1967d2",
+    marginRight: "10px",
+  },
+  titleEventPopup: {
+    fontSize: "1.5em",
+    fontWeight: 700,
+    marginRight: "10px",
+  },
+  dateTimeWrapperEventPopup: {
+    display: "flex",
+    alignItems: "baseline",
+  },
+  dateEventPopup: {
+    marginRight: "10px",
+  },
+
+  roundEventPopup: {
+    backgroundColor: "#000000",
+    width: "5px",
+    height: "5px",
+    borderRadius: "50%",
+    marginRight: "10px",
+    alignSelf: "center",
   },
 
 }));
