@@ -76,6 +76,8 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     padding: 10,
     width: "100%",
+    maxWidth: "300px",
+
   },
   recipientsDeleteIcon: {
     marginLeft: "auto",
@@ -89,6 +91,9 @@ export default makeStyles((theme) => ({
   recipientItemName: {
     fontWeight: "bold",
     position: "relative",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   repeatSelectRoot: {
     padding: "0px 8px 10px 8px",
@@ -242,7 +247,7 @@ export default makeStyles((theme) => ({
     marginRight: "10px",
   },
   titleEventPopup: {
-    fontSize: "1.5em",
+    fontSize: "1.2em",
     fontWeight: 700,
     marginRight: "10px",
   },

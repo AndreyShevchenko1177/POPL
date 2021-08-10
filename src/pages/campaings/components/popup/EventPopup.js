@@ -8,6 +8,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import moment from "moment";
 import useStyles from "./styles";
 import LinkIcon from "./components/LinkIcon";
+import ContactsEventPopup from "./ContactsEventPopup";
 
 export default function EventPopup({
   data, closeModalEvent, onModalHandler,
@@ -77,12 +78,15 @@ export default function EventPopup({
             </div>
 
             <div>
-              <div className={classes.accountsEventPopup}>
-                {"--accounts--"}
-                <IconButton>
-                  <ArrowDropDownIcon fontSize='small' />
-                </IconButton>
-              </div>
+              <ContactsEventPopup recipientsArr={data?.event?.recipients?.recipients}>
+                <div className={classes.accountsEventPopup}>
+                  {`Accounts (${data?.event?.recipients?.recipients.length || 0})`}
+                  <IconButton>
+                    <ArrowDropDownIcon fontSize='small' />
+                  </IconButton>
+                </div>
+              </ContactsEventPopup>
+
             </div>
           </div>
         </div>
