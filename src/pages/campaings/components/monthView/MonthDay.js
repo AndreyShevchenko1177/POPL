@@ -9,7 +9,7 @@ import useStyles from "../../styles/styles.js";
 import CalendarEvent from "./CalendarEvent";
 
 function Day({
-  day, date, weekPosition, itemStyle, onModalHandler, dayStore, onModalEventHandler,
+  day, date, weekPosition, itemStyle, onModalHandler, dayStore, onModalEventHandler, deleteEventById,
 }) {
   console.log(dayStore);
 

@@ -11,7 +11,7 @@ import LinkIcon from "./components/LinkIcon";
 import ContactsEventPopup from "./ContactsEventPopup";
 
 export default function EventPopup({
-  data, closeModalEvent, onModalHandler,
+  data, closeModalEvent, onModalHandler, addEventHandler,
 }) {
   const classes = useStyles();
   let a = 5 + 2;
@@ -26,7 +26,7 @@ export default function EventPopup({
               <CloseIcon fontSize='small' />
             </IconButton>
           </div>
-          <div className={classes.deleteButton} onClick={() => { closeModalEvent(); data?.event?.deleteThisEvent(); }}>
+          <div className={classes.deleteButton} onClick={() => { closeModalEvent(); addEventHandler({ ...data, currentDate: "DELETE_EVENT_BY_ID" }, true); }}>
             <IconButton>
               <DeleteForeverOutlinedIcon fontSize='small' />
             </IconButton>
