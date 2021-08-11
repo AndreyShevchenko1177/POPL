@@ -45,7 +45,7 @@ const EventListItem = function ({ event = {}, onModalHandler }) {
       <div>
         <ListEventPopup onModalHandler={onModalHandler} event={event}>
           <div className={classes.hoverPointer}>
-            <MoreVertOutlinedIcon fontSize='medium' />
+            <MoreVertOutlinedIcon fontSize='large' />
           </div>
         </ListEventPopup>
       </div>

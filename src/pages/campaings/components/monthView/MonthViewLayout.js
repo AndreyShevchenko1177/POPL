@@ -19,6 +19,7 @@ function MonthViewLayout({
       for (let [key, day] of Object.entries(prev)) {
         prev[key] = day.filter((event) => event.eventId !== eventId);
       }
+      setCalendarStoreForList({ ...prev });
       return { ...prev };
     });
   };
@@ -57,7 +58,7 @@ function MonthViewLayout({
         } else { // this date was empty
           prev[newDate] = [{ ...event, eventId }];
         }
-
+        setCalendarStoreForList({ ...prev });
         return prev;
       });
     }
