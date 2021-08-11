@@ -1,18 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+// import Typography from "@material-ui/core/Typography";
+// import Button from "@material-ui/core/Button";
 import { useSelector } from "react-redux";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+// import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Avatar from "../../../../components/popl/Avatar";
 import useStyles from "./styles";
-
-// const useStyles = makeStyles((theme) => ({
-//     typography: {
-//         padding: theme.spacing(2),
-//     },
-// }));
 
 export default function ContactsEventPopup({ children, recipientsArr = [] }) {
   const classes = useStyles();

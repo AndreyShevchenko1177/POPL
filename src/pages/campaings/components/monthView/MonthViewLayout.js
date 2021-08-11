@@ -5,11 +5,13 @@ import Day from "./MonthDay";
 import useStyles from "../../styles/styles.js";
 import CalendarPopup from "../popup/calendarPopup";
 import EventPopup from "../popup/EventPopup";
+import EventList from "./EventList";
 
 function MonthViewLayout({
-  data, modal, onModalHandler, modalEvent, onModalEventHandler,
+  data, modal, onModalHandler, modalEvent, onModalEventHandler, calendarSwitchStatus,
 }) {
   const [calendarStore, setCalendarStore] = useState({});
+  const [calendarStoreForList, setCalendarStoreForList] = useState({});
 
   const deleteEventById = (eventId) => {
     console.log("DELETE event, ID: ", eventId);
@@ -69,21 +71,32 @@ function MonthViewLayout({
   const classes = useStyles(size);
   return (
     <>
-      <div className={classes.calendarWrapper}>
-        <div className={clsx(classes.daysContainer, "f-width")}>
-          <div className={classes.daysWrapper}>
-            {data.map((data, index) => {
-              let dayStore = calendarStore[moment(data.date, "MM-DD-YYYY").format("YYYY/MM/DD")];
-              return <Day
-                dayStore={dayStore}
-                onModalHandler={onModalHandler}
-                onModalEventHandler={onModalEventHandler}
-                weekPosition={index}
-                key={index} {...data} />;
-            })}
+      {calendarSwitchStatus
+        && <div className={classes.calendarWrapper}>
+          <div className={clsx(classes.daysContainer, "f-width")}>
+            <div className={classes.daysWrapper}>
+
+              {data.map((data, index) => {
+                let dayStore = calendarStore[moment(data.date, "MM-DD-YYYY").format("YYYY/MM/DD")];
+                return <Day
+                  dayStore={dayStore}
+                  onModalHandler={onModalHandler}
+                  onModalEventHandler={onModalEventHandler}
+                  weekPosition={index}
+                  key={index} {...data} />;
+              })}
+
+            </div>
           </div>
         </div>
-      </div>
+      }
+
+      {!calendarSwitchStatus
+        && <div className={classes.wrapperEventList}>
+          <EventList calendarStore={calendarStoreForList} onModalHandler={onModalHandler} />
+        </div>
+      }
+
       {modal.isShow && <CalendarPopup
         data={modal.data}
         addEventHandler={addEventHandler}

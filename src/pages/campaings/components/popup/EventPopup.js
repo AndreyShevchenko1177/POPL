@@ -14,7 +14,6 @@ export default function EventPopup({
   data, closeModalEvent, onModalHandler, addEventHandler,
 }) {
   const classes = useStyles();
-  let a = 5 + 2;
 
   return (
     <>

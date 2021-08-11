@@ -14,6 +14,7 @@ function Campaings() {
   const [calendarView] = useState({ view: "month", quantity: 1 }); // set month quantity
   const dateLabel = `${datePicker.getMonthName(datePicker.getMonth(date)).fullLabel} ${datePicker.getYear(date)}`;
   const currentDate = `${week[new Date().getDay()].fullLabel}, ${new Date().getDate()} ${datePicker.getMonthName(new Date().getMonth() + 1).fullLabel}`;
+  const [calendarSwitchStatus, setCalendarSwitchStatus] = useState(true);
 
   // const onWheelHandler = (event) => {
   //   if (event.deltaY < 0) {
@@ -82,16 +83,20 @@ function Campaings() {
     <React.Fragment>
       <Header
         rootLink="Campaigns"
+        calendarSwitchStatus={calendarSwitchStatus}
+        setCalendarSwitchStatus={setCalendarSwitchStatus}
+
       />
-      <div className={classes.root} >
-        <CalendarHeader
-          dateLabelToolTip={currentDate}
-          dateLabel={dateLabel}
-          onChangeDateHandler={onChangeDateHandler}
-          onTodayHandler={onTodayHandler}
-        />
-        <MonthViewController quantity={calendarView.quantity} >
-          <MonthViewLayout />
+      < div className={classes.root} >
+        {calendarSwitchStatus
+          && <CalendarHeader
+            dateLabelToolTip={currentDate}
+            dateLabel={dateLabel}
+            onChangeDateHandler={onChangeDateHandler}
+            onTodayHandler={onTodayHandler}
+          />}
+        <MonthViewController quantity={calendarView.quantity} calendarSwitchStatus={calendarSwitchStatus}>
+          <MonthViewLayout calendarSwitchStatus={calendarSwitchStatus}/>
         </MonthViewController>
       </div>
     </React.Fragment>
