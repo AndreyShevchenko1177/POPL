@@ -25,7 +25,7 @@ export default function EventPopup({
               <CloseIcon fontSize='small' />
             </IconButton>
           </div>
-          <div className={classes.deleteButton} onClick={() => { closeModalEvent(); addEventHandler({ ...data, currentDate: "DELETE_EVENT_BY_ID" }, true); }}>
+          <div className={classes.deleteButton} onClick={() => { closeModalEvent(); addEventHandler({ ...data?.event, currentDate: "DELETE_EVENT_BY_ID" }); }}>
             <IconButton>
               <DeleteForeverOutlinedIcon fontSize='small' />
             </IconButton>

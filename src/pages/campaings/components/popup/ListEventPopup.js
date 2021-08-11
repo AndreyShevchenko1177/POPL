@@ -2,7 +2,9 @@ import React from "react";
 import Popover from "@material-ui/core/Popover";
 import useStyles from "./styles";
 
-export default function ListEventPopup({ children, onModalHandler, event }) {
+export default function ListEventPopup({
+  children, onModalHandler, event, addEventHandler,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -46,7 +48,8 @@ export default function ListEventPopup({ children, onModalHandler, event }) {
           </div>
 
           <div onClick={() => {
-            event?.event?.deleteThisEvent();
+            addEventHandler({ ...event?.event, currentDate: "DELETE_EVENT_BY_ID" });
+            // event?.event?.deleteThisEvent();
             handleClose();
           }}>
             {"Delete"}

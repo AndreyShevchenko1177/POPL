@@ -1,7 +1,7 @@
 import moment from "moment";
 import EventListItem from "./EventListItem";
 
-const EventList = function ({ calendarStore = {}, onModalHandler }) {
+const EventList = function ({ calendarStore = {}, onModalHandler, addEventHandler }) {
   const calendarStoreArr = Object.entries(calendarStore);
   calendarStoreArr.sort((a, b) => (a[0] > b[0] ? 1 : -1));
 
@@ -15,7 +15,12 @@ const EventList = function ({ calendarStore = {}, onModalHandler }) {
   });
 
   return <>
-    {eventsList.map((event) => <EventListItem event={event} key={event?.event?.eventId} onModalHandler={onModalHandler}/>)}
+    {eventsList.map((event) => <EventListItem
+      event={event}
+      key={event?.event?.eventId}
+      onModalHandler={onModalHandler}
+      addEventHandler={addEventHandler}
+    />)}
   </>;
 };
 

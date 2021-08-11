@@ -26,14 +26,9 @@ function MonthViewLayout({
 
   const setEvent = function ({ date, event }) {
     if (date === "DELETE_EVENT_BY_ID") {
-      deleteEventById(event?.event?.eventId);
+      deleteEventById(event?.eventId);
     } else {
       setCalendarStore((prev) => {
-        // const deleteThisEvent = (eventId, newDate) => () => {
-        //   console.log("DELETE - ", eventId, newDate);
-        //   if (prev[newDate] && prev[newDate].length > 0) prev[newDate] = prev[newDate].filter((event) => event.eventId !== eventId);
-        // };
-
         date = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
 
         if (event.eventId && prev[date]) { // replace event
@@ -94,7 +89,11 @@ function MonthViewLayout({
 
       {!calendarSwitchStatus
         && <div className={classes.wrapperEventList}>
-          <EventList calendarStore={calendarStoreForList} onModalHandler={onModalHandler} />
+          <EventList
+            calendarStore={calendarStoreForList}
+            onModalHandler={onModalHandler}
+            addEventHandler={addEventHandler}
+          />
         </div>
       }
 

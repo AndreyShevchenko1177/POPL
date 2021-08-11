@@ -4,7 +4,7 @@ import LinkIcon from "../popup/components/LinkIcon";
 import ListEventPopup from "../popup/ListEventPopup";
 import useStyles from "../popup/styles";
 
-const EventListItem = function ({ event = {}, onModalHandler }) {
+const EventListItem = function ({ event = {}, onModalHandler, addEventHandler }) {
   const classes = useStyles();
 
   return <>
@@ -43,7 +43,7 @@ const EventListItem = function ({ event = {}, onModalHandler }) {
       </div>
 
       <div>
-        <ListEventPopup onModalHandler={onModalHandler} event={event}>
+        <ListEventPopup onModalHandler={onModalHandler} event={event} addEventHandler={addEventHandler}>
           <div className={classes.hoverPointer}>
             <MoreVertOutlinedIcon fontSize='large' />
           </div>
