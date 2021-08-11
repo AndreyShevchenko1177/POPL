@@ -157,4 +157,7 @@ export default makeStyles((theme) => ({
     boxShadow: "2px 2px 10px 0px rgba(0,0,0,0.5)",
     padding: "20px",
   },
+  wrapperEventList: {
+    height: "calc(100vh - 85px)",
+  },
 }));

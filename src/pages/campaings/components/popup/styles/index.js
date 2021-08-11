@@ -268,4 +268,45 @@ export default makeStyles((theme) => ({
     alignSelf: "center",
   },
 
+  EventListItemWrapper: {
+    alignItems: "center",
+    padding: "15px",
+    margin: "15px",
+    border: "0px solid gray",
+    display: "grid",
+    gridTemplateColumns: "1.3fr 80px .6fr .5fr 20px",
+    boxShadow: "2px 2px 7px 0px rgba(0,0,0,0.3)",
+    borderRadius: "10px",
+    height: "5em",
+  },
+  EventListItemTitle: {
+    fontSize: "1.5em",
+    fontWeight: "500",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  wrapperEventListPopup: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    fontSize: "1.2em",
+    fontWeight: "500",
+    padding: "15px",
+    borderRadius: "20px",
+    width: "130px",
+    "& div": {
+      padding: "5px",
+      width: "100%",
+      borderRadius: "5px",
+      "&:hover": {
+        backgroundColor: "lightgray",
+        cursor: "pointer",
+      },
+    },
+  },
+  hoverPointer: {
+    cursor: "pointer",
+  },
+
 }));

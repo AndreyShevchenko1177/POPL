@@ -42,7 +42,6 @@ function Day({
               {dayStore?.map((event, index) => <CalendarEvent
                 event={event}
                 key={index}
-                // onModalHandlerEditMode={(event) => onModalHandler({ day, date, event }, true)} />)
                 onModalHandlerEditMode={(event) => onModalEventHandler({ day, date, event }, true)} />)
               }
 

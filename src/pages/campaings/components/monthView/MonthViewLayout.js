@@ -5,17 +5,20 @@ import Day from "./MonthDay";
 import useStyles from "../../styles/styles.js";
 import CalendarPopup from "../popup/calendarPopup";
 import EventPopup from "../popup/EventPopup";
+import EventList from "./EventList";
 
 function MonthViewLayout({
-  data, modal, onModalHandler, modalEvent, onModalEventHandler,
+  data, modal, onModalHandler, modalEvent, onModalEventHandler, calendarSwitchStatus,
 }) {
   const [calendarStore, setCalendarStore] = useState({});
+  const [calendarStoreForList, setCalendarStoreForList] = useState({});
 
   const setEvent = function ({ date, event }) {
     setCalendarStore((prev) => {
       const deleteThisEvent = (eventId, newDate) => () => {
         console.log("DELETE - ", eventId, newDate);
         if (prev[newDate] && prev[newDate].length > 0) prev[newDate] = prev[newDate].filter((event) => event.eventId !== eventId);
+        setCalendarStoreForList((old) => ({ ...prev }));
       };
 
       date = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
@@ -43,6 +46,7 @@ function MonthViewLayout({
         prev[newDate] = [{ ...event, eventId, deleteThisEvent: deleteThisEvent(eventId, newDate) }];
       }
 
+      setCalendarStoreForList((old) => ({ ...prev }));
       return prev;
     });
   };
@@ -55,21 +59,32 @@ function MonthViewLayout({
   const classes = useStyles(size);
   return (
     <>
-      <div className={classes.calendarWrapper}>
-        <div className={clsx(classes.daysContainer, "f-width")}>
-          <div className={classes.daysWrapper}>
-            {data.map((data, index) => {
-              let dayStore = calendarStore[moment(data.date, "MM-DD-YYYY").format("YYYY/MM/DD")];
-              return <Day
-                dayStore={dayStore}
-                onModalHandler={onModalHandler}
-                onModalEventHandler={onModalEventHandler}
-                weekPosition={index}
-                key={index} {...data} />;
-            })}
+      {calendarSwitchStatus
+        && <div className={classes.calendarWrapper}>
+          <div className={clsx(classes.daysContainer, "f-width")}>
+            <div className={classes.daysWrapper}>
+
+              {data.map((data, index) => {
+                let dayStore = calendarStore[moment(data.date, "MM-DD-YYYY").format("YYYY/MM/DD")];
+                return <Day
+                  dayStore={dayStore}
+                  onModalHandler={onModalHandler}
+                  onModalEventHandler={onModalEventHandler}
+                  weekPosition={index}
+                  key={index} {...data} />;
+              })}
+
+            </div>
           </div>
         </div>
-      </div>
+      }
+
+      {!calendarSwitchStatus
+        && <div className={classes.wrapperEventList}>
+          <EventList calendarStore={calendarStoreForList} onModalHandler={onModalHandler} />
+        </div>
+      }
+
       {modal.isShow && <CalendarPopup
         data={modal.data}
         addEventHandler={addEventHandler}
