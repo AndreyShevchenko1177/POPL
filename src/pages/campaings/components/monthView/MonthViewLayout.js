@@ -27,6 +27,38 @@ function MonthViewLayout({
   const CheckRepeat = function ({ date, event }) { // date mast be in format  "MM-DD-YYYY"
     deleteAllEventsById(event?.eventId);
 
+    const izValidDayOfWeek = (date) => {
+      if (event?.values?.repeatOption.indexOf("Every weekday") > (-1)) {
+        if ([0, 6].includes(moment(date).day())) return false;
+      }
+      return true;
+    };
+
+    const findStep = (date, repeatOption) => {
+      let dayOfWeek = moment(date).day();
+      let result = 0;
+      let count = 0;
+      let repeatOptionTemp = repeatOption.split(" ")[3];
+      repeatOption = ["0", "first", "second", "third", "fourth", "last"].indexOf(repeatOptionTemp);
+
+      if (repeatOption === 5) {
+        result = moment(date).add(1, "months").endOf("month");
+        while (result.day() !== dayOfWeek) {
+          result = result.subtract(1, "day");
+        }
+        result = moment(result).diff(date, "days");
+        return [result, "day"];
+      }
+
+      result = moment(date).add(1, "months").startOf("month");
+      while (count !== repeatOption) {
+        result = result.add(1, "day");
+        if (result.day() === dayOfWeek) count++;
+      }
+      result = moment(result).diff(date, "days");
+      return [result, "day"];
+    };
+
     // console.group('CheckRepeat - ### - ');
     // console.log('repeatOption', event?.values?.repeatOption);
     // console.log(date);
@@ -60,17 +92,30 @@ function MonthViewLayout({
         },
       };
 
-      setEvent({
-        date,
-        event: {
-          ...event, currentDate, selectedDate, values,
-        },
-        doCheckRepeat: false,
-      });
+      if (izValidDayOfWeek(dateUnix)) {
+        setEvent({
+          date,
+          event: {
+            ...event, currentDate, selectedDate, values,
+          },
+          doCheckRepeat: false,
+        });
+      }
 
+      // let a = moment().weekday(1);
+
+      if (event?.values?.repeatOption.indexOf("Every weekday") > (-1)) {
+        if ([1, 2, 3, 4, 5].includes(moment(dateUnix).add(1, "days").day())) {
+          step = [1, "days"];
+        } else { step = [3, "days"]; }
+      }
+
+      if (event?.values?.repeatOption.indexOf("Monthly on the") > (-1)) { step = findStep(dateUnix, event?.values?.repeatOption); }
       if (event?.values?.repeatOption.indexOf("Weekly") > (-1)) { step = [7, "days"]; }
       if (event?.values?.repeatOption === "Repeat") { step = [1, "days"]; }
       step = step || [1, "years"];
+
+      // ['joe', 'jane', 'mary'].includes('jane')
 
       calendarFrom = moment(calendarFrom).add(...step).format("MM/DD/YYYY HH:mm");
       calendarTo = moment(calendarTo).add(...step).format("MM/DD/YYYY HH:mm");
@@ -112,7 +157,12 @@ function MonthViewLayout({
           prev[newDate] = [event];
         }
         setCalendarStoreForList({ ...prev });
-        // if (doCheckRepeat && (event?.values?.repeatOption !== "Do not repeat")) {CheckRepeat({date, event});}
+
+        if (doCheckRepeat && (event?.values?.repeatOption !== "Do not repeat")) {
+          CheckRepeat({ date, event });
+          return { ...prev };
+        }
+
         return prev;
       });
     }

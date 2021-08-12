@@ -11,7 +11,7 @@ import CalendarEvent from "./CalendarEvent";
 function Day({
   day, date, weekPosition, itemStyle, onModalHandler, dayStore, onModalEventHandler, addEventHandler,
 }) {
-  console.log(dayStore);
+  // console.log(dayStore);
 
   const classes = useStyles();
   return (
