@@ -13,7 +13,7 @@ function MonthViewLayout({
   const [calendarStore, setCalendarStore] = useState({});
   const [calendarStoreForList, setCalendarStoreForList] = useState({});
 
-  const deleteEventById = (eventId) => {
+  const deleteAllEventsById = (eventId) => {
     console.log("DELETE event, ID: ", eventId);
     setCalendarStore((prev) => {
       for (let [key, day] of Object.entries(prev)) {
@@ -24,24 +24,82 @@ function MonthViewLayout({
     });
   };
 
-  const setEvent = function ({ date, event }) {
+  const CheckRepeat = function ({ date, event }) { // date mast be in format  "MM-DD-YYYY"
+    deleteAllEventsById(event?.eventId);
+
+    // console.group('CheckRepeat - ### - ');
+    // console.log('repeatOption', event?.values?.repeatOption);
+    // console.log(date);
+    // console.log(event);
+    // console.groupEnd();
+    let startDateUnix = moment(date, "MM-DD-YYYY");
+    let endDateUnix = moment(startDateUnix).endOf("year");
+    let currentDate; let calendarFrom; let calendarTo; let dayTimeFrom; let dayTimeTo; let selectedDate; let values; let
+      step;
+
+    let dateUnix = moment(startDateUnix);
+    calendarFrom = moment(event.selectedDate.from.calendar).format("MM/DD/YYYY HH:mm");
+    calendarTo = moment(event.selectedDate.to.calendar).format("MM/DD/YYYY HH:mm");
+    dayTimeFrom = new Date(moment(event.selectedDate.from.dayTime));
+    dayTimeTo = new Date(moment(event.selectedDate.to.dayTime));
+
+    while (dateUnix < endDateUnix) {
+      currentDate = moment(dateUnix).format("MM-DD-YYYY");
+      date = moment(dateUnix).format("MM-DD-YYYY");
+      // console.log(date);
+      values = { ...event.values, eventDate: currentDate };
+
+      selectedDate = {
+        from: {
+          calendar: calendarFrom,
+          dayTime: dayTimeFrom,
+        },
+        to: {
+          calendar: calendarTo,
+          dayTime: dayTimeTo,
+        },
+      };
+
+      setEvent({
+        date,
+        event: {
+          ...event, currentDate, selectedDate, values,
+        },
+        doCheckRepeat: false,
+      });
+
+      if (event?.values?.repeatOption.indexOf("Weekly") > (-1)) { step = [7, "days"]; }
+      if (event?.values?.repeatOption === "Repeat") { step = [1, "days"]; }
+      step = step || [1, "years"];
+
+      calendarFrom = moment(calendarFrom).add(...step).format("MM/DD/YYYY HH:mm");
+      calendarTo = moment(calendarTo).add(...step).format("MM/DD/YYYY HH:mm");
+      dayTimeFrom = new Date(moment(dayTimeFrom).add(...step));
+      dayTimeTo = new Date(moment(dayTimeTo).add(...step));
+      dateUnix = moment(dateUnix).add(...step);
+    }
+  };
+
+  const setEvent = function ({ date, event, doCheckRepeat = true }) { // date mast be in format "MM-DD-YYYY"
     if (date === "DELETE_EVENT_BY_ID") {
-      deleteEventById(event?.eventId);
+      deleteAllEventsById(event?.eventId);
     } else {
       setCalendarStore((prev) => {
-        date = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
+        let dateForStore = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
 
-        if (event.eventId && prev[date]) { // replace event
-          prev[date] = [...prev[date].filter((el) => el.eventId !== event.eventId)];
+        let eventId = event?.eventId || moment().format("YYYY/MM/DD_HH:mm:ss.SSS");
+        event = { ...event, eventId };
+
+        if (event.eventId && prev[dateForStore]) { // replace event from this dateForStore
+          prev[dateForStore] = [...prev[dateForStore].filter((el) => el.eventId !== event.eventId)];
         }
 
         // add new event
 
         let newDate = moment(event.selectedDate.from.calendar, "MM/DD/YYYY ").format("YYYY/MM/DD");
-        let eventId = event?.eventId || moment().format("YYYY/MM/DD_HH:mm:ss.SSS");
 
         if (prev[newDate]) { // this date is present already
-          prev[newDate].push({ ...event, eventId });
+          prev[newDate].push(event);
           let newEvents = prev[newDate].sort((a, b) => {
             if (a.values.isAllDay) return -1;
             if (b.values.isAllDay) return 1;
@@ -51,9 +109,10 @@ function MonthViewLayout({
           });
           prev[newDate] = [...newEvents];
         } else { // this date was empty
-          prev[newDate] = [{ ...event, eventId }];
+          prev[newDate] = [event];
         }
         setCalendarStoreForList({ ...prev });
+        // if (doCheckRepeat && (event?.values?.repeatOption !== "Do not repeat")) {CheckRepeat({date, event});}
         return prev;
       });
     }

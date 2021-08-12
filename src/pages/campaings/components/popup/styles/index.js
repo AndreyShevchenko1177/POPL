@@ -269,15 +269,17 @@ export default makeStyles((theme) => ({
   },
 
   EventListItemWrapper: {
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     padding: "15px",
     margin: "15px",
     border: "0px solid gray",
     display: "grid",
-    gridTemplateColumns: "1.3fr 80px .6fr .5fr 20px",
+    gridTemplateColumns: "1.3fr 100px 280px 170px 20px",
     boxShadow: "2px 2px 7px 0px rgba(0,0,0,0.3)",
     borderRadius: "10px",
     height: "5em",
+    minWidth: "700px",
   },
   EventListItemTitle: {
     fontSize: "1.5em",

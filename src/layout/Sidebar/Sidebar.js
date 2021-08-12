@@ -376,37 +376,7 @@ function PermanentDrawerLeft() {
               style={greyedLinks.analytics ? { color: "#b8b8b8", position: "relative" } : {}}
             />
           </ListItem>
-          {/* <Link to="/campaings">
-            <ListItem
-              divider={false}
-              className={clsx(classes.ulList, {
-                [classes.ulListHighLight]: highlight.campaigns,
-              })}
-              button
-              onClick={() => {
-                handleCollapseClick("campaignsOpen");
-                highlightList("campaigns");
-              }}
-            >
-              <ListItemIcon classes={{ root: classes.listItemIcon }}>
-                <div style={{ width: 18, height: 18 }} className={classes.sideBarIcons}>
-                  <SvgMaker
-                    name='campaigns'
-                    fill="#666666"
-                  />
-                </div>
-              </ListItemIcon>
-              <ListItemText
-                disableTypography
-                classes={{
-                  root: clsx(classes.listText, {
-                    [classes.listTextHighLight]: highlight.campaigns,
-                  }),
-                }}
-                primary="Campaigns"
-              />
-            </ListItem>
-          </Link> */}
+
           <Link to="/notifications">
             <ListItem
               divider={false}
