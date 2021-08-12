@@ -78,7 +78,6 @@ function MonthViewLayout({
     while (dateUnix < endDateUnix) {
       currentDate = moment(dateUnix).format("MM-DD-YYYY");
       date = moment(dateUnix).format("MM-DD-YYYY");
-      // console.log(date);
       values = { ...event.values, eventDate: currentDate };
 
       selectedDate = {
@@ -102,20 +101,16 @@ function MonthViewLayout({
         });
       }
 
-      // let a = moment().weekday(1);
-
       if (event?.values?.repeatOption.indexOf("Every weekday") > (-1)) {
         if ([1, 2, 3, 4, 5].includes(moment(dateUnix).add(1, "days").day())) {
           step = [1, "days"];
-        } else { step = [3, "days"]; }
+        } else { step = [(moment(dateUnix).add(1, "days").day()) / 3 + 1, "days"]; }
       }
 
       if (event?.values?.repeatOption.indexOf("Monthly on the") > (-1)) { step = findStep(dateUnix, event?.values?.repeatOption); }
       if (event?.values?.repeatOption.indexOf("Weekly") > (-1)) { step = [7, "days"]; }
       if (event?.values?.repeatOption === "Repeat") { step = [1, "days"]; }
       step = step || [1, "years"];
-
-      // ['joe', 'jane', 'mary'].includes('jane')
 
       calendarFrom = moment(calendarFrom).add(...step).format("MM/DD/YYYY HH:mm");
       calendarTo = moment(calendarTo).add(...step).format("MM/DD/YYYY HH:mm");
@@ -126,9 +121,11 @@ function MonthViewLayout({
   };
 
   const setEvent = function ({ date, event, doCheckRepeat = true }) { // date mast be in format "MM-DD-YYYY"
-    if (date === "DELETE_EVENT_BY_ID") {
+    if (date === "DELETE_EVENT_BY_ID" || doCheckRepeat) {
       deleteAllEventsById(event?.eventId);
-    } else {
+    }
+
+    if (date !== "DELETE_EVENT_BY_ID") {
       setCalendarStore((prev) => {
         let dateForStore = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
 
