@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { MenuItem, Select } from "@material-ui/core";
 import moment from "moment";
 import useStyles from "../styles";
 
 function RepeatSelect({ value, setValue, date }) {
+  let temp = value.split(" ")[0];
+  value = temp;
   const classes = useStyles();
   let countersOfWeeks = ["", "first", "second", "third", "fourth"];
   let weekCount = Math.ceil((moment(date, "MM-DD-YYYY").date() / 7));
@@ -24,6 +25,8 @@ function RepeatSelect({ value, setValue, date }) {
     "Every weekday (Monday to Friday)",
     "Do not repeat",
   ];
+
+  value = items.find((item) => item.split(" ")[0] === value);
 
   const handleChange = (event) => setValue(event.target.value);
 

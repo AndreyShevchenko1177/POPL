@@ -6,6 +6,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import CloseIcon from "@material-ui/icons/Close";
 import { useSelector } from "react-redux";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import moment from "moment";
 import useStyles from "./styles";
 import accountIcon from "../../../../assets/sidebar/profiles.png";
 import ProfilesList from "../../../notifications/components/Recipients/ProfilesPopUp";
@@ -278,7 +279,8 @@ function CalendarPopup({
             }
             label="All day"
           />
-          <RepeatSelect date={data.date} value={values.repeatOption} setValue={(option) => setValues((prev) => ({ ...prev, repeatOption: option }))} />
+          {/* <RepeatSelect date={data.date} value={values.repeatOption} setValue={(option) => setValues((prev) => ({ ...prev, repeatOption: option }))} /> */}
+          <RepeatSelect date={moment(selectedDate.from.dayTime).format("MM-DD-YYYY")} value={values.repeatOption} setValue={(option) => setValues((prev) => ({ ...prev, repeatOption: option }))} />
 
         </div>
 
