@@ -53,9 +53,11 @@ function MonthViewLayout({
       result = moment(date).add(1, "months").startOf("month");
       while (count !== repeatOption) {
         result = result.add(1, "day");
-        if (result.day() === dayOfWeek) count++;
+        if (result.day() === dayOfWeek) {
+          count++;
+        }
       }
-      result = moment(result).diff(date, "days");
+      result = moment(result).diff(date, "days") + 1;
       return [result, "day"];
     };
 
