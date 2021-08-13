@@ -11,7 +11,7 @@ function MonthViewLayout({
   data, modal, onModalHandler, modalEvent, onModalEventHandler, calendarSwitchStatus,
 }) {
   const [calendarStore, setCalendarStore] = useState({});
-  const [calendarStoreForList, setCalendarStoreForList] = useState({});
+  // const [calendarStoreForList, setCalendarStoreForList] = useState({});
 
   const deleteAllEventsById = (eventId) => {
     console.log("DELETE event, ID: ", eventId);
@@ -19,15 +19,15 @@ function MonthViewLayout({
       for (let [key, day] of Object.entries(prev)) {
         prev[key] = day.filter((event) => event.eventId !== eventId);
       }
-      setCalendarStoreForList({ ...prev });
+      // setCalendarStoreForList({ ...prev });
       return { ...prev };
     });
   };
 
-  const CheckRepeat = function ({ date, event }) { // date mast be in format  "MM-DD-YYYY"
-    deleteAllEventsById(event?.eventId);
+  const CheckRepeat = function ({ event }) { // date mast be in format  "MM-DD-YYYY"
+    // deleteAllEventsById(event?.eventId);
 
-    const izValidDayOfWeek = (date) => {
+    const izValidDayOfWeek = (date, event) => {
       if (event?.values?.repeatOption.indexOf("Every weekday") > (-1)) {
         if ([0, 6].includes(moment(date).day())) return false;
       }
@@ -64,10 +64,12 @@ function MonthViewLayout({
     // console.log(date);
     // console.log(event);
     // console.groupEnd();
-    let startDateUnix = moment(date, "MM-DD-YYYY");
+
+    // let startDateUnix = moment(date, "MM-DD-YYYY");
+    let startDateUnix = moment(event.selectedDate.from.dayTime);
     let endDateUnix = moment(startDateUnix).endOf("year");
-    let currentDate; let calendarFrom; let calendarTo; let dayTimeFrom; let dayTimeTo; let selectedDate; let values; let
-      step;
+    let currentDate; let calendarFrom; let calendarTo; let dayTimeFrom; let dayTimeTo; let selectedDate; let values; let step; let
+      date;
 
     let dateUnix = moment(startDateUnix);
     calendarFrom = moment(event.selectedDate.from.calendar).format("MM/DD/YYYY HH:mm");
@@ -75,7 +77,7 @@ function MonthViewLayout({
     dayTimeFrom = new Date(moment(event.selectedDate.from.dayTime));
     dayTimeTo = new Date(moment(event.selectedDate.to.dayTime));
 
-    while (dateUnix < endDateUnix) {
+    while (dateUnix <= endDateUnix) {
       currentDate = moment(dateUnix).format("MM-DD-YYYY");
       date = moment(dateUnix).format("MM-DD-YYYY");
       values = { ...event.values, eventDate: currentDate };
@@ -91,7 +93,7 @@ function MonthViewLayout({
         },
       };
 
-      if (izValidDayOfWeek(dateUnix)) {
+      if (izValidDayOfWeek(dateUnix, event)) {
         setEvent({
           date,
           event: {
@@ -121,48 +123,47 @@ function MonthViewLayout({
   };
 
   const setEvent = function ({ date, event, doCheckRepeat = true }) { // date mast be in format "MM-DD-YYYY"
-    if (date === "DELETE_EVENT_BY_ID" || doCheckRepeat) {
-      deleteAllEventsById(event?.eventId);
-    }
+    setCalendarStore((prev) => {
+      if (date === "DELETE_EVENT_BY_ID" || doCheckRepeat) {
+        for (let [key, day] of Object.entries(prev)) {
+          prev[key] = day.filter((el) => el.eventId !== event?.eventId);
+        }
+        delete event.eventId;
+      }
 
-    if (date !== "DELETE_EVENT_BY_ID") {
-      setCalendarStore((prev) => {
+      if (date !== "DELETE_EVENT_BY_ID") {
         let dateForStore = moment(date, "MM-DD-YYYY").format("YYYY/MM/DD");
-
         let eventId = event?.eventId || moment().format("YYYY/MM/DD_HH:mm:ss.SSS");
         event = { ...event, eventId };
 
-        if (event.eventId && prev[dateForStore]) { // replace event from this dateForStore
+        if (event.eventId && prev[dateForStore]) { // --- replace event from this dateForStore
           prev[dateForStore] = [...prev[dateForStore].filter((el) => el.eventId !== event.eventId)];
         }
 
-        // add new event
-
-        let newDate = moment(event.selectedDate.from.calendar, "MM/DD/YYYY ").format("YYYY/MM/DD");
-
-        if (prev[newDate]) { // this date is present already
-          prev[newDate].push(event);
-          let newEvents = prev[newDate].sort((a, b) => {
-            if (a.values.isAllDay) return -1;
-            if (b.values.isAllDay) return 1;
-            let timeA = moment(a.selectedDate.from.dayTime);
-            let timeB = moment(b.selectedDate.from.dayTime);
-            return timeA < timeB ? -1 : 1;
-          });
-          prev[newDate] = [...newEvents];
-        } else { // this date was empty
-          prev[newDate] = [event];
-        }
-        setCalendarStoreForList({ ...prev });
-
         if (doCheckRepeat && (event?.values?.repeatOption !== "Do not repeat")) {
-          CheckRepeat({ date, event });
-          return { ...prev };
-        }
+          CheckRepeat({ event });
+        } else {
+          // add new event
+          let newDate = moment(event.selectedDate.from.calendar, "MM/DD/YYYY ").format("YYYY/MM/DD");
 
-        return prev;
-      });
-    }
+          if (prev[newDate]) { // --- this date is present already
+            prev[newDate].push(event);
+            let newEvents = prev[newDate].sort((a, b) => {
+              if (a.values.isAllDay) return -1;
+              if (b.values.isAllDay) return 1;
+              let timeA = moment(a.selectedDate.from.dayTime);
+              let timeB = moment(b.selectedDate.from.dayTime);
+              return timeA < timeB ? -1 : 1;
+            });
+            prev[newDate] = [...newEvents];
+          } else { // this date was empty
+            prev[newDate] = [event];
+          }
+        }
+      }
+
+      return { ...prev };
+    });
   };
 
   const addEventHandler = function (data) {
@@ -196,7 +197,7 @@ function MonthViewLayout({
       {!calendarSwitchStatus
         && <div className={classes.wrapperEventList}>
           <EventList
-            calendarStore={calendarStoreForList}
+            calendarStore={calendarStore}
             onModalHandler={onModalHandler}
             addEventHandler={addEventHandler}
           />

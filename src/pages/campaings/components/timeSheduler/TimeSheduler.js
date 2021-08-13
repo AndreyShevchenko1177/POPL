@@ -20,7 +20,8 @@ function TimeSheduler({
     <React.Fragment>
       <Calendar
         time={time}
-        name={isAllDay ? "from" : undefined}
+        // name={isAllDay ? "from" : undefined}
+        name={"from"}
         selectedDate={selectedDate.from.calendar}
         handleDateChange={handleDateChange}
       />
