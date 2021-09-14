@@ -4,7 +4,9 @@ export default makeStyles((theme) => ({
 
   connectionHeaderWrapper: {
     // border: '1px solid red',
-    padding: "20px 50px 5px 50px",
+    padding: "20px 50px 20px 50px",
+    maxHeight: "75px",
+    minHeight: "75px",
   },
 
   connectionHeaderGrid: {
@@ -19,6 +21,11 @@ export default makeStyles((theme) => ({
   connectionCounter: {
     // border: '1px solid red',
     fontSize: "20px",
+    "& span": {
+      color: "#828282",
+      fontWeight: "normal",
+      fontSize: "16px",
+    },
   },
 
   buttonFilter: {

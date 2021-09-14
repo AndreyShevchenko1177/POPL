@@ -246,7 +246,7 @@ function Connections() {
         }
         }
       >
-        <SearchStripe
+        {/* <SearchStripe
           styles={{ containerWrapper: { top: 0 } }}
           isShowSortBtn
           showAll
@@ -273,7 +273,7 @@ function Connections() {
           filterConfig={filteringConfig}
           autoComleteData={profiles}
           isLoading={isLoading ?? true}
-        />
+        /> */}
 
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />

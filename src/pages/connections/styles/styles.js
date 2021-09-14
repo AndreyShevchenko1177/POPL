@@ -3,9 +3,11 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   connectionsPageContainer: {
     overflow: "auto",
-    height: "100vh",
+    height: "calc(100vh - 75px)",
     outline: "none",
+    padding: " 10px 40px 24px 40px",
   },
+
   DroppableConnectionContainer: {
     display: "flex",
     paddingTop: "15px",

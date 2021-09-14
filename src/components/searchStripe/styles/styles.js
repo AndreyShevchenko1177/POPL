@@ -26,7 +26,8 @@ export default makeStyles((theme) => ({
     display: "flex",
     position: "relative",
     width: "100%",
-    height: 60,
+    height: 70,
+    border: "1px solid red",
     justifyContent: "space-between",
   },
   buttonWrapper: {

@@ -14,8 +14,8 @@ const ConnectionHeader = function () {
       <div className={classes.connectionHeaderGrid}>
 
         <div className={classes.connectionCounter}>
-          {"Connections: "}
-          {connectionsSidebar}
+          {"Connections "}
+          <span>{`(${connectionsSidebar})`}</span>
         </div>
 
         <Button
