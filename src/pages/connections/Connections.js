@@ -19,6 +19,8 @@ import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 
+import ConnectionHeader from "./components/connectionHeader/ConnectionHeader";
+
 function Connections() {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -227,9 +229,12 @@ function Connections() {
 
   return (
     <>
-      <Header
+      {/* <Header
         rootLink="Connections"
-      />
+      /> */}
+
+      <ConnectionHeader/>
+
       <div
         className={`${
           dragableConnections?.length ? "relative" : ""
@@ -269,6 +274,7 @@ function Connections() {
           autoComleteData={profiles}
           isLoading={isLoading ?? true}
         />
+
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
         ) : dragableConnections?.length ? (
