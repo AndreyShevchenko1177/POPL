@@ -16,8 +16,10 @@ import proIcon from "../../../../assets/images/pro_icon.png";
 import verifiedIcon from "../../../../assets/images/verified.png";
 
 export const ConnectedCard = memo(({
-  name, url, image, time, names, checked, setCheckbox, bio, ...rest
+  name, url, image, time, names, checked, setCheckbox, bio, email, note, ...rest
 }) => {
+  console.log("rest- ", rest);
+
   const classes = useStyles();
   const location = useLocation();
   const refConnection = useRef(null);
@@ -86,30 +88,47 @@ export const ConnectedCard = memo(({
           />}
         </div>
         <div className={classes.contenContainer}>
-          <div className={classes.conNameWrapper}>
-            <Typography variant="h5" classes={{ h5: classes.conName }}>{name}</Typography>
-            {rest.v == "1" && <img
-              alt='pro-log'
-              className={classes.verifiedLogo}
-              src={verifiedIcon}
-            />}
+
+          <div>
+            <div className={classes.conNameWrapper}>
+              <Typography variant="h5" classes={{ h5: classes.conName }}>{name}</Typography>
+              {rest.v == "1" && <img
+                alt='pro-log'
+                className={classes.verifiedLogo}
+                src={verifiedIcon}
+              />}
+            </div>
+
+            {(bio || rest.bioBusiness) && <div className={classes.emailWrapper}>
+              <Tooltip title={email} placement="top">
+                <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{email}</Typography>
+              </Tooltip>
+            </div>}
           </div>
-          {(bio || rest.bioBusiness) && <div className={classes.bioWrapper}>
+          {/* {(bio || rest.bioBusiness) && <div className={classes.bioWrapper}>
             <Tooltip title={bio || ""} placement="top">
               <Typography variant="subtitle1" classes={{ subtitle1: classes.conBio }}>{bio || rest.bioBusiness}</Typography>
             </Tooltip>
           </div>}
+
           {rest.location && <div className={classes.cardTable}>
             <div className={classes.tableRow}>
               <div className={classes.tableCell}><a href={url} target='blank'>{rest.location}</a></div>
             </div>
-          </div>}
+          </div>} */}
+
+          <div className={classes.noteContainer}>
+            {note}
+          </div>
+
           <div className={classes.dateContainer}>
             {formatDateConnections(time)}
           </div>
-          <div className={classes.viewProfileButtonContainer}>
+
+          {/* <div className={classes.viewProfileButtonContainer}>
             <a className={classes.viewProfileButton} href={url} target='blank'>View Profile</a>
-          </div>
+          </div> */}
+
         </div>
       </div>
       <div className={classes.showMoreWrapper}>
@@ -128,10 +147,12 @@ export const ConnectedCard = memo(({
             </div>
           </Paper>
         </div>
+
         <div className={classes.showMoreContainer}>
           <MoreVertIcon className={classes.showMoreIcon} onClick={() => setIsOpenPopup(!isOpenPopup)} />
           <Popup config={popupConfig} isOpen={isOpenPopup} handleClose={() => setIsOpenPopup(false)} />
         </div>
+
       </div>
     </>
   );

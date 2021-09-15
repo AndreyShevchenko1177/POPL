@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     outline: "none",
     width: 100,
     right: 10,
-    top: 110,
+    top: 60,
     minHeight: 30,
     "& > div": {
       padding: "3px 0 3px 10px",

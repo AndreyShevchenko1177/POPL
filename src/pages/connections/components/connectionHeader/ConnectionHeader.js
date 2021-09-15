@@ -15,7 +15,7 @@ const ConnectionHeader = function () {
 
         <div className={classes.connectionCounter}>
           {"Connections "}
-          <span>{`(${connectionsSidebar})`}</span>
+          {!!connectionsSidebar && <span>{`(${connectionsSidebar})`}</span>}
         </div>
 
         <Button

@@ -21,15 +21,15 @@ export default makeStyles((theme) => ({
     alignItems: "center",
   },
   avatar: {
-    width: "80px",
-    height: "80px",
+    width: "60px",
+    height: "60px",
     borderRadius: "50%",
     margin: "0 auto",
   },
   contenContainer: {
     width: "calc(100% - 160px)",
-    height: 170,
-    padding: "42px 30px 20px 20px",
+    // height: 170,
+    padding: "0px 30px 0px 20px",
     display: "flex",
     flexDirection: "column",
   },
@@ -50,6 +50,7 @@ export default makeStyles((theme) => ({
     marginRight: 10,
   },
   viewProfileButtonContainer: {
+    border: "1px solid red",
     position: "absolute",
     bottom: "15px",
     right: "30px",
@@ -67,6 +68,30 @@ export default makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+
+  emailWrapper: {
+    fontSize: "13px",
+    width: "57%",
+    "@media (max-width: 1900px)": {
+      width: "58%",
+    },
+    "@media (max-width: 1750px)": {
+      width: "59%",
+    },
+    "@media (max-width: 1700px)": {
+      width: "60%",
+    },
+    "@media (max-width: 1600px)": {
+      width: "61%",
+    },
+    "@media (max-width: 1500px)": {
+      width: "62%",
+    },
+    "@media (max-width: 1450px)": {
+      width: "64%",
+    },
+  },
+
   bioWrapper: {
     width: "57%",
     "@media (max-width: 1900px)": {
@@ -88,6 +113,7 @@ export default makeStyles((theme) => ({
       width: "64%",
     },
   },
+
   cardTable: {
     display: "flex",
     // minHeight: 50,
@@ -169,6 +195,7 @@ export default makeStyles((theme) => ({
     marginLeft: "auto",
     height: "100%",
   },
+
   showMoreContainer: {
     display: "flex",
     alignItems: "center",
@@ -176,16 +203,23 @@ export default makeStyles((theme) => ({
     width: "45px",
     height: "45px",
     borderRadius: "50%",
-    "&:hover": {
-      backgroundColor: "#e5e0e0",
-    },
+    // "&:hover": {
+    //   backgroundColor: "#e5e0e0",
+    // },
     transition: "background-color 200ms linear",
   },
+
   showMoreIcon: {
     fontSize: "30px",
     cursor: "pointer",
     fill: "#908d8d",
+    opacity: "0.2",
+    "&:hover": {
+      opacity: "1",
+    },
+    transition: "all 300ms linear",
   },
+
   deleteButton: {
     position: "absolute",
     bottom: 10,
@@ -235,11 +269,11 @@ export default makeStyles((theme) => ({
     // textOverflow: "ellipsis",
   },
   proLogo: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     position: "absolute",
-    top: 36,
-    left: 66,
+    top: 50,
+    left: 75,
     borderRadius: "50%",
     boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
   },
@@ -252,6 +286,8 @@ export default makeStyles((theme) => ({
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+    fontWeight: "600",
+    fontSize: "16px",
   },
   verifiedLogo: {
     width: 25,
