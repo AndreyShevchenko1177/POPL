@@ -176,6 +176,20 @@ export default makeStyles((theme) => ({
     marginBottom: 5,
   },
   nameItemImage: {
+    filter: "invert(100%)",
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    borderRadius: "50%",
+  },
+  leftover: {
+    backgroundColor: "#F2F2F2",
+    color: "#828282",
+    fontWeight: "700",
+    fontSize: "10px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     width: 30,
     height: 30,
     marginRight: 10,
@@ -296,4 +310,14 @@ export default makeStyles((theme) => ({
     borderRadius: "50%",
     // boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
   },
+
+  ConnectedWithField: {
+    // width: 325,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    // marginLeft: "auto",
+    // height: "100%",
+  },
+
 }));
