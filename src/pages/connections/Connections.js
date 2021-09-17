@@ -35,7 +35,25 @@ function Connections() {
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
   const connectionsObject = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connectionsObject);
+
   const [dragableConnections, setConnections] = useState(null);
+
+  const [draggableSortedConnections, setDraggableSortedConnections] = useState([]);
+  const [sortDirection, setSortDirection] = useState(0);
+
+  const handleSortDirection = () => { setSortDirection((prev) => (prev + 2) % 3 - 1); };
+
+  const [sortParams, setSortParams] = useState({
+    sortField: "noField",
+  });
+
+  const handleSortParams = ((newParam) => { setSortParams((prev) => ({ ...prev, ...newParam })); });
+  useEffect(() => { console.log(sortParams, sortDirection); }, [sortParams]);
+
+  useEffect(() => { setDraggableSortedConnections((prev) => doSortConnections(prev)); }, [dragableConnections]);
+
+  const doSortConnections = (connections) => connections;
+
   const [needHeight, setNeedHeight] = useState({
     height: 0,
     offset: 0,
@@ -228,22 +246,12 @@ function Connections() {
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
-  const pageContainerRef = useRef();
-
-  useEffect(() => {
-    console.log("rrref", pageContainerRef.current.scrollWidth, pageContainerRef.current.clientWidth);
-  }, [pageContainerRef]);
-
   return (
     <>
-      {/* <Header
-        rootLink="Connections"
-      /> */}
 
       <ConnectionHeader/>
 
       <div
-        ref = {pageContainerRef}
         className={`${
           dragableConnections?.length ? "relative" : ""
         } main-padding ${classes.connectionsPageContainer}`}
@@ -283,7 +291,12 @@ function Connections() {
           isLoading={isLoading ?? true}
         /> */}
 
-        <ConnectionHeaderTitle/>
+        <ConnectionHeaderTitle
+          handleSortDirection={handleSortDirection}
+          sortDirection={sortDirection}
+          sortParams={sortParams}
+          handleSortParams={handleSortParams}
+        />
 
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />
@@ -296,7 +309,7 @@ function Connections() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {dragableConnections.map((connection, index) => (
+                  {draggableSortedConnections.map((connection, index) => (
                     <Draggable
                       tabIndex={1}
                       key={connection.customId}

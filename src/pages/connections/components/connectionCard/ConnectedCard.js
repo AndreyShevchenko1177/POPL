@@ -22,7 +22,6 @@ export const ConnectedCard = memo(({
 }) => {
   const classes = useStyles();
   const location = useLocation();
-  const refConnection = useRef(null);
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   let newTime = formatDateConnections(time).replace(/(.*), (\d*)\/(\d*) (\d*)/, "$4_$2_$3");
@@ -54,19 +53,11 @@ export const ConnectedCard = memo(({
 
   const getScrollValue = (v) => () => v; // with closure
 
-  useEffect(() => {
-    if (refConnection?.current) {
-      const getScrollYValue = getScrollValue((window.scrollY));
-      refConnection?.current?.scrollIntoView(false);
-      window.scrollTo({ top: getScrollYValue() });
-    }
-  }, []);
-
   return (
     <>
       <DragDots position="center" />
 
-      <div className={classes.leftContentWrapper} ref={location.state?.connectionCardId === rest.id ? refConnection : null}>
+      <div className={classes.leftContentWrapper}>
 
         <div>
           <Checkbox

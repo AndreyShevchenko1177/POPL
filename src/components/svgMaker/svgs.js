@@ -872,32 +872,32 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
   </svg>,
 
   connectionFilterIcon: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4.80078 6H11.2008" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M3.19922 3H12.7992" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M6.39844 9H9.59844" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M7.19922 12H8.79922" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M4.80078 6H11.2008" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M3.19922 3H12.7992" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6.39844 9H9.59844" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7.19922 12H8.79922" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>,
 
   search: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6.66667 11.3333C9.244 11.3333 11.3333 9.244 11.3333 6.66667C11.3333 4.08934 9.244 2 6.66667 2C4.08934 2 2 4.08934 2 6.66667C2
-    9.244 4.08934 11.3333 6.66667 11.3333Z" stroke={fill} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M13.0911 13.0911L10 10" stroke={fill} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+    9.244 4.08934 11.3333 6.66667 11.3333Z" stroke={fill} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M13.0911 13.0911L10 10" stroke={fill} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>,
 
   arrowDropDown: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 6L8 10L12 6" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M4 6L8 10L12 6" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>,
 
   arrowSortDown: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 3.33301V12.6663" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M10.6667 10L8 12.6667" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M5.33301 10L7.99967 12.6667" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8 3.33301V12.6663" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M10.6667 10L8 12.6667" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M5.33301 10L7.99967 12.6667" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>,
 
   arrowSortUp: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 12.667L8 3.33366" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M5.33333 6L8 3.33333" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M10.667 6L8.00033 3.33333" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 12.667L8 3.33366" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M5.33333 6L8 3.33333" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.667 6L8.00033 3.33333" stroke={fill} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>,
 
 };

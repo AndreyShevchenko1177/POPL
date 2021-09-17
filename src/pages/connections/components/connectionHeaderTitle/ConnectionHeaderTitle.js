@@ -1,9 +1,12 @@
 import { Checkbox } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import clsx from "clsx";
 import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles/connectionHeaderTitleStyle";
 
-const ConnectionHeaderTitle = function () {
+const ConnectionHeaderTitle = function ({
+  handleSortDirection, sortDirection, sortParams, handleSortParams,
+}) {
   const classes = useStyles();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
 
@@ -28,9 +31,14 @@ const ConnectionHeaderTitle = function () {
           />
         </div>
 
-        <div className={classes.titleUser}>
+        <div className={ clsx(classes.titleUser, { [classes.transparentSvg]: !sortDirection })}
+          onClick={() => {
+            handleSortDirection();
+            handleSortParams({ sortField: "USER" });
+          }}
+        >
           <div>{"User"}</div>
-          <SvgMaker fill={"#828282"} width={16} height={16} name={"arrowSortUp"} />
+          <SvgMaker fill={"#828282"} width={16} height={16} name={sortDirection === (-1) ? "arrowSortDown" : "arrowSortUp"} />
         </div>
 
         <div className={classes.titleEmpty}>
@@ -44,9 +52,14 @@ const ConnectionHeaderTitle = function () {
           <div>{"Connected with"}</div>
         </div>
 
-        <div className={classes.tileDate}>
+        <div className={clsx(classes.tileDate, { [classes.transparentSvg]: !sortDirection })}
+          onClick={() => {
+            handleSortDirection();
+            handleSortParams({ sortField: "DATE" });
+          }}
+        >
           <div>{"Date"}</div>
-          <SvgMaker fill={"#828282"} width={16} height={16} name={"arrowSortUp"} />
+          <SvgMaker fill={"#828282"} width={16} height={16} name={sortDirection === (-1) ? "arrowSortDown" : "arrowSortUp"} />
         </div>
 
       </div>

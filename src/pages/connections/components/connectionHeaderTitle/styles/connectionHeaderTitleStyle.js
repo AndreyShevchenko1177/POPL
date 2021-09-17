@@ -31,6 +31,7 @@ export default makeStyles((theme) => ({
     color: "#828282",
     display: "flex",
     alignItems: "center",
+    cursor: "pointer",
     "& svg": {
       display: "block",
     },
@@ -60,8 +61,15 @@ export default makeStyles((theme) => ({
     color: "#828282",
     display: "flex",
     alignItems: "center",
+    cursor: "pointer",
     "& svg": {
       display: "block",
+    },
+  },
+
+  transparentSvg: {
+    "& svg": {
+      opacity: "0.1",
     },
   },
 
