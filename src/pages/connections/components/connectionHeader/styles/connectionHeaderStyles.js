@@ -9,6 +9,21 @@ export default makeStyles((theme) => ({
     minHeight: "75px",
   },
 
+  connectionHeaderTitle: {
+    width: "100%",
+    height: "40px",
+    border: "1px solid red",
+    position: "relative",
+    // width: "calc(100% - 325px)",
+    display: "grid",
+    gridTemplateColumns: "50px 80px 2fr 3fr 260px 130px 30px",
+    alignItems: "center",
+    justifyItems: "center",
+    gridGap: "15px",
+    padding: " 10px 40px 10px 40px",
+
+  },
+
   connectionHeaderGrid: {
     minWidth: "980px",
     // border: '1px solid red',

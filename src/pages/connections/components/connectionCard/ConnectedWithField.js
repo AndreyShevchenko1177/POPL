@@ -7,11 +7,6 @@ const ConnectedWithField = function ({ names }) {
 
   if (!names || !Object.values(names).length) return <></>;
 
-  let el = names["0"];
-  for (let i = 0; i < 10; i++) {
-    names[`${i}`] = el;
-  }
-
   let leftover = 0;
   let newNames = Object.values(names)?.sort((a, b) => new Date(formatDateConnections(b.connected)) - new Date(formatDateConnections(a.connected)));
   if (newNames.length > 6) {

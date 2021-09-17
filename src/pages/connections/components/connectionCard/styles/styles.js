@@ -1,43 +1,74 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
-  container: {
-    display: "flex",
+
+  leftContentWrapper: {
+    width: "100%",
+    // border: '1px solid red',
+    position: "relative",
+    // width: "calc(100% - 325px)",
+    display: "grid",
+    gridTemplateColumns: "50px 80px 2fr 3fr 260px 130px 30px",
     alignItems: "center",
-    width: "160px",
-    minWidth: 160,
-    height: "170px",
-    marginLeft: "10px",
-    padding: "20px 0",
+    justifyItems: "center",
+    gridGap: "15px",
+  },
+
+  container: {
+    // border: '1px solid red',
+    position: "relative",
+    // width: "160px",
+    // minWidth: '160px',
+    // height: "170px",
     "& .MuiSvgIcon-root": {
       width: "30px",
       height: "30px",
     },
   },
-  leftContentWrapper: {
-    position: "relative",
-    width: "calc(100% - 325px)",
-    display: "flex",
-    alignItems: "center",
-  },
+
   avatar: {
     width: "60px",
     height: "60px",
     borderRadius: "50%",
-    margin: "0 auto",
+    display: "block",
+    // margin: "0 auto",
   },
-  contenContainer: {
-    width: "calc(100% - 160px)",
-    // height: 170,
-    padding: "0px 30px 0px 20px",
-    display: "flex",
-    flexDirection: "column",
+
+  proLogo: {
+    width: 20,
+    height: 20,
+    position: "absolute",
+    top: -5,
+    left: -5,
+    borderRadius: "50%",
+    boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
   },
+
+  nameEmail: {
+    justifySelf: "left",
+    alignSelf: "start",
+    marginTop: "7px",
+    overflow: "hidden",
+  },
+
+  noteContainer: {
+    justifySelf: "left",
+    overflow: "hidden",
+  },
+
+  dateContainer: {
+    fontWeight: "600",
+    fontSize: "13px",
+    // justifySelf: 'left',
+    // overflow: 'hidden',
+  },
+
   nameIconsContainer: {
     display: "flex",
     width: "100%",
     alignItems: "center",
   },
+
   iconswrapper: {
     padding: "0px 20px",
     display: "flex",
@@ -50,17 +81,12 @@ export default makeStyles((theme) => ({
     marginRight: 10,
   },
   viewProfileButtonContainer: {
-    border: "1px solid red",
+    // border: "1px solid red",
     position: "absolute",
     bottom: "15px",
     right: "30px",
   },
-  dateContainer: {
-    position: "absolute",
-    top: "23px",
-    right: "30px",
-    height: 30,
-  },
+
   viewProfileButton: {
     fontSize: 14,
     "&:hover": {
@@ -71,25 +97,25 @@ export default makeStyles((theme) => ({
 
   emailWrapper: {
     fontSize: "13px",
-    width: "57%",
-    "@media (max-width: 1900px)": {
-      width: "58%",
-    },
-    "@media (max-width: 1750px)": {
-      width: "59%",
-    },
-    "@media (max-width: 1700px)": {
-      width: "60%",
-    },
-    "@media (max-width: 1600px)": {
-      width: "61%",
-    },
-    "@media (max-width: 1500px)": {
-      width: "62%",
-    },
-    "@media (max-width: 1450px)": {
-      width: "64%",
-    },
+    // width: "57%",
+    // "@media (max-width: 1900px)": {
+    //   width: "58%",
+    // },
+    // "@media (max-width: 1750px)": {
+    //   width: "59%",
+    // },
+    // "@media (max-width: 1700px)": {
+    //   width: "60%",
+    // },
+    // "@media (max-width: 1600px)": {
+    //   width: "61%",
+    // },
+    // "@media (max-width: 1500px)": {
+    //   width: "62%",
+    // },
+    // "@media (max-width: 1450px)": {
+    //   width: "64%",
+    // },
   },
 
   bioWrapper: {
@@ -181,6 +207,7 @@ export default makeStyles((theme) => ({
     height: 30,
     marginRight: 10,
     borderRadius: "50%",
+    display: "block",
   },
   leftover: {
     backgroundColor: "#F2F2F2",
@@ -192,7 +219,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     width: 30,
     height: 30,
-    marginRight: 10,
+    // marginRight: 10,
     borderRadius: "50%",
   },
   nameItemName: {
@@ -211,16 +238,11 @@ export default makeStyles((theme) => ({
   },
 
   showMoreContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "45px",
-    height: "45px",
-    borderRadius: "50%",
-    // "&:hover": {
-    //   backgroundColor: "#e5e0e0",
-    // },
+    // border: '1px solid red',
     transition: "background-color 200ms linear",
+    "& svg": {
+      display: "block",
+    },
   },
 
   showMoreIcon: {
@@ -282,17 +304,9 @@ export default makeStyles((theme) => ({
     // whiteSpace: "nowrap",
     // textOverflow: "ellipsis",
   },
-  proLogo: {
-    width: 20,
-    height: 20,
-    position: "absolute",
-    top: 50,
-    left: 75,
-    borderRadius: "50%",
-    boxShadow: "0px 0px 8px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
-  },
+
   conNameWrapper: {
-    maxWidth: "60%",
+    // maxWidth: "60%",
     display: "flex",
     alignItems: "center",
   },
@@ -313,6 +327,7 @@ export default makeStyles((theme) => ({
 
   ConnectedWithField: {
     // width: 325,
+    justifySelf: "left",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

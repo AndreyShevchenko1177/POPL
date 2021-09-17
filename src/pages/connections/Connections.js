@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-lone-blocks */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -227,6 +227,12 @@ function Connections() {
     setConnections((con) => ([...con, ...sortConnections.slice(needHeight.offset, (needHeight.offset + 19))]));
   }, [needHeight]);
 
+  const pageContainerRef = useRef();
+
+  useEffect(() => {
+    console.log("rrref", pageContainerRef.current.scrollWidth, pageContainerRef.current.clientWidth);
+  }, [pageContainerRef]);
+
   return (
     <>
       {/* <Header
@@ -236,6 +242,7 @@ function Connections() {
       <ConnectionHeader/>
 
       <div
+        ref = {pageContainerRef}
         className={`${
           dragableConnections?.length ? "relative" : ""
         } main-padding ${classes.connectionsPageContainer}`}

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
   connectionsPageContainer: {
     overflow: "auto",
-    height: "calc(100vh - 75px)",
+    height: "calc(100vh - 116px)",
     outline: "none",
     padding: " 10px 40px 24px 40px",
   },

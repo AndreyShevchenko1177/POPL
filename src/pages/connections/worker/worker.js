@@ -54,12 +54,12 @@ function formatDateConnections(date) {
 }
 
 export function getFilteredConnections(args) {
-  const { allConnections, profileName } = JSON.parse(args);
+  const { allConnections = [], profileName } = JSON.parse(args);
   const filteredConnections = uniqueObjectsInArray(allConnections
     .reduce((acc, item) => ([...acc, ...item.data]), []) // in allConnections we have array with profile id's. in each profile id placed array of connections related to this certain profile and we gathering it in one array
     .sort((a, b) => new Date(formatDateConnections(a.time)) - new Date(formatDateConnections(b.time))), // sorting by date. we have to set target date(in our case most recent) in the end of array not to delete it by removing duplicates
   (item) => item.id || item.email);
-  filteredConnections.forEach((con) => {
+  (filteredConnections || []).forEach((con) => {
     const names = {};
     allConnections.forEach(({ data, docId }) => {
       data.forEach((el) => {
@@ -80,7 +80,7 @@ export function getFilteredConnections(args) {
 }
 
 export function getIdsObject(args) {
-  const { allConnections, profileName } = JSON.parse(args);
+  const { allConnections = [], profileName } = JSON.parse(args);
   const idsObject = {}; // object with connections by profile id's without duplicated connections
 
   allConnections.forEach(({ data, docId }) => idsObject[docId] = uniqueObjectsInArray(data
