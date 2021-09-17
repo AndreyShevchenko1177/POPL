@@ -888,4 +888,16 @@ C32.5,14.1,31.4,15.2,30,15.2z"/>
     <path d="M4 6L8 10L12 6" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>,
 
+  arrowSortDown: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 3.33301V12.6663" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M10.6667 10L8 12.6667" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M5.33301 10L7.99967 12.6667" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>,
+
+  arrowSortUp: ({ fill, width, height }) => <svg width={width} height={height} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 12.667L8 3.33366" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5.33333 6L8 3.33333" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10.667 6L8.00033 3.33333" stroke={fill} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>,
+
 };

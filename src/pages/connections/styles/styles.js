@@ -5,7 +5,22 @@ export default makeStyles((theme) => ({
     overflow: "auto",
     height: "calc(100vh - 116px)",
     outline: "none",
-    padding: " 10px 40px 24px 40px",
+    padding: " 0px 40px 24px 40px",
+  },
+
+  connectionHeaderTitle: {
+    width: "100%",
+    height: "40px",
+    border: "1px solid red",
+    position: "relative",
+    // width: "calc(100% - 325px)",
+    display: "grid",
+    gridTemplateColumns: "50px 80px 2fr 3fr 260px 130px 30px",
+    alignItems: "center",
+    justifyItems: "center",
+    gridGap: "15px",
+    padding: " 10px 40px 10px 40px",
+
   },
 
   DroppableConnectionContainer: {

@@ -20,6 +20,7 @@ import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
 
 import ConnectionHeader from "./components/connectionHeader/ConnectionHeader";
+import ConnectionHeaderTitle from "./components/connectionHeaderTitle/ConnectionHeaderTitle";
 
 function Connections() {
   const dispatch = useDispatch();
@@ -281,6 +282,8 @@ function Connections() {
           autoComleteData={profiles}
           isLoading={isLoading ?? true}
         /> */}
+
+        <ConnectionHeaderTitle/>
 
         {isLoading ? (
           <Loader styles={{ position: "absolute", top: "50%", left: "50%" }} />

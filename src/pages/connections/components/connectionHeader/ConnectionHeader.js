@@ -49,8 +49,6 @@ const ConnectionHeader = function () {
       </div>
     </div>
 
-    <div className={classes.connectionHeaderTitle}>56</div>
-
   </>;
 };
 
