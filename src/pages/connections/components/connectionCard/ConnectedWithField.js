@@ -18,7 +18,7 @@ const ConnectedWithField = function ({ names }) {
     <div className={classes.ConnectedWithField}>
 
       {newNames.map((el, key) => (
-        <div>
+        <div key={key}>
           <img alt='userIcon' className={classes.nameItemImage} src={el.image ? process.env.REACT_APP_BASE_IMAGE_URL + el.image : userIcon} style={el.image ? { objectFit: "cover" } : {}} />
         </div>
       ))}

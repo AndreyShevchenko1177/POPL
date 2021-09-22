@@ -34,11 +34,13 @@ function Connections() {
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
+  // console.log(allConnections);
+
   const connectionsObject = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connectionsObject);
 
-  const [dragableConnections, setConnections] = useState(null);
+  const [dragableConnections, setConnections] = useState([]);
+  console.log(dragableConnections);
 
-  const [draggableSortedConnections, setDraggableSortedConnections] = useState([]);
   const [sortDirection, setSortDirection] = useState(0);
 
   const handleSortDirection = () => { setSortDirection((prev) => (prev + 2) % 3 - 1); };
@@ -48,11 +50,6 @@ function Connections() {
   });
 
   const handleSortParams = ((newParam) => { setSortParams((prev) => ({ ...prev, ...newParam })); });
-  useEffect(() => { console.log(sortParams, sortDirection); }, [sortParams]);
-
-  useEffect(() => { setDraggableSortedConnections((prev) => doSortConnections(prev)); }, [dragableConnections]);
-
-  const doSortConnections = (connections) => connections;
 
   const [needHeight, setNeedHeight] = useState({
     height: 0,
@@ -256,7 +253,8 @@ function Connections() {
           dragableConnections?.length ? "relative" : ""
         } main-padding ${classes.connectionsPageContainer}`}
         onScroll={(event) => {
-          if (event.target?.scrollTop >= (event.target.clientHeight) + 10 * 150 + needHeight.height) {
+          // if (event.target?.scrollTop >= (event.target.clientHeight) + needHeight.height + 8*95) {
+          if (event.target?.scrollTop >= (event.target.scrollHeight - event.target.clientHeight - 150)) {
             setNeedHeight({ height: event.target?.scrollTop, offset: needHeight.offset + 20 });
           }
         }
@@ -296,6 +294,8 @@ function Connections() {
           sortDirection={sortDirection}
           sortParams={sortParams}
           handleSortParams={handleSortParams}
+          selectAllCheckbox={selectAllCheckbox}
+          handleCheck={handleSelectAllCheckboxes}
         />
 
         {isLoading ? (
@@ -309,7 +309,7 @@ function Connections() {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {draggableSortedConnections.map((connection, index) => (
+                  {dragableConnections.map((connection, index) => (
                     <Draggable
                       tabIndex={1}
                       key={connection.customId}

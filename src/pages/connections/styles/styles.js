@@ -54,9 +54,10 @@ export default makeStyles((theme) => ({
     },
   },
   connectContainer: {
+    // border: '1px solid red',
     position: "relative",
     width: "100%",
-    height: 84,
+    height: "84px",
     minWidth: 1000,
     margin: "5px 0",
     display: "flex",

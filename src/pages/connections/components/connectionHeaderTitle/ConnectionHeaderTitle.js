@@ -5,10 +5,17 @@ import SvgMaker from "../../../../components/svgMaker";
 import useStyles from "./styles/connectionHeaderTitleStyle";
 
 const ConnectionHeaderTitle = function ({
-  handleSortDirection, sortDirection, sortParams, handleSortParams,
+  handleSortDirection,
+  sortDirection,
+  sortParams: { sortField },
+  handleSortParams,
+  handleCheck,
+  selectAllCheckbox,
 }) {
   const classes = useStyles();
   const companyInfo = useSelector(({ generalSettingsReducer }) => generalSettingsReducer.companyInfo.data);
+
+  // console.log(sortField);
 
   return <>
 
@@ -26,12 +33,12 @@ const ConnectionHeaderTitle = function ({
             inputProps={{ "aria-label": "primary checkbox" }}
             style={{ width: "40px", height: "40px" }}
             name={"name"}
-            checked={true}
-            onChange={() => {}}
+            checked={selectAllCheckbox}
+            onChange={handleCheck}
           />
         </div>
 
-        <div className={ clsx(classes.titleUser, { [classes.transparentSvg]: !sortDirection })}
+        <div className={ clsx(classes.titleUser, { [classes.transparentSvg]: (!sortDirection || sortField !== "USER") })}
           onClick={() => {
             handleSortDirection();
             handleSortParams({ sortField: "USER" });
@@ -48,11 +55,17 @@ const ConnectionHeaderTitle = function ({
           <div>{"Note"}</div>
         </div>
 
-        <div className={classes.titleConnectedWith}>
+        <div className={clsx(classes.titleConnectedWith, { [classes.transparentSvg]: (!sortDirection || sortField !== "CONNECTEDWITH") })}
+          onClick={() => {
+            handleSortDirection();
+            handleSortParams({ sortField: "CONNECTEDWITH" });
+          }}
+        >
           <div>{"Connected with"}</div>
+          <SvgMaker fill={"#828282"} width={16} height={16} name={sortDirection === (-1) ? "arrowSortDown" : "arrowSortUp"} />
         </div>
 
-        <div className={clsx(classes.tileDate, { [classes.transparentSvg]: !sortDirection })}
+        <div className={clsx(classes.tileDate, { [classes.transparentSvg]: (!sortDirection || sortField !== "DATE") })}
           onClick={() => {
             handleSortDirection();
             handleSortParams({ sortField: "DATE" });

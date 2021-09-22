@@ -35,6 +35,9 @@ export default makeStyles((theme) => ({
     "& svg": {
       display: "block",
     },
+    "&:hover>svg": {
+      // opacity: '1',
+    },
   },
 
   titleNote: {
@@ -52,8 +55,12 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifySelf: "start",
+    cursor: "pointer",
     "& svg": {
       display: "block",
+    },
+    "&:hover>svg": {
+      // opacity: '1',
     },
   },
 
@@ -65,11 +72,14 @@ export default makeStyles((theme) => ({
     "& svg": {
       display: "block",
     },
+    "&:hover>svg": {
+      // opacity: '1',
+    },
   },
 
   transparentSvg: {
     "& svg": {
-      opacity: "0.1",
+      opacity: "0.2",
     },
   },
 
