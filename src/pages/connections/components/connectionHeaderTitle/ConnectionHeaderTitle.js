@@ -38,10 +38,10 @@ const ConnectionHeaderTitle = function ({
           />
         </div>
 
-        <div className={ clsx(classes.titleUser, { [classes.transparentSvg]: (!sortDirection || sortField !== "USER") })}
+        <div className={ clsx(classes.titleUser, { [classes.transparentSvg]: (!sortDirection || sortField !== "name") })}
           onClick={() => {
             handleSortDirection();
-            handleSortParams({ sortField: "USER" });
+            handleSortParams({ sortField: "name" });
           }}
         >
           <div>{"User"}</div>
@@ -55,20 +55,20 @@ const ConnectionHeaderTitle = function ({
           <div>{"Note"}</div>
         </div>
 
-        <div className={clsx(classes.titleConnectedWith, { [classes.transparentSvg]: (!sortDirection || sortField !== "CONNECTEDWITH") })}
+        <div className={clsx(classes.titleConnectedWith, { [classes.transparentSvg]: (!sortDirection || sortField !== "connectedWith") })}
           onClick={() => {
             handleSortDirection();
-            handleSortParams({ sortField: "CONNECTEDWITH" });
+            handleSortParams({ sortField: "connectedWith" });
           }}
         >
           <div>{"Connected with"}</div>
           <SvgMaker fill={"#828282"} width={16} height={16} name={sortDirection === (-1) ? "arrowSortDown" : "arrowSortUp"} />
         </div>
 
-        <div className={clsx(classes.tileDate, { [classes.transparentSvg]: (!sortDirection || sortField !== "DATE") })}
+        <div className={clsx(classes.tileDate, { [classes.transparentSvg]: (!sortDirection || sortField !== "sortDate") })}
           onClick={() => {
             handleSortDirection();
-            handleSortParams({ sortField: "DATE" });
+            handleSortParams({ sortField: "sortDate" });
           }}
         >
           <div>{"Date"}</div>

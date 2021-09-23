@@ -37,6 +37,8 @@ export default makeStyles((theme) => ({
     },
     "&:hover>svg": {
       // opacity: '1',
+      border: "1px solid #000000",
+      borderRadius: "50%",
     },
   },
 
@@ -61,6 +63,8 @@ export default makeStyles((theme) => ({
     },
     "&:hover>svg": {
       // opacity: '1',
+      border: "1px solid #000000",
+      borderRadius: "50%",
     },
   },
 
@@ -74,6 +78,8 @@ export default makeStyles((theme) => ({
     },
     "&:hover>svg": {
       // opacity: '1',
+      border: "1px solid #000000",
+      borderRadius: "50%",
     },
   },
 

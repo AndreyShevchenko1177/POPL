@@ -6,6 +6,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { AccordionActions, Paper, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import moment from "moment";
 import Header from "../../components/Header";
 import {
   collectSelectedConnections, clearConnectionData, showAllConnectionsAction, showConnectionByProfile,
@@ -18,6 +19,7 @@ import Loader from "../../components/Loader";
 import { sortConfig } from "./selectConfig";
 import { filterConfig } from "./filterConfig";
 import { isSafari } from "../../constants";
+import { formatDateConnections } from "../../utils/dates";
 
 import ConnectionHeader from "./components/connectionHeader/ConnectionHeader";
 import ConnectionHeaderTitle from "./components/connectionHeaderTitle/ConnectionHeaderTitle";
@@ -34,13 +36,9 @@ function Connections() {
   );
   const isLoading = useSelector(({ connectionsReducer }) => connectionsReducer.isFetching);
   const allConnections = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.allConnections);
-  // console.log(allConnections);
-
   const connectionsObject = useSelector(({ connectionsReducer }) => connectionsReducer.connections.data?.connectionsObject);
 
   const [dragableConnections, setConnections] = useState([]);
-  console.log(dragableConnections);
-
   const [sortDirection, setSortDirection] = useState(0);
 
   const handleSortDirection = () => { setSortDirection((prev) => (prev + 2) % 3 - 1); };
@@ -64,6 +62,7 @@ function Connections() {
   const [sortingConfig, setSortingConfig] = useState(sortConfig);
   const [filteringConfig, setFilterConfig] = useState(filterConfig);
   const [sortConnections, setSortConnections] = useState();
+
   const [checkboxes, setCheckBoxes] = useState({});
   const [selectAllCheckbox, setSelectAllCheckbox] = useState(false);
 
@@ -115,29 +114,51 @@ function Connections() {
     setOpenProfileSelect({ ...openProfileSelect, [name]: { open: !openProfileSelect[name].open, component: "searchStripe" } });
   };
 
-  const sortHandler = (name, _, selectName) => {
+  // const sortHandler---OLD = (name, _, selectName) => {
+  //   if (!(dragableConnections).length) return;
+  //   setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
+  //   setConnections(() => {
+  //     const sortProfiles = [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
+  //     return sortProfiles.slice(0, 19);
+  //   });
+  //   setNeedHeight({
+  //     height: 0,
+  //     offset: 0,
+  //   });
+  //   setSortConnections((prevConnections) => [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
+  //   setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
+  // };
+
+  const sortHandler = () => {
     if (!(dragableConnections).length) return;
-    setSortingConfig(sortConfig.map((con) => (con.name === name ? ({ ...con, active: true }) : con)));
-    setConnections(() => {
-      const sortProfiles = [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]);
-      return sortProfiles.slice(0, 19);
-    });
+
+    const sortProfiles = [...allConnections]
+      .map((el) => {
+        let newTime = formatDateConnections(el.time).replace(/(.*), (\d*)\/(\d*) (\d*)/, "$4_$2_$3");
+        let sortDate = moment(newTime, "M_D_YYYY");
+        return { ...el, connectedWith: Object.keys(el.names).length, sortDate };
+      })
+      .sort((a, b) => (a[sortParams.sortField] > b[sortParams.sortField] ? 1 : -1) * sortDirection);
+
+    setConnections(() => sortProfiles.slice(0, 19));
     setNeedHeight({
       height: 0,
       offset: 0,
     });
-    setSortConnections((prevConnections) => [...allConnections].map((el) => ({ ...el, connectedWith: Object.keys(el.names).length })).sort((a, b) => b[name] - a[name]));
-    setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
+    setSortConnections(() => sortProfiles);
+    // setOpenProfileSelect({ ...openProfileSelect, [selectName]: { open: false, component: "listItem" } });
   };
 
-  const resetSort = () => {
-    setConnections(() => allConnections.slice(0, 19));
-    setNeedHeight({
-      height: 0,
-      offset: 0,
-    });
-    setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
-  };
+  useEffect(sortHandler, [sortParams, sortDirection]);
+
+  // const resetSort = () => {
+  //   setConnections(() => allConnections.slice(0, 19));
+  //   setNeedHeight({
+  //     height: 0,
+  //     offset: 0,
+  //   });
+  //   setSortingConfig(sortConfig.map((con) => ({ ...con, active: false })));
+  // };
 
   const clearFilterInput = (name) => {
     showAll();
